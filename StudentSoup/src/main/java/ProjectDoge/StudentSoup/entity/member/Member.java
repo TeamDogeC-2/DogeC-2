@@ -1,5 +1,15 @@
 package ProjectDoge.StudentSoup.entity.member;
 
+import ProjectDoge.StudentSoup.dto.member.MemberFormDto;
+import ProjectDoge.StudentSoup.entity.school.Department;
+import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.board.BoardLike;
+import ProjectDoge.StudentSoup.entity.board.BoardReview;
+import ProjectDoge.StudentSoup.entity.board.BoardReviewLike;
+import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,7 +41,6 @@ public class Member {
     @NotNull
     private String studentId;
 
-    @Column(name = "NICKNAME")
     @NotNull
     private String nickname;
 
@@ -46,7 +55,7 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
-    private Files file;
+    private File file;
 
     @NotNull
     private String phone;
@@ -133,7 +142,7 @@ public class Member {
 
         return member;
     }
-    public Member createMember(MemberForm form, School school, Department department, Files file) {
+    public Member createMember(MemberFormDto form, School school, Department department, File file) {
         this.setStudentId(form.getStudentId());
         this.setId(form.getId());
         this.setPwd(form.getPwd());
