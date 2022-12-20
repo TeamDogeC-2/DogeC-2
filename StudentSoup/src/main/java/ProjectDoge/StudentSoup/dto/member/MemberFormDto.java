@@ -2,12 +2,17 @@ package ProjectDoge.StudentSoup.dto.member;
 
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
+import ProjectDoge.StudentSoup.entity.member.Member;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Getter
+@Setter
 public class MemberFormDto {
 
     @NotEmpty(message = "아이디 입력은 필수입니다.")
