@@ -1,11 +1,13 @@
-package ProjectDoge.StudentSoup.entity;
+package ProjectDoge.StudentSoup.entity.school;
 
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +18,17 @@ import java.util.List;
 )})
 @Getter
 @Setter
-public class School implements Serializable {
+public class School {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SCHOOL_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "SCHOOL_NAME")
+    @Column(name = "NAME")
     private String schoolName;
 
-    @Column(name = "SCHOOL_COORDINATE")
+    @Column(name = "COORDINATE")
     private String schoolCoordinate;
 
     @OneToMany(mappedBy = "school")
@@ -61,7 +63,7 @@ public class School implements Serializable {
         this.setSchoolCoordinate(SchoolCoordinate);
         return this;
     }
-    public School createUsingSchoolForm(SchoolForm schoolForm){
+    public School createUsingSchoolForm(SchoolFormDto schoolForm){
         this.setSchoolName(schoolForm.getSchoolName());
         this.setSchoolCoordinate(schoolForm.getSchoolCoordinate());
         return this;
