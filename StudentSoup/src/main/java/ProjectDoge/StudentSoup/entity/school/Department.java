@@ -1,5 +1,8 @@
-package ProjectDoge.StudentSoup.entity;
+package ProjectDoge.StudentSoup.entity.school;
 
+import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +17,13 @@ import java.util.List;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "DEPARTMENT_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCHOOL_ID")
     private School school;
 
-    @Column(name = "DEPARTMENT_NAME")
+    @Column(name = "NAME")
     private String departmentName;
     @OneToMany(mappedBy = "department")
     private List<Member> members = new ArrayList<>();
@@ -55,7 +57,7 @@ public class Department {
         return this;
     }
 
-    public Department createDepartmentForm(DepartmentForm form, School school){
+    public Department createDepartmentForm(DepartmentFormDto form, School school){
         this.setDepartmentName(form.getDepartmentName());
         this.setSchool(school);
         return this;
