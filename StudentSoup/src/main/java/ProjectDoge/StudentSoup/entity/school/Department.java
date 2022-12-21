@@ -47,10 +47,6 @@ public class Department {
     }
 
     //== 생성 메서드 ==//
-    public Department createTestDepartment(){
-        this.setDepartmentName("우리학과");
-        return this;
-    }
 
     public Department createTestDepartmentUsingName(String departmentName){
         this.setDepartmentName(departmentName);
