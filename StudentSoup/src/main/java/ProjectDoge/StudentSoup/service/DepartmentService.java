@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,5 +34,14 @@ public class DepartmentService {
             throw new IllegalStateException("이미 존재하는 학과입니다.");
         }
         log.info("학과 검증이 완료되었습니다.");
+    }
+    public Department findOneUsingDepartmentNameAndSchoolName(String departmentName, String schoolName){
+        Department department = departmentRepository.findByDepartmentNameAndSchool_SchoolName(departmentName, schoolName);
+        return department;
+    }
+
+    public List<Department> getAllDepartmentUsingSchool(Long schoolId){
+        List<Department> departments = departmentRepository.findBySchool_Id(schoolId);
+        return departments;
     }
 }
