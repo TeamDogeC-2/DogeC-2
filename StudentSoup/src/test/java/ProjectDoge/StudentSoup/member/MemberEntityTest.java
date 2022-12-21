@@ -6,10 +6,12 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -55,6 +58,31 @@ public class MemberEntityTest {
         //then
         assertThat(member).isEqualTo(memberService.findOne(member.getMemberId()));
     }
+    @Test
+    void 중복회원가입() throws Exception {
+        //given
+        School school = createSchool();
+        schoolService.join(school);
+        Department department = createDepartment(school);
+        departmentService.join(department);
+
+        //when
+
+        Member member1 = createMember("2000","닉네임1", "test", "010-0000-0000", "email@com");
+        member1.setSchool(school);
+        member1.setDepartment(school, department);
+        Long memberId = memberService.join(member1);
+
+        Member member2 = createMember("2000","닉네임1", "test", "010-0000-0000", "email@com");
+        member2.setSchool(school);
+        member2.setDepartment(school, department);
+
+        //then
+        assertThatThrownBy(() -> memberService.join(member2))
+                .isInstanceOf(MemberValidationException.class);
+
+    }
+
     private School createSchool(){
         School school = new School();
         school.setSchoolName("테스트 학교");
