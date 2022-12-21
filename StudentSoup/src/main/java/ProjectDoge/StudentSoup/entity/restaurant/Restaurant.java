@@ -1,10 +1,8 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.file.File;
-import com.doge.takemh.controller.RestaurantForm;
-import com.doge.takemh.domain.File.Files;
-import com.doge.takemh.domain.School;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +11,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.doge.takemh.commonmodule.ConvertStringToDateTime.convertStringToDateTime;
+import static ProjectDoge.StudentSoup.commonmodule.ConvertStringToDateTime.convertStringToDateTime;
 import static java.lang.Math.round;
 
 @Entity
@@ -71,7 +69,7 @@ public class Restaurant {
     }
 
     //== 생성 메서드 ==//
-    public Restaurant createRestaurant(RestaurantForm form, School school, Files file) {
+    public Restaurant createRestaurant(RestaurantFormDto form, School school, File file) {
         this.setName(form.getName());
         this.setAddress(form.getAddress());
         this.setSchool(school);

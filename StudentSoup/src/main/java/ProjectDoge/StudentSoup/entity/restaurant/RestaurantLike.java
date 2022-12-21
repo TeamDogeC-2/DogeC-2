@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
-import com.doge.takemh.domain.Member;
 import lombok.Getter;
 import lombok.Setter;
 

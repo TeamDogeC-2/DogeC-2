@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static ProjectDoge.StudentSoup.commonmodule.DateFormat.dateFormat;
+
 @Entity
 @Table(name = "MEMBER", uniqueConstraints = {@UniqueConstraint(
         name = "MEMBER_UNIQUE_CONSTRAINT",
