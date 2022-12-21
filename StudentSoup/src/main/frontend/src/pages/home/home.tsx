@@ -3,7 +3,7 @@ import MainSearch from '../../components/mainsearch/MainSearch'
 
 const home = () => {
   return (
-    <div>
+    <div className='w-full h-full bg-cyan-300 z-50'>
         <Navbar/>
         <MainSearch/>
     </div>

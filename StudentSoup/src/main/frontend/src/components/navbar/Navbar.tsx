@@ -1,6 +1,6 @@
 const Navbar = () => {
   return (
-    <div className='w-full h-[88px] items-center sticky flex justify-between bg-[#D9D9D9]'>
+    <div className='w-full h-[88px] items-center sticky flex justify-between bg-[#D9D9D9] bg-opacity-[0.45]'>
       <div className='flex items-center m-5 w-[162px] h-[76px]'>
         reddit
       </div>

@@ -1,6 +1,6 @@
 const MainSearch = () => {
   return (
-    <div className='w-full h-[calc(100vh-88px)] bg-cyan-300 flex flex-col justify-center items-center'>
+    <div className='w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center'>
       <div className='flex flex-col text-center relative bottom-[88px]'>
         <span className='text-[45px] fw-400 leading-[59px] text-white'>
           대학생을 위한
