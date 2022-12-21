@@ -44,29 +44,6 @@ public class School {
     private List<Restaurant> restaurants = new ArrayList<>();
 
     //== 생성 메서드 ==//
-    public School createTestSchool(){
-        this.setSchoolName("우리학교");
-        this.setSchoolCoordinate("13.4613,55.7911");
 
-        return this;
-    }
-
-    public School createTestSchoolUsingName(String schoolName){
-        this.setSchoolName(schoolName);
-        this.setSchoolCoordinate("13,46,79");
-
-
-        return this;
-    }
-    public School createTestSchool(String schoolName,String SchoolCoordinate){
-        this.setSchoolName(schoolName);
-        this.setSchoolCoordinate(SchoolCoordinate);
-        return this;
-    }
-    public School createUsingSchoolForm(SchoolFormDto schoolForm){
-        this.setSchoolName(schoolForm.getSchoolName());
-        this.setSchoolCoordinate(schoolForm.getSchoolCoordinate());
-        return this;
-    }
 
 }

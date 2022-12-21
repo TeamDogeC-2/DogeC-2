@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
+    @Email
     private String email;
 
     @Temporal(TemporalType.DATE)
@@ -125,25 +127,6 @@ public class Member {
     }
 
     //== 생성 메서드 ==//
-    public Member createTestMember(){
-        Member member = new Member();
-        member.setStudentId("20170218");
-        member.setId("admin");
-        member.setPwd("123456");
-        member.setName("문종운");
-        member.setNickname("봄보");
-        member.setPhone("01068000708");
-        member.setGender(GenderType.MAN);
-        member.setEmail("bombo96@naver.com");
-        try {
-            member.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse("1996-01-11"));
-        } catch(ParseException e){
-            System.out.println(e.getMessage());
-        }
-        member.setMemberClassification(MemberClassification.STUDENT);
-
-        return member;
-    }
     public Member createMember(MemberFormDto form, School school, Department department, File file) {
         this.setStudentId(form.getStudentId());
         this.setId(form.getId());
