@@ -1,8 +1,7 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.entity.file.File;
-import com.doge.takemh.controller.RestaurantMenuForm;
-import com.doge.takemh.domain.File.Files;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,7 +42,7 @@ public class RestaurantMenu {
     }
 
     //== 생성 메서드 ==//
-    public RestaurantMenu createRestaurantMenu(RestaurantMenuForm form, Restaurant restaurant, Files file){
+    public RestaurantMenu createRestaurantMenu(RestaurantMenuFormDto form, Restaurant restaurant, File file){
         this.setName(form.getName());
         this.setRestaurantMenuCategory(form.getRestaurantMenuCategory());
         this.setRestaurant(restaurant);

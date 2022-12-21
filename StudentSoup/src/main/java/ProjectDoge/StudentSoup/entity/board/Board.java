@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.entity.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.file.File;
@@ -75,7 +76,7 @@ public class Board {
     }
 
     //== 생성 메서드 ==//
-    public Board createBoard(BoardForm form, Member member, School school, File file, Department department) {
+    public Board createBoard(BoardFormDto form, Member member, School school, File file, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
         this.setWriteDate(dateFormat(LocalDateTime.now()));
