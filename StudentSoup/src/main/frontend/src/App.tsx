@@ -1,12 +1,9 @@
 import './App.css';
-import Navbar from "./components/navbar/Navbar";
-import Modal from "./components/modal/modal";
+import Home from './pages/home/home';
 
 function App() {
   return (
-    <div>
-      <Navbar/>
-    </div>
+    <Home/>
   );
 }
 

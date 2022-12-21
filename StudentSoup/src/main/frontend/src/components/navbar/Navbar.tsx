@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 import './navbar.css'
-import Modal from '../modal/modal'
+import Modal from '../modal/Modal'
 
 const Navbar = () => {
   const [isModal, setModal] = useState<Boolean>(false);

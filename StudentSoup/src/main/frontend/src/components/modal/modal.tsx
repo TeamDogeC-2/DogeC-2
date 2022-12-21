@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import './modal.css'
 
-const modal = () => {
+const Modal = () => {
     return (
         <div className='modal'>
             <div className='modalBody'>
@@ -46,4 +46,4 @@ const modal = () => {
     )
 }
 
-export default modal
+export default Modal
