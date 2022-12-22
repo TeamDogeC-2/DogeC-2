@@ -27,8 +27,12 @@ public class MemberService {
     private final DepartmentRepository departmentRepository;
 
     @Transactional
-    public Long join(Member member){
+    public Long join(MemberFormBDto dto){
         log.info("회원 생성 메서드가 실행되었습니다.");
+        School school = getMemberDtoSchool(dto.getSchoolId());
+        Department department = getMemberDtoDepartment(dto.getDepartmentId());
+        log.info("회원의 학교는 : {}, 회원의 학과는 : {}", school.getSchoolName(), department.getDepartmentName());
+        Member member = new Member().createMember(dto, school, department);
         validateDuplicateMember(member.getId());
         memberRepository.save(member);
         log.info("회원이 생성되었습니다. [{}][{}] ",member.getId(), member.getNickname());
@@ -42,8 +46,6 @@ public class MemberService {
         member.setNickname(form.getNickname());
         member.setFile(null);
         member.setMemberClassification(MemberClassification.STUDENT);
-        member.setSchool(getMemberDtoSchool(form.getSchoolId()));
-        member.setDepartment(getMemberDtoDepartment(form.getDepartmentId()));
         return member;
     }
 
