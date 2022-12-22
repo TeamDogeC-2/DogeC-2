@@ -1,18 +1,18 @@
 package ProjectDoge.StudentSoup.member;
 
+import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
-import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
-import org.assertj.core.api.Assertions;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +27,8 @@ import javax.transaction.Transactional;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+
+@Slf4j
 @SpringBootTest
 @Transactional
 public class MemberEntityTest {
@@ -47,21 +49,27 @@ public class MemberEntityTest {
     @Nested
     @DisplayName("회원가입 검증")
     class 회원가입{
-        School school = createSchool();
-        Department department = createDepartment(school);
+        Long schoolId = 0L;
+        Long departmentId = 0L;
 
         @BeforeEach
         void schoolAndDepartment(){
-            schoolService.join(school);
-            departmentService.join(department);
+            School school = createSchool();
+            schoolId = schoolService.join(school);
+            DepartmentFormDto dto = createDepartmentDto(schoolId);
+            departmentId = departmentService.join(schoolId, dto);
         }
         @Test
         void 회원가입_A_중복() throws Exception {
             //given
-            Member member = createMember("테스트1", "test1", "test@naver.com");
-            member.setSchool(school);
-            member.setDepartment(department);
-            memberService.join(member);
+            MemberFormADto ADto = createMemberFormA("test1", "test123!");
+            MemberFormBDto BDto = createMemberFormB(ADto);
+            BDto.setSchoolId(schoolId);
+            BDto.setDepartmentId(departmentId);
+
+            log.info("BDto 출력 : {}", BDto.toString());
+
+            memberService.join(BDto);
             //when
             MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
             //then
@@ -75,8 +83,8 @@ public class MemberEntityTest {
             MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
             //when
             MemberFormBDto memberFormBDto = createMemberFormB(memberFormADto);
-            memberFormBDto.setSchoolId(school.getId());
-            memberFormBDto.setDepartmentId(department.getId());
+            memberFormBDto.setSchoolId(schoolId);
+            memberFormBDto.setDepartmentId(departmentId);
             //then
             assertThat(memberFormADto.getId()).isEqualTo(memberFormBDto.getId());
             assertThat(memberFormADto.getPwd()).isEqualTo(memberFormBDto.getPwd());
@@ -87,18 +95,15 @@ public class MemberEntityTest {
             //given
             MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
             MemberFormBDto memberFormBDto = createMemberFormB(memberFormADto);
-            memberFormBDto.setSchoolId(school.getId());
-            memberFormBDto.setDepartmentId(department.getId());
+            memberFormBDto.setSchoolId(schoolId);
+            memberFormBDto.setDepartmentId(departmentId);
 
-            School school1 = schoolService.findOne(memberFormBDto.getSchoolId());
-            Department department1 = departmentService.findOne(memberFormBDto.getDepartmentId());
             //when
-            Member member = new Member().createMember(memberFormBDto, school1, department1);
-            memberService.join(member);
+            Long memberId = memberService.join(memberFormBDto);
             //then
-            assertThat(member.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getId());
-            assertThat(school1.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getSchool().getId());
-            assertThat(department1.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getDepartment().getId());
+            assertThat(memberId).isEqualTo(memberService.findOne(memberId).getMemberId());
+            assertThat(schoolId).isEqualTo(memberService.findOne(memberId).getSchool().getId());
+            assertThat(departmentId).isEqualTo(memberService.findOne(memberId).getDepartment().getId());
         }
     }
 
@@ -109,11 +114,10 @@ public class MemberEntityTest {
         return school;
     }
 
-    private Department createDepartment(School school) {
-        Department department = new Department();
-        department.setDepartmentName("테스트 학과");
-        department.setSchool(school);
-        return department;
+    private DepartmentFormDto createDepartmentDto(Long schoolId){
+        DepartmentFormDto dto = new DepartmentFormDto();
+        dto.createDepartmentFormDto(schoolId, "테스트 학과");
+        return dto;
     }
 
     /**

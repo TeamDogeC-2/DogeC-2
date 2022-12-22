@@ -3,9 +3,11 @@ package ProjectDoge.StudentSoup.dto.member;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
+@ToString
 @Getter
 @Setter
 public class MemberFormBDto {
