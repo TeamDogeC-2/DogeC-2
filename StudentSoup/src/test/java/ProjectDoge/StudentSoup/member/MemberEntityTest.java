@@ -1,5 +1,7 @@
 package ProjectDoge.StudentSoup.member;
 
+import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
@@ -10,8 +12,10 @@ import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +23,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,47 +43,63 @@ public class MemberEntityTest {
     @Autowired
     DepartmentService departmentService;
 
-    // 고유 키 "STUDENT_ID", "NICKNAME", "ID", "PHONE", "EMAIL"
-    @Test
-    void 회원가입() throws Exception {
-        //given
+
+    @Nested
+    @DisplayName("회원가입 검증")
+    class 회원가입{
         School school = createSchool();
-        schoolService.join(school);
-
         Department department = createDepartment(school);
-        departmentService.join(department);
 
-        //when
-        Member member = createMember("2000","닉네임1", "test", "010-0000-0000", "email@com");
-        member.setSchool(school);
-        member.setDepartment(school, department);
-        Long memberId = memberService.join(member);
-        //then
-        assertThat(member).isEqualTo(memberService.findOne(member.getMemberId()));
-    }
-    @Test
-    void 중복회원가입() throws Exception {
-        //given
-        School school = createSchool();
-        schoolService.join(school);
-        Department department = createDepartment(school);
-        departmentService.join(department);
+        @BeforeEach
+        void schoolAndDepartment(){
+            schoolService.join(school);
+            departmentService.join(department);
+        }
+        @Test
+        void 회원가입_A_중복() throws Exception {
+            //given
+            Member member = createMember("테스트1", "test1", "test@naver.com");
+            member.setSchool(school);
+            member.setDepartment(department);
+            memberService.join(member);
+            //when
+            MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
+            //then
+            assertThatThrownBy(() -> memberService.validateDuplicateMember(memberFormADto.getId()))
+                    .isInstanceOf(MemberValidationException.class);
+        }
 
-        //when
+        @Test
+        void 회원가입_A성공ToB() throws Exception {
+            //given
+            MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
+            //when
+            MemberFormBDto memberFormBDto = createMemberFormB(memberFormADto);
+            memberFormBDto.setSchoolId(school.getId());
+            memberFormBDto.setDepartmentId(department.getId());
+            //then
+            assertThat(memberFormADto.getId()).isEqualTo(memberFormBDto.getId());
+            assertThat(memberFormADto.getPwd()).isEqualTo(memberFormBDto.getPwd());
+        }
 
-        Member member1 = createMember("2000","닉네임1", "test", "010-0000-0000", "email@com");
-        member1.setSchool(school);
-        member1.setDepartment(school, department);
-        Long memberId = memberService.join(member1);
+        @Test
+        void 회원가입_성공() throws Exception {
+            //given
+            MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
+            MemberFormBDto memberFormBDto = createMemberFormB(memberFormADto);
+            memberFormBDto.setSchoolId(school.getId());
+            memberFormBDto.setDepartmentId(department.getId());
 
-        Member member2 = createMember("2000","닉네임1", "test", "010-0000-0000", "email@com");
-        member2.setSchool(school);
-        member2.setDepartment(school, department);
-
-        //then
-        assertThatThrownBy(() -> memberService.join(member2))
-                .isInstanceOf(MemberValidationException.class);
-
+            School school1 = schoolService.findOne(memberFormBDto.getSchoolId());
+            Department department1 = departmentService.findOne(memberFormBDto.getDepartmentId());
+            //when
+            Member member = new Member().createMember(memberFormBDto, school1, department1);
+            memberService.join(member);
+            //then
+            assertThat(member.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getId());
+            assertThat(school1.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getSchool().getId());
+            assertThat(department1.getId()).isEqualTo(memberService.findOne(member.getMemberId()).getDepartment().getId());
+        }
     }
 
     private School createSchool(){
@@ -99,28 +118,38 @@ public class MemberEntityTest {
 
     /**
      *
-     * @param studentId
      * @param nickname
      * @param id
-     * @param phone
      * @param email
      * @return
      */
-    private Member createMember(String studentId, String nickname, String id, String phone, String email){
+    private Member createMember(String nickname, String id, String email){
         Member member = new Member();
-        member.setStudentId(studentId);
         member.setNickname(nickname);
         member.setId(id);
         member.setPwd("test123!");
-        member.setName("테스트");
         member.setFile(new File());
-        member.setPhone(phone);
         member.setGender(GenderType.MAN);
         member.setEmail(email);
-        member.setBirth(new Date());
         member.setMemberClassification(MemberClassification.STUDENT);
-        member.setDepartmentPriority(1);
         return member;
+    }
+
+    private MemberFormADto createMemberFormA(String id, String pwd){
+        MemberFormADto formA = new MemberFormADto();
+        formA.setId(id);
+        formA.setPwd(pwd);
+        return formA;
+    }
+
+    private MemberFormBDto createMemberFormB(MemberFormADto dto){
+        MemberFormBDto formB = new MemberFormBDto();
+        formB.setId(dto.getId());
+        formB.setPwd(dto.getPwd());
+        formB.setNickname("테스트닉네임");
+        formB.setEmail("test@naver.com");
+        formB.setGender(GenderType.MAN);
+        return formB;
     }
 
 
