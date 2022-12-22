@@ -10,13 +10,12 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class DepartmentFormDto {
     private Long schoolId;
-
     @NotEmpty(message = "학과 입력은 필수입니다")
     private String departmentName;
 
     //== 생성 메서드 ==//
-    public void setDepartment(Department department){
-        this.schoolId = department.getSchool().getId();
-        this.departmentName = department.getDepartmentName();
+    public void createDepartmentFormDto(Long schoolId, String departmentName){
+        this.schoolId = schoolId;
+        this.departmentName = departmentName;
     }
 }
