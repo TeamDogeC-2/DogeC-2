@@ -16,7 +16,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "MEMBER", uniqueConstraints = {@UniqueConstraint(
         name = "MEMBER_UNIQUE_CONSTRAINT",
-        columnNames = {"STUDENT_ID", "NICKNAME", "ID", "PHONE", "EMAIL"}
+        columnNames = {"NICKNAME", "ID", "PHONE", "EMAIL"}
 )})
 @Setter
 @Getter
@@ -36,22 +36,23 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @NotNull
-    private String nickname;
-
-    @NotNull
+    @NotEmpty
     private String id;
 
-    @NotNull
+    @NotEmpty
     private String pwd;
+
+    @NotEmpty
+    private String nickname;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
     private File file;
 
-    @NotNull
+    @NotEmpty
     private String phone;
 
+    @NotEmpty
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
