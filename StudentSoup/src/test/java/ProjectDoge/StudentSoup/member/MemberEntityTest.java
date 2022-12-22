@@ -48,17 +48,18 @@ public class MemberEntityTest {
 
     @Nested
     @DisplayName("회원가입 검증")
-    class 회원가입{
+    class 회원가입 {
         Long schoolId = 0L;
         Long departmentId = 0L;
 
         @BeforeEach
-        void schoolAndDepartment(){
+        void schoolAndDepartment() {
             School school = createSchool();
             schoolId = schoolService.join(school);
             DepartmentFormDto dto = createDepartmentDto(schoolId);
             departmentId = departmentService.join(schoolId, dto);
         }
+
         @Test
         void 회원가입_A_중복() throws Exception {
             //given
@@ -73,7 +74,7 @@ public class MemberEntityTest {
             //when
             MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
             //then
-            assertThatThrownBy(() -> memberService.validateDuplicateMember(memberFormADto.getId()))
+            assertThatThrownBy(() -> memberService.validateDuplicateMemberId(memberFormADto.getId()))
                     .isInstanceOf(MemberValidationException.class);
         }
 
@@ -105,56 +106,120 @@ public class MemberEntityTest {
             assertThat(schoolId).isEqualTo(memberService.findOne(memberId).getSchool().getId());
             assertThat(departmentId).isEqualTo(memberService.findOne(memberId).getDepartment().getId());
         }
+
+        @Test
+        void 회원가입_닉네임_중복() throws Exception {
+            //given
+            MemberFormADto memberFormADto1 = createMemberFormA("test", "test123!");
+            MemberFormBDto memberFormBDto1 = createMemberFormB(memberFormADto1);
+            memberFormBDto1.setSchoolId(schoolId);
+            memberFormBDto1.setDepartmentId(departmentId);
+
+            memberService.join(memberFormBDto1);
+
+            MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
+            MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
+            memberFormBDto2.setEmail("test1@naver.com");
+            memberFormBDto2.setSchoolId(schoolId);
+            memberFormBDto2.setDepartmentId(departmentId);
+            //when
+
+            //then
+            assertThatThrownBy(() -> memberService.validateDuplicateMemberNickname(memberFormBDto2.getNickname()))
+                    .isInstanceOf(MemberValidationException.class);
+        }
+
+        @Test
+        void 회원가입_이메일_중복() throws Exception {
+            //given
+            MemberFormADto memberFormADto1 = createMemberFormA("test", "test123!");
+            MemberFormBDto memberFormBDto1 = createMemberFormB(memberFormADto1);
+            memberFormBDto1.setSchoolId(schoolId);
+            memberFormBDto1.setDepartmentId(departmentId);
+
+            memberService.join(memberFormBDto1);
+
+            MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
+            MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
+            memberFormBDto2.setNickname("테스트닉네임2");
+            memberFormBDto2.setSchoolId(schoolId);
+            memberFormBDto2.setDepartmentId(departmentId);
+            //when
+
+            //then
+            assertThatThrownBy(() -> memberService.validateDuplicateMemberEmail(memberFormBDto2.getEmail()))
+                    .isInstanceOf(MemberValidationException.class);
+        }
+
+        @Test
+        void 회원가입_중복() throws Exception {
+            //given
+            MemberFormADto memberFormADto1 = createMemberFormA("test", "test123!");
+            MemberFormBDto memberFormBDto1 = createMemberFormB(memberFormADto1);
+            memberFormBDto1.setSchoolId(schoolId);
+            memberFormBDto1.setDepartmentId(departmentId);
+
+            memberService.join(memberFormBDto1);
+
+            MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
+            MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
+            memberFormBDto2.setSchoolId(schoolId);
+            memberFormBDto2.setDepartmentId(departmentId);
+            //when
+
+            //then
+            assertThatThrownBy(() -> memberService.join(memberFormBDto2))
+                    .isInstanceOf(MemberValidationException.class);
+        }
+
+        private School createSchool() {
+            School school = new School();
+            school.setSchoolName("테스트 학교");
+            school.setSchoolCoordinate("테스트 학교 좌표");
+            return school;
+        }
+
+        private DepartmentFormDto createDepartmentDto(Long schoolId) {
+            DepartmentFormDto dto = new DepartmentFormDto();
+            dto.createDepartmentFormDto(schoolId, "테스트 학과");
+            return dto;
+        }
+
+        /**
+         * @param nickname
+         * @param id
+         * @param email
+         * @return
+         */
+        private Member createMember(String nickname, String id, String email) {
+            Member member = new Member();
+            member.setNickname(nickname);
+            member.setId(id);
+            member.setPwd("test123!");
+            member.setFile(new File());
+            member.setGender(GenderType.MAN);
+            member.setEmail(email);
+            member.setMemberClassification(MemberClassification.STUDENT);
+            return member;
+        }
+
+        private MemberFormADto createMemberFormA(String id, String pwd) {
+            MemberFormADto formA = new MemberFormADto();
+            formA.setId(id);
+            formA.setPwd(pwd);
+            return formA;
+        }
+
+        private MemberFormBDto createMemberFormB(MemberFormADto dto) {
+            MemberFormBDto formB = new MemberFormBDto();
+            formB.setId(dto.getId());
+            formB.setPwd(dto.getPwd());
+            formB.setNickname("테스트닉네임");
+            formB.setEmail("test@naver.com");
+            formB.setGender(GenderType.MAN);
+            return formB;
+        }
+
+
     }
-
-    private School createSchool(){
-        School school = new School();
-        school.setSchoolName("테스트 학교");
-        school.setSchoolCoordinate("테스트 학교 좌표");
-        return school;
-    }
-
-    private DepartmentFormDto createDepartmentDto(Long schoolId){
-        DepartmentFormDto dto = new DepartmentFormDto();
-        dto.createDepartmentFormDto(schoolId, "테스트 학과");
-        return dto;
-    }
-
-    /**
-     *
-     * @param nickname
-     * @param id
-     * @param email
-     * @return
-     */
-    private Member createMember(String nickname, String id, String email){
-        Member member = new Member();
-        member.setNickname(nickname);
-        member.setId(id);
-        member.setPwd("test123!");
-        member.setFile(new File());
-        member.setGender(GenderType.MAN);
-        member.setEmail(email);
-        member.setMemberClassification(MemberClassification.STUDENT);
-        return member;
-    }
-
-    private MemberFormADto createMemberFormA(String id, String pwd){
-        MemberFormADto formA = new MemberFormADto();
-        formA.setId(id);
-        formA.setPwd(pwd);
-        return formA;
-    }
-
-    private MemberFormBDto createMemberFormB(MemberFormADto dto){
-        MemberFormBDto formB = new MemberFormBDto();
-        formB.setId(dto.getId());
-        formB.setPwd(dto.getPwd());
-        formB.setNickname("테스트닉네임");
-        formB.setEmail("test@naver.com");
-        formB.setGender(GenderType.MAN);
-        return formB;
-    }
-
-
 }
