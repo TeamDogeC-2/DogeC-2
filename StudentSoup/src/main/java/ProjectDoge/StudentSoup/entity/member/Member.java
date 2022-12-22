@@ -67,8 +67,6 @@ public class Member {
     @JoinColumn(name = "DEPARTMENT_ID", nullable = false)
     private Department department;
 
-    private Integer departmentPriority;
-
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
     @OneToMany(mappedBy = "member")
@@ -79,7 +77,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReviewLike> boardReviewLikes = new ArrayList<>();
@@ -113,7 +110,6 @@ public class Member {
         this.setId(form.getId());
         this.setPwd(form.getPwd());
         this.setNickname(form.getNickname());
-        this.setPhone(form.getPhone());
         this.setGender(form.getGender());
         this.setEmail(form.getEmail());
         this.setSchool(school);
