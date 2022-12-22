@@ -32,6 +32,7 @@ public class MemberService {
         School school = getMemberDtoSchool(dto.getSchoolId());
         Department department = getMemberDtoDepartment(dto.getDepartmentId());
         log.info("회원의 학교는 : {}, 회원의 학과는 : {}", school.getSchoolName(), department.getDepartmentName());
+        validateDuplicateMember(dto);
         Member member = new Member().createMember(dto, school, department);
         memberRepository.save(member);
         log.info("회원이 생성되었습니다. [{}][{}] ",member.getId(), member.getNickname());
@@ -48,6 +49,31 @@ public class MemberService {
         return department.get();
     }
 
+    public void validateDuplicateMember(MemberFormBDto dto){
+        validateDuplicateMemberNickname(dto.getNickname());
+        validateDuplicateMemberEmail(dto.getEmail());
+    }
+
+    public void validateDuplicateMemberNickname(String nickname){
+        log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
+        Member findMember = memberRepository.findByNickname(nickname);
+        if(findMember != null){
+            log.info("회원 닉네임이 중복 예외가 발생했습니다.");
+            throw new MemberValidationException("중복된 닉네임입니다.");
+        }
+        log.info("회원 닉네임 중복 검증이 완료되었습니다.");
+    }
+
+    public void validateDuplicateMemberEmail(String email){
+        log.info("회원 이메일 중복 검증 메소드가 실행되었습니다.");
+        Member findMember = memberRepository.findByEmail(email);
+        if(findMember != null){
+            log.info("회원 이메일 중복 예외가 발생했습니다.");
+            throw new MemberValidationException("중복된 이메일입니다.");
+        }
+        log.info("회원 이메일 중복 검증이 완료되었습니다.");
+    }
+
     public void validateDuplicateMemberId(String memberId) {
         log.info("회원 아이디 중복 검증 메소드가 실행되었습니다.");
         // EXCEPTION
@@ -57,16 +83,6 @@ public class MemberService {
             throw new MemberValidationException("중복된 아이디 입니다.");
         }
         log.info("회원 중복 검증이 완료되었습니다.");
-    }
-
-    public void validateDuplicateMemberNickname(String nickname){
-        log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
-        Member findMember = memberRepository.findByNickname(nickname);
-        if(findMember != null){
-            log.info("회원 닉네임이 중복되는 예외가 발생했습니다.");
-            throw new MemberValidationException("중복된 닉네임입니다.");
-        }
-        log.info("회원 닉네임 중복 검증이 완료되었습니다.");
     }
 
     public Member findOne(Long memberId){
