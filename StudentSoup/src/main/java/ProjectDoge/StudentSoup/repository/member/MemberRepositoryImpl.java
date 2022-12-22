@@ -44,8 +44,21 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    public Member findByNickname(String nickname) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .where(member.nickname.eq(nickname));
+
+        return query.fetchOne();
+    }
+
+    @Override
     public Member findByEmail(String email) {
-        return null;
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .where(member.email.eq(email));
+
+        return query.fetchOne();
     }
 
     @Override
