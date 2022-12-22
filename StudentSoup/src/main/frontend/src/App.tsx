@@ -1,20 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Login from './pages/login/login';
 import {useEffect, useState} from "react";
 import axios from 'axios';
 
 function App() {
+  /*
   const [message, setMessage] = useState([]);
 
   useEffect(() => {
       axios.get("/hello")
           .then(response => setMessage(response.data))
           .catch(error => console.log(error))
-  }, []);
+  }, []);*/
 
   return (
-    <div className="App">
+    /*<div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -32,7 +34,8 @@ function App() {
           {message.map((text, index) => <li key={`${index}-${text}`}>{text}</li>)}
         </ul>
       </header>
-    </div>
+    </div>*/
+    <Login/>
   );
 }
 
