@@ -22,7 +22,7 @@ public class MemberService {
         log.info("회원 생성 메서드가 실행되었습니다.");
         validateDuplicateMember(member);
         memberRepository.save(member);
-        log.info("회원이 생성되었습니다. [{}][{}] ",member.getId(), member.getName());
+        log.info("회원이 생성되었습니다. [{}][{}] ",member.getId(), member.getNickname());
         return member.getMemberId();
     }
 
