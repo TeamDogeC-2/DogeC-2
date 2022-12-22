@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberFormDto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -106,16 +107,15 @@ public class Member {
     }
 
     //== 생성 메서드 ==//
-    public Member createMember(MemberFormDto form, School school, Department department, File file) {
-        this.setId(form.getId());
-        this.setPwd(form.getPwd());
-        this.setNickname(form.getNickname());
-        this.setGender(form.getGender());
-        this.setEmail(form.getEmail());
+    public Member createMember(MemberFormBDto dto, School school, Department department){
+        this.setId(dto.getId());
+        this.setPwd(dto.getPwd());
+        this.setNickname(dto.getNickname());
+        this.setEmail(dto.getEmail());
+        this.setFile(null);
+        this.setGender(dto.getGender());
         this.setSchool(school);
-        this.setDepartment(school, department);
-        this.setFile(file);
-        this.setMemberClassification(MemberClassification.STUDENT);
+        this.setDepartment(department);
         return this;
     }
 
