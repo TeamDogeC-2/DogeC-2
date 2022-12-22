@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -35,6 +36,11 @@ public class DepartmentService {
         }
         log.info("학과 검증이 완료되었습니다.");
     }
+    public Department findOne(Long departmentId){
+        Optional<Department> department = departmentRepository.findById(departmentId);
+        return department.get();
+    }
+
     public Department findOneUsingDepartmentNameAndSchoolName(String departmentName, String schoolName){
         Department department = departmentRepository.findByDepartmentNameAndSchool_SchoolName(departmentName, schoolName);
         return department;
