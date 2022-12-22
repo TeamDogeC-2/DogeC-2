@@ -33,20 +33,9 @@ public class MemberService {
         Department department = getMemberDtoDepartment(dto.getDepartmentId());
         log.info("회원의 학교는 : {}, 회원의 학과는 : {}", school.getSchoolName(), department.getDepartmentName());
         Member member = new Member().createMember(dto, school, department);
-        validateDuplicateMember(member.getId());
         memberRepository.save(member);
         log.info("회원이 생성되었습니다. [{}][{}] ",member.getId(), member.getNickname());
         return member.getMemberId();
-    }
-
-    public Member setMemberEntity(MemberFormBDto form){
-        Member member = new Member();
-        member.setId(form.getId());
-        member.setPwd(form.getPwd());
-        member.setNickname(form.getNickname());
-        member.setFile(null);
-        member.setMemberClassification(MemberClassification.STUDENT);
-        return member;
     }
 
     public School getMemberDtoSchool(Long schoolId){
@@ -59,15 +48,25 @@ public class MemberService {
         return department.get();
     }
 
-    public void validateDuplicateMember(String memberId) {
-        log.info("회원 중복 검증 메소드가 실행되었습니다.");
+    public void validateDuplicateMemberId(String memberId) {
+        log.info("회원 아이디 중복 검증 메소드가 실행되었습니다.");
         // EXCEPTION
-        Member findMembers = memberRepository.findById(memberId);
-        if (findMembers != null) {
+        Member findMember = memberRepository.findById(memberId);
+        if (findMember != null) {
             log.info("회원이 존재하는 예외가 발생했습니다.");
             throw new MemberValidationException("중복된 아이디 입니다.");
         }
         log.info("회원 중복 검증이 완료되었습니다.");
+    }
+
+    public void validateDuplicateMemberNickname(String nickname){
+        log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
+        Member findMember = memberRepository.findByNickname(nickname);
+        if(findMember != null){
+            log.info("회원 닉네임이 중복되는 예외가 발생했습니다.");
+            throw new MemberValidationException("중복된 닉네임입니다.");
+        }
+        log.info("회원 닉네임 중복 검증이 완료되었습니다.");
     }
 
     public Member findOne(Long memberId){
