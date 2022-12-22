@@ -17,13 +17,9 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static ProjectDoge.StudentSoup.commonmodule.DateFormat.dateFormat;
 
 @Entity
 @Table(name = "MEMBER", uniqueConstraints = {@UniqueConstraint(
@@ -40,10 +36,6 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @Column(name = "STUDENT_ID")
-    @NotNull
-    private String studentId;
-
     @NotNull
     private String nickname;
 
@@ -52,9 +44,6 @@ public class Member {
 
     @NotNull
     private String pwd;
-
-    @NotNull
-    private String name;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
@@ -68,10 +57,6 @@ public class Member {
 
     @Email
     private String email;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "BIRTH_DATE")
-    private Date birth;
 
     @Column(name = "MEMBER_CLASSIFICATION")
     @Enumerated(EnumType.STRING)
@@ -128,10 +113,8 @@ public class Member {
 
     //== 생성 메서드 ==//
     public Member createMember(MemberFormDto form, School school, Department department, File file) {
-        this.setStudentId(form.getStudentId());
         this.setId(form.getId());
         this.setPwd(form.getPwd());
-        this.setName(form.getName());
         this.setNickname(form.getNickname());
         this.setPhone(form.getPhone());
         this.setGender(form.getGender());
@@ -139,11 +122,6 @@ public class Member {
         this.setSchool(school);
         this.setDepartment(school, department);
         this.setFile(file);
-        try {
-            this.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateFormat(form.getBirth().toString())));
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
         this.setMemberClassification(MemberClassification.STUDENT);
         return this;
     }
