@@ -24,7 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "MEMBER", uniqueConstraints = {@UniqueConstraint(
         name = "MEMBER_UNIQUE_CONSTRAINT",
-        columnNames = {"NICKNAME", "ID", "PHONE", "EMAIL"}
+        columnNames = {"NICKNAME", "ID", "EMAIL"}
 )})
 @Setter
 @Getter
@@ -49,10 +49,6 @@ public class Member {
     @JoinColumn(name = "IMAGE_FILE_ID")
     private File file;
 
-    @NotEmpty
-    private String phone;
-
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
