@@ -14,6 +14,8 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -27,6 +29,7 @@ import java.util.List;
         name = "MEMBER_UNIQUE_CONSTRAINT",
         columnNames = {"NICKNAME", "ID", "EMAIL"}
 )})
+@DynamicInsert
 @Setter
 @Getter
 @ToString
@@ -57,6 +60,7 @@ public class Member {
     private String email;
 
     @Column(name = "MEMBER_CLASSIFICATION")
+    @ColumnDefault("'STUDENT'")
     @Enumerated(EnumType.STRING)
     private MemberClassification memberClassification;
 

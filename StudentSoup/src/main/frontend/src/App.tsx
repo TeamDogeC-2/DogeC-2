@@ -1,11 +1,14 @@
-import './App.css';
-import Home from './components/home/homeComponent';
-import Register1 from './components/register/register1';
+import React from "react";
+import "./App.css";
+import Routes from "./Routes";
+import { BrowserRouter } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
-    <Register1/>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
