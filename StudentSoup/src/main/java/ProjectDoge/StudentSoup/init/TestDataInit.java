@@ -39,33 +39,33 @@ public class TestDataInit {
 
     private void initSchool(){
         School school1 = new School();
-        school1.setSchoolName("테스트1 학교");
-        school1.setSchoolCoordinate("테스트1 좌표");
+        school1.setSchoolName("더미테스트1 학교");
+        school1.setSchoolCoordinate("더미테스트1 좌표");
 
         School school2 = new School();
-        school2.setSchoolName("테스트2 학교");
-        school2.setSchoolCoordinate("테스트2 좌표");
+        school2.setSchoolName("더미테스트2 학교");
+        school2.setSchoolCoordinate("더미테스트2 좌표");
         schoolService.join(school1);
         schoolService.join(school2);
     }
 
     private void initDepartment(){
-        School school1 = schoolRepository.findBySchoolName("테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
+        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
         DepartmentFormDto dto1 = new DepartmentFormDto();
-        dto1.setDepartmentName("테스트1 학과1");
+        dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(school1.getId());
 
         DepartmentFormDto dto2 = new DepartmentFormDto();
-        dto2.setDepartmentName("테스트1 학과2");
+        dto2.setDepartmentName("더미테스트1 학과2");
         dto2.setSchoolId(school1.getId());
 
         DepartmentFormDto dto3 = new DepartmentFormDto();
-        dto3.setDepartmentName("테스트2 학과1");
+        dto3.setDepartmentName("더미테스트2 학과1");
         dto3.setSchoolId(school2.getId());
 
         DepartmentFormDto dto4 = new DepartmentFormDto();
-        dto4.setDepartmentName("테스트2 학과2");
+        dto4.setDepartmentName("더미테스트2 학과2");
         dto4.setSchoolId(school2.getId());
 
         departmentService.join(school1.getId(), dto1);
@@ -75,23 +75,23 @@ public class TestDataInit {
     }
 
     private void initMember(){
-        School school1 = schoolRepository.findBySchoolName("테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
+        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(school1.getId());
         List<Department> departments2 = departmentRepository.findBySchool_Id(school2.getId());
 
-        MemberFormBDto dto1 = createMemberFormDto("test1", "test123!", "테스트1", "test1@naver.com",
+        MemberFormBDto dto1 = createMemberFormDto("dummyTest1", "test123!", "더미테스트1", "dummytest1@naver.com",
                 GenderType.MAN, school1.getId(), departments1.get(0).getId());
-        MemberFormBDto dto2 = createMemberFormDto("test2", "test123!", "테스트2", "test2@naver.com",
+        MemberFormBDto dto2 = createMemberFormDto("dummyTest2", "test123!", "더미테스트2", "dummytest2@naver.com",
                 GenderType.MAN, school1.getId(), departments1.get(0).getId());
-        MemberFormBDto dto3 = createMemberFormDto("test3", "test123!", "테스트3", "test3@naver.com",
+        MemberFormBDto dto3 = createMemberFormDto("dummyTest3", "test123!", "더미테스트3", "dummytest3@naver.com",
                 GenderType.MAN, school1.getId(), departments1.get(1).getId());
-        MemberFormBDto dto4 = createMemberFormDto("test4", "test123!", "테스트4", "test4@naver.com",
+        MemberFormBDto dto4 = createMemberFormDto("dummyTest4", "test123!", "더미테스트4", "dummytest4@naver.com",
                 GenderType.WOMAN, school2.getId(), departments2.get(0).getId());
-        MemberFormBDto dto5 = createMemberFormDto("test5", "test123!", "테스트5", "test5@naver.com",
+        MemberFormBDto dto5 = createMemberFormDto("dummyTest5", "test123!", "더미테스트5", "dummytest5@naver.com",
                 GenderType.WOMAN, school2.getId(), departments2.get(1).getId());
-        MemberFormBDto dto6 = createMemberFormDto("test6", "test123!", "테스트6", "test6@naver.com",
+        MemberFormBDto dto6 = createMemberFormDto("dummyTest6", "test123!", "더미테스트6", "dummytest6@naver.com",
                 GenderType.WOMAN, school2.getId(), departments2.get(1).getId());
 
         memberService.join(dto1);
