@@ -28,6 +28,8 @@ public class RestaurantService {
         File file = new File();
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school,file);
         validateDuplicateRestaurant(restaurant);
+        restaurantRepository.save(restaurant);
+        log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());
         return restaurant.getId();
     }
 
@@ -50,6 +52,10 @@ public class RestaurantService {
                 });
         log.info("음식점 생성 중 등록 된 학교 : {}", school.getSchoolName());
         return school;
+    }
+    public Restaurant findByRestaurantNameAndSchoolName(String restaurantName,String schoolName){
+        Restaurant restaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurantName, schoolName);
+        return restaurant;
     }
 
 
