@@ -1,5 +1,5 @@
-import Navbar from '../../components/navbar/Navbar'
-import MainSearch from '../../components/mainsearch/MainSearch'
+import Navbar from '../common/navbar'
+import MainSearch from './mainSearch'
 
 const home = () => {
   return (
