@@ -222,7 +222,47 @@ public class MemberEntityTest {
             assertThat(members.contains(member1)).isEqualTo(true);
             assertThat(members.contains(member2)).isEqualTo(true);
         }
+
+        @Test
+        void 학교내_회원검증() throws Exception {
+            //given
+            MemberFormADto formA1 = createMemberFormA("test1", "test123!");
+            MemberFormBDto formB1 = createMemberFormB(formA1);
+            formB1.setNickname("테스트1");
+            formB1.setGender(GenderType.MAN);
+            formB1.setSchoolId(schoolId);
+            formB1.setDepartmentId(departmentId);
+            formB1.setEmail("test1@naver.com");
+            Long member1Id = memberService.join(formB1);
+
+            MemberFormADto formA2 = createMemberFormA("test2", "test123!");
+            MemberFormBDto formB2 = createMemberFormB(formA2);
+            formB2.setNickname("테스트2");
+            formB2.setGender(GenderType.MAN);
+            formB2.setSchoolId(schoolId);
+            formB2.setDepartmentId(departmentId);
+            formB2.setEmail("test2@naver.com");
+            Long member2Id = memberService.join(formB2);
+
+            //when
+            List<Member> members = memberRepository.findBySchool_SchoolId(schoolId);
+            //then
+            for (Member member : members) {
+                log.info("memberId : {}, id : {}, nickName : {}", member.getMemberId(), member.getId(), member.getNickname());
+            }
+            // 회원 검증
+            assertThat(members.get(0).getMemberId()).isEqualTo(member1Id);
+            assertThat(members.get(1).getMemberId()).isEqualTo(member2Id);
+            // 학과 검증
+            log.info("학과 검증을 시작하였습니다.");
+            assertThat(members.get(0).getDepartment().getId()).isEqualTo(departmentId);
+            // 학교 검증
+            log.info("학교 검증을 시작하였습니다.");
+            assertThat(members.get(0).getSchool().getId()).isEqualTo(schoolId);
+        }
     }
+
+
 
         private School createSchool() {
             School school = new School();
