@@ -40,7 +40,7 @@ const Register2 = () => {
 
     const checkPW=(e: ChangeEvent<HTMLInputElement>)=>{
         const newValue = e.target.value;
-        // setConfirmPassword(newValue);
+        setConfirmPassword(newValue);
         if(password === newValue){
             setCheckButton(true);
         }

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import RegisterNavbar from "../common/registerNavbar";
 
 const Register = () => {
@@ -55,7 +56,11 @@ const Register = () => {
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[28px]">고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이 제한됩니다.</span>
           </div>
           <div className="w-[530px] h-[54px] mt-[56px] bg-[#B8B8B8] flex justify-center items-center">
-            <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">동의하고 가입하기</button>
+            <Link to="/register2" className="w-full h-full">
+              <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
+                동의하고 가입하기
+              </button>
+            </Link>
           </div>
         </div>
       </div>
