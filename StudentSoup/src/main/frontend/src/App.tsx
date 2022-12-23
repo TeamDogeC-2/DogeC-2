@@ -1,6 +1,6 @@
 import './App.css';
-import Home from './pages/home/home';
-import Register1 from './pages/register/Register1';
+import Home from './components/home/homeComponent';
+import Register1 from './components/register/register1';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
-import RegisterNavbar from "../../components/navbar/RegisterNavbar";
+import RegisterNavbar from "../common/registerNavbar";
 
-const Register = () => {
+const register = () => {
   return (
     <div>
       <RegisterNavbar />
@@ -63,4 +63,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default register
