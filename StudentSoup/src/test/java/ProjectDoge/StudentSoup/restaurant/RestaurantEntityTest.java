@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
 import ProjectDoge.StudentSoup.service.RestaurantService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import org.assertj.core.api.Assertions;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
@@ -42,7 +44,7 @@ public class RestaurantEntityTest {
     }
 
     @Test
-    void 음식정등록테스트() throws Exception{
+    void 음식점등록테스트() throws Exception{
         //given
         RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new File(),"전화번호","태그","디테일");
         //when
@@ -51,6 +53,32 @@ public class RestaurantEntityTest {
         //then
         assertThat(restaurantId).isEqualTo(restaurantService.findByRestaurantNameAndSchoolName(dto.getName(),school.getSchoolName()).getId());
     }
+    @Test
+    void 음식점등록시_학교없음() throws Exception{
+        //given
+        Long errorSchoolId = 0L;
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),errorSchoolId,"좌표값",new File(),"전화번호","태그","디테일");
+
+        //then
+        assertThatThrownBy(() -> restaurantService.join(dto))
+                .isInstanceOf(NotFoundSchoolException.class);
+    }
+
+    @Test
+    void 음식점중복() throws Exception{
+        //given
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new File(),"전화번호","태그","디테일");
+        restaurantService.join(dto);
+        RestaurantFormDto dto1 = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new File(),"전화번호","태그","디테일");
+
+        //then
+        assertThatThrownBy(() -> restaurantService.join(dto1))
+                .isInstanceOf(IllegalStateException.class);
+
+
+    }
+
+
 
     private RestaurantFormDto createRestaurantDto(String name, String address, RestaurantCategory category , LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, File file, String tel, String tag, String detail) {
         RestaurantFormDto dto = new RestaurantFormDto();
