@@ -1,10 +1,11 @@
 import { Switch, Route } from "react-router-dom";
-import Err404 from "./component/common/Err404";
+import Err404 from "./components/err404/err404";
+import homeComponent from "./components/home/homeComponent";
 
 const Routes = () => {
   return (
     <Switch>
-      {/* <Route exact path="/404" component={Err404} /> */}
+      <Route exact path="/" component={homeComponent} />
       <Route component={Err404} />
     </Switch>
   );
