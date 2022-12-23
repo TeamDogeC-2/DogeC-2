@@ -1,6 +1,9 @@
 package ProjectDoge.StudentSoup.service;
 
+import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
+import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +22,10 @@ public class DepartmentService {
     private final SchoolRepository schoolRepository;
 
     @Transactional
-    public Long join(Department department){
+    public Long join(Long schoolId, DepartmentFormDto dto){
         log.info("학과 생성 메서드가 실행되었습니다.");
+        School school = validateNotFoundSchool(schoolId);
+        Department department = new Department().createDepartmentForm(dto, school);
         validateDuplicateDepartment(department);
         departmentRepository.save(department);
         log.info("학과가 생성되었습니다. [{}][{}] ",department.getId(), department.getDepartmentName());
@@ -36,6 +41,17 @@ public class DepartmentService {
         }
         log.info("학과 검증이 완료되었습니다.");
     }
+    private School validateNotFoundSchool(Long schoolId){
+        log.info("학과 생성 중 학교 존재 여부 검증 메소드가 실행되었습니다.");
+        School school = schoolRepository.findById(schoolId)
+                .orElseThrow(() -> {
+                    log.info("학과 등록 중 학교가 존재하지 않는 예외가 발생했습니다.");
+                    return new NotFoundSchoolException("등록되지 않은 학교입니다.");
+                });
+        log.info("학과 생성 중 등록 된 학교 : {}", school.getSchoolName());
+        return school;
+    }
+
     public Department findOne(Long departmentId){
         Optional<Department> department = departmentRepository.findById(departmentId);
         return department.get();

@@ -47,7 +47,6 @@ public class Department {
     }
 
     //== 생성 메서드 ==//
-
     public Department createDepartmentForm(DepartmentFormDto form, School school){
         this.setDepartmentName(form.getDepartmentName());
         this.setSchool(school);
