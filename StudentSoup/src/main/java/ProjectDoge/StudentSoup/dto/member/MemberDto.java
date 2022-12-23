@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.dto.member;
 
-import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class MemberDto {
 
 
     // 생성 메소드
-    private MemberDto getLoginMemberDto(Member member){
+    public MemberDto getLoginMemberDto(Member member){
         this.memberId = member.getMemberId();
         this.schoolId = member.getSchool().getId();
         this.schoolName = member.getSchool().getSchoolName();
