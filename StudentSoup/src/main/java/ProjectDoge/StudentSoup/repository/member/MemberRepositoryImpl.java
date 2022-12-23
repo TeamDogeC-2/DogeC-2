@@ -4,10 +4,10 @@ import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
@@ -21,12 +21,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Member findById(String id) {
-        JPQLQuery<Member> query = queryFactory.select(member)
+    public Optional<Member> findById(String id) {
+        Member query = queryFactory.select(member)
                 .from(member)
-                .where(member.id.eq(id));
+                .where(member.id.eq(id))
+                .fetchOne();
 
-        return query.fetchOne();
+        return Optional.ofNullable(query);
     }
 
     @Override
