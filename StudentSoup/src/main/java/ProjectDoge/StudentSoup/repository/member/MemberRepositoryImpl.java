@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
+import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
@@ -36,6 +37,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Override
     public List<Member> findByNameAndSchool_SchoolName(String name, String schoolName) {
         return null;
+    }
+
+    @Override
+    public List<Member> findByDepartment_Id(Long id) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(department)
+                .leftJoin(department.members, member)
+                .fetchJoin()
+                .where(department.id.eq(id));
+
+        return query.fetch();
     }
 
     @Override
