@@ -11,6 +11,7 @@ public interface MemberRepositoryCustom {
     List<Member> findByName(String name);
     List<Member> findByNameAndSchool_SchoolName(String name, String schoolName);
     List<Member> findByDepartment_Id(Long id);
+    List<Member> findBySchool_SchoolId(Long id);
     List<Member> search(MemberSearch memberSearch);
     Member findByNickname(String nickname);
     Member findByEmail(String email);
