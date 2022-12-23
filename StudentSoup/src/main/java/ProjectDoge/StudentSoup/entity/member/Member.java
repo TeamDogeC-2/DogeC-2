@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberFormDto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -13,20 +14,22 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "MEMBER", uniqueConstraints = {@UniqueConstraint(
         name = "MEMBER_UNIQUE_CONSTRAINT",
-        columnNames = {"STUDENT_ID", "NICKNAME", "ID", "PHONE", "EMAIL"}
+        columnNames = {"NICKNAME", "ID", "EMAIL"}
 )})
+@DynamicInsert
 @Setter
 @Getter
 @ToString
@@ -37,39 +40,27 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    @Column(name = "STUDENT_ID")
-    @NotNull
-    private String studentId;
-
-    @NotNull
-    private String nickname;
-
-    @NotNull
+    @NotEmpty
     private String id;
 
-    @NotNull
+    @NotEmpty
     private String pwd;
 
-    @NotNull
-    private String name;
+    @NotEmpty
+    private String nickname;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
     private File file;
 
-    @NotNull
-    private String phone;
-
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
+    @Email
     private String email;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "BIRTH_DATE")
-    private Date birth;
-
     @Column(name = "MEMBER_CLASSIFICATION")
+    @ColumnDefault("'STUDENT'")
     @Enumerated(EnumType.STRING)
     private MemberClassification memberClassification;
 
@@ -81,8 +72,6 @@ public class Member {
     @JoinColumn(name = "DEPARTMENT_ID", nullable = false)
     private Department department;
 
-    private Integer departmentPriority;
-
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
     @OneToMany(mappedBy = "member")
@@ -93,7 +82,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReviewLike> boardReviewLikes = new ArrayList<>();
@@ -123,43 +111,15 @@ public class Member {
     }
 
     //== 생성 메서드 ==//
-    public Member createTestMember(){
-        Member member = new Member();
-        member.setStudentId("20170218");
-        member.setId("admin");
-        member.setPwd("123456");
-        member.setName("문종운");
-        member.setNickname("봄보");
-        member.setPhone("01068000708");
-        member.setGender(GenderType.MAN);
-        member.setEmail("bombo96@naver.com");
-        try {
-            member.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse("1996-01-11"));
-        } catch(ParseException e){
-            System.out.println(e.getMessage());
-        }
-        member.setMemberClassification(MemberClassification.STUDENT);
-
-        return member;
-    }
-    public Member createMember(MemberFormDto form, School school, Department department, File file) {
-        this.setStudentId(form.getStudentId());
-        this.setId(form.getId());
-        this.setPwd(form.getPwd());
-        this.setName(form.getName());
-        this.setNickname(form.getNickname());
-        this.setPhone(form.getPhone());
-        this.setGender(form.getGender());
-        this.setEmail(form.getEmail());
+    public Member createMember(MemberFormBDto dto, School school, Department department){
+        this.setId(dto.getId());
+        this.setPwd(dto.getPwd());
+        this.setNickname(dto.getNickname());
+        this.setEmail(dto.getEmail());
+        this.setFile(null);
+        this.setGender(dto.getGender());
         this.setSchool(school);
-        this.setDepartment(school, department);
-        this.setFile(file);
-        try {
-            this.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(dateFormat(form.getBirth().toString())));
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-        this.setMemberClassification(MemberClassification.STUDENT);
+        this.setDepartment(department);
         return this;
     }
 
