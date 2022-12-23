@@ -1,4 +1,4 @@
-const navbar = () => {
+const Navbar = () => {
   return (
     <div className='w-full h-[88px] items-center sticky flex justify-between bg-gradient-to-b from-[rgba(255,255,255,0.6)] to-[rgba(255,255,255,0)] hover:border-b-[1px]'>
       <div className='flex items-center m-5 w-[162px] h-[76px]'>
@@ -18,4 +18,4 @@ const navbar = () => {
   )
 }
 
-export default navbar
+export default Navbar

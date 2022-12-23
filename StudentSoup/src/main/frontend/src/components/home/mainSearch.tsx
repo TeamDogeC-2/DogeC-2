@@ -1,4 +1,4 @@
-const mainSearch = () => {
+const MainSearch = () => {
   return (
     <div className='w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center'>
       <div className='flex flex-col text-center relative bottom-[88px]'>
@@ -20,4 +20,4 @@ const mainSearch = () => {
   )
 }
 
-export default mainSearch
+export default MainSearch
