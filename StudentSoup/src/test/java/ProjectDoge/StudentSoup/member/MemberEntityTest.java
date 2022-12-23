@@ -222,6 +222,8 @@ public class MemberEntityTest {
             assertThat(members.contains(member1)).isEqualTo(true);
             assertThat(members.contains(member2)).isEqualTo(true);
         }
+    }
+
 
         @Test
         void 학교내_회원검증() throws Exception {
@@ -261,7 +263,6 @@ public class MemberEntityTest {
             assertThat(members.get(0).getSchool().getId()).isEqualTo(schoolId);
         }
     }
-
 
 
         private School createSchool() {
