@@ -4,12 +4,15 @@ import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
+import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
+import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
+
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
@@ -20,12 +23,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Member findById(String id) {
-        JPQLQuery<Member> query = queryFactory.select(member)
+    public Optional<Member> findById(String id) {
+        Member query = queryFactory.select(member)
                 .from(member)
-                .where(member.id.eq(id));
+                .where(member.id.eq(id))
+                .fetchOne();
 
-        return query.fetchOne();
+        return Optional.ofNullable(query);
     }
 
     @Override
@@ -39,13 +43,52 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    public List<Member> findByDepartment_Id(Long id) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .leftJoin(member.department, department)
+                .fetchJoin()
+                .where(department.id.eq(id));
+
+        return query.fetch();
+    }
+
+    @Override
+
+    public List<Member> findBySchool_SchoolId(Long id) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .leftJoin(member.school, school)
+                .fetchJoin()
+                .leftJoin(member.department, department)
+                .fetchJoin()
+                .where(school.id.eq(id));
+
+        return query.fetch();
+    }
+
+    @Override
+
     public List<Member> search(MemberSearch memberSearch) {
         return null;
     }
 
     @Override
+    public Member findByNickname(String nickname) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .where(member.nickname.eq(nickname));
+
+        return query.fetchOne();
+    }
+
+    @Override
     public Member findByEmail(String email) {
-        return null;
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .where(member.email.eq(email));
+
+        return query.fetchOne();
     }
 
     @Override

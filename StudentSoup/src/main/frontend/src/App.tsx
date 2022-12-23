@@ -1,10 +1,16 @@
-import './App.css';
+import React from "react";
+import "./App.css";
+import Routes from "./Routes";
 import Home from './components/home/homeComponent';
+import { BrowserRouter } from "react-router-dom";
 
-function App() {
+const App = () => {
   return (
-    <Home/>
+    <BrowserRouter>
+      <Routes />
+      <Home/>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

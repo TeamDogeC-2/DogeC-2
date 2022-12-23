@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,5 +34,10 @@ public class SchoolService {
             throw new SchoolValidationException("이미 존재하는 학교입니다.");
         }
         log.info("학교 검증이 완료되었습니다.");
+    }
+
+    public School findOne(Long schoolId){
+        Optional<School> school = schoolRepository.findById(schoolId);
+        return school.get();
     }
 }
