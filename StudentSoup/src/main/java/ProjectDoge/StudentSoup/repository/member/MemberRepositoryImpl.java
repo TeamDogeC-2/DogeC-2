@@ -42,8 +42,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Override
     public List<Member> findByDepartment_Id(Long id) {
         JPQLQuery<Member> query = queryFactory.select(member)
-                .from(department)
-                .leftJoin(department.members, member)
+                .from(member)
+                .leftJoin(member.department, department)
                 .fetchJoin()
                 .where(department.id.eq(id));
 
