@@ -11,21 +11,17 @@ import lombok.ToString;
 @Setter
 public class MemberDto {
     private Long memberId;
-
-    private String id;
-
-    private String nickname;
-
-    private GenderType gender;
-
-    private String email;
-
     private Long schoolId;
     private String schoolName;
-
     private Long departmentId;
     private String departmentName;
+    private String fileName;
+    private String id;
+    private String nickname;
+    private String email;
 
+
+    // 생성 메소드
     private MemberDto getLoginMemberDto(Member member){
         this.memberId = member.getMemberId();
         this.schoolId = member.getSchool().getId();
@@ -34,8 +30,12 @@ public class MemberDto {
         this.departmentName = member.getDepartment().getDepartmentName();
         this.id = member.getId();
         this.nickname = member.getNickname();
-        this.gender = member.getGender();
         this.email = member.getEmail();
+        if(member.getFile() == null){
+            this.fileName = null;
+        } else{
+            this.fileName = member.getFile().getFileName();
+        }
         return this;
     }
 }
