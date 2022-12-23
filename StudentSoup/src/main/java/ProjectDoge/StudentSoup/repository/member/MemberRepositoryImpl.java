@@ -11,6 +11,7 @@ import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
+import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
@@ -46,6 +47,19 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .leftJoin(member.department, department)
                 .fetchJoin()
                 .where(department.id.eq(id));
+
+        return query.fetch();
+    }
+
+    @Override
+    public List<Member> findBySchool_SchoolId(Long id) {
+        JPQLQuery<Member> query = queryFactory.select(member)
+                .from(member)
+                .leftJoin(member.school, school)
+                .fetchJoin()
+                .leftJoin(member.department, department)
+                .fetchJoin()
+                .where(school.id.eq(id));
 
         return query.fetch();
     }
