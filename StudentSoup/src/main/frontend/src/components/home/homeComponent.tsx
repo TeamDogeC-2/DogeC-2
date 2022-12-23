@@ -1,7 +1,7 @@
 import Navbar from '../common/navbar'
 import MainSearch from './mainSearch'
 
-const home = () => {
+const Home = () => {
   return (
     <div className='w-full h-full bg-[url("./img/mainlogo.jpg")] bg-cover z-50'>
       <div className='w-full h-full bg-gradient-to-t from-[rgba(0,0,0,0.45)] to-[rgba(0,0,0,0.1)] z-[51]'>
@@ -12,4 +12,4 @@ const home = () => {
   )
 }
 
-export default home
+export default Home
