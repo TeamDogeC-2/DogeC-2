@@ -11,6 +11,8 @@ import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +28,7 @@ public class TestDataInit {
     private final DepartmentService departmentService;
 
 
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
         initMember();
