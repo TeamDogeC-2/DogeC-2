@@ -1,52 +1,67 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import RegisterNavbar from "../common/registerNavbar"
+import cn from 'clsx';
 
 const Register2 = () => {
 
     const [lowAndUpValidated, setLowAndUpValidated] = useState<boolean>(false);
     const [numberValidated, setNumberValidated] = useState<boolean>(false);
     const [lengthValidated, setLengthValidated] = useState<boolean>(false);
+    const [matchPassword, setMatchPassword] = useState<boolean>(false);
     const [checkButton, setCheckButton] = useState<boolean>(false);
 
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-    const handleChange=(e: ChangeEvent<HTMLInputElement>)=>{
+    useEffect(() => {
+        if (password === confirmPassword && confirmPassword != "") {
+            setMatchPassword(true);
+        }
+        else if (confirmPassword == null) {
+            setMatchPassword(false);
+        } else {
+            setMatchPassword(false);
+        }
+    }, [password, confirmPassword])
+
+    useEffect(() => {
+        if (lowAndUpValidated && numberValidated && lengthValidated && matchPassword) {
+            setCheckButton(true);
+        } else {
+            setCheckButton(false);
+        }
+    }, [lowAndUpValidated, numberValidated, lengthValidated, matchPassword])
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setPassword(newValue);
         const lowAndUp = new RegExp('(?=.*[a-z])(?=.*[A-Z]).*');
         const number = new RegExp('(?=.*[0-9])');
         const length = new RegExp('(?=.{8,20})');
 
-        if(lowAndUp.test(newValue)){
+        if (lowAndUp.test(newValue)) {
             setLowAndUpValidated(true);
         }
-        else{
+        else {
             setLowAndUpValidated(false);
         }
-        if(number.test(newValue)){
+        if (number.test(newValue)) {
             setNumberValidated(true);
         }
-        else{
+        else {
             setNumberValidated(false);
         }
-        if(length.test(newValue)){
+        if (length.test(newValue)) {
             setLengthValidated(true);
         }
-        else{
+        else {
             setLengthValidated(false);
         }
     }
 
-    const checkPW=(e: ChangeEvent<HTMLInputElement>)=>{
+    const checkPW = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setConfirmPassword(newValue);
-        if(password === newValue){
-            setCheckButton(true);
-        }
-        else{
-            setCheckButton(false);
-        }
     }
     return (
         <div>
@@ -81,38 +96,77 @@ const Register2 = () => {
                             <br />입력해주세요.
                         </span>
                     </div>
-                    <div className="flex flex-col text-left mt-[21px] mb-[39px]">
+                    <div className="flex flex-col text-left mt-[21px]">
                         <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">ID</span>
                         <input name="ID" placeholder="아이디(이메일)입력" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
+                        <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[8px]">아이디가 일치합니다.</span>
                     </div>
-                    <div className="flex flex-col text-left">
-                        <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">PW</span>
-                        <input name="PW" id="PW" value={password} type="password" onChange={handleChange} placeholder="비밀번호 입력" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
-                        <div className="flex flex-row mt-[8px] mb-[12px]">
-                            <div className="mr-[18px] flex flex-row items-center">
-                                <span className={lowAndUpValidated?"text-[12px] fw-400 leading-[16px] text-[#FF611D] mr-[6px]":"text-[12px] fw-400 leading-[16px] text-[#939393] mr-[6px]"}>대소문자</span>
-                                <div className={lowAndUpValidated?'w-[11px] h-[7px] bg-[url("./img/Vector15.jpg")] bg-cover mr-[11px] relative bottom-[1px]':'w-[15px] h-[11px] bg-[url("./img/Vector7.jpg")] bg-cover mr-[11px] relative bottom-[1px]'}></div>
+                    <div className="flex flex-row mt-[15px]">
+                        <div className="w-[236px] flex flex-col text-left mr-[24px]">
+                            <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">MAIL</span>
+                            <input name="MAIL" id="MAIL" placeholder="이메일 입력" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
+                        </div>
+                        <div className="w-[236px] flex flex-col text-left mt-[21px]">
+                            <input name="domain" id="domain" placeholder="도메인" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
+                        </div>
+                    </div>
+                    <div className="flex flex-row mt-[12px]">
+                        <div className="w-[236px] flex flex-col text-left mr-[24px]">
+                            <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">PW</span>
+                            <input name="PW" id="PW" value={password} type="password" onChange={handleChange} placeholder="비밀번호 입력" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
+                            <div className="flex flex-row mt-[8px] mb-[12px]">
+                                <div className="flex flex-row items-center">
+                                    <span className={cn("text-[12px] fw-400 leading-[16px] mr-[6px]", {
+                                        ["text-[#FF611D]"]: lowAndUpValidated,
+                                        ["text-[#939393]"]: !lowAndUpValidated,
+                                    })}>대소문자</span>
+                                    <div className={cn('w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]', {
+                                        ['bg-[url("./img/Vector15.jpg")]']: lowAndUpValidated,
+                                        ['bg-[url("./img/Vector7.jpg")]']: !lowAndUpValidated,
+                                    })}></div>
+                                </div>
+                                <div className="flex flex-row items-center">
+                                    <span className={cn("text-[12px] fw-400 leading-[16px] mr-[6px]", {
+                                        ["text-[#FF611D]"]: numberValidated,
+                                        ["text-[#939393]"]: !numberValidated,
+                                    })}>숫자</span>
+                                    <div className={cn('w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]', {
+                                        ['bg-[url("./img/Vector15.jpg")]']: numberValidated,
+                                        ['bg-[url("./img/Vector7.jpg")]']: !numberValidated,
+                                    })}></div>
+                                </div>
+                                <div className="flex flex-row items-center">
+                                    <span className={cn("text-[12px] fw-400 leading-[16px] mr-[6px]", {
+                                        ["text-[#FF611D]"]: lengthValidated,
+                                        ["text-[#939393]"]: !lengthValidated,
+                                    })}>8~20글자 이내</span>
+                                    <div className={cn('w-[11px] h-[7px] bg-cover relative bottom-[1px]', {
+                                        ['bg-[url("./img/Vector15.jpg")]']: lengthValidated,
+                                        ['bg-[url("./img/Vector7.jpg")]']: !lengthValidated,
+                                    })}></div>
+                                </div>
                             </div>
-                            <div className="mr-[18px] flex flex-row items-center">
-                                <span className={numberValidated?"text-[12px] fw-400 leading-[16px] text-[#FF611D] mr-[6px]":"text-[12px] fw-400 leading-[16px] text-[#939393] mr-[6px]"}>숫자</span>
-                                <div className={numberValidated?'w-[11px] h-[7px] bg-[url("./img/Vector15.jpg")] bg-cover mr-[11px] relative bottom-[1px]':'w-[15px] h-[11px] bg-[url("./img/Vector7.jpg")] bg-cover mr-[11px] relative bottom-[1px]'}></div>
-                            </div>
-                            <div className="flex flex-row items-center">
-                                <span className={lengthValidated?"text-[12px] fw-400 leading-[16px] text-[#FF611D] mr-[6px]":"text-[12px] fw-400 leading-[16px] text-[#939393] mr-[6px]"}>8~20자 이내</span>
-                                <div className={lengthValidated?'w-[11px] h-[7px] bg-[url("./img/Vector15.jpg")] bg-cover mr-[11px] relative bottom-[1px]':'w-[15px] h-[11px] bg-[url("./img/Vector7.jpg")] bg-cover mr-[11px] relative bottom-[1px]'}></div>
+                        </div>
+                        <div className="w-[236px] flex flex-col text-left mt-[21px] mb-[24px]">
+                            <input name="PWconfirm" id="PWconfirm" type="password" value={confirmPassword} onChange={checkPW} placeholder="비밀번호 확인" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
+                            <div className="flex flex-row mt-[8px] mb-[12px]">
+                                <div className="mr-[18px] flex flex-row items-center">
+                                    <span className={cn("text-[12px] fw-400 leading-[16px] mr-[6px]", {
+                                        ["text-[#FF611D]"]: matchPassword,
+                                        ["text-[#939393]"]: !matchPassword,
+                                    })}>비밀번호 일치</span>
+                                    <div className={cn('w-[11px] h-[7px] bg-cover mr-[11px] relative bottom-[1px]', {
+                                        ['bg-[url("./img/Vector15.jpg")]']: matchPassword,
+                                        ['bg-[url("./img/Vector7.jpg")]']: !matchPassword,
+                                    })}></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col text-left mb-[24px]">
-                        <input name="PWconfirm" id="PWconfirm" type="password" value={confirmPassword} onChange={checkPW} placeholder="비밀번호 확인" className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"></input>
-                        <div className="flex flex-row mt-[8px] mb-[12px]">
-                            <div className="mr-[18px] flex flex-row items-center">
-                                <span className={checkButton?"text-[12px] fw-400 leading-[16px] text-[#FF611D] mr-[6px]":"text-[12px] fw-400 leading-[16px] text-[#939393] mr-[6px]"}>비밀번호 일치</span>
-                                <div className={checkButton?'w-[11px] h-[7px] bg-[url("./img/Vector15.jpg")] bg-cover mr-[11px] relative bottom-[1px]':'w-[15px] h-[11px] bg-[url("./img/Vector7.jpg")] bg-cover mr-[11px] relative bottom-[1px]'}></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={checkButton?"w-[496px] h-[54px] bg-[#FF611D] flex justify-center items-center":"w-[496px] h-[54px] bg-[#B8B8B8] flex justify-center items-center"}>
+                    <div className={cn("w-[496px] h-[54px] flex justify-center items-center", {
+                        ["bg-[#FF611D]"]: checkButton,
+                        ["bg-[#B8B8B8]"]: !checkButton,
+                    })}>
                         <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white font-semibold">다음</button>
                     </div>
                 </div>
