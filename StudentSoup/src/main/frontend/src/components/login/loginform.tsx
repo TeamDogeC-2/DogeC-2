@@ -1,5 +1,5 @@
 import React from "react";
-// import Reddit from "../../img/Reddit - png.svg";
+// import Reddit from "../../img/Reddit.svg";
 
 const onClickLogin = () => {
   console.log("click login");
