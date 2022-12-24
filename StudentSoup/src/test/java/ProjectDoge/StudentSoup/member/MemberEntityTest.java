@@ -222,9 +222,6 @@ public class MemberEntityTest {
             assertThat(members.contains(member1)).isEqualTo(true);
             assertThat(members.contains(member2)).isEqualTo(true);
         }
-    }
-
-
         @Test
         void 학교내_회원검증() throws Exception {
             //given
@@ -262,9 +259,8 @@ public class MemberEntityTest {
             log.info("학교 검증을 시작하였습니다.");
             assertThat(members.get(0).getSchool().getId()).isEqualTo(schoolId);
         }
+
     }
-
-
         private School createSchool() {
             School school = new School();
             school.setSchoolName("테스트 학교");
@@ -294,7 +290,4 @@ public class MemberEntityTest {
             formB.setGender(GenderType.MAN);
             return formB;
         }
-
-
-
 }
