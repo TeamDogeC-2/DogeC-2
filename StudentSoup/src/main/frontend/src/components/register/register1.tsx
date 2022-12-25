@@ -1,6 +1,8 @@
+
+import { Link } from "react-router-dom";
 import RegisterNavbar from "../common/registerNavbar";
 
-const Register = () => {
+const Register1 = () => {
   return (
     <div>
       <RegisterNavbar />
@@ -73,9 +75,11 @@ const Register = () => {
             </span>
           </div>
           <div className="w-[530px] h-[54px] mt-[56px] bg-[#B8B8B8] flex justify-center items-center">
-            <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
-              동의하고 가입하기
-            </button>
+            <Link to="/register2" className="w-full h-full">
+              <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
+                동의하고 가입하기
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -83,4 +87,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register1;
