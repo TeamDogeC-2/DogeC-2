@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -54,5 +55,19 @@ public class RestaurantFormDto {
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
         this.setDetail(restaurant.getDetail());
+    }
+
+    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, File file, String tel, String tag, String detail) {
+        this.name = name;
+        this.address=address;
+        this.restaurantCategory=category;
+        this.startTime= startTime;
+        this.endTime= endTime;
+        this.school=schoolId;
+        this.coordinate=coordinate;
+        this.file=file;
+        this.tel=tel;
+        this.tag=tag;
+        this.detail=detail;
     }
 }
