@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.service;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
@@ -26,8 +26,9 @@ public class RestaurantService {
     public Long join(RestaurantFormDto dto){
         log.info("음식점 생성 메서드가 실행되었습니다.");
         School school = validateNotFoundSchool(dto.getSchool());
-        File file = new File();
-        Restaurant restaurant = new Restaurant().createRestaurant(dto,school,file);
+        //== TODO 이미지 파일 수정 필요 ==//
+        ImageFile imageFile = new ImageFile();
+        Restaurant restaurant = new Restaurant().createRestaurant(dto,school, imageFile);
         validateDuplicateRestaurant(restaurant);
         restaurantRepository.save(restaurant);
         log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());

@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ public class RestaurantReview {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
-    private File file;
+    private ImageFile imageFile;
 
     private int likedCount;
 
