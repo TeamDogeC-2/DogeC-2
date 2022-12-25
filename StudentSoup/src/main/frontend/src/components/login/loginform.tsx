@@ -1,20 +1,23 @@
 import React from "react";
-// import Reddit from "../../img/Reddit.svg";
-
-const onClickLogin = () => {
-  console.log("click login");
-};
-
-const onClickSignup = () => {
-  console.log("click sign up");
-};
+import Reddit from "../../img/Reddit.svg";
+import { useHistory } from "react-router-dom";
 
 function LoginForm() {
+  const history = useHistory();
+
+  const onClickLogin = () => {
+    console.log("click login");
+  };
+
+  const onClickSignup = () => {
+    history.push("/register/1");
+  };
+
   return (
     //navber 추가하기
     <div className="flex flex-col justify-center items-center">
       <div className="mt-[88px] flex justify-center">
-        {/* <img src={Reddit} alt="" /> */}
+        <img src={Reddit} alt="" />
       </div>
       <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col justify-center">
