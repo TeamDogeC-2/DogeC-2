@@ -9,9 +9,9 @@ import Login from "./components/login/login";
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={homeComponent} />
+      <Route exact path="/" component={Home} />
       <Route exact path="/register/1" component={Register1} />
-      <Route exact path="/register2" component={Register2} />
+      <Route exact path="/register/2" component={Register2} />
       <Route exact path="/register/3" component={Register3} />
       <Route exact path="/" component={Home} />
       <Route exact path="/login" component={Login} />
