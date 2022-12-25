@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
 import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -11,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+
 
 @Slf4j
 @Service
@@ -38,7 +39,7 @@ public class RestaurantService {
         Restaurant findRestaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName());
         if(findRestaurant != null){
             log.info("음식점이 존재하는 예외가 발생했습니다");
-            throw  new IllegalStateException("이미 존재하는 음식점 입니다");
+            throw  new RestaurantValidationException("이미 존재하는 음식점 입니다");
         }
         log.info("음식점 검증이 완료되었습니다.");
     }
