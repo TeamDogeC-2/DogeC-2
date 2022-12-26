@@ -1,8 +1,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import RegisterNavbar from "../common/registerNavbar";
 import cn from "clsx";
+import { useHistory } from "react-router-dom";
 
 const Register2 = () => {
+
+    const history = useHistory();
+
   const [lowAndUpValidated, setLowAndUpValidated] = useState<boolean>(false);
   const [numberValidated, setNumberValidated] = useState<boolean>(false);
   const [lengthValidated, setLengthValidated] = useState<boolean>(false);
@@ -34,6 +38,12 @@ const Register2 = () => {
       setCheckButton(false);
     }
   }, [lowAndUpValidated, numberValidated, lengthValidated, matchPassword]);
+
+  const onClickRegister3 = () => {
+      if(checkButton){
+        history.push("/register/3");
+      }
+  }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -265,6 +275,7 @@ const Register2 = () => {
                 ["bg-[#B8B8B8]"]: !checkButton,
               }
             )}
+            onClick={onClickRegister3}
           >
             <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white font-semibold">
               다음
