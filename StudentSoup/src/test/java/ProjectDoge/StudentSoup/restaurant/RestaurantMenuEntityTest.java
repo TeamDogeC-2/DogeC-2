@@ -5,9 +5,10 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
 import ProjectDoge.StudentSoup.service.RestaurantMenuService;
 import ProjectDoge.StudentSoup.service.RestaurantService;
 import ProjectDoge.StudentSoup.service.SchoolService;
@@ -21,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalTime;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -57,7 +60,27 @@ public class RestaurantMenuEntityTest {
         Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto);
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         //then
-        Assertions.assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.findByRestaurantNameAndRestaurant_RestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
+        assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.findByRestaurantNameAndRestaurant_RestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
+    }
+    @Test
+    void 메뉴등록시_음식점없음(){
+        //given
+        Long errorRestaurantId = 0L;
+        RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(errorRestaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
+        //then
+        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto))
+                .isInstanceOf(RestaurantNotFoundException.class);
+    }
+
+    @Test
+    void 메뉴중복테스트(){
+        //given
+        RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
+        restaurantMenuService.join(restaurantMenuFormDto);
+        RestaurantMenuFormDto duplicateRestaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
+        //then
+        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto))
+                .isInstanceOf(RestaurantMenuValidationException.class);
     }
 
     private RestaurantMenuFormDto createRestaurantMenuDto(Long restaurantId, String name, RestaurantMenuCategory category, int cost) {

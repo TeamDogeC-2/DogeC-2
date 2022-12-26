@@ -51,6 +51,7 @@ public class RestaurantMenuService {
             log.info("음식점 메뉴 생성 중 음식점이 존재하지 않는 예외가 발생하였습니다.");
             return new RestaurantNotFoundException("등록되지 않은 음식점 입니다.");
         });
+            log.info("메뉴 생성중 등록된 음식점 :{}",restaurant.getName());
         return  restaurant;
     }
 
