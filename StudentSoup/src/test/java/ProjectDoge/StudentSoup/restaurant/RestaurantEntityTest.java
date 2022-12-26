@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
-import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.service.RestaurantService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +59,7 @@ public class RestaurantEntityTest {
         RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),errorSchoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
         //then
         assertThatThrownBy(() -> restaurantService.join(dto))
-                .isInstanceOf(NotFoundSchoolException.class);
+                .isInstanceOf(SchoolNotFoundException.class);
     }
     @Test
     void 음식점중복() throws Exception{

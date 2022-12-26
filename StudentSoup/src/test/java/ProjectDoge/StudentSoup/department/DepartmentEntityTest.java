@@ -3,10 +3,9 @@ package ProjectDoge.StudentSoup.department;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.SchoolService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ public class DepartmentEntityTest {
 
         //then
         assertThatThrownBy(() -> departmentService.join(errorSchoolId, dto))
-                .isInstanceOf(NotFoundSchoolException.class);
+                .isInstanceOf(SchoolNotFoundException.class);
     }
 
     private School createSchool(){
