@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -52,4 +53,11 @@ public class RestaurantMenuService {
         });
         return  restaurant;
     }
+
+    public RestaurantMenu findByRestaurantNameAndRestaurant_RestaurantId(String menuName,Long restaurantId){
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(menuName, restaurantId);
+        return restaurantMenu;
+    }
+
+
 }

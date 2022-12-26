@@ -58,6 +58,10 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurantName, schoolName);
         return restaurant;
     }
+    public Restaurant findOne(Long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
+        return restaurant;
+    }
 
 
 }
