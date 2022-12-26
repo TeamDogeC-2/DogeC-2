@@ -1,12 +1,13 @@
 package ProjectDoge.StudentSoup.entity.file;
 
+import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-public class File {
+public class ImageFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +24,10 @@ public class File {
     String fileUrl;
 
     //== 생성 메서드 ==//
-    public File createFile(File file){
-        this.setFileName(file.getFileName());
-        this.setFileOriginalName(file.getFileOriginalName());
-        this.setFileUrl(file.getFileUrl());
+    public ImageFile createFile(UploadFileDto dto){
+        this.setFileName(dto.getStoreFileName());
+        this.setFileOriginalName(dto.getOriginalFileName());
+        this.setFileUrl(dto.getFileUrl());
 
         return this;
     }
