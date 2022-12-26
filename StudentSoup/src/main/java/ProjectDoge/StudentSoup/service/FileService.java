@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.service;
 
-import ProjectDoge.StudentSoup.dto.file.FileDto;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -39,11 +37,6 @@ public class FileService {
         return file.getId();
     }
 
-
-    public String getFullPath(String filename){
-        return fileDir + filename;
-    }
-
     public UploadFileDto storeFile(MultipartFile multipartFile) throws IOException {
         if(multipartFile.isEmpty()) {
             log.info("전송된 이미지 파일이 존재하지 않아 파일 저장 메소드가 실행되지 않습니다.");
@@ -70,13 +63,21 @@ public class FileService {
         return uuid + "." + ext;
     }
 
-    private static boolean isNotImageFile(String ext) {
-        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
-    }
-
     private String extractExt(String originalFileName){
         log.info("확장자 추출이 시작되었습니다.");
         int pos = originalFileName.lastIndexOf('.');
         return originalFileName.substring(pos + 1);
     }
+
+    private static boolean isNotImageFile(String ext) {
+        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
+    }
+
+    public String getFullPath(String filename){
+        return fileDir + filename;
+    }
 }
+
+
+
+
