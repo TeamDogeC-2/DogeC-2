@@ -1,5 +1,6 @@
 import React from "react";
-// import Reddit from "../../img/Reddit.svg";
+import Reddit from "../../img/Reddit.svg";
+import cn from "clsx";
 
 const onClickLogin = () => {
   console.log("click login");
@@ -14,7 +15,7 @@ function LoginForm() {
     //navber 추가하기
     <div className="flex flex-col justify-center items-center">
       <div className="mt-[88px] flex justify-center">
-        {/* <img src={Reddit} alt="" /> */}
+        <img src={Reddit} alt="" />
       </div>
       <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col justify-center">
@@ -33,16 +34,21 @@ function LoginForm() {
           />
         </div>
         <div className="w-[558px] mt-[25px] flex justify-between items-center">
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="saveId"
-              name="saveId"
-              className="w-[29px] h-[29px] border-none rounded-full cursor-pointer accent-[#FF611D]"
-              checked
-            />
-            <label htmlFor="saveID" className="ml-[13px] text-[#3E3E3E]">
-              아이디 저장
+          <div>
+            <label htmlFor="saveId" className="flex items-center">
+                <input
+                type="checkbox"
+                id="saveId"
+                name="saveId"
+                className={cn(
+                  "w-[29px] h-[29px] inline-block border border-[#A0A0A0] rounded-full cursor-pointer appearance-none",
+                  "checked:border-[#FF611D] checked:bg-[#FF611D]"
+                )}
+                //checked
+                />
+                <span className="ml-[13px] text-[#3E3E3E]">
+                아이디 저장
+                </span>                           
             </label>
           </div>
           <div>
