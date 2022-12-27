@@ -1,8 +1,11 @@
 package ProjectDoge.StudentSoup.controller.member;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
+import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSignUpDto;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.DepartmentService;
@@ -56,6 +59,13 @@ public class SignupController {
         return result;
     }
 
-
-
+    @PostMapping("/signUp/3")
+    public MemberDto signUp(@RequestBody MemberFormBDto dto){
+        log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
+        Long memberId = memberService.join(dto);
+        Member member = memberService.findOne(memberId);
+        log.info("member의 성별 : [{}]", member.getGender());
+        MemberDto result = new MemberDto().getMemberDto(member);
+        return result;
+    }
 }
