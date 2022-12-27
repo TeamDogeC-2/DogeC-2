@@ -3,11 +3,7 @@ import LoginForm from "./loginform";
 
 const Login = () => {
   return (
-    <div>
-      <div>
-        <LoginForm />
-      </div>
-    </div>
+    <LoginForm />
   );
 };
 

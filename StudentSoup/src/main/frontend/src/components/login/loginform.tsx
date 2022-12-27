@@ -1,16 +1,19 @@
 import React from "react";
 import Reddit from "../../img/Reddit.svg";
+import { useHistory } from "react-router-dom";
 import cn from "clsx";
 
-const onClickLogin = () => {
-  console.log("click login");
-};
-
-const onClickSignup = () => {
-  console.log("click sign up");
-};
-
 function LoginForm() {
+  const history = useHistory();
+
+  const onClickLogin = () => {
+    console.log("click login");
+  };
+
+  const onClickSignup = () => {
+    history.push("/register/1");
+  };
+
   return (
     //navber 추가하기
     <div className="flex flex-col justify-center items-center">

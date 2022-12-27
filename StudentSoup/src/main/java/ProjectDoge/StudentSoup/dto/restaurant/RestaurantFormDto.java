@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class RestaurantFormDto {
 
     private String coordinate;
 
-    private File file;
+    private ImageFile imageFile;
 
     @NotEmpty(message = "가게번호 입력은 필수 입니다.")
     private String tel;
@@ -50,9 +50,23 @@ public class RestaurantFormDto {
         this.setStartTime(restaurant.getStartTime());
         this.setEndTime(restaurant.getEndTime());
         this.setCoordinate(restaurant.getCoordinate());
-        this.setFile(restaurant.getFile());
+        this.setImageFile(restaurant.getImageFile());
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
         this.setDetail(restaurant.getDetail());
+    }
+
+    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail) {
+        this.name = name;
+        this.address=address;
+        this.restaurantCategory=category;
+        this.startTime= startTime;
+        this.endTime= endTime;
+        this.school=schoolId;
+        this.coordinate=coordinate;
+        this.imageFile = imageFile;
+        this.tel=tel;
+        this.tag=tag;
+        this.detail=detail;
     }
 }

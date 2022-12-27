@@ -86,7 +86,9 @@ public class MemberService {
     public void validateDuplicateMemberId(String memberId) {
         log.info("회원 아이디 중복 검증 메소드가 실행되었습니다.");
 
-        Member findMember = memberRepository.findById(memberId).get();
+        Member findMember = memberRepository.findById(memberId)
+                .orElse(null);
+
         if (findMember != null) {
             log.info("회원이 존재하는 예외가 발생했습니다.");
             throw new MemberValidationException("중복된 아이디 입니다.");

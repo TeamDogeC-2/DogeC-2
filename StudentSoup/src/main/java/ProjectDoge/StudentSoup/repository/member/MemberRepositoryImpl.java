@@ -54,7 +54,6 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-
     public List<Member> findBySchool_SchoolId(Long id) {
         JPQLQuery<Member> query = queryFactory.select(member)
                 .from(member)

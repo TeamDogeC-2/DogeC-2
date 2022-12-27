@@ -3,10 +3,8 @@ package ProjectDoge.StudentSoup.member;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
-import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
@@ -222,9 +220,6 @@ public class MemberEntityTest {
             assertThat(members.contains(member1)).isEqualTo(true);
             assertThat(members.contains(member2)).isEqualTo(true);
         }
-    }
-
-
         @Test
         void 학교내_회원검증() throws Exception {
             //given
@@ -262,9 +257,8 @@ public class MemberEntityTest {
             log.info("학교 검증을 시작하였습니다.");
             assertThat(members.get(0).getSchool().getId()).isEqualTo(schoolId);
         }
+
     }
-
-
         private School createSchool() {
             School school = new School();
             school.setSchoolName("테스트 학교");
@@ -294,7 +288,4 @@ public class MemberEntityTest {
             formB.setGender(GenderType.MAN);
             return formB;
         }
-
-
-
 }
