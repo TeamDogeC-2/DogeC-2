@@ -21,7 +21,7 @@ public class MemberDto {
 
 
     // 생성 메소드
-    public MemberDto getLoginMemberDto(Member member){
+    public MemberDto getMemberDto(Member member){
         this.memberId = member.getMemberId();
         this.schoolId = member.getSchool().getId();
         this.schoolName = member.getSchool().getSchoolName();
