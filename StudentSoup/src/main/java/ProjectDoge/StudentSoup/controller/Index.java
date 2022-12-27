@@ -21,7 +21,7 @@ public class Index {
 
     private final SchoolService schoolService;
 
-    @GetMapping("/home")
+    @GetMapping(value={"","/"})
     public List<SchoolIndexDTO> homeController(){
         log.info("homeController가 호출되었습니다.");
 
