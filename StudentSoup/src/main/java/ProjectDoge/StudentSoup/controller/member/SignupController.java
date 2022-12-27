@@ -23,7 +23,7 @@ public class SignupController {
 
     @PostMapping("/signUp/2")
     public MemberFormADto signUpCheck(@RequestBody MemberFormADto dto){
-        log.info("signUpCheck가 호출되었습니다.");
+        log.info("signUpCheck가 호출되었습니다. ID : [{}]", dto.getId());
         memberService.validateDuplicateMemberId(dto.getId());
         return dto;
     }
