@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.service;
 
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,10 @@ public class SchoolService {
     }
 
     public List<School> findAll(){
+        if(schoolRepository.findAll().isEmpty()){
+            log.info("등록된 학교가 없는 예외가 발생했습니다.");
+            throw new SchoolNotFoundException("등록된 학교가 존재하지 않습니다.");
+        }
         return schoolRepository.findAll();
     }
 }
