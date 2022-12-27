@@ -2,7 +2,7 @@ package ProjectDoge.StudentSoup.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
@@ -17,7 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -60,7 +62,7 @@ public class RestaurantMenuEntityTest {
         Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto);
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         //then
-        assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.findByRestaurantNameAndRestaurant_RestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
+        assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.validateMenuNameUsingRestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
     }
     @Test
     void 메뉴등록시_음식점없음(){
@@ -98,11 +100,11 @@ public class RestaurantMenuEntityTest {
 
 
     private RestaurantFormDto createRestaurant() {
-        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new File(),"전화번호","태그","디테일");
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
         return  dto;
     }
 
-    private RestaurantFormDto createRestaurantDto(String name, String address, RestaurantCategory category , LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, File file, String tel, String tag, String detail) {
+    private RestaurantFormDto createRestaurantDto(String name, String address, RestaurantCategory category , LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile file, String tel, String tag, String detail) {
         RestaurantFormDto dto = new RestaurantFormDto();
         dto.createRestaurantFormDto(name,address,category,startTime,endTime,schoolId,coordinate,file,tel,tag,detail);
         return dto;

@@ -1,17 +1,23 @@
 package ProjectDoge.StudentSoup.service;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
+import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+
+import java.io.IOException;
+import java.util.Optional;
 
 
 @Slf4j
@@ -23,21 +29,37 @@ public class RestaurantMenuService {
 
     private final RestaurantMenuRepository restaurantMenuRepository;
 
+    private final FileService fileService;
+
+    private final FileRepository fileRepository;
     @Transactional
-    public Long join(RestaurantMenuFormDto dto){
+    public Long join(RestaurantMenuFormDto dto, MultipartFile multipartFile) throws IOException {
         log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
-        Restaurant restaurant = validationNotFoundRestaurant(dto.getRestaurant());
-        File file = new File();
-        RestaurantMenu restaurantMenu = new RestaurantMenu().createRestaurantMenu(dto,restaurant,file);
+        Restaurant restaurant = validationNotFoundRestaurant(dto.getRestaurantId());
+        Long fileId = fileService.join(multipartFile);
+        RestaurantMenu restaurantMenu = createRestaurantMenu(dto, restaurant, fileId);
         validationDuplicateRestaurantMenu(restaurantMenu);
         restaurantMenuRepository.save(restaurantMenu);
         log.info("메뉴가 생성 되었습니다. [{}][{}]",restaurantMenu.getId(),restaurantMenu.getName());
         return restaurantMenu.getId();
     }
 
+    private RestaurantMenu createRestaurantMenu(RestaurantMenuFormDto dto, Restaurant restaurant, Long fileId) {
+        RestaurantMenu restaurantMenu = new RestaurantMenu();
+        if(fileId != null){
+            ImageFile imageFile = fileRepository.findById(fileId).get();
+            restaurantMenu.createRestaurantMenu(dto, restaurant,imageFile);
+        }
+        else{
+            restaurantMenu.createRestaurantMenu(dto, restaurant);
+        }
+        return restaurantMenu;
+    }
+
+
     private void validationDuplicateRestaurantMenu(RestaurantMenu restaurantMenu) {
         log.info("음식점 메뉴 생성 검증 로직이 실행되었습니다.");
-        RestaurantMenu findRestaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(restaurantMenu.getName(), restaurantMenu.getRestaurant().getId());
+        RestaurantMenu findRestaurantMenu = validateMenuNameUsingRestaurantId(restaurantMenu.getName(), restaurantMenu.getRestaurant().getId());
         if(findRestaurantMenu != null){
             log.info("메뉴가 존재하는 예외가 발생했습니다.");
             throw new RestaurantMenuValidationException("이미 존재하는 메뉴 입니다.");
@@ -55,8 +77,8 @@ public class RestaurantMenuService {
         return  restaurant;
     }
 
-    public RestaurantMenu findByRestaurantNameAndRestaurant_RestaurantId(String menuName,Long restaurantId){
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(menuName, restaurantId);
+    public RestaurantMenu validateMenuNameUsingRestaurantId(String menuName,Long restaurantId){
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.validateMenuNameUsingRestaurantId(menuName, restaurantId);
         return restaurantMenu;
     }
 
