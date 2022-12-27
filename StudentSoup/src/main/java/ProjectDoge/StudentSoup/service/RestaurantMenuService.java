@@ -78,7 +78,7 @@ public class RestaurantMenuService {
     }
 
     public RestaurantMenu validateMenuNameUsingRestaurantId(String menuName,Long restaurantId){
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.validateMenuNameUsingRestaurantId(menuName, restaurantId);
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(menuName, restaurantId);
         return restaurantMenu;
     }
 
