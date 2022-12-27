@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.department.DepartmentNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -63,7 +64,10 @@ public class DepartmentService {
     }
 
     public List<Department> getAllDepartmentUsingSchool(Long schoolId){
-        List<Department> departments = departmentRepository.findBySchool_Id(schoolId);
-        return departments;
+        if(departmentRepository.findBySchool_Id(schoolId).isEmpty()){
+            log.info("등록된 학과가 없는 예외가 발생했습니다.");
+            throw new DepartmentNotFoundException("학과가 존재하지 않습니다.");
+        }
+        return departmentRepository.findBySchool_Id(schoolId);
     }
 }
