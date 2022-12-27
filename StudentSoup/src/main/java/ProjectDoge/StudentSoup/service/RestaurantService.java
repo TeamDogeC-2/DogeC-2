@@ -1,11 +1,11 @@
 package ProjectDoge.StudentSoup.service;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
-import ProjectDoge.StudentSoup.exception.school.NotFoundSchoolException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,9 @@ public class RestaurantService {
     public Long join(RestaurantFormDto dto){
         log.info("음식점 생성 메서드가 실행되었습니다.");
         School school = validateNotFoundSchool(dto.getSchool());
-        File file = new File();
-        Restaurant restaurant = new Restaurant().createRestaurant(dto,school,file);
+        //== TODO 이미지 파일 수정 필요 ==//
+        ImageFile imageFile = new ImageFile();
+        Restaurant restaurant = new Restaurant().createRestaurant(dto,school, imageFile);
         validateDuplicateRestaurant(restaurant);
         restaurantRepository.save(restaurant);
         log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());
@@ -49,7 +50,7 @@ public class RestaurantService {
         School school = schoolRepository.findById(schoolId)
                 .orElseThrow(() -> {
                     log.info("음식점 등록 중 학교가 존재하지 않는 예외가 발생했습니다.");
-                    return new NotFoundSchoolException("등록되지 않은 학교입니다.");
+                    return new SchoolNotFoundException("등록되지 않은 학교입니다.");
                 });
         log.info("음식점 생성 중 등록 된 학교 : {}", school.getSchoolName());
         return school;

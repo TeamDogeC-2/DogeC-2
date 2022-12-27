@@ -30,10 +30,10 @@ public class MemberDto {
         this.id = member.getId();
         this.nickname = member.getNickname();
         this.email = member.getEmail();
-        if(member.getFile() == null){
+        if(member.getImageFile() == null){
             this.fileName = null;
         } else{
-            this.fileName = member.getFile().getFileName();
+            this.fileName = member.getImageFile().getFileName();
         }
         return this;
     }
