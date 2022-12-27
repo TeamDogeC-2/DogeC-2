@@ -16,7 +16,7 @@ public class RestaurantMenuRepositoryImpl implements RestaurantMenuRepositoryCus
     public RestaurantMenuRepositoryImpl(EntityManager em){this.queryFactory = new JPAQueryFactory(em);}
 
     @Override
-    public RestaurantMenu findByRestaurantMenuNameAndRestaurant_RestaurantId(String MenuName,Long restaurantId){
+    public RestaurantMenu validateMenuNameUsingRestaurantId(String MenuName,Long restaurantId){
         JPAQuery<RestaurantMenu> query = queryFactory
                 .selectFrom(restaurantMenu)
                 .leftJoin(restaurantMenu.restaurant,restaurant)

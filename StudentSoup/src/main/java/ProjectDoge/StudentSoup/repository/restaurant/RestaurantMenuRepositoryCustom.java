@@ -4,5 +4,5 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 
 public interface RestaurantMenuRepositoryCustom {
 
-    RestaurantMenu findByRestaurantMenuNameAndRestaurant_RestaurantId(String menuName,Long restaurantId);
+    RestaurantMenu validateMenuNameUsingRestaurantId(String menuName,Long restaurantId);
 }
