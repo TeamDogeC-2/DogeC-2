@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
+import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,5 +17,12 @@ public class MemberAdvice {
     public ErrorResult memberNotFoundHandler(MemberNotFoundException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("MemberNotFound", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberValidationException.class)
+    public ErrorResult memberValidationHandler(MemberValidationException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberValidation", e.getMessage());
     }
 }
