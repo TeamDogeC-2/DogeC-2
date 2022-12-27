@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.controller;
 
-import ProjectDoge.StudentSoup.dto.school.SchoolIndexDTO;
+import ProjectDoge.StudentSoup.dto.school.SchoolIndexDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.AllArgsConstructor;
@@ -22,12 +22,12 @@ public class Index {
     private final SchoolService schoolService;
 
     @GetMapping("/home")
-    public List<SchoolIndexDTO> homeController(){
+    public List<SchoolIndexDto> homeController(){
         log.info("homeController가 호출되었습니다.");
 
         List<School> schools = schoolService.findAll();
-        List<SchoolIndexDTO> result = schools.stream()
-                .map(o -> new SchoolIndexDTO(o))
+        List<SchoolIndexDto> result = schools.stream()
+                .map(o -> new SchoolIndexDto(o))
                 .collect(toList());
 
         log.info("불러온 학교 목록 DTO : {}", result);
