@@ -1,0 +1,7 @@
+package ProjectDoge.StudentSoup.repository.restaurant;
+
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RestaurantMenuRepository extends JpaRepository<RestaurantMenu,Long>,RestaurantMenuRepositoryCustom {
+}
