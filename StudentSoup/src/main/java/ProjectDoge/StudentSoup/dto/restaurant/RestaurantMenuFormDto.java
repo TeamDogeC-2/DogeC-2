@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class RestaurantMenuFormDto {
 
-    private Long restaurant;
+    private Long restaurantId;
 
     @NotEmpty(message = "음식 이름은 필수입니다.")
     private String name;
@@ -21,7 +21,7 @@ public class RestaurantMenuFormDto {
     private int cost;
 
     public void createRestaurantMenuDto(Long restaurantId, String name, RestaurantMenuCategory category, int cost) {
-    this.restaurant = restaurantId;
+    this.restaurantId = restaurantId;
     this.name = name;
     this.restaurantMenuCategory=category;
     this.cost =cost;
