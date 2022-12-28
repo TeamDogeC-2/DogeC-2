@@ -37,25 +37,13 @@ public class RestaurantMenuService {
         log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
         Restaurant restaurant = validationNotFoundRestaurant(dto.getRestaurantId());
         Long fileId = fileService.join(multipartFile);
-        RestaurantMenu restaurantMenu = createRestaurantMenu(dto, restaurant, fileId);
+        ImageFile imageFile = fileService.findOne(fileId);
+        RestaurantMenu restaurantMenu = new RestaurantMenu().createRestaurantMenu(dto, restaurant, imageFile);
         validationDuplicateRestaurantMenu(restaurantMenu);
         restaurantMenuRepository.save(restaurantMenu);
         log.info("메뉴가 생성 되었습니다. [{}][{}]",restaurantMenu.getId(),restaurantMenu.getName());
         return restaurantMenu.getId();
     }
-
-    private RestaurantMenu createRestaurantMenu(RestaurantMenuFormDto dto, Restaurant restaurant, Long fileId) {
-        RestaurantMenu restaurantMenu = new RestaurantMenu();
-        if(fileId != null){
-            ImageFile imageFile = fileRepository.findById(fileId).get();
-            restaurantMenu.createRestaurantMenu(dto, restaurant,imageFile);
-        }
-        else{
-            restaurantMenu.createRestaurantMenu(dto, restaurant);
-        }
-        return restaurantMenu;
-    }
-
 
     private void validationDuplicateRestaurantMenu(RestaurantMenu restaurantMenu) {
         log.info("음식점 메뉴 생성 검증 로직이 실행되었습니다.");
