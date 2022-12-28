@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
@@ -57,6 +58,12 @@ public class RestaurantService {
     }
     public Restaurant findByRestaurantNameAndSchoolName(String restaurantName,String schoolName){
         Restaurant restaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurantName, schoolName);
+        return restaurant;
+    }
+    public Restaurant findOne(Long restaurantId){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> {
+            return new RestaurantNotFoundException("등록되지 않은 음식점 입니다.");
+        });
         return restaurant;
     }
 

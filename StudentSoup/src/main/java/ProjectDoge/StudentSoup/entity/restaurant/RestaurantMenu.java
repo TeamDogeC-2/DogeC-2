@@ -50,6 +50,14 @@ public class RestaurantMenu {
         this.setImageFile(imageFile);
         return this;
     }
+    public RestaurantMenu createRestaurantMenu(RestaurantMenuFormDto form, Restaurant restaurant){
+        this.setName(form.getName());
+        this.setRestaurantMenuCategory(form.getRestaurantMenuCategory());
+        this.setRestaurant(restaurant);
+        this.setCost(form.getCost());
+        return this;
+    }
+
 
     public RestaurantMenu createTestRestaurantMenu(){
         this.setName("메뉴1");
