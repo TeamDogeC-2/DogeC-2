@@ -5,7 +5,9 @@ import Register2 from "./components/register/register2";
 import Register3 from "./components/register/register3";
 import Err404 from "./components/err404/err404";
 import Login from "./components/login/login";
-import Mypage from "./components/mypage/mypage";
+import MypageHome from './components/mypage/mypageHome';
+import MypageScheduler from './components/mypage/mypageScheduler';
+import MypageModify from './components/mypage/mypageModify';
 
 const Routes = () => {
   return (
@@ -14,8 +16,10 @@ const Routes = () => {
       <Route exact path="/register/1" component={Register1} />
       <Route exact path="/register/2" component={Register2} />
       <Route exact path="/register/3" component={Register3} />
-      <Route exact path="/mypage" component={Mypage} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/mypageHome" component={MypageHome} />
+      <Route exact path="/mypageScheduler" component={MypageScheduler} />
+      <Route exact path="/mypagemodify" component={MypageModify} />
       <Route component={Err404} />
     </Switch>
   );
