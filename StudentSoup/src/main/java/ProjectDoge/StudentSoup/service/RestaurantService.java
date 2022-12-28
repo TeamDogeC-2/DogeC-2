@@ -25,7 +25,6 @@ public class RestaurantService {
 
     private final SchoolRepository schoolRepository;
     private final RestaurantRepository restaurantRepository;
-
     private final FileService fileService;
 
     @Transactional
