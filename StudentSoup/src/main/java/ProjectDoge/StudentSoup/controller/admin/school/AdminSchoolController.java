@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class CreateSchoolController {
+public class AdminSchoolController {
 
     private final SchoolService schoolService;
 
