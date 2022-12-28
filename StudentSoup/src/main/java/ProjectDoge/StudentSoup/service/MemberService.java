@@ -8,6 +8,7 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotSamePassword;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -16,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -47,13 +47,19 @@ public class MemberService {
     }
 
     public School getMemberDtoSchool(Long schoolId) {
-        Optional<School> school = schoolRepository.findById(schoolId);
-        return school.get();
+        return schoolRepository.findById(schoolId)
+                .orElseThrow(() -> {
+                    log.info("회원 생성 중 학교를 찾지 못하는 예외가 발생했습니다.");
+                    throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
+                });
     }
 
     public Department getMemberDtoDepartment(Long departmentId) {
-        Optional<Department> department = departmentRepository.findById(departmentId);
-        return department.get();
+        return departmentRepository.findById(departmentId)
+                .orElseThrow(() -> {
+                    log.info("회원 생성 중 학과를 찾지 못하는 예외가 발생했습니다.");
+                    throw new SchoolNotFoundException("학과를 찾지 못하였습니다.");
+                });
     }
 
     public void validateDuplicateMember(MemberFormBDto dto) {
@@ -129,7 +135,9 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
-        return member.get();
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> {
+                    throw new MemberNotFoundException("회원을 찾지 못하였습니다.");
+                });
     }
 }
