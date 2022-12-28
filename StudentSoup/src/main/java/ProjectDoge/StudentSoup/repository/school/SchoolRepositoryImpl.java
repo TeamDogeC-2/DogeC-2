@@ -4,20 +4,16 @@ import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
-
+@RequiredArgsConstructor
 public class SchoolRepositoryImpl implements SchoolRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-
-    public SchoolRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public School findBySchoolName(String schoolName) {

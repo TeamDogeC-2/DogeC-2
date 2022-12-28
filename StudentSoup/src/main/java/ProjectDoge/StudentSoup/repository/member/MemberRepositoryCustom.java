@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public interface MemberRepositoryCustom {
 
+    Member fullFindById(Long id);
+
+    Optional<Member> updateFindById(Long id);
+
     Optional<Member> findById(String id);
     List<Member> findByName(String name);
     List<Member> findByNameAndSchool_SchoolName(String name, String schoolName);
