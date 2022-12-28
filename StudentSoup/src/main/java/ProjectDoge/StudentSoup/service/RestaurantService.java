@@ -28,10 +28,9 @@ public class RestaurantService {
     private final FileService fileService;
 
     @Transactional
-    public Long join(RestaurantFormDto dto, MultipartFile multipartFile) throws IOException {
+    public Long join(RestaurantFormDto dto, MultipartFile multipartFile) {
         log.info("음식점 생성 메서드가 실행되었습니다.");
         School school = validateNotFoundSchool(dto.getSchool());
-        //== TODO 이미지 파일 수정 필요 ==//
         Long fileId = fileService.join(multipartFile);
         ImageFile imageFile = fileService.findOne(fileId);
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school, imageFile);
