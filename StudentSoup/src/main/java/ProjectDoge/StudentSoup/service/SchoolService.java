@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.service;
 
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
@@ -51,5 +52,10 @@ public class SchoolService {
             throw new SchoolNotFoundException("등록된 학교가 존재하지 않습니다.");
         }
         return schoolRepository.findAll();
+    }
+
+    public List<School> findSchools(SchoolSearch schoolSearch) {
+        List<School> findSchool = schoolRepository.findSchoolDynamicSearch(schoolSearch);
+        return  findSchool;
     }
 }
