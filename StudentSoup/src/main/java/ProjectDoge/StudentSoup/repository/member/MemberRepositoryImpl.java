@@ -1,25 +1,52 @@
 package ProjectDoge.StudentSoup.repository.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
+
 import ProjectDoge.StudentSoup.entity.member.Member;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static ProjectDoge.StudentSoup.entity.file.QImageFile.imageFile;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
 
+@RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public MemberRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
+    @Override
+    public Member fullFindById(Long id){
+        Member query = queryFactory.select(member)
+                .from(member)
+                .leftJoin(member.school, school)
+                .fetchJoin()
+                .leftJoin(member.department, department)
+                .fetchJoin()
+                .leftJoin(member.imageFile, imageFile)
+                .fetchJoin()
+                .where(member.memberId.eq(id))
+                .fetchOne();
+        return query;
+    }
+
+    @Override
+    public Optional<Member> updateFindById(Long id){
+        Member query = queryFactory.select(member)
+                .from(member)
+                .leftJoin(member.school, school)
+                .fetchJoin()
+                .leftJoin(member.department, department)
+                .fetchJoin()
+                .where(member.memberId.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(query);
     }
 
     @Override

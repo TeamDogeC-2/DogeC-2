@@ -33,7 +33,7 @@ public class RestaurantMenuService {
 
     private final FileRepository fileRepository;
     @Transactional
-    public Long join(RestaurantMenuFormDto dto, MultipartFile multipartFile) throws IOException {
+    public Long join(RestaurantMenuFormDto dto, MultipartFile multipartFile) {
         log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
         Restaurant restaurant = validationNotFoundRestaurant(dto.getRestaurantId());
         Long fileId = fileService.join(multipartFile);

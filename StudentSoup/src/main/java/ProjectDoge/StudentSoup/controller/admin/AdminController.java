@@ -1,11 +1,14 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberForm;
+import ProjectDoge.StudentSoup.dto.member.MemberUpdateFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.DepartmentService;
 import ProjectDoge.StudentSoup.service.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final SchoolService schoolService;
     private final DepartmentService departmentService;
@@ -48,6 +52,32 @@ public class AdminController {
     @PostMapping("/member/new")
     public String createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm){
         memberService.join(memberForm);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/member/edit/{memberId}")
+    public String updateMemberForm(@PathVariable Long memberId, Model model){
+        log.info("updateMemberForm 호출");
+        Member member = memberRepository.updateFindById(memberId)
+                .orElse(null);
+        log.info("업데이트 용 회원 정보가 호출되었습니다. [{}]", member.getMemberId());
+        MemberUpdateFormDto memberForm = new MemberUpdateFormDto().createMemberUpdateForm(member);
+        model.addAttribute("memberForm", memberForm);
+        log.info("업데이트 용 회원 정보 : [{}]", memberForm.toString());
+        log.info("updateMemberForm : [{}]", memberForm);
+        return "/admin/member/updateMember";
+    }
+
+    @PostMapping("/member/edit/{memberId}")
+    public String updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") MemberUpdateFormDto updateForm){
+        log.info("회원 업데이트가 시작되었습니다.");
+        log.info("updateForm 전달 객체 : {}", updateForm.toString());
+        log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
+        Long updateId = memberService.update(updateForm, updateForm.getMultipartFile());
+
+        Member member = memberService.findOne(updateId);
+        log.info("updated member password : [{}]", member.getPwd());
+
         return "redirect:/admin";
     }
 

@@ -3,18 +3,14 @@ package ProjectDoge.StudentSoup.repository.restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import javax.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
+@RequiredArgsConstructor
 public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom{
     private final JPAQueryFactory queryFactory;
-
-    public RestaurantRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public Restaurant findByRestaurantNameAndSchool_SchoolName(String restaurantName,String schoolName){
