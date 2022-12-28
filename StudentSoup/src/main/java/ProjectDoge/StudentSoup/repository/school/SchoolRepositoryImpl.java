@@ -1,23 +1,17 @@
 package ProjectDoge.StudentSoup.repository.school;
 
-import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 
-import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
-import static ProjectDoge.StudentSoup.entity.member.QMember.member;
-import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
-import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
-@Slf4j
+
 public class SchoolRepositoryImpl implements SchoolRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;

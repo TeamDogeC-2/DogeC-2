@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.repository.school;
 
-import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
 
