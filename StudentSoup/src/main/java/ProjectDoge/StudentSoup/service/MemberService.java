@@ -102,7 +102,7 @@ public class MemberService {
         validationCoincideMemberIdPwd(member, pwd);
         MemberDto memberDto = new MemberDto();
         log.info("로그인이 완료되었습니다. 현재 로그인 된 회원의 아이디[{}], 닉네임[{}]", member.getId(), member.getNickname());
-        return memberDto.getLoginMemberDto(member);
+        return memberDto.getMemberDto(member);
     }
 
     private Member validationExistLoginId(String id) {
