@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service;
 
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
@@ -20,8 +21,9 @@ public class SchoolService {
     private final SchoolRepository schoolRepository;
 
     @Transactional
-    public Long join(School school){
+    public Long join(SchoolFormDto schoolFormDto){
         log.info("학교 생성 메서드가 실행되었습니다.");
+        School school = new School().createSchool(schoolFormDto);
         validateDuplicateSchool(school);
         schoolRepository.save(school);
         log.info("학교가 생성되었습니다. [{}][{}] ",school.getId(), school.getSchoolName());
