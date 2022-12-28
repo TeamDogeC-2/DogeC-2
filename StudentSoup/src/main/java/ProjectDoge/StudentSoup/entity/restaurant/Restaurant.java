@@ -2,7 +2,7 @@ package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.entity.file.File;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +42,7 @@ public class Restaurant {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
-    private File file;
+    private ImageFile imageFile;
 
     private float starLiked;
 
@@ -69,7 +69,7 @@ public class Restaurant {
     }
 
     //== 생성 메서드 ==//
-    public Restaurant createRestaurant(RestaurantFormDto form, School school, File file) {
+    public Restaurant createRestaurant(RestaurantFormDto form, School school, ImageFile imageFile) {
         this.setName(form.getName());
         this.setAddress(form.getAddress());
         this.setSchool(school);
@@ -82,7 +82,7 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        this.setFile(file);
+        this.setImageFile(imageFile);
         return this;
     }
 

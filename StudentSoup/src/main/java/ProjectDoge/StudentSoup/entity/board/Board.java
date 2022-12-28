@@ -1,9 +1,9 @@
 package ProjectDoge.StudentSoup.entity.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.entity.file.File;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +48,7 @@ public class Board {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
-    private File file;
+    private ImageFile imageFile;
 
     private int view;
 
@@ -76,7 +76,7 @@ public class Board {
     }
 
     //== 생성 메서드 ==//
-    public Board createBoard(BoardFormDto form, Member member, School school, File file, Department department) {
+    public Board createBoard(BoardFormDto form, Member member, School school, ImageFile imageFile, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
         this.setWriteDate(dateFormat(LocalDateTime.now()));
@@ -87,7 +87,7 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
-        this.setFile(file);
+        this.setImageFile(imageFile);
         return this;
     }
     public Board editBoard(){
