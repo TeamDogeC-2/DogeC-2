@@ -76,6 +76,11 @@ public class FileService {
     public String getFullPath(String filename){
         return fileDir + filename;
     }
+
+    public ImageFile findOne(Long fileId){
+        return fileRepository.findById(fileId)
+                .orElse(null);
+    }
 }
 
 
