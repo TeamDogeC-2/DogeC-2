@@ -20,7 +20,6 @@
         <th:block th:replace="~{admin/admin-index :: sidebarFragment}">
 
         </th:block>
-
         <div class="col w-100">
             <section class="h-100 h-custom gradient-custom-2">
                 <div class="container py-2 h-100">
@@ -69,18 +68,6 @@
                                                 <div class="row">
                                                     <div class="col-md-6 mb-2 pb-2">
                                                         <div class="form-outline">
-                                                            <label class="form-label" th:for="name">이름</label>
-                                                            <input type="text" th:field="*{name}"
-                                                                   placeholder="이름을 입력하세요."
-                                                                   th:class="${#fields.hasErrors('name')}? 'form-control form-control-lg fieldError' : 'form-control form-control-lg'">
-                                                            <p style="color: red;" th:if="${#fields.hasErrors('name')}"
-                                                               th:errors="*{name}">Incorrect data</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
                                                             <label class="form-label" th:for="nickname">닉네임</label>
                                                             <input type="text" th:field="*{nickname}"
                                                                    placeholder="닉네임을 입력하세요."
@@ -92,20 +79,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" th:for="phone">연락처</label>
-                                                            <input type="text" th:field="*{phone}"
-                                                                   class="form-control form-control-lg"
-                                                                   placeholder="010-0000-0000"
-                                                                   oninput="autoHyphen(this)" maxlength="13">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-6 mb-2">
                                                         <label class="form-label mx-2" th:for="gender">성별</label>
-                                                        <div th:each="type : ${T(com.doge.takemh.domain.GenderType).values()}"
+                                                        <div th:each="type : ${genderTypes}"
                                                              class="form-check form-check-inline mx-1">
                                                             <input type="radio" th:field="*{gender}" th:text="${type}"
                                                                    th:value="${type}" class="form-check-input">
@@ -123,27 +99,6 @@
                                                            th:errors="*{email}">Incorrect data</p>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2">
-                                                        <label class="form-label" th:for="birth">생년월일</label>
-                                                        <input type="date" th:field="*{birth}" id="datePicker"
-                                                               th:class="${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'">
-                                                        <p style="color: red;" th:if="${#fields.hasErrors('birth')}"
-                                                           th:errors="*{birth}">Incorrect data</p>
-                                                    </div>
-                                                </div>
-                                                <div class="row align-items-center py-3">
-                                                    <div class="col-md-3 ps-5">
-                                                        <h6 class="mb-0">profile Image</h6>
-                                                    </div>
-                                                    <div class="col-md-9 pe-5">
-                                                        <input type="file" class="form-control form-control-lg"
-                                                               name="files">
-                                                        <div class="small text-muted mt-2">Upload your profile Image.
-                                                            Max file size 10MB
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 bg-indigo text-white">
@@ -151,7 +106,7 @@
                                                 <h2 class="fw-normal mb-5">School Detail</h2>
                                                 <div class="mb-2 pb-2">
                                                     <label class="form-label" th:for="school">학교명</label>
-                                                    <select id="selectSchool" class="form-select" th:field="*{school}"
+                                                    <select id="selectSchool" class="form-select" th:field="*{schoolId}"
                                                             required="required" onchange="onSelectSchool();">
                                                         <option value="">학교 선택</option>
                                                         <option th:each="school : ${schools}"
@@ -161,31 +116,13 @@
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="md-6 mb-2">
-                                                    <label class="form-label" th:for="studentId">학번<span
-                                                            style="color: red">*</span></label>
-                                                    <input type="number" th:field="*{studentId}"
-                                                           placeholder="학번을 입력하세요."
-                                                           th:class="${#fields.hasErrors('studentId')}? 'form-control fieldError' : 'form-control'">
-                                                    <p style="color: red;" th:if="${#fields.hasErrors('studentId')}"
-                                                       th:errors="*{studentId}">Incorrect data</p>
-                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-2 pb-2">
                                                         <div class="form-outline form-white">
                                                             <label class="form-label" th:for="department">전공(학과)</label>
                                                             <select id="selectDepartment" class="form-select"
-                                                                    th:field="*{department}"
+                                                                    th:field="*{departmentId}"
                                                                     required="required">
-                                                                <option value="">학과 선택</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline form-white">
-                                                            <label class="form-label" th:for="subDepartment">부전공(학과)</label>
-                                                            <select id="selectSubDepartment" class="form-select"
-                                                                    th:field="*{subDepartment}">
                                                                 <option value="">학과 선택</option>
                                                             </select>
                                                         </div>
@@ -225,7 +162,7 @@
 
     function onSelectSchool() {
         var school = document.getElementById("selectSchool").value;
-
+        console.log(school);
         $.ajax({
             url: "/admin/member/ajax",
             type: "POST",
@@ -244,8 +181,8 @@
                 $('#selectSubDepartment').append('<option value=\"\">학과선택</option>');
 
                 $.each(department, function (idx, val) {
-                    $('#selectDepartment').append('<option value = \"' + val.id + '\" text = \"' + val.departmentName + '\">' + val.departmentName + '</option>');
-                    $('#selectSubDepartment').append('<option value = \"' + val.id + '\" text = \"' + val.departmentName + '\">' + val.departmentName + '</option>');
+                    $('#selectDepartment').append('<option value = \"' + val.departmentId + '\" text = \"' + val.departmentName + '\">' + val.departmentName + '</option>');
+                    $('#selectSubDepartment').append('<option value = \"' + val.departmentId + '\" text = \"' + val.departmentName + '\">' + val.departmentName + '</option>');
                 });
             },
             error: function (request, status, error) {
