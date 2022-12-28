@@ -1,7 +1,9 @@
 package ProjectDoge.StudentSoup.service;
 
+import ProjectDoge.StudentSoup.dto.member.MemberUpdateFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -15,6 +17,7 @@ import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 
@@ -26,6 +29,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final SchoolRepository schoolRepository;
     private final DepartmentRepository departmentRepository;
+
+    private final FileService fileService;
 
     @Transactional
     public Long join(MemberFormBDto dto) {
@@ -133,6 +138,55 @@ public class MemberService {
     private boolean notSameMemberIdPwd(Member member, String pwd) {
         return !member.getPwd().equals(pwd);
     }
+
+    @Transactional
+    public Long update(MemberUpdateFormDto dto, MultipartFile file) {
+        log.info("회원 업데이트 메서드가 실행되었습니다.");
+
+        Member member = memberRepository.findById(dto.getMemberId())
+                .orElseThrow(() -> {
+                    throw new MemberNotFoundException();
+                });
+
+        School school = getMemberDtoSchool(dto.getSchoolId());
+        Department department = getMemberDtoDepartment(dto.getDepartmentId());
+
+        log.info("현재 가져온 학교와 학과 : [{}] / [{}]", school.getSchoolName(), department.getDepartmentName());
+        String prevEmail = member.getEmail();
+        String prevNickName = member.getNickname();
+        updateMemberField(dto, member);
+        validationChangedNicknameEmail(dto, member, prevEmail, prevNickName);
+        log.info("회원 정보가 새로 갱신되었습니다.");
+        Long fileId = fileService.join(file);
+        updateMemberProfileImage(member, fileId);
+
+        return member.getMemberId();
+    }
+
+    private static void updateMemberField(MemberUpdateFormDto dto, Member member) {
+        member.setPwd(dto.getPwd());
+        member.setEmail(dto.getEmail());
+        member.setNickname(dto.getNickname());
+    }
+
+    private void validationChangedNicknameEmail(MemberUpdateFormDto dto, Member member, String prevEmail, String prevNickName) {
+        log.info("회원 업데이트 중 닉네임과 이메일 검증을 시작합니다.");
+        if(!prevNickName.equals(dto.getNickname())) {
+            validateDuplicateMemberNickname(member.getNickname());
+        }
+        if(!prevEmail.equals(dto.getEmail())) {
+            validateDuplicateMemberEmail(member.getEmail());
+        }
+        log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
+    }
+
+    private void updateMemberProfileImage(Member member, Long fileId) {
+        if(fileId != null) {
+            ImageFile imageFile = fileService.findOne(fileId);
+            member.setImageFile(imageFile);
+        }
+    }
+
 
     public Member findOne(Long memberId) {
         return memberRepository.findById(memberId)
