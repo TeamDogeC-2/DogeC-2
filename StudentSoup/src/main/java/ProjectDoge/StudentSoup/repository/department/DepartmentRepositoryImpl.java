@@ -1,25 +1,19 @@
 package ProjectDoge.StudentSoup.repository.department;
 
-import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.repository.school.SchoolRepositoryCustom;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
+@RequiredArgsConstructor
 public class DepartmentRepositoryImpl implements DepartmentRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-
-    public DepartmentRepositoryImpl(EntityManager em){
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public List<Department> findBySchool_Id(Long schoolId) {

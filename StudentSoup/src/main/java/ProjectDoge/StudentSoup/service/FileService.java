@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
+import ProjectDoge.StudentSoup.exception.file.ImageFileNotFoundException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class FileService {
     private final FileRepository fileRepository;
 
     @Transactional
-    public Long join(MultipartFile multipartFile) throws IOException {
+    public Long join(MultipartFile multipartFile) {
         UploadFileDto uploadFileDto = storeFile(multipartFile);
         if(uploadFileDto == null){
             return null;
@@ -37,7 +38,7 @@ public class FileService {
         return file.getId();
     }
 
-    public UploadFileDto storeFile(MultipartFile multipartFile) throws IOException {
+    public UploadFileDto storeFile(MultipartFile multipartFile) {
         if(multipartFile.isEmpty()) {
             log.info("전송된 이미지 파일이 존재하지 않아 파일 저장 메소드가 실행되지 않습니다.");
             return null;
@@ -46,7 +47,11 @@ public class FileService {
         String originalFileName = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName);
         String filePath = getFullPath(storeFileName);
-        multipartFile.transferTo(new File(filePath));
+        try {
+            multipartFile.transferTo(new File(filePath));
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
         log.info("지정된 경로에 파일이 저장되었습니다. [{}]", fileDir);
         return new UploadFileDto(originalFileName, storeFileName, filePath);
     }
@@ -75,6 +80,17 @@ public class FileService {
 
     public String getFullPath(String filename){
         return fileDir + filename;
+    }
+
+    public ImageFile findOne(Long fileId){
+        if(fileId == null){
+            return null;
+        }
+        return fileRepository.findById(fileId)
+                .orElseThrow(()-> {
+                    log.info("이미지 파일 조회 메소드 findOne 에서 예외가 발생했습니다.");
+                    throw new ImageFileNotFoundException("파일이 존재하지 않습니다.");
+                });
     }
 }
 

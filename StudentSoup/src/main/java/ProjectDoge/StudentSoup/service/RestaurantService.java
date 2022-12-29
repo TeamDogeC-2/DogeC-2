@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Slf4j
@@ -22,13 +25,14 @@ public class RestaurantService {
 
     private final SchoolRepository schoolRepository;
     private final RestaurantRepository restaurantRepository;
+    private final FileService fileService;
 
     @Transactional
-    public Long join(RestaurantFormDto dto){
+    public Long join(RestaurantFormDto dto, MultipartFile multipartFile) {
         log.info("음식점 생성 메서드가 실행되었습니다.");
         School school = validateNotFoundSchool(dto.getSchool());
-        //== TODO 이미지 파일 수정 필요 ==//
-        ImageFile imageFile = new ImageFile();
+        Long fileId = fileService.join(multipartFile);
+        ImageFile imageFile = fileService.findOne(fileId);
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school, imageFile);
         validateDuplicateRestaurant(restaurant);
         restaurantRepository.save(restaurant);

@@ -34,6 +34,11 @@
                                                     <div class="col-md-6 mb-2 pb-2">
                                                         <div class="form-outline">
                                                             <label class="form-label" th:for="id">아이디</label>
+                                                            <input type="hidden" th:field="*{memberId}"/>
+                                                            <input type="hidden" th:field="*{schoolId}"/>
+                                                            <input type="hidden" th:field="*{schoolName}"/>
+                                                            <input type="hidden" th:field="*{departmentId}"/>
+                                                            <input type="hidden" th:field="*{departmentName}"/>
                                                             <input type="text" th:field="*{id}" placeholder="아이디를 입력하세요." th:value ="*{id}"
                                                                    th:class="${#fields.hasErrors('id')}? 'form-control form-control-lg fieldError' : 'form-control form-control-lg'" readonly>
                                                         </div>
@@ -47,21 +52,6 @@
                                                                    th:class="${#fields.hasErrors('pwd')}? 'form-control form-control-lg fieldError' : 'form-control form-control-lg'">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" th:for="pwd_confirm">비밀번호 확인</label>
-                                                            <input type="password" th:name="pwd_confirm" placeholder="비밀번호 확인" th:class="'form-control form-control-lg'">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" th:for="name">이름</label>
-                                                            <input type="text" th:field="*{name}" placeholder="이름을 입력하세요." th:value="*{name}"
-                                                                   th:class="${#fields.hasErrors('name')}? 'form-control form-control-lg fieldError' : 'form-control form-control-lg'" readonly>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-2 pb-2">
@@ -73,35 +63,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
-                                                            <label class="form-label" th:for="phone">연락처</label>
-                                                            <input type="text" th:field="*{phone}" class="form-control form-control-lg"
-                                                                   placeholder="010-0000-0000" oninput="autoHyphen(this)" maxlength="13">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2">
-                                                        <label class="form-label mx-2" th:for="gender">성별</label>
-                                                        <div th:each="type : ${T(com.doge.takemh.domain.GenderType).values()}" class="form-check form-check-inline mx-1">
-                                                            <input type="radio" th:field="*{gender}" th:text="${type}" th:value="${type}" class="form-check-input">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-md-6 mb-2">
                                                         <label class="form-label" th:for="email">이메일</label>
                                                         <input type="email" th:field="*{email}" th:value="*{email}" class="form-control form-control-lg" placeholder="이메일을 입력하세요">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2">
-                                                        <label class="form-label" th:for="birth">생년월일</label>
-                                                        <input type="date" th:field="*{birth}" id="datePicker" th:value="*{birth}"
-                                                               th:class="${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'" readonly>
-                                                        <p th:if="${#fields.hasErrors('birth')}"
-                                                           th:errors="*{birth}">Incorrect data</p>
                                                     </div>
                                                 </div>
                                                 <div class="row align-items-center py-3">
@@ -109,63 +73,13 @@
                                                         <h6 class="mb-0">profile Image</h6>
                                                     </div>
                                                     <div class="col-md-9 pe-5">
-                                                        <input type="file" class="form-control form-control-lg" name="files">
+                                                        <input type="file" class="form-control form-control-lg" th:field="*{multipartFile}" name="file">
                                                         <div class="small text-muted mt-2">Upload your profile Image. Max file size 10MB</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6 bg-indigo text-white">
-                                            <div class="p-5">
-                                                <h2 class="fw-normal mb-5">School Detail</h2>
-                                                <div class="mb-2 pb-2">
-                                                    <label class="form-label" th:for="school">학교명</label>
-                                                    <select id="selectSchool" class="form-select" th:field="*{school}"
-                                                            required="required" onchange="onSelectSchool();">
-                                                        <option value="">학교 선택</option>
-                                                        <option th:each="school : ${schools}"
-                                                                th:value="${school.id}"
-                                                                th:text="${school.schoolName}">
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="md-6 mb-2">
-                                                    <label class="form-label" th:for="studentId">학번<span style="color: red">*</span></label>
-                                                    <input type="number" th:field="*{studentId}" placeholder="학번을 입력하세요." th:value="*{studentId}"
-                                                           th:class="${#fields.hasErrors('studentId')}? 'form-control fieldError' : 'form-control'" readonly>
-                                                    <p th:if="${#fields.hasErrors('studentId')}"
-                                                       th:errors="*{studentId}">Incorrect data</p>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline form-white">
-                                                            <label class="form-label" th:for="department">전공(학과)</label>
-                                                            <select id="selectDepartment" class="form-select"
-                                                                    th:field="*{department}"
-                                                                    required="required">
-                                                                <option value="">학과 선택</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline form-white">
-                                                            <label class="form-label" th:for="subDepartment">부전공(학과)</label>
-                                                            <input type="text" th:field="*{subDepartment}" placeholder="부전공을 입력하세요."
-                                                                   th:class="'form-control'">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-check d-flex justify-content-start mb-2 pb-3">
-                                                    <input class="form-check-input me-3" type="checkbox" value="" id="form2Example3c" />
-                                                    <label class="form-check-label text-white" th:for="condition">
-                                                        I do accept the <a href="#" class="text-white"><u>Terms and Conditions</u></a> of your
-                                                        site.
-                                                    </label>
-                                                </div>
-                                                <div class="btn btn-light btn-lg">
-                                                    <input type="submit" name="edit" class="btn btn-light btn-lg" value="Edit">
-                                                </div>
+                                            <div class="btn btn-light btn-lg">
+                                                <input type="submit" name="edit" class="btn btn-light btn-lg" value="Edit">
                                             </div>
                                         </div>
                                     </div>
