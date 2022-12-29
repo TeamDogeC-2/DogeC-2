@@ -9,4 +9,5 @@ public interface SchoolRepositoryCustom {
     School findBySchoolName(String schoolName);
 
     List<School> findSchoolDynamicSearch(SchoolSearch schoolSearch);
+
 }

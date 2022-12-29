@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -42,11 +43,11 @@ public class TestDataInit {
     }
 
     private void initSchool(){
-        School school1 = new School();
+        SchoolFormDto school1 = new SchoolFormDto();
         school1.setSchoolName("더미테스트1 학교");
         school1.setSchoolCoordinate("더미테스트1 좌표");
 
-        School school2 = new School();
+        SchoolFormDto school2 = new SchoolFormDto();
         school2.setSchoolName("더미테스트2 학교");
         school2.setSchoolCoordinate("더미테스트2 좌표");
         schoolService.join(school1);
