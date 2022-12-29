@@ -55,7 +55,10 @@ public class DepartmentService {
 
     public Department findOne(Long departmentId){
         Optional<Department> department = departmentRepository.findById(departmentId);
-        return department.get();
+        return department.orElseThrow(() -> {
+            log.info("findOne 메소드가 실행되었습니다. [{}]", departmentId);
+            throw new DepartmentNotFoundException("학과를 조회하지 못했습니다.");
+        });
     }
 
     public Department findOneUsingDepartmentNameAndSchoolName(String departmentName, String schoolName){
