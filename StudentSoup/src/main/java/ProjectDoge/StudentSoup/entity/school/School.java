@@ -44,6 +44,10 @@ public class School {
     private List<Restaurant> restaurants = new ArrayList<>();
 
     //== 생성 메서드 ==//
-
+    public School createSchool(SchoolFormDto schoolFormDto){
+        this.schoolName = schoolFormDto.getSchoolName();
+        this.schoolCoordinate = schoolFormDto.getSchoolCoordinate();
+    return this;
+    }
 
 }

@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-
+import java.util.Collections;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
@@ -25,6 +25,12 @@ public class SchoolRepositoryImpl implements SchoolRepositoryCustom{
 
     @Override
     public List<School> findSchoolDynamicSearch(SchoolSearch schoolSearch) {
-        return null;
+        if(schoolSearch.getField() != null && schoolSearch.getField().equals("schoolName") && schoolSearch.getValue() != null) {
+            JPQLQuery<School> query = queryFactory
+                    .selectFrom(school)
+                    .where(school.schoolName.eq(schoolSearch.getValue()));
+            return query.fetch();
+        }
+        return Collections.emptyList();
     }
 }
