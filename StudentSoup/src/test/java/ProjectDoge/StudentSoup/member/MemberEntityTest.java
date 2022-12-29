@@ -3,9 +3,9 @@ package ProjectDoge.StudentSoup.member;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -62,8 +62,8 @@ public class MemberEntityTest {
         Long departmentId = 0L;
         @BeforeEach
         void schoolAndDepartment() {
-            School school = createSchool();
-            schoolId = schoolService.join(school);
+            SchoolFormDto schoolFormDto = createSchool();
+            schoolId = schoolService.join(schoolFormDto);
             DepartmentFormDto dto = createDepartmentDto(schoolId);
             departmentId = departmentService.join(schoolId, dto);
         }
@@ -186,8 +186,8 @@ public class MemberEntityTest {
         Long departmentId = 0L;
         @BeforeEach
         void schoolAndDepartment() {
-            School school = createSchool();
-            schoolId = schoolService.join(school);
+            SchoolFormDto schoolFormDto = createSchool();
+            schoolId = schoolService.join(schoolFormDto);
             DepartmentFormDto dto = createDepartmentDto(schoolId);
             departmentId = departmentService.join(schoolId, dto);
         }
@@ -259,11 +259,11 @@ public class MemberEntityTest {
         }
 
     }
-        private School createSchool() {
-            School school = new School();
-            school.setSchoolName("테스트 학교");
-            school.setSchoolCoordinate("테스트 학교 좌표");
-            return school;
+        private SchoolFormDto createSchool() {
+            SchoolFormDto dto = new SchoolFormDto();
+            dto.setSchoolName("테스트 학교");
+            dto.setSchoolCoordinate("테스트 학교 좌표");
+            return dto;
         }
 
         private DepartmentFormDto createDepartmentDto(Long schoolId) {
