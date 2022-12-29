@@ -43,7 +43,10 @@ public class SchoolService {
 
     public School findOne(Long schoolId){
         Optional<School> school = schoolRepository.findById(schoolId);
-        return school.get();
+        return school.orElseThrow(() -> {
+            log.info("findOne 메소드가 실행되었습니다. [{}]", schoolId);
+            throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
+        });
     }
 
     public List<School> findAll(){
