@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
@@ -46,12 +47,14 @@ public class RestaurantMenuEntityTest {
 
     Long schoolId = 0L;
 
+    MultipartFile multipartFile = null;
+
     @BeforeEach
     void 학교등록And음식점등록(){
-        School school = createSchool();
+        SchoolFormDto school = createSchool();
         schoolId = schoolService.join(school);
         RestaurantFormDto restaurantDto = createRestaurant();
-        restaurantId = restaurantService.join(restaurantDto);
+        restaurantId = restaurantService.join(restaurantDto, multipartFile);
     }
 
     @Test
@@ -59,7 +62,7 @@ public class RestaurantMenuEntityTest {
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //when
-        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto);
+        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         //then
         assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.validateMenuNameUsingRestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
@@ -70,7 +73,7 @@ public class RestaurantMenuEntityTest {
         Long errorRestaurantId = 0L;
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(errorRestaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto))
+        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
 
@@ -78,10 +81,10 @@ public class RestaurantMenuEntityTest {
     void 메뉴중복테스트(){
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
-        restaurantMenuService.join(restaurantMenuFormDto);
+        restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
         RestaurantMenuFormDto duplicateRestaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto))
+        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantMenuValidationException.class);
     }
 
@@ -91,11 +94,11 @@ public class RestaurantMenuEntityTest {
        return restaurantMenuFormDto;
     }
 
-    private School createSchool(){
-        School school = new School();
-        school.setSchoolName("테스트 학교");
-        school.setSchoolCoordinate("테스트 학교 좌표");
-        return school;
+    private SchoolFormDto createSchool(){
+        SchoolFormDto dto = new SchoolFormDto();
+        dto.setSchoolName("테스트 학교");
+        dto.setSchoolCoordinate("테스트 학교 좌표");
+        return dto;
     }
 
 
