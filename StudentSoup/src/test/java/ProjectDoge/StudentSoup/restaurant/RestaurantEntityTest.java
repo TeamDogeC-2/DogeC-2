@@ -13,11 +13,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,14 +43,27 @@ public class RestaurantEntityTest {
     @Autowired
     RestaurantService restaurantService;
 
-    MultipartFile multipartFile = null;
+    @Autowired
+    WebApplicationContext webApplicationContext;
+
+    MockMultipartFile multipartFile = new MockMultipartFile("mockFile",
+            "",
+            "",
+            "".getBytes());
+
+
 
     Long schoolId = 0L;
 
     @BeforeEach
-    void 학교등록(){
+    void 학교등록() throws Exception {
         SchoolFormDto dto = createSchool();
         schoolId = schoolService.join(dto);
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(MockMvcRequestBuilders
+                .multipart("/api/uri/send")
+                .file(multipartFile));
     }
 
     @Test
