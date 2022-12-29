@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.department;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
@@ -35,7 +36,7 @@ public class DepartmentEntityTest {
 
     @BeforeEach
     void 학교등록() {
-        School school = createSchool();
+        SchoolFormDto school = createSchool();
         schoolId = schoolService.join(school);
     }
     @Test
@@ -61,8 +62,8 @@ public class DepartmentEntityTest {
                 .isInstanceOf(SchoolNotFoundException.class);
     }
 
-    private School createSchool(){
-        School school = new School();
+    private SchoolFormDto createSchool(){
+        SchoolFormDto school = new SchoolFormDto();
         school.setSchoolName("테스트 학교");
         school.setSchoolCoordinate("테스트 학교 좌표");
         return school;
