@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.service;
 
-import ProjectDoge.StudentSoup.dto.member.MemberUpdateFormDto;
+import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
@@ -140,7 +140,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Long update(MemberUpdateFormDto dto, MultipartFile file) {
+    public Long adminMemberUpdate(AdminMemberUpdateForm dto, MultipartFile file) {
         log.info("회원 업데이트 메서드가 실행되었습니다.");
 
         Member member = memberRepository.findById(dto.getMemberId())
@@ -163,13 +163,13 @@ public class MemberService {
         return member.getMemberId();
     }
 
-    private static void updateMemberField(MemberUpdateFormDto dto, Member member) {
+    private static void updateMemberField(AdminMemberUpdateForm dto, Member member) {
         member.setPwd(dto.getPwd());
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
     }
 
-    private void validationChangedNicknameEmail(MemberUpdateFormDto dto, Member member, String prevEmail, String prevNickName) {
+    private void validationChangedNicknameEmail(AdminMemberUpdateForm dto, Member member, String prevEmail, String prevNickName) {
         log.info("회원 업데이트 중 닉네임과 이메일 검증을 시작합니다.");
         if(!prevNickName.equals(dto.getNickname())) {
             validateDuplicateMemberNickname(member.getNickname());
@@ -186,7 +186,6 @@ public class MemberService {
             member.setImageFile(imageFile);
         }
     }
-
 
     public Member findOne(Long memberId) {
         return memberRepository.findById(memberId)
