@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
@@ -18,7 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
@@ -42,16 +48,32 @@ public class RestaurantMenuEntityTest {
     @Autowired
     SchoolService schoolService;
 
+    @Autowired
+    WebApplicationContext webApplicationContext;
+
+    MockMultipartFile multipartFile = new MockMultipartFile(
+            "name",
+            "",
+            "",
+            "".getBytes());
+
     Long restaurantId = 0L;
 
     Long schoolId = 0L;
 
+
+
     @BeforeEach
-    void 학교등록And음식점등록(){
-        School school = createSchool();
+    void 학교등록_음식점등록() throws Exception {
+        SchoolFormDto school = createSchool();
         schoolId = schoolService.join(school);
         RestaurantFormDto restaurantDto = createRestaurant();
-        restaurantId = restaurantService.join(restaurantDto);
+        restaurantId = restaurantService.join(restaurantDto, multipartFile);
+
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(MockMvcRequestBuilders
+                .multipart("/api/test/uri")
+                .file(multipartFile));
     }
 
     @Test
@@ -59,7 +81,7 @@ public class RestaurantMenuEntityTest {
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //when
-        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto);
+        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         //then
         assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.validateMenuNameUsingRestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
@@ -70,7 +92,7 @@ public class RestaurantMenuEntityTest {
         Long errorRestaurantId = 0L;
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(errorRestaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto))
+        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
 
@@ -78,10 +100,10 @@ public class RestaurantMenuEntityTest {
     void 메뉴중복테스트(){
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
-        restaurantMenuService.join(restaurantMenuFormDto);
+        restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
         RestaurantMenuFormDto duplicateRestaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto))
+        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantMenuValidationException.class);
     }
 
@@ -91,11 +113,11 @@ public class RestaurantMenuEntityTest {
        return restaurantMenuFormDto;
     }
 
-    private School createSchool(){
-        School school = new School();
-        school.setSchoolName("테스트 학교");
-        school.setSchoolCoordinate("테스트 학교 좌표");
-        return school;
+    private SchoolFormDto createSchool(){
+        SchoolFormDto dto = new SchoolFormDto();
+        dto.setSchoolName("테스트 학교");
+        dto.setSchoolCoordinate("테스트 학교 좌표");
+        return dto;
     }
 
 
