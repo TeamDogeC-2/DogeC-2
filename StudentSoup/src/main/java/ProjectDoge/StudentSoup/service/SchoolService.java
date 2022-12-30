@@ -61,4 +61,19 @@ public class SchoolService {
         List<School> findSchool = schoolRepository.findSchoolDynamicSearch(schoolSearch);
         return  findSchool;
     }
+    public SchoolFormDto findUpdateSchool(Long schoolId){
+        School school = findOne(schoolId);
+        SchoolFormDto schoolFormDto = new SchoolFormDto();
+        schoolFormDto.setSchool(school);
+        return schoolFormDto;
+
+    }
+    @Transactional
+    public void updateSchool(Long schoolId,SchoolFormDto schoolFormDto){
+        School school = findOne(schoolId);
+        school.setSchoolName(schoolFormDto.getSchoolName());
+        school.setSchoolCoordinate(schoolFormDto.getSchoolCoordinate());
+    }
+
+
 }

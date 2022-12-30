@@ -21,7 +21,7 @@ import java.util.List;
 public class School {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ID")
     private Long id;
 
@@ -31,16 +31,16 @@ public class School {
     @Column(name = "COORDINATE")
     private String schoolCoordinate;
 
-    @OneToMany(mappedBy = "school")
+    @OneToMany(mappedBy = "school",cascade = CascadeType.REMOVE)
     private List<Member> members = new ArrayList<>();
 
-    @OneToMany(mappedBy = "school")
+    @OneToMany(mappedBy = "school",cascade = CascadeType.REMOVE)
     private List<Department> departments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "school")
+    @OneToMany(mappedBy = "school",cascade = CascadeType.REMOVE)
     private List<Board> boards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "school")
+    @OneToMany(mappedBy = "school",cascade = CascadeType.REMOVE)
     private List<Restaurant> restaurants = new ArrayList<>();
 
     //== 생성 메서드 ==//

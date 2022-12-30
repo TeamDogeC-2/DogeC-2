@@ -19,13 +19,13 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "SCHOOL_ID")
     private School school;
 
     @Column(name = "NAME")
     private String departmentName;
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department",cascade = CascadeType.REMOVE)
     private List<Member> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "department")
