@@ -54,7 +54,7 @@ public class SchoolService {
     private void checkSchoolIdSent(Long schoolId) {
         if(schoolId == null){
             log.info("schoolId가 전송되지 않았습니다.");
-            throw new SchoolIdNotSentException("memberId가 전송되지 않았습니다.");
+            throw new SchoolIdNotSentException("schoolId가 전송되지 않았습니다.");
         }
     }
 
