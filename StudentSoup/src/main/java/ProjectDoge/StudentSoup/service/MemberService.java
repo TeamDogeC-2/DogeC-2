@@ -164,7 +164,7 @@ public class MemberService {
         return member.getMemberId();
     }
 
-    private static void updateMemberField(AdminMemberUpdateForm dto, Member member) {
+    private void updateMemberField(AdminMemberUpdateForm dto, Member member) {
         member.setPwd(dto.getPwd());
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
@@ -209,14 +209,17 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        if(memberId == null){
-            log.info("멤버 프로필 업데이트 도중 memberId가 전송되지 않았습니다.");
-            throw new MemberIdNotSentException("memberId가 전송되지 않았습니다.");
-        }
-
+        checkMemberIdSent(memberId);
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> {
                     throw new MemberNotFoundException("회원을 찾지 못하였습니다.");
                 });
+    }
+
+    private void checkMemberIdSent(Long memberId) {
+        if(memberId == null){
+            log.info("memberId가 전송되지 않았습니다.");
+            throw new MemberIdNotSentException("memberId가 전송되지 않았습니다.");
+        }
     }
 }

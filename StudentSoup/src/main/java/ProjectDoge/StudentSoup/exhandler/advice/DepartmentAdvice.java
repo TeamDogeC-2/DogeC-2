@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
+import ProjectDoge.StudentSoup.exception.department.DepartmentIdNotSentException;
 import ProjectDoge.StudentSoup.exception.department.DepartmentNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
@@ -17,5 +18,12 @@ public class DepartmentAdvice {
     public ErrorResult departmentNotFoundHandler(DepartmentNotFoundException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("DepartmentNotFound", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DepartmentIdNotSentException.class)
+    public ErrorResult departmentIdNotSentHandler(DepartmentIdNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("DepartmentIdNotSentException", e.getMessage());
     }
 }

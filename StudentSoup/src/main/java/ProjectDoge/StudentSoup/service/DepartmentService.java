@@ -3,7 +3,9 @@ package ProjectDoge.StudentSoup.service;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.department.DepartmentIdNotSentException;
 import ProjectDoge.StudentSoup.exception.department.DepartmentNotFoundException;
+import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -54,11 +56,19 @@ public class DepartmentService {
     }
 
     public Department findOne(Long departmentId){
-        Optional<Department> department = departmentRepository.findById(departmentId);
-        return department.orElseThrow(() -> {
+        checkDepartmentIdSent(departmentId);
+
+        return departmentRepository.findById(departmentId).orElseThrow(() -> {
             log.info("findOne 메소드가 실행되었습니다. [{}]", departmentId);
             throw new DepartmentNotFoundException("학과를 조회하지 못했습니다.");
         });
+    }
+
+    private void checkDepartmentIdSent(Long departmentId) {
+        if(departmentId == null){
+            log.info("departmentId가 전송되지 않았습니다.");
+            throw new DepartmentIdNotSentException("departmentId가 전송되지 않았습니다.");
+        }
     }
 
     public Department findOneUsingDepartmentNameAndSchoolName(String departmentName, String schoolName){
