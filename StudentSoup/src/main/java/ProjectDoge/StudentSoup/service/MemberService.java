@@ -218,7 +218,7 @@ public class MemberService {
 
     private void checkMemberIdSent(Long memberId) {
         if(memberId == null){
-            log.info("멤버 프로필 업데이트 도중 memberId가 전송되지 않았습니다.");
+            log.info("memberId가 전송되지 않았습니다.");
             throw new MemberIdNotSentException("memberId가 전송되지 않았습니다.");
         }
     }
