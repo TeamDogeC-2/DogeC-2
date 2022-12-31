@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
+import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
@@ -24,5 +25,12 @@ public class MemberAdvice {
     public ErrorResult memberValidationHandler(MemberValidationException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("MemberValidation", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberIdNotSentException.class)
+    public ErrorResult memberIdNotSentHandler(MemberIdNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberIdNotSent", e.getMessage());
     }
 }
