@@ -128,7 +128,7 @@ public class MemberService {
         return member;
     }
 
-    private void validationCoincideMemberIdPwd(Member member, String pwd) {
+    public void validationCoincideMemberIdPwd(Member member, String pwd) {
         log.info("아이디와 비밀번호를 체크하는 검증 로직 실행, 아이디 : [{}], 비밀번호 : [{}]", member.getId(), pwd);
         if(notSameMemberIdPwd(member, pwd)) {
             log.info("아이디와 패스워드가 일치하지 않는 예외 발생");
