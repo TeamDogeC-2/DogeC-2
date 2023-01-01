@@ -20,7 +20,7 @@ import static java.lang.Math.round;
 @Setter
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
