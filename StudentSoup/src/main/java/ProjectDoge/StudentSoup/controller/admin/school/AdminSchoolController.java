@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -47,5 +48,23 @@ public class AdminSchoolController {
 
         return "/admin/school/schoolList";
     }
+    @GetMapping("/admin/school/edit")
+    public String editSchool(@RequestParam("schoolId")Long schoolId,Model model){
+        SchoolFormDto updateSchool = schoolService.findUpdateSchool(schoolId);
+        model.addAttribute("schoolId",schoolId);
+        model.addAttribute("schoolForm",updateSchool);
+        return "/admin/school/updateSchool";
+    }
+    @PostMapping("/admin/school/edit")
+    public String editSchool(@RequestParam("schoolId")Long schoolId,@ModelAttribute("form") SchoolFormDto schoolFormDto){
+        schoolService.updateSchool(schoolId,schoolFormDto);
+        return "redirect:/admin/schools";
+    }
+    @GetMapping("/admin/school/delete")
+    public String deleteSchool(@RequestParam("schoolId")Long schoolId){
+        schoolRepository.deleteById(schoolId);
+        return "redirect:/admin/schools";
+    }
+
 
 }
