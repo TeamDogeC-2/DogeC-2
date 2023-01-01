@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
+import ProjectDoge.StudentSoup.exception.member.MemberNotSamePassword;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,13 @@ public class MemberAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MemberValidationException.class)
     public ErrorResult memberValidationHandler(MemberValidationException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberValidation", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberNotSamePassword.class)
+    public ErrorResult memberCheckPasswordHandler(MemberNotSamePassword e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("MemberValidation", e.getMessage());
     }
