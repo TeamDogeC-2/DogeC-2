@@ -32,7 +32,7 @@ public class MemberAdvice {
     @ExceptionHandler(MemberNotSamePassword.class)
     public ErrorResult memberCheckPasswordHandler(MemberNotSamePassword e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("MemberValidation", e.getMessage());
+        return new ErrorResult("MemberNotSamePassword", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
