@@ -19,7 +19,9 @@ public class MemberUpdateController {
     private final MemberService memberService;
 
     @PostMapping("/edit/{memberId}/validation")
-    public String editIdCheck(@PathVariable("memberId") Long memberId, @Validated @RequestBody MemberUpdateValidationDto dto, BindingResult bindingResult){
+    public String editIdCheck(@PathVariable("memberId") Long memberId,
+                              @Validated @RequestBody MemberUpdateValidationDto dto,
+                              BindingResult bindingResult){
         Member member = memberService.findOne(dto.getMemberId());
         memberService.validationCoincideMemberIdPwd(member, dto.getPwd());
 
