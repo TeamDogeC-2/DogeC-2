@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
+import ProjectDoge.StudentSoup.dto.member.MemberDto;
+import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.dto.member.MemberUpdateValidationDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.service.MemberService;
@@ -27,4 +28,14 @@ public class MemberUpdateController {
 
         return "ok";
     }
+
+    @PostMapping("/edit/{memberId}")
+    public MemberDto editMember(@PathVariable("memberId") Long memberId,
+                                @RequestBody MemberUpdateDto dto){
+        Long updatedMemberId = memberService.updateMember(dto);
+        Member member = memberService.findOne(updatedMemberId);
+        MemberDto memberDto = new MemberDto().getMemberDto(member);
+        return memberDto;
+    }
+
 }
