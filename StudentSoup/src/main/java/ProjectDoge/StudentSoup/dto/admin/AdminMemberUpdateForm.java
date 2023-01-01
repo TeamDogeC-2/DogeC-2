@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.dto.admin;
 
+import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @ToString
-public class AdminMemberUpdateForm {
+public class AdminMemberUpdateForm extends MemberUpdateDto {
     private Long memberId;
     private Long schoolId;
     private String schoolName;
