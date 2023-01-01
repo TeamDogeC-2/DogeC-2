@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service;
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
@@ -29,7 +30,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final SchoolRepository schoolRepository;
+    private final SchoolService schoolService;
     private final DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
 
     private final FileService fileService;
 
@@ -142,7 +145,7 @@ public class MemberService {
 
     @Transactional
     public Long adminMemberUpdate(AdminMemberUpdateForm dto, MultipartFile file) {
-        log.info("회원 업데이트 메서드가 실행되었습니다.");
+        log.info("운영자 페이지 회원 업데이트 메서드가 실행되었습니다.");
 
         Member member = memberRepository.findById(dto.getMemberId())
                 .orElseThrow(() -> {
@@ -153,10 +156,8 @@ public class MemberService {
         Department department = getMemberDtoDepartment(dto.getDepartmentId());
 
         log.info("현재 가져온 학교와 학과 : [{}] / [{}]", school.getSchoolName(), department.getDepartmentName());
-        String prevEmail = member.getEmail();
-        String prevNickName = member.getNickname();
-        updateMemberField(dto, member);
-        validationChangedNicknameEmail(dto, member, prevEmail, prevNickName);
+        validationChangedNicknameEmail(dto, member);
+        adminUpdateMemberField(dto, member);
         log.info("회원 정보가 새로 갱신되었습니다.");
         Long fileId = fileService.join(file);
         updateMemberProfileImage(member, fileId);
@@ -164,19 +165,19 @@ public class MemberService {
         return member.getMemberId();
     }
 
-    private void updateMemberField(AdminMemberUpdateForm dto, Member member) {
+    private void adminUpdateMemberField(MemberUpdateDto dto, Member member) {
         member.setPwd(dto.getPwd());
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
     }
 
-    private void validationChangedNicknameEmail(AdminMemberUpdateForm dto, Member member, String prevEmail, String prevNickName) {
+    private void validationChangedNicknameEmail(MemberUpdateDto dto, Member member) {
         log.info("회원 업데이트 중 닉네임과 이메일 검증을 시작합니다.");
-        if(!prevNickName.equals(dto.getNickname())) {
-            validateDuplicateMemberNickname(member.getNickname());
+        if(!member.getNickname().equals(dto.getNickname())) {
+            validateDuplicateMemberNickname(dto.getNickname());
         }
-        if(!prevEmail.equals(dto.getEmail())) {
-            validateDuplicateMemberEmail(member.getEmail());
+        if(!member.getEmail().equals(dto.getEmail())) {
+            validateDuplicateMemberEmail(dto.getEmail());
         }
         log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
     }
@@ -206,6 +207,33 @@ public class MemberService {
             log.info("전송된 프로필 이미지가 없으므로, 프로필 이미지가 업데이트되지 않았습니다.");
             return new MemberDto().getMemberDto(member);
         }
+    }
+
+    @Transactional
+    public Long updateMember(MemberUpdateDto dto){
+        log.info("운영 페이지 회원 업데이트 메소드가 실행되었습니다.");
+        Member member = findOne(dto.getMemberId());
+        validationChangedNicknameEmail(dto, member);
+        updateMemberField(dto, member);
+        log.info("운영 페이지 회원 업데이트가 완료되었습니다.");
+        return member.getMemberId();
+    }
+
+    private void updateMemberField(MemberUpdateDto dto, Member member) {
+        log.info("회원 정보 업데이트를 시작하였습니다.");
+        School school = schoolService.findOne(dto.getSchoolId());
+        Department department = departmentService.findOne(dto.getDepartmentId());
+        log.info("이전 학교와 학과 : [{}][{}], 받은 학교와 학과 : [{}][{}]",
+                member.getSchool().getSchoolName(),
+                member.getDepartment().getDepartmentName(),
+                school.getSchoolName(),
+                department.getDepartmentName());
+
+        member.setSchool(school);
+        member.setDepartment(department);
+        member.setPwd(dto.getPwd());
+        member.setEmail(dto.getEmail());
+        member.setNickname(dto.getNickname());
     }
 
     public Member findOne(Long memberId) {
