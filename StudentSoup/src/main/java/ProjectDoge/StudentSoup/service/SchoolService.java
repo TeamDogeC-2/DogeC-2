@@ -3,6 +3,8 @@ package ProjectDoge.StudentSoup.service;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
+import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -42,11 +44,18 @@ public class SchoolService {
     }
 
     public School findOne(Long schoolId){
-        Optional<School> school = schoolRepository.findById(schoolId);
-        return school.orElseThrow(() -> {
+        checkSchoolIdSent(schoolId);
+
+        return schoolRepository.findById(schoolId).orElseThrow(() -> {
             log.info("findOne 메소드가 실행되었습니다. [{}]", schoolId);
             throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
         });
+    }
+    private void checkSchoolIdSent(Long schoolId) {
+        if(schoolId == null){
+            log.info("schoolId가 전송되지 않았습니다.");
+            throw new SchoolIdNotSentException("schoolId가 전송되지 않았습니다.");
+        }
     }
 
     public List<School> findAll(){

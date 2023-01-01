@@ -1,12 +1,13 @@
 package ProjectDoge.StudentSoup.service;
 
-import ProjectDoge.StudentSoup.dto.member.MemberUpdateFormDto;
+import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotSamePassword;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
@@ -140,7 +141,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Long update(MemberUpdateFormDto dto, MultipartFile file) {
+    public Long adminMemberUpdate(AdminMemberUpdateForm dto, MultipartFile file) {
         log.info("회원 업데이트 메서드가 실행되었습니다.");
 
         Member member = memberRepository.findById(dto.getMemberId())
@@ -163,13 +164,13 @@ public class MemberService {
         return member.getMemberId();
     }
 
-    private static void updateMemberField(MemberUpdateFormDto dto, Member member) {
+    private void updateMemberField(AdminMemberUpdateForm dto, Member member) {
         member.setPwd(dto.getPwd());
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
     }
 
-    private void validationChangedNicknameEmail(MemberUpdateFormDto dto, Member member, String prevEmail, String prevNickName) {
+    private void validationChangedNicknameEmail(AdminMemberUpdateForm dto, Member member, String prevEmail, String prevNickName) {
         log.info("회원 업데이트 중 닉네임과 이메일 검증을 시작합니다.");
         if(!prevNickName.equals(dto.getNickname())) {
             validateDuplicateMemberNickname(member.getNickname());
@@ -187,11 +188,38 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
+        log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
+        Long fileId = fileService.join(multipartFile);
+        Member member = findOne(memberId);
+        return createProfileUpdateMemberDto(fileId, member);
+    }
+
+    private MemberDto createProfileUpdateMemberDto(Long fileId, Member member) {
+        if(fileId != null){
+            ImageFile imageFile = fileService.findOne(fileId);
+            member.setImageFile(imageFile);
+            log.info("멤버 프로필이미지가 업데이트 되었습니다. fileName : [{}]", imageFile.getFileOriginalName());
+            return new MemberDto().getMemberDto(member);
+        } else {
+            log.info("전송된 프로필 이미지가 없으므로, 프로필 이미지가 업데이트되지 않았습니다.");
+            return new MemberDto().getMemberDto(member);
+        }
+    }
 
     public Member findOne(Long memberId) {
+        checkMemberIdSent(memberId);
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> {
                     throw new MemberNotFoundException("회원을 찾지 못하였습니다.");
                 });
+    }
+
+    private void checkMemberIdSent(Long memberId) {
+        if(memberId == null){
+            log.info("memberId가 전송되지 않았습니다.");
+            throw new MemberIdNotSentException("memberId가 전송되지 않았습니다.");
+        }
     }
 }

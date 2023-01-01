@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberForm;
-import ProjectDoge.StudentSoup.dto.member.MemberUpdateFormDto;
+import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
@@ -61,7 +61,7 @@ public class AdminController {
         Member member = memberRepository.updateFindById(memberId)
                 .orElse(null);
         log.info("업데이트 용 회원 정보가 호출되었습니다. [{}]", member.getMemberId());
-        MemberUpdateFormDto memberForm = new MemberUpdateFormDto().createMemberUpdateForm(member);
+        AdminMemberUpdateForm memberForm = new AdminMemberUpdateForm().createMemberUpdateForm(member);
         model.addAttribute("memberForm", memberForm);
         log.info("업데이트 용 회원 정보 : [{}]", memberForm.toString());
         log.info("updateMemberForm : [{}]", memberForm);
@@ -69,11 +69,11 @@ public class AdminController {
     }
 
     @PostMapping("/member/edit/{memberId}")
-    public String updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") MemberUpdateFormDto updateForm){
+    public String updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") AdminMemberUpdateForm updateForm){
         log.info("회원 업데이트가 시작되었습니다.");
         log.info("updateForm 전달 객체 : {}", updateForm.toString());
         log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
-        Long updateId = memberService.update(updateForm, updateForm.getMultipartFile());
+        Long updateId = memberService.adminMemberUpdate(updateForm, updateForm.getMultipartFile());
 
         Member member = memberService.findOne(updateId);
         log.info("updated member password : [{}]", member.getPwd());

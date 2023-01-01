@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.member;
+package ProjectDoge.StudentSoup.dto.admin;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @ToString
-public class MemberUpdateFormDto {
+public class AdminMemberUpdateForm {
     private Long memberId;
     private Long schoolId;
     private String schoolName;
@@ -23,7 +23,7 @@ public class MemberUpdateFormDto {
     private MultipartFile multipartFile;
 
     //== 생성 메서드 ==//
-    public MemberUpdateFormDto createMemberUpdateForm(Member member){
+    public AdminMemberUpdateForm createMemberUpdateForm(Member member){
         this.memberId = member.getMemberId();
         this.schoolId = member.getSchool().getId();
         this.schoolName = member.getSchool().getSchoolName();

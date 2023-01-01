@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -40,8 +41,8 @@ public class MemberLoginTest {
     Long departmentId = 0L;
     @BeforeEach
     void schoolAndDepartment() {
-        School school = createSchool();
-        schoolId = schoolService.join(school);
+        SchoolFormDto schoolFormDto = createSchool();
+        schoolId = schoolService.join(schoolFormDto);
         DepartmentFormDto dto = createDepartmentDto(schoolId);
         departmentId = departmentService.join(schoolId, dto);
 
@@ -112,11 +113,12 @@ public class MemberLoginTest {
         assertThat(memberDto.getFileName()).isEqualTo(null);
     }
 
-    private School createSchool() {
-        School school = new School();
-        school.setSchoolName("테스트 학교");
-        school.setSchoolCoordinate("테스트 학교 좌표");
-        return school;
+    private SchoolFormDto createSchool() {
+
+        SchoolFormDto schoolFormDto = new SchoolFormDto();
+        schoolFormDto.setSchoolName("테스트 학교");
+        schoolFormDto.setSchoolCoordinate("테스트 학교 좌표");
+        return schoolFormDto;
     }
 
     private DepartmentFormDto createDepartmentDto(Long schoolId) {
