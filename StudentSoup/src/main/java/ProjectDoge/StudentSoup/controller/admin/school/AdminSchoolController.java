@@ -43,21 +43,21 @@ public class AdminSchoolController {
         List<School> schools = schoolService.findAll();
         model.addAttribute("schools", schools);
 
-        List<School> findSchools = schoolService.findSchools(schoolSearch);
+        List<School> findSchools = schoolService.AdminSearchSchools(schoolSearch);
         model.addAttribute("findSchools", findSchools);
 
         return "/admin/school/schoolList";
     }
     @GetMapping("/admin/school/edit")
     public String editSchool(@RequestParam("schoolId")Long schoolId,Model model){
-        SchoolFormDto updateSchool = schoolService.findUpdateSchool(schoolId);
+        SchoolFormDto updateSchool = schoolService.AdminFindUpdateSchool(schoolId);
         model.addAttribute("schoolId",schoolId);
         model.addAttribute("schoolForm",updateSchool);
         return "/admin/school/updateSchool";
     }
     @PostMapping("/admin/school/edit")
     public String editSchool(@RequestParam("schoolId")Long schoolId,@ModelAttribute("form") SchoolFormDto schoolFormDto){
-        schoolService.updateSchool(schoolId,schoolFormDto);
+        schoolService.AdminUpdateSchool(schoolId,schoolFormDto);
         return "redirect:/admin/schools";
     }
     @GetMapping("/admin/school/delete")
