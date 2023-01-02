@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.MemberService;
+import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

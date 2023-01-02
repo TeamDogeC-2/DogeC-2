@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.service;
+package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
@@ -16,6 +16,9 @@ import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.FileService;
+import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
