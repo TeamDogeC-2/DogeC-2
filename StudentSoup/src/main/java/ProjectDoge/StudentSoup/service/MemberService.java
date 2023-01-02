@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwd;
+import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
@@ -135,7 +135,7 @@ public class MemberService {
         log.info("아이디와 비밀번호를 체크하는 검증 로직 실행, 아이디 : [{}], 비밀번호 : [{}]", member.getId(), pwd);
         if(notSameMemberIdPwd(member, pwd)) {
             log.info("아이디와 패스워드가 일치하지 않는 예외 발생");
-            throw new MemberNotMatchIdPwd("아이디 또는 패스워드가 일치하지 않습니다.");
+            throw new MemberNotMatchIdPwdException("아이디 또는 패스워드가 일치하지 않습니다.");
         }
     }
 
