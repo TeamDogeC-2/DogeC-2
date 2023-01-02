@@ -75,7 +75,7 @@ const Register1 = () => {
             </span>
           </div>
           <div className="w-[530px] h-[54px] mt-[56px] bg-[#B8B8B8] flex justify-center items-center">
-            <Link to="/register2" className="w-full h-full">
+            <Link to="/register/2" className="w-full h-full">
               <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
                 동의하고 가입하기
               </button>
