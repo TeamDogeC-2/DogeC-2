@@ -2,8 +2,14 @@ package ProjectDoge.StudentSoup.controller.admin;
 
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSearch;
+import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
+import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.FileService;
 import ProjectDoge.StudentSoup.service.RestaurantService;
@@ -11,10 +17,7 @@ import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -26,6 +29,10 @@ public class AdminRestaurantController {
     private final RestaurantService restaurantService;
 
     private final SchoolRepository schoolRepository;
+
+    private final RestaurantRepository restaurantRepository;
+
+    private final RestaurantMenuRepository restaurantMenuRepository;
 
     @GetMapping("admin/restaurant/new")
     public String createRestaurant(Model model){
@@ -40,5 +47,17 @@ public class AdminRestaurantController {
         restaurantService.join(restaurantFormDto,multipartFile);
         return "redirect:/admin/restaurants";
     }
+
+    @GetMapping("admin/restaurants")
+    public  String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch,Model model){
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        model.addAttribute("restaurants",restaurants);
+
+        List<Restaurant> findRestaurants = restaurantService.AdminSearchSchools(restaurantSearch.getColumn(),restaurantSearch.getFind_value());
+        model.addAttribute("findRestaurants",findRestaurants);
+
+        return "admin/restaurant/restaurantList";
+    }
+
 
 }

@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 
 @Slf4j
@@ -72,4 +74,10 @@ public class RestaurantService {
     }
 
 
+    public List<Restaurant> AdminSearchSchools(String column, String find_value) {
+        if(column == null || find_value == null) return Collections.emptyList();
+        List<Restaurant> findRestaurants = restaurantRepository.findRestaurantDynamicSearch(column,find_value);
+
+        return findRestaurants;
+    }
 }
