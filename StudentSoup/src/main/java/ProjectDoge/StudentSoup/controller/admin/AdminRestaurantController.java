@@ -59,5 +59,20 @@ public class AdminRestaurantController {
         return "admin/restaurant/restaurantList";
     }
 
+    @GetMapping("admin/restaurantMenu/new")
+    public String createRestaurantMenu(@RequestParam(value = "restaurantId",required = false)Long restaurantId,Model model){
+        Restaurant restaurant = restaurantService.findOne(restaurantId);
+        model.addAttribute("restaurantMenuForm",new RestaurantMenuFormDto());
+        model.addAttribute("restaurant",restaurant);
+        return "/admin/restaurant/createRestaurantMenu";
+    }
+
+    @GetMapping("admin/restaurantMenus")
+    public String RestaurantMenuList(@RequestParam(value = "restaurantId")Long restaurantId,Model model){
+        List<RestaurantMenu> restaurantMenus =restaurantMenuRepository.findByRestaurantId(restaurantId);
+        model.addAttribute("restaurantMenus",restaurantMenus);
+
+        return "/admin/restaurant/restaurantMenuList";
+    }
 
 }

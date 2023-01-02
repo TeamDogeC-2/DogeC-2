@@ -47,11 +47,11 @@
                             <td th:text="${restaurant.tel}">tel</td>
                             <td th:text="${restaurant.tag}">tag</td>
                             <td th:text="${restaurant.detail}">detail</td>
-                            <td th:if="${restaurant.file != null}"
-                                th:text="${ restaurant.file.fileOriginalName}">
+                            <td th:if="${restaurant.imageFile != null}"
+                                th:text="${ restaurant.imageFile.fileOriginalName}">
                                 fileName
                             </td>
-                            <td th:if="${restaurant.file == null}">null</td>
+                            <td th:if="${restaurant.imageFile == null}">null</td>
                             <td th:text="${restaurant.starLiked}">starLiked</td>
                             <td th:text="${restaurant.likedCount}">likedCount</td>
                             <td>
@@ -88,6 +88,7 @@
                             <option value="name">Name</option>
                             <option value="schoolName">SchoolName</option>
                             <option value="tag">tag</option>
+                            <option value="category">category</option>
                         </select>
                         <input type="text" class="form-control" th:name="find_value">
                     </div>
@@ -96,20 +97,20 @@
                     </div>
                 </form>
             </row>
-            <row>
-                <form th:action="@{/admin/restaurants}" method="get">
-                    <legend>카테고리 별로 레스토랑 조회하기</legend>
-                    <select class="form-select form-select-sm" th:name="restaurantCategory">
-                        <option th:each="category : ${T(com.doge.takemh.domain.restaurant.RestaurantCategory).values()}"
-                                th:value="${category}"
-                                th:text="${category.restaurantCategory}">
-                        </option>
-                    </select>
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary mb-2">검색</button>
-                    </div>
-                </form>
-            </row>
+<!--            <row>-->
+<!--                <form th:action="@{/admin/restaurants}" method="get">-->
+<!--                    <legend>카테고리 별로 레스토랑 조회하기</legend>-->
+<!--                    <select class="form-select form-select-sm" th:name="restaurantCategory">-->
+<!--                        <option th:each="category : ${T(com.doge.takemh.domain.restaurant.RestaurantCategory).values()}"-->
+<!--                                th:value="${category}"-->
+<!--                                th:text="${category.restaurantCategory}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                    <div class="d-flex justify-content-end">-->
+<!--                        <button type="submit" class="btn btn-primary mb-2">검색</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </row>-->
             <table class="table table-striped table-hover">
                 <thead>
                 <tr class="table-primary">
@@ -145,11 +146,11 @@
                         <td th:text="${findRestaurants.tel}">tel</td>
                         <td th:text="${findRestaurants.tag}">tag</td>
                         <td th:text="${findRestaurants.detail}">detail</td>
-                        <td th:if="${findRestaurants.file != null}"
-                            th:text="${findRestaurants.file.fileOriginalName}">
+                        <td th:if="${findRestaurants.imageFile != null}"
+                            th:text="${findRestaurants.imageFile.fileOriginalName}">
                             fileName
                         </td>
-                        <td th:if="${findRestaurants.file == null}">null</td>
+                        <td th:if="${findRestaurants.imageFile == null}">null</td>
                         <td th:text="${findRestaurants.starLiked}">starLiked</td>
                         <td th:text="${findRestaurants.likedCount}">likedCount</td>
                         <td>
