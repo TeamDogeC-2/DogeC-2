@@ -10,37 +10,41 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import cn from "clsx";
 
-const MypageSidebar = () => {
+interface propTypes {
+    onClickMenu: Function
+}
+const MypageSidebar = (props: propTypes) => {
 
-    const history = useHistory();
-
-    const [id, setId] = useState<string>("");
+    const [id, setId] = useState<string>("home");
 
     useEffect(() => {
         if (id === "home") {
-            history.push("/mypageHome");
+            setId("home");
+            props.onClickMenu("home");
         } else if (id === "scheduler") {
-            history.push("/mypageScheduler");
+            setId("scheduler");
+            props.onClickMenu("scheduler");
         } else if (id === "modify") {
-            history.push("/mypageModify");
+            setId("modify");
+            props.onClickMenu("modify");
         }
     }, [id])
 
     const onClickMypageHome = () => {
-        history.push("/mypageHome");
         setId("home");
+        props.onClickMenu("home");
     };
     const onClickMypageScheduler = () => {
-        history.push("/mypageScheduler");
         setId("scheduler");
+        props.onClickMenu("scheduler");
     };
     const onClickMypageModify = () => {
-        history.push("/mypageModify");
         setId("modify");
+        props.onClickMenu("modify");
     };
 
     return (
-        <div className="flex-[3] w-[354px] h-[100vh] items-center justify-center flex-col shadow-2xl z-[2]">
+        <div className="flex-[3] w-[354px] h-[calc(100vh-25px)] items-center justify-center flex-col shadow-2xl z-[2]">
             <ul className='text-[20px] leading-[28px]'>
                 <li className='mb-[42px]'>
                     <div className='flex items-center w-full h-[54px] font-bold mt-[26px]'>
@@ -101,7 +105,7 @@ const MypageSidebar = () => {
                 </li>
                 <li className='mb-[20px]'>
                     <div className='flex items-center w-full h-[54px] mt-[26px] cursor-pointer'>
-                        <span className='w-full font-medium ml-[69px]'>기타 추가</span>
+                        <span className='w-full font-medium ml-[69px]'>나의 게시판/리뷰</span>
                         <img src={CheckRight} alt="" className='w-[7px] h-[10px] mr-[26px]' />
                     </div>
                 </li>

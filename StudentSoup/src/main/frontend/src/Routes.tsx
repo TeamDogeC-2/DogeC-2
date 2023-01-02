@@ -8,6 +8,7 @@ import Login from "./components/login/login";
 import MypageHome from './components/mypage/mypageHome';
 import MypageScheduler from './components/mypage/mypageScheduler';
 import MypageModify from './components/mypage/mypageModify';
+import Mypage from "./components/mypage/mypage";
 
 const Routes = () => {
   return (
@@ -17,6 +18,7 @@ const Routes = () => {
       <Route exact path="/register/2" component={Register2} />
       <Route exact path="/register/3" component={Register3} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/mypage" component={Mypage} />
       <Route exact path="/mypageHome" component={MypageHome} />
       <Route exact path="/mypageScheduler" component={MypageScheduler} />
       <Route exact path="/mypagemodify" component={MypageModify} />
