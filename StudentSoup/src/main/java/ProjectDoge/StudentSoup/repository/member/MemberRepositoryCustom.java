@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.repository.member;
 
+import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.Member;
 
@@ -9,10 +10,10 @@ import java.util.Optional;
 public interface MemberRepositoryCustom {
 
     Member fullFindById(Long id);
-
     Optional<Member> updateFindById(Long id);
-
     Optional<Member> findById(String id);
+
+    Optional<MemberFindAccountDto> findByAccountEmail(String email);
     List<Member> findByName(String name);
     List<Member> findByNameAndSchool_SchoolName(String name, String schoolName);
     List<Member> findByDepartment_Id(Long id);
