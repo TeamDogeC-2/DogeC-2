@@ -77,10 +77,12 @@ public class DepartmentService {
     }
 
     public List<Department> getAllDepartmentUsingSchool(Long schoolId){
-        if(departmentRepository.findBySchool_Id(schoolId).isEmpty()){
+        List<Department> departments = departmentRepository.findBySchool_Id(schoolId);
+
+        if(departments.isEmpty()){
             log.info("등록된 학과가 없는 예외가 발생했습니다.");
             throw new DepartmentNotFoundException("학과가 존재하지 않습니다.");
         }
-        return departmentRepository.findBySchool_Id(schoolId);
+        return departments;
     }
 }
