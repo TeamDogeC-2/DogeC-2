@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
@@ -19,25 +20,27 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom{
 
     @Override
     public Restaurant findByRestaurantNameAndSchool_SchoolName(String restaurantName,String schoolName){
-        JPQLQuery<Restaurant> query = queryFactory
-                .selectFrom(restaurant)
+        Restaurant query = queryFactory
+                .select(restaurant)
+                .from(restaurant)
                 .leftJoin(restaurant.school,school)
                 .fetchJoin()
-                .where(restaurant.name.eq(restaurantName),restaurant.school.schoolName.eq(schoolName));
-
-        return query.fetchOne();
+                .where(restaurant.name.eq(restaurantName),restaurant.school.schoolName.eq(schoolName))
+                .fetchOne();
+        return query;
     }
 
     @Override
     public List<Restaurant> findRestaurantDynamicSearch(String column,String find_value){
-        JPQLQuery<Restaurant> query = queryFactory
+        List<Restaurant> query = queryFactory
                 .selectFrom(restaurant)
                 .where(checkRestaurantCategoryEq(column,find_value),
                         (checkRestaurantNameEq(column,find_value)),
                         (checkRestaurantSchoolNameEq(column,find_value)),
-                       (checkRestaurantTagContains(column,find_value)));
+                       (checkRestaurantTagContains(column,find_value)))
+                .fetch();
 
-        return query.fetch();
+        return query;
 
     }
 

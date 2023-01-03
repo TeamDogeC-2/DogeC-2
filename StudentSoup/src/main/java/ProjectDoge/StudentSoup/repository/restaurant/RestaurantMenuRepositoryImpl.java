@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.repository.restaurant;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,25 +18,25 @@ public class RestaurantMenuRepositoryImpl implements RestaurantMenuRepositoryCus
 
     @Override
     public RestaurantMenu findByRestaurantMenuNameAndRestaurant_RestaurantId(String MenuName,Long restaurantId){
-        JPAQuery<RestaurantMenu> query = queryFactory
+        RestaurantMenu query = queryFactory
                 .selectFrom(restaurantMenu)
                 .leftJoin(restaurantMenu.restaurant,restaurant)
                 .fetchJoin()
-                .where(restaurantMenu.name.eq(MenuName),restaurantMenu.restaurant.id.eq(restaurantId));
-
-        return query.fetchOne();
+                .where(restaurantMenu.name.eq(MenuName),restaurantMenu.restaurant.id.eq(restaurantId))
+                .fetchOne();
+        return query;
 
     }
 
     @Override
     public List<RestaurantMenu> findByRestaurantId(Long restaurantId){
-        JPAQuery<RestaurantMenu> query = queryFactory
+        List<RestaurantMenu> query = queryFactory
                 .selectFrom(restaurantMenu)
                 .leftJoin(restaurantMenu.restaurant,restaurant)
                 .fetchJoin()
-                .where(restaurantMenu.restaurant.id.eq(restaurantId));
-
-        return query.fetch();
+                .where(restaurantMenu.restaurant.id.eq(restaurantId))
+                .fetch();
+        return query;
     }
 
 }
