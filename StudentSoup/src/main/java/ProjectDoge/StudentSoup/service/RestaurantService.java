@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -42,10 +45,10 @@ public class RestaurantService {
 
     private void validateDuplicateRestaurant(Restaurant restaurant) {
         log.info("음식점 생성 검증 메소드가 실행되었습니다.");
-        Restaurant findRestaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName());
-        if(findRestaurant != null){
+        Optional<Restaurant> findRestaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName());
+        if(findRestaurant.isPresent()){
             log.info("음식점이 존재하는 예외가 발생했습니다");
-            throw  new RestaurantValidationException("이미 존재하는 음식점 입니다");
+            throw  new RestaurantValidationException("이미 존재하는 음식점 입니다.");
         }
         log.info("음식점 검증이 완료되었습니다.");
     }
@@ -61,7 +64,12 @@ public class RestaurantService {
         return school;
     }
     public Restaurant findByRestaurantNameAndSchoolName(String restaurantName,String schoolName){
-        Restaurant restaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurantName, schoolName);
+        Restaurant restaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurantName, schoolName)
+                .orElseThrow(()->{
+                    log.info("음식점 검색 중 음식점이 존재하지 않는 예외가 발생했습니다.");
+                    return  new RestaurantNotFoundException("존재하지 않는 음식점 입니다.");
+                });
+        log.info("검색 된 학교 : {}",restaurant.getName());
         return restaurant;
     }
     public Restaurant findOne(Long restaurantId){
@@ -72,4 +80,10 @@ public class RestaurantService {
     }
 
 
+    public List<Restaurant> AdminSearchSchools(String column, String find_value) {
+        if(column == null || find_value == null) return Collections.emptyList();
+        List<Restaurant> findRestaurants = restaurantRepository.findRestaurantDynamicSearch(column,find_value);
+
+        return findRestaurants;
+    }
 }

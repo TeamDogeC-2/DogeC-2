@@ -31,7 +31,7 @@
                                                 <h3 class="fw-normal mb-3" style="color: #4835d4;">레스토랑 정보</h3>
                                                 <div class="row">
                                                     <div class="col-md-6 mb-2 pb-2">
-                                                        <div class="form-outline">
+                                                        <div class="form-outline" >
                                                             <label class="form-label" th:for="name">레스토랑 이름</label>
                                                             <input type="text" th:field="*{name}"
                                                                    placeholder="이름을 입력하세요."
@@ -45,7 +45,7 @@
                                                     <div class="col-md-12 mb-2 pb-2">
                                                         <select class="form-select" th:field="*{restaurantCategory}" required="required">
                                                             <option value="">카테고리 선택</option>
-                                                            <option th:each="category : ${T(com.doge.takemh.domain.restaurant.RestaurantCategory).values()}"
+                                                            <option th:each="category : ${restaurantCategory}"
                                                                     th:value="${category}"
                                                                     th:text="${category.restaurantCategory}">
                                                             </option>
@@ -137,7 +137,7 @@
                                                                 <div class="col-md-7 pe-5">
                                                                     <input type="file"
                                                                            class="form-control form-control-sm"
-                                                                           name="files">
+                                                                           name="multipartFile">
                                                                     <div class="small text-muted mt-2">Upload your
                                                                         profile Image.
                                                                         Max file size 10MB
