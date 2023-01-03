@@ -8,7 +8,8 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.service.RestaurantService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,6 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +36,10 @@ public class RestaurantEntityTest {
     EntityManager em;
 
     @Autowired
-    SchoolService schoolService;
+    SchoolRegisterService schoolRegisterService;
+
+    @Autowired
+    SchoolFindService schoolFindService;
 
     @Autowired
     RestaurantService restaurantService;
@@ -58,7 +59,7 @@ public class RestaurantEntityTest {
     @BeforeEach
     void 학교등록() throws Exception {
         SchoolFormDto dto = createSchool();
-        schoolId = schoolService.join(dto);
+        schoolId = schoolRegisterService.join(dto);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(MockMvcRequestBuilders
@@ -72,7 +73,7 @@ public class RestaurantEntityTest {
         RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(), schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
         //when
         Long restaurantId = restaurantService.join(dto, multipartFile);
-        School school = schoolService.findOne(schoolId);
+        School school = schoolFindService.findOne(schoolId);
         //then
         assertThat(restaurantId).isEqualTo(restaurantService.findByRestaurantNameAndSchoolName(dto.getName(),school.getSchoolName()).getId());
     }
