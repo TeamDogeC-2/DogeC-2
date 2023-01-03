@@ -6,11 +6,14 @@ import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
+import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.RestaurantMenuService;
-import ProjectDoge.StudentSoup.service.RestaurantService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,11 +39,15 @@ public class RestaurantMenuEntityTest {
     EntityManager em;
 
     @Autowired
-    RestaurantService restaurantService;
+    RestaurantRegisterService restaurantRegisterService;
 
     @Autowired
-    RestaurantMenuService restaurantMenuService;
+    RestaurantFindService restaurantFindService;
 
+    @Autowired
+    RestaurantMenuRepository restaurantMenuRepository;
+    @Autowired
+    RestaurantMenuService restaurantMenuService;
     @Autowired
     SchoolRegisterService schoolRegisterService;
 
@@ -64,7 +71,7 @@ public class RestaurantMenuEntityTest {
         SchoolFormDto school = createSchool();
         schoolId = schoolRegisterService.join(school);
         RestaurantFormDto restaurantDto = createRestaurant();
-        restaurantId = restaurantService.join(restaurantDto, multipartFile);
+        restaurantId = restaurantRegisterService.join(restaurantDto, multipartFile);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(MockMvcRequestBuilders
@@ -73,14 +80,15 @@ public class RestaurantMenuEntityTest {
     }
 
     @Test
-    void 메뉴등록테스트() throws Exception{
+    void 메뉴등록_테스트() throws Exception{
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //when
         Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findById(restaurantMenuId).get();
         //then
-        assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.validateMenuNameUsingRestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
+        assertThat(restaurantMenuId).isEqualTo(restaurantMenu.getId());
     }
     @Test
     void 메뉴등록시_음식점없음(){

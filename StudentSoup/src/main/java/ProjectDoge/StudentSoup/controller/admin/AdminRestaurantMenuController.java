@@ -6,7 +6,8 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.RestaurantMenuService;
-import ProjectDoge.StudentSoup.service.RestaurantService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminRestaurantMenuController {
 
-    private final RestaurantService restaurantService;
-
+    private final RestaurantFindService restaurantFindService;
     private final RestaurantMenuService restaurantMenuService;
 
     private final RestaurantMenuRepository restaurantMenuRepository;
@@ -37,7 +37,7 @@ public class AdminRestaurantMenuController {
 
     @GetMapping("admin/restaurantMenu/new")
     public String createRestaurantMenu(@RequestParam Long restaurantId,Model model){
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         model.addAttribute("restaurantMenuForm",new RestaurantMenuFormDto());
         model.addAttribute("restaurant",restaurant);
         model.addAttribute("menuCategory", RestaurantMenuCategory.values());
