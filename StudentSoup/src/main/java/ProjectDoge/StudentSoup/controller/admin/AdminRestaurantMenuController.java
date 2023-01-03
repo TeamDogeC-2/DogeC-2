@@ -10,10 +10,7 @@ import ProjectDoge.StudentSoup.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,7 +27,7 @@ public class AdminRestaurantMenuController {
     private final RestaurantMenuRepository restaurantMenuRepository;
 
     @GetMapping("admin/restaurantMenus")
-    public String RestaurantMenuList(@RequestParam(value = "restaurantId")Long restaurantId, Model model){
+    public String RestaurantMenuList(@RequestParam Long restaurantId, Model model){
         List<RestaurantMenu> restaurantMenus =restaurantMenuRepository.findByRestaurantId(restaurantId);
         model.addAttribute("restaurantMenus",restaurantMenus);
 
@@ -39,7 +36,7 @@ public class AdminRestaurantMenuController {
 
 
     @GetMapping("admin/restaurantMenu/new")
-    public String createRestaurantMenu(@RequestParam(value = "restaurantId",required = false)Long restaurantId,Model model){
+    public String createRestaurantMenu(@RequestParam Long restaurantId,Model model){
         Restaurant restaurant = restaurantService.findOne(restaurantId);
         model.addAttribute("restaurantMenuForm",new RestaurantMenuFormDto());
         model.addAttribute("restaurant",restaurant);
@@ -47,7 +44,7 @@ public class AdminRestaurantMenuController {
         return "/admin/restaurant/createRestaurantMenu";
     }
     @PostMapping("admin/restaurantMenu/new")
-    public String createRestaurantMenu(RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
+    public String createRestaurantMenu(@ModelAttribute RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
         restaurantMenuService.join(form,multipartFile);
         redirect.addAttribute("restaurantId",form.getRestaurantId());
 

@@ -38,7 +38,7 @@ public class AdminRestaurantController {
         return "/admin/restaurant/createRestaurant";
     }
     @PostMapping("admin/restaurant/new")
-    public String createRestaurant(RestaurantFormDto restaurantFormDto,@RequestPart MultipartFile multipartFile){
+    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto,@RequestPart MultipartFile multipartFile){
         restaurantService.join(restaurantFormDto,multipartFile);
         return "redirect:/admin/restaurants";
     }
