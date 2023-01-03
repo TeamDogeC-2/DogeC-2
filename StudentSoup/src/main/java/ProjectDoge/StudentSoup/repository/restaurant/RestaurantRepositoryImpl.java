@@ -19,7 +19,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Restaurant findByRestaurantNameAndSchool_SchoolName(String restaurantName,String schoolName){
+    public Optional<Restaurant> findByRestaurantNameAndSchool_SchoolName(String restaurantName,String schoolName){
         Restaurant query = queryFactory
                 .select(restaurant)
                 .from(restaurant)
@@ -27,7 +27,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom{
                 .fetchJoin()
                 .where(restaurant.name.eq(restaurantName),restaurant.school.schoolName.eq(schoolName))
                 .fetchOne();
-        return query;
+        return Optional.ofNullable(query);
     }
 
     @Override

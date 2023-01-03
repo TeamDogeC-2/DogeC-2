@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurantMenu.restaurantMenu;
@@ -17,14 +18,14 @@ public class RestaurantMenuRepositoryImpl implements RestaurantMenuRepositoryCus
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public RestaurantMenu findByRestaurantMenuNameAndRestaurant_RestaurantId(String MenuName,Long restaurantId){
+    public Optional<RestaurantMenu> findByRestaurantMenuNameAndRestaurant_RestaurantId(String MenuName, Long restaurantId){
         RestaurantMenu query = queryFactory
                 .selectFrom(restaurantMenu)
                 .leftJoin(restaurantMenu.restaurant,restaurant)
                 .fetchJoin()
                 .where(restaurantMenu.name.eq(MenuName),restaurantMenu.restaurant.id.eq(restaurantId))
                 .fetchOne();
-        return query;
+        return Optional.ofNullable(query);
 
     }
 
