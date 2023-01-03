@@ -45,11 +45,13 @@ public class RestaurantMenuService {
 
     public void validationDuplicateRestaurantMenu(RestaurantMenu restaurantMenu){
         log.info("음식점 메뉴 생성 검증 로직이 실행되었습니다.");
-        Optional<RestaurantMenu> duplicateRestaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(restaurantMenu.getName(),restaurantMenu.getRestaurant().getId());
-        if(duplicateRestaurantMenu.isPresent()){
-            log.info("메뉴가 존재하는 예외가 발생했습니다.");
-            throw new RestaurantMenuValidationException("이미 존재하는 메뉴 입니다.");
-        }
+        restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(
+                        restaurantMenu.getName(),
+                        restaurantMenu.getRestaurant().getId())
+                        .ifPresent(value -> {
+                            log.info("메뉴가 존재하는 예외가 발생했습니다.");
+                            throw new RestaurantMenuValidationException("이미 존재하는 메뉴 입니다.");
+                        });
         log.info("메뉴 검증이 완료 되었습니다.");
     }
 
