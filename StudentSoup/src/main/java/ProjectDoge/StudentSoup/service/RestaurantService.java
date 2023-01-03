@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdEmailException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
@@ -45,11 +46,11 @@ public class RestaurantService {
 
     private void validateDuplicateRestaurant(Restaurant restaurant) {
         log.info("음식점 생성 검증 메소드가 실행되었습니다.");
-        Optional<Restaurant> findRestaurant = restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName());
-        if(findRestaurant.isPresent()){
-            log.info("음식점이 존재하는 예외가 발생했습니다");
-            throw  new RestaurantValidationException("이미 존재하는 음식점 입니다.");
-        }
+        restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName())
+                .ifPresent(value -> {
+                    log.info("메뉴가 존재하는 예외가 발생했습니다.");
+                    throw new RestaurantValidationException("이미 존재하는 메뉴 입니다.");
+                });
         log.info("음식점 검증이 완료되었습니다.");
     }
 
