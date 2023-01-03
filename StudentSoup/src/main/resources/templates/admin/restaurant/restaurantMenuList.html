@@ -36,11 +36,11 @@
                             <td th:text="${restaurantMenu.name}">name</td>
                             <td th:text="${restaurantMenu.restaurantMenuCategory.restaurantMenuCategory}">category</td>
                             <td th:text="${restaurantMenu.cost}">cost</td>
-                            <td th:if="${restaurantMenu.file != null}"
-                                th:text="${restaurantMenu.file.fileOriginalName}">
+                            <td th:if="${restaurantMenu.imageFile != null}"
+                                th:text="${restaurantMenu.imageFile.fileOriginalName}">
                                 fileName
                             </td>
-                            <td th:if="${restaurantMenu.file == null}">null</td>
+                            <td th:if="${restaurantMenu.imageFile == null}">null</td>
                             <td th:text="${restaurantMenu.starLiked}">starLiked</td>
                             <td th:text="${restaurantMenu.likedCount}">likedCount</td>
                             <td>
