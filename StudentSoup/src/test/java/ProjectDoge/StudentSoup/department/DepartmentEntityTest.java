@@ -5,8 +5,10 @@ import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
-import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
+import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +29,33 @@ public class DepartmentEntityTest {
     EntityManager em;
 
     @Autowired
-    private DepartmentService departmentService;
+    private DepartmentRegisterService departmentRegisterService;
 
     @Autowired
-    private SchoolService schoolService;
+    private DepartmentFindService departmentFindService;
+
+    @Autowired
+    private SchoolRegisterService schoolRegisterService;
+
+    @Autowired
+    private SchoolFindService schoolFindService;
 
     Long schoolId = 0L;
 
     @BeforeEach
     void 학교등록() {
         SchoolFormDto school = createSchool();
-        schoolId = schoolService.join(school);
+        schoolId = schoolRegisterService.join(school);
     }
     @Test
     void 학과등록테스트() throws Exception {
         //given
         DepartmentFormDto dto = createDepartmentForm(schoolId, "테스트 학과");
         //when
-        Long departmentId = departmentService.join(schoolId, dto);
-        School school = schoolService.findOne(schoolId);
+        Long departmentId = departmentRegisterService.join(schoolId, dto);
+        School school = schoolFindService.findOne(schoolId);
         //then
-        assertThat(departmentId).isEqualTo(departmentService.findOneUsingDepartmentNameAndSchoolName(dto.getDepartmentName(), school.getSchoolName()).getId());
+        assertThat(departmentId).isEqualTo(departmentFindService.findOneUsingDepartmentNameAndSchoolName(dto.getDepartmentName(), school.getSchoolName()).getId());
     }
 
     @Test
@@ -58,7 +66,7 @@ public class DepartmentEntityTest {
         //when
 
         //then
-        assertThatThrownBy(() -> departmentService.join(errorSchoolId, dto))
+        assertThatThrownBy(() -> departmentRegisterService.join(errorSchoolId, dto))
                 .isInstanceOf(SchoolNotFoundException.class);
     }
 
