@@ -8,9 +8,9 @@ import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwd;
+import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.MemberService;
+import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,7 +81,7 @@ public class MemberLoginTest {
         String pwd = "test12!";
         //then
         assertThatThrownBy(() -> memberService.login(id, pwd))
-                .isInstanceOf(MemberNotMatchIdPwd.class);
+                .isInstanceOf(MemberNotMatchIdPwdException.class);
     }
 
     @Test
