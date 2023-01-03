@@ -9,10 +9,11 @@ import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
-import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
-import ProjectDoge.StudentSoup.service.member.MemberService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.member.MemberLoginService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,24 +30,28 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 @Rollback
 public class MemberLoginTest {
+
     @Autowired
-    MemberService memberService;
+    MemberRegisterService memberRegisterService;
+
+    @Autowired
+    MemberLoginService memberLoginService;
 
     @Autowired
     MemberFindService memberFindService;
     @Autowired
-    SchoolService schoolService;
+    SchoolRegisterService schoolRegisterService;
     @Autowired
-    DepartmentService departmentService;
+    DepartmentRegisterService departmentRegisterService;
 
     Long schoolId = 0L;
     Long departmentId = 0L;
     @BeforeEach
     void schoolAndDepartment() {
         SchoolFormDto schoolFormDto = createSchool();
-        schoolId = schoolService.join(schoolFormDto);
+        schoolId = schoolRegisterService.join(schoolFormDto);
         DepartmentFormDto dto = createDepartmentDto(schoolId);
-        departmentId = departmentService.join(schoolId, dto);
+        departmentId = departmentRegisterService.join(schoolId, dto);
 
     }
 
@@ -60,12 +65,12 @@ public class MemberLoginTest {
         formB1.setSchoolId(schoolId);
         formB1.setDepartmentId(departmentId);
         formB1.setEmail("test1@naver.com");
-        memberService.join(formB1);
+        memberRegisterService.join(formB1);
         //when
         String id = "test";
         String pwd = "test123!";
         //then
-        assertThatThrownBy(() -> memberService.login(id, pwd))
+        assertThatThrownBy(() -> memberLoginService.login(id, pwd))
                 .isInstanceOf(MemberNotFoundException.class);
     }
 
@@ -79,12 +84,12 @@ public class MemberLoginTest {
         formB1.setSchoolId(schoolId);
         formB1.setDepartmentId(departmentId);
         formB1.setEmail("test1@naver.com");
-        memberService.join(formB1);
+        memberRegisterService.join(formB1);
         //when
         String id = "test1";
         String pwd = "test12!";
         //then
-        assertThatThrownBy(() -> memberService.login(id, pwd))
+        assertThatThrownBy(() -> memberLoginService.login(id, pwd))
                 .isInstanceOf(MemberNotMatchIdPwdException.class);
     }
 
@@ -98,12 +103,12 @@ public class MemberLoginTest {
         formB1.setSchoolId(schoolId);
         formB1.setDepartmentId(departmentId);
         formB1.setEmail("test1@naver.com");
-        Long memberId = memberService.join(formB1);
+        Long memberId = memberRegisterService.join(formB1);
         Member member = memberFindService.findOne(memberId);
         //when
         String id = "test1";
         String pwd = "test123!";
-        MemberDto memberDto = memberService.login(id, pwd);
+        MemberDto memberDto = memberLoginService.login(id, pwd);
         //then
         // 아이디 확인
         assertThat(memberDto.getId()).isEqualTo(member.getId());

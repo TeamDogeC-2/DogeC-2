@@ -8,9 +8,9 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.member.MemberService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
@@ -23,12 +23,11 @@ import java.util.List;
 @Profile("local")
 @RequiredArgsConstructor
 public class TestDataInit {
-    private final MemberService memberService;
+    private final MemberRegisterService memberRegisterService;
     private final SchoolRepository schoolRepository;
-    private final SchoolService schoolService;
+    private final SchoolRegisterService schoolRegisterService;
     private final DepartmentRepository departmentRepository;
-    private final DepartmentService departmentService;
-
+    private final DepartmentRegisterService departmentRegisterService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
@@ -49,8 +48,8 @@ public class TestDataInit {
         SchoolFormDto school2 = new SchoolFormDto();
         school2.setSchoolName("더미테스트2 학교");
         school2.setSchoolCoordinate("더미테스트2 좌표");
-        schoolService.join(school1);
-        schoolService.join(school2);
+        schoolRegisterService.join(school1);
+        schoolRegisterService.join(school2);
     }
 
     private void initDepartment(){
@@ -72,10 +71,10 @@ public class TestDataInit {
         dto4.setDepartmentName("더미테스트2 학과2");
         dto4.setSchoolId(school2.getId());
 
-        departmentService.join(school1.getId(), dto1);
-        departmentService.join(school1.getId(), dto2);
-        departmentService.join(school2.getId(), dto3);
-        departmentService.join(school2.getId(), dto4);
+        departmentRegisterService.join(school1.getId(), dto1);
+        departmentRegisterService.join(school1.getId(), dto2);
+        departmentRegisterService.join(school2.getId(), dto3);
+        departmentRegisterService.join(school2.getId(), dto4);
     }
 
     private void initMember(){
@@ -98,12 +97,12 @@ public class TestDataInit {
         MemberFormBDto dto6 = createMemberFormDto("dummyTest6", "test123!", "더미테스트6", "dummytest6@naver.com",
                 GenderType.WOMAN, school2.getId(), departments2.get(1).getId());
 
-        memberService.join(dto1);
-        memberService.join(dto2);
-        memberService.join(dto3);
-        memberService.join(dto4);
-        memberService.join(dto5);
-        memberService.join(dto6);
+        memberRegisterService.join(dto1);
+        memberRegisterService.join(dto2);
+        memberRegisterService.join(dto3);
+        memberRegisterService.join(dto4);
+        memberRegisterService.join(dto5);
+        memberRegisterService.join(dto6);
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,

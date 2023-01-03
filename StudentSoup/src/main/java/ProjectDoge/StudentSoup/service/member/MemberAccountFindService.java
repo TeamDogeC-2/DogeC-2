@@ -26,7 +26,6 @@ public class MemberAccountFindService {
     private String adminEmail;
 
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final MailSender mailSender;
 
     public EmailDto createFindMemberIdUsingEmail(String email){

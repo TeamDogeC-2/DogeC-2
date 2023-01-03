@@ -9,10 +9,11 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.admin.AdminMemberService;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
-import ProjectDoge.StudentSoup.service.member.MemberService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,10 +30,11 @@ import java.util.stream.Collectors;
 @Controller
 public class AdminController {
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final MemberFindService memberFindService;
-    private final SchoolService schoolService;
-    private final DepartmentService departmentService;
+    private final MemberRegisterService memberRegisterService;
+    private final AdminMemberService adminMemberService;
+    private final SchoolFindService schoolFindService;
+    private final DepartmentFindService departmentFindService;
 
     @GetMapping()
     public String adminPage(){
@@ -45,7 +47,7 @@ public class AdminController {
 
         model.addAttribute("memberForm", new AdminMemberForm());
         model.addAttribute("genderTypes", GenderType.values());
-        List<School> schools = schoolService.findAll();
+        List<School> schools = schoolFindService.findAll();
         model.addAttribute("schools", schools);
 
         return "/admin/member/createMember";
@@ -53,7 +55,7 @@ public class AdminController {
 
     @PostMapping("/member/new")
     public String createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm){
-        memberService.join(memberForm);
+        memberRegisterService.join(memberForm);
         return "redirect:/admin";
     }
 
@@ -75,7 +77,7 @@ public class AdminController {
         log.info("회원 업데이트가 시작되었습니다.");
         log.info("updateForm 전달 객체 : {}", updateForm.toString());
         log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
-        Long updateId = memberService.adminMemberUpdate(updateForm, updateForm.getMultipartFile());
+        Long updateId = adminMemberService.adminMemberUpdate(updateForm, updateForm.getMultipartFile());
 
         Member member = memberFindService.findOne(updateId);
         log.info("updated member password : [{}]", member.getPwd());
@@ -88,7 +90,7 @@ public class AdminController {
     public List<DepartmentSignUpDto> getDepartment(@RequestBody Map<String, Long> param){
         Long schoolId = param.get("schoolId");
         log.info("member/ajax , schoolId : [{}]", schoolId);
-        List<Department> Department = departmentService.getAllDepartmentUsingSchool(schoolId);
+        List<Department> Department = departmentFindService.getAllDepartmentUsingSchool(schoolId);
         List<DepartmentSignUpDto> dto = Department.stream()
                 .map(department -> new DepartmentSignUpDto(department))
                 .collect(Collectors.toList());

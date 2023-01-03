@@ -1,10 +1,9 @@
 package ProjectDoge.StudentSoup.school;
 
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
-import ProjectDoge.StudentSoup.service.SchoolService;
-import org.assertj.core.api.Assertions;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,16 +22,19 @@ public class SchoolEntityTest {
     EntityManager em;
 
     @Autowired
-    private SchoolService schoolService;
+    private SchoolRegisterService schoolRegisterService;
+
+    @Autowired
+    private SchoolFindService schoolFindService;
 
     @Test
     void 학교등록테스트() throws Exception {
         //given
         SchoolFormDto school = createSchool();
         //when
-        Long schoolId = schoolService.join(school);
+        Long schoolId = schoolRegisterService.join(school);
         //then
-        assertThat(schoolId).isEqualTo(schoolService.findOne(schoolId).getId());
+        assertThat(schoolId).isEqualTo(schoolFindService.findOne(schoolId).getId());
     }
 
     @Test
@@ -41,9 +43,9 @@ public class SchoolEntityTest {
         SchoolFormDto school1 = createSchool();
         SchoolFormDto school2 = createSchool();
         //when
-        schoolService.join(school1);
+        schoolRegisterService.join(school1);
         //then
-        assertThatThrownBy(()-> schoolService.join(school2))
+        assertThatThrownBy(()-> schoolRegisterService.join(school2))
                 .isInstanceOf(SchoolValidationException.class);
     }
 

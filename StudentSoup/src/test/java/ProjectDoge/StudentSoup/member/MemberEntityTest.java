@@ -9,10 +9,11 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
-import ProjectDoge.StudentSoup.service.member.MemberService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberValidationService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,21 +41,24 @@ public class MemberEntityTest {
 
     @PersistenceContext
     EntityManager em;
+    @Autowired
+    MemberRegisterService memberRegisterService;
 
     @Autowired
-    MemberService memberService;
+    MemberValidationService memberValidationService;
+
     @Autowired
     MemberFindService memberFindService;
     @Autowired
     MemberRepository memberRepository;
 
     @Autowired
-    SchoolService schoolService;
+    SchoolRegisterService schoolRegisterService;
     @Autowired
     SchoolRepository schoolRepository;
 
     @Autowired
-    DepartmentService departmentService;
+    DepartmentRegisterService departmentRegisterService;
 
 
 
@@ -66,9 +70,9 @@ public class MemberEntityTest {
         @BeforeEach
         void schoolAndDepartment() {
             SchoolFormDto schoolFormDto = createSchool();
-            schoolId = schoolService.join(schoolFormDto);
+            schoolId = schoolRegisterService.join(schoolFormDto);
             DepartmentFormDto dto = createDepartmentDto(schoolId);
-            departmentId = departmentService.join(schoolId, dto);
+            departmentId = departmentRegisterService.join(schoolId, dto);
         }
         @Test
         void 회원가입_A_중복() throws Exception {
@@ -80,11 +84,11 @@ public class MemberEntityTest {
 
             log.info("BDto 출력 : {}", BDto.toString());
 
-            memberService.join(BDto);
+            memberRegisterService.join(BDto);
             //when
             MemberFormADto memberFormADto = createMemberFormA("test1", "test123!");
             //then
-            assertThatThrownBy(() -> memberService.validateDuplicateMemberId(memberFormADto.getId()))
+            assertThatThrownBy(() -> memberValidationService.validateDuplicateMemberId(memberFormADto.getId()))
                     .isInstanceOf(MemberValidationException.class);
         }
 
@@ -110,7 +114,7 @@ public class MemberEntityTest {
             memberFormBDto.setDepartmentId(departmentId);
 
             //when
-            Long memberId = memberService.join(memberFormBDto);
+            Long memberId = memberRegisterService.join(memberFormBDto);
             //then
             assertThat(memberId).isEqualTo(memberFindService.findOne(memberId).getMemberId());
             assertThat(schoolId).isEqualTo(memberFindService.findOne(memberId).getSchool().getId());
@@ -125,7 +129,7 @@ public class MemberEntityTest {
             memberFormBDto1.setSchoolId(schoolId);
             memberFormBDto1.setDepartmentId(departmentId);
 
-            memberService.join(memberFormBDto1);
+            memberRegisterService.join(memberFormBDto1);
 
             MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
             MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
@@ -135,7 +139,7 @@ public class MemberEntityTest {
             //when
 
             //then
-            assertThatThrownBy(() -> memberService.validateDuplicateMemberNickname(memberFormBDto2.getNickname()))
+            assertThatThrownBy(() -> memberValidationService.validateDuplicateMemberNickname(memberFormBDto2.getNickname()))
                     .isInstanceOf(MemberValidationException.class);
         }
 
@@ -147,7 +151,7 @@ public class MemberEntityTest {
             memberFormBDto1.setSchoolId(schoolId);
             memberFormBDto1.setDepartmentId(departmentId);
 
-            memberService.join(memberFormBDto1);
+            memberRegisterService.join(memberFormBDto1);
 
             MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
             MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
@@ -157,7 +161,7 @@ public class MemberEntityTest {
             //when
 
             //then
-            assertThatThrownBy(() -> memberService.validateDuplicateMemberEmail(memberFormBDto2.getEmail()))
+            assertThatThrownBy(() -> memberValidationService.validateDuplicateMemberEmail(memberFormBDto2.getEmail()))
                     .isInstanceOf(MemberValidationException.class);
         }
 
@@ -169,7 +173,7 @@ public class MemberEntityTest {
             memberFormBDto1.setSchoolId(schoolId);
             memberFormBDto1.setDepartmentId(departmentId);
 
-            memberService.join(memberFormBDto1);
+            memberRegisterService.join(memberFormBDto1);
 
             MemberFormADto memberFormADto2 = createMemberFormA("test1", "test123!");
             MemberFormBDto memberFormBDto2 = createMemberFormB(memberFormADto2);
@@ -178,7 +182,7 @@ public class MemberEntityTest {
             //when
 
             //then
-            assertThatThrownBy(() -> memberService.join(memberFormBDto2))
+            assertThatThrownBy(() -> memberRegisterService.join(memberFormBDto2))
                     .isInstanceOf(MemberValidationException.class);
         }
     }
@@ -190,9 +194,9 @@ public class MemberEntityTest {
         @BeforeEach
         void schoolAndDepartment() {
             SchoolFormDto schoolFormDto = createSchool();
-            schoolId = schoolService.join(schoolFormDto);
+            schoolId = schoolRegisterService.join(schoolFormDto);
             DepartmentFormDto dto = createDepartmentDto(schoolId);
-            departmentId = departmentService.join(schoolId, dto);
+            departmentId = departmentRegisterService.join(schoolId, dto);
         }
 
         @Test
@@ -205,7 +209,7 @@ public class MemberEntityTest {
             formB1.setSchoolId(schoolId);
             formB1.setDepartmentId(departmentId);
             formB1.setEmail("test1@naver.com");
-            Long member1Id = memberService.join(formB1);
+            Long member1Id = memberRegisterService.join(formB1);
 
             MemberFormADto formA2 = createMemberFormA("test2", "test123!");
             MemberFormBDto formB2 = createMemberFormB(formA2);
@@ -214,7 +218,7 @@ public class MemberEntityTest {
             formB2.setSchoolId(schoolId);
             formB2.setDepartmentId(departmentId);
             formB2.setEmail("test2@naver.com");
-            Long member2Id = memberService.join(formB2);
+            Long member2Id = memberRegisterService.join(formB2);
             //when
             Member member1 = memberFindService.findOne(member1Id);
             Member member2 = memberFindService.findOne(member2Id);
@@ -233,7 +237,7 @@ public class MemberEntityTest {
             formB1.setSchoolId(schoolId);
             formB1.setDepartmentId(departmentId);
             formB1.setEmail("test1@naver.com");
-            Long member1Id = memberService.join(formB1);
+            Long member1Id = memberRegisterService.join(formB1);
 
             MemberFormADto formA2 = createMemberFormA("test2", "test123!");
             MemberFormBDto formB2 = createMemberFormB(formA2);
@@ -242,7 +246,7 @@ public class MemberEntityTest {
             formB2.setSchoolId(schoolId);
             formB2.setDepartmentId(departmentId);
             formB2.setEmail("test2@naver.com");
-            Long member2Id = memberService.join(formB2);
+            Long member2Id = memberRegisterService.join(formB2);
 
             //when
             List<Member> members = memberRepository.findBySchool_SchoolId(schoolId);
