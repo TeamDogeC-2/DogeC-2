@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotSamePassword;
-import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
+import ProjectDoge.StudentSoup.exception.member.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,10 +26,10 @@ public class MemberAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MemberNotSamePassword.class)
-    public ErrorResult memberCheckPasswordHandler(MemberNotSamePassword e){
+    @ExceptionHandler(MemberNotMatchIdPwdException.class)
+    public ErrorResult memberCheckPasswordHandler(MemberNotMatchIdPwdException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("MemberNotSamePassword", e.getMessage());
+        return new ErrorResult("MemberNotMatchIdPwd", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -40,5 +37,19 @@ public class MemberAdvice {
     public ErrorResult memberIdNotSentHandler(MemberIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("MemberIdNotSent", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberEmailNotFoundException.class)
+    public ErrorResult memberEmailNotFoundHandler(MemberEmailNotFoundException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberEmailNotFound", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberNotMatchIdEmailException.class)
+    public ErrorResult memberNotMatchIdEmail(MemberNotMatchIdEmailException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberNotMatchIdEmail", e.getMessage());
     }
 }

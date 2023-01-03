@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.service;
+package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
@@ -10,12 +10,15 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotSamePassword;
+import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.FileService;
+import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -135,7 +138,7 @@ public class MemberService {
         log.info("아이디와 비밀번호를 체크하는 검증 로직 실행, 아이디 : [{}], 비밀번호 : [{}]", member.getId(), pwd);
         if(notSameMemberIdPwd(member, pwd)) {
             log.info("아이디와 패스워드가 일치하지 않는 예외 발생");
-            throw new MemberNotSamePassword("아이디 또는 패스워드가 일치하지 않습니다.");
+            throw new MemberNotMatchIdPwdException("아이디 또는 패스워드가 일치하지 않습니다.");
         }
     }
 

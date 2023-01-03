@@ -1,8 +1,10 @@
 package ProjectDoge.StudentSoup.repository.member;
 
+import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,31 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .fetchOne();
 
         return Optional.ofNullable(query);
+    }
+
+    @Override
+    public Optional<MemberFindAccountDto> findByAccountUsingEmail(String email) {
+        MemberFindAccountDto result = queryFactory.select(Projections.constructor(MemberFindAccountDto.class,
+                        member.id,
+                        member.email,
+                        member.nickname))
+                .from(member)
+                .where(member.email.eq(email))
+                .fetchOne();
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Optional<MemberFindAccountDto> findByAccountUsingEmailAndId(String email, String id) {
+        MemberFindAccountDto result = queryFactory.select(Projections.constructor(MemberFindAccountDto.class,
+                    member.id,
+                    member.email,
+                    member.nickname,
+                    member.pwd))
+                .from(member)
+                .where(member.email.eq(email), member.id.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(result);
     }
 
     @Override
