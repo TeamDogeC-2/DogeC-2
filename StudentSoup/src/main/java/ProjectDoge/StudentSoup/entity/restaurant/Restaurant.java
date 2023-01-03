@@ -55,7 +55,7 @@ public class Restaurant {
     @Lob
     private String detail;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant",cascade = CascadeType.REMOVE)
     private List<RestaurantMenu> restaurantMenus = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant")
