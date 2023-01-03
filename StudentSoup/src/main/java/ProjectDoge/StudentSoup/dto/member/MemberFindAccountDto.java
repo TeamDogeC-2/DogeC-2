@@ -10,4 +10,5 @@ public class MemberFindAccountDto {
     private String id;
     private String email;
     private String nickname;
+    private String pwd;
 }
