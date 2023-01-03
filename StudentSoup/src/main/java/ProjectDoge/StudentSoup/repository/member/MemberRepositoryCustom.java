@@ -12,8 +12,8 @@ public interface MemberRepositoryCustom {
     Member fullFindById(Long id);
     Optional<Member> updateFindById(Long id);
     Optional<Member> findById(String id);
-
-    Optional<MemberFindAccountDto> findByAccountEmail(String email);
+    Optional<MemberFindAccountDto> findByAccountUsingEmail(String email);
+    Optional<MemberFindAccountDto> findByAccountUsingEmailAndId(String email, String id);
     List<Member> findByName(String name);
     List<Member> findByNameAndSchool_SchoolName(String name, String schoolName);
     List<Member> findByDepartment_Id(Long id);

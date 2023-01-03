@@ -62,13 +62,26 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
-    public Optional<MemberFindAccountDto> findByAccountEmail(String email) {
+    public Optional<MemberFindAccountDto> findByAccountUsingEmail(String email) {
         MemberFindAccountDto result = queryFactory.select(Projections.constructor(MemberFindAccountDto.class,
                         member.id,
                         member.email,
                         member.nickname))
                 .from(member)
                 .where(member.email.eq(email))
+                .fetchOne();
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public Optional<MemberFindAccountDto> findByAccountUsingEmailAndId(String email, String id) {
+        MemberFindAccountDto result = queryFactory.select(Projections.constructor(MemberFindAccountDto.class,
+                    member.id,
+                    member.email,
+                    member.nickname,
+                    member.pwd))
+                .from(member)
+                .where(member.email.eq(email), member.id.eq(id))
                 .fetchOne();
         return Optional.ofNullable(result);
     }
