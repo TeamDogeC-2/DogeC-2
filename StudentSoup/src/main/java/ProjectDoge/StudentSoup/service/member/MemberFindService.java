@@ -3,7 +3,9 @@ package ProjectDoge.StudentSoup.service.member;
 import ProjectDoge.StudentSoup.dto.member.EmailDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.exception.member.MemberEmailNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
+import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdEmailException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,13 +32,11 @@ public class MemberFindService {
     public EmailDto createFindMemberIdUsingEmail(String email){
         log.info("회원 아이디 찾기 서비스 로직을 실행하였습니다.");
         MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmail(email)
-                .orElse(null);
-        if(findMember == null){
-            log.info("이메일이 일치하는 회원을 찾지 못했습니다.");
-            return null;
-        } else{
-            return createFindIdMailDto(findMember);
-        }
+                .orElseThrow(() -> {
+                    log.info("이메일이 일치하는 회원을 찾지 못하였습니다.");
+                    throw new MemberEmailNotFoundException("등록된 이메일을 찾을 수 없습니다.");
+                });
+        return createFindIdMailDto(findMember);
     }
 
     private EmailDto createFindIdMailDto(MemberFindAccountDto findMember){
@@ -52,16 +52,12 @@ public class MemberFindService {
     public EmailDto createFindPwdUsingEmailAndId(String email, String id) {
         log.info("회원 비밀번호 찾기 서비스 로직이 실행되었습니다.");
         MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmailAndId(email, id)
-                .orElse(null);
-        if (findMember == null) {
-            log.info("아이디와 이메일이 일치하는 회원을 찾지 못했습니다.");
-            return null;
-        } else {
-            return createFindPwdMailDto(findMember);
-        }
+                .orElseThrow(() -> {
+                    log.info("아이디와 이메일이 일치하는 회원을 찾지 못하였습니다.");
+                    throw new MemberNotMatchIdEmailException("아이디와 이메일이 일치하지 않습니다.");
+                });
+        return createFindPwdMailDto(findMember);
     }
-
-
     private EmailDto createFindPwdMailDto(MemberFindAccountDto findMember){
         memberTempPwdUpdate(findMember);
         log.info("회원 비밀번호 찾기 메세지 객체 생성이 시작되었습니다. [{}]", findMember.getId());
