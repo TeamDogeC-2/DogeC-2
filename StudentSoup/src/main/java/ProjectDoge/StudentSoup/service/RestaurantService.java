@@ -46,10 +46,12 @@ public class RestaurantService {
 
     private void validateDuplicateRestaurant(Restaurant restaurant) {
         log.info("음식점 생성 검증 메소드가 실행되었습니다.");
-        restaurantRepository.findByRestaurantNameAndSchool_SchoolName(restaurant.getName(),restaurant.getSchool().getSchoolName())
-                .ifPresent(value -> {
-                    log.info("메뉴가 존재하는 예외가 발생했습니다.");
-                    throw new RestaurantValidationException("이미 존재하는 메뉴 입니다.");
+        restaurantRepository.findByRestaurantNameAndSchool_SchoolName(
+                        restaurant.getName(),
+                        restaurant.getSchool().getSchoolName())
+                        .ifPresent(value -> {
+                            log.info("메뉴가 존재하는 예외가 발생했습니다.");
+                            throw new RestaurantValidationException("이미 존재하는 메뉴 입니다.");
                 });
         log.info("음식점 검증이 완료되었습니다.");
     }
