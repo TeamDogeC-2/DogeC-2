@@ -9,6 +9,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.member.MemberCommonService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class SignupController {
 
     private final MemberService memberService;
+    private final MemberCommonService memberCommonService;
     private final SchoolService schoolService;
     private final DepartmentService departmentService;
 
@@ -63,7 +65,7 @@ public class SignupController {
     public MemberDto signUp(@RequestBody MemberFormBDto dto){
         log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
         Long memberId = memberService.join(dto);
-        Member member = memberService.findOne(memberId);
+        Member member = memberCommonService.findOne(memberId);
         log.info("member의 성별 : [{}]", member.getGender());
         MemberDto result = new MemberDto().getMemberDto(member);
         return result;

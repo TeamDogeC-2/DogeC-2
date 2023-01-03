@@ -10,6 +10,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
+import ProjectDoge.StudentSoup.service.member.MemberCommonService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,9 @@ import static org.assertj.core.api.Assertions.*;
 public class MemberLoginTest {
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberCommonService memberCommonService;
     @Autowired
     SchoolService schoolService;
     @Autowired
@@ -95,7 +99,7 @@ public class MemberLoginTest {
         formB1.setDepartmentId(departmentId);
         formB1.setEmail("test1@naver.com");
         Long memberId = memberService.join(formB1);
-        Member member = memberService.findOne(memberId);
+        Member member = memberCommonService.findOne(memberId);
         //when
         String id = "test1";
         String pwd = "test123!";

@@ -33,8 +33,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final SchoolRepository schoolRepository;
-    private final SchoolService schoolService;
     private final DepartmentRepository departmentRepository;
+    private final MemberCommonService memberCommonService;
+    private final SchoolService schoolService;
     private final DepartmentService departmentService;
 
     private final FileService fileService;
@@ -196,7 +197,7 @@ public class MemberService {
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
         log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
         Long fileId = fileService.join(multipartFile);
-        Member member = findOne(memberId);
+        Member member = memberCommonService.findOne(memberId);
         return createProfileUpdateMemberDto(fileId, member);
     }
 
@@ -215,7 +216,7 @@ public class MemberService {
     @Transactional
     public Long updateMember(MemberUpdateDto dto){
         log.info("운영 페이지 회원 업데이트 메소드가 실행되었습니다.");
-        Member member = findOne(dto.getMemberId());
+        Member member = memberCommonService.findOne(dto.getMemberId());
         validationChangedNicknameEmail(dto, member);
         updateMemberField(dto, member);
         log.info("운영 페이지 회원 업데이트가 완료되었습니다.");
@@ -237,20 +238,5 @@ public class MemberService {
         member.setPwd(dto.getPwd());
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
-    }
-
-    public Member findOne(Long memberId) {
-        checkMemberIdSent(memberId);
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> {
-                    throw new MemberNotFoundException("회원을 찾지 못하였습니다.");
-                });
-    }
-
-    private void checkMemberIdSent(Long memberId) {
-        if(memberId == null){
-            log.info("memberId가 전송되지 않았습니다.");
-            throw new MemberIdNotSentException("memberId가 전송되지 않았습니다.");
-        }
     }
 }
