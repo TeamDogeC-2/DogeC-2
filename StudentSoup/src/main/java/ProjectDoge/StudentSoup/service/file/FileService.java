@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.service;
+package ProjectDoge.StudentSoup.service.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;

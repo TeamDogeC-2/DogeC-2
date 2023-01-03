@@ -8,9 +8,11 @@ import ProjectDoge.StudentSoup.dto.school.SchoolSignUpDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.member.MemberService;
-import ProjectDoge.StudentSoup.service.SchoolService;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberValidationService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,21 +26,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SignupController {
 
-    private final MemberService memberService;
-    private final SchoolService schoolService;
-    private final DepartmentService departmentService;
+    private final MemberFindService memberFindService;
+    private final MemberValidationService memberValidationService;
+    private final MemberRegisterService memberRegisterService;
+    private final SchoolFindService schoolFindService;
+    private final DepartmentFindService departmentFindService;
 
     @PostMapping("/signUp/2")
     public MemberFormADto signUpCheck(@RequestBody MemberFormADto dto){
         log.info("signUpCheck가 호출되었습니다. ID : [{}]", dto.getId());
-        memberService.validateDuplicateMemberId(dto.getId());
+        memberValidationService.validateDuplicateMemberId(dto.getId());
         return dto;
     }
 
     @GetMapping("/signUp/3")
     public List<SchoolSignUpDto> signUpSchoolList(){
         log.info("signUpSchoolList 가 호출되었습니다.");
-        List<School> schools = schoolService.findAll();
+        List<School> schools = schoolFindService.findAll();
         List<SchoolSignUpDto> result = schools.stream()
                 .map(school -> new SchoolSignUpDto(school))
                 .collect(Collectors.toList());
@@ -50,7 +54,7 @@ public class SignupController {
     public List<DepartmentSignUpDto> signUpDepartmentList(@PathVariable Long schoolId){
         log.info("signUpDepartmentList 메소드가 실행되었습니다. schoolId : [{}]", schoolId);
 
-        List<Department> departments = departmentService.getAllDepartmentUsingSchool(schoolId);
+        List<Department> departments = departmentFindService.getAllDepartmentUsingSchool(schoolId);
         List<DepartmentSignUpDto> result = departments.stream()
                 .map(department -> new DepartmentSignUpDto(department))
                 .collect(Collectors.toList());
@@ -62,8 +66,8 @@ public class SignupController {
     @PostMapping("/signUp/3")
     public MemberDto signUp(@RequestBody MemberFormBDto dto){
         log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
-        Long memberId = memberService.join(dto);
-        Member member = memberService.findOne(memberId);
+        Long memberId = memberRegisterService.join(dto);
+        Member member = memberFindService.findOne(memberId);
         log.info("member의 성별 : [{}]", member.getGender());
         MemberDto result = new MemberDto().getMemberDto(member);
         return result;

@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
@@ -28,13 +29,14 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryCustom {
     }
 
     @Override
-    public Department findByDepartmentNameAndSchool_SchoolName(String departmentName, String schoolName) {
-        JPQLQuery<Department> query = queryFactory
+    public Optional<Department> findByDepartmentNameAndSchool_SchoolName(String departmentName, String schoolName) {
+        Department query = queryFactory
                 .select(department)
                 .from(department)
                 .leftJoin(department.school, school)
                 .fetchJoin()
-                .where(department.departmentName.eq(departmentName), department.school.schoolName.eq(schoolName));
-        return query.fetchOne();
+                .where(department.departmentName.eq(departmentName), department.school.schoolName.eq(schoolName))
+                .fetchOne();
+        return Optional.ofNullable(query);
     }
 }

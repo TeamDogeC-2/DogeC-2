@@ -6,26 +6,25 @@ import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
-import ProjectDoge.StudentSoup.service.RestaurantMenuService;
-import ProjectDoge.StudentSoup.service.RestaurantService;
-import ProjectDoge.StudentSoup.service.SchoolService;
-import org.assertj.core.api.Assertions;
+import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,13 +39,17 @@ public class RestaurantMenuEntityTest {
     EntityManager em;
 
     @Autowired
-    RestaurantService restaurantService;
+    RestaurantRegisterService restaurantRegisterService;
 
     @Autowired
-    RestaurantMenuService restaurantMenuService;
+    RestaurantFindService restaurantFindService;
 
     @Autowired
-    SchoolService schoolService;
+    RestaurantMenuRepository restaurantMenuRepository;
+    @Autowired
+    RestaurantMenuRegisterService restaurantMenuRegisterService;
+    @Autowired
+    SchoolRegisterService schoolRegisterService;
 
     @Autowired
     WebApplicationContext webApplicationContext;
@@ -66,9 +69,9 @@ public class RestaurantMenuEntityTest {
     @BeforeEach
     void 학교등록_음식점등록() throws Exception {
         SchoolFormDto school = createSchool();
-        schoolId = schoolService.join(school);
+        schoolId = schoolRegisterService.join(school);
         RestaurantFormDto restaurantDto = createRestaurant();
-        restaurantId = restaurantService.join(restaurantDto, multipartFile);
+        restaurantId = restaurantRegisterService.join(restaurantDto, multipartFile);
 
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockMvc.perform(MockMvcRequestBuilders
@@ -77,14 +80,15 @@ public class RestaurantMenuEntityTest {
     }
 
     @Test
-    void 메뉴등록테스트() throws Exception{
+    void 메뉴등록_테스트() throws Exception{
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //when
-        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
-        Restaurant restaurant = restaurantService.findOne(restaurantId);
+        Long restaurantMenuId = restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile);
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        RestaurantMenu restaurantMenu = restaurantMenuRepository.findById(restaurantMenuId).get();
         //then
-        assertThat(restaurantMenuId).isEqualTo(restaurantMenuService.validateMenuNameUsingRestaurantId(restaurantMenuFormDto.getName(),restaurant.getId()).getId());
+        assertThat(restaurantMenuId).isEqualTo(restaurantMenu.getId());
     }
     @Test
     void 메뉴등록시_음식점없음(){
@@ -92,7 +96,7 @@ public class RestaurantMenuEntityTest {
         Long errorRestaurantId = 0L;
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(errorRestaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto, multipartFile))
+        assertThatThrownBy(()->restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
 
@@ -100,10 +104,10 @@ public class RestaurantMenuEntityTest {
     void 메뉴중복테스트(){
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
-        restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
+        restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile);
         RestaurantMenuFormDto duplicateRestaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto, multipartFile))
+        assertThatThrownBy(()->restaurantMenuRegisterService.join(duplicateRestaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantMenuValidationException.class);
     }
 

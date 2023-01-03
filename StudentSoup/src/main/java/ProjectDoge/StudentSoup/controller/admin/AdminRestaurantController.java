@@ -8,7 +8,8 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.RestaurantService;
+import ProjectDoge.StudentSoup.service.admin.AdminRestaurantService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminRestaurantController {
 
-    private final RestaurantService restaurantService;
-
+    private final RestaurantRegisterService restaurantRegisterService;
+    private final AdminRestaurantService adminRestaurantService;
     private final SchoolRepository schoolRepository;
 
     private final RestaurantRepository restaurantRepository;
@@ -39,7 +40,7 @@ public class AdminRestaurantController {
     }
     @PostMapping("admin/restaurant/new")
     public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto,@RequestPart MultipartFile multipartFile){
-        restaurantService.join(restaurantFormDto,multipartFile);
+        restaurantRegisterService.join(restaurantFormDto,multipartFile);
         return "redirect:/admin/restaurants";
     }
 
@@ -48,7 +49,7 @@ public class AdminRestaurantController {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         model.addAttribute("restaurants",restaurants);
 
-        List<Restaurant> findRestaurants = restaurantService.AdminSearchSchools(restaurantSearch.getColumn(),restaurantSearch.getFind_value());
+        List<Restaurant> findRestaurants = adminRestaurantService.AdminSearchSchools(restaurantSearch.getColumn(),restaurantSearch.getFind_value());
         model.addAttribute("findRestaurants",findRestaurants);
 
         return "admin/restaurant/restaurantList";

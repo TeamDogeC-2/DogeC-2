@@ -29,7 +29,7 @@ public class RestaurantFormDto {
     @NotNull(message = "종료시간 입력은 필수입니다.")
     private LocalTime endTime;
 
-    private Long school;
+    private Long schoolId;
 
     private String coordinate;
 
@@ -62,7 +62,7 @@ public class RestaurantFormDto {
         this.restaurantCategory=category;
         this.startTime= startTime;
         this.endTime= endTime;
-        this.school=schoolId;
+        this.schoolId =schoolId;
         this.coordinate=coordinate;
         this.imageFile = imageFile;
         this.tel=tel;
