@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.member.MemberCommonService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class MemberEntityTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    MemberCommonService memberCommonService;
+    MemberFindService memberFindService;
     @Autowired
     MemberRepository memberRepository;
 
@@ -112,9 +112,9 @@ public class MemberEntityTest {
             //when
             Long memberId = memberService.join(memberFormBDto);
             //then
-            assertThat(memberId).isEqualTo(memberCommonService.findOne(memberId).getMemberId());
-            assertThat(schoolId).isEqualTo(memberCommonService.findOne(memberId).getSchool().getId());
-            assertThat(departmentId).isEqualTo(memberCommonService.findOne(memberId).getDepartment().getId());
+            assertThat(memberId).isEqualTo(memberFindService.findOne(memberId).getMemberId());
+            assertThat(schoolId).isEqualTo(memberFindService.findOne(memberId).getSchool().getId());
+            assertThat(departmentId).isEqualTo(memberFindService.findOne(memberId).getDepartment().getId());
         }
 
         @Test
@@ -216,8 +216,8 @@ public class MemberEntityTest {
             formB2.setEmail("test2@naver.com");
             Long member2Id = memberService.join(formB2);
             //when
-            Member member1 = memberCommonService.findOne(member1Id);
-            Member member2 = memberCommonService.findOne(member2Id);
+            Member member1 = memberFindService.findOne(member1Id);
+            Member member2 = memberFindService.findOne(member2Id);
             List<Member> members = memberRepository.findByDepartment_Id(departmentId);
             //then
             assertThat(members.contains(member1)).isEqualTo(true);

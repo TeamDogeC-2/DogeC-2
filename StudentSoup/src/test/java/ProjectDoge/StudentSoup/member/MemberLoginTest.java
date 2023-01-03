@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.member.MemberCommonService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class MemberLoginTest {
     MemberService memberService;
 
     @Autowired
-    MemberCommonService memberCommonService;
+    MemberFindService memberFindService;
     @Autowired
     SchoolService schoolService;
     @Autowired
@@ -99,7 +99,7 @@ public class MemberLoginTest {
         formB1.setDepartmentId(departmentId);
         formB1.setEmail("test1@naver.com");
         Long memberId = memberService.join(formB1);
-        Member member = memberCommonService.findOne(memberId);
+        Member member = memberFindService.findOne(memberId);
         //when
         String id = "test1";
         String pwd = "test123!";

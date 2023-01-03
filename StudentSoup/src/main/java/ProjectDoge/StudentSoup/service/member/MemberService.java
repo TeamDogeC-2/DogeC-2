@@ -8,7 +8,6 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
@@ -34,7 +33,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final SchoolRepository schoolRepository;
     private final DepartmentRepository departmentRepository;
-    private final MemberCommonService memberCommonService;
+    private final MemberFindService memberFindService;
     private final SchoolService schoolService;
     private final DepartmentService departmentService;
 
@@ -197,7 +196,7 @@ public class MemberService {
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
         log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
         Long fileId = fileService.join(multipartFile);
-        Member member = memberCommonService.findOne(memberId);
+        Member member = memberFindService.findOne(memberId);
         return createProfileUpdateMemberDto(fileId, member);
     }
 
@@ -216,7 +215,7 @@ public class MemberService {
     @Transactional
     public Long updateMember(MemberUpdateDto dto){
         log.info("운영 페이지 회원 업데이트 메소드가 실행되었습니다.");
-        Member member = memberCommonService.findOne(dto.getMemberId());
+        Member member = memberFindService.findOne(dto.getMemberId());
         validationChangedNicknameEmail(dto, member);
         updateMemberField(dto, member);
         log.info("운영 페이지 회원 업데이트가 완료되었습니다.");

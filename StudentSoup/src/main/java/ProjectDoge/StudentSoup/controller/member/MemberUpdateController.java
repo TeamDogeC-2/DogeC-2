@@ -4,7 +4,7 @@ import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.dto.member.MemberUpdateValidationDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.service.member.MemberCommonService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class MemberUpdateController {
 
     private final MemberService memberService;
-    private final MemberCommonService memberCommonService;
+    private final MemberFindService memberFindService;
 
     @PostMapping("/edit/{memberId}/validation")
     public String editIdCheck(@PathVariable("memberId") Long memberId,
                               @Validated @RequestBody MemberUpdateValidationDto dto,
                               BindingResult bindingResult){
-        Member member = memberCommonService.findOne(dto.getMemberId());
+        Member member = memberFindService.findOne(dto.getMemberId());
         memberService.validationCoincideMemberIdPwd(member, dto.getPwd());
 
         return "ok";
@@ -35,7 +35,7 @@ public class MemberUpdateController {
     public MemberDto editMember(@PathVariable("memberId") Long memberId,
                                 @RequestBody MemberUpdateDto dto){
         Long updatedMemberId = memberService.updateMember(dto);
-        Member member = memberCommonService.findOne(updatedMemberId);
+        Member member = memberFindService.findOne(updatedMemberId);
         MemberDto memberDto = new MemberDto().getMemberDto(member);
         return memberDto;
     }

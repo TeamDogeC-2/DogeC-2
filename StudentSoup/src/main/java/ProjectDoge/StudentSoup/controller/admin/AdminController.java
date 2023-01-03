@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.DepartmentService;
-import ProjectDoge.StudentSoup.service.member.MemberCommonService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberService;
 import ProjectDoge.StudentSoup.service.SchoolService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-    private final MemberCommonService memberCommonService;
+    private final MemberFindService memberFindService;
     private final SchoolService schoolService;
     private final DepartmentService departmentService;
 
@@ -77,7 +77,7 @@ public class AdminController {
         log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
         Long updateId = memberService.adminMemberUpdate(updateForm, updateForm.getMultipartFile());
 
-        Member member = memberCommonService.findOne(updateId);
+        Member member = memberFindService.findOne(updateId);
         log.info("updated member password : [{}]", member.getPwd());
 
         return "redirect:/admin";
