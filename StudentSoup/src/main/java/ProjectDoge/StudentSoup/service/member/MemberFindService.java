@@ -2,6 +2,8 @@ package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.member.EmailDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
+import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,10 +29,10 @@ public class MemberFindService {
 
     public EmailDto createFindMemberIdUsingEmail(String email){
         log.info("회원 아이디 찾기 서비스 로직을 실행하였습니다.");
-        MemberFindAccountDto findMember = memberRepository.findByAccountEmail(email)
+        MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmail(email)
                 .orElse(null);
         if(findMember == null){
-            log.info("이메일에 맞는 회원 아이디를 발견하지 못했습니다.");
+            log.info("이메일이 일치하는 회원을 찾지 못했습니다.");
             return null;
         } else{
             return createFindIdMailDto(findMember);
@@ -41,6 +46,42 @@ public class MemberFindService {
         dto.setTitle("[takemh] 아이디 찾기 메일입니다.");
         dto.setMessage("안녕하세요. takemh 입니다. [" + findMember.getNickname() + "]님의 아이디는 " + findMember.getId() + "입니다.");
         return dto;
+    }
+
+    public EmailDto createFindPwdUsingEmailAndId(String email, String id) {
+        log.info("회원 비밀번호 찾기 서비스 로직이 실행되었습니다.");
+        MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmailAndId(email, id)
+                .orElse(null);
+        if (findMember == null) {
+            log.info("아이디와 이메일이 일치하는 회원을 찾지 못했습니다.");
+            return null;
+        } else {
+            return createFindPwdMailDto(findMember);
+        }
+    }
+
+    private EmailDto createFindPwdMailDto(MemberFindAccountDto findMember){
+        memberTempPwdUpdate(findMember);
+        log.info("회원 비밀번호 찾기 메세지 객체 생성이 시작되었습니다. [{}]", findMember.getId());
+        EmailDto dto = new EmailDto();
+        dto.setEmail(findMember.getEmail());
+        dto.setTitle("[takemh] 비밀번호 찾기 메일입니다.");
+        dto.setMessage("안녕하세요. takemh 입니다. [" + findMember.getNickname() + "]님의 임시 비밀번호는 " + findMember.getPwd() + "입니다." +
+                "임시 비밀번호를 복사하여 로그인 하신 후 새로운 비밀번호로 변경 부탁드립니다.");
+        return dto;
+    }
+
+    @Transactional
+    void memberTempPwdUpdate(MemberFindAccountDto findMember){
+        log.info("회원 임시 비밀번호 업데이트가 시작되었습니다.");
+        Member member = memberRepository.findById(findMember.getId())
+                .orElseThrow(() -> {
+                    throw new MemberNotFoundException("회원을 찾을 수가 없습니다.");
+                });
+        String tempPwd = UUID.randomUUID().toString();
+        member.setPwd(tempPwd);
+        findMember.setPwd(tempPwd);
+        log.info("임시 비밀번호 업데이트가 완료되었습니다.");
     }
 
     public void mailSend(EmailDto dto){
