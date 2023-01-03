@@ -6,7 +6,6 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
-import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class RestaurantMenuService {
 
     private final FileService fileService;
 
-    private final FileRepository fileRepository;
     @Transactional
     public Long join(RestaurantMenuFormDto dto, MultipartFile multipartFile) {
         log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
@@ -45,15 +43,16 @@ public class RestaurantMenuService {
         return restaurantMenu.getId();
     }
 
-    private void validationDuplicateRestaurantMenu(RestaurantMenu restaurantMenu) {
+    public void validationDuplicateRestaurantMenu(RestaurantMenu restaurantMenu){
         log.info("음식점 메뉴 생성 검증 로직이 실행되었습니다.");
-        RestaurantMenu findRestaurantMenu = validateMenuNameUsingRestaurantId(restaurantMenu.getName(), restaurantMenu.getRestaurant().getId());
-        if(findRestaurantMenu != null){
+        Optional<RestaurantMenu> duplicateRestaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(restaurantMenu.getName(),restaurantMenu.getRestaurant().getId());
+        if(duplicateRestaurantMenu.isPresent()){
             log.info("메뉴가 존재하는 예외가 발생했습니다.");
             throw new RestaurantMenuValidationException("이미 존재하는 메뉴 입니다.");
         }
         log.info("메뉴 검증이 완료 되었습니다.");
     }
+
 
     private Restaurant validationNotFoundRestaurant(Long restaurantId) {
         log.info("음식점 메뉴 생성 중 음식점 존재 여부 검즘 메소드가 실행되었습니다.");
@@ -63,11 +62,6 @@ public class RestaurantMenuService {
         });
             log.info("메뉴 생성중 등록된 음식점 :{}",restaurant.getName());
         return  restaurant;
-    }
-
-    public RestaurantMenu validateMenuNameUsingRestaurantId(String menuName,Long restaurantId){
-        RestaurantMenu restaurantMenu = restaurantMenuRepository.findByRestaurantMenuNameAndRestaurant_RestaurantId(menuName, restaurantId);
-        return restaurantMenu;
     }
 
 
