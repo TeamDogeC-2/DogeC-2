@@ -48,6 +48,7 @@ public class MemberFindService {
         return dto;
     }
 
+    @Transactional
     public EmailDto createFindPwdUsingEmailAndId(String email, String id) {
         log.info("회원 비밀번호 찾기 서비스 로직이 실행되었습니다.");
         MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmailAndId(email, id)
@@ -60,6 +61,7 @@ public class MemberFindService {
         }
     }
 
+
     private EmailDto createFindPwdMailDto(MemberFindAccountDto findMember){
         memberTempPwdUpdate(findMember);
         log.info("회원 비밀번호 찾기 메세지 객체 생성이 시작되었습니다. [{}]", findMember.getId());
@@ -71,16 +73,17 @@ public class MemberFindService {
         return dto;
     }
 
-    @Transactional
-    void memberTempPwdUpdate(MemberFindAccountDto findMember){
+    private void memberTempPwdUpdate(MemberFindAccountDto findMember){
         log.info("회원 임시 비밀번호 업데이트가 시작되었습니다.");
         Member member = memberRepository.findById(findMember.getId())
                 .orElseThrow(() -> {
                     throw new MemberNotFoundException("회원을 찾을 수가 없습니다.");
                 });
         String tempPwd = UUID.randomUUID().toString();
+        tempPwd = tempPwd.substring(0, tempPwd.indexOf('-'));
         member.setPwd(tempPwd);
         findMember.setPwd(tempPwd);
+        log.info("변경 된 회원의 비밀번호 : " + member.getPwd());
         log.info("임시 비밀번호 업데이트가 완료되었습니다.");
     }
 
