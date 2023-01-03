@@ -22,10 +22,20 @@ public class FindIdPwdController {
     @PostMapping("/find/id")
     public String findAccountMemberId(@RequestBody Map<String, String> map){
         EmailDto emailDto = memberFindService.createFindMemberIdUsingEmail(map.get("email"));
-        if(emailDto == null){
+        return sendEmail(emailDto);
+    }
+
+    @PostMapping("/find/pwd")
+    public String findAccountMemberPwd(@RequestBody Map<String, String> map){
+        EmailDto emailDto = memberFindService.createFindPwdUsingEmailAndId(map.get("email"), map.get("id"));
+        return sendEmail(emailDto);
+    }
+
+    private String sendEmail(EmailDto dto){
+        if(dto == null){
             return "fail";
-        } else {
-            memberFindService.mailSend(emailDto);
+        } else{
+            memberFindService.mailSend(dto);
             return "ok";
         }
     }
