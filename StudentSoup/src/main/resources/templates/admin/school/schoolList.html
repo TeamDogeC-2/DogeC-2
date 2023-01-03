@@ -34,11 +34,11 @@
                             <td th:text="${school.members.size()}">null</td>
                             <td th:text="${school.departments.size()}">null</td>
                             <td>
-                                <a th:href="@{/admin/school/edit/{schoolId}(schoolId = ${school.id})}">
+                                <a th:href="@{/admin/school/edit(schoolId = ${school.id})}">
                                     <img src="/img/admin/icon/pencil.svg">
                                 </a>
                                 /
-                                <a th:href="@{/admin/school/delete/{schoolId}(schoolId = ${school.id})}">
+                                <a th:href="@{/admin/school/delete(schoolId = ${school.id})}">
                                     <img src="/img/admin/icon/trash.svg">
                                 </a>
                             </td>
@@ -86,11 +86,11 @@
                             <td th:text="${school.members.size()}">null</td>
                             <td th:text="${school.departments.size()}">null</td>
                             <td>
-                                <a th:href="@{/admin/school/edit/{schoolId}(schoolId = ${school.id})}">
+                                <a th:href="@{/admin/school/edit(schoolId = ${school.id})}">
                                     <img src="/img/admin/icon/pencil.svg">
                                 </a>
                                 /
-                                <a th:href="@{/admin/school/delete/{schoolId}(schoolId = ${school.id})}">
+                                <a th:href="@{/admin/school/delete(schoolId = ${school.id})}">
                                     <img src="/img/admin/icon/trash.svg">
                                 </a>
                             </td>
