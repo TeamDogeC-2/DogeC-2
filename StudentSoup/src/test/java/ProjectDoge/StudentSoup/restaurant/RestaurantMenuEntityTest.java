@@ -11,9 +11,9 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
-import ProjectDoge.StudentSoup.service.RestaurantMenuService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class RestaurantMenuEntityTest {
     @Autowired
     RestaurantMenuRepository restaurantMenuRepository;
     @Autowired
-    RestaurantMenuService restaurantMenuService;
+    RestaurantMenuRegisterService restaurantMenuRegisterService;
     @Autowired
     SchoolRegisterService schoolRegisterService;
 
@@ -84,7 +84,7 @@ public class RestaurantMenuEntityTest {
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //when
-        Long restaurantMenuId = restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
+        Long restaurantMenuId = restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         RestaurantMenu restaurantMenu = restaurantMenuRepository.findById(restaurantMenuId).get();
         //then
@@ -96,7 +96,7 @@ public class RestaurantMenuEntityTest {
         Long errorRestaurantId = 0L;
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(errorRestaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(restaurantMenuFormDto, multipartFile))
+        assertThatThrownBy(()->restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantNotFoundException.class);
     }
 
@@ -104,10 +104,10 @@ public class RestaurantMenuEntityTest {
     void 메뉴중복테스트(){
         //given
         RestaurantMenuFormDto restaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
-        restaurantMenuService.join(restaurantMenuFormDto, multipartFile);
+        restaurantMenuRegisterService.join(restaurantMenuFormDto, multipartFile);
         RestaurantMenuFormDto duplicateRestaurantMenuFormDto = createRestaurantMenuDto(restaurantId,"메뉴1", RestaurantMenuCategory.Main,10000);
         //then
-        assertThatThrownBy(()->restaurantMenuService.join(duplicateRestaurantMenuFormDto, multipartFile))
+        assertThatThrownBy(()->restaurantMenuRegisterService.join(duplicateRestaurantMenuFormDto, multipartFile))
                 .isInstanceOf(RestaurantMenuValidationException.class);
     }
 

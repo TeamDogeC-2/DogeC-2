@@ -5,9 +5,8 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
-import ProjectDoge.StudentSoup.service.RestaurantMenuService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
-import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +21,12 @@ import java.util.List;
 public class AdminRestaurantMenuController {
 
     private final RestaurantFindService restaurantFindService;
-    private final RestaurantMenuService restaurantMenuService;
-
+    private final RestaurantMenuRegisterService restaurantMenuRegisterService;
     private final RestaurantMenuRepository restaurantMenuRepository;
 
     @GetMapping("admin/restaurantMenus")
     public String RestaurantMenuList(@RequestParam Long restaurantId, Model model){
-        List<RestaurantMenu> restaurantMenus =restaurantMenuRepository.findByRestaurantId(restaurantId);
+        List<RestaurantMenu> restaurantMenus = restaurantMenuRepository.findByRestaurantId(restaurantId);
         model.addAttribute("restaurantMenus",restaurantMenus);
 
         return "/admin/restaurant/restaurantMenuList";
@@ -45,7 +43,7 @@ public class AdminRestaurantMenuController {
     }
     @PostMapping("admin/restaurantMenu/new")
     public String createRestaurantMenu(@ModelAttribute RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
-        restaurantMenuService.join(form,multipartFile);
+        restaurantMenuRegisterService.join(form,multipartFile);
         redirect.addAttribute("restaurantId",form.getRestaurantId());
 
         return "redirect:/admin/restaurantMenus";
