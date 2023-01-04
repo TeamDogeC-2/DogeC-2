@@ -17,10 +17,6 @@ import org.springframework.stereotype.Service;
 public class MemberValidationService {
 
     private final MemberRepository memberRepository;
-    public void validateDuplicateMember(MemberFormBDto dto) {
-        validateDuplicateMemberNickname(dto.getNickname());
-        validateDuplicateMemberEmail(dto.getEmail());
-    }
 
     public void validateDuplicateMemberNickname(String nickname) {
         log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
@@ -55,17 +51,6 @@ public class MemberValidationService {
             throw new MemberValidationException("중복된 아이디 입니다.");
         }
         log.info("회원 중복 검증이 완료되었습니다.");
-    }
-
-    public Member validationExistLoginId(String id) {
-        log.info("로그인 아이디 존재 검증 메소드가 실행되었습니다.");
-        log.info("입력 된 회원 아이디 : {}", id);
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.info("로그인 하는 아이디 존재하지 않는 예외 발생");
-                    return new MemberNotFoundException("회원이 존재하지 않습니다.");
-                });
-        return member;
     }
 
     public void validationCoincideMemberIdPwd(Member member, String pwd) {
