@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,4 +51,11 @@ public class RestaurantMenu {
         this.setImageFile(imageFile);
         return this;
     }
+    public  void updateRestaurantMenu(RestaurantMenuUpdateDto restaurantMenuUpdateDto,ImageFile imageFile){
+        this.setName(restaurantMenuUpdateDto.getName());
+        this.setRestaurantMenuCategory(restaurantMenuUpdateDto.getRestaurantMenuCategory());
+        this.setCost(restaurantMenuUpdateDto.getCost());
+        this.setImageFile(imageFile);
+    }
+
 }
