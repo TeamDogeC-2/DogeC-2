@@ -48,7 +48,7 @@
                                     <img src="/img/admin/icon/pencil.svg">
                                 </a>
 
-                                <a th:href="@{/admin/restaurantMenu/delete/{restaurantMenuId}(restaurantMenuId = ${restaurantMenu.id})}">
+                                <a th:href="@{/admin/restaurantMenu/delete/{restaurantMenuId}/{restaurantId}(restaurantMenuId = ${restaurantMenu.id},restaurantId = ${param.restaurantId})}">
                                     <img src="/img/admin/icon/trash.svg">
                                 </a>
                             </td>
