@@ -21,7 +21,7 @@
                 <div class="container py-2 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-12">
-                            <form role="form" action="/admin/restaurant/new" th:object="${restaurantForm}" method="post"
+                            <form role="form" action="/admin/restaurant/edit"  th:action="@{/admin/restaurant/edit/{restaurantId}(restaurantId= ${restaurantId})}" th:object="${restaurantForm}" method="post"
                                   enctype="multipart/form-data"
                                   class="card card-registration card-registration-2" style="border-radius: 15px">
                                 <div class="card-body p-0">
@@ -75,7 +75,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md mb-2 pb-2">
-                                                        <select class="form-select" th:field="*{schoolId}"
+                                                        <select class="form-select" th:field="*{school}"
                                                                 required="required">
                                                             <option value="">학교 선택</option>
                                                             <option th:each="school : ${schools}"
@@ -152,7 +152,7 @@
                                                             <div class="btn btn-light btn-sm">
                                                                 <input type="submit" name="signup"
                                                                        class="btn btn-primary btn-sm"
-                                                                       value="레스토랑 등록">
+                                                                       value="레스토랑 수정">
                                                             </div>
                                                         </div>
                                                     </div>
