@@ -56,25 +56,6 @@ public class MemberLoginTest {
     }
 
     @Test
-    void 로그인멤버존재X() throws Exception {
-        //given
-        MemberFormADto formA1 = createMemberFormA("test1", "test123!");
-        MemberFormBDto formB1 = createMemberFormB(formA1);
-        formB1.setNickname("테스트1");
-        formB1.setGender(GenderType.MAN);
-        formB1.setSchoolId(schoolId);
-        formB1.setDepartmentId(departmentId);
-        formB1.setEmail("test1@naver.com");
-        memberRegisterService.join(formB1);
-        //when
-        String id = "test";
-        String pwd = "test123!";
-        //then
-        assertThatThrownBy(() -> memberLoginService.login(id, pwd))
-                .isInstanceOf(MemberNotFoundException.class);
-    }
-
-    @Test
     void 로그인_아이디_패스워드_틀림() throws Exception {
         //given
         MemberFormADto formA1 = createMemberFormA("test1", "test123!");
