@@ -75,5 +75,10 @@ public class AdminRestaurantController {
         adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto, multipartFile);
         return "redirect:/admin/restaurants";
     }
+    @GetMapping("admin/restaurant/delete/{restaurantId}")
+    public String deleteRestaurant(@PathVariable Long restaurantId){
+        restaurantRepository.deleteById(restaurantId);
 
+        return "redirect:/admin/restaurants";
+    }
 }
