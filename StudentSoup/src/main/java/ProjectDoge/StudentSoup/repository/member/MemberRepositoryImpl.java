@@ -62,6 +62,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     @Override
+    public Optional<Member> findByIdAndPwd(String id, String pwd) {
+
+        Member query = queryFactory.select(member)
+                .from(member)
+                .where(member.id.eq(id), member.pwd.eq(pwd))
+                .fetchOne();
+
+        return Optional.ofNullable(query);
+    }
+
+    @Override
     public Optional<MemberFindAccountDto> findByAccountUsingEmail(String email) {
         MemberFindAccountDto result = queryFactory.select(Projections.constructor(MemberFindAccountDto.class,
                         member.id,
