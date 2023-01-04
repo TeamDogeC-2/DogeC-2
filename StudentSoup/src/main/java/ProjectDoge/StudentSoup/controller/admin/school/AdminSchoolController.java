@@ -45,7 +45,7 @@ public class AdminSchoolController {
         List<School> schools = schoolFindService.findAll();
         model.addAttribute("schools", schools);
 
-        List<School> findSchools = adminSchoolService.adminSearchRestaurants(schoolSearch);
+        List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
         model.addAttribute("findSchools", findSchools);
 
         return "/admin/school/schoolList";
