@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
@@ -84,6 +85,21 @@ public class Restaurant {
         this.setStarLiked(0);
         this.setImageFile(imageFile);
         return this;
+    }
+    //==업데이트 메서드 == //
+    public void updateRestaurant(RestaurantUpdateDto form, School school, ImageFile imageFile){
+        this.setName(form.getName());
+        this.setAddress(form.getAddress());
+        this.setSchool(school);
+        this.setRestaurantCategory(form.getRestaurantCategory());
+        this.setStartTime(convertStringToDateTime(form.getStartTime()));
+        this.setEndTime(convertStringToDateTime(form.getEndTime()));
+        this.setCoordinate(form.getCoordinate());
+        this.setTel(form.getTel());
+        this.setTag(form.getTag());
+        this.setDetail(form.getDetail());
+        this.setImageFile(imageFile);
+
     }
 
     //== 비즈니스 로직 ==//
