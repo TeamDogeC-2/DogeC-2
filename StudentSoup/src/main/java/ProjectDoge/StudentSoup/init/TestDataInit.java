@@ -2,14 +2,18 @@ package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -17,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -28,11 +33,13 @@ public class TestDataInit {
     private final SchoolRegisterService schoolRegisterService;
     private final DepartmentRepository departmentRepository;
     private final DepartmentRegisterService departmentRegisterService;
+    private final RestaurantRegisterService restaurantRegisterService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
         initMember();
+        initRestaurant();
     }
 
     private void initSchoolAndDepartment(){
@@ -103,6 +110,14 @@ public class TestDataInit {
         memberRegisterService.join(dto4);
         memberRegisterService.join(dto5);
         memberRegisterService.join(dto6);
+    }
+
+    private void initRestaurant(){
+        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
+        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+
+        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(), school1.getId(),"좌표값",null,"전화번호","태그","디테일");
+        restaurantRegisterService.join(dto);
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,
