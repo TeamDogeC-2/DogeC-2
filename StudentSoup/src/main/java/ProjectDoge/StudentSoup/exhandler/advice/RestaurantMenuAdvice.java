@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -25,5 +26,12 @@ public class RestaurantMenuAdvice {
     public ErrorResult restaurantMenuNotFoundHandler(RestaurantMenuNotFoundException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("RestaurantMenuNotFound", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantMenuNotSentException.class)
+    public ErrorResult restaurantMenuNotSentException(RestaurantMenuNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantMenuNotSent",e.getMessage());
     }
 }
