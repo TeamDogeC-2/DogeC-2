@@ -37,4 +37,15 @@ public class RestaurantRegisterService {
         return restaurant.getId();
     }
 
+    @Transactional
+    public Long join(RestaurantFormDto dto) {
+        log.info("음식점 테스트 생성 메서드가 실행되었습니다.");
+        School school = schoolFindService.findOne(dto.getSchoolId());
+        Restaurant restaurant = new Restaurant().createRestaurant(dto, school);
+        restaurantValidationService.validateDuplicateRestaurant(restaurant);
+        restaurantRepository.save(restaurant);
+        log.info("테스트 음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());
+        return restaurant.getId();
+    }
+
 }
