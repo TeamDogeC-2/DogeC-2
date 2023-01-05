@@ -30,7 +30,7 @@ public class AdminRestaurantController {
     private final RestaurantRepository restaurantRepository;
 
 
-    @GetMapping("admin/restaurant/new")
+    @GetMapping("admin/restaurant")
     public String createRestaurant(Model model) {
         List<School> schools = schoolRepository.findAll();
         model.addAttribute("restaurantForm", new RestaurantFormDto());
@@ -39,7 +39,7 @@ public class AdminRestaurantController {
         return "/admin/restaurant/createRestaurant";
     }
 
-    @PostMapping("admin/restaurant/new")
+    @PostMapping("admin/restaurant")
     public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto, @RequestPart MultipartFile multipartFile) {
         restaurantRegisterService.join(restaurantFormDto, multipartFile);
         return "redirect:/admin/restaurants";
@@ -75,7 +75,7 @@ public class AdminRestaurantController {
         adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto, multipartFile);
         return "redirect:/admin/restaurants";
     }
-    @GetMapping("admin/restaurant/delete/{restaurantId}")
+    @GetMapping("admin/restaurant/{restaurantId}")
     public String deleteRestaurant(@PathVariable Long restaurantId){
         restaurantRepository.deleteById(restaurantId);
 
