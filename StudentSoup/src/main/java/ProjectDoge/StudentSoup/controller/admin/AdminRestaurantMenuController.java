@@ -28,11 +28,11 @@ public class AdminRestaurantMenuController {
 
     private final AdminRestaurantMenuService adminRestaurantMenuService;
 
-    @GetMapping("admin/restaurantMenus")
-    public String RestaurantMenuList(@RequestParam Long restaurantId, Model model){
+    @GetMapping("admin/{restaurantId}/restaurantMenus")
+    public String RestaurantMenuList(@PathVariable Long restaurantId, Model model){
         List<RestaurantMenu> restaurantMenus = restaurantMenuRepository.findByRestaurantId(restaurantId);
         model.addAttribute("restaurantMenus",restaurantMenus);
-
+        model.addAttribute("restaurantId",restaurantId);
         return "/admin/restaurant/restaurantMenuList";
     }
 
@@ -50,7 +50,7 @@ public class AdminRestaurantMenuController {
         restaurantMenuRegisterService.join(form,multipartFile);
         redirect.addAttribute("restaurantId",form.getRestaurantId());
 
-        return "redirect:/admin/restaurantMenus";
+        return "redirect:/admin/{restaurantId}/restaurantMenus";
     }
     @GetMapping("admin/restaurantMenu/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,Model model){
@@ -67,14 +67,14 @@ public class AdminRestaurantMenuController {
         adminRestaurantMenuService.adminUpdateRestaurantMenu(restaurantMenuId,multipartFile,restaurantMenuUpdateDto);
         redirect.addAttribute("restaurantId",restaurantMenuUpdateDto.getRestaurantId());
 
-        return "redirect:/admin/restaurantMenus";
+        return "redirect:/admin/{restaurantId}/restaurantMenus";
     }
     @GetMapping ("admin/restaurantMenu/{restaurantMenuId}/{restaurantId}")
     public String deleteRestaurantMenu(@PathVariable Long restaurantMenuId,@PathVariable Long restaurantId,RedirectAttributes redirect){
         restaurantMenuRepository.deleteById(restaurantMenuId);
         redirect.addAttribute("restaurantId",restaurantId);
 
-        return "redirect:/admin/restaurantMenus";
+        return "redirect:/admin/{restaurantId}/restaurantMenus";
     }
 
 }
