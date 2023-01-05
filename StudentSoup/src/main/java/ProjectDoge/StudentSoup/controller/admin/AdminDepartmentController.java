@@ -60,7 +60,7 @@ public class AdminDepartmentController {
     }
     @PostMapping("admin/department/edit/{departmentId}")
     public String editDepartment(@PathVariable Long departmentId,DepartmentUpdateDto departmentUpdateDto){
-        Long Id = adminDepartmentService.AdminUpdateDepartment(departmentId,departmentUpdateDto);
+        Long Id = adminDepartmentService.adminUpdateDepartment(departmentId,departmentUpdateDto);
 
         return "redirect:/admin/departments";
     }

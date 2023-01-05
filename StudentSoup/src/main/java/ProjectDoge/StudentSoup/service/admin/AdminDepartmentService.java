@@ -22,7 +22,7 @@ public class AdminDepartmentService {
         return departmentUpdateDto;
     }
     @Transactional
-    public Long AdminUpdateDepartment(Long departmentId, DepartmentUpdateDto departmentUpdateDto) {
+    public Long adminUpdateDepartment(Long departmentId, DepartmentUpdateDto departmentUpdateDto) {
         Department department = departmentFindService.findOne(departmentId);
         department.setDepartmentName(departmentUpdateDto.getDepartmentName());
         return department.getId();
