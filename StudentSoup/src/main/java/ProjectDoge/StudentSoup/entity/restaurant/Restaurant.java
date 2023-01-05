@@ -86,6 +86,23 @@ public class Restaurant {
         return this;
     }
 
+    public Restaurant createRestaurant(RestaurantFormDto form, School school) {
+        this.setName(form.getName());
+        this.setAddress(form.getAddress());
+        this.setSchool(school);
+        this.setRestaurantCategory(form.getRestaurantCategory());
+        this.setStartTime(convertStringToDateTime(form.getStartTime()));
+        this.setEndTime(convertStringToDateTime(form.getEndTime()));
+        this.setCoordinate(form.getCoordinate());
+        this.setTel(form.getTel());
+        this.setTag(form.getTag());
+        this.setDetail(form.getDetail());
+        this.setLikedCount(0);
+        this.setStarLiked(0);
+        this.setImageFile(form.getImageFile());
+        return this;
+    }
+
     //== 비즈니스 로직 ==//
     public void addLikedCount(){
         this.likedCount += 1;
