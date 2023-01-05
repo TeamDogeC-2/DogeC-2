@@ -30,7 +30,9 @@ public class AdminRestaurantMenuService {
     @Transactional
     public void adminUpdateRestaurantMenu(Long restaurantMenuId, MultipartFile multipartFile, RestaurantMenuUpdateDto restaurantMenuUpdateDto) {
         RestaurantMenu restaurantMenu = restaurantMenuFindService.findOne(restaurantMenuId);
-        fileRepository.delete(restaurantMenu.getImageFile());
+        if (restaurantMenu.getImageFile() != null) {
+            fileRepository.delete(restaurantMenu.getImageFile());
+        }
         Long fileId = fileService.join(multipartFile);
         ImageFile file = fileService.findOne(fileId);
         restaurantMenu.updateRestaurantMenu(restaurantMenuUpdateDto,file);
