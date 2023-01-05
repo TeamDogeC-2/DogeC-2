@@ -22,8 +22,8 @@ public class RestaurantMenuUpdateDto {
 
     public void createRestaurantMenuUpdateDto(String name, RestaurantMenuCategory category, int cost) {
         this.name = name;
-        this.restaurantMenuCategory=category;
-        this.cost =cost;
+        this.restaurantMenuCategory = category;
+        this.cost = cost;
     }
     public void setRestaurantMenu(RestaurantMenu restaurantMenu){
         this.setRestaurantId(restaurantMenu.getRestaurant().getId());

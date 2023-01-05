@@ -13,7 +13,7 @@ public class RestaurantMenuFindService {
 
     public RestaurantMenu findOne(Long restaurantMenuId){
         RestaurantMenu restaurantMenu = restaurantMenuRepository.findById(restaurantMenuId).orElseThrow(() -> {
-            return new RestaurantMenuNotFoundException("등록되지 않음 메뉴 입니다.");
+            return new RestaurantMenuNotFoundException("등록되지 않은 메뉴 입니다.");
         });
         return restaurantMenu;
     }
