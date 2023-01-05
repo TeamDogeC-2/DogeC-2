@@ -31,12 +31,11 @@
                                                 <h3 class="fw-normal mb-3" style="color: #4835d4;">학과 정보</h3>
                                                 <div class="row">
                                                     <div class="col-md mb-2 pb-2">
-                                                        <select class="form-select" th:field="*{schoolId}" required="required">
+                                                        <select class="form-select" th:field="*{school}" required="required">
                                                             <option value="">학교 선택</option>
-                                                            <option th:each="school : ${schools}"
-                                                                    th:selected="${school.id} == ${schoolId}"
-                                                                    th:value="${school.id}"
-                                                                    th:text="${school.schoolName}">
+                                                            <option
+                                                                    th:value="${departmentForm.school.id}"
+                                                                    th:text="${departmentForm.school.schoolName}">
                                                             </option>
                                                         </select>
                                                     </div>
