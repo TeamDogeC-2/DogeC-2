@@ -52,7 +52,7 @@ public class AdminRestaurantMenuController {
 
         return "redirect:/admin/{restaurantId}/restaurantMenus";
     }
-    @GetMapping("admin/restaurantMenu/{restaurantMenuId}")
+    @GetMapping("admin/restaurantMenu/edit/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,Model model){
         RestaurantMenuUpdateDto restaurantMenuUpdateDto = adminRestaurantMenuService.adminFindUpdateRestaurantMenu(restaurantMenuId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantMenuUpdateDto.getRestaurantId());
@@ -62,7 +62,7 @@ public class AdminRestaurantMenuController {
         model.addAttribute("menuCategory",RestaurantMenuCategory.values());
         return "admin/restaurant/updateRestaurantMenu";
     }
-    @PostMapping ("admin/restaurantMenu/{restaurantMenuId}")
+    @PostMapping ("admin/restaurantMenu/edit/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,@RequestPart MultipartFile multipartFile,RestaurantMenuUpdateDto restaurantMenuUpdateDto,RedirectAttributes redirect){
         adminRestaurantMenuService.adminUpdateRestaurantMenu(restaurantMenuId,multipartFile,restaurantMenuUpdateDto);
         redirect.addAttribute("restaurantId",restaurantMenuUpdateDto.getRestaurantId());

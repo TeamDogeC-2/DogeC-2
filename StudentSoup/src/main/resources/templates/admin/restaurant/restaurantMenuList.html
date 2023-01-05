@@ -44,7 +44,7 @@
                             <td th:text="${restaurantMenu.starLiked}">starLiked</td>
                             <td th:text="${restaurantMenu.likedCount}">likedCount</td>
                             <td>
-                                <a th:href="@{/admin/restaurantMenu/{restaurantMenuId}(restaurantMenuId = ${restaurantMenu.id})}">
+                                <a th:href="@{/admin/restaurantMenu/edit/{restaurantMenuId}(restaurantMenuId = ${restaurantMenu.id})}">
                                     <img src="/img/admin/icon/pencil.svg">
                                 </a>
 

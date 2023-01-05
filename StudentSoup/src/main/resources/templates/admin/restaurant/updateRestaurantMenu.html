@@ -21,7 +21,7 @@
                 <div class="container py-2 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-6">
-                            <form role="form" action="/admin/restaurantMenu/edit" th:action="@{/admin/restaurantMenu/{restaurantMenuId}(restaurantMenuId= ${restaurantMenuId})}" th:object="${restaurantMenuForm}"
+                            <form role="form" action="/admin/restaurantMenu/edit" th:action="@{/admin/restaurantMenu/edit/{restaurantMenuId}(restaurantMenuId= ${restaurantMenuId})}" th:object="${restaurantMenuForm}"
                                   method="post"
                                   enctype="multipart/form-data"
                                   class="card card-registration card-registration-2" style="border-radius: 15px">
