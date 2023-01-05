@@ -8,7 +8,6 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminRestaurantMenuService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
-import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuFindService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class AdminRestaurantMenuController {
     }
 
 
-    @GetMapping("admin/restaurantMenu/new")
+    @GetMapping("admin/restaurantMenu")
     public String createRestaurantMenu(@RequestParam Long restaurantId,Model model){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         model.addAttribute("restaurantMenuForm",new RestaurantMenuFormDto());
@@ -46,14 +45,14 @@ public class AdminRestaurantMenuController {
         model.addAttribute("menuCategory", RestaurantMenuCategory.values());
         return "/admin/restaurant/createRestaurantMenu";
     }
-    @PostMapping("admin/restaurantMenu/new")
+    @PostMapping("admin/restaurantMenu")
     public String createRestaurantMenu(@ModelAttribute RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
         restaurantMenuRegisterService.join(form,multipartFile);
         redirect.addAttribute("restaurantId",form.getRestaurantId());
 
         return "redirect:/admin/restaurantMenus";
     }
-    @GetMapping("admin/restaurantMenu/edit/{restaurantMenuId}")
+    @GetMapping("admin/restaurantMenu/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,Model model){
         RestaurantMenuUpdateDto restaurantMenuUpdateDto = adminRestaurantMenuService.adminFindUpdateRestaurantMenu(restaurantMenuId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantMenuUpdateDto.getRestaurantId());
@@ -63,14 +62,14 @@ public class AdminRestaurantMenuController {
         model.addAttribute("menuCategory",RestaurantMenuCategory.values());
         return "admin/restaurant/updateRestaurantMenu";
     }
-    @PostMapping("admin/restaurantMenu/edit/{restaurantMenuId}")
+    @PostMapping ("admin/restaurantMenu/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,@RequestPart MultipartFile multipartFile,RestaurantMenuUpdateDto restaurantMenuUpdateDto,RedirectAttributes redirect){
         adminRestaurantMenuService.adminUpdateRestaurantMenu(restaurantMenuId,multipartFile,restaurantMenuUpdateDto);
         redirect.addAttribute("restaurantId",restaurantMenuUpdateDto.getRestaurantId());
 
         return "redirect:/admin/restaurantMenus";
     }
-    @GetMapping("admin/restaurantMenu/delete/{restaurantMenuId}/{restaurantId}")
+    @GetMapping ("admin/restaurantMenu/{restaurantMenuId}/{restaurantId}")
     public String deleteRestaurantMenu(@PathVariable Long restaurantMenuId,@PathVariable Long restaurantId,RedirectAttributes redirect){
         restaurantMenuRepository.deleteById(restaurantMenuId);
         redirect.addAttribute("restaurantId",restaurantId);
