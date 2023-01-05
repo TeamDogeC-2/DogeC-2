@@ -116,7 +116,17 @@ public class TestDataInit {
         School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
         School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
 
-        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(), school1.getId(),"좌표값",null,"전화번호","태그","디테일");
+        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("음식점1",
+                "주소",
+                RestaurantCategory.ASIAN,
+                LocalTime.now(),
+                LocalTime.now(),
+                school1.getId(),
+                "좌표값",
+                null,
+                "전화번호",
+                "태그",
+                "디테일");
         restaurantRegisterService.join(dto);
     }
 
