@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.controller.admin;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSearch;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -29,29 +30,55 @@ public class AdminRestaurantController {
     private final RestaurantRepository restaurantRepository;
 
 
-
-    @GetMapping("admin/restaurant/new")
-    public String createRestaurant(Model model){
+    @GetMapping("admin/restaurant")
+    public String createRestaurant(Model model) {
         List<School> schools = schoolRepository.findAll();
-        model.addAttribute("restaurantForm",new RestaurantFormDto());
-        model.addAttribute("schools",schools);
+        model.addAttribute("restaurantForm", new RestaurantFormDto());
+        model.addAttribute("schools", schools);
         model.addAttribute("restaurantCategory", RestaurantCategory.values());
         return "/admin/restaurant/createRestaurant";
     }
-    @PostMapping("admin/restaurant/new")
-    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto,@RequestPart MultipartFile multipartFile){
-        restaurantRegisterService.join(restaurantFormDto,multipartFile);
+
+    @PostMapping("admin/restaurant")
+    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto, @RequestPart MultipartFile multipartFile) {
+        restaurantRegisterService.join(restaurantFormDto, multipartFile);
         return "redirect:/admin/restaurants";
     }
 
     @GetMapping("admin/restaurants")
-    public  String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch,Model model){
+    public String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
         List<Restaurant> restaurants = restaurantRepository.findAll();
-        model.addAttribute("restaurants",restaurants);
+        model.addAttribute("restaurants", restaurants);
 
-        List<Restaurant> findRestaurants = adminRestaurantService.AdminSearchSchools(restaurantSearch.getColumn(),restaurantSearch.getFind_value());
-        model.addAttribute("findRestaurants",findRestaurants);
+        List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
+        model.addAttribute("findRestaurants", findRestaurants);
 
         return "admin/restaurant/restaurantList";
+    }
+
+    @GetMapping("admin/restaurant/edit/{restaurantId}")
+    public String editRestaurant(@PathVariable Long restaurantId, Model model) {
+        RestaurantUpdateDto restaurantFormDto = adminRestaurantService.adminFindUpdateRestaurant(restaurantId);
+        List<School> schools = schoolRepository.findAll();
+        model.addAttribute("restaurantId", restaurantId);
+        model.addAttribute("restaurantForm", restaurantFormDto);
+        model.addAttribute("schools", schools);
+        model.addAttribute("restaurantCategory", RestaurantCategory.values());
+
+        return "/admin/restaurant/updateRestaurant";
+    }
+
+    @PostMapping("admin/restaurant/edit/{restaurantId}")
+    public String editRestaurant(@PathVariable Long restaurantId,
+                                 @RequestPart MultipartFile multipartFile,
+                                 RestaurantUpdateDto restaurantUpdateDto) {
+        adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto, multipartFile);
+        return "redirect:/admin/restaurants";
+    }
+    @GetMapping("admin/restaurant/{restaurantId}")
+    public String deleteRestaurant(@PathVariable Long restaurantId){
+        restaurantRepository.deleteById(restaurantId);
+
+        return "redirect:/admin/restaurants";
     }
 }
