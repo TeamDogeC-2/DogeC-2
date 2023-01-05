@@ -28,11 +28,6 @@ public class RestaurantAdvice {
         return new ErrorResult("RestaurantValidation", e.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RestaurantMenuValidationException.class)
-    public ErrorResult restaurantMenuValidationHandler(RestaurantMenuValidationException e){
-        log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("RestaurantMenuValidation",e.getMessage());
-    }
+
 
 }
