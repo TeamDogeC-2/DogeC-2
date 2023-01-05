@@ -1,13 +1,11 @@
 package ProjectDoge.StudentSoup.service.admin;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
-import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
@@ -50,7 +48,9 @@ public class AdminRestaurantService {
     @Transactional
     public void adminUpdateRestaurant(Long restaurantId,RestaurantUpdateDto restaurantUpdateDto,MultipartFile multipartFile){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        fileRepository.delete(restaurant.getImageFile());
+        if(restaurant.getImageFile() != null) {
+            fileRepository.delete(restaurant.getImageFile());
+        }
         School school = schoolFindService.findOne(restaurantUpdateDto.getSchool().getId());
         Long fileId = fileService.join(multipartFile);
         ImageFile file = fileService.findOne(fileId);
