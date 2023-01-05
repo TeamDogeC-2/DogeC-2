@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -42,6 +43,9 @@ public class DepartmentFindService {
     }
 
     public List<Department> getAllDepartmentUsingSchool(Long schoolId){
+        if(schoolId == null){
+            return Collections.emptyList();
+        }
         List<Department> departments = departmentRepository.findBySchool_Id(schoolId);
 
         if(departments.isEmpty()){
