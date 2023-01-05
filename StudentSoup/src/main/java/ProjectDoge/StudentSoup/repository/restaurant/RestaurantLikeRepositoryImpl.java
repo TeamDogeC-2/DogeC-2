@@ -6,12 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static ProjectDoge.StudentSoup.entity.member.QMember.member;
-import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurantLike.restaurantLike;
 
 @RequiredArgsConstructor
-public class RestaurantLikeImpl implements RestaurantLikeCustom {
+public class RestaurantLikeRepositoryImpl implements RestaurantLikeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -20,11 +18,7 @@ public class RestaurantLikeImpl implements RestaurantLikeCustom {
 
         RestaurantLike query = queryFactory.select(restaurantLike)
                 .from(restaurantLike)
-                .leftJoin(restaurantLike.restaurant, restaurant)
-                .fetchJoin()
-                .leftJoin(restaurantLike.member, member)
-                .fetchJoin()
-                .where(restaurant.id.eq(restaurantId), member.memberId.eq(memberId))
+                .where(restaurantLike.restaurant.id.eq(restaurantId), restaurantLike.member.memberId.eq(memberId))
                 .fetchOne();
 
         return Optional.ofNullable(query);

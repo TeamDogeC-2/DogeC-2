@@ -4,7 +4,7 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 
 import java.util.Optional;
 
-public interface RestaurantLikeCustom {
+public interface RestaurantLikeRepositoryCustom {
 
     Optional<RestaurantLike> findRestaurantLikeByRestaurantIdAndMemberId(Long restaurantId, Long memberId);
 }
