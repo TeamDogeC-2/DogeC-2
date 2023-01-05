@@ -35,6 +35,7 @@ public class RestaurantLikeService {
             return "like";
         }
     }
+
     private Long isAlreadyRestaurantLiked(Long restaurantId, Long memberId){
         log.info("회원이 이미 좋아요를 눌렀는지 체크하는 로직이 실행되었습니다. 음식점 ID : [{}] , 회원 ID : [{}]", restaurantId, memberId);
         isLoginMember(memberId);
