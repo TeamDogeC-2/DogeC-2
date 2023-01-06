@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantLikeValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
@@ -29,5 +30,12 @@ public class RestaurantAdvice {
     }
 
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantLikeValidationException.class)
+    public ErrorResult restaurantLikeValidationHandler(RestaurantLikeValidationException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantLikeValidation", e.getMessage());
+    }
 
 }

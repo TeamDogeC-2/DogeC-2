@@ -56,17 +56,19 @@ public class RestaurantFormDto {
         this.setDetail(restaurant.getDetail());
     }
 
-    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail) {
+    public RestaurantFormDto createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail) {
         this.name = name;
-        this.address=address;
-        this.restaurantCategory=category;
-        this.startTime= startTime;
-        this.endTime= endTime;
-        this.schoolId =schoolId;
-        this.coordinate=coordinate;
+        this.address = address;
+        this.restaurantCategory = category;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.schoolId = schoolId;
+        this.coordinate = coordinate;
         this.imageFile = imageFile;
-        this.tel=tel;
-        this.tag=tag;
-        this.detail=detail;
+        this.tel = tel;
+        this.tag = tag;
+        this.detail = detail;
+
+        return this;
     }
 }
