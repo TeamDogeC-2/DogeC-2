@@ -44,6 +44,17 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom{
 
     }
 
+    @Override
+    public List<Restaurant> findBySchoolId(Long schoolId) {
+        List<Restaurant> query = queryFactory
+                .select(restaurant)
+                .from(restaurant)
+                .leftJoin(restaurant.school, school)
+                .fetchJoin()
+                .fetch();
+        return query;
+    }
+
     private BooleanExpression checkRestaurantCategoryEq(String column,String category){
         if(column.equals("category")) {
             for (RestaurantCategory restaurantCategory : RestaurantCategory.values()) {
