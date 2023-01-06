@@ -48,7 +48,7 @@
                                     <img src="/img/admin/icon/pencil.svg">
                                 </a>
 
-                                <a th:href="@{/admin/restaurantMenu/delete/{restaurantMenuId}(restaurantMenuId = ${restaurantMenu.id})}">
+                                <a th:href="@{/admin/restaurantMenu/{restaurantMenuId}/{restaurantId}(restaurantMenuId = ${restaurantMenu.id},restaurantId = ${restaurantId})}">
                                     <img src="/img/admin/icon/trash.svg">
                                 </a>
                             </td>
@@ -69,7 +69,7 @@
                     <div class="btn btn-light btn-sm">
                         <input type="button" name="restaurantMenuCreate"
                                class="btn btn-primary btn-sm"
-                                th:onclick="|location.href='@{/admin/restaurantMenu/new(restaurantId= ${param.restaurantId})}'|"
+                                th:onclick="|location.href='@{/admin/restaurantMenu(restaurantId= ${restaurantId})}'|"
                                 value="레스토랑 메뉴 등록">
                     </div>
                 </div>
