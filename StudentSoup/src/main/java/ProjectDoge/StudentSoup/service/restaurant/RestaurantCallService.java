@@ -29,12 +29,12 @@ public class RestaurantCallService {
     public List<RestaurantDto> getByRestaurant(Long schoolId, Long memberId) {
 
         List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
-        List<RestaurantDto> restaurantDtos = new ArrayList<>();
+        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
         if (isHaveMemberId(memberId)) {
-            return getLoginRestaurantList(memberId, restaurants, restaurantDtos);
+            return getLoginRestaurantList(memberId, restaurants, restaurantDtoList);
         }
-        return getNotLoginRestaurantList(restaurants, restaurantDtos);
+        return getNotLoginRestaurantList(restaurants, restaurantDtoList);
     }
 
     /**
@@ -49,30 +49,35 @@ public class RestaurantCallService {
 
     private List<RestaurantDto> getLoginRestaurantList(Long memberId,
                                                        List<Restaurant> restaurants,
-                                                       List<RestaurantDto> restaurantDtos) {
+                                                       List<RestaurantDto> restaurantDtoList) {
         for (Restaurant restaurant : restaurants) {
-            restaurantDtos.add(addLoginRestaurantDtos(memberId, restaurantDtos, restaurant));
+            restaurantDtoList.add(getLoginRestaurantDto(memberId, restaurant));
         }
-        return restaurantDtos;
+        return restaurantDtoList;
     }
 
-    private RestaurantDto addLoginRestaurantDtos(Long memberId, List<RestaurantDto> restaurantDtos, Restaurant restaurant) {
+    private RestaurantDto getLoginRestaurantDto(Long memberId, Restaurant restaurant) {
         RestaurantLike restaurantLike = restaurantLikeRepository.findRestaurantLikeByRestaurantIdAndMemberId(restaurant.getId(), memberId)
                 .orElse(null);
         if (restaurantLike == null) {
-            return new RestaurantDto().createRestaurantDto(restaurant, getDistance(restaurant), restaurantNotLiked);
+            return getNotLikeRestaurantDto(restaurant);
         }
+        return getLikeRestaurantDto(restaurant);
+    }
+
+    private RestaurantDto getLikeRestaurantDto(Restaurant restaurant) {
         return new RestaurantDto().createRestaurantDto(restaurant, getDistance(restaurant), restaurantLiked);
     }
 
-    private List<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants, List<RestaurantDto> restaurantDtos) {
+    private RestaurantDto getNotLikeRestaurantDto(Restaurant restaurant) {
+        return new RestaurantDto().createRestaurantDto(restaurant, getDistance(restaurant), restaurantNotLiked);
+    }
+
+    private List<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants, List<RestaurantDto> restaurantDtoList) {
         for (Restaurant restaurant : restaurants) {
-            restaurantDtos.add(new RestaurantDto().createRestaurantDto(
-                    restaurant,
-                    getDistance(restaurant),
-                    restaurantNotLiked));
+            restaurantDtoList.add(getNotLikeRestaurantDto(restaurant));
         }
-        return restaurantDtos;
+        return restaurantDtoList;
     }
 
     // 학교로 부터 음식점까지 거리좌표 계산
