@@ -26,7 +26,7 @@ public class RestaurantCallService {
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public List<RestaurantDto> getByRestaurant(Long schoolId, Long memberId) {
+    public List<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId) {
 
         List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
