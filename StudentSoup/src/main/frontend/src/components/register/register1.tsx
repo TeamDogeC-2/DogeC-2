@@ -1,6 +1,5 @@
-
-import { Link } from "react-router-dom";
-import RegisterNavbar from "../common/registerNavbar";
+import { Link } from 'react-router-dom';
+import RegisterNavbar from '../common/registerNavbar';
 
 const Register1 = () => {
   return (
@@ -45,33 +44,25 @@ const Register1 = () => {
           </div>
           <div className="flex text-left mt-[46px] mb-[53px]">
             <input type="checkbox" className="w-[20px] h-[20px] mr-[8px]" />
-            <span className="text-[16px] fw-400 leading-[21px]">
-              모든 약관에 동의 합니다.
-            </span>
+            <span className="text-[16px] fw-400 leading-[21px]">모든 약관에 동의 합니다.</span>
           </div>
           <span className="w-[530px] h-[1px] bg-[#D9D9D9]"></span>
           <div className="flex-col justify-center items-center">
             <div className="flex flex-row items-center my-[11px]">
               <div className='w-[15px] h-[11px] bg-[url("./img/check_gray.jpg")] bg-cover mr-[11px]'></div>
-              <span className="flex text-left">
-                [필수] 개인정보 수집 및 이용동의
-              </span>
+              <span className="flex text-left">[필수] 개인정보 수집 및 이용동의</span>
             </div>
             <div className="flex flex-row items-center my-[22px]">
               <div className='w-[15px] h-[11px] bg-[url("./img/check_gray.jpg")] bg-cover mr-[11px]'></div>
-              <span className="flex text-left">
-                [필수] 개인정보 보유기간 및 이용기간
-              </span>
+              <span className="flex text-left">[필수] 개인정보 보유기간 및 이용기간</span>
             </div>
             <div className="flex flex-row items-center my-[22px]">
               <div className='w-[15px] h-[11px] bg-[url("./img/check_gray.jpg")] bg-cover mr-[11px]'></div>
-              <span className="flex text-left">
-                [선택] 광고성 정보 수신 및 마케팅 활용 동의
-              </span>
+              <span className="flex text-left">[선택] 광고성 정보 수신 및 마케팅 활용 동의</span>
             </div>
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[28px]">
-              고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부
-              시에는 회원가입이 제한됩니다.
+              고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이
+              제한됩니다.
             </span>
           </div>
           <div className="w-[530px] h-[54px] mt-[56px] bg-[#B8B8B8] flex justify-center items-center">

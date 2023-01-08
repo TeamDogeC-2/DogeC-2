@@ -1,11 +1,10 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import RegisterNavbar from "../common/registerNavbar";
-import cn from "clsx";
-import { useHistory } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from 'react';
+import RegisterNavbar from '../common/registerNavbar';
+import cn from 'clsx';
+import { useHistory } from 'react-router-dom';
 
 const Register2 = () => {
-
-    const history = useHistory();
+  const history = useHistory();
 
   const [lowAndUpValidated, setLowAndUpValidated] = useState<boolean>(false);
   const [numberValidated, setNumberValidated] = useState<boolean>(false);
@@ -13,11 +12,11 @@ const Register2 = () => {
   const [matchPassword, setMatchPassword] = useState<boolean>(false);
   const [checkButton, setCheckButton] = useState<boolean>(false);
 
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   useEffect(() => {
-    if (password === confirmPassword && confirmPassword != "") {
+    if (password === confirmPassword && confirmPassword !== '') {
       setMatchPassword(true);
     } else if (confirmPassword == null) {
       setMatchPassword(false);
@@ -27,12 +26,7 @@ const Register2 = () => {
   }, [password, confirmPassword]);
 
   useEffect(() => {
-    if (
-      lowAndUpValidated &&
-      numberValidated &&
-      lengthValidated &&
-      matchPassword
-    ) {
+    if (lowAndUpValidated && numberValidated && lengthValidated && matchPassword) {
       setCheckButton(true);
     } else {
       setCheckButton(false);
@@ -40,17 +34,17 @@ const Register2 = () => {
   }, [lowAndUpValidated, numberValidated, lengthValidated, matchPassword]);
 
   const onClickRegister3 = () => {
-      if(checkButton){
-        history.push("/register/3");
-      }
-  }
+    if (checkButton) {
+      history.push('/register/3');
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setPassword(newValue);
-    const lowAndUp = new RegExp("(?=.*[a-z])(?=.*[A-Z]).*");
-    const number = new RegExp("(?=.*[0-9])");
-    const length = new RegExp("(?=.{8,20})");
+    const lowAndUp = /(?=.*[a-z])(?=.*[A-Z]).*/;
+    const number = /(?=.*[0-9])/;
+    const length = /(?=.{8,20})/;
 
     if (lowAndUp.test(newValue)) {
       setLowAndUpValidated(true);
@@ -93,9 +87,7 @@ const Register2 = () => {
             <div className="flex flex-col items-center mx-[20px]">
               <div className='w-[45px] h-[45px] bg-[url("./img/circle1.jpg")] bg-cover relative top-[12px]'></div>
               <div className='w-[15px] h-[23px] bg-[url("./img/check2.jpg")] bg-cover relative bottom-[22px]'></div>
-              <span className="text-[#FF611D] text-[16px] fw-400 leading-[21px]">
-                회원가입
-              </span>
+              <span className="text-[#FF611D] text-[16px] fw-400 leading-[21px]">회원가입</span>
             </div>
             <span className="w-[110px] h-[3px] bg-[#D9D9D9] relative bottom-[10px]"></span>
             <div className="flex flex-col items-center">
@@ -114,9 +106,7 @@ const Register2 = () => {
             </span>
           </div>
           <div className="flex flex-col text-left mt-[21px]">
-            <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
-              ID
-            </span>
+            <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">ID</span>
             <input
               name="ID"
               placeholder="아이디(이메일)입력"
@@ -128,9 +118,7 @@ const Register2 = () => {
           </div>
           <div className="flex flex-row mt-[15px]">
             <div className="w-[236px] flex flex-col text-left mr-[24px]">
-              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
-                MAIL
-              </span>
+              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">MAIL</span>
               <input
                 name="MAIL"
                 id="MAIL"
@@ -149,9 +137,7 @@ const Register2 = () => {
           </div>
           <div className="flex flex-row mt-[12px]">
             <div className="w-[236px] flex flex-col text-left mr-[24px]">
-              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
-                PW
-              </span>
+              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">PW</span>
               <input
                 name="PW"
                 id="PW"
@@ -164,69 +150,50 @@ const Register2 = () => {
               <div className="flex flex-row mt-[8px] mb-[12px]">
                 <div className="flex flex-row items-center">
                   <span
-                    className={cn(
-                      "text-[12px] fw-400 leading-[16px] mr-[6px]",
-                      {
-                        ["text-[#FF611D]"]: lowAndUpValidated,
-                        ["text-[#939393]"]: !lowAndUpValidated,
-                      }
-                    )}
+                    className={cn('text-[12px] fw-400 leading-[16px] mr-[6px]', {
+                      'text-[#FF611D]': lowAndUpValidated,
+                      'text-[#939393]': !lowAndUpValidated,
+                    })}
                   >
                     대소문자
                   </span>
                   <div
-                    className={cn(
-                      "w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]",
-                      {
-                        ['bg-[url("./img/Vector15.jpg")]']: lowAndUpValidated,
-                        ['bg-[url("./img/check_gray.jpg")]']:
-                          !lowAndUpValidated,
-                      }
-                    )}
+                    className={cn('w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]', {
+                      'bg-[url("./img/Vector15.jpg")]': lowAndUpValidated,
+                      'bg-[url("./img/check_gray.jpg")]': !lowAndUpValidated,
+                    })}
                   ></div>
                 </div>
                 <div className="flex flex-row items-center">
                   <span
-                    className={cn(
-                      "text-[12px] fw-400 leading-[16px] mr-[6px]",
-                      {
-                        ["text-[#FF611D]"]: numberValidated,
-                        ["text-[#939393]"]: !numberValidated,
-                      }
-                    )}
+                    className={cn('text-[12px] fw-400 leading-[16px] mr-[6px]', {
+                      'text-[#FF611D]': numberValidated,
+                      'text-[#939393]': !numberValidated,
+                    })}
                   >
                     숫자
                   </span>
                   <div
-                    className={cn(
-                      "w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]",
-                      {
-                        ['bg-[url("./img/Vector15.jpg")]']: numberValidated,
-                        ['bg-[url("./img/check_gray.jpg")]']: !numberValidated,
-                      }
-                    )}
+                    className={cn('w-[11px] h-[7px] bg-cover mr-[10px] relative bottom-[1px]', {
+                      'bg-[url("./img/Vector15.jpg")]': numberValidated,
+                      'bg-[url("./img/check_gray.jpg")]': !numberValidated,
+                    })}
                   ></div>
                 </div>
                 <div className="flex flex-row items-center">
                   <span
-                    className={cn(
-                      "text-[12px] fw-400 leading-[16px] mr-[6px]",
-                      {
-                        ["text-[#FF611D]"]: lengthValidated,
-                        ["text-[#939393]"]: !lengthValidated,
-                      }
-                    )}
+                    className={cn('text-[12px] fw-400 leading-[16px] mr-[6px]', {
+                      'text-[#FF611D]': lengthValidated,
+                      'text-[#939393]': !lengthValidated,
+                    })}
                   >
                     8~20글자 이내
                   </span>
                   <div
-                    className={cn(
-                      "w-[11px] h-[7px] bg-cover relative bottom-[1px]",
-                      {
-                        ['bg-[url("./img/Vector15.jpg")]']: lengthValidated,
-                        ['bg-[url("./img/check_gray.jpg")]']: !lengthValidated,
-                      }
-                    )}
+                    className={cn('w-[11px] h-[7px] bg-cover relative bottom-[1px]', {
+                      'bg-[url("./img/Vector15.jpg")]': lengthValidated,
+                      'bg-[url("./img/check_gray.jpg")]': !lengthValidated,
+                    })}
                   ></div>
                 </div>
               </div>
@@ -244,37 +211,28 @@ const Register2 = () => {
               <div className="flex flex-row mt-[8px] mb-[12px]">
                 <div className="mr-[18px] flex flex-row items-center">
                   <span
-                    className={cn(
-                      "text-[12px] fw-400 leading-[16px] mr-[6px]",
-                      {
-                        ["text-[#FF611D]"]: matchPassword,
-                        ["text-[#939393]"]: !matchPassword,
-                      }
-                    )}
+                    className={cn('text-[12px] fw-400 leading-[16px] mr-[6px]', {
+                      'text-[#FF611D]': matchPassword,
+                      'text-[#939393]': !matchPassword,
+                    })}
                   >
                     비밀번호 일치
                   </span>
                   <div
-                    className={cn(
-                      "w-[11px] h-[7px] bg-cover mr-[11px] relative bottom-[1px]",
-                      {
-                        ['bg-[url("./img/Vector15.jpg")]']: matchPassword,
-                        ['bg-[url("./img/check_gray.jpg")]']: !matchPassword,
-                      }
-                    )}
+                    className={cn('w-[11px] h-[7px] bg-cover mr-[11px] relative bottom-[1px]', {
+                      'bg-[url("./img/Vector15.jpg")]': matchPassword,
+                      'bg-[url("./img/check_gray.jpg")]': !matchPassword,
+                    })}
                   ></div>
                 </div>
               </div>
             </div>
           </div>
           <div
-            className={cn(
-              "w-[496px] h-[54px] flex justify-center items-center",
-              {
-                ["bg-[#FF611D]"]: checkButton,
-                ["bg-[#B8B8B8]"]: !checkButton,
-              }
-            )}
+            className={cn('w-[496px] h-[54px] flex justify-center items-center', {
+              'bg-[#FF611D]': checkButton,
+              'bg-[#B8B8B8]': !checkButton,
+            })}
             onClick={onClickRegister3}
           >
             <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white font-semibold">
