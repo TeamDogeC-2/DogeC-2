@@ -14,7 +14,7 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^1.2.1",
     "clsx": "^1.2.1",
-    "eslint": "^8.0.1",
+    "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.2",
@@ -30,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx eslint ./src/*"
   },
   "browserslist": {
     "production": [
