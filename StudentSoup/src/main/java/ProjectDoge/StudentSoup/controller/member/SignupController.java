@@ -15,9 +15,13 @@ import ProjectDoge.StudentSoup.service.member.MemberValidationService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -64,12 +68,13 @@ public class SignupController {
     }
 
     @PostMapping("/signUp/3")
-    public MemberDto signUp(@RequestBody MemberFormBDto dto){
+    public ResponseEntity<ConcurrentHashMap<String, String>> signUp(@RequestBody MemberFormBDto dto){
         log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
         Long memberId = memberRegisterService.join(dto);
         Member member = memberFindService.findOne(memberId);
-        log.info("member의 성별 : [{}]", member.getGender());
-        MemberDto result = new MemberDto().getMemberDto(member);
-        return result;
+        log.info("member 의 성별 : [{}]", member.getGender());
+        ConcurrentHashMap<String, String> result = new ConcurrentHashMap<>();
+        result.put("result", "ok");
+        return ResponseEntity.ok(result);
     }
 }
