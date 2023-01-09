@@ -64,12 +64,11 @@ public class SignupController {
     }
 
     @PostMapping("/signUp/3")
-    public MemberDto signUp(@RequestBody MemberFormBDto dto){
+    public String signUp(@RequestBody MemberFormBDto dto){
         log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
         Long memberId = memberRegisterService.join(dto);
         Member member = memberFindService.findOne(memberId);
         log.info("member의 성별 : [{}]", member.getGender());
-        MemberDto result = new MemberDto().getMemberDto(member);
-        return result;
+        return "ok";
     }
 }
