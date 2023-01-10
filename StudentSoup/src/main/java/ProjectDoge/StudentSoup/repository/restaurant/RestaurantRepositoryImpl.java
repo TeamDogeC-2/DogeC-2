@@ -92,24 +92,22 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .from(restaurant)
                 .leftJoin(restaurant.school, school)
                 .fetchJoin()
-                .where(restaurant.school.id.eq(schoolId),checkSortedRestaurantCategory(category))
+                .where(restaurant.school.id.eq(schoolId), checkSortedRestaurantCategory(category))
                 .orderBy(checkSortedRestaurantCondition(sorted))
                 .fetch();
         return query;
     }
 
     private BooleanExpression checkSortedRestaurantCategory(String category) {
-        for (RestaurantCategory restaurantCategory : RestaurantCategory.values()) {
-            if (restaurantCategory.getRestaurantCategory().equals(category))
-                return restaurant.restaurantCategory.eq(RestaurantCategory.valueOf(restaurantCategory.name()));
-        }
-        return null;
+            if(category.equals("ALL")){
+                return null;
+            }
+            return restaurant.restaurantCategory.eq(RestaurantCategory.valueOf(category));
     }
 
     private OrderSpecifier<?> checkSortedRestaurantCondition(int sorted){
-        if(RestaurantSortedCase.NORMAL.getValue() == sorted)
-            return null;
-        else if(RestaurantSortedCase.STAR.getValue() == sorted)
+
+        if(RestaurantSortedCase.STAR.getValue() == sorted)
             return restaurant.starLiked.desc();
         else if(RestaurantSortedCase.LIKED.getValue() == sorted)
             return restaurant.likedCount.desc();
@@ -117,8 +115,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
             return restaurant.restaurantReviews.size().desc();
         else if(RestaurantSortedCase.DISTANCE.getValue() == sorted){
             return restaurant.distance.asc();
+        } else {
+            return restaurant.id.asc();
         }
-        return null;
     }
 
 }
