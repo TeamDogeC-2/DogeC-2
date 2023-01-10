@@ -22,7 +22,7 @@ public class RestaurantDto {
     private String detail;
 
     // 생성 메서드
-    public RestaurantDto createRestaurantDto(Restaurant restaurant, String distance, boolean like){
+    public RestaurantDto createRestaurantDto(Restaurant restaurant, boolean like){
         this.restaurantId = restaurant.getId();
         this.restaurantCategory = restaurant.getRestaurantCategory().getRestaurantCategory();
         this.name = restaurant.getName();
@@ -32,7 +32,7 @@ public class RestaurantDto {
         this.fileName = setImageFile(restaurant);
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
-        this.distance = distance;
+        this.distance = restaurant.getDistance() + "M";
         this.like = like;
         this.detail = restaurant.getDetail();
         return this;

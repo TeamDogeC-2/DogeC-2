@@ -31,9 +31,10 @@ public class RestaurantRegisterService {
         Long fileId = fileService.join(multipartFile);
         ImageFile imageFile = fileService.findOne(fileId);
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school, imageFile);
+        restaurant.setDistance(restaurant.calcDistance(school));
         restaurantValidationService.validateDuplicateRestaurant(restaurant);
         restaurantRepository.save(restaurant);
-        log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());
+        log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance());
         return restaurant.getId();
     }
 
@@ -43,6 +44,7 @@ public class RestaurantRegisterService {
         School school = schoolFindService.findOne(dto.getSchoolId());
         Restaurant restaurant = new Restaurant().createRestaurant(dto, school);
         restaurantValidationService.validateDuplicateRestaurant(restaurant);
+        restaurant.setDistance(restaurant.calcDistance(school));
         restaurantRepository.save(restaurant);
         log.info("테스트 음식점이 생성되었습니다.[{}][{}]",restaurant.getId(),restaurant.getName());
         return restaurant.getId();
