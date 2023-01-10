@@ -115,6 +115,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
             return restaurant.likedCount.desc();
         else if(RestaurantSortedCase.REVIEW.getValue() == sorted)
             return restaurant.restaurantReviews.size().desc();
+        else if(RestaurantSortedCase.DISTANCE.getValue() == sorted){
+            return restaurant.distance.asc();
+        }
         return null;
     }
 
