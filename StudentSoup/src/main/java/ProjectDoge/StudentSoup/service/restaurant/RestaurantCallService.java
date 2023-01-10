@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.round;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -31,17 +29,34 @@ public class RestaurantCallService {
         List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
-        if (isHaveMemberId(memberId)) {
+        if (isLoginMember(memberId)) {
             return getLoginRestaurantList(memberId, restaurants, restaurantDtoList);
         }
         return getNotLoginRestaurantList(restaurants, restaurantDtoList);
     }
 
+    public List<RestaurantDto> restaurantSortedCall(Long schoolId, Long memberId, String category, int sorted){
+
+        /**
+         * TODO category 가 enum 에 없을 경우 예외 추가, 그런데 이런 일은 최대한 없어야 할듯? 아니 있을 수가 있나?
+         */
+        List<Restaurant> sortedRestaurants = restaurantRepository.
+                findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted);
+        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
+
+        if(isLoginMember(memberId)) {
+            return getLoginRestaurantList(memberId, sortedRestaurants, restaurantDtoList);
+        }
+
+        return getNotLoginRestaurantList(sortedRestaurants, restaurantDtoList);
+    }
+
+
     /**
      * @param memberId 유저가 로그인이 되어있는가
      * @return
      */
-    private boolean isHaveMemberId(Long memberId) {
+    private boolean isLoginMember(Long memberId) {
         return memberId != null;
     }
 
