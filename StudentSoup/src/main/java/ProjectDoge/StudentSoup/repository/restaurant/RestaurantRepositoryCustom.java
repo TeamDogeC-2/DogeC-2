@@ -11,4 +11,6 @@ public interface RestaurantRepositoryCustom {
     List<Restaurant> findRestaurantDynamicSearch(String column, String find_value);
 
     List<Restaurant> findBySchoolId(Long schoolId);
+
+    List<Restaurant> findBySchoolIdAndCategoryAndSorted(Long schoolId, String category, int sorted);
 }
