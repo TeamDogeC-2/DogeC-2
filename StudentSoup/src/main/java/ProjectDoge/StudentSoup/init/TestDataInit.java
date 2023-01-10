@@ -130,7 +130,7 @@ public class TestDataInit {
 
         RestaurantFormDto dto2 = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점",
                 "주소",
-                RestaurantCategory.ASIAN,
+                RestaurantCategory.KOREAN,
                 LocalTime.now(),
                 LocalTime.now(),
                 school2.getId(),
