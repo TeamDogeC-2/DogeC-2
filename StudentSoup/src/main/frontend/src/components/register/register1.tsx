@@ -91,7 +91,7 @@ const Register1 = () => {
           </div>
           <div className="flex text-left mt-[46px] mb-[53px]">
             <input type="checkbox"
-              checked={checkState} onChange={handleAllCheck} className="w-[20px] h-[20px] mr-[8px]" />
+              checked={checkState} onChange={handleAllCheck} className="w-[20px] h-[20px] mr-[8px] accent-[#FF611D]" />
             <span className="text-[16px] fw-400 leading-[21px]">
               모든 약관에 동의 합니다.
             </span>
