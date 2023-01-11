@@ -9,9 +9,12 @@ import ProjectDoge.StudentSoup.service.member.MemberUpdateService;
 import ProjectDoge.StudentSoup.service.member.MemberValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
@@ -23,13 +26,14 @@ public class MemberUpdateController {
     private final MemberUpdateService memberUpdateService;
 
     @PostMapping("/edit/{memberId}/validation")
-    public String editIdCheck(@PathVariable("memberId") Long memberId,
-                              @Validated @RequestBody MemberUpdateValidationDto dto,
-                              BindingResult bindingResult){
+    public ResponseEntity<ConcurrentHashMap<String, String>> editIdCheck(@PathVariable("memberId") Long memberId,
+                                                         @Validated @RequestBody MemberUpdateValidationDto dto,
+                                                         BindingResult bindingResult){
+        ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<>();
         Member member = memberFindService.findOne(dto.getMemberId());
         memberValidationService.validationCoincideMemberIdPwd(member, dto.getPwd());
-
-        return "ok";
+        resultMap.put("result", "ok");
+        return ResponseEntity.ok(resultMap);
     }
 
     @PostMapping("/edit/{memberId}")

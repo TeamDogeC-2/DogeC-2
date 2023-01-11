@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -22,17 +23,20 @@ public class RestaurantLikeService {
     private final MemberFindService memberFindService;
 
     @Transactional
-    public String restaurantLike(Long restaurantId, Long memberId){
+    public ConcurrentHashMap<String, String> restaurantLike(Long restaurantId, Long memberId){
         log.info("좋아요 / 좋아요 취소 서비스 로직이 실행되었습니다.");
+        ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<>();
         Long restaurantLikeId = isAlreadyRestaurantLiked(restaurantId, memberId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         if(restaurantLikeId != null){
             cancelRestaurant(restaurantLikeId, restaurant);
-            return "cancel";
+            resultMap.put("result", "cancel");
+            return resultMap;
         } else {
             Member member = memberFindService.findOne(memberId);
             likeRestaurant(member, restaurant);
-            return "like";
+            resultMap.put("result", "like");
+            return resultMap;
         }
     }
 
