@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.dto.board;
 
+import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
@@ -18,11 +19,11 @@ public class BoardMainDto {
 
     private int likedCount;
 
-    public BoardMainDto(Long boardId, BoardCategory boardCategory, String title, String updateDate, int likedCount) {
-        this.boardId = boardId;
-        this.boardCategory = boardCategory;
-        this.title = title;
-        this.updateDate = updateDate;
-        this.likedCount = likedCount;
+    public BoardMainDto(Board board) {
+        this.boardId = board.getId();
+        this.boardCategory = board.getBoardCategory();
+        this.title = board.getTitle();
+        this.updateDate = board.getUpdateDate();
+        this.likedCount = board.getLikedCount();
     }
 }
