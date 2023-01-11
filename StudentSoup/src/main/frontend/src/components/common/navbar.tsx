@@ -22,16 +22,21 @@ const Navbar = () => {
     if (e.target.innerText === "로그인") {
       history.push("/login", { pathName });
     } else if (e.target.id === "로그아웃") {
-      sessionStorage.removeItem('email');
-      sessionStorage.removeItem('nickname');
-      sessionStorage.removeItem('id');
-      sessionStorage.removeItem('departmentId');
-      sessionStorage.removeItem('departmentName');
-      sessionStorage.removeItem('fileName');
-      sessionStorage.removeItem('memberId');
-      sessionStorage.removeItem('schoolId');
-      sessionStorage.removeItem('schoolName');
-      setIsLogin(false);
+      if (sessionStorage.getItem('saved') === String(true)) {
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('saved');
+        sessionStorage.removeItem('departmentId');
+        sessionStorage.removeItem('departmentName');
+        sessionStorage.removeItem('fileName');
+        sessionStorage.removeItem('memberId');
+        sessionStorage.removeItem('schoolId');
+        sessionStorage.removeItem('schoolName');
+        setIsLogin(false);
+      } else {
+        sessionStorage.clear();
+        setIsLogin(false);
+      }
     }
   }
 

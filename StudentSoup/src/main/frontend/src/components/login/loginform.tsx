@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Reddit from "../../img/Reddit.svg";
 import { useHistory, useLocation } from "react-router-dom";
 import cn from "clsx";
@@ -14,29 +14,28 @@ function LoginForm() {
   const [id, setId] = useState<string>();
   const [pwd, setPwd] = useState<string>();
 
+  const [checked, setChecked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(sessionStorage.getItem('id')){
+      const savedId = String(sessionStorage.getItem('id'))
+      setId(savedId);
+      sessionStorage.clear();
+    }
+  },[])
+
+  useEffect(() => {
+    console.log(checked);
+  }, [checked])
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    const request = {
-      id: id,
-      pwd: pwd
-    }
 
     axios.post(url, {
       id: id,
       pwd: pwd
     }).then(function (response) {
       console.log(response.data);
-      // const items = [{ name: "email", value: response.data.email },
-      // { name: "nickname", value: response.data.nickname },
-      // { name: "id", value: response.data.id },
-      // { name: "departmentId", value: response.data.departmentId },
-      // { name: "departmentName", value: response.data.departmentName },
-      // { name: "fileName", value: response.data.fileName },
-      // { name: "memberId", value: response.data.memberId },
-      // { name: "schoolId", value: response.data.schoolId },
-      // { name: "schoolName", value: response.data.schoolName },
-      // ]
       if (state.state) {
         history.push(state.state.pathName.pathname);
         console.log("이전 화면 이동");
@@ -49,6 +48,7 @@ function LoginForm() {
         sessionStorage.setItem('memberId', response.data.memberId);
         sessionStorage.setItem('schoolId', response.data.schoolId);
         sessionStorage.setItem('schoolName', response.data.schoolName);
+        sessionStorage.setItem('saved', String(checked));
       } else {
         history.push("/");
         console.log("홈으로 이동");
@@ -61,6 +61,7 @@ function LoginForm() {
         sessionStorage.setItem('memberId', response.data.memberId);
         sessionStorage.setItem('schoolId', response.data.schoolId);
         sessionStorage.setItem('schoolName', response.data.schoolName);
+        sessionStorage.setItem('saved', String(checked));
       }
     })
       .catch(function (error) {
@@ -113,6 +114,8 @@ function LoginForm() {
                   type="checkbox"
                   id="saveId"
                   name="saveId"
+                  checked={checked}
+                  onChange={(e) => setChecked(!checked)}
                   className={cn(
                     "w-[29px] h-[29px] inline-block border border-[#A0A0A0] rounded-full cursor-pointer appearance-none",
                     "checked:border-[#FF611D] checked:bg-[#FF611D]"
