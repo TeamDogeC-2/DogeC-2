@@ -41,6 +41,8 @@ public class Restaurant {
 
     private String coordinate;
 
+    private int distance;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
     private ImageFile imageFile;
@@ -120,18 +122,9 @@ public class Restaurant {
     }
 
     //== 비즈니스 로직 ==//
-    public void addLikedCount(){
-        this.likedCount += 1;
-    }
-    public void minusLikedCount(){
-        if(this.likedCount != 0) {
-            this.likedCount -= 1;
-        }
-    }
-
     // 학교로 부터 음식점까지 거리좌표 계산
-    public int getDistance(){
-        String[] schoolCoordinate = this.school.getSchoolCoordinate().split(",");
+    public int calcDistance(School school) {
+        String[] schoolCoordinate = school.getSchoolCoordinate().split(",");
         String[] restaurantCoordinate = this.getCoordinate().split(",");
         double schoolLatitude = Double.parseDouble(schoolCoordinate[0]);
         double schoolLongitude = Double.parseDouble(schoolCoordinate[1]);
@@ -157,4 +150,15 @@ public class Restaurant {
     private double radToDeg(double rad) {
         return (rad * 180 / Math.PI);
     }
+
+    public void addLikedCount(){
+        this.likedCount += 1;
+    }
+    public void minusLikedCount(){
+        if(this.likedCount != 0) {
+            this.likedCount -= 1;
+        }
+    }
+
+
 }

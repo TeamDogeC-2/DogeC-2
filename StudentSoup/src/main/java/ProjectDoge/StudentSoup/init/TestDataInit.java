@@ -49,19 +49,19 @@ public class TestDataInit {
 
     private void initSchool(){
         SchoolFormDto school1 = new SchoolFormDto();
-        school1.setSchoolName("더미테스트1 학교");
-        school1.setSchoolCoordinate("더미테스트1 좌표");
+        school1.setSchoolName("인천대학교 송도캠퍼스");
+        school1.setSchoolCoordinate("37.3768067201,126.6347662307");
 
         SchoolFormDto school2 = new SchoolFormDto();
-        school2.setSchoolName("더미테스트2 학교");
-        school2.setSchoolCoordinate("더미테스트2 좌표");
+        school2.setSchoolName("연세대학교 송도캠퍼스");
+        school2.setSchoolCoordinate("37.3768067201,126.6347662307");
         schoolRegisterService.join(school1);
         schoolRegisterService.join(school2);
     }
 
     private void initDepartment(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(school1.getId());
@@ -85,8 +85,8 @@ public class TestDataInit {
     }
 
     private void initMember(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(school1.getId());
         List<Department> departments2 = departmentRepository.findBySchool_Id(school2.getId());
@@ -113,21 +113,34 @@ public class TestDataInit {
     }
 
     private void initRestaurant(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
 
-        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("음식점1",
+        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
                 RestaurantCategory.ASIAN,
                 LocalTime.now(),
                 LocalTime.now(),
                 school1.getId(),
-                "좌표값",
+                "37.3738948150,126.6364371486",
+                null,
+                "전화번호",
+                "태그",
+                "디테일");
+
+        RestaurantFormDto dto2 = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점",
+                "주소",
+                RestaurantCategory.KOREAN,
+                LocalTime.now(),
+                LocalTime.now(),
+                school2.getId(),
+                "37.3874120913,126.6637521009",
                 null,
                 "전화번호",
                 "태그",
                 "디테일");
         restaurantRegisterService.join(dto);
+        restaurantRegisterService.join(dto2);
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,
