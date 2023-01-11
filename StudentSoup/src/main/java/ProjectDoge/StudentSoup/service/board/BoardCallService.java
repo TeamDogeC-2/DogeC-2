@@ -1,12 +1,14 @@
 package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -19,8 +21,11 @@ public class BoardCallService {
 
     public List<BoardMainDto> getBoardInSchool(Long schoolId,Long memberId){
         if(memberId == null) throw new MemberIdNotSentException("맴버 아이디가 전송되지 않았습니다.");
-
-        List<BoardMainDto> boardMainDtoList = boardRepository.findBySchoolId(schoolId);
+        List<BoardMainDto> boardMainDtoList = new ArrayList<>();
+        List<Board> boards = boardRepository.findBySchoolId(schoolId);
+        for(Board board : boards){
+            boardMainDtoList.add(new BoardMainDto(board.getId(),board.getBoardCategory(),board.getTitle(),board.getUpdateDate(),board.getLikedCount()));
+        }
         return boardMainDtoList;
     }
 

@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.dto.board;
 
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 

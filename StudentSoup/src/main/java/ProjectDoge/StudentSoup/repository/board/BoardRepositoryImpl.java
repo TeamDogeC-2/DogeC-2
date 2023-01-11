@@ -2,6 +2,8 @@ package ProjectDoge.StudentSoup.repository.board;
 
 
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.QBoard;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,17 +19,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<BoardMainDto> findBySchoolId(Long schoolId){
-        List<BoardMainDto> query= queryFactory.
-                select(Projections.bean(BoardMainDto.class, board.id,
-                        board.boardCategory,
-                        board.title,
-                        board.updateDate,
-                        board.likedCount))
+    public List<Board> findBySchoolId(Long schoolId){
+        List<Board> query= queryFactory.
+                select(board)
+                .from(board)
                 .leftJoin(board.school,school)
                 .fetchJoin()
                 .where(board.school.id.eq(schoolId))
                 .fetch();
+
     return query;
     }
 }
