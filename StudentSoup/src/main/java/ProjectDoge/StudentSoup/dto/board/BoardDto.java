@@ -5,27 +5,22 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
-import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.entity.school.School;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class BoardDto {
 
     private Long id;
 
-    private School school;
-
-    private Department department;
-
     private BoardCategory boardCategory;
 
     private String title;
-
-    private Member member;
 
     private String content;
 
@@ -48,11 +43,8 @@ public class BoardDto {
     private boolean like;
     public BoardDto(Board board,Boolean like) {
         this.id = board.getId();
-        this.school = board.getSchool();
-        this.department = board.getDepartment();
         this.boardCategory = board.getBoardCategory();
         this.title = board.getTitle();
-        this.member = board.getMember();
         this.content = board.getContent();
         this.ip = board.getIp();
         if(board.getImageFile() == null){

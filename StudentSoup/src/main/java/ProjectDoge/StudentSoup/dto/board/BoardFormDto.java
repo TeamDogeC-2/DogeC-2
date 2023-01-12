@@ -21,4 +21,10 @@ public class BoardFormDto {
         this.setContent(board.getContent());
         this.setImageFile(board.getImageFile());
     }
+    public BoardFormDto createBoardFormDto(String title,BoardCategory category,String content){
+        this.title = title;
+        this.boardCategory = category;
+        this.content = content;
+        return this;
+    }
 }
