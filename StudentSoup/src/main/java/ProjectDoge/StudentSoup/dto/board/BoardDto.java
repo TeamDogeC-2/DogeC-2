@@ -36,9 +36,6 @@ public class BoardDto {
 
     private int likedCount;
 
-    private List<BoardReview> boardReviews = new ArrayList<>();
-
-    private List<BoardLike> boardLikes = new ArrayList<>();
 
     private boolean like;
     public BoardDto(Board board,Boolean like) {
@@ -57,8 +54,6 @@ public class BoardDto {
         this.writeDate = board.getWriteDate();
         this.updateDate = board.getUpdateDate();
         this.likedCount = board.getLikedCount();
-        this.boardReviews = board.getBoardReviews();
-        this.boardLikes = board.getBoardLikes();
         this.like = like;
     }
 }
