@@ -17,6 +17,8 @@ public class BoardMainDto {
 
     private String updateDate;
 
+    private String nickName;
+    private int view;
     private int likedCount;
 
     public BoardMainDto(Board board) {
@@ -25,5 +27,7 @@ public class BoardMainDto {
         this.title = board.getTitle();
         this.updateDate = board.getUpdateDate();
         this.likedCount = board.getLikedCount();
+        this.view = board.getView();
+        this.nickName = board.getMember().getNickname();
     }
 }

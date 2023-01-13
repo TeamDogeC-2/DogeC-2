@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.board;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +40,12 @@ public class BoardLike {
         }
         this.board = board;
         board.getBoardLikes().add(this);
+    }
+    public BoardLike createBoard(Member member, Board board){
+        this.board = board;
+        this.member = member;
+
+        return this;
     }
 
 }

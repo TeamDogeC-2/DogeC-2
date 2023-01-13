@@ -5,16 +5,22 @@ import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
+import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.board.BoardLikeService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
@@ -46,12 +52,16 @@ public class TestDataInit {
 
     private  final MemberRepository memberRepository;
 
+    private  final BoardRepository boardRepository;
+
+    private final BoardLikeRepository boardLikeRepository;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
         initMember();
         initRestaurant();
         initBoard();
+        initBoardLike();
     }
 
     private void initSchoolAndDepartment(){
@@ -164,6 +174,18 @@ public class TestDataInit {
         boardResisterService.join(member.getMemberId(),dto);
         boardResisterService.join(member1.getMemberId(),dto2);
 
+    }
+
+    private void initBoardLike(){
+        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
+        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+
+        Board board = boardRepository.findByTitle("테스트 제목");
+        Board board1 = boardRepository.findByTitle("테스트 제목2");
+
+        BoardLike boardLike = new BoardLike().createBoard(member,board1);
+        BoardLike boardLike1 = new BoardLike().createBoard(member1,board1);
+        boardLikeRepository.save(boardLike);
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,

@@ -8,4 +8,6 @@ import java.util.List;
 public interface BoardRepositoryCustom {
 
     List<Board> findBySchoolId(Long schoolId);
+
+    Board findByTitle(String title);
 }
