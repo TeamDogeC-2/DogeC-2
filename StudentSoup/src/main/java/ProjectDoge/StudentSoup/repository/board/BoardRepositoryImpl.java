@@ -1,11 +1,8 @@
 package ProjectDoge.StudentSoup.repository.board;
 
 
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
+
 import ProjectDoge.StudentSoup.entity.board.Board;
-import ProjectDoge.StudentSoup.entity.board.QBoard;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -29,5 +26,17 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
 
     return query;
+    }
+
+    //더미 데이터용
+    //추후에 카테고리별 검색 쿼리로 리팩토링
+    @Override
+    public Board findByTitle(String title){
+        Board query = queryFactory.
+                select(board)
+                .from(board)
+                .where(board.title.eq(title))
+                .fetchOne();
+        return query;
     }
 }
