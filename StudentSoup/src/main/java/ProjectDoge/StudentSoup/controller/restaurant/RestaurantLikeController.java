@@ -18,8 +18,8 @@ public class RestaurantLikeController {
     private final RestaurantLikeService restaurantLikeService;
 
     @PostMapping("/{restaurantId}/like")
-    public ResponseEntity<ConcurrentHashMap<String, String>> restaurantLike(@PathVariable Long restaurantId, @RequestBody RestaurantLikeDto dto){
-        ConcurrentHashMap<String, String> resultMap = restaurantLikeService.restaurantLike(dto.getRestaurantId(), dto.getMemberId());
+    public ResponseEntity<ConcurrentHashMap<String, Object>> restaurantLike(@PathVariable Long restaurantId, @RequestBody RestaurantLikeDto dto){
+        ConcurrentHashMap<String, Object> resultMap = restaurantLikeService.restaurantLike(dto.getRestaurantId(), dto.getMemberId());
         return ResponseEntity.ok(resultMap);
     }
 }
