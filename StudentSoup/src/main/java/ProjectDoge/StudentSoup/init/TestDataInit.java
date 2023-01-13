@@ -1,17 +1,23 @@
 package ProjectDoge.StudentSoup.init;
 
+import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
@@ -23,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Profile("local")
@@ -35,11 +42,16 @@ public class TestDataInit {
     private final DepartmentRegisterService departmentRegisterService;
     private final RestaurantRegisterService restaurantRegisterService;
 
+    private final BoardResisterService boardResisterService;
+
+    private  final MemberRepository memberRepository;
+
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
         initMember();
         initRestaurant();
+        initBoard();
     }
 
     private void initSchoolAndDepartment(){
@@ -141,6 +153,17 @@ public class TestDataInit {
                 "디테일");
         restaurantRegisterService.join(dto);
         restaurantRegisterService.join(dto2);
+    }
+    private void initBoard(){
+        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
+        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+
+
+        BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
+        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.CONSULTING,"테스트 내용2");
+        boardResisterService.join(member.getMemberId(),dto);
+        boardResisterService.join(member1.getMemberId(),dto2);
+
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,
