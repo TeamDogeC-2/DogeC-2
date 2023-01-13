@@ -32,10 +32,13 @@ public class RestaurantMenuCallService {
 
     public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId){
 
+        log.info("음식점 세부사항 호출 로직이 실행되었습니다. [{}]", restaurantId);
+
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
 
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant);
+        log.info("음식점 세부사항 호출 로직이 완료되었습니다.");
         return resultMap;
     }
 
@@ -44,17 +47,21 @@ public class RestaurantMenuCallService {
                                          ConcurrentHashMap<String, Object> resultMap,
                                          Restaurant restaurant) {
         if(isLoginMember(memberId)) {
+            log.info("회원이 로그인 된 상태의 음식점 세부사항을 호출합니다. [{}]", memberId);
             setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant);
         } else {
+            log.info("로그인 되지 않은 상태의 음식점 세부사항을 호출합니다.");
             setNotLoginStatusRestaurantDetailDto(restaurantId, resultMap, restaurant);
         }
     }
     private void setLoginStatusRestaurantDetailDto(Long restaurantId, Long memberId, ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+        log.info("로그인이 된 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setLoginStatusRestaurantDetail(restaurantId, memberId, resultMap, restaurant);
         setLoginStatusRestaurantMenu(restaurantId, memberId, resultMap);
     }
 
     private void setNotLoginStatusRestaurantDetailDto(Long restaurantId, ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+        log.info("로그인이 되어있지 않은 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setNotLoginStatusRestaurantDetail(resultMap, restaurant);
         setNotLoginStatusRestaurantMenu(restaurantId, resultMap);
     }
@@ -68,41 +75,48 @@ public class RestaurantMenuCallService {
                                                 Long memberId,
                                                 ConcurrentHashMap<String, Object> resultMap,
                                                 Restaurant restaurant) {
+        log.info("로그인 된 회원의 음식점 세부사항을 호출합니다.");
         RestaurantLike restaurantLike = restaurantLikeRepository.findRestaurantLikeByRestaurantIdAndMemberId(restaurantId, memberId)
                 .orElse(null);
 
+        setMemberRestaurantLikeDetail(resultMap, restaurant, restaurantLike);
+        log.info("로그인 된 회원의 음식점 세부사항 호출이 완료되었습니다.");
+    }
+
+    private void setMemberRestaurantLikeDetail(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant, RestaurantLike restaurantLike) {
         if(restaurantLike == null){
-            setNotLoginStatusRestaurantDetail(resultMap, restaurant);
+            getNotLikeRestaurantDto(resultMap, restaurant);
         } else {
-            RestaurantDetailDto dto = getLikeRestaurantDto(restaurant);
-            resultMap.put("restaurant", dto);
+            getLikeRestaurantDto(resultMap, restaurant);
         }
     }
 
-    private void setNotLoginStatusRestaurantDetail(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
-        RestaurantDetailDto dto = getNotLikeRestaurantDto(restaurant);
+    private void setNotLoginStatusRestaurantDetail(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant){
+        log.info("로그인이 되어있지 않은 상태의 음식점 세부사항을 호출합니다.");
+        getNotLikeRestaurantDto(resultMap, restaurant);
+    }
+
+    private void getLikeRestaurantDto(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, LIKED);
         resultMap.put("restaurant", dto);
     }
 
-    private RestaurantDetailDto getLikeRestaurantDto(Restaurant restaurant) {
-
-        return new RestaurantDetailDto().createRestaurantDetailDto(restaurant, LIKED);
-    }
-
-    private RestaurantDetailDto getNotLikeRestaurantDto(Restaurant restaurant) {
-
-        return new RestaurantDetailDto().createRestaurantDetailDto(restaurant, NOT_LIKED);
+    private void getNotLikeRestaurantDto(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, NOT_LIKED);
+        resultMap.put("restaurant", dto);
     }
 
     private void setLoginStatusRestaurantMenu(Long restaurantId,
                                               Long memberId,
                                               ConcurrentHashMap<String, Object> resultMap) {
+        log.info("로그인 된 상태의 음식점 메뉴들을 호출합니다.");
         List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
         List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId);
         for(RestaurantMenu restaurantMenu : restaurantMenuList){
             restaurantMenuDtoList.add(getLoginStatusRestaurantMenuDto(memberId, restaurantMenu));
         }
         resultMap.put("restaurantMenu", restaurantMenuDtoList);
+
     }
 
     private RestaurantMenuDto getLoginStatusRestaurantMenuDto(Long memberId, RestaurantMenu restaurantMenu){
@@ -114,12 +128,14 @@ public class RestaurantMenuCallService {
     }
 
     private void setNotLoginStatusRestaurantMenu(Long restaurantId, ConcurrentHashMap<String, Object> resultMap){
+        log.info("로그인 되지 않은 상태의 음식점 메뉴들을 호출합니다.");
         List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
         List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId);
         for(RestaurantMenu restaurantMenu : restaurantMenuList){
             restaurantMenuDtoList.add(getNotLoginStatusRestaurantMenuDto(restaurantMenu));
         }
         resultMap.put("restaurantMenu", restaurantMenuDtoList);
+        log.info("로그인 되지 않은 상태의 음식점 메뉴 호출이 완료되었습니다.");
     }
 
     private RestaurantMenuDto getNotLoginStatusRestaurantMenuDto(RestaurantMenu restaurantMenu){
