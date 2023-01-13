@@ -112,8 +112,7 @@ public class RestaurantMenuEntityTest {
     }
 
     private RestaurantMenuFormDto createRestaurantMenuDto(Long restaurantId, String name, RestaurantMenuCategory category, int cost) {
-       RestaurantMenuFormDto restaurantMenuFormDto = new RestaurantMenuFormDto();
-       restaurantMenuFormDto.createRestaurantMenuDto(restaurantId,name,category,cost);
+       RestaurantMenuFormDto restaurantMenuFormDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurantId,name,category,cost);
        return restaurantMenuFormDto;
     }
 
