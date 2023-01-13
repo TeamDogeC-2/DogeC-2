@@ -120,4 +120,8 @@ public class Board {
     public void addLikeCount() {
         this.likedCount+=1;
     }
+
+    public void minusLikeCount() {
+        this.likedCount-=1;
+    }
 }
