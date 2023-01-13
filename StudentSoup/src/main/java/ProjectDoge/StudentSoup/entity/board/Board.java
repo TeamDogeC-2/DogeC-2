@@ -116,4 +116,8 @@ public class Board {
     public void addViewCount(){
         this.view++;
     }
+
+    public void addLikeCount() {
+        this.likedCount+=1;
+    }
 }
