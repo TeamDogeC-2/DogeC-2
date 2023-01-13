@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
+import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
 @RequiredArgsConstructor
@@ -21,6 +22,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 select(board)
                 .from(board)
                 .leftJoin(board.school,school)
+                .fetchJoin()
+                .leftJoin(board.member,member)
                 .fetchJoin()
                 .where(board.school.id.eq(schoolId))
                 .fetch();
