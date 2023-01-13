@@ -41,18 +41,19 @@ public class BoardLikeService {
             return resultMap;
         }
         else{
-            cancelLike(boardLike,member,board,resultMap);
+            cancelLike(boardLike,board,resultMap);
             resultMap.put("result","cancel");
             return  resultMap;
         }
     }
 
-    private void cancelLike(BoardLike boardLike,Member member,Board board, ConcurrentHashMap<String, Object> resultMap) {
+    private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
         log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
+        board.minusLikeCount();
         BoardDto dto = new BoardDto(board,boardNotLiked);
         resultMap.put("data",dto);
-        log.info("게스글 좋아요가 삭제되었습니다.");
+        log.info("게시글 좋아요가 삭제되었습니다.");
     }
 
     private void likeBoard(Member member,Board board,ConcurrentHashMap<String,Object> resultMap) {
