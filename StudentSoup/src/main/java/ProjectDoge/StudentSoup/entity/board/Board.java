@@ -122,6 +122,8 @@ public class Board {
     }
 
     public void minusLikeCount() {
-        this.likedCount-=1;
+        if(this.likedCount > 0) {
+            this.likedCount -= 1;
+        }
     }
 }
