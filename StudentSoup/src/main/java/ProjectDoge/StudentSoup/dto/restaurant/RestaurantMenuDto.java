@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
-import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import lombok.Data;
 
