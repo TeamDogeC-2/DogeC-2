@@ -50,7 +50,7 @@ const MainSearch = () => {
       ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MainSearch
+export default MainSearch;

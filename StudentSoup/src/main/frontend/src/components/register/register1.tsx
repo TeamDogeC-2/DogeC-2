@@ -126,8 +126,8 @@ const Register1 = () => {
               </span>
             </div>
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[28px]">
-              고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부
-              시에는 회원가입이 제한됩니다.
+              고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이
+              제한됩니다.
             </span>
           </div>
           <div className={cn("w-[530px] h-[54px] mt-[56px] flex justify-center items-center", {

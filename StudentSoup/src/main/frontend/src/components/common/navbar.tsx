@@ -39,7 +39,6 @@ const Navbar = () => {
       }
     }
   }
-
   return (
     <div className="w-full h-[88px] items-center sticky flex justify-between bg-gradient-to-b from-[rgba(255,255,255,0.6)] to-[rgba(255,255,255,0)] hover:border-b-[1px]">
       <img src={Reddit} alt="" className="w-[162px] h-[72px]" />
@@ -61,8 +60,6 @@ const Navbar = () => {
             >
               로그인
             </button>}
-
-
         </div>
       </div>
     </div>

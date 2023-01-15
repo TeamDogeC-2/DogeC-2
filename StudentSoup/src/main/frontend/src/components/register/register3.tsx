@@ -126,9 +126,7 @@ const Register3 = () => {
             <div className="flex flex-col items-center w-[88px]">
               <div className="w-[45px] h-[45px] bg-[#FF611D] rounded-full bg-cover relative top-[12px]"></div>
               <div className='w-[20px] h-[15px] bg-[url("./img/check_white.png")] bg-[length:20px_15px] bg-no-repeat relative bottom-[18px]' />
-              <span className="text-[#FF611D] text-[16px] fw-400 leading-[21px]">
-                회원가입
-              </span>
+              <span className="text-[#FF611D] text-[16px] fw-400 leading-[21px]">회원가입</span>
             </div>
             <span className="w-[110px] h-[3px] bg-[#FF611D] relative bottom-[10px]"></span>
             <div className="flex flex-col items-center w-[88px]">
@@ -160,9 +158,7 @@ const Register3 = () => {
                 checked={gender === "WOMAN"}
                 onChange={handleClickRadio}
               />
-              <label className="form-check-label inline-block text-gray-800 mr-[9px]">
-                여
-              </label>
+              <label className="form-check-label inline-block text-gray-800 mr-[9px]">여</label>
             </div>
             <div>
               <input
@@ -173,9 +169,7 @@ const Register3 = () => {
                 checked={gender === "MAN"}
                 onChange={handleClickRadio}
               />
-              <label className="form-check-label inline-block text-gray-800 mr-[9px]">
-                남
-              </label>
+              <label className="form-check-label inline-block text-gray-800 mr-[9px]">남</label>
             </div>
           </div>
           {/* 이메일 */}
