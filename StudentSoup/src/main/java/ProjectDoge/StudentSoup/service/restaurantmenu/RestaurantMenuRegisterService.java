@@ -36,4 +36,15 @@ public class RestaurantMenuRegisterService {
         return restaurantMenu.getId();
     }
 
+    @Transactional
+    public Long join(RestaurantMenuFormDto dto) {
+        log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
+        Restaurant restaurant = restaurantFindService.findOne(dto.getRestaurantId());
+        restaurantMenuValidationService.validationDuplicateRestaurantMenu(dto);
+        RestaurantMenu restaurantMenu = new RestaurantMenu().createRestaurantMenu(dto, restaurant, null);
+        restaurantMenuRepository.save(restaurantMenu);
+        log.info("메뉴가 생성 되었습니다. [{}][{}]",restaurantMenu.getId(),restaurantMenu.getName());
+        return restaurantMenu.getId();
+    }
+
 }
