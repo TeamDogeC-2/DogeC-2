@@ -38,9 +38,11 @@ public class RestaurantReview {
     @JoinColumn(name = "IMAGE_FILE_ID")
     private ImageFile imageFile;
 
+    // 리뷰가 좋아요 눌린 수
     private int likedCount;
 
-    private float starLiked;
+    // 리뷰에서 작성한 음식점의 별점
+    private int starLiked;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date writeDate;

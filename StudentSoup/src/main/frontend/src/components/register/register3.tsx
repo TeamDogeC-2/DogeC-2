@@ -1,7 +1,111 @@
-import RegisterNavbar from '../common/registerNavbar';
-import cn from 'clsx';
+import RegisterNavbar from "../common/registerNavbar";
+import cn from "clsx";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Register3 = () => {
+
+  const history = useHistory();
+
+  const userId = sessionStorage.getItem("id");
+  const userPwd = sessionStorage.getItem("pwd");
+
+  const emailReg = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+
+  const renderUrl = "/members/signUp/3";
+
+  const [schoolArray, setSchoolArray] = useState<any[]>();
+  const [departArray, setDepartArray] = useState<any[]>();
+  const [selectDepartId, setSelectDepartId] = useState<number>();
+  const [gender, setGender] = useState<string>();
+  const [selectedId, setSelectedId] = useState<number>();
+  const [email, setEmail] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [checkEmail, setCheckEmail] = useState<boolean>(false);
+  const [checkNickname, setCheckNickname] = useState<boolean>(false);
+  const [checkGender, setCheckGender] = useState<boolean>(false);
+  const [checkSubmit, setCheckSubmit] = useState<boolean>(false);
+
+  const handleSelect = (e: any) => {
+    setSelectedId(e.target.value);
+    console.log(e.target.value);
+  }
+
+  const handleSelectDepart = (e: any) => {
+    setSelectDepartId(e.target.value);
+    console.log(e.target.value);
+  }
+
+  const handleClickRadio = (e: any) => {
+    setGender(e.target.id);
+    setCheckGender(true);
+  }
+
+  const fetchData = async () => {
+    const response = await axios.get(renderUrl);
+    setSchoolArray(response.data);
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [selectedId])
+
+  useEffect(() => {
+    if (nickname === "") {
+      setCheckNickname(false);
+    } else {
+      setCheckNickname(true);
+    }
+  }, [nickname])
+
+  useEffect(() => {
+    setCheckEmail(emailReg.test(email));
+  }, [email])
+
+  useEffect(() => {
+    if (checkEmail && checkNickname && checkGender && selectedId && selectDepartId) {
+      setCheckSubmit(true);
+    } else {
+      setCheckSubmit(false);
+    }
+  })
+
+  useEffect(() => {
+    if (selectedId !== null) {
+      axios.post("/members/signUp/3/" + selectedId, {
+        schoolId: selectedId
+      }).then(function (response) {
+        setDepartArray(response.data);
+        console.log(response);
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
+  }, [selectedId])
+
+  const handleRegister = (e: any) => {
+    e.preventDefault();
+    if (checkSubmit) {
+      axios.post(renderUrl, {
+        id: userId,
+        pwd: userPwd,
+        nickname: nickname,
+        email: email,
+        gender: gender,
+        schoolId: selectedId,
+        departmentId: selectDepartId
+      }).then(function (response) {
+        console.log(response);
+        sessionStorage.clear()
+        alert("로그인 페이지로 이동합니다.");
+        history.push('/login');
+      }).catch(function (error) {
+        alert(error.response.data.message);
+      })
+    }
+  }
+
   return (
     <>
       <RegisterNavbar />
@@ -50,7 +154,9 @@ const Register3 = () => {
                 className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
                 type="radio"
                 name="flexRadioDefault"
-                id="flexRadioDefault1"
+                id="WOMAN"
+                checked={gender === "WOMAN"}
+                onChange={handleClickRadio}
               />
               <label className="form-check-label inline-block text-gray-800 mr-[9px]">여</label>
             </div>
@@ -59,50 +165,83 @@ const Register3 = () => {
                 className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
                 type="radio"
                 name="flexRadioDefault"
-                id="flexRadioDefault2"
+                id="MAN"
+                checked={gender === "MAN"}
+                onChange={handleClickRadio}
               />
               <label className="form-check-label inline-block text-gray-800 mr-[9px]">남</label>
+            </div>
+          </div>
+          {/* 이메일 */}
+          <div className="flex flex-row justify-between mt-[5px] mb-[9px]">
+            <div className="w-full flex flex-col text-left">
+              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
+                MAIL
+              </span>
+              <input
+                name="MAIL"
+                id="MAIL"
+                placeholder="이메일 입력"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
+              ></input>
             </div>
           </div>
           {/* 학교 */}
           <div className="flex flex-col text-start">
             <div>학교</div>
-            <button
-              className={cn(
-                'relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]',
-                "after:bg-[url('./img/dropdown.png')] after:bg-no-repeat after:bg-[length:10px_5px] after:top-[23px] after:right-[20px] after:content-[''] after:absolute after:w-[10px] after:h-[5px]",
-              )}
-            >
-              학교 선택
-            </button>
           </div>
-
+          <div className="flex flex-col text-start overflow-y-auto max-h-[150px]">
+            <select onChange={handleSelect} className="relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]">
+              <option value="null">
+                학교 선택
+              </option>
+              {schoolArray?.map((school) => (
+                <option value={school.schoolId} key={school.schoolId} id={school.schoolId} className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black">
+                  {school.schoolName}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex flex-row justify-between text-start mt-[14px]">
             {/* 닉네임 */}
             <div className="flex flex-col w-[46%]">
               <div>닉네임</div>
               <input
                 type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
                 placeholder="닉네임 입력"
                 className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
               />
             </div>
             {/* 전공 */}
             <div className="flex flex-col w-[46%]">
-              <div>전공</div>
-              <button
-                className={cn(
-                  'relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]',
-                  "after:bg-[url('./img/dropdown.png')] after:bg-no-repeat after:bg-[length:10px_5px] after:top-[23px] after:right-[20px] after:content-[''] after:absolute after:w-[10px] after:h-[5px]",
-                )}
-              >
-                전공 선택
-              </button>
+              <div className="w-full">
+                <div>전공</div>
+              </div>
+              <div>
+                <select onChange={handleSelectDepart} className="relative w-full text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]">
+                  <option value="null">
+                    학과 선택
+                  </option>
+                  {departArray?.map((depart) => (
+                    <option value={depart.departmentId} key={depart.departmentId} id={depart.departmentId} className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black">
+                      {depart.departmentName}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
           {/* 완료 */}
-          <div className="w-[530px] h-[54px] mt-[24px] bg-[#B8B8B8] flex justify-center items-center">
-            <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
+          <div className={cn("w-[530px] h-[54px] mt-[24px] flex justify-center items-center", {
+            ["bg-[#FF611D]"]: checkSubmit,
+            ["bg-[#B8B8B8]"]: !checkSubmit,
+          })}>
+            <button onClick={handleRegister} className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
               완료
             </button>
           </div>

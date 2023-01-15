@@ -1,17 +1,29 @@
 package ProjectDoge.StudentSoup.init;
 
+import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
+import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.board.BoardLikeService;
+import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
@@ -23,6 +35,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Profile("local")
@@ -35,11 +48,20 @@ public class TestDataInit {
     private final DepartmentRegisterService departmentRegisterService;
     private final RestaurantRegisterService restaurantRegisterService;
 
+    private final BoardResisterService boardResisterService;
+
+    private  final MemberRepository memberRepository;
+
+    private  final BoardRepository boardRepository;
+
+    private final BoardLikeRepository boardLikeRepository;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
         initMember();
         initRestaurant();
+        initBoard();
+        initBoardLike();
     }
 
     private void initSchoolAndDepartment(){
@@ -49,19 +71,19 @@ public class TestDataInit {
 
     private void initSchool(){
         SchoolFormDto school1 = new SchoolFormDto();
-        school1.setSchoolName("더미테스트1 학교");
-        school1.setSchoolCoordinate("더미테스트1 좌표");
+        school1.setSchoolName("인천대학교 송도캠퍼스");
+        school1.setSchoolCoordinate("37.3768067201,126.6347662307");
 
         SchoolFormDto school2 = new SchoolFormDto();
-        school2.setSchoolName("더미테스트2 학교");
-        school2.setSchoolCoordinate("더미테스트2 좌표");
+        school2.setSchoolName("연세대학교 송도캠퍼스");
+        school2.setSchoolCoordinate("37.3768067201,126.6347662307");
         schoolRegisterService.join(school1);
         schoolRegisterService.join(school2);
     }
 
     private void initDepartment(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(school1.getId());
@@ -85,8 +107,8 @@ public class TestDataInit {
     }
 
     private void initMember(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(school1.getId());
         List<Department> departments2 = departmentRepository.findBySchool_Id(school2.getId());
@@ -113,21 +135,57 @@ public class TestDataInit {
     }
 
     private void initRestaurant(){
-        School school1 = schoolRepository.findBySchoolName("더미테스트1 학교");
-        School school2 = schoolRepository.findBySchoolName("더미테스트2 학교");
+        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
+        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
 
-        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("음식점1",
+        RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
                 RestaurantCategory.ASIAN,
                 LocalTime.now(),
                 LocalTime.now(),
                 school1.getId(),
-                "좌표값",
+                "37.3738948150,126.6364371486",
+                null,
+                "전화번호",
+                "태그",
+                "디테일");
+
+        RestaurantFormDto dto2 = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점",
+                "주소",
+                RestaurantCategory.KOREAN,
+                LocalTime.now(),
+                LocalTime.now(),
+                school2.getId(),
+                "37.3874120913,126.6637521009",
                 null,
                 "전화번호",
                 "태그",
                 "디테일");
         restaurantRegisterService.join(dto);
+        restaurantRegisterService.join(dto2);
+    }
+    private void initBoard(){
+        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
+        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+
+
+        BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
+        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.CONSULTING,"테스트 내용2");
+        boardResisterService.join(member.getMemberId(),dto);
+        boardResisterService.join(member1.getMemberId(),dto2);
+
+    }
+
+    private void initBoardLike(){
+        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
+        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+
+        Board board = boardRepository.findByTitle("테스트 제목");
+        Board board1 = boardRepository.findByTitle("테스트 제목2");
+
+        BoardLike boardLike = new BoardLike().createBoard(member,board1);
+        BoardLike boardLike1 = new BoardLike().createBoard(member1,board1);
+        boardLikeRepository.save(boardLike);
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,

@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurant;
 
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -21,18 +23,22 @@ public class RestaurantLikeService {
     private final RestaurantFindService restaurantFindService;
     private final MemberFindService memberFindService;
 
+    boolean restaurantLiked = true;
+    boolean restaurantNotLiked = false;
+
     @Transactional
-    public String restaurantLike(Long restaurantId, Long memberId){
+    public ConcurrentHashMap<String, Object> restaurantLike(Long restaurantId, Long memberId){
         log.info("좋아요 / 좋아요 취소 서비스 로직이 실행되었습니다.");
+        ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         Long restaurantLikeId = isAlreadyRestaurantLiked(restaurantId, memberId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         if(restaurantLikeId != null){
-            cancelRestaurant(restaurantLikeId, restaurant);
-            return "cancel";
+            cancelRestaurant(restaurantLikeId, restaurant, resultMap);
+            return resultMap;
         } else {
             Member member = memberFindService.findOne(memberId);
-            likeRestaurant(member, restaurant);
-            return "like";
+            likeRestaurant(member, restaurant, resultMap);
+            return resultMap;
         }
     }
 
@@ -58,18 +64,28 @@ public class RestaurantLikeService {
         log.info("회원이 로그인이 되어있는 상태입니다.");
     }
 
-    private void cancelRestaurant(Long restaurantLikeId, Restaurant restaurant) {
+    private void cancelRestaurant(Long restaurantLikeId, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap) {
         log.info("음식점 좋아요 취소 서비스 로직이 실행되었습니다.");
         restaurantLikeRepository.deleteById(restaurantLikeId);
         restaurant.minusLikedCount();
+
+        RestaurantDto dto = new RestaurantDto().createRestaurantDto(restaurant, restaurantNotLiked);
+        resultMap.put("data", dto);
+        resultMap.put("result", "cancel");
+
         log.info("음식점 좋아요가 취소 되었습니다. 좋아요 수 : [{}]", restaurant.getLikedCount());
     }
 
-    private void likeRestaurant(Member member, Restaurant restaurant){
+    private void likeRestaurant(Member member, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap){
         log.info("음식점 좋아요 서비스 로직이 실행되었습니다.");
         RestaurantLike restaurantLike = new RestaurantLike().createRestaurantLike(member, restaurant);
         restaurantLikeRepository.save(restaurantLike);
         restaurant.addLikedCount();
+
+        RestaurantDto dto = new RestaurantDto().createRestaurantDto(restaurant, restaurantLiked);
+        resultMap.put("data", dto);
+        resultMap.put("result", "like");
+
         log.info("음식점 좋아요가 완료 되었습니다. 좋아요 수 : [{}]", restaurant.getLikedCount());
     }
 

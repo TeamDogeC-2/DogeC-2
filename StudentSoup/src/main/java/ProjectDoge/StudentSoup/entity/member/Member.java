@@ -63,7 +63,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberClassification memberClassification;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCHOOL_ID", nullable = false)
     private School school;
 
