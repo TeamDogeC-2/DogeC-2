@@ -58,4 +58,13 @@ public class RestaurantMenu {
         this.setImageFile(imageFile);
     }
 
+    //== 비즈니스 로직 ==//
+    public void addLikedCount(){
+        this.likedCount += 1;
+    }
+    public void minusLikedCount(){
+        if(this.likedCount != 0) {
+            this.likedCount -= 1;
+        }
+    }
 }
