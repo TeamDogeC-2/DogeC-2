@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class RestaurantMenuLikeRequestDto {
 
-    private final Long restaurantMenuId;
-    private final Long memberId;
+    private Long restaurantMenuId;
+    private Long memberId;
 }
