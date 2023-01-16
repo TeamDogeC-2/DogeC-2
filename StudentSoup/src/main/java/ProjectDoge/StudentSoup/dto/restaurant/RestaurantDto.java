@@ -18,6 +18,7 @@ public class RestaurantDto {
     private String fileName;
     private float starLiked;
     private int likedCount;
+    private int viewCount;
     private boolean like;
     private String detail;
 
@@ -32,6 +33,7 @@ public class RestaurantDto {
         this.fileName = setImageFile(restaurant);
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
+        this.viewCount = restaurant.getViewCount();
         this.distance = restaurant.getDistance() + "M";
         this.like = like;
         this.detail = restaurant.getDetail();
