@@ -50,6 +50,7 @@ public class BoardCallService {
     }
 
     public List<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted){
+        log.info("게시판 정렬 서비스 로직이 실행되었습니다")
         List<Board> boards =  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted);
         List<BoardMainDto> boardDtoList = new ArrayList<>();
         for(Board board : boards){

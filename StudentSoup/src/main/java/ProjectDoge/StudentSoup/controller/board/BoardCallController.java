@@ -24,8 +24,19 @@ public class BoardCallController {
         return  boardCallService.getBoardInSchool(map.get("schoolId"),map.get("memberId"));
     }
 
+    /**
+     * @param category
+     * @param sorted  0 normal(업데이트 순), 1(좋아요 5개 이상)
+     * @param boardSort schoolId departmentId
+     * @return
+     */
     @PostMapping("/boards/{category}/{sorted}")
     public List<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort){
+        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}]",
+                category,
+                sorted,
+                boardSort.getSchoolId(),
+                boardSort.getDepartmentId());
         return boardCallService.getBoardSortedCall(boardSort, category, sorted);
 
     }
