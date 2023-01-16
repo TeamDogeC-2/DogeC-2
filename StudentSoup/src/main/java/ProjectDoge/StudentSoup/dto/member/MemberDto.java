@@ -18,6 +18,7 @@ public class MemberDto {
     private String id;
     private String nickname;
     private String email;
+    private String registrationDate;
 
 
     // 생성 메소드
@@ -30,6 +31,7 @@ public class MemberDto {
         this.id = member.getId();
         this.nickname = member.getNickname();
         this.email = member.getEmail();
+        this.registrationDate = member.getRegistrationDate();
         if(member.getImageFile() == null){
             this.fileName = null;
         } else{

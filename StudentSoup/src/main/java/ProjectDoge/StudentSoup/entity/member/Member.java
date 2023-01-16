@@ -19,6 +19,8 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,8 @@ public class Member {
 
     @Email
     private String email;
+
+    private String registrationDate;
 
     @Column(name = "MEMBER_CLASSIFICATION")
     @ColumnDefault("'STUDENT'")
@@ -104,9 +108,6 @@ public class Member {
                 department.getMembers().add(this);
             }
         }
-        if(this.department == null){
-            // 예외처리
-        }
     }
 
     //== 생성 메서드 ==//
@@ -117,9 +118,13 @@ public class Member {
         this.setEmail(dto.getEmail());
         this.setImageFile(null);
         this.setGender(dto.getGender());
+        this.setRegistrationDate(dateFormat(LocalDateTime.now()));
         this.setSchool(school);
         this.setDepartment(department);
         return this;
     }
 
+    private String dateFormat(LocalDateTime time){
+        return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 }
