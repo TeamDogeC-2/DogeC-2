@@ -1,14 +1,13 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -44,11 +43,11 @@ public class RestaurantReview {
     // 리뷰에서 작성한 음식점의 별점
     private int starLiked;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date writeDate;
+    @Column(columnDefinition = "DATE")
+    private LocalDate writeDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
+    @Column(columnDefinition = "DATE")
+    private LocalDate updateDate;
 
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
@@ -62,15 +61,38 @@ public class RestaurantReview {
     }
 
     //== 생성 메서드 ==//
+    public RestaurantReview createRestaurantReview(RestaurantReviewRequestDto dto,
+                                                   Restaurant restaurant,
+                                                   Member member){
+        this.restaurant = restaurant;
+        this.member = member;
+        this.nickname = dto.getNickName();
+        this.content = dto.getContent();
+        this.menuName = dto.getMenuName();
+        this.likedCount = 0;
+        this.starLiked = dto.getStarLiked();
+        this.writeDate = LocalDate.now();
+        this.updateDate = LocalDate.now();
+        return this;
+    }
+
     public RestaurantReview createTestRestaurantReview(){
         RestaurantReview restaurantReview = new RestaurantReview();
         restaurantReview.setContent("레스토랑 리뷰 내용");
         restaurantReview.setLikedCount(0);
         restaurantReview.setStarLiked(0);
-        restaurantReview.setWriteDate(Timestamp.valueOf(LocalDateTime.now()));
-        restaurantReview.setUpdateDate(Timestamp.valueOf(LocalDateTime.now().plusHours(1)));
+        restaurantReview.setWriteDate(LocalDate.now());
+        restaurantReview.setUpdateDate(LocalDate.now());
 
         return restaurantReview;
+    }
+
+    //== 비즈니스 로직 ==//
+    public void addImageFile(ImageFile imageFile){
+        this.getImageFileList().add(imageFile);
+
+        if(imageFile.getRestaurantReview() != this)
+            imageFile.setRestaurantReview(this);
     }
 
 
