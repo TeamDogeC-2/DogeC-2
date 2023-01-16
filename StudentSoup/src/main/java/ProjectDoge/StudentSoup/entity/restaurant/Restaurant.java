@@ -47,8 +47,6 @@ public class Restaurant {
     @JoinColumn(name = "IMAGE_FILE_ID")
     private ImageFile imageFile;
 
-    private int viewCount;
-
     private float starLiked;
 
     private int likedCount;
@@ -161,8 +159,6 @@ public class Restaurant {
             this.likedCount -= 1;
         }
     }
-    public void addViewCount() {
-        this.viewCount += 1;
-    }
+
 
 }

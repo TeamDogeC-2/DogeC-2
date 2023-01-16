@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +30,6 @@ public class RestaurantMenuCallService {
     private final boolean LIKED = true;
     private final boolean NOT_LIKED = false;
 
-    @Transactional
     public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId){
 
         log.info("음식점 세부사항 호출 로직이 실행되었습니다. [{}]", restaurantId);
@@ -48,7 +46,6 @@ public class RestaurantMenuCallService {
                                          Long memberId,
                                          ConcurrentHashMap<String, Object> resultMap,
                                          Restaurant restaurant) {
-        restaurant.addViewCount();
         if(isLoginMember(memberId)) {
             log.info("회원이 로그인 된 상태의 음식점 세부사항을 호출합니다. [{}]", memberId);
             setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant);
