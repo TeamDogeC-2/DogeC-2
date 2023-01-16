@@ -19,7 +19,7 @@ public class RestaurantMenuLike {
     @JoinColumn(name = "RESTAURANT_MENU_ID")
     private RestaurantMenu restaurantMenu;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANT_MENU_LIKED_ID")
     private Member member;
 
