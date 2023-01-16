@@ -47,6 +47,16 @@ public class BoardCallService {
         return getLikeBoardDto(board);
 
     }
+
+    public List<BoardMainDto> getBoardSortedCall(Long schoolId,String category,int sorted){
+        List<Board> boards =  boardRepository.orderByCategory(schoolId,category,sorted);
+        List<BoardMainDto> boardDtoList = new ArrayList<>();
+        for(Board board : boards){
+          boardDtoList.add(new BoardMainDto(board));
+        }
+        return boardDtoList;
+    }
+
     private void isLoginMember(Long memberId){
         log.info("회원이 로그인이 되었는지 확인하는 로직이 실행되었습니다.");
         if(memberId == null){
