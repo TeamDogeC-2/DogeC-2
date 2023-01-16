@@ -16,14 +16,17 @@ public class RestaurantMenuLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RESTAURANT_ID")
-    private Restaurant restaurant;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANT_MENU_ID")
     private RestaurantMenu restaurantMenu;
 
     @ManyToOne
     @JoinColumn(name = "RESTAURANT_MENU_LIKED_ID")
     private Member member;
+
+    //== 생성 메서드 ==//
+    public RestaurantMenuLike createRestaurantMenuLike(Member member, RestaurantMenu restaurantMenu){
+        this.restaurantMenu = restaurantMenu;
+        this.member = member;
+        return this;
+    }
 }

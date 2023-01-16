@@ -33,13 +33,12 @@ public class RestaurantLikeService {
         Long restaurantLikeId = isAlreadyRestaurantLiked(restaurantId, memberId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         if(restaurantLikeId != null){
-            cancelRestaurant(restaurantLikeId, restaurant, resultMap);
-            return resultMap;
+            unlikeRestaurant(restaurantLikeId, restaurant, resultMap);
         } else {
             Member member = memberFindService.findOne(memberId);
             likeRestaurant(member, restaurant, resultMap);
-            return resultMap;
         }
+        return resultMap;
     }
 
     private Long isAlreadyRestaurantLiked(Long restaurantId, Long memberId){
@@ -64,7 +63,7 @@ public class RestaurantLikeService {
         log.info("회원이 로그인이 되어있는 상태입니다.");
     }
 
-    private void cancelRestaurant(Long restaurantLikeId, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap) {
+    private void unlikeRestaurant(Long restaurantLikeId, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap) {
         log.info("음식점 좋아요 취소 서비스 로직이 실행되었습니다.");
         restaurantLikeRepository.deleteById(restaurantLikeId);
         restaurant.minusLikedCount();
