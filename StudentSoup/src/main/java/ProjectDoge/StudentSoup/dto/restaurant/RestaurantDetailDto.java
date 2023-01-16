@@ -19,7 +19,6 @@ public class RestaurantDetailDto {
     private int reviewCount;
     private float starLiked;
     private int likedCount;
-    private int viewCount;
     private boolean like;
     private String detail;
 
@@ -34,7 +33,6 @@ public class RestaurantDetailDto {
         this.reviewCount = restaurant.getRestaurantReviews().size();
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
-        this.viewCount = restaurant.getViewCount();
         this.distance = restaurant.getDistance() + "M";
         this.like = like;
         this.detail = restaurant.getDetail();
