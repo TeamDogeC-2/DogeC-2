@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.controller.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSort;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class BoardCallController {
     @GetMapping("/boards")
     public List<BoardMainDto> firstCallBoard(@RequestBody Map<String,Long> map){
         return  boardCallService.getBoardInSchool(map.get("schoolId"),map.get("memberId"));
+    }
+
+    @PostMapping("/boards/{category}/{sorted}")
+    public List<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort){
+        return boardCallService.getBoardSortedCall(boardSort, category, sorted);
+
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
