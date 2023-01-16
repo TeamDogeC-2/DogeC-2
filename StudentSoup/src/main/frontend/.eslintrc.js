@@ -24,6 +24,8 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/comma-dangle': 'off',
     'no-useless-computed-key': 'off',
+    'multiline-ternary': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
   },
 };

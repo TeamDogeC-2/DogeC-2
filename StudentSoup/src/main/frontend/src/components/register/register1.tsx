@@ -1,10 +1,9 @@
-import cn from "clsx";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import RegisterNavbar from "../common/registerNavbar";
+import cn from 'clsx';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import RegisterNavbar from '../common/registerNavbar';
 
 const Register1 = () => {
-
   const [checkState, setCheckState] = useState<boolean>(false);
   const [clickAble, setClickAble] = useState<boolean>(false);
 
@@ -23,20 +22,20 @@ const Register1 = () => {
       setCheckState(false);
       setClickAble(false);
     }
-  }, [requireClickPersonInfo, requireClickPersonInfoTerm, clickPersonInfo])
+  }, [requireClickPersonInfo, requireClickPersonInfoTerm, clickPersonInfo]);
 
   const handleCheckPersonInfo = () => {
     setRequireClickPersonInfo(!requireClickPersonInfo);
-  }
+  };
   const handleCheckPersonInfoTerm = () => {
     setRequireClickPersonInfoTerm(!requireClickPersonInfoTerm);
-  }
+  };
   const handleCheck = () => {
     setClickPersonInfo(!clickPersonInfo);
-  }
+  };
 
   const handleAllCheck = () => {
-    if(!checkState) {
+    if (!checkState) {
       setCheckState(true);
       setRequireClickPersonInfo(true);
       setRequireClickPersonInfoTerm(true);
@@ -47,7 +46,7 @@ const Register1 = () => {
       setRequireClickPersonInfoTerm(false);
       setClickPersonInfo(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -90,61 +89,68 @@ const Register1 = () => {
             </span>
           </div>
           <div className="flex text-left mt-[46px] mb-[53px]">
-            <input type="checkbox"
-              checked={checkState} onChange={handleAllCheck} className="w-[20px] h-[20px] mr-[8px] accent-[#FF611D]" />
-            <span className="text-[16px] fw-400 leading-[21px]">
-              모든 약관에 동의 합니다.
-            </span>
+            <input
+              type="checkbox"
+              checked={checkState}
+              onChange={handleAllCheck}
+              className="w-[20px] h-[20px] mr-[8px] accent-[#FF611D]"
+            />
+            <span className="text-[16px] fw-400 leading-[21px]">모든 약관에 동의 합니다.</span>
           </div>
           <span className="w-[530px] h-[1px] bg-[#D9D9D9]"></span>
           <div className="flex-col justify-center items-center">
             <div onClick={handleCheckPersonInfo} className="flex flex-row items-center my-[11px]">
-              <div className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
-                [' bg-[url("./img/check_gray.jpg")]']: requireClickPersonInfo === false,
-                ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfo === true,
-              })}></div>
-              <span className="flex text-left">
-                [필수] 개인정보 수집 및 이용동의
-              </span>
+              <div
+                className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
+                  [' bg-[url("./img/check_gray.jpg")]']: !requireClickPersonInfo,
+                  ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfo,
+                })}
+              ></div>
+              <span className="flex text-left">[필수] 개인정보 수집 및 이용동의</span>
             </div>
-            <div onClick={handleCheckPersonInfoTerm} className="flex flex-row items-center my-[22px]">
-              <div className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
-                [' bg-[url("./img/check_gray.jpg")]']: requireClickPersonInfoTerm === false,
-                ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfoTerm === true,
-              })}></div>
-              <span className="flex text-left">
-                [필수] 개인정보 보유기간 및 이용기간
-              </span>
+            <div
+              onClick={handleCheckPersonInfoTerm}
+              className="flex flex-row items-center my-[22px]"
+            >
+              <div
+                className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
+                  [' bg-[url("./img/check_gray.jpg")]']: !requireClickPersonInfoTerm,
+                  ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfoTerm,
+                })}
+              ></div>
+              <span className="flex text-left">[필수] 개인정보 보유기간 및 이용기간</span>
             </div>
             <div onClick={handleCheck} className="flex flex-row items-center my-[22px]">
-              <div className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
-                [' bg-[url("./img/check_gray.jpg")]']: clickPersonInfo === false,
-                ['bg-[url("./img/Vector15.jpg")]']: clickPersonInfo === true,
-              })}></div>
-              <span className="flex text-left">
-                [선택] 광고성 정보 수신 및 마케팅 활용 동의
-              </span>
+              <div
+                className={cn('w-[15px] h-[11px] bg-cover mr-[11px]', {
+                  [' bg-[url("./img/check_gray.jpg")]']: !clickPersonInfo,
+                  ['bg-[url("./img/Vector15.jpg")]']: clickPersonInfo,
+                })}
+              ></div>
+              <span className="flex text-left">[선택] 광고성 정보 수신 및 마케팅 활용 동의</span>
             </div>
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[28px]">
               고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이
               제한됩니다.
             </span>
           </div>
-          <div className={cn("w-[530px] h-[54px] mt-[56px] flex justify-center items-center", {
-            ["bg-[#B8B8B8]"]: clickAble === false,
-            ["bg-[#FF611D]"]: clickAble === true,
-          })}>
-            {clickAble ?
+          <div
+            className={cn('w-[530px] h-[54px] mt-[56px] flex justify-center items-center', {
+              ['bg-[#B8B8B8]']: !clickAble,
+              ['bg-[#FF611D]']: clickAble,
+            })}
+          >
+            {clickAble ? (
               <Link to="/register/2" className="w-full h-full">
                 <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
                   동의하고 가입하기
                 </button>
               </Link>
-              :
+            ) : (
               <button className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
                 동의하고 가입하기
               </button>
-            }
+            )}
           </div>
         </div>
       </div>

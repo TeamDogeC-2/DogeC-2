@@ -1,14 +1,13 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import RegisterNavbar from "../common/registerNavbar";
-import cn from "clsx";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
+import { ChangeEvent, useEffect, useState } from 'react';
+import RegisterNavbar from '../common/registerNavbar';
+import cn from 'clsx';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const Register2 = () => {
-
   const history = useHistory();
 
-  const url = "/members/signUp/2";
+  const url = '/members/signUp/2';
 
   const [lowAndUpValidated, setLowAndUpValidated] = useState<boolean>(false);
   const [numberValidated, setNumberValidated] = useState<boolean>(false);
@@ -16,9 +15,9 @@ const Register2 = () => {
   const [matchPassword, setMatchPassword] = useState<boolean>(false);
   const [checkButton, setCheckButton] = useState<boolean>(false);
 
-  const [password, setPassword] = useState<string>("");
-  const [id, setId] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>('');
+  const [id, setId] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   useEffect(() => {
     if (password === confirmPassword && confirmPassword !== '') {
@@ -39,25 +38,28 @@ const Register2 = () => {
   }, [lowAndUpValidated, numberValidated, lengthValidated, matchPassword]);
 
   useEffect(() => {
-    sessionStorage.clear()
-  }, [])
+    sessionStorage.clear();
+  }, []);
 
   const onClickRegister3 = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     if (checkButton) {
-      axios.post(url, {
-        id: id,
-        pwd: password
-      }).then(function (response) {
-        console.log(response.data);
-        sessionStorage.setItem("id", response.data.id);
-        sessionStorage.setItem("pwd", response.data.pwd);
-        history.push("/register/3");
-      }).catch(function (error){
-        alert(error.response.data.message);
-      })
+      axios
+        .post(url, {
+          id: id,
+          pwd: password,
+        })
+        .then(function (response) {
+          console.log(response.data);
+          sessionStorage.setItem('id', response.data.id);
+          sessionStorage.setItem('pwd', response.data.pwd);
+          history.push('/register/3');
+        })
+        .catch(function (error) {
+          alert(error.response.data.message);
+        });
     }
-  }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -130,7 +132,9 @@ const Register2 = () => {
             <input
               name="ID"
               value={id}
-              onChange={(e) => setId(e.target.value)}
+              onChange={e => {
+                setId(e.target.value);
+              }}
               required
               placeholder="아이디(이메일)입력"
               className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
@@ -141,9 +145,7 @@ const Register2 = () => {
           </div>
           <div className="flex flex-row mt-[12px]">
             <div className="w-full flex flex-col text-left">
-              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
-                PW
-              </span>
+              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">PW</span>
               <input
                 name="PW"
                 id="PW"
@@ -218,24 +220,18 @@ const Register2 = () => {
             <div className="flex flex-row mt-[8px] mb-[12px]">
               <div className="mr-[18px] flex flex-row items-center">
                 <span
-                  className={cn(
-                    "text-[12px] fw-400 leading-[16px] mr-[6px]",
-                    {
-                      ["text-[#FF611D]"]: matchPassword,
-                      ["text-[#939393]"]: !matchPassword,
-                    }
-                  )}
+                  className={cn('text-[12px] fw-400 leading-[16px] mr-[6px]', {
+                    ['text-[#FF611D]']: matchPassword,
+                    ['text-[#939393]']: !matchPassword,
+                  })}
                 >
                   비밀번호 일치
                 </span>
                 <div
-                  className={cn(
-                    "w-[11px] h-[7px] bg-cover mr-[11px] relative bottom-[1px]",
-                    {
-                      ['bg-[url("./img/Vector15.jpg")]']: matchPassword,
-                      ['bg-[url("./img/check_gray.jpg")]']: !matchPassword,
-                    }
-                  )}
+                  className={cn('w-[11px] h-[7px] bg-cover mr-[11px] relative bottom-[1px]', {
+                    ['bg-[url("./img/Vector15.jpg")]']: matchPassword,
+                    ['bg-[url("./img/check_gray.jpg")]']: !matchPassword,
+                  })}
                 ></div>
               </div>
             </div>

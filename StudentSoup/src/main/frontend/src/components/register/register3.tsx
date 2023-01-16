@@ -1,27 +1,26 @@
-import RegisterNavbar from "../common/registerNavbar";
-import cn from "clsx";
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import RegisterNavbar from '../common/registerNavbar';
+import cn from 'clsx';
+import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Register3 = () => {
-
   const history = useHistory();
 
-  const userId = sessionStorage.getItem("id");
-  const userPwd = sessionStorage.getItem("pwd");
+  const userId = sessionStorage.getItem('id');
+  const userPwd = sessionStorage.getItem('pwd');
 
-  const emailReg = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+  const emailReg = /[a-z0-9]+@[a-z]+.[a-z]{2,3}/;
 
-  const renderUrl = "/members/signUp/3";
+  const renderUrl = '/members/signUp/3';
 
   const [schoolArray, setSchoolArray] = useState<any[]>();
   const [departArray, setDepartArray] = useState<any[]>();
   const [selectDepartId, setSelectDepartId] = useState<number>();
   const [gender, setGender] = useState<string>();
-  const [selectedId, setSelectedId] = useState<number>();
-  const [email, setEmail] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<number>(0);
+  const [email, setEmail] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
   const [checkEmail, setCheckEmail] = useState<boolean>(false);
   const [checkNickname, setCheckNickname] = useState<boolean>(false);
   const [checkGender, setCheckGender] = useState<boolean>(false);
@@ -30,38 +29,44 @@ const Register3 = () => {
   const handleSelect = (e: any) => {
     setSelectedId(e.target.value);
     console.log(e.target.value);
-  }
+  };
 
   const handleSelectDepart = (e: any) => {
     setSelectDepartId(e.target.value);
     console.log(e.target.value);
-  }
+  };
 
   const handleClickRadio = (e: any) => {
     setGender(e.target.id);
     setCheckGender(true);
-  }
+  };
 
-  const fetchData = async () => {
-    const response = await axios.get(renderUrl);
-    setSchoolArray(response.data);
-  }
+  const fetchData = () => {
+    axios
+      .get(renderUrl)
+      .then(res => {
+        setSchoolArray(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [selectedId])
+    fetchData();
+  }, [selectedId]);
 
   useEffect(() => {
-    if (nickname === "") {
+    if (nickname === '') {
       setCheckNickname(false);
     } else {
       setCheckNickname(true);
     }
-  }, [nickname])
+  }, [nickname]);
 
   useEffect(() => {
     setCheckEmail(emailReg.test(email));
-  }, [email])
+  }, [email]);
 
   useEffect(() => {
     if (checkEmail && checkNickname && checkGender && selectedId && selectDepartId) {
@@ -69,42 +74,48 @@ const Register3 = () => {
     } else {
       setCheckSubmit(false);
     }
-  })
+  });
 
   useEffect(() => {
     if (selectedId !== null) {
-      axios.post("/members/signUp/3/" + selectedId, {
-        schoolId: selectedId
-      }).then(function (response) {
-        setDepartArray(response.data);
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      })
+      axios
+        .post(`/members/signUp/3/${selectedId}`, {
+          schoolId: selectedId,
+        })
+        .then(function (response) {
+          setDepartArray(response.data);
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-  }, [selectedId])
+  }, [selectedId]);
 
   const handleRegister = (e: any) => {
     e.preventDefault();
     if (checkSubmit) {
-      axios.post(renderUrl, {
-        id: userId,
-        pwd: userPwd,
-        nickname: nickname,
-        email: email,
-        gender: gender,
-        schoolId: selectedId,
-        departmentId: selectDepartId
-      }).then(function (response) {
-        console.log(response);
-        sessionStorage.clear()
-        alert("로그인 페이지로 이동합니다.");
-        history.push('/login');
-      }).catch(function (error) {
-        alert(error.response.data.message);
-      })
+      axios
+        .post(renderUrl, {
+          id: userId,
+          pwd: userPwd,
+          nickname: nickname,
+          email: email,
+          gender: gender,
+          schoolId: selectedId,
+          departmentId: selectDepartId,
+        })
+        .then(function (response) {
+          console.log(response);
+          sessionStorage.clear();
+          alert('로그인 페이지로 이동합니다.');
+          history.push('/login');
+        })
+        .catch(function (error) {
+          alert(error.response.data.message);
+        });
     }
-  }
+  };
 
   return (
     <>
@@ -155,7 +166,7 @@ const Register3 = () => {
                 type="radio"
                 name="flexRadioDefault"
                 id="WOMAN"
-                checked={gender === "WOMAN"}
+                checked={gender === 'WOMAN'}
                 onChange={handleClickRadio}
               />
               <label className="form-check-label inline-block text-gray-800 mr-[9px]">여</label>
@@ -166,7 +177,7 @@ const Register3 = () => {
                 type="radio"
                 name="flexRadioDefault"
                 id="MAN"
-                checked={gender === "MAN"}
+                checked={gender === 'MAN'}
                 onChange={handleClickRadio}
               />
               <label className="form-check-label inline-block text-gray-800 mr-[9px]">남</label>
@@ -175,15 +186,15 @@ const Register3 = () => {
           {/* 이메일 */}
           <div className="flex flex-row justify-between mt-[5px] mb-[9px]">
             <div className="w-full flex flex-col text-left">
-              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">
-                MAIL
-              </span>
+              <span className="text-[16px] fw-400 leading-[22px] text-[#484848]">MAIL</span>
               <input
                 name="MAIL"
                 id="MAIL"
                 placeholder="이메일 입력"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => {
+                  setEmail(e.target.value);
+                }}
                 required
                 className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
               ></input>
@@ -194,12 +205,18 @@ const Register3 = () => {
             <div>학교</div>
           </div>
           <div className="flex flex-col text-start overflow-y-auto max-h-[150px]">
-            <select onChange={handleSelect} className="relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]">
-              <option value="null">
-                학교 선택
-              </option>
-              {schoolArray?.map((school) => (
-                <option value={school.schoolId} key={school.schoolId} id={school.schoolId} className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black">
+            <select
+              onChange={handleSelect}
+              className="relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
+            >
+              <option value="null">학교 선택</option>
+              {schoolArray?.map(school => (
+                <option
+                  value={school.schoolId}
+                  key={school.schoolId}
+                  id={school.schoolId}
+                  className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                >
                   {school.schoolName}
                 </option>
               ))}
@@ -212,7 +229,9 @@ const Register3 = () => {
               <input
                 type="text"
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={e => {
+                  setNickname(e.target.value);
+                }}
                 placeholder="닉네임 입력"
                 className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
               />
@@ -223,12 +242,18 @@ const Register3 = () => {
                 <div>전공</div>
               </div>
               <div>
-                <select onChange={handleSelectDepart} className="relative w-full text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]">
-                  <option value="null">
-                    학과 선택
-                  </option>
-                  {departArray?.map((depart) => (
-                    <option value={depart.departmentId} key={depart.departmentId} id={depart.departmentId} className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black">
+                <select
+                  onChange={handleSelectDepart}
+                  className="relative w-full text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
+                >
+                  <option value="null">학과 선택</option>
+                  {departArray?.map(depart => (
+                    <option
+                      value={depart.departmentId}
+                      key={depart.departmentId}
+                      id={depart.departmentId}
+                      className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                    >
                       {depart.departmentName}
                     </option>
                   ))}
@@ -237,11 +262,16 @@ const Register3 = () => {
             </div>
           </div>
           {/* 완료 */}
-          <div className={cn("w-[530px] h-[54px] mt-[24px] flex justify-center items-center", {
-            ["bg-[#FF611D]"]: checkSubmit,
-            ["bg-[#B8B8B8]"]: !checkSubmit,
-          })}>
-            <button onClick={handleRegister} className="w-full h-full text-[16px] fw-400 leading-[22px] text-white">
+          <div
+            className={cn('w-[530px] h-[54px] mt-[24px] flex justify-center items-center', {
+              ['bg-[#FF611D]']: checkSubmit,
+              ['bg-[#B8B8B8]']: !checkSubmit,
+            })}
+          >
+            <button
+              onClick={handleRegister}
+              className="w-full h-full text-[16px] fw-400 leading-[22px] text-white"
+            >
               완료
             </button>
           </div>
