@@ -10,4 +10,6 @@ public interface BoardRepositoryCustom {
     List<Board> findBySchoolId(Long schoolId);
 
     Board findByTitle(String title);
+
+    List<Board> orderByCategory(Long schoolId, String category,int sorted);
 }
