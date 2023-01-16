@@ -40,7 +40,7 @@ public class FileService {
         return file.getId();
     }
 
-    public List<UploadFileDto> join(List<MultipartFile> multipartFileList){
+    public List<UploadFileDto> createUploadFileDtoList(List<MultipartFile> multipartFileList){
         log.info("다중 파일 등록 서비스 메소드가 실행되었습니다.");
 
         List<UploadFileDto> uploadFiles = new ArrayList<>();
