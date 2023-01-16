@@ -1,7 +1,17 @@
 import School from '../../img/school.png';
 import Major from '../../img/major.png';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const MypageHome = () => {
+
+  const savedName = sessionStorage.getItem('nickname');
+  const savedSchool = sessionStorage.getItem('schoolName');
+  const savedDepart = sessionStorage.getItem('departmentName');
+  console.log(savedName);
+  console.log(savedSchool);
+  console.log(savedDepart);
+
   return (
     <div className="flex-[9] z-[1] bg-zinc-100">
       <div className="w-full h-[259px] flex items-center justify-center bg-zinc-300">
@@ -15,7 +25,7 @@ const MypageHome = () => {
               <div className='w-[61px] h-[65px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[90px] left-[30px] mb-[10px]'></div>
             </div>
             <div className="relative bottom-[60px]">
-              <span className="text-[28px] leading-39px text-[#353535]">운영자</span>
+              <span className="text-[28px] leading-39px text-[#353535]">{savedName}</span>
             </div>
             <div className="flex flex-col relative bottom-[40px]">
               <div className="flex flex-row justify-center items-center">
@@ -23,14 +33,14 @@ const MypageHome = () => {
                   <img src={School} alt="" />
                 </div>
                 <span className="text-[12px] leading-[17px] text-[#8D8D8D]">
-                  청운대학교 인천 캠퍼스
+                  {savedSchool}
                 </span>
               </div>
               <div className="flex flex-row items-center text-left">
                 <div className="mr-[10px]">
                   <img src={Major} alt="" />
                 </div>
-                <span className="text-[12px] leading-[17px] text-[#8D8D8D]">컴퓨터공학과</span>
+                <span className="text-[12px] leading-[17px] text-[#8D8D8D]">{savedDepart}</span>
               </div>
             </div>
             <button className="w-[262px] h-[44px] bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]">
