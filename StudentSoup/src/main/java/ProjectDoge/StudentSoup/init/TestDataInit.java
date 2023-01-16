@@ -196,7 +196,7 @@ public class TestDataInit {
 
 
         BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
-        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.CONSULTING,"테스트 내용2");
+        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.EMPLOYMENT,"테스트 내용2");
         boardResisterService.join(member.getMemberId(),dto);
         boardResisterService.join(member1.getMemberId(),dto2);
 
