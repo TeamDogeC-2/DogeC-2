@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 public enum BoardSortedCase {
     NORMAL(0),
 
-    LIKED(1);
+    LIKED(1),
+
+    MORETHANFIVELIKED(2);
 
 
     private final int value;

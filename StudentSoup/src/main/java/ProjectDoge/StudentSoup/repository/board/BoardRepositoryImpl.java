@@ -73,6 +73,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return board.department.id.eq(departmentId);
     }
 
+    private BooleanExpression checkSortedBoard(String category) {
+        if(category.equals("ALL")){
+            return null;
+        }
+        return board.boardCategory.eq(BoardCategory.valueOf(category));
+    }
+
+    private BooleanExpression checkSortedLiked(int sorted) {
+        if(BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted){
+            return board.likedCount.gt(5);
+        }
+        return null;
+    }
+
 
     private OrderSpecifier<?> checkSortedCondition(int sorted) {
         if(BoardSortedCase.LIKED.getValue() == sorted){
@@ -81,18 +95,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return board.updateDate.asc();
     }
 
-    private BooleanExpression checkSortedLiked(int sorted) {
-        if(BoardSortedCase.LIKED.getValue() == sorted){
-            return board.likedCount.gt(5);
-        }
-        return null;
-    }
 
-    private BooleanExpression checkSortedBoard(String category) {
-        if(category.equals("ALL")){
-            return null;
-        }
-        return board.boardCategory.eq(BoardCategory.valueOf(category));
-    }
 
 }
