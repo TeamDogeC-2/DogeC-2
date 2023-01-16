@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSort;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
@@ -48,8 +49,8 @@ public class BoardCallService {
 
     }
 
-    public List<BoardMainDto> getBoardSortedCall(Long schoolId,String category,int sorted){
-        List<Board> boards =  boardRepository.orderByCategory(schoolId,category,sorted);
+    public List<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted){
+        List<Board> boards =  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted);
         List<BoardMainDto> boardDtoList = new ArrayList<>();
         for(Board board : boards){
           boardDtoList.add(new BoardMainDto(board));

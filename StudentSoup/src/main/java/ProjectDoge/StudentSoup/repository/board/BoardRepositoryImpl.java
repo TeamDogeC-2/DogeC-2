@@ -15,6 +15,7 @@ import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
+import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
 @RequiredArgsConstructor
@@ -48,18 +49,28 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
     @Override
-    public List<Board> orderByCategory(Long schoolId,String category,int sorted){
+    public List<Board> orderByCategory(Long schoolId,Long departmentId,String category,int sorted){
         List<Board> query = queryFactory
                 .select(board)
                 .from(board)
                 .leftJoin(board.school,school)
                 .fetchJoin()
+                .leftJoin(board.department,department)
+                .fetchJoin()
                 .where(board.school.id.eq(schoolId),
+                        checkDepartment(departmentId),
                         checkSortedBoard(category),
                         checkSortedLiked(sorted))
                 .orderBy(checkSortedCondition(sorted))
                 .fetch();
         return query;
+    }
+
+    private BooleanExpression checkDepartment(Long departmentId) {
+        if(departmentId == null){
+            return null;
+        }
+        return board.department.id.eq(departmentId);
     }
 
 
@@ -78,7 +89,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     private BooleanExpression checkSortedBoard(String category) {
-        if(category.equals("All")){
+        if(category.equals("ALL")){
             return null;
         }
         return board.boardCategory.eq(BoardCategory.valueOf(category));

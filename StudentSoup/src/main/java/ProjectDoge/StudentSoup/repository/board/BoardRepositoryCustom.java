@@ -11,5 +11,5 @@ public interface BoardRepositoryCustom {
 
     Board findByTitle(String title);
 
-    List<Board> orderByCategory(Long schoolId, String category,int sorted);
+    List<Board> orderByCategory(Long schoolId,Long departmentId, String category,int sorted);
 }
