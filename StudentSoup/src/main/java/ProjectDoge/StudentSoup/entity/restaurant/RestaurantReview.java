@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "RESTAURANT_REVIEW")
@@ -34,9 +35,8 @@ public class RestaurantReview {
 
     private String menuName;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_FILE_ID")
-    private ImageFile imageFile;
+    @OneToMany(mappedBy = "restaurantReview")
+    private List<ImageFile> imageFileList;
 
     // 리뷰가 좋아요 눌린 수
     private int likedCount;
