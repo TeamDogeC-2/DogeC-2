@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,7 +36,7 @@ public class RestaurantReview {
     private String menuName;
 
     @OneToMany(mappedBy = "restaurantReview")
-    private List<ImageFile> imageFileList;
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     // 리뷰가 좋아요 눌린 수
     private int likedCount;
