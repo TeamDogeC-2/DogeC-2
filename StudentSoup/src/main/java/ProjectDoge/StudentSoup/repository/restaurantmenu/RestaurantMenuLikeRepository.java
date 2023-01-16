@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.repository.restaurant;
+package ProjectDoge.StudentSoup.repository.restaurantmenu;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuLike;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuFindService;
 import lombok.RequiredArgsConstructor;

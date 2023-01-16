@@ -2,7 +2,7 @@ package ProjectDoge.StudentSoup.service.restaurantmenu;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
+import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
