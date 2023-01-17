@@ -17,10 +17,6 @@ const MypageModify = () => {
             <div className="w-[200px] h-full flex flex-col">
               <div className='w-[92px] h-[92px] bg-[url("./img/circle_fill_gray.jpg")] bg-cover mt-[44px] ml-[51px] rounded-full'></div>
               <div className='w-[46px] h-[49px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[75px] left-[74px]'></div>
-              <div className="flex flex-row items-center justify-center relative bottom-[35px]">
-                <img src={Upload} alt="" className="w-[10.6px] h-[10.9px] mr-[2px]" />
-                <span className="text-[12px] leading-[17px] text-[#6B6B6B]">업로드</span>
-              </div>
             </div>
             <div className="w-[1px] h-[420px] border-[#B1B1B1] border-[1px] mt-[44px] mb-[63px]"></div>
             <div className="w-[526px] h-[420px] flex flex-col">
