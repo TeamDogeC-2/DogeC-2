@@ -32,7 +32,7 @@ public class BoardUpdateService {
 
     boolean boardNotLiked = false;
 
-    public BoardUpdateDto editBoard(Long boardId){
+    public BoardUpdateDto findEditBoard(Long boardId){
         Board board = boardFindService.findOne(boardId);
         BoardUpdateDto boardFormDto = new BoardUpdateDto().createBoardFormDto(board);
         return boardFormDto;

@@ -17,7 +17,7 @@ public class BoardUpdateController {
 
     @GetMapping("board/update/{boardId}")
     public BoardUpdateDto updateBoard(@PathVariable Long boardId){
-        BoardUpdateDto boardUpdateDto = boardUpdateService.editBoard(boardId);
+        BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId);
         return boardUpdateDto;
     }
     @PutMapping("board/{boardId}/{memberId}")
