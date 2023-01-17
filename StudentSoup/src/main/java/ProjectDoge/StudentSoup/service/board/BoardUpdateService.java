@@ -32,7 +32,11 @@ public class BoardUpdateService {
 
     boolean boardNotLiked = false;
 
-
+    public BoardUpdateDto editBoard(Long boardId){
+        Board board = boardFindService.findOne(boardId);
+        BoardUpdateDto boardFormDto = new BoardUpdateDto().createBoardFormDto(board);
+        return boardFormDto;
+    }
     @Transactional
     public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, MultipartFile multipartFile){
         log.info("게시판 업데이트 서비스가 실행되었습니다.");
