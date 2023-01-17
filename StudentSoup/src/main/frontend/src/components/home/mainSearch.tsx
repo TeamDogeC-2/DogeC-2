@@ -6,9 +6,15 @@ const MainSearch = () => {
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
 
-  const getSchool = async () => {
-    const response = await axios.get('/home');
-    setPosts(response.data);
+  const getSchool = () => {
+    axios
+      .get('/home')
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   useEffect(() => {
@@ -16,10 +22,14 @@ const MainSearch = () => {
   }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value) return setSearchSchool(posts);
+    const value = e.target.value;
+    if (value.length === 0) {
+      setSearchSchool(posts);
+      return;
+    }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    console.log(e.target.value);
+    console.log(value);
     console.log(searchSchool);
   };
 

@@ -6,7 +6,7 @@ const Navbar = () => {
   const history = useHistory();
   const pathName = useLocation();
 
-  const [isLogin, setIsLogin] = useState<Boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     if (sessionStorage.getItem('email') === null) {
@@ -15,7 +15,7 @@ const Navbar = () => {
       setIsLogin(true);
       console.log(isLogin);
     }
-  }, [isLogin]);
+  }, []);
 
   const handleClick = (e: any) => {
     console.log(e);
