@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -36,6 +38,19 @@ public class FileService {
         fileRepository.save(file);
         log.info("데이터베이스에 파일이 저장되었습니다.");
         return file.getId();
+    }
+
+    public List<UploadFileDto> createUploadFileDtoList(List<MultipartFile> multipartFileList){
+        log.info("다중 파일 등록 서비스 메소드가 실행되었습니다.");
+
+        List<UploadFileDto> uploadFiles = new ArrayList<>();
+        for(MultipartFile multipartFile : multipartFileList){
+            if(!multipartFile.isEmpty()){
+                uploadFiles.add(storeFile(multipartFile));
+            }
+        }
+        log.info("다중 파일 등록 서비스가 완료되었습니다.");
+        return uploadFiles;
     }
 
     public UploadFileDto storeFile(MultipartFile multipartFile) {
