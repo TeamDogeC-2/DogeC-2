@@ -37,9 +37,6 @@ public class RestaurantCallService {
 
     public List<RestaurantDto> restaurantSortedCall(Long schoolId, Long memberId, String category, int sorted){
 
-        /**
-         * TODO category 가 enum 에 없을 경우 예외 추가, 그런데 이런 일은 최대한 없어야 할듯? 아니 있을 수가 있나?
-         */
         List<Restaurant> sortedRestaurants = restaurantRepository.
                 findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();

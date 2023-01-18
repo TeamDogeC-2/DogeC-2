@@ -1,8 +1,6 @@
-package ProjectDoge.StudentSoup.repository.restaurant;
+package ProjectDoge.StudentSoup.repository.restaurantmenu;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
-import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

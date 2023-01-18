@@ -1,10 +1,10 @@
-import { Switch, Route } from "react-router-dom";
-import Home from "./components/home/homeComponent";
-import Register1 from "./components/register/register1";
-import Register2 from "./components/register/register2";
-import Register3 from "./components/register/register3";
-import Err404 from "./components/err404/err404";
-import Login from "./components/login/login";
+import { Switch, Route } from 'react-router-dom';
+import Home from './components/home/homeComponent';
+import Register1 from './components/register/register1';
+import Register2 from './components/register/register2';
+import Register3 from './components/register/register3';
+import Err404 from './components/err404/err404';
+import Login from './components/login/login';
 import MypageHome from './components/mypage/mypageHome';
 import MypageScheduler from './components/mypage/mypageScheduler';
 import MypageModify from './components/mypage/mypageModify';

@@ -26,7 +26,7 @@ public class BoardDto {
 
     private String ip;
 
-    private ImageFile imageFile;
+    private String fileName;
 
     private int view;
 
@@ -45,10 +45,10 @@ public class BoardDto {
         this.content = board.getContent();
         this.ip = board.getIp();
         if(board.getImageFile() == null){
-            this.imageFile = null;
+            this.fileName = null;
         }
         else{
-            this.imageFile = board.getImageFile();
+            this.fileName = board.getImageFile().getFileName();
         }
         this.view = board.getView();
         this.writeDate = board.getWriteDate();

@@ -1,7 +1,7 @@
-import React from "react";
-import "./App.css";
-import Routes from "./Routes";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import './App.css';
+import Routes from './Routes';
+import { BrowserRouter } from 'react-router-dom';
 
 const App = () => {
   return (

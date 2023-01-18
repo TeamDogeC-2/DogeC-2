@@ -12,14 +12,15 @@ public class BoardFormDto {
     private String title;
     private BoardCategory boardCategory;
     private String content;
-    private ImageFile imageFile;
+
+    private String fileName;
 
     //== 생성 메서드 ==//
     private void setBoard(Board board){
         this.setTitle(board.getTitle());
         this.setBoardCategory(board.getBoardCategory());
         this.setContent(board.getContent());
-        this.setImageFile(board.getImageFile());
+        this.setFileName(board.getImageFile().getFileName());
     }
     public BoardFormDto createBoardFormDto(String title,BoardCategory category,String content){
         this.title = title;

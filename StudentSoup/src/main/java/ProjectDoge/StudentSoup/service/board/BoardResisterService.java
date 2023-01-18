@@ -39,7 +39,7 @@ public class BoardResisterService {
     public  Long join(Long memberId,BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
-        Board board = new Board().createBoard(boardFormDto,member, member.getSchool(),boardFormDto.getImageFile(),member.getDepartment());
+        Board board = new Board().createBoard(boardFormDto,member, member.getSchool(),new ImageFile(),member.getDepartment());
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();

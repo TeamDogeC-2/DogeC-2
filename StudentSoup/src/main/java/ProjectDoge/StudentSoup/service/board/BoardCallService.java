@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSort;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
@@ -47,6 +48,17 @@ public class BoardCallService {
         return getLikeBoardDto(board);
 
     }
+
+    public List<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted){
+        log.info("게시판 정렬 서비스 로직이 실행되었습니다");
+        List<Board> boards =  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted);
+        List<BoardMainDto> boardDtoList = new ArrayList<>();
+        for(Board board : boards){
+          boardDtoList.add(new BoardMainDto(board));
+        }
+        return boardDtoList;
+    }
+
     private void isLoginMember(Long memberId){
         log.info("회원이 로그인이 되었는지 확인하는 로직이 실행되었습니다.");
         if(memberId == null){

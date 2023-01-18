@@ -90,8 +90,10 @@ public class Board {
         this.setImageFile(imageFile);
         return this;
     }
-    public Board editBoard(){
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
+    public Board editBoard(BoardFormDto boardFormDto,ImageFile imageFile){
+        this.setTitle(boardFormDto.getTitle());
+        this.setContent(boardFormDto.getContent());
+        this.setImageFile(imageFile);
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }

@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
@@ -11,8 +12,10 @@ import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
@@ -25,7 +28,9 @@ import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -47,6 +52,8 @@ public class TestDataInit {
     private final DepartmentRepository departmentRepository;
     private final DepartmentRegisterService departmentRegisterService;
     private final RestaurantRegisterService restaurantRegisterService;
+    private final RestaurantFindService restaurantFindService;
+    private final RestaurantMenuRegisterService restaurantMenuRegisterService;
 
     private final BoardResisterService boardResisterService;
 
@@ -60,6 +67,7 @@ public class TestDataInit {
         initSchoolAndDepartment();
         initMember();
         initRestaurant();
+        initRestaurantMenu();
         initBoard();
         initBoardLike();
     }
@@ -164,13 +172,31 @@ public class TestDataInit {
         restaurantRegisterService.join(dto);
         restaurantRegisterService.join(dto2);
     }
+
+    private void initRestaurantMenu(){
+
+        Restaurant restaurant = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+
+        RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+                "뼈해장국",
+                RestaurantMenuCategory.Main,
+                9000);
+
+        RestaurantMenuFormDto dto2 = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+                "순대국밥",
+                RestaurantMenuCategory.Main,
+                8000);
+        restaurantMenuRegisterService.join(dto);
+        restaurantMenuRegisterService.join(dto2);
+    }
+
     private void initBoard(){
         Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
         Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
 
 
         BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
-        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.CONSULTING,"테스트 내용2");
+        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.EMPLOYMENT,"테스트 내용2");
         boardResisterService.join(member.getMemberId(),dto);
         boardResisterService.join(member1.getMemberId(),dto2);
 
