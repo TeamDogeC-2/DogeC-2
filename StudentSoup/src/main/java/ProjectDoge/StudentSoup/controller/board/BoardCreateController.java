@@ -9,12 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class CreateBoardController {
+public class BoardCreateController {
 
     private  final BoardResisterService boardResisterService;
 
