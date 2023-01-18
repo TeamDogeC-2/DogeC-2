@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,22 +27,30 @@ public class BoardResisterService {
 
     private final BoardRepository boardRepository;
     @Transactional
-    public Long join(Long memberId,BoardFormDto boardFormDto, MultipartFile multipartFile){
+    public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
-        Long fileId = fileService.join(multipartFile);
-        ImageFile file = fileService.findOne(fileId);
-        Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), file, member.getDepartment());
+        List<ImageFile> imageFiles = new ArrayList<>();
+        createImageFiles(multipartFiles, imageFiles);
+        Board board = new Board().createBoard(boardFormDto, member, member.getSchool(),imageFiles, member.getDepartment());
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();
+    }
+
+    private void createImageFiles(List<MultipartFile> multipartFiles, List<ImageFile> imageFiles) {
+        for(MultipartFile multipartFile : multipartFiles){
+            Long fileId = fileService.join(multipartFile);
+            ImageFile file = fileService.findOne(fileId);
+            imageFiles.add(file);
+        }
     }
 
     @Transactional
     public  Long join(Long memberId,BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
-        Board board = new Board().createBoard(boardFormDto,member, member.getSchool(),new ImageFile(),member.getDepartment());
+        Board board = new Board().createBoard(boardFormDto,member, member.getSchool(),new ArrayList<ImageFile>(),member.getDepartment());
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();

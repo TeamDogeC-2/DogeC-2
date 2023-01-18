@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class BoardCreateController {
     @PostMapping("board/{memberId}")
     public BoardDto createBoard(@PathVariable Long memberId,
                                           @RequestPart(value = "boardFormDto") BoardFormDto boardFormDto,
-                                          @RequestPart(value = "multipartFile") MultipartFile multipartFile){
-        Long boardId = boardResisterService.join(memberId, boardFormDto, multipartFile);
+                                          @RequestPart(value = "multipartFile") List<MultipartFile> multipartFiles){
+        Long boardId = boardResisterService.join(memberId, boardFormDto, multipartFiles);
         return boardCallService.getBoardDetail(boardId,memberId);
     }
 }
