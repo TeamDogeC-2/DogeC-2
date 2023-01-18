@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuLike;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuLikeRepository;
+import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuLikeRepository;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
