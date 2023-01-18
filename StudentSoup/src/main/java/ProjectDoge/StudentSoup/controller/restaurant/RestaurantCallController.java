@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.restaurant;
 
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantCallDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSort;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantCallService;
@@ -19,8 +20,8 @@ public class RestaurantCallController {
     private final RestaurantCallService restaurantCallService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto> firstCallRestaurant(@RequestBody BoardCallDto boardCallDto){
-        return restaurantCallService.getRestaurantsInSchool(boardCallDto.getSchoolId(), boardCallDto.getMemberId());
+    public List<RestaurantDto> firstCallRestaurant(@RequestBody RestaurantCallDto restaurantCallDto){
+        return restaurantCallService.getRestaurantsInSchool(restaurantCallDto.getSchoolId(),restaurantCallDto.getMemberId());
     }
 
     /**
