@@ -3,10 +3,15 @@ package ProjectDoge.StudentSoup.repository.restaurant;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSortedCase;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -96,6 +101,24 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .orderBy(checkSortedRestaurantCondition(sorted))
                 .fetch();
         return query;
+    }
+
+    @Override
+    public Page<Restaurant> findBySchoolId(Long schoolId, Pageable pageable) {
+        List<Restaurant> content = queryFactory
+                .select(restaurant)
+                .from(restaurant)
+                .leftJoin(restaurant.school, school)
+                .fetchJoin()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(restaurant.count())
+                .from(restaurant);
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression checkSortedRestaurantCategory(String category) {
