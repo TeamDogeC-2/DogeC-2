@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class BoardFormDto {
     private String title;
     private BoardCategory boardCategory;
     private String content;
+
+    private List<MultipartFile> multipartFiles;
 
 
     //== 생성 메서드 ==//

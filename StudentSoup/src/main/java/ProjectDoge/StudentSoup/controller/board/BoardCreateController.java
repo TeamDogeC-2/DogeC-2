@@ -22,9 +22,8 @@ public class BoardCreateController {
 
     @PostMapping("board/{memberId}")
     public BoardDto createBoard(@PathVariable Long memberId,
-                                          @RequestPart(value = "boardFormDto") BoardFormDto boardFormDto,
-                                          @RequestPart(value = "multipartFile") List<MultipartFile> multipartFiles){
-        Long boardId = boardResisterService.join(memberId, boardFormDto, multipartFiles);
+                                          BoardFormDto boardFormDto){
+        Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFiles());
         return boardCallService.getBoardDetail(boardId,memberId);
     }
 }

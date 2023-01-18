@@ -48,7 +48,7 @@ public class Board {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_FILE_ID")
-    private List<ImageFile> imageFiles;
+    private List<ImageFile> imageFiles = new ArrayList<>();
 
     private int view;
 
@@ -76,7 +76,7 @@ public class Board {
     }
 
     //== 생성 메서드 ==//
-    public Board createBoard(BoardFormDto form, Member member, School school, List<ImageFile> imageFile, Department department) {
+    public Board createBoard(BoardFormDto form, Member member, School school, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
         this.setWriteDate(dateFormat(LocalDateTime.now()));
@@ -87,7 +87,6 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
-        this.setImageFiles(imageFile);
         return this;
     }
     public Board editBoard(BoardFormDto boardFormDto,List<ImageFile> imageFile){
