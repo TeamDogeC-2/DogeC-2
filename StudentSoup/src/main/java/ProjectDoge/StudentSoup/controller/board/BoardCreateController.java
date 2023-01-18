@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
@@ -21,9 +23,12 @@ public class BoardCreateController {
     private final BoardCallService boardCallService;
 
     @PostMapping("board/{memberId}")
-    public BoardDto createBoard(@PathVariable Long memberId,
-                                          BoardFormDto boardFormDto){
+    public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
+                                         BoardFormDto boardFormDto){
+        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFiles());
-        return boardCallService.getBoardDetail(boardId,memberId);
+        resultMap.put("boardId",boardId);
+        resultMap.put("result","ok");
+        return resultMap;
     }
 }

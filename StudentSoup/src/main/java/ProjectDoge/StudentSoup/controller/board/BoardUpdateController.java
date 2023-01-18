@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
@@ -23,11 +24,14 @@ public class BoardUpdateController {
         return boardUpdateDto;
     }
     @PutMapping("board/{boardId}/{memberId}")
-    public BoardDto updateBoard(@PathVariable Long boardId,
-                                @PathVariable Long memberId,
-                                @RequestPart BoardFormDto boardFormDto,
-                                @RequestPart(value = "multipartFile") List<MultipartFile> multipartFiles){
-        BoardDto boardDto = boardUpdateService.editBoard(boardFormDto, boardId, memberId, multipartFiles);
-        return boardDto;
+    public ConcurrentHashMap<String,Object> updateBoard(@PathVariable Long boardId,
+                                         @PathVariable Long memberId,
+                                         BoardFormDto boardFormDto
+                            ){
+        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
+        boardUpdateService.editBoard(boardFormDto, boardId, memberId, boardFormDto.getMultipartFiles());
+        resultMap.put("boardId",boardId);
+        resultMap.put("result","ok");
+        return resultMap;
     }
 }
