@@ -52,13 +52,13 @@ public class BoardDto {
 
             for (ImageFile imageFile : board.getImageFiles()) {
                 this.fileNames.add(imageFile.getFileName());
-                System.out.println("fileName = " + imageFile.getFileName());
             }
+        }
             this.view = board.getView();
             this.writeDate = board.getWriteDate();
             this.updateDate = board.getUpdateDate();
             this.likedCount = board.getLikedCount();
             this.like = like;
-        }
+
     }
 }
