@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -38,21 +41,31 @@ public class BoardUpdateService {
         return boardFormDto;
     }
     @Transactional
-    public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, MultipartFile multipartFile){
+    public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, List<MultipartFile> multipartFiles){
         log.info("게시판 업데이트 서비스가 실행되었습니다.");
         Board board = boardFindService.findOne(boardId);
-        deleteImageFile(board);
-        Long fileId = fileService.join(multipartFile);
-        ImageFile imageFile = fileService.findOne(fileId);
-        board.editBoard(boardFormDto,imageFile);
+        deleteImageFile(multipartFiles, board);
+        List<ImageFile> imageFiles = new ArrayList<>();
+        createImageFiles(multipartFiles,imageFiles);
         return checkBoardLike(boardId, memberId, board);
     }
 
-    private void deleteImageFile(Board board) {
-        if(board.getImageFile() != null){
-            fileRepository.delete(board.getImageFile());
+    private void deleteImageFile(List<MultipartFile> multipartFile, Board board) {
+        if(!multipartFile.isEmpty()){
+            for(ImageFile imageFile : board.getImageFiles()){
+                fileRepository.delete(imageFile);
+            }
         }
     }
+
+    private void createImageFiles(List<MultipartFile> multipartFiles, List<ImageFile> imageFiles) {
+        for(MultipartFile multipartFile : multipartFiles){
+            Long fileId = fileService.join(multipartFile);
+            ImageFile file = fileService.findOne(fileId);
+            imageFiles.add(file);
+        }
+    }
+
 
     private BoardDto checkBoardLike(Long boardId, Long memberId, Board board) {
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
