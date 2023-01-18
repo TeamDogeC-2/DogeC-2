@@ -88,10 +88,9 @@ public class Board {
         this.setDepartment(department);
         return this;
     }
-    public Board editBoard(BoardFormDto boardFormDto,List<ImageFile> imageFile){
+    public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
-        this.setImageFiles(imageFile);
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }

@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service.board;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.board.BoardUpdateDto;
+import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
@@ -32,6 +33,7 @@ public class BoardUpdateService {
 
     private final BoardLikeRepository boardLikeRepository;
 
+
     boolean boardLiked =true;
 
     boolean boardNotLiked = false;
@@ -45,13 +47,18 @@ public class BoardUpdateService {
     public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, List<MultipartFile> multipartFiles){
         log.info("게시판 업데이트 서비스가 실행되었습니다.");
         Board board = boardFindService.findOne(boardId);
+        checkOwnMember(memberId, board);
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
+        deleteImageFile(multipartFiles, board);
+        uploadBoardImage(uploadFileDtoList,board);
+        board.editBoard(boardFormDto);
+        return checkBoardLike(boardId, memberId, board);
+    }
+
+    private void checkOwnMember(Long memberId, Board board) {
         if(board.getMember().getMemberId() != memberId){
             throw new NotOwnMemberException("게시글 작성자와 수정자가 일치하지 않습니다.");
         }
-        deleteImageFile(multipartFiles, board);
-        List<ImageFile> imageFiles = new ArrayList<>();
-        createImageFiles(multipartFiles,imageFiles);
-        return checkBoardLike(boardId, memberId, board);
     }
 
     private void deleteImageFile(List<MultipartFile> multipartFile, Board board) {
@@ -62,11 +69,11 @@ public class BoardUpdateService {
         }
     }
 
-    private void createImageFiles(List<MultipartFile> multipartFiles, List<ImageFile> imageFiles) {
-        for(MultipartFile multipartFile : multipartFiles){
-            Long fileId = fileService.join(multipartFile);
-            ImageFile file = fileService.findOne(fileId);
-            imageFiles.add(file);
+    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList,Board board) {
+        for(UploadFileDto fileDto : uploadFileDtoList){
+            ImageFile imageFile = new ImageFile().createFile(fileDto);
+            fileRepository.save(imageFile);
+            board.addImageFile(imageFile);
         }
     }
 
