@@ -26,7 +26,7 @@ public class BoardDto {
 
     private String ip;
 
-    private String fileName;
+    private List<String> fileNames;
 
     private int view;
 
@@ -44,11 +44,12 @@ public class BoardDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.ip = board.getIp();
-        if(board.getImageFile() == null){
-            this.fileName = null;
+        if(board.getImageFiles() == null){
+            this.fileNames = null;
         }
         else{
-            this.fileName = board.getImageFile().getFileName();
+          for(ImageFile imageFile : board.getImageFiles())
+           this.fileNames.add(imageFile.getFileName());
         }
         this.view = board.getView();
         this.writeDate = board.getWriteDate();
