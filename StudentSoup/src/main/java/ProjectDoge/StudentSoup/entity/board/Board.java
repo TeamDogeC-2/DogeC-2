@@ -46,8 +46,7 @@ public class Board {
 
     private String ip;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_FILE_ID")
+    @OneToMany(mappedBy = "board" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ImageFile> imageFiles = new ArrayList<>();
 
     private int view;
@@ -126,5 +125,11 @@ public class Board {
         if(this.likedCount > 0) {
             this.likedCount -= 1;
         }
+    }
+    public void addImageFile(ImageFile imageFile){
+        this.getImageFiles().add(imageFile);
+
+        if(imageFile.getBoard() != this)
+             imageFile.setBoard(this);
     }
 }

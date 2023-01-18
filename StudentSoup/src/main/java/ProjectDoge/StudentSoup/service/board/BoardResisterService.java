@@ -30,19 +30,18 @@ public class BoardResisterService {
     public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
-        List<ImageFile> imageFiles = new ArrayList<>();
-        createImageFiles(multipartFiles, imageFiles);
         Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), member.getDepartment());
+        createImageFiles(multipartFiles, board);
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();
     }
 
-    private void createImageFiles(List<MultipartFile> multipartFiles, List<ImageFile> imageFiles) {
+    private void createImageFiles(List<MultipartFile> multipartFiles,Board board) {
         for(MultipartFile multipartFile : multipartFiles){
             Long fileId = fileService.join(multipartFile);
             ImageFile file = fileService.findOne(fileId);
-            imageFiles.add(file);
+            board.addImageFile(file);
         }
     }
 
