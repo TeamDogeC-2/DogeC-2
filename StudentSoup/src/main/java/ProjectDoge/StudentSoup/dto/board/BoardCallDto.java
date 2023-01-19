@@ -10,6 +10,6 @@ public class BoardCallDto {
     Long schoolId;
     Long memberId;
 
-    Integer offset;
-    Integer limit;
+    Integer page;
+    Integer size;
 }

@@ -30,9 +30,9 @@ public class RestaurantCallController {
     @GetMapping("/restaurants/paging")
     public Page<RestaurantDto> firstCallRestaurantPaging(@RequestBody BoardCallDto boardCallDto) {
 
-        checkPagingSize(boardCallDto.getLimit());
+        checkPagingSize(boardCallDto.getSize());
 
-        PageRequest pageRequest = PageRequest.of(boardCallDto.getOffset(), boardCallDto.getLimit());
+        PageRequest pageRequest = PageRequest.of(boardCallDto.getPage(), boardCallDto.getSize());
 
         log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
                 pageRequest.getOffset(),
