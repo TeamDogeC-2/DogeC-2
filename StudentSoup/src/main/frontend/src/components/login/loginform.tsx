@@ -50,6 +50,7 @@ function LoginForm() {
           sessionStorage.setItem('memberId', response.data.memberId);
           sessionStorage.setItem('schoolId', response.data.schoolId);
           sessionStorage.setItem('schoolName', response.data.schoolName);
+          sessionStorage.setItem('registrationDate', response.data.registrationDate);
           sessionStorage.setItem('saved', String(checked));
         } else {
           history.push('/');
@@ -63,6 +64,7 @@ function LoginForm() {
           sessionStorage.setItem('memberId', response.data.memberId);
           sessionStorage.setItem('schoolId', response.data.schoolId);
           sessionStorage.setItem('schoolName', response.data.schoolName);
+          sessionStorage.setItem('registrationDate', response.data.registrationDate);
           sessionStorage.setItem('saved', String(checked));
         }
       })
