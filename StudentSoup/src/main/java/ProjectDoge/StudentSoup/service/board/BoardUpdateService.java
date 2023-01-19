@@ -38,8 +38,9 @@ public class BoardUpdateService {
 
     boolean boardNotLiked = false;
 
-    public BoardUpdateDto findEditBoard(Long boardId){
+    public BoardUpdateDto findEditBoard(Long boardId,Long memberId){
         Board board = boardFindService.findOne(boardId);
+        checkOwnMember(memberId, board);
         BoardUpdateDto boardFormDto = new BoardUpdateDto().createBoardFormDto(board);
         return boardFormDto;
     }
@@ -47,12 +48,9 @@ public class BoardUpdateService {
     public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, List<MultipartFile> multipartFiles){
         log.info("게시판 업데이트 서비스가 실행되었습니다.");
         Board board = boardFindService.findOne(boardId);
-        checkOwnMember(memberId, board);
-        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
-        deleteImageFile(multipartFiles, board);
-        uploadBoardImage(uploadFileDtoList,board);
+        updateBoardImage(multipartFiles, board);
         board.editBoard(boardFormDto);
-        return checkBoardLike(boardId, memberId, board);
+        return getBoardDto(boardId, memberId, board);
     }
 
     private void checkOwnMember(Long memberId, Board board) {
@@ -61,15 +59,21 @@ public class BoardUpdateService {
         }
     }
 
-    private void deleteImageFile(List<MultipartFile> multipartFile, Board board) {
-        if(!multipartFile.isEmpty()){
-            for(ImageFile imageFile : board.getImageFiles()){
-                fileRepository.delete(imageFile);
-            }
+    private void updateBoardImage(List<MultipartFile> multipartFiles, Board board) {
+        if(!multipartFiles.isEmpty()){
+            deleteImageFile(board);
+            uploadBoardImage(board, multipartFiles);
         }
     }
 
-    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList,Board board) {
+    private void deleteImageFile(Board board) {
+            for(ImageFile imageFile : board.getImageFiles()){
+                fileRepository.delete(imageFile);
+        }
+    }
+
+    private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
             fileRepository.save(imageFile);
@@ -78,7 +82,7 @@ public class BoardUpdateService {
     }
 
 
-    private BoardDto checkBoardLike(Long boardId, Long memberId, Board board) {
+    private BoardDto getBoardDto(Long boardId, Long memberId, Board board) {
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         if(boardLike == null) {
             return new BoardDto(board, boardNotLiked);

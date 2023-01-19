@@ -11,6 +11,7 @@ import nonapi.io.github.classgraph.json.JSONUtils;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -47,7 +48,7 @@ public class BoardDto {
         this.content = board.getContent();
         this.ip = board.getIp();
         if (board.getImageFiles().isEmpty()) {
-            this.fileNames = null;
+            this.fileNames = Collections.emptyList();
         } else {
 
             for (ImageFile imageFile : board.getImageFiles()) {
