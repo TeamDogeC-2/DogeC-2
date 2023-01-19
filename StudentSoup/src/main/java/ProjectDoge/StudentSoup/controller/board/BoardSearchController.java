@@ -17,11 +17,11 @@ import java.util.List;
 public class BoardSearchController {
     private final BoardSearchService boardSearchService;
 
-    @GetMapping("board/{schoolId}/{category}/{column}")
+    @GetMapping("board/{schoolId}")
     public List<BoardMainDto> searchBoard(@PathVariable Long schoolId,
-                                          @PathVariable String category,
-                                          @PathVariable String column,
-                                          @RequestParam("value") String value){
+                                          @RequestParam String category,
+                                          @RequestParam String column,
+                                          @RequestParam String value){
     log.info("schoolId [{}] category [{}] column[{}] value [{}]",schoolId,category,column,value);
     return boardSearchService.searchBoard(schoolId,category,column,value);
 
