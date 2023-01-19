@@ -14,6 +14,10 @@ const MypageHome = () => {
   const savedName = sessionStorage.getItem('nickname');
   const savedSchool = sessionStorage.getItem('schoolName');
   const savedDepart = sessionStorage.getItem('departmentName');
+  const registrationDate = String(sessionStorage.getItem('registrationDate'));
+  const [year, month, day] = registrationDate.split('-');
+
+  const formatDate = `${year}년 ${month}월 ${day}일`;
 
   const handleImageUpload = (e: any) => {
     const [file] = e.target.files;
@@ -98,7 +102,7 @@ const MypageHome = () => {
             </div>
             <div>
               <span className="text-[10px] leading-[14px] text-[#8D8D8D]">
-                가입일 : 2022년 12월 26일
+                가입일 : {formatDate}
               </span>
             </div>
           </div>
