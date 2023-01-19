@@ -3,15 +3,12 @@ package ProjectDoge.StudentSoup.repository.restaurant;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSortedCase;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -112,6 +109,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .leftJoin(restaurant.school, school)
                 .fetchJoin()
                 .where(restaurant.school.id.eq(schoolId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         return content;
