@@ -60,10 +60,13 @@ public class Restaurant {
     @Lob
     private String detail;
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    private List<RestaurantLike> restaurantLikes = new ArrayList<>();
+
     @OneToMany(mappedBy = "restaurant",cascade = CascadeType.REMOVE)
     private List<RestaurantMenu> restaurantMenus = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<RestaurantReview> restaurantReviews = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
