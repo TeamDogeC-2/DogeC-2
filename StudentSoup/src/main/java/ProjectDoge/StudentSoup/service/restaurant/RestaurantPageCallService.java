@@ -4,6 +4,7 @@ package ProjectDoge.StudentSoup.service.restaurant;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.exception.page.PagingOffsetMoreThanTotalPageException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -29,10 +30,13 @@ public class RestaurantPageCallService {
     boolean restaurantNotLiked = false;
 
     public Page<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId, Pageable pageable){
+        log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
+        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
+        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
-        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
-        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId();
+        checkOffsetException(pageable, restaurants);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
+
 
         if(isLoginMember(memberId)){
             return getLoginRestaurantList(memberId, restaurants, restaurantDtoList, pageable, queryCount);
@@ -40,6 +44,16 @@ public class RestaurantPageCallService {
 
         return getNotLoginRestaurantList(restaurants, restaurantDtoList, pageable, queryCount);
     }
+
+    private void checkOffsetException(Pageable pageable, List<Restaurant> restaurants) {
+        log.info("Offset 검증을 시작합니다.");
+        if(pageable.getOffset() > restaurants.size()) {
+            log.info("가져온 음식점의 크기 : [{}], offset : [{}]", restaurants.size(), pageable.getOffset());
+            throw new PagingOffsetMoreThanTotalPageException("Offset 은 페이지 총 개수보다 작아야 합니다.");
+        }
+        log.info("Offset 검증이 완료되었습니다.");
+    }
+
 
     private boolean isLoginMember(Long memberId) {
         return memberId != null;
@@ -57,7 +71,9 @@ public class RestaurantPageCallService {
         int start = (int)pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
 
-//        return new PageImpl<>(restaurantDtoList.subList(start, end), pageable, restaurantDtoList.size());
+        log.info("offset : [{}], last : [{}]",
+                start,
+                end);
         return PageableExecutionUtils.getPage(restaurantDtoList.subList(start, end), pageable, count::fetchOne);
     }
 
@@ -88,7 +104,10 @@ public class RestaurantPageCallService {
         int start = (int)pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
 
-//        return new PageImpl<>(restaurantDtoList.subList(start, end), pageable, restaurantDtoList.size());
-        return PageableExecutionUtils.getPage(restaurantDtoList.subList(start, end), pageable, count::fetchOne);
+        log.info("offset : [{}], last : [{}]", start, end);
+
+        Page<RestaurantDto> page = PageableExecutionUtils.getPage(restaurantDtoList.subList(start, end), pageable, count::fetchOne);
+
+        return page;
     }
 }
