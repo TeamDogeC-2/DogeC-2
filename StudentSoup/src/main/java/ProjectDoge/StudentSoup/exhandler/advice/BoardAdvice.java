@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.board.BoardIdNotSentException;
 import ProjectDoge.StudentSoup.exception.board.BoardNotFoundException;
+import ProjectDoge.StudentSoup.exception.board.BoardSearchDataNotSentException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,5 +24,11 @@ public class BoardAdvice {
     public ErrorResult BoardIdNotSentHandler(BoardIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardIdNotSentException", e.getMessage());
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardSearchDataNotSentException.class)
+    public  ErrorResult BoardIdNotSentException(BoardIdNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return  new ErrorResult("BoardIdNotSentException",e.getMessage());
     }
 }
