@@ -6,6 +6,7 @@ import ProjectDoge.StudentSoup.dto.board.BoardUpdateDto;
 import ProjectDoge.StudentSoup.service.board.BoardUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardUpdateController {
     private final BoardUpdateService boardUpdateService;
 
-    @GetMapping("board/update/{boardId}")
-    public BoardUpdateDto updateBoard(@PathVariable Long boardId){
-        BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId);
+    @GetMapping("board/update/{boardId}/{memberId}")
+    public BoardUpdateDto updateBoard(@PathVariable Long boardId,@PathVariable Long memberId){
+        BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId,memberId);
         return boardUpdateDto;
     }
-    @PutMapping("board/{boardId}/{memberId}")
+    @PutMapping(value = "board/{boardId}/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> updateBoard(@PathVariable Long boardId,
                                          @PathVariable Long memberId,
                                          BoardFormDto boardFormDto
