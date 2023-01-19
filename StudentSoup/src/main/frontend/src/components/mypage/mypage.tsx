@@ -21,7 +21,7 @@ const Mypage = () => {
         <div className="w-full">
           <div>{menu === 'home' ? <MypageHome /> : ''}</div>
           <div>{menu === 'scheduler' ? <MypageScheduler /> : ''}</div>
-          <div>{menu === 'modify' ? <MypageModify /> : ''}</div>
+          <div>{menu === 'modify' ? <MypageModify onClickMenu={onClickMenu}/> : ''}</div>
         </div>
       </div>
     </div>
