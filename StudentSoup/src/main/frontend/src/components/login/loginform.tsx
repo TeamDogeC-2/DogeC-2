@@ -20,13 +20,17 @@ function LoginForm() {
     const userId = sessionStorage.getItem('id') ?? '';
     if (userId.length > 0) {
       setId(userId);
-      sessionStorage.clear();
     }
   }, []);
 
   useEffect(() => {
-    console.log(checked);
-  }, [checked]);
+    const savedCheck = String(sessionStorage.getItem('saved'));
+    if (savedCheck === 'true') {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
