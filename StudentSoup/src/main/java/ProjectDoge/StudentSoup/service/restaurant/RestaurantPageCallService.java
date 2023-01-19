@@ -29,29 +29,18 @@ public class RestaurantPageCallService {
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public Page<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId, Pageable pageable){
+    public Page<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId, Pageable pageable) {
         log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
-        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
+        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
         JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
-        checkOffsetException(pageable, restaurants);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
-
-        if(isLoginMember(memberId)){
+        if (isLoginMember(memberId)) {
             return getLoginRestaurantList(memberId, restaurants, restaurantDtoList, pageable, queryCount);
         }
 
         return getNotLoginRestaurantList(restaurants, restaurantDtoList, pageable, queryCount);
-    }
-
-    private void checkOffsetException(Pageable pageable, List<Restaurant> restaurants) {
-        log.info("Offset 검증을 시작합니다.");
-        if(pageable.getOffset() > restaurants.size()) {
-            log.info("가져온 음식점의 크기 : [{}], offset : [{}]", restaurants.size(), pageable.getOffset());
-            throw new PagingOffsetMoreThanTotalPageException("Offset 은 페이지 총 개수보다 작아야 합니다.");
-        }
-        log.info("Offset 검증이 완료되었습니다.");
     }
 
 
@@ -68,22 +57,15 @@ public class RestaurantPageCallService {
             restaurantDtoList.add(getLoginRestaurantDto(memberId, restaurant));
         }
 
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
-
-        log.info("offset : [{}], last : [{}]",
-                start,
-                end);
-        return PageableExecutionUtils.getPage(restaurantDtoList.subList(start, end), pageable, count::fetchOne);
+        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
     }
 
     private RestaurantDto getLoginRestaurantDto(Long memberId, Restaurant restaurant) {
-        RestaurantLike restaurantLike = restaurantLikeRepository.findRestaurantLikeByRestaurantIdAndMemberId(restaurant.getId(), memberId)
-                .orElse(null);
-        if (restaurantLike == null) {
-            return getNotLikeRestaurantDto(restaurant);
+        for(RestaurantLike restaurantLike : restaurant.getRestaurantLikes()){
+            if(restaurantLike.getMember().getMemberId().equals(memberId))
+                return getLikeRestaurantDto(restaurant);
         }
-        return getLikeRestaurantDto(restaurant);
+        return getNotLikeRestaurantDto(restaurant);
     }
 
     private RestaurantDto getLikeRestaurantDto(Restaurant restaurant) {
@@ -101,12 +83,12 @@ public class RestaurantPageCallService {
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getNotLikeRestaurantDto(restaurant));
         }
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
+//        int start = (int)pageable.getOffset();
+//        int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
 
-        log.info("offset : [{}], last : [{}]", start, end);
+        log.info("offset : [{}], last : [{}]", pageable.getOffset(), pageable.getOffset() + pageable.getPageSize());
 
-        Page<RestaurantDto> page = PageableExecutionUtils.getPage(restaurantDtoList.subList(start, end), pageable, count::fetchOne);
+        Page<RestaurantDto> page = PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
 
         return page;
     }
