@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -19,8 +20,10 @@ public class BoardSearchService {
 
     public List<BoardMainDto> searchBoard(Long schoolId,String category,String column ,String value){
         if(column == null || value == null){
-
+            return Collections.emptyList();
         }
+        log.info("게시글 검색 서비스가 실행되었습니다.");
+        log.info("schoolId [{}] category [{}] column[{}] value [{}]",schoolId,category,column,value);
         List<Board> boards = boardRepository.findByDynamicSearch(schoolId,category,column,value);
         List<BoardMainDto> boardMainDtoList = typeCastingToBoardMainDto(boards);
         return boardMainDtoList;

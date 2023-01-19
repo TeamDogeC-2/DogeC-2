@@ -12,4 +12,6 @@ public interface BoardRepositoryCustom {
     Board findByTitle(String title);
 
     List<Board> orderByCategory(Long schoolId,Long departmentId, String category,int sorted);
+
+    List<Board> findByDynamicSearch(Long schoolId,String category,String column, String value);
 }
