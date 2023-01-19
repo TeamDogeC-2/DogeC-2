@@ -86,6 +86,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .from(restaurant)
                 .leftJoin(restaurant.school, school)
                 .fetchJoin()
+                .where(restaurant.school.id.eq(schoolId))
                 .fetch();
         return query;
     }
@@ -111,18 +112,16 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .leftJoin(restaurant.school, school)
                 .fetchJoin()
                 .where(restaurant.school.id.eq(schoolId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
 
         return content;
     }
-// PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne)
     @Override
-    public JPAQuery<Long> countBySchoolId() {
+    public JPAQuery<Long> countBySchoolId(Long schoolId) {
         return queryFactory
                 .select(restaurant.count())
-                .from(restaurant);
+                .from(restaurant)
+                .where(restaurant.school.id.eq(schoolId));
     }
 
     private BooleanExpression checkSortedRestaurantCategory(String category) {
