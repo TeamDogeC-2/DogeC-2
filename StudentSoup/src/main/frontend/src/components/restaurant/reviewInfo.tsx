@@ -9,7 +9,6 @@ const review = () => {
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
   const [click, setClick] = useState<any>(2);
   const clickPage = (e: any) => {
-    console.log(e);
     setClick(e);
   };
   const calcStarRates = () => {
