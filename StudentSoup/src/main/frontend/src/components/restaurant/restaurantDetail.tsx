@@ -18,7 +18,6 @@ import cn from 'clsx';
 const restaurant = () => {
   const [click, setClick] = useState<any>(1);
   const clickPage = (e: any) => {
-    console.log(e);
     setClick(e);
   };
   return (
