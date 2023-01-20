@@ -20,9 +20,9 @@ import java.util.Map;
 public class BoardCallController {
     private final BoardCallService boardCallService;
 
-    @GetMapping("/boards")
+    @PostMapping("/boards")
     public List<BoardMainDto> firstCallBoard(@RequestBody BoardCallDto boardCallDto){
-        return  boardCallService.getBoardInSchool(boardCallDto.getSchoolId(),boardCallDto.getMemberId());
+        return boardCallService.getBoardInSchool(boardCallDto.getSchoolId(),boardCallDto.getMemberId());
     }
 
     /**

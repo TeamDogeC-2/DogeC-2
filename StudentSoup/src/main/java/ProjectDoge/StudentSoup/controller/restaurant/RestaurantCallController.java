@@ -23,7 +23,7 @@ public class RestaurantCallController {
     private final RestaurantCallService restaurantCallService;
     private final RestaurantPageCallService restaurantPageCallService;
 
-    @GetMapping("/restaurants")
+    @PostMapping("/restaurants")
     public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
 
         checkPagingSize(restaurantCallDto.getSize());
@@ -53,7 +53,7 @@ public class RestaurantCallController {
      * @param sorted   0 normal(등록 순), 1(별점), 2(좋아요), 3(리뷰), 4(거리)
      * @return
      */
-    @GetMapping("/restaurants/{category}/{sorted}")
+    @PostMapping("/restaurants/{category}/{sorted}")
     public List<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
                                                  @PathVariable("sorted") int sorted,
                                                  @RequestBody RestaurantSort restaurantSort) {

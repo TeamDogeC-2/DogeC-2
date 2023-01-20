@@ -17,7 +17,7 @@ public class RestaurantDetailCallController {
 
     private final RestaurantMenuCallService restaurantMenuCallService;
 
-    @GetMapping("/{restaurantId}")
+    @PostMapping("/{restaurantId}")
     public ConcurrentHashMap<String, Object> callRestaurantDetail(@PathVariable Long restaurantId, @RequestBody RestaurantDetailRequestDto dto){
         return restaurantMenuCallService.restaurantDetailCall(dto.getRestaurantId(), dto.getMemberId());
     }
