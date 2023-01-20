@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 import ProjectDoge.StudentSoup.exception.board.BoardIdNotSentException;
 import ProjectDoge.StudentSoup.exception.board.BoardNotFoundException;
 import ProjectDoge.StudentSoup.exception.board.BoardSearchDataNotSentException;
+import ProjectDoge.StudentSoup.exception.board.NotOwnMemberException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class BoardAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardNotFoundException.class)
-    public ErrorResult departmentNotFoundHandler(BoardNotFoundException e){
+    public ErrorResult BoardNotFoundHandler(BoardNotFoundException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardNotFound", e.getMessage());
     }
@@ -29,6 +30,12 @@ public class BoardAdvice {
     @ExceptionHandler(BoardSearchDataNotSentException.class)
     public  ErrorResult BoardIdNotSentException(BoardIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return  new ErrorResult("BoardIdNotSentException",e.getMessage());
+        return new ErrorResult("BoardIdNotSentException",e.getMessage());
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotOwnMemberException.class)
+    public ErrorResult NotOwnMemberException(NotOwnMemberException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("NotOwnMemberException",e.getMessage());
     }
 }

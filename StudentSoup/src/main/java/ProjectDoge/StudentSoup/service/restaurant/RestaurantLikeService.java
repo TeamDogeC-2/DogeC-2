@@ -27,12 +27,13 @@ public class RestaurantLikeService {
     boolean restaurantNotLiked = false;
 
     @Transactional
-    public ConcurrentHashMap<String, Object> restaurantLike(Long restaurantId, Long memberId){
+    public ConcurrentHashMap<String, Object> restaurantLike(Long restaurantId, Long memberId) {
         log.info("좋아요 / 좋아요 취소 서비스 로직이 실행되었습니다.");
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
-        Long restaurantLikeId = isAlreadyRestaurantLiked(restaurantId, memberId);
+        isLoginMember(memberId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        if(restaurantLikeId != null){
+        Long restaurantLikeId = isAlreadyRestaurantLiked(restaurantId, memberId, restaurant);
+        if (restaurantLikeId != null) {
             unlikeRestaurant(restaurantLikeId, restaurant, resultMap);
         } else {
             Member member = memberFindService.findOne(memberId);
@@ -41,22 +42,21 @@ public class RestaurantLikeService {
         return resultMap;
     }
 
-    private Long isAlreadyRestaurantLiked(Long restaurantId, Long memberId){
+    private Long isAlreadyRestaurantLiked(Long restaurantId, Long memberId, Restaurant restaurant) {
         log.info("회원이 이미 좋아요를 눌렀는지 체크하는 로직이 실행되었습니다. 음식점 ID : [{}] , 회원 ID : [{}]", restaurantId, memberId);
-        isLoginMember(memberId);
-        RestaurantLike restaurantLike = restaurantLikeRepository.findRestaurantLikeByRestaurantIdAndMemberId(restaurantId, memberId)
-                .orElse(null);
-        if(restaurantLike == null) {
-            log.info("[{}]님은 해당 음식점[{}]의 좋아요를 누른 상태가 아닙니다.", memberId, restaurantId);
-            return null;
+        for (RestaurantLike restaurantLike : restaurant.getRestaurantLikes()) {
+            if (restaurantLike.getMember().getMemberId().equals(memberId)) {
+                log.info("[{}]님은 해당 음식점[{}]의 좋아요를 누른 상태입니다..", memberId, restaurantId);
+                return restaurantLike.getId();
+            }
         }
-        log.info("[{}]님은 해당 음식점[{}]의 좋아요를 누른 상태입니다..", memberId, restaurantId);
-        return restaurantLike.getId();
+        log.info("[{}]님은 해당 음식점[{}]의 좋아요를 누른 상태가 아닙니다.", memberId, restaurantId);
+        return null;
     }
 
-    private void isLoginMember(Long memberId){
+    private void isLoginMember(Long memberId) {
         log.info("회원이 로그인이 되었는지 확인하는 로직이 실행되었습니다.");
-        if(memberId == null){
+        if (memberId == null) {
             log.info("회원의 기본키가 전달이 되지 않았거나 로그인이 되어있지 않은 상태입니다.");
             throw new MemberNotFoundException("회원이 로그인이 되어있지 않은 상태이거나, 기본키가 전달 되지 않았습니다.");
         }
@@ -75,7 +75,7 @@ public class RestaurantLikeService {
         log.info("음식점 좋아요가 취소 되었습니다. 좋아요 수 : [{}]", restaurant.getLikedCount());
     }
 
-    private void likeRestaurant(Member member, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap){
+    private void likeRestaurant(Member member, Restaurant restaurant, ConcurrentHashMap<String, Object> resultMap) {
         log.info("음식점 좋아요 서비스 로직이 실행되었습니다.");
         RestaurantLike restaurantLike = new RestaurantLike().createRestaurantLike(member, restaurant);
         restaurantLikeRepository.save(restaurantLike);

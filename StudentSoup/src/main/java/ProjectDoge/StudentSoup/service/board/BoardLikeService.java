@@ -51,7 +51,7 @@ public class BoardLikeService {
         board.minusLikeCount();
         BoardDto dto = new BoardDto(board,boardNotLiked);
         resultMap.put("data",dto);
-        resultMap.put("result","like");
+        resultMap.put("result","cancel");
         log.info("게시글 좋아요가 삭제되었습니다.");
     }
 
@@ -62,7 +62,7 @@ public class BoardLikeService {
         board.addLikeCount();
         BoardDto dto = new BoardDto(board,boardLiked);
         resultMap.put("data",dto);
-        resultMap.put("result","cancel");
+        resultMap.put("result","like");
         log.info("게시글 좋아요가 저장되었습니다.");
     }
 }
