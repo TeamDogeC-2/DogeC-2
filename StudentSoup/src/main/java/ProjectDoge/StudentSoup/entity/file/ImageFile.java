@@ -1,6 +1,8 @@
 package ProjectDoge.StudentSoup.entity.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +24,26 @@ public class ImageFile {
 
     @Column(name ="URL")
     String fileUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RESTAURANT_REVIEW_ID")
+    private RestaurantReview restaurantReview;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
+
+    //== 연관관계 메서드 ==//
+    public void setBoard(Board board){
+        this.board = board;
+        board.getImageFiles().add(this);
+    }
+
+    public void setRestaurantReview(RestaurantReview restaurantReview){
+        this.restaurantReview = restaurantReview;
+        restaurantReview.getImageFileList().add(this);
+    }
+
 
     //== 생성 메서드 ==//
     public ImageFile createFile(UploadFileDto dto){
