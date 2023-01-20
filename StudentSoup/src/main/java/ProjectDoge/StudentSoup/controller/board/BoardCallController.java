@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class BoardCallController {
     public Page<BoardMainDto> callBoards(@PathVariable String category,
                                            @PathVariable int sorted,
                                            @RequestBody BoardCallDto boardCallDto,
-                                           Pageable pageable){
+                                           @PageableDefault(size = 15) Pageable pageable){
         log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}]",
                 category,
                 sorted,
