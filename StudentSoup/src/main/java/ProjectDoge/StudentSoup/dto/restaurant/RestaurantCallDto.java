@@ -6,7 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RestaurantCallDto {
-    Long schoolId;
-
+    String schoolName;
     Long memberId;
+    Integer page;
+    Integer size;
 }

@@ -9,8 +9,8 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantCallService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,16 +24,11 @@ public class RestaurantCallController {
     private final RestaurantPageCallService restaurantPageCallService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto> firstCallRestaurant(@RequestBody RestaurantCallDto restaurantCallDto){
-        return restaurantCallService.getRestaurantsInSchool(restaurantCallDto.getSchoolId(),restaurantCallDto.getMemberId());
-    }
+    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
 
-    @GetMapping("/restaurants/paging")
-    public Page<RestaurantDto> firstCallRestaurantPaging(@RequestBody BoardCallDto boardCallDto) {
+        checkPagingSize(restaurantCallDto.getSize());
 
-        checkPagingSize(boardCallDto.getSize());
-
-        PageRequest pageRequest = PageRequest.of(boardCallDto.getPage(), boardCallDto.getSize());
+        PageRequest pageRequest = PageRequest.of(restaurantCallDto.getPage(), restaurantCallDto.getSize());
 
         log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
                 pageRequest.getOffset(),
@@ -41,8 +36,8 @@ public class RestaurantCallController {
                 pageRequest.getPageSize());
 
         return restaurantPageCallService.getRestaurantsInSchool(
-                boardCallDto.getSchoolId(),
-                boardCallDto.getMemberId(),
+                restaurantCallDto.getSchoolName(),
+                restaurantCallDto.getMemberId(),
                 pageRequest
         );
     }

@@ -31,6 +31,7 @@ import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -49,6 +50,7 @@ public class TestDataInit {
     private final MemberRegisterService memberRegisterService;
     private final SchoolRepository schoolRepository;
     private final SchoolRegisterService schoolRegisterService;
+    private final SchoolFindService schoolFindService;
     private final DepartmentRepository departmentRepository;
     private final DepartmentRegisterService departmentRegisterService;
     private final RestaurantRegisterService restaurantRegisterService;
@@ -90,49 +92,49 @@ public class TestDataInit {
     }
 
     private void initDepartment(){
-        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
-        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
-        dto1.setSchoolId(school1.getId());
+        dto1.setSchoolId(schoolId1);
 
         DepartmentFormDto dto2 = new DepartmentFormDto();
         dto2.setDepartmentName("더미테스트1 학과2");
-        dto2.setSchoolId(school1.getId());
+        dto2.setSchoolId(schoolId1);
 
         DepartmentFormDto dto3 = new DepartmentFormDto();
         dto3.setDepartmentName("더미테스트2 학과1");
-        dto3.setSchoolId(school2.getId());
+        dto3.setSchoolId(schoolId2);
 
         DepartmentFormDto dto4 = new DepartmentFormDto();
         dto4.setDepartmentName("더미테스트2 학과2");
-        dto4.setSchoolId(school2.getId());
+        dto4.setSchoolId(schoolId2);
 
-        departmentRegisterService.join(school1.getId(), dto1);
-        departmentRegisterService.join(school1.getId(), dto2);
-        departmentRegisterService.join(school2.getId(), dto3);
-        departmentRegisterService.join(school2.getId(), dto4);
+        departmentRegisterService.join(schoolId1, dto1);
+        departmentRegisterService.join(schoolId1, dto2);
+        departmentRegisterService.join(schoolId2, dto3);
+        departmentRegisterService.join(schoolId2, dto4);
     }
 
     private void initMember(){
-        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
-        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
 
-        List<Department> departments1 = departmentRepository.findBySchool_Id(school1.getId());
-        List<Department> departments2 = departmentRepository.findBySchool_Id(school2.getId());
+        List<Department> departments1 = departmentRepository.findBySchool_Id(schoolId1);
+        List<Department> departments2 = departmentRepository.findBySchool_Id(schoolId2);
 
         MemberFormBDto dto1 = createMemberFormDto("dummyTest1", "test123!", "더미테스트1", "dummytest1@naver.com",
-                GenderType.MAN, school1.getId(), departments1.get(0).getId());
+                GenderType.MAN, schoolId1, departments1.get(0).getId());
         MemberFormBDto dto2 = createMemberFormDto("dummyTest2", "test123!", "더미테스트2", "dummytest2@naver.com",
-                GenderType.MAN, school1.getId(), departments1.get(0).getId());
+                GenderType.MAN, schoolId1, departments1.get(0).getId());
         MemberFormBDto dto3 = createMemberFormDto("dummyTest3", "test123!", "더미테스트3", "dummytest3@naver.com",
-                GenderType.MAN, school1.getId(), departments1.get(1).getId());
+                GenderType.MAN, schoolId1, departments1.get(1).getId());
         MemberFormBDto dto4 = createMemberFormDto("dummyTest4", "test123!", "더미테스트4", "dummytest4@naver.com",
-                GenderType.WOMAN, school2.getId(), departments2.get(0).getId());
+                GenderType.WOMAN, schoolId2, departments2.get(0).getId());
         MemberFormBDto dto5 = createMemberFormDto("dummyTest5", "test123!", "더미테스트5", "dummytest5@naver.com",
-                GenderType.WOMAN, school2.getId(), departments2.get(1).getId());
+                GenderType.WOMAN, schoolId2, departments2.get(1).getId());
         MemberFormBDto dto6 = createMemberFormDto("dummyTest6", "test123!", "더미테스트6", "dummytest6@naver.com",
-                GenderType.WOMAN, school2.getId(), departments2.get(1).getId());
+                GenderType.WOMAN, schoolId2, departments2.get(1).getId());
 
         memberRegisterService.join(dto1);
         memberRegisterService.join(dto2);
@@ -143,15 +145,15 @@ public class TestDataInit {
     }
 
     private void initRestaurant(){
-        School school1 = schoolRepository.findBySchoolName("인천대학교 송도캠퍼스");
-        School school2 = schoolRepository.findBySchoolName("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
 
         RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
                 RestaurantCategory.ASIAN,
                 LocalTime.now(),
                 LocalTime.now(),
-                school1.getId(),
+                schoolId1,
                 "37.3738948150,126.6364371486",
                 null,
                 "전화번호",
@@ -164,7 +166,7 @@ public class TestDataInit {
                     RestaurantCategory.ASIAN,
                     LocalTime.now(),
                     LocalTime.now(),
-                    school1.getId(),
+                    schoolId1,
                     "37.3738948150,126.6364371486",
                     null,
                     "전화번호",
@@ -178,7 +180,7 @@ public class TestDataInit {
                 RestaurantCategory.KOREAN,
                 LocalTime.now(),
                 LocalTime.now(),
-                school2.getId(),
+                schoolId2,
                 "37.3874120913,126.6637521009",
                 null,
                 "전화번호",
@@ -191,7 +193,7 @@ public class TestDataInit {
                     RestaurantCategory.ASIAN,
                     LocalTime.now(),
                     LocalTime.now(),
-                    school2.getId(),
+                    schoolId2,
                     "37.3738948150,126.6364371486",
                     null,
                     "전화번호",

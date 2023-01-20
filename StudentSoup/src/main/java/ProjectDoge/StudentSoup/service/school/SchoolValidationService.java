@@ -15,11 +15,11 @@ public class SchoolValidationService {
     private final SchoolRepository schoolRepository;
     public void validateDuplicateSchool(School school){
         log.info("학교 생성 검증 메소드가 실행되었습니다.");
-        School findSchools = schoolRepository.findBySchoolName(school.getSchoolName());
-        if (findSchools != null) {
-            log.info("학교가 존재하는 예외가 발생했습니다.");
-            throw new SchoolValidationException("이미 존재하는 학교입니다.");
-        }
+        schoolRepository.findBySchoolName(school.getSchoolName())
+                .ifPresent((value) -> {
+                    log.info("학교가 존재하는 예외가 발생했습니다.");
+                    throw new SchoolValidationException("이미 존재하는 학교입니다.");
+                });
         log.info("학교 검증이 완료되었습니다.");
     }
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 public class RestaurantMenuLikeController {
 
     private final RestaurantMenuLikeService restaurantMenuLikeService;
