@@ -13,12 +13,12 @@ const review = () => {
   };
   const calcStarRates = () => {
     const tempStarRatesArr = [0, 0, 0, 0, 0];
-    let starVerScore = (AVR_RATE * 60) / 5;
+    let starVerScore = (AVR_RATE * 70) / 5;
     let idx = 0;
-    while (starVerScore > 12) {
-      tempStarRatesArr[idx] = 12;
+    while (starVerScore > 14) {
+      tempStarRatesArr[idx] = 14;
       idx += 1;
-      starVerScore -= 12;
+      starVerScore -= 14;
     }
     tempStarRatesArr[idx] = starVerScore;
     return tempStarRatesArr;
@@ -42,7 +42,7 @@ const review = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 width="23.21px"
                 height="21.56px"
-                viewBox="0 0 12 13"
+                viewBox="0 0 14 13"
                 fill="#cacaca"
               >
                 <clipPath id={`${item}StarClip`}>
