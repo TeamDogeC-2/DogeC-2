@@ -8,7 +8,7 @@ const MypageHome = () => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
-  const IMAGE_FILE_ID = sessionStorage.getItem('fileName');
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const memberId = sessionStorage.getItem('memberId');
   const savedName = sessionStorage.getItem('nickname');
@@ -64,7 +64,7 @@ const MypageHome = () => {
             <div className="mt-[35px]">
               <img
                 ref={uploadImage}
-                src={IMAGE_FILE_ID ?? Human}
+                src={IMAGE_FILE_ID}
                 className='w-[122px] h-[122px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
               />
             </div>
