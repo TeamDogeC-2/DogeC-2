@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 @RestController
 public class RestaurantDetailCallController {
 
