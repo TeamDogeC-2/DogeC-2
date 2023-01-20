@@ -66,6 +66,44 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
 
+    @Override
+    public List<Board> findByDynamicSearch(Long schoolId, String category, String column,String value){
+        List<Board> query = queryFactory
+                .select(board)
+                .from(board)
+                .leftJoin(board.member,member)
+                .fetchJoin()
+                .where(board.school.id.eq(schoolId),
+                        checkSortedBoard(category),
+                        searchColumnContainsTitle(column,value),
+                        searchColumnContainsContent(column,value),
+                        searchColumnContainsNickname(column,value))
+                .fetch();
+         return query;
+
+    }
+
+    private BooleanExpression searchColumnContainsTitle(String column, String value) {
+        if(column.equals("title")){
+            return board.title.contains(value);
+        }
+        return null;
+    }
+
+    private BooleanExpression searchColumnContainsContent(String column,String value){
+        if (column.equals("content")){
+            return board.content.contains(value);
+        }
+        return null;
+    }
+    private BooleanExpression searchColumnContainsNickname(String column,String value){
+        if(column.equals("nickname")){
+            return board.member.nickname.contains(value);
+        }
+        return null;
+    }
+
+
     private BooleanExpression checkDepartment(Long departmentId) {
         if(departmentId == null){
             return null;
