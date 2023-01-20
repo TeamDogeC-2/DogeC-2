@@ -48,7 +48,7 @@ public class Restaurant {
 
     private int viewCount;
 
-    private float starLiked;
+    private double starLiked;
 
     private int likedCount;
 
@@ -153,6 +153,7 @@ public class Restaurant {
         return (rad * 180 / Math.PI);
     }
 
+    // 좋아요 업데이트 로직
     public void addLikedCount(){
         this.likedCount += 1;
     }
@@ -161,15 +162,22 @@ public class Restaurant {
             this.likedCount -= 1;
         }
     }
+    // 조회수 업데이트 로직
     public void addViewCount() {
         this.viewCount += 1;
     }
-
+    
+    // 이미지 추가 로직
     public void addImageFile(ImageFile imageFile){
         this.getImageFileList().add(imageFile);
 
         if(imageFile.getRestaurant() != this)
             imageFile.setRestaurant(this);
+
+    // 별점 업데이트 로직
+    public void updateStarLiked(double starLiked){
+        this.starLiked = starLiked;
+
     }
 
 }
