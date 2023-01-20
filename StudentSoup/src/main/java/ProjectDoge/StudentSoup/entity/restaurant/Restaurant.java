@@ -43,9 +43,8 @@ public class Restaurant {
 
     private int distance;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_FILE_ID")
-    private ImageFile imageFile;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int viewCount;
 
@@ -91,7 +90,7 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        this.setImageFile(imageFile);
+        addImageFile(imageFile);
         return this;
     }
     //==업데이트 메서드 == //
@@ -106,7 +105,7 @@ public class Restaurant {
         this.setTel(form.getTel());
         this.setTag(form.getTag());
         this.setDetail(form.getDetail());
-        this.setImageFile(imageFile);
+        addImageFile(imageFile);
 
     }
 
@@ -123,7 +122,7 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        this.setImageFile(form.getImageFile());
+        addImageFile(form.getImageFile());
         return this;
     }
 
@@ -167,6 +166,13 @@ public class Restaurant {
     }
     public void addViewCount() {
         this.viewCount += 1;
+    }
+
+    public void addImageFile(ImageFile imageFile){
+        this.getImageFileList().add(imageFile);
+
+        if(imageFile.getRestaurant() != this)
+            imageFile.setRestaurant(this);
     }
 
 }
