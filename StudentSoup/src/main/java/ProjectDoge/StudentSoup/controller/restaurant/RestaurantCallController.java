@@ -9,8 +9,8 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantCallService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class RestaurantCallController {
     private final RestaurantPageCallService restaurantPageCallService;
 
     @GetMapping("/restaurants")
-    public Page<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
+    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
 
         checkPagingSize(restaurantCallDto.getSize());
 
