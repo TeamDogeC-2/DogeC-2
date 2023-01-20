@@ -4,14 +4,14 @@ package ProjectDoge.StudentSoup.service.restaurant;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
-import ProjectDoge.StudentSoup.exception.page.PagingOffsetMoreThanTotalPageException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +23,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantPageCallService {
 
+    private final SchoolFindService schoolFindService;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantLikeRepository restaurantLikeRepository;
 
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public Page<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId, Pageable pageable) {
+    public Slice<RestaurantDto> getRestaurantsInSchool(String schoolName, Long memberId, Pageable pageable) {
         log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
+        Long schoolId = schoolFindService.findOne(schoolName);
         List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
         JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
@@ -48,7 +50,7 @@ public class RestaurantPageCallService {
         return memberId != null;
     }
 
-    private Page<RestaurantDto> getLoginRestaurantList(Long memberId,
+    private Slice<RestaurantDto> getLoginRestaurantList(Long memberId,
                                                        List<Restaurant> restaurants,
                                                        List<RestaurantDto> restaurantDtoList,
                                                        Pageable pageable,
@@ -76,20 +78,16 @@ public class RestaurantPageCallService {
         return new RestaurantDto().createRestaurantDto(restaurant, restaurantNotLiked);
     }
 
-    private Page<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants,
+    private Slice<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants,
                                                           List<RestaurantDto> restaurantDtoList,
                                                           Pageable pageable,
                                                           JPAQuery<Long> count) {
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getNotLikeRestaurantDto(restaurant));
         }
-//        int start = (int)pageable.getOffset();
-//        int end = Math.min((start + pageable.getPageSize()), restaurantDtoList.size());
 
         log.info("offset : [{}], last : [{}]", pageable.getOffset(), pageable.getOffset() + pageable.getPageSize());
 
-        Page<RestaurantDto> page = PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
-
-        return page;
+        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
     }
 }
