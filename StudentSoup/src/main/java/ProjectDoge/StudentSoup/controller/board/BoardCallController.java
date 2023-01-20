@@ -3,8 +3,6 @@ package ProjectDoge.StudentSoup.controller.board;
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.BoardSort;
-import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,27 +20,26 @@ import java.util.Map;
 public class BoardCallController {
     private final BoardCallService boardCallService;
 
-    @GetMapping("/boards")
-    public List<BoardMainDto> firstCallBoard(@RequestBody BoardCallDto boardCallDto){
-        return  boardCallService.getBoardInSchool(boardCallDto.getSchoolId(),boardCallDto.getMemberId());
-    }
-
     /**
      * @param category
-     * @param sorted  0 normal(업데이트 순), 1(좋아요 5개 이상)
-     * @param boardSort schoolId departmentId
+     * @param sorted  0 normal(업데이트 순), 1(좋아요 5개 이상), 2(좋아요 순)
+     * @param boardCallDto schoolId memberId departmentId
      * @return
      */
     @PostMapping("/boards/{category}/{sorted}")
-    public Page<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort, Pageable pageable){
-        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] offset[{}] size [{}]",
+    public Page<BoardMainDto> callBoards(@PathVariable String category,
+                                           @PathVariable int sorted,
+                                           @RequestBody BoardCallDto boardCallDto,
+                                           Pageable pageable){
+        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}]",
                 category,
                 sorted,
-                boardSort.getSchoolId(),
-                boardSort.getDepartmentId(),
+                boardCallDto.getSchoolId(),
+                boardCallDto.getDepartmentId(),
+                boardCallDto.getMemberId(),
                 pageable.getOffset(),
                 pageable.getPageSize());
-        return boardCallService.getBoardSortedCall(boardSort, category, sorted, pageable);
+        return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable);
 
     }
 

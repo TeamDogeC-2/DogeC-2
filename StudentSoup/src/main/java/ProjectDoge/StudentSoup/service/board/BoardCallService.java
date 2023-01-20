@@ -1,8 +1,8 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.BoardSort;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
@@ -29,16 +29,6 @@ public class BoardCallService {
     boolean boardLiked =true;
     boolean boardNotLiked = false;
 
-    public List<BoardMainDto> getBoardInSchool(Long schoolId,Long memberId){
-        log.info("게시판 클릭시 게시글 호출 로직이 실행되었습니다.");
-        isLoginMember(memberId);
-        List<BoardMainDto> boardMainDtoList = new ArrayList<>();
-        List<Board> boards = boardRepository.findBySchoolId(schoolId);
-        for(Board board : boards){
-            boardMainDtoList.add(new BoardMainDto(board));
-        }
-        return boardMainDtoList;
-    }
 
     public BoardDto getBoardDetail(Long boardId,Long memberId){
         log.info("게시글 클릭시 게시글 호출 로직이 실행되었습니다.");
@@ -51,9 +41,10 @@ public class BoardCallService {
 
     }
 
-    public Page<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted, Pageable pageable){
-        log.info("게시판 정렬 서비스 로직이 실행되었습니다");
-        Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted,pageable);
+    public Page<BoardMainDto> getBoardSortedCall(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable){
+        log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
+        isLoginMember(boardCallDto.getMemberId());
+        Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardCallDto.getSchoolId(),boardCallDto.getDepartmentId(),category,sorted,pageable);
 
         return boardMainDtoList;
     }
