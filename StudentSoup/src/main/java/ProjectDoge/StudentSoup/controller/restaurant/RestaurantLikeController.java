@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 public class RestaurantLikeController {
 
     private final RestaurantLikeService restaurantLikeService;
