@@ -5,8 +5,10 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +83,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .from(restaurant)
                 .leftJoin(restaurant.school, school)
                 .fetchJoin()
+                .where(restaurant.school.id.eq(schoolId))
                 .fetch();
         return query;
     }
@@ -96,6 +99,28 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .orderBy(checkSortedRestaurantCondition(sorted))
                 .fetch();
         return query;
+    }
+
+    @Override
+    public List<Restaurant> findBySchoolId(Long schoolId, Pageable pageable) {
+        List<Restaurant> content = queryFactory
+                .select(restaurant)
+                .from(restaurant)
+                .leftJoin(restaurant.school, school)
+                .fetchJoin()
+                .where(restaurant.school.id.eq(schoolId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        return content;
+    }
+    @Override
+    public JPAQuery<Long> countBySchoolId(Long schoolId) {
+        return queryFactory
+                .select(restaurant.count())
+                .from(restaurant)
+                .where(restaurant.school.id.eq(schoolId));
     }
 
     private BooleanExpression checkSortedRestaurantCategory(String category) {

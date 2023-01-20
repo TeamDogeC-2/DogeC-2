@@ -3,13 +3,16 @@ package ProjectDoge.StudentSoup.controller.restaurant;
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSort;
+import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantCallService;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -17,10 +20,36 @@ import java.util.Map;
 public class RestaurantCallController {
 
     private final RestaurantCallService restaurantCallService;
+    private final RestaurantPageCallService restaurantPageCallService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto> firstCallRestaurant(@RequestBody BoardCallDto boardCallDto){
+    public List<RestaurantDto> firstCallRestaurant(@RequestBody BoardCallDto boardCallDto) {
         return restaurantCallService.getRestaurantsInSchool(boardCallDto.getSchoolId(), boardCallDto.getMemberId());
+    }
+
+    @GetMapping("/restaurants/paging")
+    public Page<RestaurantDto> firstCallRestaurantPaging(@RequestBody BoardCallDto boardCallDto) {
+
+        checkPagingSize(boardCallDto.getSize());
+
+        PageRequest pageRequest = PageRequest.of(boardCallDto.getPage(), boardCallDto.getSize());
+
+        log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
+                pageRequest.getOffset(),
+                pageRequest.getPageNumber(),
+                pageRequest.getPageSize());
+
+        return restaurantPageCallService.getRestaurantsInSchool(
+                boardCallDto.getSchoolId(),
+                boardCallDto.getMemberId(),
+                pageRequest
+        );
+    }
+
+    private void checkPagingSize(Integer limit) {
+        if(limit == 0){
+            throw new PagingLimitEqualsZeroException("limit 의 개수는 1 이상이여야 합니다.");
+        }
     }
 
     /**
