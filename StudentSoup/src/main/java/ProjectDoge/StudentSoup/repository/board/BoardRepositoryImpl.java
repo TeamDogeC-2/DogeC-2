@@ -20,7 +20,6 @@ import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
-import static ProjectDoge.StudentSoup.entity.school.QDepartment.department;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
 @RequiredArgsConstructor
@@ -76,7 +75,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPQLQuery<Long> count = queryFactory
                 .select(board.count())
                 .from(board)
-                .where(board.school.id.eq(schoolId));
+                .where(board.school.id.eq(schoolId),
+                        checkDepartment(departmentId),
+                        checkSortedBoard(category),
+                        checkSortedLiked(sorted));
 
         return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
     }
