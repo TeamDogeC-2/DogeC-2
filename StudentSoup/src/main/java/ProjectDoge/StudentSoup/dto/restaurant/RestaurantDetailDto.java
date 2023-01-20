@@ -17,7 +17,7 @@ public class RestaurantDetailDto {
     private String distance;
     private String fileName;
     private int reviewCount;
-    private float starLiked;
+    private double starLiked;
     private int likedCount;
     private int viewCount;
     private boolean like;

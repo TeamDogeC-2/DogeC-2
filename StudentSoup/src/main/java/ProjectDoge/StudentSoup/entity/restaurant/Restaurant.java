@@ -49,7 +49,7 @@ public class Restaurant {
 
     private int viewCount;
 
-    private float starLiked;
+    private double starLiked;
 
     private int likedCount;
 
@@ -171,7 +171,7 @@ public class Restaurant {
     }
 
     // 별점 업데이트 로직
-    public void updateStarLiked(float starLiked){
+    public void updateStarLiked(double starLiked){
         this.starLiked = starLiked;
     }
 
