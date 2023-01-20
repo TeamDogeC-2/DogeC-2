@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.entity.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
@@ -26,6 +27,10 @@ public class ImageFile {
     String fileUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RESTAURANT_ID")
+    private Restaurant restaurant;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANT_REVIEW_ID")
     private RestaurantReview restaurantReview;
 
@@ -42,6 +47,11 @@ public class ImageFile {
     public void setRestaurantReview(RestaurantReview restaurantReview){
         this.restaurantReview = restaurantReview;
         restaurantReview.getImageFileList().add(this);
+    }
+
+    public void setRestaurant(Restaurant restaurant){
+        this.restaurant = restaurant;
+        restaurant.getImageFileList().add(this);
     }
 
 

@@ -5,6 +5,9 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import lombok.Data;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Data
 public class RestaurantDetailDto {
@@ -15,7 +18,7 @@ public class RestaurantDetailDto {
     private LocalTime startTime;
     private LocalTime endTime;
     private String distance;
-    private String fileName;
+    private List<String> fileName;
     private int reviewCount;
     private double starLiked;
     private int likedCount;
@@ -42,11 +45,15 @@ public class RestaurantDetailDto {
     }
 
     // 비즈니스 로직
-    private String setImageFile(Restaurant restaurant){
-        ImageFile imageFile = restaurant.getImageFile();
-        if(imageFile == null){
-            return null;
+    private List<String> setImageFile(Restaurant restaurant){
+
+        List<String> imageNameList = new ArrayList<>();
+        if(!restaurant.getImageFileList().isEmpty()) {
+            for (ImageFile imagefile : restaurant.getImageFileList())
+                imageNameList.add(imagefile.getFileName());
+
+            return imageNameList;
         }
-        return imageFile.getFileName();
+        return Collections.emptyList();
     }
 }

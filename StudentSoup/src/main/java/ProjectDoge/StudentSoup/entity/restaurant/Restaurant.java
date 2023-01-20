@@ -43,9 +43,8 @@ public class Restaurant {
 
     private int distance;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_FILE_ID")
-    private ImageFile imageFile;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int viewCount;
 
@@ -91,11 +90,11 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        this.setImageFile(imageFile);
+        addImageFile(imageFile);
         return this;
     }
     //==업데이트 메서드 == //
-    public void updateRestaurant(RestaurantUpdateDto form, School school, ImageFile imageFile){
+    public void updateRestaurant(RestaurantUpdateDto form, School school){
         this.setName(form.getName());
         this.setAddress(form.getAddress());
         this.setSchool(school);
@@ -106,8 +105,6 @@ public class Restaurant {
         this.setTel(form.getTel());
         this.setTag(form.getTag());
         this.setDetail(form.getDetail());
-        this.setImageFile(imageFile);
-
     }
 
     public Restaurant createRestaurant(RestaurantFormDto form, School school) {
@@ -123,7 +120,6 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        this.setImageFile(form.getImageFile());
         return this;
     }
 
@@ -170,10 +166,18 @@ public class Restaurant {
     public void addViewCount() {
         this.viewCount += 1;
     }
+    
+    // 이미지 추가 로직
+    public void addImageFile(ImageFile imageFile){
+        this.getImageFileList().add(imageFile);
+
+        if(imageFile.getRestaurant() != this)
+            imageFile.setRestaurant(this);
 
     // 별점 업데이트 로직
     public void updateStarLiked(double starLiked){
         this.starLiked = starLiked;
+
     }
 
 }

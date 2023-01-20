@@ -42,10 +42,10 @@ public class RestaurantDto {
 
     // 비즈니스 로직
     private String setImageFile(Restaurant restaurant){
-        ImageFile imageFile = restaurant.getImageFile();
-        if(imageFile == null){
-            return null;
+        if(!restaurant.getImageFileList().isEmpty()){
+            return restaurant.getImageFileList().get(0).getFileName();
         }
-        return imageFile.getFileName();
+
+        return null;
     }
 }

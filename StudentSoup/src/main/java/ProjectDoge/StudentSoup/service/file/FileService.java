@@ -44,9 +44,11 @@ public class FileService {
         log.info("다중 파일 등록 서비스 메소드가 실행되었습니다.");
 
         List<UploadFileDto> uploadFiles = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFileList){
-            if(!multipartFile.isEmpty()){
-                uploadFiles.add(storeFile(multipartFile));
+        if(multipartFileList != null) {
+            for (MultipartFile multipartFile : multipartFileList) {
+                if (!multipartFile.isEmpty()) {
+                    uploadFiles.add(storeFile(multipartFile));
+                }
             }
         }
         log.info("다중 파일 등록 서비스가 완료되었습니다.");
