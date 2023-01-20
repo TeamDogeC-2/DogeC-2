@@ -94,7 +94,7 @@ public class Restaurant {
         return this;
     }
     //==업데이트 메서드 == //
-    public void updateRestaurant(RestaurantUpdateDto form, School school, ImageFile imageFile){
+    public void updateRestaurant(RestaurantUpdateDto form, School school){
         this.setName(form.getName());
         this.setAddress(form.getAddress());
         this.setSchool(school);
@@ -105,8 +105,6 @@ public class Restaurant {
         this.setTel(form.getTel());
         this.setTag(form.getTag());
         this.setDetail(form.getDetail());
-        addImageFile(imageFile);
-
     }
 
     public Restaurant createRestaurant(RestaurantFormDto form, School school) {
