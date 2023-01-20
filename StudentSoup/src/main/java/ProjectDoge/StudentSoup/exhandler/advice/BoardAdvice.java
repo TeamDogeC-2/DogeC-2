@@ -28,10 +28,10 @@ public class BoardAdvice {
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardSearchDataNotSentException.class)
-    public  ErrorResult BoardIdNotSentException(BoardIdNotSentException e){
+    public  ErrorResult BoardIdNotSentException(BoardIdNotSentException e) {
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardIdNotSentException",e.getMessage());
-
+        return new ErrorResult("BoardIdNotSentException", e.getMessage());
+    }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NotOwnMemberException.class)
     public ErrorResult NotOwnMemberException(NotOwnMemberException e){
