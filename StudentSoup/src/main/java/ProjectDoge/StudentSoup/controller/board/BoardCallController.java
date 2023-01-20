@@ -34,13 +34,15 @@ public class BoardCallController {
      * @return
      */
     @PostMapping("/boards/{category}/{sorted}")
-    public Page<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort, @RequestParam Pageable pageable){
-        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}]",
+    public Page<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort, Pageable pageable){
+        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] offset[{}] size [{}]",
                 category,
                 sorted,
                 boardSort.getSchoolId(),
-                boardSort.getDepartmentId());
-        return boardCallService.getBoardSortedCall(boardSort, category, sorted,pageable);
+                boardSort.getDepartmentId(),
+                pageable.getOffset(),
+                pageable.getPageSize());
+        return boardCallService.getBoardSortedCall(boardSort, category, sorted, pageable);
 
     }
 
