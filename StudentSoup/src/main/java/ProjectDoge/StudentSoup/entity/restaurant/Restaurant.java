@@ -53,10 +53,11 @@ public class Restaurant {
 
     private int likedCount;
 
+    private String isDelivery;
+
     private String tel;
 
     private String tag;
-
     @Lob
     private String detail;
 
