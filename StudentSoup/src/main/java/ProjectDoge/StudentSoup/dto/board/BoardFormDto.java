@@ -5,6 +5,9 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,14 +16,15 @@ public class BoardFormDto {
     private BoardCategory boardCategory;
     private String content;
 
-    private String fileName;
+    private List<MultipartFile> multipartFiles;
+
 
     //== 생성 메서드 ==//
     private void setBoard(Board board){
         this.setTitle(board.getTitle());
         this.setBoardCategory(board.getBoardCategory());
         this.setContent(board.getContent());
-        this.setFileName(board.getImageFile().getFileName());
+
     }
     public BoardFormDto createBoardFormDto(String title,BoardCategory category,String content){
         this.title = title;

@@ -1,15 +1,13 @@
-package ProjectDoge.StudentSoup.dto.board;
-
+package ProjectDoge.StudentSoup.dto.restaurant;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class BoardCallDto {
-    Long schoolId;
+public class RestaurantCallDto {
+    String schoolName;
     Long memberId;
-
     Integer page;
     Integer size;
 }
