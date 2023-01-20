@@ -4,7 +4,7 @@ import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import cn from 'clsx';
 
 const review = () => {
-  const AVR_RATE = 4.6;
+  const AVR_RATE = 4.4;
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
   const [click, setClick] = useState<any>(2);
@@ -164,12 +164,10 @@ const review = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row">
-          <div className="ml-[644px] mt-[15px] h-[16px] font-[400] text-[16px] leading-[22px] flex items-center text-[#515151]">
-            더보기
-          </div>
-          <div className="ml-[4px] mt-[16px] w-[14px] h-[14px] bg-[#FF611D] border rounded-full">
-            <MoreInfo className="ml-[2.89px] mt-[3.5px]" />
+        <div className="mt-[13px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
+          더보기
+          <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+            <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
           </div>
         </div>
       </div>

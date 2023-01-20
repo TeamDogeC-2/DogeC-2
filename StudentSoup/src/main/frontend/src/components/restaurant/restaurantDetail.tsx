@@ -190,9 +190,9 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {click === 1 ? <MenuInfopage /> : ''}
-          {click === 2 ? <Reviewpage /> : ''}
-          {click === 3 ? <Sharepage /> : ''}
+          {click === 1 && <MenuInfopage />}
+          {click === 2 && <Reviewpage />}
+          {click === 3 && <Sharepage />}
         </div>
       </div>
     </>
