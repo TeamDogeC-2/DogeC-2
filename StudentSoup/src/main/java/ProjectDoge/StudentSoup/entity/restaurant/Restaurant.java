@@ -156,6 +156,7 @@ public class Restaurant {
         return (rad * 180 / Math.PI);
     }
 
+    // 좋아요 업데이트 로직
     public void addLikedCount(){
         this.likedCount += 1;
     }
@@ -164,8 +165,14 @@ public class Restaurant {
             this.likedCount -= 1;
         }
     }
+    // 조회수 업데이트 로직
     public void addViewCount() {
         this.viewCount += 1;
+    }
+
+    // 별점 업데이트 로직
+    public void updateStarLiked(float starLiked){
+        this.starLiked = starLiked;
     }
 
 }
