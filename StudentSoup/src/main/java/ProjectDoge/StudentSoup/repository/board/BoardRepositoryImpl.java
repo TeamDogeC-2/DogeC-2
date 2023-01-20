@@ -2,14 +2,19 @@ package ProjectDoge.StudentSoup.repository.board;
 
 
 
+import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
+import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
@@ -49,9 +54,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
     @Override
-    public List<Board> orderByCategory(Long schoolId,Long departmentId,String category,int sorted){
-        List<Board> query = queryFactory
-                .select(board)
+    public Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable){
+        List<BoardMainDto> query = queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.updateDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount))
                 .from(board)
                 .leftJoin(board.school,school)
                 .fetchJoin()
@@ -62,8 +73,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         checkSortedBoard(category),
                         checkSortedLiked(sorted))
                 .orderBy(checkSortedCondition(sorted))
+                .offset(pageable.getOffset())
+                .limit(pageable.getOffset())
                 .fetch();
-        return query;
+
+        JPQLQuery<Long> count = queryFactory
+                .select(board.count())
+                .from(board);
+        return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
     }
 
     @Override
