@@ -122,7 +122,6 @@ public class Restaurant {
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
         this.setStarLiked(0);
-        addImageFile(form.getImageFile());
         return this;
     }
 
