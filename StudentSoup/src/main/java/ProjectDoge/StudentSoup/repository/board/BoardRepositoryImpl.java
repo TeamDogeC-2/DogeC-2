@@ -84,19 +84,31 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<Board> findByDynamicSearch(Long schoolId, String category, String column,String value){
-        List<Board> query = queryFactory
-                .select(board)
+    public Page<BoardMainDto> findByDynamicSearch(Long schoolId, String category, String column,String value,Pageable pageable){
+        List<BoardMainDto> query = queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.updateDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount))
                 .from(board)
-                .leftJoin(board.member,member)
-                .fetchJoin()
                 .where(board.school.id.eq(schoolId),
                         checkSortedBoard(category),
                         searchColumnContainsTitle(column,value),
                         searchColumnContainsContent(column,value),
                         searchColumnContainsNickname(column,value))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
-         return query;
+
+        JPQLQuery<Long> count = queryFactory
+                .select(board.count())
+                .from(board)
+                .where(board.school.id.eq(schoolId));
+
+        return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
 
     }
 
