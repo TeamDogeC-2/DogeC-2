@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class BoardCallDto {
     Long schoolId;
-
     Long memberId;
+
+    Integer page;
+    Integer size;
 }

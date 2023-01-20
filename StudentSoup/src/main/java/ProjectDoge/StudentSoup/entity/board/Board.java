@@ -46,9 +46,8 @@ public class Board {
 
     private String ip;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_FILE_ID")
-    private ImageFile imageFile;
+    @OneToMany(mappedBy = "board" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImageFile> imageFiles = new ArrayList<>();
 
     private int view;
 
@@ -76,7 +75,7 @@ public class Board {
     }
 
     //== 생성 메서드 ==//
-    public Board createBoard(BoardFormDto form, Member member, School school, ImageFile imageFile, Department department) {
+    public Board createBoard(BoardFormDto form, Member member, School school, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
         this.setWriteDate(dateFormat(LocalDateTime.now()));
@@ -87,13 +86,11 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
-        this.setImageFile(imageFile);
         return this;
     }
-    public Board editBoard(BoardFormDto boardFormDto,ImageFile imageFile){
+    public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
-        this.setImageFile(imageFile);
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }
@@ -127,5 +124,11 @@ public class Board {
         if(this.likedCount > 0) {
             this.likedCount -= 1;
         }
+    }
+    public void addImageFile(ImageFile imageFile){
+        this.getImageFiles().add(imageFile);
+
+        if(imageFile.getBoard() != this)
+             imageFile.setBoard(this);
     }
 }

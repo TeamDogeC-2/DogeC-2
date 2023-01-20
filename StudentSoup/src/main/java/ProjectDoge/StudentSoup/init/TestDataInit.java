@@ -158,6 +158,21 @@ public class TestDataInit {
                 "태그",
                 "디테일");
 
+        for(int i = 0; i < 30; i++){
+            RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점" + i,
+                    "주소",
+                    RestaurantCategory.ASIAN,
+                    LocalTime.now(),
+                    LocalTime.now(),
+                    school1.getId(),
+                    "37.3738948150,126.6364371486",
+                    null,
+                    "전화번호",
+                    "태그",
+                    "디테일");
+            restaurantRegisterService.join(testDto);
+        }
+
         RestaurantFormDto dto2 = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점",
                 "주소",
                 RestaurantCategory.KOREAN,
@@ -169,6 +184,21 @@ public class TestDataInit {
                 "전화번호",
                 "태그",
                 "디테일");
+
+        for(int i = 0; i < 30; i++){
+            RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점" + i,
+                    "주소",
+                    RestaurantCategory.ASIAN,
+                    LocalTime.now(),
+                    LocalTime.now(),
+                    school2.getId(),
+                    "37.3738948150,126.6364371486",
+                    null,
+                    "전화번호",
+                    "태그",
+                    "디테일");
+            restaurantRegisterService.join(testDto);
+        }
         restaurantRegisterService.join(dto);
         restaurantRegisterService.join(dto2);
     }

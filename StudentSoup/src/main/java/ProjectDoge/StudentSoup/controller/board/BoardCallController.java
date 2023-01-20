@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.controller.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSort;
@@ -20,8 +21,8 @@ public class BoardCallController {
     private final BoardCallService boardCallService;
 
     @GetMapping("/boards")
-    public List<BoardMainDto> firstCallBoard(@RequestBody Map<String,Long> map){
-        return  boardCallService.getBoardInSchool(map.get("schoolId"),map.get("memberId"));
+    public List<BoardMainDto> firstCallBoard(@RequestBody BoardCallDto boardCallDto){
+        return  boardCallService.getBoardInSchool(boardCallDto.getSchoolId(),boardCallDto.getMemberId());
     }
 
     /**
