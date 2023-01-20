@@ -28,6 +28,7 @@ public class RestaurantReviewRegisterController {
 
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         restaurantReviewRegisterService.join(dto);
+        restaurantReviewRegisterService.starUpdate(restaurantId);
         resultMap.put("result", "ok");
 
         return ResponseEntity.ok(resultMap);
