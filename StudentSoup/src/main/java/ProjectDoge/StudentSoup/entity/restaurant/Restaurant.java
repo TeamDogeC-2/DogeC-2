@@ -168,11 +168,12 @@ public class Restaurant {
     }
     
     // 이미지 추가 로직
-    public void addImageFile(ImageFile imageFile){
+    public void addImageFile(ImageFile imageFile) {
         this.getImageFileList().add(imageFile);
 
-        if(imageFile.getRestaurant() != this)
+        if (imageFile.getRestaurant() != this)
             imageFile.setRestaurant(this);
+    }
 
     // 별점 업데이트 로직
     public void updateStarLiked(double starLiked){
