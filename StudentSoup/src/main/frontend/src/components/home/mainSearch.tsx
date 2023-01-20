@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import cn from 'clsx';
+import { ReactComponent as Search } from '../../img/search_icon.svg';
 
 const MainSearch = () => {
   const [searchSchool, setSearchSchool] = useState<any[]>();
@@ -65,14 +66,14 @@ const MainSearch = () => {
         <span className="text-[65px] fw-400 leading-[93px] text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천
         </span>
-        <div className="mt-[28px] w-full h-[60px] rounded-[5px] bg-white">
-          <span className="mx-[16px] my-[21px]">Icon</span>
+        <div className="mt-[28px] w-full h-[60px] rounded-[5px] bg-white flex flex-row">
+          <Search className="mx-[16px] my-[15px]" />
           <input
             onChange={handleChange}
             name="text"
             value={inputSchool}
             placeholder="지역 학교 명을 입력하세요."
-            className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] border-none pl-[23px]"
+            className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] border-none"
           ></input>
           <button className="w-[94px] h-[60px] text-[25px] fw-400 leading-[33px] text-white bg-[#FF611D] border-none rounded-[5px]">
             검색
