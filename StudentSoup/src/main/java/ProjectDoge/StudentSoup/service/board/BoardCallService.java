@@ -11,6 +11,8 @@ import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,14 +51,11 @@ public class BoardCallService {
 
     }
 
-    public List<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted){
+    public Page<BoardMainDto> getBoardSortedCall(BoardSort boardSort, String category, int sorted, Pageable pageable){
         log.info("게시판 정렬 서비스 로직이 실행되었습니다");
-        List<Board> boards =  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted);
-        List<BoardMainDto> boardDtoList = new ArrayList<>();
-        for(Board board : boards){
-          boardDtoList.add(new BoardMainDto(board));
-        }
-        return boardDtoList;
+        Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardSort.getSchoolId(),boardSort.getDepartmentId(),category,sorted,pageable);
+
+        return boardMainDtoList;
     }
 
     private void isLoginMember(Long memberId){

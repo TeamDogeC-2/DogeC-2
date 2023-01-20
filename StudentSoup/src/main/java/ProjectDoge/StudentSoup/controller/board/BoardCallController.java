@@ -8,6 +8,8 @@ import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,13 +34,13 @@ public class BoardCallController {
      * @return
      */
     @PostMapping("/boards/{category}/{sorted}")
-    public List<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort){
+    public Page<BoardMainDto> sortByBoards(@PathVariable String category, @PathVariable int sorted, @RequestBody BoardSort boardSort, @RequestParam Pageable pageable){
         log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}]",
                 category,
                 sorted,
                 boardSort.getSchoolId(),
                 boardSort.getDepartmentId());
-        return boardCallService.getBoardSortedCall(boardSort, category, sorted);
+        return boardCallService.getBoardSortedCall(boardSort, category, sorted,pageable);
 
     }
 
