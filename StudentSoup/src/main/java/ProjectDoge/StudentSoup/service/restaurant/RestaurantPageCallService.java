@@ -4,9 +4,12 @@ package ProjectDoge.StudentSoup.service.restaurant;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.page.PagingOffsetMoreThanTotalPageException;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
+import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +26,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantPageCallService {
 
+    private final SchoolFindService schoolFindService;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantLikeRepository restaurantLikeRepository;
 
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public Page<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId, Pageable pageable) {
+    public Page<RestaurantDto> getRestaurantsInSchool(String schoolName, Long memberId, Pageable pageable) {
         log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
+        Long schoolId = schoolFindService.findOne(schoolName);
         List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
         JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
