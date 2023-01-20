@@ -23,4 +23,16 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
 
         return result.get(0);
     }
+
+    @Override
+    public Long countByRestaurantId(Long restaurantId) {
+
+        List<Long> result = queryFactory
+                .select(restaurantReview.count())
+                .from(restaurantReview)
+                .where(restaurantReview.restaurant.id.eq(restaurantId))
+                .fetch();
+
+        return result.get(0);
+    }
 }
