@@ -8,6 +8,8 @@ import ModifyFill from '../../img/modify_fill.png';
 import CheckRight from '../../img/check_right.png';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { ReactComponent as Document } from '../../img/document.svg';
+import { ReactComponent as Document_fill } from '../../img/document_fill.svg';
 import cn from 'clsx';
 
 interface propTypes {
@@ -15,19 +17,6 @@ interface propTypes {
 }
 const MypageSidebar = (props: propTypes) => {
   const [id, setId] = useState<string>('home');
-
-  useEffect(() => {
-    if (id === 'home') {
-      setId('home');
-      props.onClickMenu('home');
-    } else if (id === 'scheduler') {
-      setId('scheduler');
-      props.onClickMenu('scheduler');
-    } else if (id === 'modify') {
-      setId('modify');
-      props.onClickMenu('modify');
-    }
-  }, [id]);
 
   const onClickMypageHome = () => {
     setId('home');
@@ -41,19 +30,23 @@ const MypageSidebar = (props: propTypes) => {
     setId('modify');
     props.onClickMenu('modify');
   };
+  const onClickMypageBoardReview = () => {
+    setId('boardReview');
+    props.onClickMenu('boardReview');
+  };
 
   return (
-    <div className="flex-[3] w-[354px] h-[calc(100vh-25px)] items-center justify-center flex-col shadow-2xl z-[2]">
+    <div className="flex-[3] w-[354px] h-[calc(100vh)] items-center justify-center flex-col shadow-2xl z-[2]">
       <ul className="text-[20px] leading-[28px]">
         <li className="mb-[42px]">
-          <div className="flex items-center w-full h-[54px] font-bold mt-[26px]">
+          <div className="flex items-center w-full h-[54px] font-bold pt-[35px]">
             <img src={Menu} alt="" className="w-[15.5px] h-[11.64px] ml-[40px] mr-[13.47px]" />
             <span className="w-full">Menu</span>
           </div>
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
+            className={cn('flex items-center w-full h-[54px] mt-[65px] cursor-pointer', {
               ['bg-[#F5F5F5]']: id === 'home',
               ['']: id !== 'home',
             })}
@@ -144,9 +137,39 @@ const MypageSidebar = (props: propTypes) => {
           </div>
         </li>
         <li className="mb-[20px]">
-          <div className="flex items-center w-full h-[54px] mt-[26px] cursor-pointer">
-            <span className="w-full font-medium ml-[69px]">나의 게시판/리뷰</span>
-            <img src={CheckRight} alt="" className="w-[7px] h-[10px] mr-[26px]" />
+          <div
+            onClick={onClickMypageBoardReview}
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
+              ['bg-[#F5F5F5]']: id === 'boardReview',
+              ['']: id !== 'boardReview',
+            })}
+          >
+            <div>
+              {id === 'boardReview' ? (
+                <Document_fill className="ml-[40px] mr-[13px]" />
+              ) : (
+                <Document className="ml-[40px] mr-[13px]" />
+              )}
+            </div>
+            <span
+              className={cn('w-full font-medium', {
+                ['text-[#FF611D]']: id === 'boardReview',
+                ['']: id !== 'boardReview',
+              })}
+            >
+              나의 게시판/리뷰
+            </span>
+            <img
+              src={id === 'boardReview' ? '' : CheckRight}
+              alt=""
+              className="w-[7px] h-[10px] mr-[26px]"
+            />
+            <div
+              className={cn('w-[4px] h-[54px]', {
+                ['bg-[#FF611D]']: id === 'boardReview',
+                ['']: id !== 'boardReview',
+              })}
+            ></div>
           </div>
         </li>
       </ul>
