@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantStarLikedMoreThanFiveException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,15 @@ public class RestaurantMenuAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RestaurantMenuNotSentException.class)
-    public ErrorResult restaurantMenuNotSentException(RestaurantMenuNotSentException e){
+    public ErrorResult restaurantMenuNotSentHandler(RestaurantMenuNotSentException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("RestaurantMenuNotSent",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantStarLikedMoreThanFiveException.class)
+    public ErrorResult RestaurantStarLikedMoreThanFiveHandler(RestaurantStarLikedMoreThanFiveException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantStarLikedMoreThanFive",e.getMessage());
     }
 }
