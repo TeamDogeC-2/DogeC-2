@@ -64,22 +64,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.view,
                         board.likedCount))
                 .from(board)
-                .leftJoin(board.school,school)
-                .fetchJoin()
-                .leftJoin(board.department,department)
-                .fetchJoin()
                 .where(board.school.id.eq(schoolId),
                         checkDepartment(departmentId),
                         checkSortedBoard(category),
                         checkSortedLiked(sorted))
                 .orderBy(checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
-                .limit(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         JPQLQuery<Long> count = queryFactory
                 .select(board.count())
-                .from(board);
+                .from(board)
+                .where(board.school.id.eq(schoolId));
+
         return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
     }
 
