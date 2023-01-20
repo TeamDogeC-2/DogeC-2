@@ -16,7 +16,7 @@ public class RestaurantDto {
     private LocalTime endTime;
     private String distance;
     private String fileName;
-    private float starLiked;
+    private double starLiked;
     private int likedCount;
     private int viewCount;
     private boolean like;
