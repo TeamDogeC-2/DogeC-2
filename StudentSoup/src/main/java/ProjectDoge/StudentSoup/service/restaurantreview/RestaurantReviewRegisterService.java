@@ -1,11 +1,14 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRegRespDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewContentLessThanFiveException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantStarLikedMoreThanFiveException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
@@ -32,6 +35,7 @@ public class RestaurantReviewRegisterService {
     @Transactional(rollbackOn = Exception.class)
     public Long join(RestaurantReviewRequestDto dto){
         log.info("음식점 리뷰 등록 서비스가 실행되었습니다.");
+        checkReviewDto(dto);
         RestaurantReview restaurantReview = createRestaurantReview(dto);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantReviewImage(restaurantReview, uploadFileDtoList);
@@ -39,14 +43,36 @@ public class RestaurantReviewRegisterService {
         log.info("음식점 리뷰 등록이 완료되었습니다.");
         return createdRestaurantReview.getId();
     }
+
+    private static void checkReviewDto(RestaurantReviewRequestDto dto) {
+        if(dto.getStarLiked() > 5){
+            throw new RestaurantStarLikedMoreThanFiveException("별점은 5점을 초과할 수 없습니다.");
+        } else if(dto.getContent().length() < 5){
+            throw new RestaurantReviewContentLessThanFiveException("리뷰 작성 글은 5글자를 초과해야만 합니다.");
+        }
+    }
+
     @Transactional(rollbackOn = Exception.class)
-    public void starUpdate(Long restaurantId){
+    public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
         double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
 
         restaurant.updateStarLiked(star);
         log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
+
+        return restaurantRespDto(restaurantId, star);
+    }
+
+    private RestaurantReviewRegRespDto restaurantRespDto(Long restaurantId, double star) {
+        log.info("리뷰 등록 응답 객체 생성을 시작하였습니다.");
+        RestaurantReviewRegRespDto dto = new RestaurantReviewRegRespDto();
+        dto.setRestaurantId(restaurantId);
+        dto.setStarLiked(star);
+        Long count = restaurantReviewRepository.countByRestaurantId(restaurantId);
+        dto.setReviewCount(count);
+        log.info("음식점 : [{}], 별점 : [{}], 리뷰 개수 : [{}]", restaurantId, star, count);
+        return dto;
     }
 
     private RestaurantReview createRestaurantReview(RestaurantReviewRequestDto dto) {
@@ -54,7 +80,7 @@ public class RestaurantReviewRegisterService {
         Member member = memberFindService.findOne(dto.getMemberId());
         Restaurant restaurant = restaurantFindService.findOne(dto.getRestaurantId());
         RestaurantReview restaurantReview = new RestaurantReview().createRestaurantReview(dto, restaurant, member);
-        log.info("음식점 리뷰 엔티티 생성 메소드가 완료 되었습니다. 닉네임 : [{}], 음식 이름 : [{}]", dto.getNickName(), dto.getMenuName());
+        log.info("음식점 리뷰 엔티티 생성 메소드가 완료 되었습니다. 닉네임 : [{}], 음식점 이름 : [{}]", dto.getNickName(), dto.getRestaurantName());
         return restaurantReview;
     }
 
