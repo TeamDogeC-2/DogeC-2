@@ -25,6 +25,14 @@ public class SchoolFindService {
             throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
         });
     }
+
+    public School findOne(String schoolName){
+        return schoolRepository.findBySchoolName(schoolName).orElseThrow(() ->{
+            log.info("findOne 메소드가 실행되었습니다. [{}]", schoolName);
+            throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
+        });
+    }
+
     private void checkSchoolIdSent(Long schoolId) {
         if(schoolId == null){
             log.info("schoolId가 전송되지 않았습니다.");
