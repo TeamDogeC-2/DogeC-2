@@ -3,11 +3,20 @@ import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
 import Faq from '../../img/faq.jpg';
 import Logout from '../../img/logout.jpg';
+import { useHistory } from 'react-router-dom';
 
 const mypageNavbar = () => {
+  const history = useHistory();
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
-      <img src={Reddit} alt="" className="w-[162px] h-[72px]" />
+      <img
+        src={Reddit}
+        alt=""
+        onClick={() => {
+          history.push('/');
+        }}
+        className="w-[162px] h-[72px] cursor-pointer"
+      />
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
