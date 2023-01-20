@@ -29,7 +29,7 @@ public class RestaurantReviewRegisterService {
     private final FileRepository fileRepository;
     private final FileService fileService;
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public Long join(RestaurantReviewRequestDto dto){
         log.info("음식점 리뷰 등록 서비스가 실행되었습니다.");
         RestaurantReview restaurantReview = createRestaurantReview(dto);
@@ -38,6 +38,15 @@ public class RestaurantReviewRegisterService {
         RestaurantReview createdRestaurantReview = restaurantReviewRepository.save(restaurantReview);
         log.info("음식점 리뷰 등록이 완료되었습니다.");
         return createdRestaurantReview.getId();
+    }
+    @Transactional(rollbackOn = Exception.class)
+    public void starUpdate(Long restaurantId){
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
+        double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
+
+        restaurant.updateStarLiked(star);
+        log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
     }
 
     private RestaurantReview createRestaurantReview(RestaurantReviewRequestDto dto) {
