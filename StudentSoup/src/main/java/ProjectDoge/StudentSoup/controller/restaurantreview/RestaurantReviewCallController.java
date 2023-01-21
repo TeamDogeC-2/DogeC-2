@@ -18,6 +18,9 @@ public class RestaurantReviewCallController {
 
     private final RestaurantReviewCallService restaurantReviewCallService;
 
+    /**
+     * @param sorted (newest : 최신순, liked : 좋아요 순)
+     */
     @PostMapping("/reviews")
     public Page<RestaurantReviewDto> callRestaurantReviews(@PathVariable Long restaurantId,
                                                            @RequestParam(required = false, defaultValue = "newest") String sorted,
