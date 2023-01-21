@@ -20,6 +20,7 @@ public class RestaurantDto {
     private int likedCount;
     private int viewCount;
     private boolean like;
+    private String tag;
     private String detail;
 
     // 생성 메서드
@@ -37,6 +38,7 @@ public class RestaurantDto {
         this.distance = restaurant.getDistance() + "M";
         this.like = like;
         this.detail = restaurant.getDetail();
+        this.tag = restaurant.getTag();
         return this;
     }
 
