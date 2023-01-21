@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.repository.restaurantmenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,20 @@ public class RestaurantMenuRepositoryImpl implements RestaurantMenuRepositoryCus
     }
 
     @Override
-    public List<RestaurantMenu> findByRestaurantId(Long restaurantId){
+    public List<RestaurantMenu> findByRestaurantId(Long restaurantId, Pageable pageable){
+        List<RestaurantMenu> query = queryFactory
+                .selectFrom(restaurantMenu)
+                .leftJoin(restaurantMenu.restaurant,restaurant)
+                .fetchJoin()
+                .where(restaurantMenu.restaurant.id.eq(restaurantId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return query;
+    }
+
+    @Override
+    public List<RestaurantMenu> findByRestaurantId(Long restaurantId) {
         List<RestaurantMenu> query = queryFactory
                 .selectFrom(restaurantMenu)
                 .leftJoin(restaurantMenu.restaurant,restaurant)
