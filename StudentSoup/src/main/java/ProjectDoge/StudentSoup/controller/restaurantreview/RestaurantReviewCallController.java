@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/restaurant/{restaurantId}")
 public class RestaurantReviewCallController {
