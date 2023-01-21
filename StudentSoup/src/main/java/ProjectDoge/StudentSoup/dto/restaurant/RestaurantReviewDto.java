@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
@@ -26,7 +27,7 @@ public class RestaurantReviewDto {
         this.restaurantId = restaurantReview.getRestaurant().getId();
         this.restaurantName = restaurantReview.getRestaurant().getName();
         this.memberId = restaurantReview.getMember().getMemberId();
-        this.memberProfileImageName = restaurantReview.getMember().getImageFile().getFileName();
+        this.memberProfileImageName = setProfileImageFileName(restaurantReview.getMember());
         this.nickName = restaurantReview.getMember().getNickname();
         this.content = restaurantReview.getContent();
         this.starLiked = restaurantReview.getStarLiked();
@@ -35,6 +36,14 @@ public class RestaurantReviewDto {
     }
 
     // 비즈니스 로직
+    private String setProfileImageFileName(Member member){
+        if(member.getImageFile() != null){
+            return member.getImageFile().getFileName();
+        }
+        return null;
+    }
+
+
     private List<String> setImageFileList(RestaurantReview restaurantReview){
         List<String> imageFileNameList = new ArrayList<>();
         if(!restaurantReview.getImageFileList().isEmpty()){
