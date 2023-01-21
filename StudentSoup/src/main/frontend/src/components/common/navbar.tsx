@@ -10,7 +10,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (sessionStorage.getItem('email') === null) {
-      console.log(isLogin);
+      setIsLogin(false);
     } else {
       setIsLogin(true);
       console.log(isLogin);

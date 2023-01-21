@@ -7,6 +7,25 @@ import { useHistory } from 'react-router-dom';
 
 const mypageNavbar = () => {
   const history = useHistory();
+
+  const handleClickLogout = (e: any) => {
+    if (sessionStorage.getItem('saved') === String(true)) {
+      sessionStorage.removeItem('email');
+      sessionStorage.removeItem('nickname');
+      sessionStorage.removeItem('departmentId');
+      sessionStorage.removeItem('departmentName');
+      sessionStorage.removeItem('fileName');
+      sessionStorage.removeItem('memberId');
+      sessionStorage.removeItem('schoolId');
+      sessionStorage.removeItem('schoolName');
+      sessionStorage.removeItem('registrationDate');
+      history.push('/');
+    } else {
+      sessionStorage.clear();
+      history.push('/');
+    }
+  }
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <img
@@ -35,7 +54,7 @@ const mypageNavbar = () => {
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">FAQ</span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
-        <div className="flex justify-center items-center w-[110px] cursor-pointer">
+        <div onClick={handleClickLogout} className="flex justify-center items-center w-[110px] cursor-pointer">
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px] " />
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
