@@ -36,7 +36,7 @@ const MypageSidebar = (props: propTypes) => {
   };
 
   return (
-    <div className="flex-[3] w-[354px] h-[calc(100vh)] items-center justify-center flex-col shadow-2xl z-[2]">
+    <div className="flex-[3] w-[354px] h-[120vh] items-center justify-center flex-col shadow-2xl z-[2]">
       <ul className="text-[20px] leading-[28px]">
         <li className="mb-[42px]">
           <div className="flex items-center w-full h-[54px] font-bold pt-[35px]">

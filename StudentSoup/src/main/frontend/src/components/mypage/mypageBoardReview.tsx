@@ -3,7 +3,7 @@ import { ReactComponent as Modify } from '../../img/modify.svg';
 
 const MypageBoardReview = () => {
   return (
-    <div className="flex flex-[9] w-full h-[100vh] z-[1] bg-zinc-100">
+    <div className="flex flex-[9] w-full h-[120vh] z-[1] bg-zinc-100">
       <div className="w-full h-[820px] ml-[60px]">
         <div className='mt-[45px]'>
           <span className="text-[24px] leading-[33px] text-[#262626] font-bold">게시글</span>
