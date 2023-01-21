@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.repository.restaurantmenu;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,15 @@ public class RestaurantMenuRepositoryImpl implements RestaurantMenuRepositoryCus
                 .where(restaurantMenu.restaurant.id.eq(restaurantId))
                 .fetch();
         return query;
+    }
+
+    @Override
+    public JPAQuery<Long> countByRestaurantId(Long restaurantId) {
+        return queryFactory
+                .select(restaurantMenu.count())
+                .from(restaurantMenu)
+                .where(restaurantMenu.restaurant.id.eq(restaurantId));
+
     }
 
 }

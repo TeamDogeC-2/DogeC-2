@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.repository.restaurantmenu;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface RestaurantMenuRepositoryCustom {
 
     List<RestaurantMenu> findByRestaurantId(Long restaurantId, Pageable pageable);
     List<RestaurantMenu> findByRestaurantId(Long restaurantId);
+    JPAQuery<Long> countByRestaurantId(Long restaurantId);
 }
