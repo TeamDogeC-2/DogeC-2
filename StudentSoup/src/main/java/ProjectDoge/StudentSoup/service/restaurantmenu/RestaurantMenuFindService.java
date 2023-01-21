@@ -2,7 +2,7 @@ package ProjectDoge.StudentSoup.service.restaurantmenu;
 
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotSentException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuIdNotSentException;
 import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class RestaurantMenuFindService {
     private void checkRestaurantMenuIdSent(Long restaurantMenuId) {
         if (restaurantMenuId == null){
             log.info("RestaurantMenuId가 전송되지 않았습니다.");
-            throw new RestaurantMenuNotSentException("restaurantMenuId가 전송되지 않았습니다.");
+            throw new RestaurantMenuIdNotSentException("restaurantMenuId가 전송되지 않았습니다.");
         }
     }
 }
