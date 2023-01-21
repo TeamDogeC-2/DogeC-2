@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import lombok.Data;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +18,7 @@ public class RestaurantDetailDto {
     private String endTime;
     private String distance;
     private List<String> fileName;
+    private String schoolName;
     private int reviewCount;
     private double starLiked;
     private int likedCount;
@@ -35,6 +35,7 @@ public class RestaurantDetailDto {
         this.startTime = restaurant.getStartTime().toString();
         this.endTime = restaurant.getEndTime().toString();
         this.fileName = setImageFile(restaurant);
+        this.schoolName = restaurant.getSchool().getSchoolName();
         this.reviewCount = restaurant.getRestaurantReviews().size();
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
