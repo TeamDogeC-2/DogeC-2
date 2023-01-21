@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.admin;
 
+import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
@@ -46,14 +47,31 @@ public class AdminRestaurantService {
         return restaurantUpdateDto;
     }
     @Transactional
-    public void adminUpdateRestaurant(Long restaurantId,RestaurantUpdateDto restaurantUpdateDto,MultipartFile multipartFile){
+    public void adminUpdateRestaurant(Long restaurantId, RestaurantUpdateDto dto){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        if(restaurant.getImageFile() != null) {
-            fileRepository.delete(restaurant.getImageFile());
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
+        uploadRestaurantImage(restaurant, uploadFileDtoList);
+        School school = schoolFindService.findOne(dto.getSchool().getId());
+        restaurant.updateRestaurant(dto,school);
+    }
+
+    private void uploadRestaurantImage(Restaurant restaurant, List<UploadFileDto> uploadFileDtoList) {
+        log.info("음식점 이미지 업로드 메소드가 실행 되었습니다.");
+        if(!uploadFileDtoList.isEmpty()){
+            ifPresentImageFileDelete(restaurant);
+            for(UploadFileDto fileDto : uploadFileDtoList){
+                log.info("생성되는 이미지 파일 이름 : [{}]", fileDto.getOriginalFileName());
+                ImageFile imageFile = new ImageFile().createFile(fileDto);
+                restaurant.addImageFile(fileRepository.save(imageFile));
+            }
         }
-        School school = schoolFindService.findOne(restaurantUpdateDto.getSchool().getId());
-        Long fileId = fileService.join(multipartFile);
-        ImageFile file = fileService.findOne(fileId);
-        restaurant.updateRestaurant(restaurantUpdateDto,school,file);
+        log.info("음식점 리뷰 이미지 업로드가 완료되었습니다.");
+    }
+
+    private void ifPresentImageFileDelete(Restaurant restaurant) {
+        if(!restaurant.getImageFileList().isEmpty()){
+            log.info("이미지 파일이 존재하여 이미지 파일을 삭제하였습니다.");
+            fileRepository.deleteAll(restaurant.getImageFileList());
+        }
     }
 }

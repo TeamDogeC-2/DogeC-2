@@ -15,7 +15,7 @@ public interface RestaurantRepositoryCustom {
 
     List<Restaurant> findBySchoolId(Long schoolId);
 
-    List<Restaurant> findBySchoolIdAndCategoryAndSorted(Long schoolId, String category, int sorted);
+    List<Restaurant> findBySchoolIdAndCategoryAndSorted(Long schoolId, String category, int sorted, Pageable pageable);
 
     List<Restaurant> findBySchoolId(Long schoolId, Pageable pageable);
 

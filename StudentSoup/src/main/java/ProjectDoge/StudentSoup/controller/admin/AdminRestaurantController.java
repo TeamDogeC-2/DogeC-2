@@ -40,8 +40,8 @@ public class AdminRestaurantController {
     }
 
     @PostMapping("admin/restaurant")
-    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto, @RequestPart MultipartFile multipartFile) {
-        restaurantRegisterService.join(restaurantFormDto, multipartFile);
+    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto) {
+        restaurantRegisterService.join(restaurantFormDto);
         return "redirect:/admin/restaurants";
     }
 
@@ -70,9 +70,8 @@ public class AdminRestaurantController {
 
     @PostMapping("admin/restaurant/edit/{restaurantId}")
     public String editRestaurant(@PathVariable Long restaurantId,
-                                 @RequestPart MultipartFile multipartFile,
                                  RestaurantUpdateDto restaurantUpdateDto) {
-        adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto, multipartFile);
+        adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto);
         return "redirect:/admin/restaurants";
     }
     @GetMapping("admin/restaurant/{restaurantId}")

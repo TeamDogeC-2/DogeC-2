@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.restaurantreview;
 
 
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRegRespDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,9 @@ public class RestaurantReviewRegisterController {
 
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         restaurantReviewRegisterService.join(dto);
+        RestaurantReviewRegRespDto respDto = restaurantReviewRegisterService.starUpdate(restaurantId);
+
+        resultMap.put("data", respDto);
         resultMap.put("result", "ok");
 
         return ResponseEntity.ok(resultMap);
