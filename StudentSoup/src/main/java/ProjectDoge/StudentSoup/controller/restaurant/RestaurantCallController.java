@@ -35,7 +35,7 @@ public class RestaurantCallController {
                 pageable.getPageNumber(),
                 pageable.getPageSize());
 
-        return restaurantPageCallService.getRestaurantsInSchool(
+        return restaurantCallService.getRestaurantsInSchool(
                 restaurantCallDto.getSchoolName(),
                 restaurantCallDto.getMemberId(),
                 pageable
@@ -54,21 +54,27 @@ public class RestaurantCallController {
      * @return
      */
     @PostMapping("/restaurants/{category}/{sorted}")
-    public List<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
+    public Slice<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
                                                  @PathVariable("sorted") int sorted,
-                                                 @RequestBody RestaurantSort restaurantSort) {
+                                                 @RequestBody RestaurantCallDto restaurantCallDto,
+                                                 @PageableDefault(size = 6) Pageable pageable) {
+
+        checkPagingSize(pageable.getPageSize());
 
         log.info("category : [{}], sorted : [{}], memberId : [{}], schoolId : [{}]",
                 category,
                 sorted,
-                restaurantSort.getMemberId(),
-                restaurantSort.getSchoolId());
+                restaurantCallDto.getMemberId(),
+                restaurantCallDto.getSchoolId());
 
-        List<RestaurantDto> dto = restaurantCallService.
-                restaurantSortedCall(restaurantSort.getSchoolId(),
-                        restaurantSort.getMemberId(),
+        Slice<RestaurantDto> dto = restaurantCallService.
+                restaurantSortedCall(
+                        restaurantCallDto.getSchoolId(),
+                        restaurantCallDto.getSchoolName(),
+                        restaurantCallDto.getMemberId(),
                         category,
-                        sorted);
+                        sorted,
+                        pageable);
 
         return dto;
     }
