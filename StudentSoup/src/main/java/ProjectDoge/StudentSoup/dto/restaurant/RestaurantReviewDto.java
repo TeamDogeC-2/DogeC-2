@@ -1,9 +1,10 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
-import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -12,10 +13,35 @@ public class RestaurantReviewDto {
     private Long restaurantId;
     private String restaurantName;
     private Long memberId;
+    private String memberProfileImageName;
     private String nickName;
     private String content;
-    private String menuName;
     private int starLiked;
+    private int likedCount;
     private List<String> imageFileNameList;
 
+
+    public RestaurantReviewDto(RestaurantReview restaurantReview, boolean isLike){
+        this.restaurantReviewId = restaurantReview.getId();
+        this.restaurantId = restaurantReview.getRestaurant().getId();
+        this.restaurantName = restaurantReview.getRestaurant().getName();
+        this.memberId = restaurantReview.getMember().getMemberId();
+        this.memberProfileImageName = restaurantReview.getMember().getImageFile().getFileName();
+        this.nickName = restaurantReview.getMember().getNickname();
+        this.content = restaurantReview.getContent();
+        this.starLiked = restaurantReview.getStarLiked();
+        this.likedCount = restaurantReview.getLikedCount();
+        this.imageFileNameList = setImageFileList(restaurantReview);
+    }
+
+    // 비즈니스 로직
+    private List<String> setImageFileList(RestaurantReview restaurantReview){
+        List<String> imageFileNameList = new ArrayList<>();
+        if(!restaurantReview.getImageFileList().isEmpty()){
+            for(ImageFile imageFile : restaurantReview.getImageFileList()){
+                imageFileNameList.add(imageFile.getFileName());
+            }
+        }
+        return imageFileNameList;
+    }
 }
