@@ -4,8 +4,8 @@ import MainSearch from './mainSearch';
 
 const Home = () => {
   function disableScrolling() {
-    var x = window.scrollX;
-    var y = window.scrollY;
+    const x = window.scrollX;
+    const y = window.scrollY;
     window.onscroll = function () {
       window.scrollTo(x, y);
     };

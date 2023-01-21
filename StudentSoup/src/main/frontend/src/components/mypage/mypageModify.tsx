@@ -88,9 +88,9 @@ const MypageModify = (props: propTypes) => {
   const handleValidation = () => {
     axios
       .post(`members/edit/${memberId}/validation`, {
-        memberId: memberId,
-        id: id,
-        pwd: pwd,
+        memberId,
+        id,
+        pwd,
       })
       .then(function () {
         setCheckPwd(true);
@@ -116,8 +116,8 @@ const MypageModify = (props: propTypes) => {
     if (checkSubmit) {
       axios
         .post(`members/edit/${memberId}`, {
-          id: id,
-          memberId: memberId,
+          id,
+          memberId,
           pwd: newPwd,
           nickname: changeNickname,
           email: newEmail,

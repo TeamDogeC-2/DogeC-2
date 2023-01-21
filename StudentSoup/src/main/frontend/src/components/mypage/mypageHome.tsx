@@ -35,7 +35,7 @@ const MypageHome = () => {
         .post(
           '/members/edit/image',
           {
-            memberId: memberId,
+            memberId,
             multipartFile: file,
           },
           {
