@@ -34,8 +34,6 @@ public class RestaurantMenu {
 
     private int likedCount;
 
-    private float starLiked;
-
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
