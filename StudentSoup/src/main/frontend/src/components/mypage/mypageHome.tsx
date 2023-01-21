@@ -51,6 +51,7 @@ const MypageHome = () => {
           console.log(error);
         });
     }
+    location.reload();
   };
 
   return (

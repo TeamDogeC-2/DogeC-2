@@ -10,6 +10,8 @@ interface propTypes {
 const MypageModify = (props: propTypes) => {
   const renderUrl = '/members/signUp/3';
 
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+
   const [lowAndUpValidated, setLowAndUpValidated] = useState<boolean>(false);
   const [numberValidated, setNumberValidated] = useState<boolean>(false);
   const [lengthValidated, setLengthValidated] = useState<boolean>(false);
@@ -196,7 +198,10 @@ const MypageModify = (props: propTypes) => {
             <div className="text-[24px] leading-[33px] text-[#262626] font-bold">프로필 설정</div>
             <div className="w-full h-[526px] flex flex-row border-[1px] border-[#B1B1B1] bg-white rounded-[10px] mt-[18px]">
               <div className="w-[200px] h-full flex flex-col">
-                <div className='w-[92px] h-[92px] bg-[url("./img/circle_human.png")] bg-cover mt-[44px] ml-[51px] rounded-full'></div>
+                <img
+                  src={IMAGE_FILE_ID}
+                  className='w-[92px] h-[92px] bg-[url("./img/circle_human.png")] bg-cover mt-[44px] ml-[51px] rounded-full'
+                />
               </div>
               <div className="w-[1px] h-[420px] border-[#B1B1B1] border-[1px] mt-[44px] mb-[63px]"></div>
               <div className="w-[526px] h-[420px] flex flex-col">
