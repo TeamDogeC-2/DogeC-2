@@ -9,9 +9,10 @@ import MypageHome from './components/mypage/mypageHome';
 import MypageScheduler from './components/mypage/mypageScheduler';
 import MypageModify from './components/mypage/mypageModify';
 import Mypage from './components/mypage/mypage';
-import Restaurant from './components/restaurant/restaurantDetail';
+import Restaurant from './components/restaurant/restaurant';
+import RestaurantDetail from './components/restaurant/restaurantDetail';
 import Review from './components/restaurant/reviewInfo';
-import Share from './components/restaurant/pictureInfo';
+import Picture from './components/restaurant/pictureInfo';
 
 const Routes = () => {
   return (
@@ -25,9 +26,10 @@ const Routes = () => {
       <Route exact path="/mypageHome" component={MypageHome} />
       <Route exact path="/mypageScheduler" component={MypageScheduler} />
       <Route exact path="/mypagemodify" component={MypageModify} />
-      <Route exact path="/restaurantdetail" component={Restaurant} />
+      <Route exact path="/restaurant" component={Restaurant} />
+      <Route exact path="/restaurantdetail" component={RestaurantDetail} />
       <Route exact path="/review" component={Review} />
-      <Route exact path="/share" component={Share} />
+      <Route exact path="/picture" component={Picture} />
       <Route component={Err404} />
     </Switch>
   );
