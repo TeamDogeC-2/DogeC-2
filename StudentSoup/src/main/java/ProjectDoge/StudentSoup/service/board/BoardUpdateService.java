@@ -7,7 +7,7 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
-import ProjectDoge.StudentSoup.exception.board.NotOwnMemberException;
+import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -54,8 +53,8 @@ public class BoardUpdateService {
     }
 
     private void checkOwnMember(Long memberId, Board board) {
-        if(board.getMember().getMemberId() != memberId){
-            throw new NotOwnMemberException("게시글 작성자와 수정자가 일치하지 않습니다.");
+        if(!board.getMember().getMemberId().equals(memberId)){
+            throw new BoardNotOwnMemberException("해당 게시글의 작성자가 아닙니다.");
         }
     }
 

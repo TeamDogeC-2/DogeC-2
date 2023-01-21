@@ -27,10 +27,10 @@ public class RestaurantMenuAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RestaurantMenuNotSentException.class)
-    public ErrorResult restaurantMenuNotSentHandler(RestaurantMenuNotSentException e){
+    @ExceptionHandler(RestaurantMenuIdNotSentException.class)
+    public ErrorResult restaurantMenuIdNotSentHandler(RestaurantMenuIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("RestaurantMenuNotSent",e.getMessage());
+        return new ErrorResult("RestaurantMenuIdNotSent",e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
