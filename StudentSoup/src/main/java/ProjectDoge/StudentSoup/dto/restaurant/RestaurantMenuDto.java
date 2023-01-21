@@ -13,7 +13,6 @@ public class RestaurantMenuDto {
     private String fileName;
     private int likedCount;
     private boolean like;
-    private float starLiked;
 
     public RestaurantMenuDto createRestaurantMenu(RestaurantMenu restaurantMenu, boolean like){
         this.restaurantMenuId = restaurantMenu.getId();
@@ -22,7 +21,6 @@ public class RestaurantMenuDto {
         this.cost = restaurantMenu.getCost();
         this.fileName = setImageFile(restaurantMenu);
         this.likedCount = restaurantMenu.getLikedCount();
-        this.starLiked = restaurantMenu.getStarLiked();
         this.like = like;
         return this;
     }
