@@ -10,7 +10,9 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,21 +26,19 @@ public class RestaurantCallController {
     private final RestaurantPageCallService restaurantPageCallService;
 
     @PostMapping("/restaurants")
-    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
+    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto, @PageableDefault(size = 6) Pageable pageable) {
 
-        checkPagingSize(restaurantCallDto.getSize());
-
-        PageRequest pageRequest = PageRequest.of(restaurantCallDto.getPage(), restaurantCallDto.getSize());
+        checkPagingSize(pageable.getPageSize());
 
         log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
-                pageRequest.getOffset(),
-                pageRequest.getPageNumber(),
-                pageRequest.getPageSize());
+                pageable.getOffset(),
+                pageable.getPageNumber(),
+                pageable.getPageSize());
 
         return restaurantPageCallService.getRestaurantsInSchool(
                 restaurantCallDto.getSchoolName(),
                 restaurantCallDto.getMemberId(),
-                pageRequest
+                pageable
         );
     }
 

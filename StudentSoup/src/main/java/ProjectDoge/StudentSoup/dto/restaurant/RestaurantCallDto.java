@@ -8,6 +8,4 @@ import lombok.Setter;
 public class RestaurantCallDto {
     String schoolName;
     Long memberId;
-    Integer page;
-    Integer size;
 }
