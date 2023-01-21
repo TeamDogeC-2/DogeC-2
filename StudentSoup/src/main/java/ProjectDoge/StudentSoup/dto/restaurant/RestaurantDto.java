@@ -12,8 +12,8 @@ public class RestaurantDto {
     private String restaurantCategory;
     private String name;
     private String address;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startTime;
+    private String endTime;
     private String distance;
     private String fileName;
     private double starLiked;
@@ -28,8 +28,8 @@ public class RestaurantDto {
         this.restaurantCategory = restaurant.getRestaurantCategory().getRestaurantCategory();
         this.name = restaurant.getName();
         this.address = restaurant.getAddress();
-        this.startTime = restaurant.getStartTime();
-        this.endTime = restaurant.getEndTime();
+        this.startTime = restaurant.getStartTime().toString();
+        this.endTime = restaurant.getEndTime().toString();
         this.fileName = setImageFile(restaurant);
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
