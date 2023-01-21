@@ -10,7 +10,9 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,21 +26,19 @@ public class RestaurantCallController {
     private final RestaurantPageCallService restaurantPageCallService;
 
     @PostMapping("/restaurants")
-    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
+    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto, @PageableDefault(size = 6) Pageable pageable) {
 
-        checkPagingSize(restaurantCallDto.getSize());
-
-        PageRequest pageRequest = PageRequest.of(restaurantCallDto.getPage(), restaurantCallDto.getSize());
+        checkPagingSize(pageable.getPageSize());
 
         log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
-                pageRequest.getOffset(),
-                pageRequest.getPageNumber(),
-                pageRequest.getPageSize());
+                pageable.getOffset(),
+                pageable.getPageNumber(),
+                pageable.getPageSize());
 
-        return restaurantPageCallService.getRestaurantsInSchool(
+        return restaurantCallService.getRestaurantsInSchool(
                 restaurantCallDto.getSchoolName(),
                 restaurantCallDto.getMemberId(),
-                pageRequest
+                pageable
         );
     }
 
@@ -54,21 +54,27 @@ public class RestaurantCallController {
      * @return
      */
     @PostMapping("/restaurants/{category}/{sorted}")
-    public List<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
+    public Slice<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
                                                  @PathVariable("sorted") int sorted,
-                                                 @RequestBody RestaurantSort restaurantSort) {
+                                                 @RequestBody RestaurantCallDto restaurantCallDto,
+                                                 @PageableDefault(size = 6) Pageable pageable) {
+
+        checkPagingSize(pageable.getPageSize());
 
         log.info("category : [{}], sorted : [{}], memberId : [{}], schoolId : [{}]",
                 category,
                 sorted,
-                restaurantSort.getMemberId(),
-                restaurantSort.getSchoolId());
+                restaurantCallDto.getMemberId(),
+                restaurantCallDto.getSchoolId());
 
-        List<RestaurantDto> dto = restaurantCallService.
-                restaurantSortedCall(restaurantSort.getSchoolId(),
-                        restaurantSort.getMemberId(),
+        Slice<RestaurantDto> dto = restaurantCallService.
+                restaurantSortedCall(
+                        restaurantCallDto.getSchoolId(),
+                        restaurantCallDto.getSchoolName(),
+                        restaurantCallDto.getMemberId(),
                         category,
-                        sorted);
+                        sorted,
+                        pageable);
 
         return dto;
     }

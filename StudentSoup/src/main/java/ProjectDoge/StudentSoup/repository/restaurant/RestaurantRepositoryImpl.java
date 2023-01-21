@@ -89,7 +89,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
     }
 
     @Override
-    public List<Restaurant> findBySchoolIdAndCategoryAndSorted(Long schoolId, String category, int sorted) {
+    public List<Restaurant> findBySchoolIdAndCategoryAndSorted(Long schoolId, String category, int sorted, Pageable pageable) {
         List<Restaurant> query = queryFactory
                 .select(restaurant)
                 .from(restaurant)
@@ -97,6 +97,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
                 .fetchJoin()
                 .where(restaurant.school.id.eq(schoolId), checkSortedRestaurantCategory(category))
                 .orderBy(checkSortedRestaurantCondition(sorted))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
         return query;
     }

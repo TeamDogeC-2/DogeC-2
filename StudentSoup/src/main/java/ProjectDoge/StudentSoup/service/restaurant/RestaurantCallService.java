@@ -6,8 +6,13 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,32 +25,47 @@ public class RestaurantCallService {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantLikeRepository restaurantLikeRepository;
+    private final SchoolFindService schoolFindService;
 
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public List<RestaurantDto> getRestaurantsInSchool(Long schoolId, Long memberId) {
+    public Slice<RestaurantDto> getRestaurantsInSchool(String schoolName, Long memberId, Pageable pageable) {
+        log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
+        Long schoolId = schoolFindService.findOne(schoolName);
+        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
+        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
-        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId);
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
         if (isLoginMember(memberId)) {
-            return getLoginRestaurantList(memberId, restaurants, restaurantDtoList);
+            return getLoginRestaurantList(memberId, restaurants, restaurantDtoList, pageable, queryCount);
         }
-        return getNotLoginRestaurantList(restaurants, restaurantDtoList);
+
+        return getNotLoginRestaurantList(restaurants, restaurantDtoList, pageable, queryCount);
     }
 
-    public List<RestaurantDto> restaurantSortedCall(Long schoolId, Long memberId, String category, int sorted){
-
+    public Slice<RestaurantDto> restaurantSortedCall(Long schoolId,
+                                                     String schoolName,
+                                                     Long memberId,
+                                                     String category,
+                                                     int sorted,
+                                                     Pageable pageable){
+        log.info("======= 정렬된 페이지 처리 음식점 조회가 시작되었습니다. ========");
+        if(schoolId == null){
+            schoolId = schoolFindService.findOne(schoolName);
+        }
         List<Restaurant> sortedRestaurants = restaurantRepository.
-                findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted);
+                findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted, pageable);
+        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
+
         List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
         if(isLoginMember(memberId)) {
-            return getLoginRestaurantList(memberId, sortedRestaurants, restaurantDtoList);
+            return getLoginRestaurantList(memberId, sortedRestaurants, restaurantDtoList, pageable, queryCount);
         }
 
-        return getNotLoginRestaurantList(sortedRestaurants, restaurantDtoList);
+        return getNotLoginRestaurantList(sortedRestaurants, restaurantDtoList, pageable, queryCount);
     }
 
 
@@ -57,22 +77,23 @@ public class RestaurantCallService {
         return memberId != null;
     }
 
-    private List<RestaurantDto> getLoginRestaurantList(Long memberId,
-                                                       List<Restaurant> restaurants,
-                                                       List<RestaurantDto> restaurantDtoList) {
+    private Slice<RestaurantDto> getLoginRestaurantList(Long memberId,
+                                                        List<Restaurant> restaurants,
+                                                        List<RestaurantDto> restaurantDtoList,
+                                                        Pageable pageable,
+                                                        JPAQuery<Long> count) {
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getLoginRestaurantDto(memberId, restaurant));
         }
-        return restaurantDtoList;
+        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
     }
 
     private RestaurantDto getLoginRestaurantDto(Long memberId, Restaurant restaurant) {
-        RestaurantLike restaurantLike = restaurantLikeRepository.findRestaurantLikeByRestaurantIdAndMemberId(restaurant.getId(), memberId)
-                .orElse(null);
-        if (restaurantLike == null) {
-            return getNotLikeRestaurantDto(restaurant);
+        for(RestaurantLike restaurantLike : restaurant.getRestaurantLikes()){
+            if(restaurantLike.getMember().getMemberId().equals(memberId))
+                return getLikeRestaurantDto(restaurant);
         }
-        return getLikeRestaurantDto(restaurant);
+        return getNotLikeRestaurantDto(restaurant);
     }
 
     private RestaurantDto getLikeRestaurantDto(Restaurant restaurant) {
@@ -83,10 +104,13 @@ public class RestaurantCallService {
         return new RestaurantDto().createRestaurantDto(restaurant, restaurantNotLiked);
     }
 
-    private List<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants, List<RestaurantDto> restaurantDtoList) {
+    private Slice<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants,
+                                                           List<RestaurantDto> restaurantDtoList,
+                                                           Pageable pageable,
+                                                           JPAQuery<Long> count) {
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getNotLikeRestaurantDto(restaurant));
         }
-        return restaurantDtoList;
+        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
     }
 }
