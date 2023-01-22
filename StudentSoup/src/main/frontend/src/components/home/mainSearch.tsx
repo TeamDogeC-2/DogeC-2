@@ -10,7 +10,7 @@ const MainSearch = () => {
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
 
-  const [inputSchool, setInputSchool] = useState<string>('');
+  const [inputSchool, setInputSchool] = useState<string>();
   const [listSchool, setListSchool] = useState<string>('');
 
   const getSchool = () => {
@@ -31,8 +31,8 @@ const MainSearch = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputSchool(value);
-    if (value.length === 0) {
-      setSearchSchool(posts);
+    if (value.length === 0 || value === '' || value === null || value === undefined) {
+      setSearchSchool(undefined);
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
@@ -50,10 +50,13 @@ const MainSearch = () => {
   };
 
   const handlePushRestaurant = () => {
-    if (inputSchool === listSchool) {
-      history.push('/restaurant', inputSchool);
-    } else {
+    if (
+      inputSchool === '' ||
+      inputSchool === undefined
+    ) {
       alert('학교 정보가 올바르지 않습니다.');
+    } else if (inputSchool === listSchool) {
+      history.push('/restaurant', inputSchool);
     }
   };
 
