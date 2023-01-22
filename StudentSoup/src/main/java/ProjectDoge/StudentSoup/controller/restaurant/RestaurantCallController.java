@@ -10,7 +10,9 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,53 +25,40 @@ public class RestaurantCallController {
     private final RestaurantCallService restaurantCallService;
     private final RestaurantPageCallService restaurantPageCallService;
 
-    @GetMapping("/restaurants")
-    public Slice<RestaurantDto> firstCallRestaurantPaging(@RequestBody RestaurantCallDto restaurantCallDto) {
+    /**
+     * @param category
+     * @param sorted   0 normal(등록 순), 1(별점), 2(좋아요), 3(리뷰), 4(거리)
+     * @return
+     */
+    @PostMapping("/restaurants")
+    public Slice<RestaurantDto> callByRestaurants(@RequestParam(required = false, defaultValue = "ALL") String category,
+                                                 @RequestParam(required = false, defaultValue = "0") int sorted,
+                                                 @RequestBody RestaurantCallDto restaurantCallDto,
+                                                 @PageableDefault(size = 6) Pageable pageable) {
 
-        checkPagingSize(restaurantCallDto.getSize());
+        checkPagingSize(pageable.getPageSize());
 
-        PageRequest pageRequest = PageRequest.of(restaurantCallDto.getPage(), restaurantCallDto.getSize());
-
-        log.info("Page 시작점 : [{}], 현재 페이지 넘버 : [{}], 페이지 limit 크기 : [{}]",
-                pageRequest.getOffset(),
-                pageRequest.getPageNumber(),
-                pageRequest.getPageSize());
-
-        return restaurantPageCallService.getRestaurantsInSchool(
-                restaurantCallDto.getSchoolName(),
+        log.info("category : [{}], sorted : [{}], memberId : [{}], schoolId : [{}]",
+                category,
+                sorted,
                 restaurantCallDto.getMemberId(),
-                pageRequest
-        );
+                restaurantCallDto.getSchoolId());
+
+        Slice<RestaurantDto> dto = restaurantCallService.
+                restaurantSortedCall(
+                        restaurantCallDto.getSchoolId(),
+                        restaurantCallDto.getSchoolName(),
+                        restaurantCallDto.getMemberId(),
+                        category,
+                        sorted,
+                        pageable);
+
+        return dto;
     }
 
     private void checkPagingSize(Integer limit) {
         if(limit == 0){
             throw new PagingLimitEqualsZeroException("limit 의 개수는 1 이상이여야 합니다.");
         }
-    }
-
-    /**
-     * @param category
-     * @param sorted   0 normal(등록 순), 1(별점), 2(좋아요), 3(리뷰), 4(거리)
-     * @return
-     */
-    @GetMapping("/restaurants/{category}/{sorted}")
-    public List<RestaurantDto> sortByRestaurants(@PathVariable("category") String category,
-                                                 @PathVariable("sorted") int sorted,
-                                                 @RequestBody RestaurantSort restaurantSort) {
-
-        log.info("category : [{}], sorted : [{}], memberId : [{}], schoolId : [{}]",
-                category,
-                sorted,
-                restaurantSort.getMemberId(),
-                restaurantSort.getSchoolId());
-
-        List<RestaurantDto> dto = restaurantCallService.
-                restaurantSortedCall(restaurantSort.getSchoolId(),
-                        restaurantSort.getMemberId(),
-                        category,
-                        sorted);
-
-        return dto;
     }
 }

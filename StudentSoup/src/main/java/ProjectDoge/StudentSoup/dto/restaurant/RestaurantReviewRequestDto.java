@@ -12,7 +12,6 @@ public class RestaurantReviewRequestDto {
     private Long memberId;
     private String nickName;
     private String content;
-    private String menuName;
     private int starLiked;
     private List<MultipartFile> multipartFileList;
 }

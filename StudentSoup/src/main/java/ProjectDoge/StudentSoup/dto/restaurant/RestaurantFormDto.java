@@ -6,10 +6,12 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,7 +35,7 @@ public class RestaurantFormDto {
 
     private String coordinate;
 
-    private ImageFile imageFile;
+    private List<MultipartFile> multiparFileList;
 
     @NotEmpty(message = "가게번호 입력은 필수 입니다.")
     private String tel;
@@ -50,7 +52,6 @@ public class RestaurantFormDto {
         this.setStartTime(restaurant.getStartTime());
         this.setEndTime(restaurant.getEndTime());
         this.setCoordinate(restaurant.getCoordinate());
-        this.setImageFile(restaurant.getImageFile());
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
         this.setDetail(restaurant.getDetail());
@@ -64,7 +65,6 @@ public class RestaurantFormDto {
         this.endTime = endTime;
         this.schoolId = schoolId;
         this.coordinate = coordinate;
-        this.imageFile = imageFile;
         this.tel = tel;
         this.tag = tag;
         this.detail = detail;

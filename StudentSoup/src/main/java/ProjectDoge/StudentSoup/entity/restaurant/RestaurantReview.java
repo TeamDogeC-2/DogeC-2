@@ -33,7 +33,6 @@ public class RestaurantReview {
 
     private String content;
 
-    private String menuName;
 
     @OneToMany(mappedBy = "restaurantReview")
     private List<ImageFile> imageFileList = new ArrayList<>();
@@ -69,7 +68,6 @@ public class RestaurantReview {
         this.member = member;
         this.nickname = dto.getNickName();
         this.content = dto.getContent();
-        this.menuName = dto.getMenuName();
         this.likedCount = 0;
         this.starLiked = dto.getStarLiked();
         this.writeDate = LocalDate.now();
