@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -45,10 +46,19 @@ public class BoardCallService {
     public Page<BoardMainDto> getBoardSortedCall(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable){
         log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
         isLoginMember(boardCallDto.getMemberId());
+        ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
+        checkFistPage(map,category,pageable);
         Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardCallDto.getSchoolId(),boardCallDto.getDepartmentId(),category,sorted,pageable);
-
         return boardMainDtoList;
     }
+
+    private void checkFistPage(ConcurrentHashMap<String, Object> map, String category, Pageable pageable) {
+        if(pageable.getPageNumber() == 0){
+            boardRepository.findAnnouncement();
+        }
+    }
+
+
 
     private void isLoginMember(Long memberId){
         log.info("회원이 로그인이 되었는지 확인하는 로직이 실행되었습니다.");

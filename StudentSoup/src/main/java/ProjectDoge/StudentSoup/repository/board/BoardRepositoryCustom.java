@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardRepositoryCustom {
 
@@ -16,4 +17,6 @@ public interface BoardRepositoryCustom {
     Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable);
 
     Page<BoardMainDto> findByDynamicSearch(Long schoolId,String category,String column, String value,Pageable pageable);
+
+    Optional<BoardMainDto>  findAnnouncement();
 }

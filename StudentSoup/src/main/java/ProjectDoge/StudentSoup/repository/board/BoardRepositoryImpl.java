@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
@@ -110,6 +111,23 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
 
+    }
+
+    @Override
+    public Optional<BoardMainDto> findAnnouncement(){
+        BoardMainDto query = queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.updateDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount))
+                .from(board)
+                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
+                .fetchOne();
+
+        return Optional.ofNullable(query);
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {

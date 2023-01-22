@@ -84,7 +84,7 @@ public class Board {
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setContent(form.getContent());
         this.setView(0);
-        this.setLikedCount(9);
+        this.setLikedCount(0);
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
