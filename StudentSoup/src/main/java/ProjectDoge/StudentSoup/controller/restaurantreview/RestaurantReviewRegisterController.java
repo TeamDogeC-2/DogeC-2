@@ -18,12 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 public class RestaurantReviewRegisterController {
 
     private final RestaurantReviewRegisterService restaurantReviewRegisterService;
 
-    @PutMapping(value = "/{restaurantId}/review", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/{restaurantId}/review/new", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ConcurrentHashMap<String, Object>> registerRestaurantReview(@PathVariable Long restaurantId,
                                                                                       RestaurantReviewRequestDto dto){
 
