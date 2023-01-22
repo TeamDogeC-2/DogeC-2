@@ -2,14 +2,17 @@ package ProjectDoge.StudentSoup.service.restaurant;
 
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolResponseDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,42 +34,38 @@ public class RestaurantCallService {
     boolean restaurantLiked = true;
     boolean restaurantNotLiked = false;
 
-    public Slice<RestaurantDto> getRestaurantsInSchool(String schoolName, Long memberId, Pageable pageable) {
-        log.info("======= 페이지 처리 음식점 조회가 시작되었습니다. ========");
-        Long schoolId = schoolFindService.findOne(schoolName);
-        List<Restaurant> restaurants = restaurantRepository.findBySchoolId(schoolId, pageable);
-        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
-
-        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
-
-        if (isLoginMember(memberId)) {
-            return getLoginRestaurantList(memberId, restaurants, restaurantDtoList, pageable, queryCount);
-        }
-
-        return getNotLoginRestaurantList(restaurants, restaurantDtoList, pageable, queryCount);
-    }
-
-    public Slice<RestaurantDto> restaurantSortedCall(Long schoolId,
-                                                     String schoolName,
-                                                     Long memberId,
-                                                     String category,
-                                                     int sorted,
-                                                     Pageable pageable){
+    public ConcurrentHashMap<String, Object> restaurantSortedCall(Long schoolId,
+                                                                  String schoolName,
+                                                                  Long memberId,
+                                                                  String category,
+                                                                  int sorted,
+                                                                  Pageable pageable) {
         log.info("======= 정렬된 페이지 처리 음식점 조회가 시작되었습니다. ========");
-        if(schoolId == null){
-            schoolId = schoolFindService.findOne(schoolName);
-        }
+
+        ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
+
+        schoolId = firstCall(schoolId, schoolName, pageable, resultMap);
+
         List<Restaurant> sortedRestaurants = restaurantRepository.
                 findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted, pageable);
         JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
 
-        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
 
-        if(isLoginMember(memberId)) {
-            return getLoginRestaurantList(memberId, sortedRestaurants, restaurantDtoList, pageable, queryCount);
+
+        if (isLoginMember(memberId)) {
+            return getLoginRestaurantList(memberId, sortedRestaurants, pageable, queryCount, resultMap);
         }
 
-        return getNotLoginRestaurantList(sortedRestaurants, restaurantDtoList, pageable, queryCount);
+        return getNotLoginRestaurantList(sortedRestaurants, pageable, queryCount, resultMap);
+    }
+
+    private Long firstCall(Long schoolId, String schoolName, Pageable pageable, ConcurrentHashMap<String, Object> resultMap) {
+        if (pageable.getPageNumber() == 0 || schoolId == null) {
+            School school = schoolFindService.findOne(schoolName);
+            schoolId = school.getId();
+            resultMap.put("school", new SchoolResponseDto(school));
+        }
+        return schoolId;
     }
 
 
@@ -77,20 +77,24 @@ public class RestaurantCallService {
         return memberId != null;
     }
 
-    private Slice<RestaurantDto> getLoginRestaurantList(Long memberId,
-                                                        List<Restaurant> restaurants,
-                                                        List<RestaurantDto> restaurantDtoList,
-                                                        Pageable pageable,
-                                                        JPAQuery<Long> count) {
+    private ConcurrentHashMap<String, Object> getLoginRestaurantList(Long memberId,
+                                                                     List<Restaurant> restaurants,
+                                                                     Pageable pageable,
+                                                                     JPAQuery<Long> count,
+                                                                     ConcurrentHashMap<String, Object> resultMap) {
+        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
+
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getLoginRestaurantDto(memberId, restaurant));
         }
-        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
+        Slice <RestaurantDto> pagingLoginRestaurantDto = PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
+        resultMap.put("restaurant", pagingLoginRestaurantDto);
+        return resultMap;
     }
 
     private RestaurantDto getLoginRestaurantDto(Long memberId, Restaurant restaurant) {
-        for(RestaurantLike restaurantLike : restaurant.getRestaurantLikes()){
-            if(restaurantLike.getMember().getMemberId().equals(memberId))
+        for (RestaurantLike restaurantLike : restaurant.getRestaurantLikes()) {
+            if (restaurantLike.getMember().getMemberId().equals(memberId))
                 return getLikeRestaurantDto(restaurant);
         }
         return getNotLikeRestaurantDto(restaurant);
@@ -104,13 +108,17 @@ public class RestaurantCallService {
         return new RestaurantDto().createRestaurantDto(restaurant, restaurantNotLiked);
     }
 
-    private Slice<RestaurantDto> getNotLoginRestaurantList(List<Restaurant> restaurants,
-                                                           List<RestaurantDto> restaurantDtoList,
-                                                           Pageable pageable,
-                                                           JPAQuery<Long> count) {
+    private ConcurrentHashMap<String, Object> getNotLoginRestaurantList(List<Restaurant> restaurants,
+                                                                        Pageable pageable,
+                                                                        JPAQuery<Long> count,
+                                                                        ConcurrentHashMap<String, Object> resultMap) {
+        List<RestaurantDto> restaurantDtoList = new ArrayList<>();
+
         for (Restaurant restaurant : restaurants) {
             restaurantDtoList.add(getNotLikeRestaurantDto(restaurant));
         }
-        return PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
+        Slice <RestaurantDto> pagingNotLoginRestaurantDto = PageableExecutionUtils.getPage(restaurantDtoList, pageable, count::fetchOne);
+        resultMap.put("restaurant", pagingNotLoginRestaurantDto);
+        return resultMap;
     }
 }
