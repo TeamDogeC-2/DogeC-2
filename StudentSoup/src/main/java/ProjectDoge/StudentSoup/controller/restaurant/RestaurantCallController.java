@@ -1,21 +1,17 @@
 package ProjectDoge.StudentSoup.controller.restaurant;
 
-import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantCallDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSort;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantCallService;
-import ProjectDoge.StudentSoup.service.restaurant.RestaurantPageCallService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
@@ -23,7 +19,7 @@ import java.util.List;
 public class RestaurantCallController {
 
     private final RestaurantCallService restaurantCallService;
-    private final RestaurantPageCallService restaurantPageCallService;
+    private final SchoolFindService schoolFindService;
 
     /**
      * @param category
@@ -31,10 +27,10 @@ public class RestaurantCallController {
      * @return
      */
     @PostMapping("/restaurants")
-    public Slice<RestaurantDto> callByRestaurants(@RequestParam(required = false, defaultValue = "ALL") String category,
-                                                 @RequestParam(required = false, defaultValue = "0") int sorted,
-                                                 @RequestBody RestaurantCallDto restaurantCallDto,
-                                                 @PageableDefault(size = 6) Pageable pageable) {
+    public ResponseEntity<ConcurrentHashMap<String, Object>> callByRestaurants(@RequestParam(required = false, defaultValue = "ALL") String category,
+                                                               @RequestParam(required = false, defaultValue = "0") int sorted,
+                                                               @RequestBody RestaurantCallDto restaurantCallDto,
+                                                               @PageableDefault(size = 6) Pageable pageable) {
 
         checkPagingSize(pageable.getPageSize());
 
@@ -44,7 +40,7 @@ public class RestaurantCallController {
                 restaurantCallDto.getMemberId(),
                 restaurantCallDto.getSchoolId());
 
-        Slice<RestaurantDto> dto = restaurantCallService.
+        ConcurrentHashMap<String, Object> result = restaurantCallService.
                 restaurantSortedCall(
                         restaurantCallDto.getSchoolId(),
                         restaurantCallDto.getSchoolName(),
@@ -53,7 +49,8 @@ public class RestaurantCallController {
                         sorted,
                         pageable);
 
-        return dto;
+
+        return ResponseEntity.ok(result);
     }
 
     private void checkPagingSize(Integer limit) {
