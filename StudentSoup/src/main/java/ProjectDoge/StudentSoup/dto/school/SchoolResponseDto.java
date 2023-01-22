@@ -7,13 +7,15 @@ import lombok.Data;
 public class SchoolResponseDto {
     private Long schoolId;
     private String schoolName;
-    private String schoolCoordinate;
+    private String schoolLongitude;
+    private String schoolLatitude;
 
 
     public SchoolResponseDto(School school){
         this.schoolId = school.getId();
         this.schoolName = school.getSchoolName();
-        this.schoolCoordinate = school.getSchoolCoordinate();
+        this.schoolLongitude = school.getSchoolCoordinate().split(",")[0];
+        this.schoolLatitude = school.getSchoolCoordinate().split(",")[1];
     }
 }
 
