@@ -2,16 +2,15 @@ import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import cn from 'clsx';
 import { ReactComponent as Search } from '../../img/search_icon.svg';
+import { useHistory } from 'react-router-dom';
 
 const MainSearch = () => {
+  const history = useHistory();
+
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
 
   const [inputSchool, setInputSchool] = useState<string>('');
-  // const [clickSchool, setClickSchool] = useState<string>('');
-  // const [schoolIndex, setSchoolIndex] = useState<any[]>();
-
-  // const [ableClick, setAbleClick] = useState<boolean>(false);
 
   const getSchool = () => {
     axios
@@ -37,26 +36,22 @@ const MainSearch = () => {
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-
-    // if (inputSchool === clickSchool) {
-    //   setAbleClick(true);
-    // } else {
-    //   setAbleClick(false);
-    // }
   };
 
   const handleClick = (e: any) => {
     setInputSchool(e.target.innerText);
-    // setClickSchool(e.target.innerText);
-    // setSchoolIndex(e.target.id);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
     setSearchSchool(resultArray);
+  };
+
+  const handlePushRestaurant = () => {
+    console.log(inputSchool);
+    history.push('/restaurant', inputSchool);
   };
 
   return (
     <div className="w-full h-[calc(100vh-88px)] flex flex-col mt-[290px] items-center">
       <div
-        // ref={selectRef}
         className={cn(
           'flex flex-col text-center relative bottom-[88px]',
           'after:flex after:flex-col after:text-center after:relative after:bottom-[88px]',
@@ -75,7 +70,10 @@ const MainSearch = () => {
             placeholder="지역 학교 명을 입력하세요."
             className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] border-none"
           ></input>
-          <button className="w-[94px] h-[60px] text-[25px] fw-400 leading-[33px] text-white bg-[#FF611D] border-none rounded-[5px]">
+          <button
+            onClick={handlePushRestaurant}
+            className="w-[94px] h-[60px] text-[25px] fw-400 leading-[33px] text-white bg-[#FF611D] border-none rounded-[5px]"
+          >
             검색
           </button>
         </div>
