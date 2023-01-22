@@ -36,15 +36,17 @@ const MainSearch = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(resultArray?.shift().schoolName);
+    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handleClick = (e: any) => {
     setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(resultArray?.shift().schoolName);
+    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
