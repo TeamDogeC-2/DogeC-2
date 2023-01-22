@@ -16,6 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,15 +50,24 @@ public class BoardCallService {
         log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
         isLoginMember(boardCallDto.getMemberId());
         ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
-        checkFistPage(map,category,pageable);
+        checkFistPage(map,category,pageable,boardCallDto.getSchoolId());
         Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardCallDto.getSchoolId(),boardCallDto.getDepartmentId(),category,sorted,pageable);
         return boardMainDtoList;
     }
 
-    private void checkFistPage(ConcurrentHashMap<String, Object> map, String category, Pageable pageable) {
+    private void checkFistPage(ConcurrentHashMap<String, Object> map, String category, Pageable pageable,Long schoolId) {
         if(pageable.getPageNumber() == 0){
             boardRepository.findAnnouncement();
-        }
+            if(category.equals("ALL")) {
+                LocalDateTime searchTime = LocalDate.now().atTime(0,0,0);
+                LocalDateTime endTime = LocalDate.now().atTime(23,59,59);
+                List<BoardMainDto> bestBoards = boardRepository.findLiveBestBoards(schoolId,searchTime,endTime);
+                List<BoardMainDto> hotBoards = boardRepository.findHotBoards(schoolId,searchTime.minusMonths(1),endTime);
+                map.put("bestBoars",bestBoards);
+                map.put("hotBoards",hotBoards);
+            }
+
+            }
     }
 
 

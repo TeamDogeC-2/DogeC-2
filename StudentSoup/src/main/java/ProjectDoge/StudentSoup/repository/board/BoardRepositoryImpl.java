@@ -16,6 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -128,6 +132,24 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchOne();
 
         return Optional.ofNullable(query);
+    }
+
+    @Override
+    public  List<BoardMainDto>  findLiveBestBoards(Long schoolId,LocalDateTime searchDate,LocalDateTime EndDate){
+        List<BoardMainDto> query = queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.updateDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount))
+                .from(board)
+                .where(board.school.id.eq(schoolId),
+                        board.likedCount.gt(10),
+                        board.writeDate.between(searchDate.toString(),EndDate.toString()))
+                .fetch();
+        return query;
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
