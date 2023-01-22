@@ -218,6 +218,14 @@ public class TestDataInit {
                 "순대국밥",
                 RestaurantMenuCategory.Main,
                 8000);
+
+        for(int i = 0; i < 20; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+                    "뼈해장국" + i,
+                    RestaurantMenuCategory.Main,
+                    9000);
+            restaurantMenuRegisterService.join(testDto);
+        }
         restaurantMenuRegisterService.join(dto);
         restaurantMenuRegisterService.join(dto2);
     }

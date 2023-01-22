@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import lombok.Data;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,15 +14,17 @@ public class RestaurantDetailDto {
     private Long restaurantId;
     private String name;
     private String address;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String startTime;
+    private String endTime;
     private String distance;
     private List<String> fileName;
+    private String schoolName;
     private int reviewCount;
     private double starLiked;
     private int likedCount;
     private int viewCount;
     private boolean like;
+    private String tag;
     private String detail;
 
     // 생성 메서드
@@ -31,15 +32,17 @@ public class RestaurantDetailDto {
         this.restaurantId = restaurant.getId();
         this.name = restaurant.getName();
         this.address = restaurant.getAddress();
-        this.startTime = restaurant.getStartTime();
-        this.endTime = restaurant.getEndTime();
+        this.startTime = restaurant.getStartTime().toString();
+        this.endTime = restaurant.getEndTime().toString();
         this.fileName = setImageFile(restaurant);
+        this.schoolName = restaurant.getSchool().getSchoolName();
         this.reviewCount = restaurant.getRestaurantReviews().size();
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();
         this.viewCount = restaurant.getViewCount();
         this.distance = restaurant.getDistance() + "M";
         this.like = like;
+        this.tag = restaurant.getTag();
         this.detail = restaurant.getDetail();
         return this;
     }
