@@ -21,7 +21,7 @@ public interface BoardRepositoryCustom {
 
     Optional<BoardMainDto>  findAnnouncement();
 
-    List<BoardMainDto> findLiveBestBoards(Long schoolId, LocalDateTime searchTime,LocalDateTime endDateTime);
+    List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchTime,LocalDateTime endDateTime);
 
 
     List<BoardMainDto> findBestTipBoards(Long schoolId);

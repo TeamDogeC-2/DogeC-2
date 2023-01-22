@@ -64,7 +64,7 @@ public class BoardCallService {
     }
 
     private void getAnnouncement(ConcurrentHashMap<String,Object> map){
-        BoardMainDto announcement = boardRepository.findAnnouncement().orElse(null);
+        Optional<BoardMainDto> announcement = boardRepository.findAnnouncement();
         map.put("announcement",announcement);
     }
 
@@ -90,8 +90,8 @@ public class BoardCallService {
         LocalDateTime endTime = LocalDate.now().atTime(23,59,59);
         Pageable pageable = PageRequest.of(0,7);
         Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
-        List<BoardMainDto> bestBoards = boardRepository.findLiveBestBoards(boardCallDto.getSchoolId(),searchTime,endTime);
-        List<BoardMainDto> hotBoards = boardRepository.findLiveBestBoards(boardCallDto.getSchoolId(),searchTime.minusMonths(1),endTime);
+        List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime,endTime);
+        List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime.minusMonths(1),endTime);
         log.info("searchTime [{}] endTime[{}]",searchTime,endTime);
         map.put("boards",boards);
         map.put("bestBoards",bestBoards);

@@ -135,7 +135,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public  List<BoardMainDto>  findLiveBestBoards(Long schoolId,LocalDateTime searchDate,LocalDateTime EndDate){
+    public  List<BoardMainDto>  findLiveBestAndHotBoards(Long schoolId,LocalDateTime searchDate,LocalDateTime EndDate){
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -148,6 +148,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.school.id.eq(schoolId),
                         board.likedCount.gt(10),
                         board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .offset(0)
+                .limit(5)
                 .fetch();
         return query;
     }
