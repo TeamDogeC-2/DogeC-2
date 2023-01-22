@@ -50,13 +50,12 @@ const MainSearch = () => {
   };
 
   const handlePushRestaurant = () => {
-    if (
-      inputSchool === '' ||
-      inputSchool === undefined
-    ) {
-      alert('학교 정보가 올바르지 않습니다.');
+    if (inputSchool === '' || inputSchool === undefined) {
+      alert('학교를 검색해주세요');
     } else if (inputSchool === listSchool) {
       history.push('/restaurant', inputSchool);
+    } else {
+      alert('학교 정보가 올바르지 않습니다.');
     }
   };
 
