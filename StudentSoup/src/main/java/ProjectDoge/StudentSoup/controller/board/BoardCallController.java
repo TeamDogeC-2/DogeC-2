@@ -30,10 +30,10 @@ public class BoardCallController {
      * @return
      */
     @PostMapping("/boards")
-    public Page<BoardMainDto> callBoards(@RequestParam String category,
-                                           @RequestParam int sorted,
-                                           @RequestBody BoardCallDto boardCallDto,
-                                           @PageableDefault(size = 15) Pageable pageable){
+    public Map<String, Object> callBoards(@RequestParam String category,
+                                          @RequestParam int sorted,
+                                          @RequestBody BoardCallDto boardCallDto,
+                                          @PageableDefault(size = 15) Pageable pageable){
         log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}]",
                 category,
                 sorted,
@@ -44,7 +44,6 @@ public class BoardCallController {
                 pageable.getPageSize());
         checkPagingSize(pageable.getPageSize());
         return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable);
-
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
