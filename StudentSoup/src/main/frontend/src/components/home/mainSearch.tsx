@@ -11,6 +11,7 @@ const MainSearch = () => {
   const [posts, setPosts] = useState<any[]>();
 
   const [inputSchool, setInputSchool] = useState<string>('');
+  const [listSchool, setListSchool] = useState<string>('');
 
   const getSchool = () => {
     axios
@@ -36,17 +37,22 @@ const MainSearch = () => {
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
+    setListSchool(resultArray?.shift().schoolName);
   };
 
   const handleClick = (e: any) => {
     setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
     setSearchSchool(resultArray);
+    setListSchool(resultArray?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
-    console.log(inputSchool);
-    history.push('/restaurant', inputSchool);
+    if (inputSchool === listSchool) {
+      history.push('/restaurant', inputSchool);
+    } else {
+      alert('학교 정보가 올바르지 않습니다.');
+    }
   };
 
   return (
