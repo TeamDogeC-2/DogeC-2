@@ -48,20 +48,8 @@ public class RestaurantReviewRegisterService {
         if(dto.getStarLiked() > 5){
             throw new RestaurantStarLikedMoreThanFiveException("별점은 5점을 초과할 수 없습니다.");
         } else if(dto.getContent().length() < 5){
-            throw new RestaurantReviewContentLessThanFiveException("리뷰 작성 글은 5글자를 초과해야만 합니다.");
+            throw new RestaurantReviewContentLessThanFiveException("리뷰 작성 글은 5글자 이상이여야 합니다.");
         }
-    }
-
-    @Transactional(rollbackOn = Exception.class)
-    public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
-        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
-        double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
-
-        restaurant.updateStarLiked(star);
-        log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
-
-        return restaurantRespDto(restaurantId, star);
     }
 
     private RestaurantReviewRegRespDto restaurantRespDto(Long restaurantId, double star) {
@@ -94,5 +82,17 @@ public class RestaurantReviewRegisterService {
             }
         }
         log.info("음식점 리뷰 이미지 업로드가 완료되었습니다.");
+    }
+
+    @Transactional(rollbackOn = Exception.class)
+    public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
+        double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
+
+        restaurant.updateStarLiked(star);
+        log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
+
+        return restaurantRespDto(restaurantId, star);
     }
 }

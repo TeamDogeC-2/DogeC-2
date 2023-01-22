@@ -49,6 +49,9 @@ public class RestaurantReview {
     @Column(columnDefinition = "DATE")
     private LocalDate updateDate;
 
+    @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.REMOVE)
+    private List<RestaurantReviewLike> restaurantReviewLikes = new ArrayList<>();
+
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
