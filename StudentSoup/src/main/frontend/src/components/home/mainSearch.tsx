@@ -58,7 +58,7 @@ const MainSearch = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-88px)] flex flex-col mt-[290px] items-center">
+    <div className="w-full flex flex-col mt-[290px] items-center">
       <div
         className={cn(
           'flex flex-col text-center relative bottom-[88px]',
