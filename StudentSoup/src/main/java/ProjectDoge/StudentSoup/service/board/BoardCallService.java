@@ -46,30 +46,57 @@ public class BoardCallService {
 
     }
 
-    public Page<BoardMainDto> getBoardSortedCall(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable){
+    public ConcurrentHashMap<String, Object> getBoardSortedCall(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable){
         log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
         isLoginMember(boardCallDto.getMemberId());
         ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
-        checkFistPage(map,category,pageable,boardCallDto.getSchoolId());
-        Page<BoardMainDto>  boardMainDtoList=  boardRepository.orderByCategory(boardCallDto.getSchoolId(),boardCallDto.getDepartmentId(),category,sorted,pageable);
-        return boardMainDtoList;
+        if(pageable.getPageNumber() ==0 ) {
+            getAnnouncement(map);
+        }
+        if(pageable.getPageSize() == 0 && category.equals("ALL") || category.equals("TIP")){
+            getFistPage(map,boardCallDto, category,sorted);
+        }
+        else{
+            Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+            map.put("boards", boardMainDtoList);
+        }
+        return map;
     }
 
-    private void checkFistPage(ConcurrentHashMap<String, Object> map, String category, Pageable pageable,Long schoolId) {
-        if(pageable.getPageNumber() == 0){
-            boardRepository.findAnnouncement();
+    private void getAnnouncement(ConcurrentHashMap<String,Object> map){
+        BoardMainDto announcement = boardRepository.findAnnouncement().orElse(null);
+        map.put("announcement",announcement);
+    }
+
+    private void getFistPage(ConcurrentHashMap<String, Object> map,BoardCallDto boardCallDto, String category, int sorted) {
             if(category.equals("ALL")) {
-                LocalDateTime searchTime = LocalDate.now().atTime(0,0,0);
-                LocalDateTime endTime = LocalDate.now().atTime(23,59,59);
-                List<BoardMainDto> bestBoards = boardRepository.findLiveBestBoards(schoolId,searchTime,endTime);
-                List<BoardMainDto> hotBoards = boardRepository.findHotBoards(schoolId,searchTime.minusMonths(1),endTime);
-                map.put("bestBoars",bestBoards);
-                map.put("hotBoards",hotBoards);
+                getFirstAllBoardsPage(map, boardCallDto, category, sorted);
             }
-
+            else{
+                getFistTipBoardsPage(map,boardCallDto,category,sorted);
             }
     }
 
+    private void getFistTipBoardsPage(ConcurrentHashMap<String, Object> map, BoardCallDto boardCallDto, String category, int sorted) {
+        PageRequest pageable = PageRequest.of(0, 8);
+        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+        List<BoardMainDto> tipBoards = boardRepository.findBestTipBoards(boardCallDto.getSchoolId());
+        map.put("boards",boards);
+        map.put("tipBoards",tipBoards);
+    }
+
+    private void getFirstAllBoardsPage(ConcurrentHashMap<String, Object> map, BoardCallDto boardCallDto, String category, int sorted) {
+        LocalDateTime searchTime = LocalDate.now().atTime(0,0,0);
+        LocalDateTime endTime = LocalDate.now().atTime(23,59,59);
+        Pageable pageable = PageRequest.of(0,7);
+        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+        List<BoardMainDto> bestBoards = boardRepository.findLiveBestBoards(boardCallDto.getSchoolId(),searchTime,endTime);
+        List<BoardMainDto> hotBoards = boardRepository.findLiveBestBoards(boardCallDto.getSchoolId(),searchTime.minusMonths(1),endTime);
+        log.info("searchTime [{}] endTime[{}]",searchTime,endTime);
+        map.put("boards",boards);
+        map.put("bestBoards",bestBoards);
+        map.put("hotBoards",hotBoards);
+    }
 
 
     private void isLoginMember(Long memberId){

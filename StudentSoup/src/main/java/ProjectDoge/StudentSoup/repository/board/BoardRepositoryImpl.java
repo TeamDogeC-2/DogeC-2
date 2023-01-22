@@ -147,7 +147,26 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.likedCount.gt(10),
-                        board.writeDate.between(searchDate.toString(),EndDate.toString()))
+                        board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .fetch();
+        return query;
+    }
+    @Override
+    public List<BoardMainDto> findBestTipBoards(Long schoolId){
+        List<BoardMainDto> query =queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.updateDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount))
+                .from(board)
+                .where(board.school.id.eq(schoolId),
+                        board.boardCategory.eq(BoardCategory.TIP))
+                .orderBy(board.likedCount.desc(),board.writeDate.asc())
+                .offset(0)
+                .limit(4)
                 .fetch();
         return query;
     }
