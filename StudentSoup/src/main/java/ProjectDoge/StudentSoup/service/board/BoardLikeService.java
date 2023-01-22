@@ -37,12 +37,21 @@ public class BoardLikeService {
         Board board = boardFindService.findOne(boardId);
         if (boardLike==null){
             likeBoard(member,board,resultMap);
+            checkBoardFamous(board);
             return resultMap;
         }
         else{
             cancelLike(boardLike,board,resultMap);
+            checkBoardFamous(board);
             return  resultMap;
         }
+    }
+
+    private void checkBoardFamous(Board board) {
+        if(board.getLikedCount() >= 10){
+            board.setFamous(true);
+        }
+        else board.setFamous(false);
     }
 
     private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {

@@ -57,6 +57,8 @@ public class Board {
 
     private int likedCount;
 
+    private boolean famous;
+
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
@@ -82,7 +84,7 @@ public class Board {
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setContent(form.getContent());
         this.setView(0);
-        this.setLikedCount(0);
+        this.setLikedCount(9);
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
