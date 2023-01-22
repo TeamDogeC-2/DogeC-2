@@ -44,7 +44,7 @@ public class RestaurantCallService {
 
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
 
-        schoolId = firstCall(schoolName, pageable, resultMap);
+        schoolId = firstCall(schoolId, schoolName, pageable, resultMap);
 
         List<Restaurant> sortedRestaurants = restaurantRepository.
                 findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted, pageable);
@@ -59,9 +59,8 @@ public class RestaurantCallService {
         return getNotLoginRestaurantList(sortedRestaurants, pageable, queryCount, resultMap);
     }
 
-    private Long firstCall(String schoolName, Pageable pageable, ConcurrentHashMap<String, Object> resultMap) {
-        Long schoolId = null;
-        if (pageable.getPageNumber() == 0) {
+    private Long firstCall(Long schoolId, String schoolName, Pageable pageable, ConcurrentHashMap<String, Object> resultMap) {
+        if (pageable.getPageNumber() == 0 || schoolId == null) {
             School school = schoolFindService.findOne(schoolName);
             schoolId = school.getId();
             resultMap.put("school", new SchoolResponseDto(school));
