@@ -92,8 +92,8 @@ public class TestDataInit {
     }
 
     private void initDepartment(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(schoolId1);
@@ -117,8 +117,8 @@ public class TestDataInit {
     }
 
     private void initMember(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(schoolId1);
         List<Department> departments2 = departmentRepository.findBySchool_Id(schoolId2);
@@ -145,8 +145,8 @@ public class TestDataInit {
     }
 
     private void initRestaurant(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
 
         RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
