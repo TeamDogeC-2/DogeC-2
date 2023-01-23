@@ -129,6 +129,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.likedCount))
                 .from(board)
                 .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
+                .offset(0)
+                .limit(1)
                 .fetchOne();
 
         return Optional.ofNullable(query);

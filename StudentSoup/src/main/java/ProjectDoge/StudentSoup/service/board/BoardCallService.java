@@ -68,7 +68,8 @@ public class BoardCallService {
     }
 
     private void getBoards(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable, ConcurrentHashMap<String, Object> map) {
-        if(pageable.getPageSize() == 0 && category.equals("ALL") || category.equals("TIP")){
+        log.info("게시판 호출 메서드가 실행되었습니다.");
+        if(pageable.getPageNumber() == 0 && category.equals("ALL") || pageable.getPageNumber() == 0 && category.equals("TIP")){
             getFistPage(map, boardCallDto, category, sorted);
         }
         else{
