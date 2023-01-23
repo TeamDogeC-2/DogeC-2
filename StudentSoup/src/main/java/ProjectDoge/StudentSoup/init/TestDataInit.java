@@ -243,11 +243,10 @@ public class TestDataInit {
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.EMPLOYMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
-
-//        BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
-//        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.EMPLOYMENT,"테스트 내용2");
-//        boardResisterService.join(member.getMemberId(),dto);
-//        boardResisterService.join(member1.getMemberId(),dto2);
+        for(int i= 100; i<110; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
+            boardResisterService.join(member1.getMemberId(),boardFormDto);
+        }
 
     }
 
