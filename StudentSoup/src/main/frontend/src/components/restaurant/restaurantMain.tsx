@@ -227,10 +227,11 @@ const RestaurantMain = () => {
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
             {/* onClick={}> */}
             {set?.map(school => (
-              <div onClick={handleDetailPage} id={school.restaurantId} key={school.restaurantId}>
+              <div id={school.restaurantId} key={school.restaurantId}>
                 <div
+                  onClick={handleDetailPage}
                   id={school.restaurantId}
-                  className="w-[382px] h-[225px] rounded-[10px] bg-gray-100"
+                  className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"
                 >
                   {school.fileName}
                 </div>
