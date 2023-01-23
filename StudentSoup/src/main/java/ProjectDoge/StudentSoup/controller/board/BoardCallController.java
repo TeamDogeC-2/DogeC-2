@@ -33,7 +33,7 @@ public class BoardCallController {
     public Map<String, Object> callBoards(@RequestParam String category,
                                           @RequestParam int sorted,
                                           @RequestBody BoardCallDto boardCallDto,
-                                          @PageableDefault(size = 15) Pageable pageable){
+                                          @PageableDefault(size = 12) Pageable pageable){
         log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}]",
                 category,
                 sorted,

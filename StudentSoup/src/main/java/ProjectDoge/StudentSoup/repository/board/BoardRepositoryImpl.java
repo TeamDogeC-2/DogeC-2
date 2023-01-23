@@ -149,7 +149,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.likedCount.gt(10),
-                        board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                        board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                                EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
                 .offset(0)
                 .limit(5)
                 .fetch();
