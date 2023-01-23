@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import { ReactComponent as MenuHeart } from '../../img/MenuHeart.svg';
-import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
+import { useLocation } from 'react-router-dom';
 
 const menuInfo = (props: any) => {
+  const state = useLocation<any>();
+  const saveMemberId = sessionStorage.getItem('memberId');
+  const restaurantNumber = state.state[0];
+  const schoolName = state.state[1];
   const Arr = props.content;
-  console.log(props);
 
   return (
     <>
@@ -34,12 +37,6 @@ const menuInfo = (props: any) => {
           </div>
         ))}
         <div className=" mt-[25px] w-[687px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
-      </div>
-      <div className="mt-[23px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
-        더보기
-        <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-          <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
-        </div>
       </div>
     </>
   );
