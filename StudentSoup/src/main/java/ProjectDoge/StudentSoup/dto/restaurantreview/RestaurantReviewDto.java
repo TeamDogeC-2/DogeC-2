@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.restaurant;
+package ProjectDoge.StudentSoup.dto.restaurantreview;
 
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;

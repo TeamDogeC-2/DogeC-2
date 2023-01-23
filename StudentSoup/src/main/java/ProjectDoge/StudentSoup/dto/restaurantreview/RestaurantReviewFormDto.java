@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.restaurant;
+package ProjectDoge.StudentSoup.dto.restaurantreview;
 
 import lombok.Getter;
 import lombok.Setter;

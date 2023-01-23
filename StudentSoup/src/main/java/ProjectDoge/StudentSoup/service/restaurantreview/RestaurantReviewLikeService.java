@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
