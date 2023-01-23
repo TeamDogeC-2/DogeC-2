@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.service.admin;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
