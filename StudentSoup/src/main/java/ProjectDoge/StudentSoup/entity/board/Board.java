@@ -57,8 +57,6 @@ public class Board {
 
     private int likedCount;
 
-    private boolean famous;
-
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
