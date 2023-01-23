@@ -26,7 +26,6 @@ const restaurant = () => {
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const [heart, setHeart] = useState<boolean>();
-  console.log(state.pathname);
 
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
