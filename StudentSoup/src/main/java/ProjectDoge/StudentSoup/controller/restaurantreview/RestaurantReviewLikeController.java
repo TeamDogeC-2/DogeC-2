@@ -17,10 +17,9 @@ public class RestaurantReviewLikeController {
 
     private final RestaurantReviewLikeService restaurantReviewLikeService;
 
-    @PostMapping("/{restaurantReviewId}/like")
+    @PostMapping("/review/like")
     public ResponseEntity<ConcurrentHashMap<String, Object>> restaurantReviewLike(
             @PathVariable Long restaurantId,
-            @PathVariable Long restaurantReviewId,
             @RequestBody RestaurantReviewLikeReqDto dto){
 
         ConcurrentHashMap<String, Object> resultMap = restaurantReviewLikeService.restaurantReviewLike(dto.getRestaurantReviewId(), dto.getMemberId());
