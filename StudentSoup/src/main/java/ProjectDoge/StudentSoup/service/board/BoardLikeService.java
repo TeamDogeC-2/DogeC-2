@@ -45,6 +45,7 @@ public class BoardLikeService {
         }
     }
 
+
     private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
         log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
