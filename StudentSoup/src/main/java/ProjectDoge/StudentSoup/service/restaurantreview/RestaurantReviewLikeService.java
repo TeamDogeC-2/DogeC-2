@@ -77,7 +77,7 @@ public class RestaurantReviewLikeService {
 
     private void likeRestaurantReview(Member member, RestaurantReview restaurantReview, ConcurrentHashMap<String, Object> resultMap){
         log.info("음식점 리뷰 좋아요 서비스 로직이 실행되었습니다.");
-        RestaurantReviewLike restaurantReviewLike = new RestaurantReviewLike(restaurantReview, member);
+        RestaurantReviewLike restaurantReviewLike = new RestaurantReviewLike().createRestaurantReviewLike(restaurantReview, member);
         restaurantReviewLikeRepository.save(restaurantReviewLike);
         restaurantReview.addLikedCount();
 
