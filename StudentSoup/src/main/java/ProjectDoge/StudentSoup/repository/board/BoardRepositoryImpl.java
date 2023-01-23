@@ -1,7 +1,5 @@
 package ProjectDoge.StudentSoup.repository.board;
 
-
-
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
 import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
@@ -16,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
