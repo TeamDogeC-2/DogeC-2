@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
 import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.controller.restaurant;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuLikeRequestDto;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuLike;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuLikeRequestDto;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuLikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

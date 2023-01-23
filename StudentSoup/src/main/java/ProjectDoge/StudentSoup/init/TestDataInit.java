@@ -4,29 +4,24 @@ import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
-import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.board.BoardLikeService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
@@ -41,7 +36,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Profile("local")

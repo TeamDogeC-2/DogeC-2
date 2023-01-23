@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDetailDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
