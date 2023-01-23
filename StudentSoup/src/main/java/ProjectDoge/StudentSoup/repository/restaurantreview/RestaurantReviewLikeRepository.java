@@ -1,4 +1,7 @@
 package ProjectDoge.StudentSoup.repository.restaurantreview;
 
-public interface RestaurantReviewLikeRepository {
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RestaurantReviewLikeRepository extends JpaRepository<RestaurantReviewLike, Long>, RestaurantReviewLikeRepositoryCustom {
 }
