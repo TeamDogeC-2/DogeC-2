@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState, useEffect } from 'react';
@@ -85,10 +86,26 @@ const restaurant = () => {
       setHeart(!heart);
     }
   };
+
   const infoClickButton = async () => {
     setSize(size + 4);
   };
-
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight && size > 5) {
+      infoClickButton();
+    }
+  };
   /* 공유 버튼 보류 */
   // const handleCopyClipBoard = async (text: string) => {
   //   try {
