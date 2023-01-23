@@ -97,5 +97,13 @@ public class RestaurantReview {
             imageFile.setRestaurantReview(this);
     }
 
+    public void addLikedCount(){
+        this.likedCount += 1;
+    }
+    public void minusLikedCount(){
+        if(this.likedCount != 0) {
+            this.likedCount -= 1;
+        }
+    }
 
 }
