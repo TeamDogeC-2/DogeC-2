@@ -16,6 +16,7 @@ import Sharepage from './pictureInfo';
 import cn from 'clsx';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 const kakao = (window as any).kakao;
 
 const restaurant = () => {
@@ -27,6 +28,7 @@ const restaurant = () => {
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const [heart, setHeart] = useState<boolean>();
+  const [size, setSize] = useState<number>(4);
 
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
@@ -37,12 +39,21 @@ const restaurant = () => {
   const url = `/restaurant/${restaurantNumber}`;
   useEffect(() => {
     axios
-      .post(url, {
-        schoolName,
-        restaurantId: restaurantNumber,
-        memberId: saveMemberId,
-      })
+      .post(
+        url,
+        {
+          schoolName,
+          restaurantId: restaurantNumber,
+          memberId: saveMemberId,
+        },
+        {
+          params: {
+            size,
+          },
+        },
+      )
       .then(res => {
+        console.log(res.data.restaurantMenu.totalElements);
         setMenu(res.data.restaurantMenu);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
@@ -52,7 +63,8 @@ const restaurant = () => {
       .catch(err => {
         console.error(err);
       });
-  }, [heart]);
+  }, [heart, size]);
+
   const MapLocation = [longitude, latitude];
   useEffect(() => {
     const container = document.getElementById('map');
@@ -72,6 +84,9 @@ const restaurant = () => {
       });
       setHeart(!heart);
     }
+  };
+  const infoClickButton = async () => {
+    setSize(size + 4);
   };
 
   /* 공유 버튼 보류 */
@@ -236,8 +251,8 @@ const restaurant = () => {
           </div>
         </div>
       </div>
-      <div className="w-[full] h-[542px] flex justify-center">
-        <div className="ml-[298px] w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
+      <div className="w-[full] h-full flex justify-center">
+        <div className="ml-[298px] w-[744px] h-full bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="flex flex-row">
             <div
               onClick={() => {
@@ -295,6 +310,35 @@ const restaurant = () => {
           {click === 1 && <MenuInfopage {...menu} />}
           {click === 2 && <Reviewpage />}
           {click === 3 && <Sharepage />}
+          {click === 1 && size <= menu.totalElements && menu.totalElements > 4 ? (
+            <div
+              onClick={infoClickButton}
+              className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+            >
+              더보기
+              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+              </div>
+            </div>
+          ) : (
+            ''
+          )}
+          {click === 2 && (
+            <div className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
+              더보기
+              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+              </div>
+            </div>
+          )}
+          {click === 3 && (
+            <div className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
+              더보기
+              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
