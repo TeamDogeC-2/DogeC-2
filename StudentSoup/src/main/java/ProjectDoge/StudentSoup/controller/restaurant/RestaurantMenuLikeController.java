@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurant")
+@RequestMapping("/restaurant/{restaurantId}")
 public class RestaurantMenuLikeController {
 
     private final RestaurantMenuLikeService restaurantMenuLikeService;
 
-    @PostMapping("/{restaurantId}/{restaurantMenuId}/like")
-    public ResponseEntity<ConcurrentHashMap<String, Object>> restaurantMenuLike(@PathVariable Long restaurantId, @PathVariable Long restaurantMenuId, @RequestBody RestaurantMenuLikeRequestDto dto){
+    @PostMapping("/menu/like")
+    public ResponseEntity<ConcurrentHashMap<String, Object>> restaurantMenuLike(@PathVariable Long restaurantId, @RequestBody RestaurantMenuLikeRequestDto dto){
         return ResponseEntity.ok(restaurantMenuLikeService.restaurantMenuLike(dto.getRestaurantMenuId(), dto.getMemberId()));
     }
 }
