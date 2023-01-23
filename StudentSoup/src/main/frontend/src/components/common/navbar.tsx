@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import Reddit from '../../img/Reddit.svg';
+import Modal from '../home/modal';
 
 const Navbar = () => {
   const history = useHistory();
@@ -8,35 +9,22 @@ const Navbar = () => {
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
+  const [isModal, setModal] = useState<Boolean>(false);
+  const onClickToggleModal = useCallback(() => {
+    setModal(!isModal);
+  }, [isModal]);
+
   useEffect(() => {
     if (sessionStorage.getItem('email') === null) {
       setIsLogin(false);
     } else {
       setIsLogin(true);
-      console.log(isLogin);
     }
   }, []);
 
   const handleClick = (e: any) => {
-    console.log(e);
     if (e.target.innerText === '로그인') {
       history.push('/login', { pathName });
-    } else if (e.target.id === '로그아웃') {
-      if (sessionStorage.getItem('saved') === String(true)) {
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('nickname');
-        sessionStorage.removeItem('departmentId');
-        sessionStorage.removeItem('departmentName');
-        sessionStorage.removeItem('fileName');
-        sessionStorage.removeItem('memberId');
-        sessionStorage.removeItem('schoolId');
-        sessionStorage.removeItem('schoolName');
-        sessionStorage.removeItem('registrationDate');
-        setIsLogin(false);
-      } else {
-        sessionStorage.clear();
-        setIsLogin(false);
-      }
     }
   };
   return (
@@ -46,7 +34,7 @@ const Navbar = () => {
         <div className="w-[65px] h-[60px] mr-[21px] flex justify-center items-center">
           <span className="text-[25px] leading-[35px] fw-400">FAQ</span>
         </div>
-        <div onClick={handleClick}>
+        <div onClick={onClickToggleModal}>
           {isLogin ? (
             <div className="flex sticky">
               <div className="flex flex-col items-center">
@@ -59,11 +47,15 @@ const Navbar = () => {
               <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative top-[15px] right-[10px]"></span>
             </div>
           ) : (
-            <button className="w-[93px] h-[40px] bg-[#FF4F14] border-[1.2px] border-[#FF4D14] rounded-[41px] hover:cursor-pointer text-[20px]">
+            <button
+              onClick={handleClick}
+              className="w-[93px] h-[40px] bg-[#FF4F14] border-[1.2px] border-[#FF4D14] rounded-[41px] hover:cursor-pointer text-[20px]"
+            >
               로그인
             </button>
           )}
         </div>
+        {isModal && <Modal setIsLogin={setIsLogin} onClickToggleModal={onClickToggleModal}/>}
       </div>
     </div>
   );
