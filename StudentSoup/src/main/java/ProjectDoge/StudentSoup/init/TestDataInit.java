@@ -207,23 +207,33 @@ public class TestDataInit {
 
     private void initRestaurantMenu(){
 
-        Restaurant restaurant = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
 
-        RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+        RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                 "뼈해장국",
                 RestaurantMenuCategory.Main,
                 9000);
 
-        RestaurantMenuFormDto dto2 = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+        RestaurantMenuFormDto dto2 = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                 "순대국밥",
                 RestaurantMenuCategory.Main,
                 8000);
 
         for(int i = 0; i < 20; i++){
-            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                     "뼈해장국" + i,
                     RestaurantMenuCategory.Main,
                     9000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
+        for(int i = 0; i < 4; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(
+                    restaurant2.getId(),
+                    "연어니기리 6p" + i + "case",
+                    RestaurantMenuCategory.Main,
+                    9900);
             restaurantMenuRegisterService.join(testDto);
         }
         restaurantMenuRegisterService.join(dto);
