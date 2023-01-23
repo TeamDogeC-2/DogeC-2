@@ -32,4 +32,10 @@ public class RestaurantReviewLike {
     public void setRestaurant(RestaurantReview restaurantReview){
         restaurantReview.getRestaurantReviewLikes().add(this);
     }
+
+    //== 생성 메서드 ==//
+    public RestaurantReviewLike(RestaurantReview review, Member member){
+        this.restaurantReview = review;
+        this.member = member;
+    }
 }
