@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
@@ -26,6 +27,7 @@ import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -50,6 +53,7 @@ public class TestDataInit {
     private final RestaurantRegisterService restaurantRegisterService;
     private final RestaurantFindService restaurantFindService;
     private final RestaurantMenuRegisterService restaurantMenuRegisterService;
+    private final RestaurantReviewRegisterService restaurantReviewRegisterService;
 
     private final BoardResisterService boardResisterService;
 
@@ -64,6 +68,7 @@ public class TestDataInit {
         initMember();
         initRestaurant();
         initRestaurantMenu();
+        initRestaurantReview();
         initBoard();
         initBoardLike();
     }
@@ -214,6 +219,9 @@ public class TestDataInit {
                 RestaurantMenuCategory.Main,
                 8000);
 
+        restaurantMenuRegisterService.join(dto);
+        restaurantMenuRegisterService.join(dto2);
+
         for(int i = 0; i < 20; i++){
             RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                     "뼈해장국" + i,
@@ -230,8 +238,7 @@ public class TestDataInit {
                     9900);
             restaurantMenuRegisterService.join(testDto);
         }
-        restaurantMenuRegisterService.join(dto);
-        restaurantMenuRegisterService.join(dto2);
+
     }
 
     private void initBoard(){
@@ -256,6 +263,37 @@ public class TestDataInit {
         BoardLike boardLike = new BoardLike().createBoard(member,board1);
         BoardLike boardLike1 = new BoardLike().createBoard(member1,board1);
         boardLikeRepository.save(boardLike);
+    }
+
+    private void initRestaurantReview(){
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
+        Member member = memberRepository.findByEmail("dummytest1@naver.com");
+        for(int i = 0; i < 30; i++){
+            RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
+            dto.setRestaurantId(restaurant1.getId());
+            dto.setRestaurantName(restaurant1.getName());
+            dto.setMemberId(member.getMemberId());
+            dto.setNickName(member.getNickname());
+            dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
+            dto.setStarLiked((int)(Math.random() * 5) + 1);
+            dto.setMultipartFileList(Collections.emptyList());
+            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.starUpdate(restaurant1.getId());
+        }
+
+        for(int i = 0; i < 20; i++){
+            RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
+            dto.setRestaurantId(restaurant2.getId());
+            dto.setRestaurantName(restaurant2.getName());
+            dto.setMemberId(member.getMemberId());
+            dto.setNickName(member.getNickname());
+            dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
+            dto.setStarLiked((int)(Math.random() * 5) + 1);
+            dto.setMultipartFileList(Collections.emptyList());
+            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.starUpdate(restaurant2.getId());
+        }
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,
