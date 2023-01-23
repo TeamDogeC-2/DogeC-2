@@ -11,16 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/{restaurantId}/review")
+@RequestMapping("/restaurant/{restaurantId}")
 @RequiredArgsConstructor
 public class RestaurantReviewDeleteController {
 
     private final RestaurantReviewDeleteService restaurantReviewDeleteService;
 
-    @DeleteMapping("/{restaurantReviewId}")
+    @DeleteMapping("/review")
     public ResponseEntity<ConcurrentHashMap<String, String>> deleteRestaurantReview(
             @PathVariable Long restaurantId,
-            @PathVariable Long restaurantReviewId,
             @RequestBody RestaurantReviewDeleteDto dto){
         log.info("리뷰 삭제가 호출되었습니다.");
         ConcurrentHashMap<String, String> resultMap = restaurantReviewDeleteService.deleteRestaurantReview(
