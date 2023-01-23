@@ -27,7 +27,7 @@ const menuInfo = (props: any) => {
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="ml-[14px] mt-[13px] text-[20px] font-semibold leading-[28px] text-[#515151] leading-[28px] flex items-center">
+              <div className="w-[157px] h-[16px] ml-[14px] mt-[30px] text-[20px] font-semibold leading-[28px] text-[#515151] leading-[28px] flex items-center">
                 {school.restaurantMenuName}
               </div>
               <div className="ml-[14px] mt-[108px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
