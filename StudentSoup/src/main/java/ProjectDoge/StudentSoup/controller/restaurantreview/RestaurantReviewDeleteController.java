@@ -23,7 +23,7 @@ public class RestaurantReviewDeleteController {
             @RequestBody RestaurantReviewDeleteDto dto){
         log.info("리뷰 삭제가 호출되었습니다.");
         ConcurrentHashMap<String, String> resultMap = restaurantReviewDeleteService.deleteRestaurantReview(
-                dto.getRestaurantId(),
+                dto.getRestaurantReviewId(),
                 dto.getMemberId());
 
         return ResponseEntity.ok(resultMap);
