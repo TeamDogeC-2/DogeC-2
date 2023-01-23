@@ -20,6 +20,7 @@ const kakao = (window as any).kakao;
 
 const restaurant = () => {
   const saveMemberId = sessionStorage.getItem('memberId');
+  const [menu, setMenu] = useState<any>([]);
   const [set, isSet] = useState<any>([]);
   const state = useLocation<any>();
   const [click, setClick] = useState<any>(1);
@@ -42,6 +43,7 @@ const restaurant = () => {
         memberId: saveMemberId,
       })
       .then(res => {
+        setMenu(res.data.restaurantMenu);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
@@ -71,6 +73,7 @@ const restaurant = () => {
       setHeart(!heart);
     }
   };
+
   /* 공유 버튼 보류 */
   // const handleCopyClipBoard = async (text: string) => {
   //   try {
@@ -289,7 +292,7 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {click === 1 && <MenuInfopage />}
+          {click === 1 && <MenuInfopage {...menu} />}
           {click === 2 && <Reviewpage />}
           {click === 3 && <Sharepage />}
         </div>
