@@ -54,7 +54,6 @@ const restaurant = () => {
         },
       )
       .then(res => {
-        console.log(res.data.restaurantMenu.totalElements);
         setMenu(res.data.restaurantMenu);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
