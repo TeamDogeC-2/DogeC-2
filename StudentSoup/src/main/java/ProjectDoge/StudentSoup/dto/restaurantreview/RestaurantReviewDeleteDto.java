@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class RestaurantReviewDeleteDto {
 
-    private Long restaurantId;
+    private Long restaurantReviewId;
     private Long memberId;
 }
