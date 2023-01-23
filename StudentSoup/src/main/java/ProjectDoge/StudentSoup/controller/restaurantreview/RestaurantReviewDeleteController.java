@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/restaurant/{restaurantId}/review")
 @RequiredArgsConstructor
-public class RestaurantDeleteController {
+public class RestaurantReviewDeleteController {
 
     private final RestaurantReviewDeleteService restaurantReviewDeleteService;
 
