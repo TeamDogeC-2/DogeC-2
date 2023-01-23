@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.restaurant;
+package ProjectDoge.StudentSoup.dto.restaurantreview;
 
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
@@ -19,6 +19,7 @@ public class RestaurantReviewDto {
     private String content;
     private int starLiked;
     private int likedCount;
+    private boolean like;
     private List<String> imageFileNameList;
 
 
@@ -33,6 +34,7 @@ public class RestaurantReviewDto {
         this.starLiked = restaurantReview.getStarLiked();
         this.likedCount = restaurantReview.getLikedCount();
         this.imageFileNameList = setImageFileList(restaurantReview);
+        this.like = isLike;
     }
 
     // 비즈니스 로직

@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.controller.restaurantreview;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewCallReqDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewCallReqDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewCallService;
 import lombok.RequiredArgsConstructor;

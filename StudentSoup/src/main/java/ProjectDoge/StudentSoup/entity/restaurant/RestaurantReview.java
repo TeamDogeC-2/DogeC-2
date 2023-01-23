@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
@@ -97,5 +97,13 @@ public class RestaurantReview {
             imageFile.setRestaurantReview(this);
     }
 
+    public void addLikedCount(){
+        this.likedCount += 1;
+    }
+    public void minusLikedCount(){
+        if(this.likedCount != 0) {
+            this.likedCount -= 1;
+        }
+    }
 
 }

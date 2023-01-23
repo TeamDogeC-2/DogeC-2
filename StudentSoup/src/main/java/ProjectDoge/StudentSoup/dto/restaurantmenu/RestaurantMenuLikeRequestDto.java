@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.restaurant;
+package ProjectDoge.StudentSoup.dto.restaurantmenu;
 
 import lombok.Data;
 

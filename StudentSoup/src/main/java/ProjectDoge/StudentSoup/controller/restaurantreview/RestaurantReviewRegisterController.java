@@ -1,8 +1,8 @@
 package ProjectDoge.StudentSoup.controller.restaurantreview;
 
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRegRespDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRegRespDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

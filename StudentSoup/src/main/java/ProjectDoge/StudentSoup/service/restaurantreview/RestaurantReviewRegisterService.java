@@ -1,8 +1,8 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRegRespDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRegRespDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
