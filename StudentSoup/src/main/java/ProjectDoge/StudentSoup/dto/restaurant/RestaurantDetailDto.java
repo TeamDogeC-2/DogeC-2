@@ -21,6 +21,7 @@ public class RestaurantDetailDto {
     private String schoolName;
     private String longitude;
     private String latitude;
+    private String tel;
     private int reviewCount;
     private double starLiked;
     private int likedCount;
@@ -40,6 +41,7 @@ public class RestaurantDetailDto {
         this.schoolName = restaurant.getSchool().getSchoolName();
         this.longitude = restaurant.getCoordinate().split(",")[0];
         this.latitude = restaurant.getCoordinate().split(",")[1];
+        this.tel = restaurant.getTel();
         this.reviewCount = restaurant.getRestaurantReviews().size();
         this.starLiked = restaurant.getStarLiked();
         this.likedCount = restaurant.getLikedCount();

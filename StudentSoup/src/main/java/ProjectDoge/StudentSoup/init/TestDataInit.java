@@ -156,7 +156,7 @@ public class TestDataInit {
                 schoolId1,
                 "37.3738948150,126.6364371486",
                 null,
-                "전화번호",
+                "032-710-6464",
                 "태그",
                 "디테일");
 
@@ -169,7 +169,7 @@ public class TestDataInit {
                     schoolId1,
                     "37.3738948150,126.6364371486",
                     null,
-                    "전화번호",
+                    "032-710-6464",
                     "태그",
                     "디테일");
             restaurantRegisterService.join(testDto);
@@ -183,7 +183,7 @@ public class TestDataInit {
                 schoolId2,
                 "37.3874120913,126.6637521009",
                 null,
-                "전화번호",
+                "032-816-9888",
                 "태그",
                 "디테일");
 
@@ -196,7 +196,7 @@ public class TestDataInit {
                     schoolId2,
                     "37.3738948150,126.6364371486",
                     null,
-                    "전화번호",
+                    "032-816-9888",
                     "태그",
                     "디테일");
             restaurantRegisterService.join(testDto);
