@@ -34,8 +34,9 @@ public class RestaurantReviewLike {
     }
 
     //== 생성 메서드 ==//
-    public RestaurantReviewLike(RestaurantReview review, Member member){
+    public RestaurantReviewLike createRestaurantReviewLike(RestaurantReview review, Member member){
         this.restaurantReview = review;
         this.member = member;
+        return this;
     }
 }
