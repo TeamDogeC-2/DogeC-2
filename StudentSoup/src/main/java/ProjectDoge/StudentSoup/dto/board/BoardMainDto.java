@@ -30,4 +30,15 @@ public class BoardMainDto {
         this.view = board.getView();
         this.nickName = board.getMember().getNickname();
     }
+    @QueryProjection
+    public BoardMainDto(Long boardId, BoardCategory boardCategory, String title, String updateDate, String nickName, int view, int likedCount) {
+        this.boardId = boardId;
+        this.boardCategory = boardCategory;
+        this.title = title;
+        this.updateDate = updateDate;
+        this.nickName = nickName;
+        this.view = view;
+        this.likedCount = likedCount;
+    }
+
 }
