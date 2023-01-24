@@ -34,8 +34,6 @@ const menuInfo = (props: any) => {
       .catch(err => {
         console.error(err);
       });
-    alert('임시 하트 카운트 저장');
-    location.reload();
   };
   return (
     <>
