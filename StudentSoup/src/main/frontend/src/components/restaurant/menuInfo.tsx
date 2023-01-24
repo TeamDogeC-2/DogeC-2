@@ -20,21 +20,26 @@ const menuInfo = (props: any) => {
   const url = `/restaurant/${restaurantNumber}/menu/like`;
   const handleHeartCount = async (e: any) => {
     const saveMenuId = e.target.id;
-    setClick(!click);
     setMenuId(e.target.id);
-
-    axios
-      .post(url, {
-        restaurantMenuId: saveMenuId,
-        memberId: saveMemberId,
-      })
-      .then(res => {
-        setHeart(res.data.like);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (!saveMemberId) {
+      alert('로그인후 이용 가능한 기능입니다.');
+    } else {
+      axios
+        .post(url, {
+          restaurantMenuId: saveMenuId,
+          memberId: saveMemberId,
+        })
+        .then(res => {
+          setHeart(res.data.like);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      alert('좋아요 클릭');
+      location.reload();
+    }
   };
+
   return (
     <>
       <div className="ml-[25px] mt-[10px] grid grid-cols-2">
