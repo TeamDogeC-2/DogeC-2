@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.restaurant;
+package ProjectDoge.StudentSoup.dto.restaurantreview;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +12,6 @@ public class RestaurantReviewRequestDto {
     private Long memberId;
     private String nickName;
     private String content;
-    private String menuName;
     private int starLiked;
     private List<MultipartFile> multipartFileList;
 }

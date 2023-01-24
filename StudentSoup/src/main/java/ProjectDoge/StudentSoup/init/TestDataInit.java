@@ -4,33 +4,30 @@ import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
-import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.board.BoardLikeService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
+import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +37,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Profile("local")
@@ -56,6 +53,7 @@ public class TestDataInit {
     private final RestaurantRegisterService restaurantRegisterService;
     private final RestaurantFindService restaurantFindService;
     private final RestaurantMenuRegisterService restaurantMenuRegisterService;
+    private final RestaurantReviewRegisterService restaurantReviewRegisterService;
 
     private final BoardResisterService boardResisterService;
 
@@ -70,6 +68,7 @@ public class TestDataInit {
         initMember();
         initRestaurant();
         initRestaurantMenu();
+        initRestaurantReview();
         initBoard();
         initBoardLike();
     }
@@ -92,8 +91,8 @@ public class TestDataInit {
     }
 
     private void initDepartment(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(schoolId1);
@@ -117,8 +116,8 @@ public class TestDataInit {
     }
 
     private void initMember(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(schoolId1);
         List<Department> departments2 = departmentRepository.findBySchool_Id(schoolId2);
@@ -145,8 +144,8 @@ public class TestDataInit {
     }
 
     private void initRestaurant(){
-        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스");
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스");
+        Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
 
         RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
@@ -156,7 +155,7 @@ public class TestDataInit {
                 schoolId1,
                 "37.3738948150,126.6364371486",
                 null,
-                "전화번호",
+                "032-710-6464",
                 "태그",
                 "디테일");
 
@@ -169,7 +168,7 @@ public class TestDataInit {
                     schoolId1,
                     "37.3738948150,126.6364371486",
                     null,
-                    "전화번호",
+                    "032-710-6464",
                     "태그",
                     "디테일");
             restaurantRegisterService.join(testDto);
@@ -183,7 +182,7 @@ public class TestDataInit {
                 schoolId2,
                 "37.3874120913,126.6637521009",
                 null,
-                "전화번호",
+                "032-816-9888",
                 "태그",
                 "디테일");
 
@@ -196,7 +195,7 @@ public class TestDataInit {
                     schoolId2,
                     "37.3738948150,126.6364371486",
                     null,
-                    "전화번호",
+                    "032-816-9888",
                     "태그",
                     "디테일");
             restaurantRegisterService.join(testDto);
@@ -207,30 +206,58 @@ public class TestDataInit {
 
     private void initRestaurantMenu(){
 
-        Restaurant restaurant = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
 
-        RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+        RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                 "뼈해장국",
                 RestaurantMenuCategory.Main,
                 9000);
 
-        RestaurantMenuFormDto dto2 = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant.getId(),
+        RestaurantMenuFormDto dto2 = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
                 "순대국밥",
                 RestaurantMenuCategory.Main,
                 8000);
+
         restaurantMenuRegisterService.join(dto);
         restaurantMenuRegisterService.join(dto2);
+
+        for(int i = 0; i < 20; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
+                    "뼈해장국" + i,
+                    RestaurantMenuCategory.Main,
+                    9000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
+        for(int i = 0; i < 4; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(
+                    restaurant2.getId(),
+                    "연어니기리 6p" + i + "case",
+                    RestaurantMenuCategory.Main,
+                    9900);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
     }
 
     private void initBoard(){
         Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
         Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
 
+        for(int i =0; i<30; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
+            boardResisterService.join(member.getMemberId(),boardFormDto);
+        }
 
-        BoardFormDto dto = new BoardFormDto().createBoardFormDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
-        BoardFormDto dto2 = new BoardFormDto().createBoardFormDto("테스트 제목2", BoardCategory.EMPLOYMENT,"테스트 내용2");
-        boardResisterService.join(member.getMemberId(),dto);
-        boardResisterService.join(member1.getMemberId(),dto2);
+        for(int i =60; i<90; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.EMPLOYMENT,"테스트 내용"+i);
+            boardResisterService.join(member1.getMemberId(),boardFormDto);
+        }
+        for(int i= 100; i<110; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
+            boardResisterService.join(member1.getMemberId(),boardFormDto);
+        }
 
     }
 
@@ -244,6 +271,37 @@ public class TestDataInit {
         BoardLike boardLike = new BoardLike().createBoard(member,board1);
         BoardLike boardLike1 = new BoardLike().createBoard(member1,board1);
         boardLikeRepository.save(boardLike);
+    }
+
+    private void initRestaurantReview(){
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
+        Member member = memberRepository.findByEmail("dummytest1@naver.com");
+        for(int i = 0; i < 30; i++){
+            RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
+            dto.setRestaurantId(restaurant1.getId());
+            dto.setRestaurantName(restaurant1.getName());
+            dto.setMemberId(member.getMemberId());
+            dto.setNickName(member.getNickname());
+            dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
+            dto.setStarLiked((int)(Math.random() * 5) + 1);
+            dto.setMultipartFileList(Collections.emptyList());
+            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.starUpdate(restaurant1.getId());
+        }
+
+        for(int i = 0; i < 20; i++){
+            RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
+            dto.setRestaurantId(restaurant2.getId());
+            dto.setRestaurantName(restaurant2.getName());
+            dto.setMemberId(member.getMemberId());
+            dto.setNickName(member.getNickname());
+            dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
+            dto.setStarLiked((int)(Math.random() * 5) + 1);
+            dto.setMultipartFileList(Collections.emptyList());
+            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.starUpdate(restaurant2.getId());
+        }
     }
 
     private MemberFormBDto createMemberFormDto(String id, String pwd, String nickname, String email,

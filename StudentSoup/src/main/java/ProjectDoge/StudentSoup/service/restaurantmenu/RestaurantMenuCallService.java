@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDetailDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
@@ -10,8 +10,12 @@ import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -32,14 +36,14 @@ public class RestaurantMenuCallService {
     private final boolean NOT_LIKED = false;
 
     @Transactional
-    public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId){
+    public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId, Pageable pageable){
 
         log.info("음식점 세부사항 호출 로직이 실행되었습니다. [{}]", restaurantId);
 
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
-
+        JPAQuery<Long> count = restaurantMenuRepository.countByRestaurantId(restaurantId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant);
+        setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant, pageable, count);
         log.info("음식점 세부사항 호출 로직이 완료되었습니다.");
         return resultMap;
     }
@@ -47,26 +51,37 @@ public class RestaurantMenuCallService {
     private void setRestaurantDetailInfo(Long restaurantId,
                                          Long memberId,
                                          ConcurrentHashMap<String, Object> resultMap,
-                                         Restaurant restaurant) {
+                                         Restaurant restaurant,
+                                         Pageable pageable,
+                                         JPAQuery<Long> count) {
         restaurant.addViewCount();
         if(isLoginMember(memberId)) {
             log.info("회원이 로그인 된 상태의 음식점 세부사항을 호출합니다. [{}]", memberId);
-            setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant);
+            setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant, pageable, count);
         } else {
             log.info("로그인 되지 않은 상태의 음식점 세부사항을 호출합니다.");
-            setNotLoginStatusRestaurantDetailDto(restaurantId, resultMap, restaurant);
+            setNotLoginStatusRestaurantDetailDto(restaurantId, resultMap, restaurant, pageable, count);
         }
     }
-    private void setLoginStatusRestaurantDetailDto(Long restaurantId, Long memberId, ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+    private void setLoginStatusRestaurantDetailDto(Long restaurantId,
+                                                   Long memberId,
+                                                   ConcurrentHashMap<String, Object> resultMap,
+                                                   Restaurant restaurant,
+                                                   Pageable pageable,
+                                                   JPAQuery<Long> count) {
         log.info("로그인이 된 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setLoginStatusRestaurantDetail(restaurantId, memberId, resultMap, restaurant);
-        setLoginStatusRestaurantMenu(restaurantId, memberId, resultMap);
+        setLoginStatusRestaurantMenu(restaurantId, memberId, pageable, resultMap, count);
     }
 
-    private void setNotLoginStatusRestaurantDetailDto(Long restaurantId, ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
+    private void setNotLoginStatusRestaurantDetailDto(Long restaurantId,
+                                                      ConcurrentHashMap<String, Object> resultMap,
+                                                      Restaurant restaurant,
+                                                      Pageable pageable,
+                                                      JPAQuery<Long> count) {
         log.info("로그인이 되어있지 않은 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setNotLoginStatusRestaurantDetail(resultMap, restaurant);
-        setNotLoginStatusRestaurantMenu(restaurantId, resultMap);
+        setNotLoginStatusRestaurantMenu(restaurantId, pageable, resultMap, count);
     }
 
 
@@ -111,14 +126,17 @@ public class RestaurantMenuCallService {
 
     private void setLoginStatusRestaurantMenu(Long restaurantId,
                                               Long memberId,
-                                              ConcurrentHashMap<String, Object> resultMap) {
+                                              Pageable pageable,
+                                              ConcurrentHashMap<String, Object> resultMap,
+                                              JPAQuery<Long> count) {
         log.info("로그인 된 상태의 음식점 메뉴들을 호출합니다.");
         List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
-        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId);
+        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId, pageable);
         for(RestaurantMenu restaurantMenu : restaurantMenuList){
             restaurantMenuDtoList.add(getLoginStatusRestaurantMenuDto(memberId, restaurantMenu));
         }
-        resultMap.put("restaurantMenu", restaurantMenuDtoList);
+        Page<RestaurantMenuDto> page = PageableExecutionUtils.getPage(restaurantMenuDtoList, pageable, count::fetchOne);
+        resultMap.put("restaurantMenu", page);
 
     }
 
@@ -130,14 +148,18 @@ public class RestaurantMenuCallService {
         return getLikeRestaurantMenuDto(restaurantMenu);
     }
 
-    private void setNotLoginStatusRestaurantMenu(Long restaurantId, ConcurrentHashMap<String, Object> resultMap){
+    private void setNotLoginStatusRestaurantMenu(Long restaurantId,
+                                                 Pageable pageable,
+                                                 ConcurrentHashMap<String, Object> resultMap,
+                                                 JPAQuery<Long> count){
         log.info("로그인 되지 않은 상태의 음식점 메뉴들을 호출합니다.");
         List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
-        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId);
+        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId, pageable);
         for(RestaurantMenu restaurantMenu : restaurantMenuList){
             restaurantMenuDtoList.add(getNotLoginStatusRestaurantMenuDto(restaurantMenu));
         }
-        resultMap.put("restaurantMenu", restaurantMenuDtoList);
+        Page<RestaurantMenuDto> page = PageableExecutionUtils.getPage(restaurantMenuDtoList, pageable, count::fetchOne);
+        resultMap.put("restaurantMenu", page);
         log.info("로그인 되지 않은 상태의 음식점 메뉴 호출이 완료되었습니다.");
     }
 

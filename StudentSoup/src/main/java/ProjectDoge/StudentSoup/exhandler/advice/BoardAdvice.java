@@ -3,7 +3,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 import ProjectDoge.StudentSoup.exception.board.BoardIdNotSentException;
 import ProjectDoge.StudentSoup.exception.board.BoardNotFoundException;
 import ProjectDoge.StudentSoup.exception.board.BoardSearchDataNotSentException;
-import ProjectDoge.StudentSoup.exception.board.NotOwnMemberException;
+import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,9 +33,9 @@ public class BoardAdvice {
         return new ErrorResult("BoardIdNotSentException", e.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NotOwnMemberException.class)
-    public ErrorResult NotOwnMemberException(NotOwnMemberException e){
+    @ExceptionHandler(BoardNotOwnMemberException.class)
+    public ErrorResult BoardNotOwnMemberException(BoardNotOwnMemberException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("NotOwnMemberException",e.getMessage());
+        return new ErrorResult("BoardNotOwnMemberException",e.getMessage());
     }
 }

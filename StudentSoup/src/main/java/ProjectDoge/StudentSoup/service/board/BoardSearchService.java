@@ -6,6 +6,8 @@ import ProjectDoge.StudentSoup.exception.board.BoardSearchDataNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,12 +20,12 @@ public class BoardSearchService {
 
     private final BoardRepository boardRepository;
 
-    public List<BoardMainDto> searchBoard(Long schoolId,String category,String column ,String value){
+    public Page<BoardMainDto> searchBoard(Long schoolId, String category, String column , String value, Pageable pageable){
         checkDataSent(column, value);
         log.info("게시글 검색 서비스가 실행되었습니다.");
         log.info("schoolId [{}] category [{}] column[{}] value [{}]",schoolId,category,column,value);
-        List<Board> boards = boardRepository.findByDynamicSearch(schoolId,category,column,value);
-        List<BoardMainDto> boardMainDtoList = typeCastingToBoardMainDto(boards);
+        Page<BoardMainDto>  boardMainDtoList= boardRepository.findByDynamicSearch(schoolId,category,column,value,pageable);
+
         return boardMainDtoList;
     }
 

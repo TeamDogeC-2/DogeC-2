@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;

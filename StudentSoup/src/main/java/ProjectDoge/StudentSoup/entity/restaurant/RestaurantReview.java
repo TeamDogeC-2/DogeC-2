@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantReviewRequestDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
@@ -33,7 +33,6 @@ public class RestaurantReview {
 
     private String content;
 
-    private String menuName;
 
     @OneToMany(mappedBy = "restaurantReview")
     private List<ImageFile> imageFileList = new ArrayList<>();
@@ -49,6 +48,9 @@ public class RestaurantReview {
 
     @Column(columnDefinition = "DATE")
     private LocalDate updateDate;
+
+    @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.REMOVE)
+    private List<RestaurantReviewLike> restaurantReviewLikes = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
@@ -69,7 +71,6 @@ public class RestaurantReview {
         this.member = member;
         this.nickname = dto.getNickName();
         this.content = dto.getContent();
-        this.menuName = dto.getMenuName();
         this.likedCount = 0;
         this.starLiked = dto.getStarLiked();
         this.writeDate = LocalDate.now();
@@ -96,5 +97,13 @@ public class RestaurantReview {
             imageFile.setRestaurantReview(this);
     }
 
+    public void addLikedCount(){
+        this.likedCount += 1;
+    }
+    public void minusLikedCount(){
+        if(this.likedCount != 0) {
+            this.likedCount -= 1;
+        }
+    }
 
 }

@@ -26,13 +26,12 @@ public class SchoolFindService {
         });
     }
 
-    public Long findOne(String schoolName){
-        School school = schoolRepository.findBySchoolName(schoolName).orElseThrow(() -> {
+    public School findOne(String schoolName){
+
+        return schoolRepository.findBySchoolName(schoolName).orElseThrow(() -> {
             log.info("findOne 메소드가 실행되었습니다. [{}]", schoolName);
             throw new SchoolNotFoundException("학교를 찾지 못하였습니다.");
         });
-
-        return school.getId();
     }
 
     private void checkSchoolIdSent(Long schoolId) {

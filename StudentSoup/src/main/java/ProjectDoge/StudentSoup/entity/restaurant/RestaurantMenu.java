@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,8 +33,6 @@ public class RestaurantMenu {
     private ImageFile imageFile;
 
     private int likedCount;
-
-    private float starLiked;
 
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
