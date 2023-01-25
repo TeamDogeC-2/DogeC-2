@@ -29,7 +29,10 @@ const restaurant = () => {
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const [heart, setHeart] = useState<boolean>();
+  const [infoHeart, setInfoHeart] = useState<boolean>();
   const [size, setSize] = useState<number>(4);
+  const [likeTotalCount, setLikeTotalCount] = useState<number>();
+  const [likedCount, setlikedCount] = useState<number>();
 
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
@@ -59,11 +62,12 @@ const restaurant = () => {
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
         setHeart(res.data.restaurant.like);
+        setLikeTotalCount(res.data.restaurant.likedCount);
       })
       .catch(err => {
         console.error(err);
       });
-  }, [heart, size]);
+  }, [size]);
 
   const MapLocation = [longitude, latitude];
   useEffect(() => {
@@ -78,11 +82,17 @@ const restaurant = () => {
     if (!saveMemberId) {
       alert('로그인후 이용 가능한 기능입니다.');
     } else {
-      await axios.post(`/restaurant/${saveMemberId}/like`, {
-        restaurantId: restaurantNumber,
-        memberId: saveMemberId,
-      });
+      await axios
+        .post(`/restaurant/${saveMemberId}/like`, {
+          restaurantId: restaurantNumber,
+          memberId: saveMemberId,
+        })
+        .then(res => {
+          setlikedCount(res.data.data.likedCount);
+          setInfoHeart(res.data.data.like);
+        });
       setHeart(!heart);
+      setInfoHeart(!infoHeart);
     }
   };
 
@@ -262,7 +272,7 @@ const restaurant = () => {
           <div className="flex flex-row">
             <InfoHeart className="ml-[21px] mt-[19px]" />
             <div className="ml-[8px] mt-[16px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-              이 식당에 {set.likedCount}명의 좋아요한 사용자가 있습니다.
+              이 식당에 {infoHeart ? likedCount : set.likedCount}명의 좋아요한 사용자가 있습니다.
             </div>
           </div>
         </div>
