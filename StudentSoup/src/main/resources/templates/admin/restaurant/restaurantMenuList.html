@@ -41,7 +41,6 @@
                                 fileName
                             </td>
                             <td th:if="${restaurantMenu.imageFile == null}">null</td>
-                            <td th:text="${restaurantMenu.starLiked}">starLiked</td>
                             <td th:text="${restaurantMenu.likedCount}">likedCount</td>
                             <td>
                                 <a th:href="@{/admin/restaurantMenu/edit/{restaurantMenuId}(restaurantMenuId = ${restaurantMenu.id})}">
