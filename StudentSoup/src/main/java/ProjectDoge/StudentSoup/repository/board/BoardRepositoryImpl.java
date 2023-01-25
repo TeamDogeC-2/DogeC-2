@@ -5,8 +5,10 @@ import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
 import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -203,6 +205,11 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private BooleanExpression checkSortedBoard(String category) {
         if(category.equals("ALL")){
             return null;
+        }
+        else if (category.equals("CONSULTING") || category.equals("EMPLOYMENT")) {
+            BooleanExpression searchCategory = board.boardCategory.eq(BoardCategory.CONSULTING);
+            BooleanExpression searchCategory1 =  board.boardCategory.eq(BoardCategory.EMPLOYMENT);
+        return Expressions.anyOf(searchCategory,searchCategory1);
         }
         return board.boardCategory.eq(BoardCategory.valueOf(category));
     }
