@@ -45,7 +45,6 @@ const restaurant = () => {
         memberId: saveMemberId,
       })
       .then(res => {
-        console.log(res.data.restaurant.viewCount);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
