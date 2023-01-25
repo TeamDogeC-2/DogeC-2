@@ -17,8 +17,8 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class RestaurantReviewRegisterService {
     private final FileRepository fileRepository;
     private final FileService fileService;
 
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public Long join(RestaurantReviewRequestDto dto){
         log.info("음식점 리뷰 등록 서비스가 실행되었습니다.");
         checkReviewDto(dto);
@@ -84,7 +84,7 @@ public class RestaurantReviewRegisterService {
         log.info("음식점 리뷰 이미지 업로드가 완료되었습니다.");
     }
 
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
