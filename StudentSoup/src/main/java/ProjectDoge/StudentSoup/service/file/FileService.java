@@ -77,7 +77,7 @@ public class FileService {
         log.info("데이터베이스 저장용 파일 이름 생성 메소드가 실행되었습니다.");
         String ext = extractExt(originalFileName);
         log.info("추출된 확장자 : {} ", ext);
-        if(isNotImageFile(ext)) {
+        if(isNotImageFile(ext.toLowerCase())) {
             throw new FileExtNotMatchException("잘못된 이미지 파일 확장자 입니다.");
         }
         String uuid = UUID.randomUUID().toString();
