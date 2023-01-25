@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
@@ -29,15 +28,15 @@ public class RestaurantRegisterService {
 
     private final RestaurantRepository restaurantRepository;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long join(RestaurantFormDto dto) {
         log.info("음식점 생성 메서드가 실행되었습니다.");
         School school = schoolFindService.findOne(dto.getSchoolId());
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school);
-        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultiparFileList());
-        uploadRestaurantImage(restaurant, uploadFileDtoList);
         restaurant.setDistance(restaurant.calcDistance(school));
         restaurantValidationService.validateDuplicateRestaurant(restaurant);
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
+        uploadRestaurantImage(restaurant, uploadFileDtoList);
         restaurantRepository.save(restaurant);
         log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance());
         return restaurant.getId();
@@ -52,7 +51,7 @@ public class RestaurantRegisterService {
                 restaurant.addImageFile(fileRepository.save(imageFile));
             }
         }
-        log.info("음식점 리뷰 이미지 업로드가 완료되었습니다.");
+        log.info("음식점 이미지 업로드가 완료되었습니다.");
     }
 
     @Transactional
