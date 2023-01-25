@@ -33,7 +33,6 @@ public class RestaurantReview {
 
     private String content;
 
-
     @OneToMany(mappedBy = "restaurantReview")
     private List<ImageFile> imageFileList = new ArrayList<>();
 
@@ -91,10 +90,10 @@ public class RestaurantReview {
 
     //== 비즈니스 로직 ==//
     public void addImageFile(ImageFile imageFile){
-        this.getImageFileList().add(imageFile);
-
         if(imageFile.getRestaurantReview() != this)
             imageFile.setRestaurantReview(this);
+
+        this.getImageFileList().add(imageFile);
     }
 
     public void addLikedCount(){

@@ -43,7 +43,7 @@ public class Restaurant {
 
     private int distance;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int viewCount;
@@ -169,10 +169,10 @@ public class Restaurant {
     
     // 이미지 추가 로직
     public void addImageFile(ImageFile imageFile) {
-        this.getImageFileList().add(imageFile);
-
         if (imageFile.getRestaurant() != this)
             imageFile.setRestaurant(this);
+
+        this.getImageFileList().add(imageFile);
     }
 
     // 별점 업데이트 로직

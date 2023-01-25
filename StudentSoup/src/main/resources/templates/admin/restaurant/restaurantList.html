@@ -47,11 +47,14 @@
                             <td th:text="${restaurant.tel}">tel</td>
                             <td th:text="${restaurant.tag}">tag</td>
                             <td th:text="${restaurant.detail}">detail</td>
-                            <td th:if="${restaurant.imageFile != null}"
-                                th:text="${ restaurant.imageFile.fileOriginalName}">
-                                fileName
+                            <td th:if="${restaurant.imageFileList.size() != 0}">
+                                <p
+                                   th:each="imageFile : ${restaurant.imageFileList}"
+                                    th:text="${imageFile.getFileName()} + ','">
+                                    text
+                                </p>
                             </td>
-                            <td th:if="${restaurant.imageFile == null}">null</td>
+                            <td th:if="${restaurant.imageFileList.size() == 0}">null</td>
                             <td th:text="${restaurant.starLiked}">starLiked</td>
                             <td th:text="${restaurant.likedCount}">likedCount</td>
                             <td>
@@ -132,11 +135,11 @@
                         <td th:text="${findRestaurants.tel}">tel</td>
                         <td th:text="${findRestaurants.tag}">tag</td>
                         <td th:text="${findRestaurants.detail}">detail</td>
-                        <td th:if="${findRestaurants.imageFile != null}"
+                        <td th:if="${findRestaurants.imageFileList.size() != 0}" th:each="imageFile : ${restaurant.imageFileList}"
                             th:text="${findRestaurants.imageFile.fileOriginalName}">
                             fileName
                         </td>
-                        <td th:if="${findRestaurants.imageFile == null}">null</td>
+                        <td th:if="${findRestaurants.imageFileList.size() == 0}">null</td>
                         <td th:text="${findRestaurants.starLiked}">starLiked</td>
                         <td th:text="${findRestaurants.likedCount}">likedCount</td>
                         <td>

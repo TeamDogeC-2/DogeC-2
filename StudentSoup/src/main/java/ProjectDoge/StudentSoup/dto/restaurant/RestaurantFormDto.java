@@ -35,7 +35,7 @@ public class RestaurantFormDto {
 
     private String coordinate;
 
-    private List<MultipartFile> multiparFileList;
+    private List<MultipartFile> multipartFileList;
 
     @NotEmpty(message = "가게번호 입력은 필수 입니다.")
     private String tel;
