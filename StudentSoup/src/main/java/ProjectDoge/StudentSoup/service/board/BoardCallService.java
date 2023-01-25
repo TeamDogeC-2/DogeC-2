@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service.board;
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
@@ -46,12 +47,16 @@ public class BoardCallService {
 
     }
 
-    public ConcurrentHashMap<String, Object> getBoardSortedCall(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable){
+    public ConcurrentHashMap<String, Object> getBoardSortedCall(BoardCallDto boardCallDto,
+                                                                String category,
+                                                                int sorted,
+                                                                Pageable pageable,
+                                                                BoardSearchDto boardSearchDto){
         log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
         isLoginMember(boardCallDto.getMemberId());
         ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
         checkFirstPage(pageable, map);
-        getBoards(boardCallDto, category, sorted, pageable, map);
+        getBoards(boardCallDto, category, sorted, pageable, map,boardSearchDto);
         return map;
     }
 
@@ -67,46 +72,80 @@ public class BoardCallService {
         map.put("announcement",announcement);
     }
 
-    private void getBoards(BoardCallDto boardCallDto, String category, int sorted, Pageable pageable, ConcurrentHashMap<String, Object> map) {
+    private void getBoards(BoardCallDto boardCallDto,
+                           String category, int sorted,
+                           Pageable pageable,
+                           ConcurrentHashMap<String, Object> map,
+                           BoardSearchDto boardSearchDto) {
         log.info("게시판 호출 메서드가 실행되었습니다.");
         if(pageable.getPageNumber() == 0 && category.equals("ALL") || pageable.getPageNumber() == 0 && category.equals("TIP")){
-            getFistPage(map, boardCallDto, category, sorted);
+            getFirstPage(map, boardCallDto, category, sorted,boardSearchDto);
         }
         else{
-            Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+            Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
+                    boardCallDto.getDepartmentId(),
+                    category,
+                    sorted,
+                    pageable,
+                    boardSearchDto.getColumn(),
+                    boardSearchDto.getValue());
             map.put("boards", boardMainDtoList);
         }
     }
 
 
-    private void getFistPage(ConcurrentHashMap<String, Object> map,BoardCallDto boardCallDto, String category, int sorted) {
+    private void getFirstPage(ConcurrentHashMap<String, Object> map,
+                             BoardCallDto boardCallDto,
+                             String category,
+                             int sorted,
+                             BoardSearchDto boardSearchDto) {
             if(category.equals("ALL")) {
-                getFirstAllBoardsPage(map, boardCallDto, category, sorted);
+                getFirstAllBoardsPage(map, boardCallDto, category, sorted,boardSearchDto);
             }
             else if(category.equals("TIP")){
-                getFistTipBoardsPage(map,boardCallDto,category,sorted);
+                getFirstTipBoardsPage(map,boardCallDto,category,sorted,boardSearchDto);
             }
     }
 
-    private void getFistTipBoardsPage(ConcurrentHashMap<String, Object> map, BoardCallDto boardCallDto, String category, int sorted) {
+    private void getFirstTipBoardsPage(ConcurrentHashMap<String, Object> map,
+                                      BoardCallDto boardCallDto,
+                                      String category,
+                                      int sorted,
+                                      BoardSearchDto boardSearchDto) {
         log.info("팁 게시판 0페이지 호출 메서드가 싷행 됐습니다.");
         PageRequest pageable = PageRequest.of(0, 8);
 
-        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
+                boardCallDto.getDepartmentId(),
+                category,
+                sorted,
+                pageable,
+                boardSearchDto.getColumn(),
+                boardSearchDto.getValue());
         List<BoardMainDto> tipBoards = boardRepository.findBestTipBoards(boardCallDto.getSchoolId());
 
         map.put("boards",boards);
         map.put("tipBoards",tipBoards);
     }
 
-    private void getFirstAllBoardsPage(ConcurrentHashMap<String, Object> map, BoardCallDto boardCallDto, String category, int sorted) {
+    private void getFirstAllBoardsPage(ConcurrentHashMap<String, Object> map,
+                                       BoardCallDto boardCallDto,
+                                       String category,
+                                       int sorted,
+                                       BoardSearchDto boardSearchDto) {
         log.info("전체게시판 0페이지 호출 메서드가 싷행 됐습니다.");
 
         LocalDateTime searchTime = LocalDate.now().atTime(0,0,0);
         LocalDateTime endTime = LocalDate.now().atTime(23,59,59);
         Pageable pageable = PageRequest.of(0,7);
 
-        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(), boardCallDto.getDepartmentId(), category, sorted, pageable);
+        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
+                boardCallDto.getDepartmentId(),
+                category,
+                sorted,
+                pageable,
+                boardSearchDto.getColumn(),
+                boardSearchDto.getValue());
         List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime,endTime);
         List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime.minusMonths(1),endTime);
 

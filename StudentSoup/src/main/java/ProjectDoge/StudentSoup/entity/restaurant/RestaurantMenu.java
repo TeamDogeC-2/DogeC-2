@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "RESTAURANT_MENU")
@@ -33,6 +35,9 @@ public class RestaurantMenu {
     private ImageFile imageFile;
 
     private int likedCount;
+
+    @OneToMany(mappedBy = "restaurantMenu", cascade = CascadeType.REMOVE)
+    private List<RestaurantMenuLike> restaurantMenuLikes = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
