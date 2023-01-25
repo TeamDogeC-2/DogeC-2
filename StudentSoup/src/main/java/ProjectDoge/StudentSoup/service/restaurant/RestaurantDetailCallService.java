@@ -29,18 +29,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RestaurantDetailCallService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantLikeRepository restaurantLikeRepository;
-    private final RestaurantMenuRepository restaurantMenuRepository;
 
     private final boolean LIKED = true;
     private final boolean NOT_LIKED = false;
 
     @Transactional
-    public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId, Pageable pageable){
+    public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId){
 
         log.info("음식점 세부사항 호출 로직이 실행되었습니다. [{}]", restaurantId);
 
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
-        JPAQuery<Long> count = restaurantMenuRepository.countByRestaurantId(restaurantId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant);
         log.info("음식점 세부사항 호출 로직이 완료되었습니다.");
