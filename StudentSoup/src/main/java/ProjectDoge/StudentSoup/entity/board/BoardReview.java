@@ -1,5 +1,7 @@
 package ProjectDoge.StudentSoup.entity.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -66,12 +69,16 @@ public class BoardReview {
 
 
     //== 생성 메서드 ==//
-    public BoardReview createBoardReview(){
+    public BoardReview createBoardReview(Member member, Board board, BoardReviewResDto dto){
+        this.setBoard(board);
+        this.setMember(member);
+        this.setContent(dto.getContent());
         this.setWriteDate(dateFormat(LocalDateTime.now()));
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setLikedCount(0);
-        this.setDepth(0);
-        this.setLevel(0);
+        this.setSeq(dto.getSeq());
+        this.setDepth(dto.getDepth());
+        this.setLevel(dto.getLevel());
         this.setActive(true);
         return this;
     }
@@ -93,4 +100,6 @@ public class BoardReview {
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }
+
+
 }

@@ -23,8 +23,5 @@ public class BoardReviewResDto {
 
     private int level;
 
-    private List<MultipartFile> multipartFileList;
-
-
 
 }
