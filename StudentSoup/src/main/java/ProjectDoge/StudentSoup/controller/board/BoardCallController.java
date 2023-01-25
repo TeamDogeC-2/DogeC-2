@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.controller.board;
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import lombok.RequiredArgsConstructor;
@@ -32,18 +33,21 @@ public class BoardCallController {
     @PostMapping("/boards")
     public Map<String, Object> callBoards(@RequestParam String category,
                                           @RequestParam int sorted,
+                                          BoardSearchDto boardSearchDto,
                                           @RequestBody BoardCallDto boardCallDto,
                                           @PageableDefault(size = 12) Pageable pageable){
-        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}]",
+        log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}] column [{}] value [{}]",
                 category,
                 sorted,
                 boardCallDto.getSchoolId(),
                 boardCallDto.getDepartmentId(),
                 boardCallDto.getMemberId(),
                 pageable.getOffset(),
-                pageable.getPageSize());
+                pageable.getPageSize(),
+                boardSearchDto.getColumn(),
+                boardSearchDto.getValue());
         checkPagingSize(pageable.getPageSize());
-        return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable);
+        return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable,boardSearchDto);
     }
 
     @PostMapping("/board/{boardId}/{memberId}")

@@ -56,7 +56,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
     @Override
-    public Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable){
+    public Page<BoardMainDto> orderByCategory(Long schoolId,
+                                              Long departmentId,
+                                              String category,
+                                              int sorted,
+                                              Pageable pageable,
+                                              String column,
+                                              String value){
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -69,7 +75,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.school.id.eq(schoolId),
                         checkDepartment(departmentId),
                         checkSortedBoard(category),
-                        checkSortedLiked(sorted))
+                        checkSortedLiked(sorted),
+                        searchColumnContainsTitle(column,value),
+                        searchColumnContainsContent(column,value),
+                        searchColumnContainsNickname(column,value))
                 .orderBy(checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -84,35 +93,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         checkSortedLiked(sorted));
 
         return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
-    }
-
-    @Override
-    public Page<BoardMainDto> findByDynamicSearch(Long schoolId, String category, String column,String value,Pageable pageable){
-        List<BoardMainDto> query = queryFactory
-                .select(new QBoardMainDto(board.id,
-                        board.boardCategory,
-                        board.title,
-                        board.updateDate,
-                        board.member.nickname,
-                        board.view,
-                        board.likedCount))
-                .from(board)
-                .where(board.school.id.eq(schoolId),
-                        checkSortedBoard(category),
-                        searchColumnContainsTitle(column,value),
-                        searchColumnContainsContent(column,value),
-                        searchColumnContainsNickname(column,value))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPQLQuery<Long> count = queryFactory
-                .select(board.count())
-                .from(board)
-                .where(board.school.id.eq(schoolId));
-
-        return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
-
     }
 
     @Override
@@ -175,20 +155,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
-        if(column.equals("title")){
+        if(column!=null && column.equals("title")){
             return board.title.contains(value);
         }
         return null;
     }
 
     private BooleanExpression searchColumnContainsContent(String column,String value){
-        if (column.equals("content")){
+        if (column!=null && column.equals("content")){
             return board.content.contains(value);
         }
         return null;
     }
     private BooleanExpression searchColumnContainsNickname(String column,String value){
-        if(column.equals("nickname")){
+        if(column!=null && column.equals("nickname")){
             return board.member.nickname.contains(value);
         }
         return null;
@@ -225,6 +205,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private OrderSpecifier<?> checkSortedCondition(int sorted) {
         if(BoardSortedCase.LIKED.getValue() == sorted){
             return board.likedCount.desc();
+        }
+        else if (BoardSortedCase.REVIEW.getValue() == sorted) {
+            return board.boardReviews.size().desc();
+        }
+        else if(BoardSortedCase.VIEW.getValue() == sorted){
+            return board.view.desc();
         }
         return board.updateDate.asc();
     }

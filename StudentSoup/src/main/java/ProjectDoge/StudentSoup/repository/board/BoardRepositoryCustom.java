@@ -15,9 +15,8 @@ public interface BoardRepositoryCustom {
 
     Board findByTitle(String title);
 
-    Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable);
+    Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable,String column,String value);
 
-    Page<BoardMainDto> findByDynamicSearch(Long schoolId,String category,String column, String value,Pageable pageable);
 
     Optional<BoardMainDto>  findAnnouncement();
 
