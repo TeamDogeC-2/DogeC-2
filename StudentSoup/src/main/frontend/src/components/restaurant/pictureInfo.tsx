@@ -16,7 +16,7 @@ const pictureInfo = () => {
       </div>
       <div className="mt-[22px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
         더보기
-        <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+        <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
           <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
         </div>
       </div>
