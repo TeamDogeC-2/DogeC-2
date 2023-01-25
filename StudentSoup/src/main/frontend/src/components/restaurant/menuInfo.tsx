@@ -8,7 +8,6 @@ import axios from 'axios';
 import { ReactComponent as MenuHeart } from '../../img/MenuHeart.svg';
 import { ReactComponent as MenuHeartactive } from '../../img/MenuHeartactive.svg';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
-import { findIndex } from 'lodash';
 
 const menuInfo = () => {
   const state = useLocation<any>();
@@ -17,19 +16,33 @@ const menuInfo = () => {
   const saveMemberId = sessionStorage.getItem('memberId');
   const url = `/restaurant/${restaurantNumber}/menus`;
   const [show, setShow] = useState<any>();
+  const [size, setSize] = useState<number>(4);
+  const [click, setClick] = useState<number>(0);
+  const [totalsize, setTotalSize] = useState<any>();
+  const [numbersize, setNumberSize] = useState<any>();
   useEffect(() => {
     axios
-      .post(url, {
-        restaurantId: restaurantNumber,
-        memberId: saveMemberId,
-      })
+      .post(
+        url,
+        {
+          restaurantId: restaurantNumber,
+          memberId: saveMemberId,
+        },
+        {
+          params: {
+            size,
+          },
+        },
+      )
       .then(res => {
+        setNumberSize(res.data.numberOfElements);
+        setTotalSize(res.data.totalElements);
         setShow(res.data.content);
       })
       .catch(err => {
         console.error(err);
       });
-  }, [likeCount]);
+  }, [likeCount, size]);
 
   const handleHeartCount = async (e: any) => {
     const saveMenuId = e.target.id;
@@ -65,25 +78,82 @@ const menuInfo = () => {
       }
     });
   };
+  const handleClickButton = (e: any) => {
+    setClick(click + 1);
+    setSize(size + 4);
+  };
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
 
+    if (scrollTop + clientHeight >= scrollHeight && click !== 0) {
+      setClick(click + 1);
+      setSize(size + 4);
+    }
+  };
   return (
     <>
       <div className="ml-[25px] mt-[10px] grid grid-cols-2">
         {show?.map((school: any) => (
           <div className="flex flex-row" id={school.restaurantMenuId} key={school.restaurantMenuId}>
             <div
+              id={school.restaurantMenuId}
               key={school.restaurantMenuId}
-              className="w-[172px] h-[164px] rounded-[5px] bg-[#FF2] mt-[12px]"
+              className="w-[172px] h-[164px] rounded-[5px] bg-[#FF2] mt-[12px] "
             >
               <div
                 onClick={handleHeartCount}
-                className=" ml-[105px] mt-[5px] w-[58px] h-[27px] rounded-[15px] bg-[#FF611D]"
+                id={school.restaurantMenuId}
+                className=" ml-[105px] mt-[5px] w-[58px] h-[27px] rounded-[15px] bg-[#FF611D] cursor-pointer z-[55]"
               >
-                <div id={school.restaurantMenuId} className="flex flex-row">
+                <div id={school.restaurantMenuId} className="flex flex-row ">
                   {school.like ? (
-                    <MenuHeartactive id={school.restaurantMenuId} className="ml-[10px] mt-[7px]" />
+                    <svg
+                      id={school.restaurantMenuId}
+                      key={school.restaurantMenuId}
+                      className="ml-[10px] mt-[7px]"
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="white"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.26787 1C2.46308 1 1 2.44845 1 4.23519C1 5.67763 1.57166 9.10086 7.20079 12.5619C7.40464 12.6873 7.66685 12.6873 7.8707 12.5619C13.4998 9.10086 14.0715 5.67763 14.0715 4.23519C14.0715 2.44845 12.6084 1 10.8036 1C8.99884 1 7.53575 2.96072 7.53575 2.96072C7.53575 2.96072 6.07267 1 4.26787 1Z"
+                        stroke="white"
+                        strokeWidth="1.30715"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   ) : (
-                    <MenuHeart id={school.restaurantMenuId} className="ml-[10px] mt-[7px]" />
+                    <svg
+                      id={school.restaurantMenuId}
+                      key={school.restaurantMenuId}
+                      className="ml-[10px] mt-[7px]"
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.26787 1C2.46308 1 1 2.44845 1 4.23519C1 5.67763 1.57166 9.10086 7.20079 12.5619C7.40464 12.6873 7.66685 12.6873 7.8707 12.5619C13.4998 9.10086 14.0715 5.67763 14.0715 4.23519C14.0715 2.44845 12.6084 1 10.8036 1C8.99884 1 7.53575 2.96072 7.53575 2.96072C7.53575 2.96072 6.07267 1 4.26787 1Z"
+                        stroke="white"
+                        strokeWidth="1.30715"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   )}
 
                   <div
@@ -107,12 +177,19 @@ const menuInfo = () => {
         ))}
         <div className=" mt-[25px] w-[687px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
       </div>
-      <div className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
-        더보기
-        <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-          <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+      {click === 0 && totalsize > 4 ? (
+        <div
+          onClick={handleClickButton}
+          className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+        >
+          더보기
+          <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+            <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+          </div>
         </div>
-      </div>
+      ) : (
+        ''
+      )}
     </>
   );
 };
