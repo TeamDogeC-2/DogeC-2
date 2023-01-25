@@ -13,16 +13,14 @@ import { ReactComponent as PlusCircle } from '../../img/pluscircle.svg';
 import { ReactComponent as InfoHeart } from '../../img/InfoHeart.svg';
 import MenuInfopage from './menuInfo';
 import Reviewpage from './reviewInfo';
-import Sharepage from './pictureInfo';
+import Picturepage from './pictureInfo';
 import cn from 'clsx';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 const kakao = (window as any).kakao;
 
 const restaurant = () => {
   const saveMemberId = sessionStorage.getItem('memberId');
-  const [menu, setMenu] = useState<any>([]);
   const [set, isSet] = useState<any>([]);
   const state = useLocation<any>();
   const [click, setClick] = useState<any>(1);
@@ -30,7 +28,6 @@ const restaurant = () => {
   const [longitude, setLongitude] = useState<any>();
   const [heart, isHeart] = useState<boolean>();
   const [clickHeart, isClickHeart] = useState<boolean>();
-  const [size, setSize] = useState<number>(4);
   const [likedCount, setlikedCount] = useState<number>();
 
   const restaurantNumber = state.state[0];
@@ -42,21 +39,13 @@ const restaurant = () => {
   const url = `/restaurant/${restaurantNumber}`;
   useEffect(() => {
     axios
-      .post(
-        url,
-        {
-          schoolName,
-          restaurantId: restaurantNumber,
-          memberId: saveMemberId,
-        },
-        {
-          params: {
-            size,
-          },
-        },
-      )
+      .post(url, {
+        schoolName,
+        restaurantId: restaurantNumber,
+        memberId: saveMemberId,
+      })
       .then(res => {
-        setMenu(res.data.restaurantMenu);
+        console.log(res.data.restaurant.viewCount);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
@@ -65,7 +54,7 @@ const restaurant = () => {
       .catch(err => {
         console.error(err);
       });
-  }, [size]);
+  }, []);
 
   const MapLocation = [longitude, latitude];
   useEffect(() => {
@@ -91,26 +80,6 @@ const restaurant = () => {
         });
       isHeart(!heart);
       isClickHeart(!clickHeart);
-    }
-  };
-
-  const infoClickButton = async () => {
-    setSize(size + 4);
-  };
-  useEffect(() => {
-    // scroll event listener 등록
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      // scroll event listener 해제
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight && size > 5) {
-      infoClickButton();
     }
   };
 
@@ -329,38 +298,9 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {click === 1 && <MenuInfopage {...menu} />}
+          {click === 1 && <MenuInfopage />}
           {click === 2 && <Reviewpage />}
-          {click === 3 && <Sharepage />}
-          {click === 1 && size <= menu.totalElements && menu.totalElements > 4 ? (
-            <div
-              onClick={infoClickButton}
-              className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
-            >
-              더보기
-              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
-              </div>
-            </div>
-          ) : (
-            ''
-          )}
-          {click === 2 && (
-            <div className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
-              더보기
-              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
-              </div>
-            </div>
-          )}
-          {click === 3 && (
-            <div className="mt-[10px] mb-[50px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer">
-              더보기
-              <div className="ml-[5px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
-              </div>
-            </div>
-          )}
+          {click === 3 && <Picturepage />}
         </div>
       </div>
     </>
