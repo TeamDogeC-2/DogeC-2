@@ -28,10 +28,9 @@ const restaurant = () => {
   const [click, setClick] = useState<any>(1);
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
-  const [heart, setHeart] = useState<boolean>();
-  const [infoHeart, setInfoHeart] = useState<boolean>();
+  const [heart, isHeart] = useState<boolean>();
+  const [clickHeart, isClickHeart] = useState<boolean>();
   const [size, setSize] = useState<number>(4);
-  const [likeTotalCount, setLikeTotalCount] = useState<number>();
   const [likedCount, setlikedCount] = useState<number>();
 
   const restaurantNumber = state.state[0];
@@ -61,8 +60,7 @@ const restaurant = () => {
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
-        setHeart(res.data.restaurant.like);
-        setLikeTotalCount(res.data.restaurant.likedCount);
+        isHeart(res.data.restaurant.like);
       })
       .catch(err => {
         console.error(err);
@@ -89,10 +87,10 @@ const restaurant = () => {
         })
         .then(res => {
           setlikedCount(res.data.data.likedCount);
-          setInfoHeart(res.data.data.like);
+          isClickHeart(res.data.data.like);
         });
-      setHeart(!heart);
-      setInfoHeart(!infoHeart);
+      isHeart(!heart);
+      isClickHeart(!clickHeart);
     }
   };
 
@@ -272,7 +270,7 @@ const restaurant = () => {
           <div className="flex flex-row">
             <InfoHeart className="ml-[21px] mt-[19px]" />
             <div className="ml-[8px] mt-[16px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-              이 식당에 {infoHeart ? likedCount : set.likedCount}명의 좋아요한 사용자가 있습니다.
+              이 식당에 {clickHeart ? likedCount : set.likedCount}명의 좋아요한 사용자가 있습니다.
             </div>
           </div>
         </div>
