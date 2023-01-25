@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ReactComponent as SmallStar } from '../../img/reviewSmallStar.svg';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
+import { ReactComponent as ReviewWriteStar } from '../../img/reviewWriteStar.svg';
 import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -18,8 +19,19 @@ const review = (props: any) => {
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
   const [click, setClick] = useState<any>(2);
+  const [reviewclick, isReviewClick] = useState<boolean>(false);
   const clickPage = (e: any) => {
     setClick(e);
+  };
+  const reviewButtonClick = () => {
+    isReviewClick(!reviewclick);
+    if (reviewclick) {
+      if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+        isReviewClick(!reviewclick);
+      } else {
+        isReviewClick(reviewclick);
+      }
+    }
   };
   const calcStarRates = () => {
     const tempStarRatesArr = [0, 0, 0, 0, 0];
@@ -51,7 +63,29 @@ const review = (props: any) => {
         console.error(err);
       });
   }, []);
+  const [textValue, setTextValue] = useState<any>('');
+  const [count, setCount] = useState<number>(0);
+  const [maxCount, setMaxCount] = useState<number>(400);
+  const handleSetValue = (e: any) => {
+    setTextValue(e.target.value);
+    setCount(e.target.value.length);
+    setMaxCount(maxCount);
+  };
 
+  const cancelReviewValue = (e: any) => {
+    if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+      isReviewClick(!reviewclick);
+    } else {
+      isReviewClick(reviewclick);
+    }
+  };
+  const handleReviewValue = (e: any) => {
+    if (count < 10) {
+      alert('10자 이상 입력해야 합니다.');
+    } else {
+      isReviewClick(!reviewclick);
+    }
+  };
   return (
     <>
       <div className="flex flex-row">
@@ -89,12 +123,15 @@ const review = (props: any) => {
         <div className="ml-[5px] mt-[28px] w-[201px] h-[16px] font-[400] text-[14px] leading-[18px] flex items-center text-[#9F9F9F]">
           총 302명이 리뷰를 작성했어요.
         </div>
-        <div className="mt-[16px] mr-[36px] w-[177px] h-[38px] bg-[#FF611D] rounded-[22px]">
+        <div
+          onClick={reviewButtonClick}
+          className="mt-[16px] mr-[36px] w-[177px] h-[38px] bg-[#FF611D] rounded-[22px] cursor-pointer"
+        >
           <div className="flex flex-row">
             <ReviewEdit className="ml-[16px] mt-[12.39px]" />
-            <div className="ml-[6.51px] mr-[17.46px] mt-[10.39px] w-[120px] h-[16px] leading-[20px] flex items-center fw-400 text-[14px] text-[#FFFFFF]">
+            <button className="ml-[6.51px] mr-[17.46px] mt-[10.39px] w-[120px] h-[16px] leading-[20px] flex items-center fw-400 text-[14px] text-[#FFFFFF]">
               리뷰 작성하러 가기
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -131,6 +168,68 @@ const review = (props: any) => {
             ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
           </div>
         </div>
+        {reviewclick ? (
+          <>
+            <div className="mt-[77px] ml-[289px] h-[16px] font-normal text-[24px] leading-[33px] flex items-center">
+              맛있게 드셨나요?
+            </div>
+            <div className="flex flex-row">
+              {/* 여기 배열로 돌려야됨 */}
+              <ReviewWriteStar className="ml-[273px] mt-[20px]" />
+              <ReviewWriteStar className="ml-[4.15px] mt-[20px]" />
+              <ReviewWriteStar className="ml-[4.15px] mt-[20px]" />
+              <ReviewWriteStar className="ml-[4.15px] mt-[20px]" />
+              <ReviewWriteStar className="ml-[4.15px] mt-[20px]" />
+            </div>
+            <div className="ml-[210px] mt-[19.56px]  h-[16px] font-normal text-[14px] leading-[18px] flex items-center text-[#9F9F9F]">
+              고객님의 리뷰가 다른 고객들에게 도움이 될 수 있어요!
+            </div>
+            <div>
+              <textarea
+                className="w-[694px] h-[220px] ml-[25px] mt-[20px] resize-none border-[2px]"
+                placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현과 주문하신 메뉴 및 매장 서비스에 대해서 작성해주세요. 유용한 팁도 남겨주시면 감사합니다:)"
+                value={textValue}
+                maxLength={399}
+                onChange={e => {
+                  handleSetValue(e);
+                }}
+              ></textarea>
+              <div className="relative w-[150px] h-[20px] left-[573px] bottom-[40px] font-normal text-[16px] leading-[22px] text-[#5F5F5F]">
+                {count}/400 (최소 10자)
+              </div>
+            </div>
+            <div className="flex flex-row">
+              <div className="w-[130px] h-[121px] ml-[25px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+            </div>
+            <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
+              사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
+            </div>
+            <div className="flex flex-row">
+              <div
+                onClick={cancelReviewValue}
+                className="ml-[25px] mt-[26px] w-[335px] h-[54px] border-[1px] rounded-[5px] border-[#CCCCCC] cursor-pointer"
+              >
+                <button className="ml-[136px] mt-[16px] h-[18px] font-normal text-[16px] leading-[22px] text-[#9F9F9F]">
+                  취소하기
+                </button>
+              </div>
+              <div
+                onClick={handleReviewValue}
+                className="ml-[17px] mt-[26px] w-[335px] h-[54px] border-[1px] rounded-[5px] border-[#FF611D] cursor-pointer"
+              >
+                <button className="ml-[136px] mt-[15.5px] h-[18px] font-normal text-[16px] leading-[22px] text-[#FF611D]">
+                  등록하기
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          ''
+        )}
         <div className="grid grid-cols-3">
           <div className="ml-[25px] mt-[18px] w-[220px] h-[312px] border-[1px] border-[#D2D2D2] shadow-[1px_1px_4px_rgba(0,0,0,0.07)] rounded-[5px]">
             <div className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#CCCCCC] bg-[#CCCCCC]">
