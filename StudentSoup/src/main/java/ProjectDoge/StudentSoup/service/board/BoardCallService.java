@@ -79,7 +79,7 @@ public class BoardCallService {
                            BoardSearchDto boardSearchDto) {
         log.info("게시판 호출 메서드가 실행되었습니다.");
         if(pageable.getPageNumber() == 0 && category.equals("ALL") || pageable.getPageNumber() == 0 && category.equals("TIP")){
-            getFistPage(map, boardCallDto, category, sorted,boardSearchDto);
+            getFirstPage(map, boardCallDto, category, sorted,boardSearchDto);
         }
         else{
             Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
@@ -94,7 +94,7 @@ public class BoardCallService {
     }
 
 
-    private void getFistPage(ConcurrentHashMap<String, Object> map,
+    private void getFirstPage(ConcurrentHashMap<String, Object> map,
                              BoardCallDto boardCallDto,
                              String category,
                              int sorted,
@@ -103,11 +103,11 @@ public class BoardCallService {
                 getFirstAllBoardsPage(map, boardCallDto, category, sorted,boardSearchDto);
             }
             else if(category.equals("TIP")){
-                getFistTipBoardsPage(map,boardCallDto,category,sorted,boardSearchDto);
+                getFirstTipBoardsPage(map,boardCallDto,category,sorted,boardSearchDto);
             }
     }
 
-    private void getFistTipBoardsPage(ConcurrentHashMap<String, Object> map,
+    private void getFirstTipBoardsPage(ConcurrentHashMap<String, Object> map,
                                       BoardCallDto boardCallDto,
                                       String category,
                                       int sorted,
