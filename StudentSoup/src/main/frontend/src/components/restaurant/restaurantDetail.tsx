@@ -113,16 +113,16 @@ const restaurant = () => {
       infoClickButton();
     }
   };
-  /* 공유 버튼 보류 */
-  // const handleCopyClipBoard = async (text: string) => {
-  //   try {
-  //     await navigator.clipboard.writeText(text);
 
-  //     alert('url 주소를 복사하였습니다.');
-  //   } catch (error) {
-  //     alert('url 주소가 생성되지 않았습니다.');
-  //   }
-  // };
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+
+      alert('url 주소를 복사하였습니다.');
+    } catch (error) {
+      alert('url 주소가 생성되지 않았습니다.');
+    }
+  };
   return (
     <>
       <RestaurantNavbar />
@@ -194,11 +194,9 @@ const restaurant = () => {
             <div className="flex flex-col">
               <Share className="ml-[35px] mt-[18.24px]" />
               <div
-                /* 공유 버튼 보류
-                 // onClick={async () => {
-                //   await handleCopyClipBoard(`http://localhost:3000${state.pathname}`);
-                // }} */
-
+                onClick={async () => {
+                  await handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
+                }}
                 className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center"
               >
                 공유
