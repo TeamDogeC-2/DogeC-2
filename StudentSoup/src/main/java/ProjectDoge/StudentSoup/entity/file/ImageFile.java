@@ -41,17 +41,14 @@ public class ImageFile {
     //== 연관관계 메서드 ==//
     public void setBoard(Board board){
         this.board = board;
-        board.getImageFiles().add(this);
     }
 
     public void setRestaurantReview(RestaurantReview restaurantReview){
         this.restaurantReview = restaurantReview;
-        restaurantReview.getImageFileList().add(this);
     }
 
     public void setRestaurant(Restaurant restaurant){
         this.restaurant = restaurant;
-        restaurant.getImageFileList().add(this);
     }
 
 
