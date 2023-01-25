@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
@@ -35,6 +36,7 @@ const RestaurantMain = () => {
         },
       )
       .then(res => {
+        console.log(res.data);
         isTotal(res.data.restaurant.totalElements);
         isSet(res.data.restaurant.content);
         setLatitude(Number(res.data.school.schoolLatitude));
@@ -228,13 +230,13 @@ const RestaurantMain = () => {
             {/* onClick={}> */}
             {set?.map(school => (
               <div id={school.restaurantId} key={school.restaurantId}>
-                <div
+                <img
+                  src={`/image/${school.fileName}`}
                   onClick={handleDetailPage}
                   id={school.restaurantId}
                   className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"
-                >
-                  {school.fileName}
-                </div>
+                />
+
                 <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
                   {school.name}
                   <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
