@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.service.restaurantmenu;
+package ProjectDoge.StudentSoup.service.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDetailDto;
 import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RestaurantMenuCallService {
+public class RestaurantDetailCallService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantLikeRepository restaurantLikeRepository;
     private final RestaurantMenuRepository restaurantMenuRepository;
