@@ -30,7 +30,6 @@ public class RestaurantDetailCallService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantLikeRepository restaurantLikeRepository;
     private final RestaurantMenuRepository restaurantMenuRepository;
-    private final RestaurantMenuLikeRepository restaurantMenuLikeRepository;
 
     private final boolean LIKED = true;
     private final boolean NOT_LIKED = false;
@@ -43,7 +42,7 @@ public class RestaurantDetailCallService {
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         JPAQuery<Long> count = restaurantMenuRepository.countByRestaurantId(restaurantId);
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant, pageable, count);
+        setRestaurantDetailInfo(restaurantId, memberId, resultMap, restaurant);
         log.info("음식점 세부사항 호출 로직이 완료되었습니다.");
         return resultMap;
     }
@@ -51,37 +50,28 @@ public class RestaurantDetailCallService {
     private void setRestaurantDetailInfo(Long restaurantId,
                                          Long memberId,
                                          ConcurrentHashMap<String, Object> resultMap,
-                                         Restaurant restaurant,
-                                         Pageable pageable,
-                                         JPAQuery<Long> count) {
+                                         Restaurant restaurant) {
         restaurant.addViewCount();
         if(isLoginMember(memberId)) {
             log.info("회원이 로그인 된 상태의 음식점 세부사항을 호출합니다. [{}]", memberId);
-            setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant, pageable, count);
+            setLoginStatusRestaurantDetailDto(restaurantId, memberId, resultMap, restaurant);
         } else {
             log.info("로그인 되지 않은 상태의 음식점 세부사항을 호출합니다.");
-            setNotLoginStatusRestaurantDetailDto(restaurantId, resultMap, restaurant, pageable, count);
+            setNotLoginStatusRestaurantDetailDto(resultMap, restaurant);
         }
     }
     private void setLoginStatusRestaurantDetailDto(Long restaurantId,
                                                    Long memberId,
                                                    ConcurrentHashMap<String, Object> resultMap,
-                                                   Restaurant restaurant,
-                                                   Pageable pageable,
-                                                   JPAQuery<Long> count) {
+                                                   Restaurant restaurant) {
         log.info("로그인이 된 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setLoginStatusRestaurantDetail(restaurantId, memberId, resultMap, restaurant);
-        setLoginStatusRestaurantMenu(restaurantId, memberId, pageable, resultMap, count);
     }
 
-    private void setNotLoginStatusRestaurantDetailDto(Long restaurantId,
-                                                      ConcurrentHashMap<String, Object> resultMap,
-                                                      Restaurant restaurant,
-                                                      Pageable pageable,
-                                                      JPAQuery<Long> count) {
+    private void setNotLoginStatusRestaurantDetailDto(ConcurrentHashMap<String, Object> resultMap,
+                                                      Restaurant restaurant) {
         log.info("로그인이 되어있지 않은 상태의 음식점 세부사항과 메뉴를 호출합니다.");
         setNotLoginStatusRestaurantDetail(resultMap, restaurant);
-        setNotLoginStatusRestaurantMenu(restaurantId, pageable, resultMap, count);
     }
 
 
@@ -122,56 +112,5 @@ public class RestaurantDetailCallService {
     private void getNotLikeRestaurantDto(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
         RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, NOT_LIKED);
         resultMap.put("restaurant", dto);
-    }
-
-    private void setLoginStatusRestaurantMenu(Long restaurantId,
-                                              Long memberId,
-                                              Pageable pageable,
-                                              ConcurrentHashMap<String, Object> resultMap,
-                                              JPAQuery<Long> count) {
-        log.info("로그인 된 상태의 음식점 메뉴들을 호출합니다.");
-        List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
-        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId, pageable);
-        for(RestaurantMenu restaurantMenu : restaurantMenuList){
-            restaurantMenuDtoList.add(getLoginStatusRestaurantMenuDto(memberId, restaurantMenu));
-        }
-        Page<RestaurantMenuDto> page = PageableExecutionUtils.getPage(restaurantMenuDtoList, pageable, count::fetchOne);
-        resultMap.put("restaurantMenu", page);
-
-    }
-
-    private RestaurantMenuDto getLoginStatusRestaurantMenuDto(Long memberId, RestaurantMenu restaurantMenu){
-        RestaurantMenuLike restaurantMenuLike = restaurantMenuLikeRepository.findRestaurantMenuLikeByRestaurantMenuIdAndMemberId(restaurantMenu.getId(), memberId)
-                .orElse(null);
-        if(restaurantMenuLike == null)
-            return getNotLikeRestaurantMenuDto(restaurantMenu);
-        return getLikeRestaurantMenuDto(restaurantMenu);
-    }
-
-    private void setNotLoginStatusRestaurantMenu(Long restaurantId,
-                                                 Pageable pageable,
-                                                 ConcurrentHashMap<String, Object> resultMap,
-                                                 JPAQuery<Long> count){
-        log.info("로그인 되지 않은 상태의 음식점 메뉴들을 호출합니다.");
-        List<RestaurantMenuDto> restaurantMenuDtoList = new ArrayList<>();
-        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findByRestaurantId(restaurantId, pageable);
-        for(RestaurantMenu restaurantMenu : restaurantMenuList){
-            restaurantMenuDtoList.add(getNotLoginStatusRestaurantMenuDto(restaurantMenu));
-        }
-        Page<RestaurantMenuDto> page = PageableExecutionUtils.getPage(restaurantMenuDtoList, pageable, count::fetchOne);
-        resultMap.put("restaurantMenu", page);
-        log.info("로그인 되지 않은 상태의 음식점 메뉴 호출이 완료되었습니다.");
-    }
-
-    private RestaurantMenuDto getNotLoginStatusRestaurantMenuDto(RestaurantMenu restaurantMenu){
-        return getNotLikeRestaurantMenuDto(restaurantMenu);
-    }
-
-    private RestaurantMenuDto getNotLikeRestaurantMenuDto(RestaurantMenu restaurantMenu){
-        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, NOT_LIKED);
-    }
-
-    private RestaurantMenuDto getLikeRestaurantMenuDto(RestaurantMenu restaurantMenu){
-        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, LIKED);
     }
 }
