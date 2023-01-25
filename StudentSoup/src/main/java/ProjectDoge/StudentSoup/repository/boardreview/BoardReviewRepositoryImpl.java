@@ -1,2 +1,5 @@
-package ProjectDoge.StudentSoup.repository.boardreview;public class BoardReviewRepositoryImpl {
+package ProjectDoge.StudentSoup.repository.boardreview;
+
+
+public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom{
 }
