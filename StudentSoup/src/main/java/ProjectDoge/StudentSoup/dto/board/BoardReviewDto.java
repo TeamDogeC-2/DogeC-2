@@ -6,20 +6,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BoardReviewDto {
+
+    private Long boardReviewId;
+
     private String  content;
-    private String seq;
-    private  String boardReviewId;
 
-    public void setBoarReviewId(String boarReviewId) {
-        this.boardReviewId = boarReviewId;
-    }
+    private int likeCount;
+
+    private int seq;
+
+    private int depth;
+
+    private int level;
 
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setSeq(String seq) {
-        this.seq = seq;
-    }
 }
