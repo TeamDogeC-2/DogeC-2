@@ -34,7 +34,6 @@ const RestaurantMain = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
         isTotal(res.data.restaurant.totalElements);
         isSet(res.data.restaurant.content);
         setLatitude(Number(res.data.school.schoolLatitude));
