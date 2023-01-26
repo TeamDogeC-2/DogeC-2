@@ -237,6 +237,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
+    @Override
+    public Long countByMemberId(Long memberId) {
+        return queryFactory.select(board.count())
+                .from(board)
+                .where(board.member.memberId.eq(memberId))
+                .fetchOne();
+
+    }
 
 
 }

@@ -25,4 +25,6 @@ public interface BoardRepositoryCustom {
     List<BoardMainDto> findBestTipBoards(Long schoolId);
 
     Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
+
+    Long countByMemberId(Long memberId);
 }
