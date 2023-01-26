@@ -18,37 +18,41 @@ public class MyPageCallController {
     private final MemberMyPageCallService memberMyPageCallService;
 
     @GetMapping
-    public MemberMyPageDto callMyPageMain(@RequestBody Long memberId) {
-        return memberMyPageCallService.callMyPageMain(memberId);
+    public MemberMyPageDto callMyPageMain(@RequestBody MemberMyPageRequestDto dto) {
+        return memberMyPageCallService.callMyPageMain(dto.getMemberId());
     }
 
     @GetMapping("/detail")
-    public MemberMyPageDetailDto callMyPageDetail(@RequestBody Long memberId){
-        return memberMyPageCallService.callMyPageDetail(memberId);
+    public MemberMyPageDetailDto callMyPageDetail(@RequestBody MemberMyPageRequestDto dto){
+        return memberMyPageCallService.callMyPageDetail(dto.getMemberId());
     }
 
     @PostMapping("/board")
     public Page<MemberMyPageBoardDto> callMyPageBoard(
-            @RequestBody Long memberId,
+            @RequestBody MemberMyPageRequestDto dto,
             @PageableDefault(size = 6) Pageable pageable
     ) {
-        return memberMyPageCallService.callMyPageBoard(memberId, pageable);
+        return memberMyPageCallService.callMyPageBoard(dto.getMemberId(), pageable);
     }
 
     @PostMapping("/boardReview")
     public Page<MemberMyPageBoardReviewDto> callMyPageBoardReview(
-            @RequestBody Long memberId,
+            @RequestBody MemberMyPageRequestDto dto,
             @PageableDefault(size = 6) Pageable pageable
     ) {
-        return memberMyPageCallService.callMyPageBoardReview(memberId, pageable);
+        return memberMyPageCallService.callMyPageBoardReview(dto.getMemberId(), pageable);
     }
 
+    /**
+     *
+     * @param cond today(오늘), month(한달), halfYear(6개월), year(1년)
+     */
     @PostMapping("/restaurantReview")
     public Page<MemberMyPageRestaurantReviewDto> callMyPageRestaurantReview(
-            @RequestBody Long memberId,
+            @RequestBody MemberMyPageRequestDto dto,
             @PageableDefault(size = 6) Pageable pageable,
-            @RequestParam("filter") String cond
+            @RequestParam(value = "filter", required = false) String cond
     ) {
-        return memberMyPageCallService.callMyRestaurantReview(memberId, cond, pageable);
+        return memberMyPageCallService.callMyRestaurantReview(dto.getMemberId(), cond, pageable);
     }
 }
