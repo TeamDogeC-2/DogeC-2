@@ -279,27 +279,25 @@ public class TestDataInit {
         Member member = memberRepository.findByEmail("dummytest1@naver.com");
         for(int i = 0; i < 30; i++){
             RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
-            dto.setRestaurantId(restaurant1.getId());
             dto.setRestaurantName(restaurant1.getName());
             dto.setMemberId(member.getMemberId());
             dto.setNickName(member.getNickname());
             dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
             dto.setStarLiked((int)(Math.random() * 5) + 1);
             dto.setMultipartFileList(Collections.emptyList());
-            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.join(restaurant1.getId(), dto);
             restaurantReviewRegisterService.starUpdate(restaurant1.getId());
         }
 
         for(int i = 0; i < 20; i++){
             RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
-            dto.setRestaurantId(restaurant2.getId());
             dto.setRestaurantName(restaurant2.getName());
             dto.setMemberId(member.getMemberId());
             dto.setNickName(member.getNickname());
             dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
             dto.setStarLiked((int)(Math.random() * 5) + 1);
             dto.setMultipartFileList(Collections.emptyList());
-            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.join(restaurant2.getId(), dto);
             restaurantReviewRegisterService.starUpdate(restaurant2.getId());
         }
     }
