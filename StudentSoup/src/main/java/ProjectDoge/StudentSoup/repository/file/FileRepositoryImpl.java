@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.repository.file;
 
-import ProjectDoge.StudentSoup.entity.file.QImageFile;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.file.QImageFile.imageFile;
+import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurantReview.restaurantReview;
 
 @RequiredArgsConstructor
 public class FileRepositoryImpl implements FileRepositoryCustom {
@@ -22,7 +22,7 @@ public class FileRepositoryImpl implements FileRepositoryCustom {
         List<String> content = queryFactory
                 .select(imageFile.fileName)
                 .from(imageFile)
-                .where(imageFile.restaurant.id.eq(restaurantId), imageFile.restaurantReview.id.isNotNull())
+                .where(restaurantReview.restaurant.id.eq(restaurantId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -31,7 +31,7 @@ public class FileRepositoryImpl implements FileRepositoryCustom {
         JPAQuery<Long> count = queryFactory
                 .select(imageFile.fileName.count())
                 .from(imageFile)
-                .where(imageFile.restaurant.id.eq(restaurantId), imageFile.restaurantReview.id.isNotNull());
+                .where(restaurantReview.restaurant.id.eq(restaurantId));
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
