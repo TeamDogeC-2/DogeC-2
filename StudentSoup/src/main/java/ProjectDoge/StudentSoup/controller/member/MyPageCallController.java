@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.controller.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageDto;
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageRestaurantReviewDto;
+import ProjectDoge.StudentSoup.dto.member.*;
 import ProjectDoge.StudentSoup.service.member.MemberMyPageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +23,9 @@ public class MyPageCallController {
     }
 
     @GetMapping("/detail")
-    public
+    public MemberMyPageDetailDto callMyPageDetail(@RequestBody Long memberId){
+        return memberMyPageCallService.callMyPageDetail(memberId);
+    }
 
     @PostMapping("/board")
     public Page<MemberMyPageBoardDto> callMyPageBoard(
@@ -44,7 +43,7 @@ public class MyPageCallController {
         return memberMyPageCallService.callMyPageBoardReview(memberId, pageable);
     }
 
-    @PostMapping("/restaurantReivew")
+    @PostMapping("/restaurantReview")
     public Page<MemberMyPageRestaurantReviewDto> callMyPageRestaurantReview(
             @RequestBody Long memberId,
             @PageableDefault(size = 6) Pageable pageable,
