@@ -1,12 +1,18 @@
 package ProjectDoge.StudentSoup.repository.restaurantreview;
 
+import ProjectDoge.StudentSoup.dto.member.MemberMyPageRestaurantReviewDto;
+import ProjectDoge.StudentSoup.dto.member.QMemberMyPageRestaurantReviewDto;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
@@ -74,5 +80,38 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
                 .select(restaurantReview.count())
                 .from(restaurantReview)
                 .where(restaurantReview.restaurant.id.eq(restaurantId));
+    }
+
+    @Override
+    public Page<MemberMyPageRestaurantReviewDto> findByMemberIdForMyPage(Long memberId, String cond, Pageable pageable) {
+
+        List<MemberMyPageRestaurantReviewDto> content = queryFactory.select(new QMemberMyPageRestaurantReviewDto(
+                restaurantReview.id, restaurantReview.imageFileList.get(0).fileName, restaurantReview.starLiked,
+                restaurantReview.content, restaurantReview.writeDate))
+                .from(restaurantReview)
+                .where(restaurantReview.member.memberId.eq(memberId), checkMyPageSortCond(cond))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(restaurantReview.writeDate.desc())
+                .fetch();
+
+        JPAQuery<Long> count = queryFactory.select(restaurantReview.count())
+                .from(restaurantReview)
+                .where(restaurantReview.member.memberId.eq(memberId));
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    private BooleanExpression checkMyPageSortCond(String cond){
+        if(cond.equals("today"))
+            return restaurantReview.writeDate.eq(LocalDate.now());
+        else if(cond.equals("month"))
+            return restaurantReview.writeDate.between(LocalDate.now().minusMonths(1), LocalDate.now());
+        else if(cond.equals("halfYear"))
+            return restaurantReview.writeDate.between(LocalDate.now().minusMonths(6), LocalDate.now());
+        else if(cond.equals("year"))
+            return restaurantReview.writeDate.between(LocalDate.now().minusYears(1), LocalDate.now());
+        else
+            return null;
     }
 }
