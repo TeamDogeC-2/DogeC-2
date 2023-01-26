@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface BoardReviewRepositoryCustom {
 
     Page<MemberMyPageBoardReviewDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
+
+    Long countByMemberId(Long memberId);
 }

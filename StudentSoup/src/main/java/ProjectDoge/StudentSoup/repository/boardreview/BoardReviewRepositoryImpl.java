@@ -40,4 +40,12 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
 
         return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
+
+    @Override
+    public Long countByMemberId(Long memberId) {
+        return queryFactory.select(boardReview.count())
+                .from(boardReview)
+                .where(boardReview.member.memberId.eq(memberId))
+                .fetchOne();
+    }
 }
