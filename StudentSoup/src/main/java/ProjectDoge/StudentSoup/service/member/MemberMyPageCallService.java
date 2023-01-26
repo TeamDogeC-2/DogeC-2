@@ -1,8 +1,7 @@
 package ProjectDoge.StudentSoup.service.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageRestaurantReviewDto;
+import ProjectDoge.StudentSoup.dto.member.*;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.boardreview.BoardReviewRepository;
@@ -21,6 +20,23 @@ public class MemberMyPageCallService {
     private final BoardRepository boardRepository;
     private final BoardReviewRepository boardReviewRepository;
     private final RestaurantReviewRepository restaurantReviewRepository;
+    private final MemberFindService memberFindService;
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public MemberMyPageDto callMyPageMain(Long memberId){
+        isNotNullMemberId(memberId);
+        Member member = memberFindService.findOne(memberId);
+        return new MemberMyPageDto(member);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public MemberMyPageDetailDto callMyPageDetail(Long memberId){
+        isNotNullMemberId(memberId);
+        Long boardCount = boardRepository.countByMemberId(memberId);
+        Long boardReviewCount = boardReviewRepository.countByMemberId(memberId);
+
+        return new MemberMyPageDetailDto(boardCount, boardReviewCount);
+    }
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
