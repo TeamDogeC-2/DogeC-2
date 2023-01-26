@@ -1,6 +1,8 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
+import ProjectDoge.StudentSoup.exception.board.BoardReviewIdNotSentException;
+import ProjectDoge.StudentSoup.exception.board.BoardReviewNotFoundException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,20 @@ public class BoardReviewAdvice {
     public ErrorResult boardReviewContentNullException(BoardReviewContentNullException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardReviewContentNullException",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardReviewNotFoundException.class)
+    public ErrorResult boardReviewNotFoundException(BoardReviewNotFoundException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardReviewNotFoundException",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardReviewIdNotSentException.class)
+    public ErrorResult boardReviewIdNotSentException(BoardReviewIdNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardReviewIdNotSentException",e.getMessage());
     }
 
 }
