@@ -39,4 +39,11 @@ public class RestaurantAdvice {
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("RestaurantIdNotSent", e.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantNotMatchException.class)
+    public ErrorResult restaurantNotMatchHandler(RestaurantNotMatchException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantNotMatch", e.getMessage());
+    }
 }

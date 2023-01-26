@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class RestaurantReviewRequestDto {
-    private Long restaurantId;
     private String restaurantName;
     private Long memberId;
     private String nickName;
