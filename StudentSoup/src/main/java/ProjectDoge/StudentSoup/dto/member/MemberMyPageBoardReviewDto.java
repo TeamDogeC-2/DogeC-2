@@ -1,11 +1,8 @@
 package ProjectDoge.StudentSoup.dto.member;
 
-import ProjectDoge.StudentSoup.entity.board.QBoardReview;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 public class MemberMyPageBoardReviewDto {
