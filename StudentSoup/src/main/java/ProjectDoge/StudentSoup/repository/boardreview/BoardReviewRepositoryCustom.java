@@ -1,7 +1,12 @@
 package ProjectDoge.StudentSoup.repository.boardreview;
 
-import org.springframework.stereotype.Repository;
+import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Repository
-public interface BoardReviewRepositoryCustom{
+public interface BoardReviewRepositoryCustom {
+
+    Page<MemberMyPageBoardReviewDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
+
+    Long countByMemberId(Long memberId);
 }

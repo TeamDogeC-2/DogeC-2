@@ -3,6 +3,8 @@ package ProjectDoge.StudentSoup.repository.board;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
 import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
+import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
+import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import com.querydsl.core.types.Expression;
@@ -10,6 +12,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -215,6 +218,33 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return board.updateDate.asc();
     }
 
+    @Override
+    public Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable) {
+
+        List<MemberMyPageBoardDto> content = queryFactory.select(new QMemberMyPageBoardDto(board.id, board.writeDate, board.likedCount, board.view))
+                .from(board)
+                .where(board.member.memberId.eq(memberId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(board.writeDate.desc())
+                .fetch();
+
+        JPAQuery<Long> count = queryFactory
+                .select(board.count())
+                .from(board)
+                .where(board.member.memberId.eq(memberId));
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Long countByMemberId(Long memberId) {
+        return queryFactory.select(board.count())
+                .from(board)
+                .where(board.member.memberId.eq(memberId))
+                .fetchOne();
+
+    }
 
 
 }
