@@ -18,5 +18,5 @@ public interface RestaurantReviewRepositoryCustom {
 
     JPAQuery<Long> pagingCountByRestaurantId(Long restaurantId);
 
-    Page<MemberMyPageRestaurantReviewDto> findByMemberIdForMyPage(Long memberId, String cond, Pageable pageable);
+    Page<RestaurantReview> findByMemberIdForMyPage(Long memberId, String cond, Pageable pageable);
 }

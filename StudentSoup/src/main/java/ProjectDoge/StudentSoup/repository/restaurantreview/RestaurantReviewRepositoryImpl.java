@@ -83,11 +83,9 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
     }
 
     @Override
-    public Page<MemberMyPageRestaurantReviewDto> findByMemberIdForMyPage(Long memberId, String cond, Pageable pageable) {
+    public Page<RestaurantReview> findByMemberIdForMyPage(Long memberId, String cond, Pageable pageable) {
 
-        List<MemberMyPageRestaurantReviewDto> content = queryFactory.select(new QMemberMyPageRestaurantReviewDto(
-                restaurantReview.id, restaurantReview.imageFileList.get(0).fileName, restaurantReview.starLiked,
-                restaurantReview.content, restaurantReview.writeDate))
+        List<RestaurantReview> content = queryFactory.select(restaurantReview)
                 .from(restaurantReview)
                 .where(restaurantReview.member.memberId.eq(memberId), checkMyPageSortCond(cond))
                 .offset(pageable.getOffset())
@@ -103,7 +101,9 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
     }
 
     private BooleanExpression checkMyPageSortCond(String cond){
-        if(cond.equals("today"))
+        if(cond == null)
+            return null;
+        else if(cond.equals("today"))
             return restaurantReview.writeDate.eq(LocalDate.now());
         else if(cond.equals("month"))
             return restaurantReview.writeDate.between(LocalDate.now().minusMonths(1), LocalDate.now());
