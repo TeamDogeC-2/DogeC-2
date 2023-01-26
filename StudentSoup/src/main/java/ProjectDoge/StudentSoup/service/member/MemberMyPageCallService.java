@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.member;
 
+import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
@@ -23,6 +24,12 @@ public class MemberMyPageCallService {
     public Page<MemberMyPageBoardReviewDto> callMyPageBoardReview(Long memberId, Pageable pageable){
         isNotNullMemberId(memberId);
         return boardReviewRepository.callByMemberIdForMyPage(memberId, pageable);
+    }
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Page<MemberMyPageBoardDto> callMyPageBoard(Long memberId, Pageable pageable){
+        isNotNullMemberId(memberId);
+        return boardRepository.callByMemberIdForMyPage(memberId, pageable);
     }
 
     private void isNotNullMemberId(Long memberId) {
