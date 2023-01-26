@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.entity.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
+import ProjectDoge.StudentSoup.dto.board.BoardReviewUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
@@ -95,8 +96,8 @@ public class BoardReview {
         String formatTime = time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         return formatTime;
     }
-    public BoardReview editBoardReviewDate(){
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
+    public BoardReview editBoardReview(String content){
+        this.setContent(content);
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }

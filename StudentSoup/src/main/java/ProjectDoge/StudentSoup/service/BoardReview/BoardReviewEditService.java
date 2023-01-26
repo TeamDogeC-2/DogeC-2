@@ -4,11 +4,14 @@ package ProjectDoge.StudentSoup.service.BoardReview;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewUpdateDto;
+import ProjectDoge.StudentSoup.dto.board.BoardUpdateDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
+import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
 import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -23,6 +26,21 @@ public class BoardReviewEditService {
         BoardReviewUpdateDto boardReviewUpdateDto = new BoardReviewUpdateDto().createBoardReviewUpdateDto(boardReview);
         return  boardReviewUpdateDto;
     }
+
+    @Transactional
+    public BoardReviewDto editBoardReview(BoardReviewUpdateDto boardReviewUpdateDto,Long boardReviewId){
+        checkNullContent(boardReviewUpdateDto);
+        BoardReview boardReview = boardReviewFindService.findOne(boardReviewId);
+        boardReview.editBoardReview(boardReviewUpdateDto.getContent());
+        return new BoardReviewDto().createBoardReviewDto(boardReview);
+    }
+
+    private void checkNullContent(BoardReviewUpdateDto dto) {
+        if(dto.getContent().strip().length()==0 || dto.getContent().length()==0){
+            throw new BoardReviewContentNullException("리뷰 내용이 null 또는 빈칸 입니다.");
+        }
+    }
+
 
     private void checkBoardReviewOwn(Long memberId, BoardReview boardReview) {
         if (boardReview.getMember().getMemberId() != memberId){
