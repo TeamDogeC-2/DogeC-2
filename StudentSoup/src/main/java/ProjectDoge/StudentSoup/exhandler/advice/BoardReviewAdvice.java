@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
 import ProjectDoge.StudentSoup.exception.board.BoardReviewIdNotSentException;
 import ProjectDoge.StudentSoup.exception.board.BoardReviewNotFoundException;
+import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ public class BoardReviewAdvice {
     public ErrorResult boardReviewIdNotSentException(BoardReviewIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardReviewIdNotSentException",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardReviewNotOwnException.class)
+    public ErrorResult boardReviewNotOwnException(BoardReviewNotOwnException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardReviewNotOwnException",e.getMessage());
     }
 
 }
