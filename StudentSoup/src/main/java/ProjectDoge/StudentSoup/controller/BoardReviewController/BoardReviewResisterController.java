@@ -1,11 +1,12 @@
-package ProjectDoge.StudentSoup.controller.board;
+package ProjectDoge.StudentSoup.controller.BoardReviewController;
 
 import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
 import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.ConcurrentHashMap;
 
