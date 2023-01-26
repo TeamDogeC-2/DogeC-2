@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +22,12 @@ public class BoardReviewUpdateController {
     }
 
     @PatchMapping("/boardReview/{boardReviewId}")
-    public BoardReviewDto editBoardReview(@PathVariable Long boardReviewId, BoardReviewUpdateDto boardReviewUpdateDto){
+    public ConcurrentHashMap<String, Object> editBoardReview(@PathVariable Long boardReviewId, BoardReviewUpdateDto boardReviewUpdateDto){
+        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         BoardReviewDto boardReviewDto = boardReviewEditService.editBoardReview(boardReviewUpdateDto, boardReviewId);
-        return boardReviewDto;
+        resultMap.put("boardReviewId",boardReviewDto.getBoardReviewId());
+        resultMap.put("result","ok");
+        return resultMap;
     }
 
 }

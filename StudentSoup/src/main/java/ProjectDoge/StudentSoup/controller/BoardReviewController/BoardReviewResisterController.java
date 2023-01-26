@@ -18,10 +18,11 @@ public class BoardReviewResisterController {
     private final BoardReviewRegisterService boardReviewRegisterService;
 
     @PutMapping("/boardReview")
-    public ResponseEntity<ConcurrentHashMap<String, String>> registerBoardReview(BoardReviewResDto boardReviewResDto){
-        ConcurrentHashMap<String,String> resultMap = new ConcurrentHashMap<String,String>();
-        boardReviewRegisterService.join(boardReviewResDto);
+    public ResponseEntity<ConcurrentHashMap<String, Object>> registerBoardReview(BoardReviewResDto boardReviewResDto){
+        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<String,Object>();
+        Long boardReviewId = boardReviewRegisterService.join(boardReviewResDto);
         resultMap.put("result","ok");
+        resultMap.put("boardReviewId",boardReviewId);
         return  ResponseEntity.ok(resultMap);
 
     }
