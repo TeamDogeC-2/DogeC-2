@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.dto.member;
 
 
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 
 public class MemberMyPageDto {
@@ -13,9 +14,16 @@ public class MemberMyPageDto {
 
     public MemberMyPageDto(Member member){
         this.nickName = member.getNickname();
-        this.imageName = member.getImageFile().getFileName();
+        this.imageName = setImageFileName(member.getImageFile());
         this.schoolName = member.getSchool().getSchoolName();
         this.departmentName = member.getDepartment().getDepartmentName();
         this.registrationDate = member.getRegistrationDate();
+    }
+
+    private String setImageFileName(ImageFile imageFile){
+        if(imageFile != null){
+            return imageFile.getFileName();
+        }
+        return null;
     }
 }
