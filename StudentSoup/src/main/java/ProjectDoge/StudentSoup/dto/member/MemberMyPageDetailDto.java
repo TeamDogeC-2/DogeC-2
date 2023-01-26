@@ -1,5 +1,8 @@
 package ProjectDoge.StudentSoup.dto.member;
 
+import lombok.Data;
+
+@Data
 public class MemberMyPageDetailDto {
 
     private long boardWriteCount;

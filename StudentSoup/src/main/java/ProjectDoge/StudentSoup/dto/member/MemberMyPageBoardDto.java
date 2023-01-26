@@ -1,7 +1,9 @@
 package ProjectDoge.StudentSoup.dto.member;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Data;
 
+@Data
 public class MemberMyPageBoardDto {
 
     private Long boardId;
