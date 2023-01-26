@@ -3,6 +3,7 @@ import { ReactComponent as SmallStar } from '../../img/reviewSmallStar.svg';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import { ReactComponent as ReviewWriteStar } from '../../img/reviewWriteStar.svg';
+import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
 import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -26,6 +27,7 @@ const review = (props: any) => {
     isReviewClick(!reviewclick);
     if (reviewclick) {
       if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+        setTextValue('');
         isReviewClick(!reviewclick);
       } else {
         isReviewClick(reviewclick);
@@ -55,6 +57,7 @@ const review = (props: any) => {
         memberId: saveMemberId,
       })
       .then(res => {
+        console.log(res.data);
         isSet(res.data.content);
       })
       .catch(err => {
@@ -69,19 +72,20 @@ const review = (props: any) => {
     setCount(e.target.value.length);
     setMaxCount(maxCount);
   };
-
   const cancelReviewValue = (e: any) => {
     if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+      setTextValue('');
       isReviewClick(!reviewclick);
     } else {
       isReviewClick(reviewclick);
     }
   };
   const handleReviewValue = (e: any) => {
-    if (count < 10) {
-      alert('10자 이상 입력해야 합니다.');
+    if (count < 5) {
+      alert('5자 이상 입력해야 합니다.');
     } else {
       isReviewClick(!reviewclick);
+      setTextValue('');
     }
   };
   return (
@@ -193,7 +197,7 @@ const review = (props: any) => {
                 }}
               ></textarea>
               <div className="relative w-[150px] h-[20px] left-[573px] bottom-[40px] font-normal text-[16px] leading-[22px] text-[#5F5F5F]">
-                {count}/400 (최소 10자)
+                {count}/400 (최소 5자)
               </div>
             </div>
             <div className="flex flex-row">
@@ -204,7 +208,7 @@ const review = (props: any) => {
               <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
             </div>
             <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
-              사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
+              사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
             </div>
             <div className="flex flex-row">
               <div
@@ -237,18 +241,19 @@ const review = (props: any) => {
               <SmallStar className="ml-[44px] mt-[5.23px]" />
               <div className="ml-[5px] mt-[23.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
                 이미지
-                <div className="ml-[147px] mt-[63px] w-[32px] h-[32px] border border-[rgba(0,0,0,0)] border-[#FFFFFF] rounded-br-[10px] bg-[rgba(0,0,0,0.4)]">
-                  <div className="ml-[6px] mt-[4px] font-[400] text-[14px] leading-[22px] flex items-center text-[#FFFFFF]">
-                    +4
-                  </div>
-                </div>
               </div>
               <div className="ml-[5px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
                 진짜진짜로 맛있어요 ㅠㅠ 치즈카츠의 치즈는 진짜 모짜렐라치즈 맛으로 고소하면서 쫙좍
                 늘어나고 가츠동에 밥 양념이...
               </div>
-              <div className="ml-[7px] mt-[18px] w-[55px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
-                2022.12.14
+              <div className="flex flex-row">
+                <div className="ml-[7px] mt-[18px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                  2022.12.14
+                  <ReviewSmallHeart className="ml-[95px]" />
+                  <div className="mb-[1px] ml-[3.62px] h-[9px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    52
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -260,18 +265,19 @@ const review = (props: any) => {
               <SmallStar className="ml-[44px] mt-[5.23px]" />
               <div className="ml-[5px] mt-[23.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
                 이미지
-                <div className="ml-[147px] mt-[63px] w-[32px] h-[32px] border border-[rgba(0,0,0,0)] border-[#FFFFFF] rounded-br-[10px] bg-[rgba(0,0,0,0.4)]">
-                  <div className="ml-[6px] mt-[4px] font-[400] text-[14px] leading-[22px] flex items-center text-[#FFFFFF]">
-                    +2
-                  </div>
-                </div>
               </div>
               <div className="ml-[5px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
                 진짜진짜로 맛있어요 ㅠㅠ 치즈카츠의 치즈는 진짜 모짜렐라치즈 맛으로 고소하면서 쫙좍
                 늘어나고 가츠동에 밥 양념이...
               </div>
-              <div className="ml-[7px] mt-[18px] w-[55px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
-                2022.12.14
+              <div className="flex flex-row">
+                <div className="ml-[7px] mt-[18px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                  2022.12.14
+                  <ReviewSmallHeart className="ml-[95px]" />
+                  <div className="mb-[1px] ml-[3.62px] h-[9px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    52
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -283,18 +289,19 @@ const review = (props: any) => {
               <SmallStar className="ml-[44px] mt-[5.23px]" />
               <div className="ml-[5px] mt-[23.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
                 이미지
-                <div className="ml-[147px] mt-[63px] w-[32px] h-[32px] border border-[rgba(0,0,0,0)] border-[#FFFFFF] rounded-br-lg bg-[rgba(0,0,0,0.4)]">
-                  <div className="ml-[6px] mt-[4px] font-[400] text-[14px] leading-[22px] flex items-center text-[#FFFFFF]">
-                    +2
-                  </div>
-                </div>
               </div>
               <div className="ml-[5px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
                 진짜진짜로 맛있어요 ㅠㅠ 치즈카츠의 치즈는 진짜 모짜렐라치즈 맛으로 고소하면서 쫙좍
                 늘어나고 가츠동에 밥 양념이...
               </div>
-              <div className="ml-[7px] mt-[18px] w-[55px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
-                2022.12.14
+              <div className="flex flex-row">
+                <div className="ml-[7px] mt-[18px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                  2022.12.14
+                  <ReviewSmallHeart className="ml-[95px]" />
+                  <div className="mb-[1px] ml-[3.62px] h-[9px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    52
+                  </div>
+                </div>
               </div>
             </div>
           </div>
