@@ -2,9 +2,11 @@ package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.member.*;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.boardreview.BoardReviewRepository;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +22,11 @@ public class MemberMyPageCallService {
     private final BoardRepository boardRepository;
     private final BoardReviewRepository boardReviewRepository;
     private final RestaurantReviewRepository restaurantReviewRepository;
-    private final MemberFindService memberFindService;
-
+    private final MemberRepository memberRepository;
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public MemberMyPageDto callMyPageMain(Long memberId){
         isNotNullMemberId(memberId);
-        Member member = memberFindService.findOne(memberId);
+        Member member = memberRepository.fullFindById(memberId);
         return new MemberMyPageDto(member);
     }
 
@@ -54,7 +55,8 @@ public class MemberMyPageCallService {
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Page<MemberMyPageRestaurantReviewDto> callMyRestaurantReview(Long memberId, String cond, Pageable pageable){
         isNotNullMemberId(memberId);
-        return restaurantReviewRepository.findByMemberIdForMyPage(memberId, cond, pageable);
+        Page<RestaurantReview> pagingRestaurantReview = restaurantReviewRepository.findByMemberIdForMyPage(memberId, cond, pageable);
+        return pagingRestaurantReview.map(MemberMyPageRestaurantReviewDto::new);
     }
 
     private void isNotNullMemberId(Long memberId) {
