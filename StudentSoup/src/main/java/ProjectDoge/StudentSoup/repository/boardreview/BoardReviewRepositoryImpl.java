@@ -18,14 +18,15 @@ import java.util.List;
 import static ProjectDoge.StudentSoup.entity.board.QBoardReview.boardReview;
 
 @RequiredArgsConstructor
-public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom{
+public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public Page<MemberMyPageBoardReviewDto> callByMemberIdForMyPage(Long memberId, Pageable pageable) {
 
-        List<MemberMyPageBoardReviewDto> content =  queryFactory.select(new QMemberMyPageBoardReviewDto(boardReview.content, boardReview.writeDate, boardReview.likedCount))
+        List<MemberMyPageBoardReviewDto> content = queryFactory.select(new QMemberMyPageBoardReviewDto(
+                        boardReview.board.id, boardReview.content, boardReview.writeDate, boardReview.likedCount))
                 .from(boardReview)
                 .where(boardReview.member.memberId.eq(memberId))
                 .offset(pageable.getPageNumber())

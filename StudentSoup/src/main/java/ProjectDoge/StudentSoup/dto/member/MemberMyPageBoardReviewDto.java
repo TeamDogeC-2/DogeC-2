@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class MemberMyPageBoardReviewDto {
 
+    private Long boardId;
     private String content;
     private String writeDate;
     private int likedCount;
@@ -18,7 +19,8 @@ public class MemberMyPageBoardReviewDto {
     }
 
     @QueryProjection
-    public MemberMyPageBoardReviewDto(String content, String writeDate, int likedCount){
+    public MemberMyPageBoardReviewDto(Long boardId, String content, String writeDate, int likedCount){
+        this.boardId = boardId;
         this.content = content;
         this.writeDate = writeDate;
         this.likedCount = likedCount;
