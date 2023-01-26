@@ -219,13 +219,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Page<MemberMyPageBoardDto> callByMemberIdForMyPage(Long memberId, Pageable pageable) {
+    public Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable) {
 
         List<MemberMyPageBoardDto> content = queryFactory.select(new QMemberMyPageBoardDto(board.id, board.writeDate, board.likedCount, board.view))
                 .from(board)
                 .where(board.member.memberId.eq(memberId))
-                .offset(pageable.getPageNumber())
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.writeDate.desc())
                 .fetch();
 
         JPAQuery<Long> count = queryFactory
