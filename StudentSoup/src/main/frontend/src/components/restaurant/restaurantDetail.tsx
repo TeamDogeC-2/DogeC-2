@@ -54,7 +54,6 @@ const restaurant = () => {
       });
   }, []);
 
-  console.log(image);
   const MapLocation = [longitude, latitude];
   useEffect(() => {
     const container = document.getElementById('map');
@@ -91,7 +90,7 @@ const restaurant = () => {
       alert('url 주소가 생성되지 않았습니다.');
     }
   };
-
+  const imgArr = image.slice(1);
   return (
     <>
       <RestaurantNavbar />
@@ -186,15 +185,11 @@ const restaurant = () => {
           </div>
         </div>
         <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
-          <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_1px] gap-1 ml-[20px] mt-[20px]">
+          <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_214px] gap-1 ml-[20px] mt-[20px]">
             <img src={`/image/${image[0]}`} className="row-span-2 w-[268px] h-[290px] " />
-            <img src={`/image/${image[1]}`} className="w-[214px] h-[143px]"></img>
-            <img src={`/image/${image[2]}`} className="w-[214px] h-[143px]"></img>
-            <img src={`/image/${image[3]}`} className="w-[214px] h-[143px]"></img>
-            <img
-              src={`/image/${image[4]}`}
-              className="w-[214px] h-[143px] bg-[rgba(23,23,23,0.55)]"
-            ></img>
+            {imgArr.map((school: any) => (
+              <img key={school} src={`/image/${school}`} className="w-[214px] h-[143px]" />
+            ))}
           </div>
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">
             매장정보

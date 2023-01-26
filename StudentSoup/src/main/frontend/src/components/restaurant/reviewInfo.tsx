@@ -55,7 +55,6 @@ const review = (props: any) => {
         memberId: saveMemberId,
       })
       .then(res => {
-        console.log(res.data);
         isSet(res.data.content);
       })
       .catch(err => {

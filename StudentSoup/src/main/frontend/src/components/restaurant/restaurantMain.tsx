@@ -4,7 +4,6 @@ import cn from 'clsx';
 import axios from 'axios';
 const kakao = (window as any).kakao;
 
-
 interface Category {
   id: string;
   name: string;
@@ -98,8 +97,6 @@ const RestaurantMain = () => {
         <div className="mb-[31px] flex justify-between">
           <div className="font-semibold">
             <span className="pr-2 text-[32px] text-[#FF611D]">{state.state}</span>
-
-
 
             <span className="text-[32px] text-[#5A5A5A]">근처 인기 맛집 검색어</span>
           </div>
@@ -199,10 +196,7 @@ const RestaurantMain = () => {
           </div>
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
-
               {state.state}(<span className="text-[18px] text-[#FF611D]">{total}</span>
-
-
               곳)
             </div>
             <div>
@@ -215,7 +209,6 @@ const RestaurantMain = () => {
             id="map"
             className="w-[810px] h-[247px] mx-auto mb-[44px] relative rounded-[10px] bg-gray-100"
           >
-
             <button className="px-[17px] py-[8px] right-[22px] bottom-[28px] absolute flex gap-x-2 items-center rounded-[50px] drop-shadow-md text-bold text-white bg-[#FF611D]">
               <svg
                 width="10"
@@ -234,7 +227,6 @@ const RestaurantMain = () => {
             </button>
           </div>
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
-
             {/* onClick={}> */}
             {set?.map(school => (
               <div id={school.restaurantId} key={school.restaurantId}>
@@ -311,7 +303,6 @@ const RestaurantMain = () => {
               검색 결과 더보기
             </button>
           )}
-
         </div>
       </div>
     </div>
