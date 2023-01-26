@@ -26,6 +26,7 @@ const restaurant = () => {
   const [heart, isHeart] = useState<boolean>();
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
+  const [image, setImage] = useState<any>([]);
 
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
@@ -42,6 +43,7 @@ const restaurant = () => {
         memberId: saveMemberId,
       })
       .then(res => {
+        setImage(res.data.restaurant.fileName);
         isSet(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
@@ -52,6 +54,7 @@ const restaurant = () => {
       });
   }, []);
 
+  console.log(image);
   const MapLocation = [longitude, latitude];
   useEffect(() => {
     const container = document.getElementById('map');
@@ -88,6 +91,7 @@ const restaurant = () => {
       alert('url 주소가 생성되지 않았습니다.');
     }
   };
+
   return (
     <>
       <RestaurantNavbar />
@@ -183,13 +187,14 @@ const restaurant = () => {
         </div>
         <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_1px] gap-1 ml-[20px] mt-[20px]">
-            <div className="row-span-2 w-[268px] h-[290px] bg-[#29088A]"></div>
-            <div className="w-[214px] h-[143px] bg-[#31B404]"></div>
-            <div className="w-[214px] h-[143px] bg-[#F8E0E0]"></div>
-            <div className="w-[214px] h-[143px] bg-[#F5A9D0]"></div>
-            <div className="w-[214px] h-[143px] bg-[rgba(23,23,23,0.55)]">
-              <div className="ml-[55px] mt-[5.75px] font-[400] leading-[21px] flex items-center text-[#FEFEFE]"></div>
-            </div>
+            <img src={`/image/${image[0]}`} className="row-span-2 w-[268px] h-[290px] " />
+            <img src={`/image/${image[1]}`} className="w-[214px] h-[143px]"></img>
+            <img src={`/image/${image[2]}`} className="w-[214px] h-[143px]"></img>
+            <img src={`/image/${image[3]}`} className="w-[214px] h-[143px]"></img>
+            <img
+              src={`/image/${image[4]}`}
+              className="w-[214px] h-[143px] bg-[rgba(23,23,23,0.55)]"
+            ></img>
           </div>
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">
             매장정보
