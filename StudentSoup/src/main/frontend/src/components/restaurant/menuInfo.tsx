@@ -1,7 +1,5 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -79,7 +77,8 @@ const menuInfo = () => {
       }
     });
   };
-  const handleClickButton = (e: any) => {
+
+  const handleClickButton = () => {
     setClick(click + 1);
     setSize(size + 4);
   };
@@ -108,7 +107,6 @@ const menuInfo = () => {
           <div className="flex flex-row" id={school.restaurantMenuId} key={school.restaurantMenuId}>
             <div
               id={school.restaurantMenuId}
-              key={school.restaurantMenuId}
               className="w-[172px] h-[164px] rounded-[5px] bg-[#FF2] mt-[12px] "
             >
               <div
@@ -118,43 +116,9 @@ const menuInfo = () => {
               >
                 <div id={school.restaurantMenuId} className="flex flex-row ">
                   {school.like ? (
-                    <svg
-                      id={school.restaurantMenuId}
-                      key={school.restaurantMenuId}
-                      className="ml-[10px] mt-[7px]"
-                      width="15"
-                      height="14"
-                      viewBox="0 0 15 14"
-                      fill="white"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.26787 1C2.46308 1 1 2.44845 1 4.23519C1 5.67763 1.57166 9.10086 7.20079 12.5619C7.40464 12.6873 7.66685 12.6873 7.8707 12.5619C13.4998 9.10086 14.0715 5.67763 14.0715 4.23519C14.0715 2.44845 12.6084 1 10.8036 1C8.99884 1 7.53575 2.96072 7.53575 2.96072C7.53575 2.96072 6.07267 1 4.26787 1Z"
-                        stroke="white"
-                        strokeWidth="1.30715"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <MenuHeartactive className="ml-[10px] mt-[7px]" />
                   ) : (
-                    <svg
-                      id={school.restaurantMenuId}
-                      key={school.restaurantMenuId}
-                      className="ml-[10px] mt-[7px]"
-                      width="15"
-                      height="14"
-                      viewBox="0 0 15 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.26787 1C2.46308 1 1 2.44845 1 4.23519C1 5.67763 1.57166 9.10086 7.20079 12.5619C7.40464 12.6873 7.66685 12.6873 7.8707 12.5619C13.4998 9.10086 14.0715 5.67763 14.0715 4.23519C14.0715 2.44845 12.6084 1 10.8036 1C8.99884 1 7.53575 2.96072 7.53575 2.96072C7.53575 2.96072 6.07267 1 4.26787 1Z"
-                        stroke="white"
-                        strokeWidth="1.30715"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <MenuHeart className="ml-[10px] mt-[7px]" />
                   )}
 
                   <div

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as SmallStar } from '../../img/reviewSmallStar.svg';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState, useEffect } from 'react';
 import RestaurantNavbar from '../common/restaurantNavbar';
 import { ReactComponent as Star } from '../../img/Star.svg';
@@ -64,11 +61,11 @@ const restaurant = () => {
     };
     const map = new kakao.maps.Map(container, options);
   });
-  const handleHeartCount = async () => {
+  const handleHeartCount = () => {
     if (!saveMemberId) {
       alert('로그인후 이용 가능한 기능입니다.');
     } else {
-      await axios
+      void axios
         .post(`/restaurant/${saveMemberId}/like`, {
           restaurantId: restaurantNumber,
           memberId: saveMemberId,
@@ -162,8 +159,8 @@ const restaurant = () => {
             <div className="flex flex-col">
               <Share className="ml-[35px] mt-[18.24px]" />
               <div
-                onClick={async () => {
-                  await handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
+                onClick={async => {
+                  void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
                 className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center"
               >

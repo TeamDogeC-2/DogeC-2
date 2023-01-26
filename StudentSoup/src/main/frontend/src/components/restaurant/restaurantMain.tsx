@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
@@ -21,7 +20,6 @@ const RestaurantMain = () => {
   const history = useHistory();
   const state = useLocation<any>();
   const url = '/restaurants';
-
   const getSchool = () => {
     axios
       .post(
