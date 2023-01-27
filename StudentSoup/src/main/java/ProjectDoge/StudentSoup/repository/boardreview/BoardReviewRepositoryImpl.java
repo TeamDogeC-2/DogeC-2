@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.repository.boardreview;
 
 
+import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
 import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardReviewDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
@@ -15,6 +16,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 
+import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.board.QBoardReview.boardReview;
 
 @RequiredArgsConstructor
@@ -47,5 +49,43 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .from(boardReview)
                 .where(boardReview.member.memberId.eq(memberId))
                 .fetchOne();
+    }
+    @Override
+    public List<BoardReview> findByBoardId(Long boardId,Pageable pageable){
+        List<BoardReview> query= queryFactory
+                .select(boardReview)
+                .from(boardReview)
+                .leftJoin(boardReview.board,board)
+                .fetchJoin()
+                .where(boardReview.board.id.eq(boardId))
+                .orderBy(boardReview.seq.asc(),boardReview.depth.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+                return  query;
+    }
+
+    @Override
+    public JPAQuery<Long> pagingCountByBoardId(Long boardId){
+        return  queryFactory
+                .select(boardReview.count())
+                .from(boardReview)
+                .where(boardReview.board.id.eq(boardId));
+    }
+    @Override
+    public List<BoardReview> findBestReview(Long boardId){
+        List<BoardReview> query= queryFactory
+                .select(boardReview)
+                .from(boardReview)
+                .leftJoin(boardReview.board,board)
+                .fetchJoin()
+                .where(boardReview.board.id.eq(boardId),boardReview.likedCount.gt(10))
+                .orderBy(boardReview.writeDate.desc())
+                .offset(0)
+                .limit(3)
+                .fetch();
+
+        return query;
     }
 }
