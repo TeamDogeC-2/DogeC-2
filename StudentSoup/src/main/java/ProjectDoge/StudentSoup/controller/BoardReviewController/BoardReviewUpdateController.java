@@ -24,8 +24,8 @@ public class BoardReviewUpdateController {
     @PatchMapping("/boardReview/{boardReviewId}")
     public ConcurrentHashMap<String, Object> editBoardReview(@PathVariable Long boardReviewId, BoardReviewUpdateDto boardReviewUpdateDto){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
-        BoardReviewDto boardReviewDto = boardReviewEditService.editBoardReview(boardReviewUpdateDto, boardReviewId);
-        resultMap.put("boardReviewId",boardReviewDto.getBoardReviewId());
+        Long reviewId = boardReviewEditService.editBoardReview(boardReviewUpdateDto, boardReviewId);
+        resultMap.put("boardReviewId",reviewId);
         resultMap.put("result","ok");
         return resultMap;
     }

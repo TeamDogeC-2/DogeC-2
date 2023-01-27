@@ -28,11 +28,11 @@ public class BoardReviewEditService {
     }
 
     @Transactional
-    public BoardReviewDto editBoardReview(BoardReviewUpdateDto boardReviewUpdateDto,Long boardReviewId){
+    public Long editBoardReview(BoardReviewUpdateDto boardReviewUpdateDto,Long boardReviewId){
         checkNullContent(boardReviewUpdateDto);
         BoardReview boardReview = boardReviewFindService.findOne(boardReviewId);
         boardReview.editBoardReview(boardReviewUpdateDto.getContent());
-        return new BoardReviewDto().createBoardReviewDto(boardReview);
+        return boardReview.getReviewId();
     }
 
     private void checkNullContent(BoardReviewUpdateDto dto) {
