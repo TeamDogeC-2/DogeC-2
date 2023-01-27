@@ -32,12 +32,15 @@ const menuItem = (data: any) => {
   return (
     <>
       <div
-        onClick={handleHeartCount}
         id={data.restaurantMenuId}
         key={data.restaurantMenuId}
-        className=" ml-[105px] mt-[5px] w-[58px] h-[27px] rounded-[15px] bg-[#FF611D] cursor-pointer z-[55]"
+        className=" ml-[105px] mt-[5px] w-[58px] h-[27px] rounded-[15px] bg-[#FF611D]"
       >
-        <div id={data.restaurantMenuId} className="flex flex-row ">
+        <div
+          onClick={handleHeartCount}
+          id={data.restaurantMenuId}
+          className="flex flex-row cursor-pointer"
+        >
           {like ? (
             <svg
               id={data.restaurantMenuId}
