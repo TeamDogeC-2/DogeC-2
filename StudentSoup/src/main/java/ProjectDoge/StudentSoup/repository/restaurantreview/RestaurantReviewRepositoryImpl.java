@@ -1,7 +1,5 @@
 package ProjectDoge.StudentSoup.repository.restaurantreview;
 
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageRestaurantReviewDto;
-import ProjectDoge.StudentSoup.dto.member.QMemberMyPageRestaurantReviewDto;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
