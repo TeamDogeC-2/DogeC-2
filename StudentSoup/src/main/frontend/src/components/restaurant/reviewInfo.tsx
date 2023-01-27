@@ -4,7 +4,7 @@ import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import { ReactComponent as ReviewWriteStar } from '../../img/reviewWriteStar.svg';
 import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
-import ReviewWrite from './reviewWrite';
+import ReviewWrite from './reviewList';
 import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
