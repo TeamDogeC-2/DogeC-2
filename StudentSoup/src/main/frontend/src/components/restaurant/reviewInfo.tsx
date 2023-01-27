@@ -84,6 +84,7 @@ const review = (props: any) => {
     if (count < 5) {
       alert('5자 이상 입력해야 합니다.');
     } else {
+      alert('리뷰 작성이 완료되었습니다.');
       isReviewClick(!reviewclick);
       setTextValue('');
     }
