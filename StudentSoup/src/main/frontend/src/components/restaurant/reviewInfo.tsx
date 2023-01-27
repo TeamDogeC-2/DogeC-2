@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ReactComponent as SmallStar } from '../../img/reviewSmallStar.svg';
-import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
-import { ReactComponent as ReviewWriteStar } from '../../img/reviewWriteStar.svg';
-import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
 import ReviewWrite from './reviewList';
 import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 
 const review = (props: any) => {
   const name = props.name;
@@ -19,10 +14,10 @@ const review = (props: any) => {
   const AVR_RATE = totalStar;
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
-  const [click, setClick] = useState<any>(2);
+  const [whichSort, setWhichSort] = useState<any>(2);
   const [reviewclick, isReviewClick] = useState<boolean>(false);
   const clickPage = (e: any) => {
-    setClick(e);
+    setWhichSort(e);
   };
   const [clicked, setClicked] = useState([false, false, false, false, false]);
   const reviewWriteStarArr = [0, 1, 2, 3, 4];
@@ -156,11 +151,11 @@ const review = (props: any) => {
         <div className="flex flex-row">
           <div
             onClick={() => {
-              clickPage(1);
+              setWhichSort(1);
             }}
             className={cn('ml-[21px] mt-[13px] w-[70px] h-[29px] border-[1px] rounded-[10px]', {
-              'border-[#FF611D] text-[#FF611D]': click === 1,
-              'border-[#9C9C9C] text-[#9C9C9C]': click !== 1,
+              'border-[#FF611D] text-[#FF611D]': whichSort === 1,
+              'border-[#9C9C9C] text-[#9C9C9C]': whichSort !== 1,
             })}
           >
             <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
@@ -169,11 +164,11 @@ const review = (props: any) => {
           </div>
           <div
             onClick={() => {
-              clickPage(2);
+              setWhichSort(2);
             }}
             className={cn('ml-[7px] mt-[13px] w-[70px] h-[29px] border-[1px]  rounded-[10px]', {
-              'border-[#FF611D] text-[#FF611D]': click === 2,
-              'border-[#9C9C9C] text-[#9C9C9C]': click !== 2,
+              'border-[#FF611D] text-[#FF611D]': whichSort === 2,
+              'border-[#9C9C9C] text-[#9C9C9C]': whichSort !== 2,
             })}
           >
             <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
