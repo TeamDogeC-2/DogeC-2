@@ -6,6 +6,7 @@ import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class MemberLoginService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public MemberDto login(String id, String pwd) {
         log.info("로그인 서비스 로직 실행");
@@ -24,11 +26,17 @@ public class MemberLoginService {
     }
 
     private Member validationIdPwd(String id, String pwd){
-        Member member = memberRepository.findByIdAndPwd(id, pwd)
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> {
                     log.info("아이디와 패스워드가 일치하는 회원을 찾지 못하였습니다. [{}], [{}]", id, pwd);
                     throw new MemberNotMatchIdPwdException("아이디 또는 패스워드가 일치하지 않습니다.");
                 });
+
+        if(!passwordEncoder.matches(pwd, member.getPwd())) {
+            log.info("아이디와 패스워드가 일치하는 회원을 찾지 못하였습니다. [{}], [{}]", id, pwd);
+            throw new MemberNotMatchIdPwdException("아이디 또는 패스워드가 일치하지 않습니다.");
+        }
+
         return member;
     }
 }
