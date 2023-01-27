@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import MenuItem from './menuItem';
+import MenuHeartInfo from './menuHeartInfo';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 
 const menuInfo = () => {
@@ -66,7 +66,7 @@ const menuInfo = () => {
               id={school.restaurantMenuId}
               className="w-[172px] h-[164px] rounded-[5px] bg-[#FF2] mt-[12px] "
             >
-              <MenuItem {...school} school={school} />
+              <MenuHeartInfo {...school} school={school} />
             </div>
             <div className="flex flex-col">
               <div className="w-[157px] h-[16px] ml-[14px] mt-[30px] text-[20px] font-semibold leading-[28px] text-[#515151] leading-[28px] flex items-center">
