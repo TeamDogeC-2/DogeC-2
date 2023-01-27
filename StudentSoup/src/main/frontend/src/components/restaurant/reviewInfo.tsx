@@ -4,6 +4,7 @@ import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import { ReactComponent as ReviewWriteStar } from '../../img/reviewWriteStar.svg';
 import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
+import ReviewWrite from './reviewWrite';
 import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -23,6 +24,18 @@ const review = (props: any) => {
   const clickPage = (e: any) => {
     setClick(e);
   };
+  const [clicked, setClicked] = useState([false, false, false, false, false]);
+  const reviewWriteStarArr = [0, 1, 2, 3, 4];
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const handleStarClick = (index: number) => {
+    const clickStates = [...clicked];
+    for (let i = 0; i < 5; i++) {
+      clickStates[i] = i <= index;
+    }
+    setClicked(clickStates);
+  };
+  const score = clicked.filter(Boolean).length;
   const reviewButtonClick = () => {
     isReviewClick(!reviewclick);
     if (reviewclick) {
@@ -49,21 +62,6 @@ const review = (props: any) => {
   useEffect(() => {
     setStarArr(calcStarRates);
   }, []);
-  const [set, isSet] = useState<any>();
-  useEffect(() => {
-    axios
-      .post(url, {
-        restaurantId: restaurantNumber,
-        memberId: saveMemberId,
-      })
-      .then(res => {
-        console.log(res.data);
-        isSet(res.data.content);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, []);
   const [textValue, setTextValue] = useState<any>('');
   const [count, setCount] = useState<number>(0);
   const [maxCount, setMaxCount] = useState<number>(400);
@@ -80,27 +78,18 @@ const review = (props: any) => {
       isReviewClick(reviewclick);
     }
   };
+  console.log(score);
   const handleReviewValue = (e: any) => {
     if (count < 5) {
       alert('5자 이상 입력해야 합니다.');
+    } else if (score === 0) {
+      alert('별점은 최소 1점 입니다.');
     } else {
       alert('리뷰 작성이 완료되었습니다.');
       isReviewClick(!reviewclick);
       setTextValue('');
     }
   };
-  const [clicked, setClicked] = useState([false, false, false, false, false]);
-  const reviewWriteStarArr = [0, 1, 2, 3, 4];
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
-  const handleStarClick = (index: number) => {
-    const clickStates = [...clicked];
-    for (let i = 0; i < 5; i++) {
-      clickStates[i] = i <= index;
-    }
-    setClicked(clickStates);
-  };
-  const score = clicked.filter(Boolean).length;
 
   return (
     <>
