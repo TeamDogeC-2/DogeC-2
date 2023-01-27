@@ -18,9 +18,9 @@ const kakao = (window as any).kakao;
 
 const restaurant = () => {
   const saveMemberId = sessionStorage.getItem('memberId');
-  const [set, isSet] = useState<any>([]);
+  const [restaurantDetail, setRestaurantDetail] = useState<any>([]);
   const state = useLocation<any>();
-  const [click, setClick] = useState<any>(1);
+  const [clickPage, setClickPage] = useState<any>(1);
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const [heart, isHeart] = useState<boolean>();
@@ -31,8 +31,8 @@ const restaurant = () => {
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
 
-  const clickPage = (e: any) => {
-    setClick(e);
+  const handleClickPage = (e: any) => {
+    setClickPage(e);
   };
   const url = `/restaurant/${restaurantNumber}`;
   useEffect(() => {
@@ -44,7 +44,7 @@ const restaurant = () => {
       })
       .then(res => {
         setImage(res.data.restaurant.fileName);
-        isSet(res.data.restaurant);
+        setRestaurantDetail(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
         isHeart(res.data.restaurant.like);
@@ -98,18 +98,18 @@ const restaurant = () => {
         <div className="w-[281px] h-[532px]  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] m-[21px]"></div>
           <div className="ml-[22px] whitespace-normal h-[50px] font-bold text-[25px] leading-[40px] flex items-center">
-            {set.name}
+            {restaurantDetail.name}
           </div>
           <div className="ml-[22px] h-[16px] font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
-            {set.tag}
+            {restaurantDetail.tag}
           </div>
           <div className="flex flex-row">
             <Star className="ml-[22px] mt-[10px]" />
             <div className="ml-[5.92px] mt-[10px] h-[16px] font-bold text-[16px] leading-[23px] flex items-center text-[#515151]">
-              {set.starLiked}
+              {restaurantDetail.starLiked}
             </div>
             <div className="ml-[10px] mt-[10px] h-[16px] font-[400] text-[13px] leading-[17px] flex items-center text-[#9C9C9C]">
-              {set.reviewCount}개의 리뷰
+              {restaurantDetail.reviewCount}개의 리뷰
             </div>
           </div>
           <div className="ml-[22px] mr-[21px] mt-[23px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
@@ -197,43 +197,44 @@ const restaurant = () => {
           <div className="flex flex-row">
             <Location className="ml-[21px] mt-[20.15px]" />
             <div className="ml-[10.33px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              {set.address}
+              {restaurantDetail.address}
             </div>
 
             <div className="ml-[5px] mt-[17px] flex flex-row ">
               <div className=" h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-                {set.schoolName}
+                {restaurantDetail.schoolName}
               </div>
               <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#7B7B7B]">
                 에서
               </div>
               <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#FF611D]">
-                {set.distance}
+                {restaurantDetail.distance}
               </div>
             </div>
           </div>
           <div className="flex flex-row">
             <Phone className="ml-[21px] mt-[19px]" />
             <div className="ml-[9.61px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              {set.tel}
+              {restaurantDetail.tel}
             </div>
           </div>
           <div className="flex flex-row">
             <Clock className="ml-[21px] mt-[21px]" />
             <div className="ml-[8px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              영업시간 AM {set.startTime}- PM {set.endTime}
+              영업시간 AM {restaurantDetail.startTime}- PM {restaurantDetail.endTime}
             </div>
           </div>
           <div className="flex flex-row">
             <PlusCircle className="ml-[21px] mt-[20px]" />
             <div className="ml-[9px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              {set.detail}
+              {restaurantDetail.detail}
             </div>
           </div>
           <div className="flex flex-row">
             <InfoHeart className="ml-[21px] mt-[19px]" />
             <div className="ml-[8px] mt-[16px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-              이 식당에 {clickHeart ? likedCount : set.likedCount}명의 좋아요한 사용자가 있습니다.
+              이 식당에 {clickHeart ? likedCount : restaurantDetail.likedCount}명의 좋아요한
+              사용자가 있습니다.
             </div>
           </div>
         </div>
@@ -243,13 +244,13 @@ const restaurant = () => {
           <div className="flex flex-row">
             <div
               onClick={() => {
-                clickPage(1);
+                setClickPage(1);
               }}
               className={cn(
                 'ml-[86px] mt-[43px] h-[16px] text-[24px] leading-[34px] flex items-center cursor-pointer',
                 {
-                  'font-bold text-[#FF611D]': click === 1,
-                  'font-[400] text-[#515151]': click !== 1,
+                  'font-bold text-[#FF611D]': clickPage === 1,
+                  'font-[400] text-[#515151]': clickPage !== 1,
                 },
               )}
             >
@@ -257,13 +258,13 @@ const restaurant = () => {
             </div>
             <div
               onClick={() => {
-                clickPage(2);
+                setClickPage(2);
               }}
               className={cn(
                 'ml-[160px] mt-[43px] h-[16px] text-[24px] leading-[34px] flex items-center cursor-pointer',
                 {
-                  'font-bold text-[#FF611D]': click === 2,
-                  'font-[400] text-[#515151]': click !== 2,
+                  'font-bold text-[#FF611D]': clickPage === 2,
+                  'font-[400] text-[#515151]': clickPage !== 2,
                 },
               )}
             >
@@ -271,13 +272,13 @@ const restaurant = () => {
             </div>
             <div
               onClick={() => {
-                clickPage(3);
+                setClickPage(3);
               }}
               className={cn(
                 'ml-[181px] mt-[43px] h-[16px]  text-[24px] leading-[34px] flex items-center cursor-pointer',
                 {
-                  'font-bold text-[#FF611D]': click === 3,
-                  'font-[400] text-[#515151]': click !== 3,
+                  'font-bold text-[#FF611D]': clickPage === 3,
+                  'font-[400] text-[#515151]': clickPage !== 3,
                 },
               )}
             >
@@ -289,14 +290,18 @@ const restaurant = () => {
               <div
                 className={cn(
                   'm-[-1px] w-[229px] h-[2px] bg-[#FF611D] border-[1px] border-[#FF611D]',
-                  { '': click === 1, 'ml-[229px]': click === 2, 'ml-[458px]': click === 3 },
+                  {
+                    '': clickPage === 1,
+                    'ml-[229px]': clickPage === 2,
+                    'ml-[458px]': clickPage === 3,
+                  },
                 )}
               ></div>
             </div>
           </div>
-          {click === 1 && <MenuInfopage />}
-          {click === 2 && <Reviewpage {...set} />}
-          {click === 3 && <Picturepage />}
+          {clickPage === 1 && <MenuInfopage />}
+          {clickPage === 2 && <Reviewpage {...restaurantDetail} />}
+          {clickPage === 3 && <Picturepage />}
         </div>
       </div>
     </>
