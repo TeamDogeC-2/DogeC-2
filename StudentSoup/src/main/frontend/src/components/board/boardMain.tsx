@@ -3,11 +3,11 @@ import MypageNavbar from '../common/mypageNavbar';
 import BoardSidebar from './boardSidebar';
 
 export const enum BORDER_MENU {
-  ALL = '전체게시판', // 전체게시판
-  FREE = '자유게시판', // 자유게시판
-  CONSULTING = '취업/상담게시판', // 취업/상담 게시판
-  TIP = 'TIP 게시판', // TIP 게시판
-  NOTICE = '공지사항', // 공지사항
+  ALL = '전체게시판',
+  FREE = '자유게시판',
+  CONSULTING = '취업/상담게시판',
+  TIP = 'TIP 게시판',
+  NOTICE = '공지사항',
 }
 
 const BoardMain = () => {
