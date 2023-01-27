@@ -26,6 +26,9 @@ const menuItem = (data: any) => {
         });
       isClickLike(!clicklike);
       isLike(!like);
+      if (like) {
+        alert('좋아요가 취소되었습니다.');
+      }
     }
   };
 
