@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,25 +34,27 @@ public class BoardReviewCallService {
         List<BoardReview> boardReviewList = boardReviewRepository.findByBoardId(boardId, pageable);
         JPAQuery<Long> count = boardReviewRepository.pagingCountByBoardId(boardId);
 
-        Page<BoardReviewDto> boardReviewDtoList = checkBoardReviewLike(memberId, boardReviewList, pageable, count);
-        List<BoardReviewDto> bestReview =  boardReviewRepository.findBestReview(boardId);
+        List<BoardReviewDto> boardReviewDtoList = checkBoardReviewLike(memberId, boardReviewList);
+        Page<BoardReviewDto> pageBoardReviewDtoList = PageableExecutionUtils.getPage(boardReviewDtoList, pageable, count::fetchOne);
 
-        resultMap.put("boardReviewList",boardReviewDtoList);
-        resultMap.put("bestReview",bestReview);
+
+        List<BoardReview> bestReview =  boardReviewRepository.findBestReview(boardId);
+        List<BoardReviewDto> pageBoardReviewList = checkBoardReviewLike(memberId, bestReview);
+
+        resultMap.put("boardReviewList",pageBoardReviewDtoList);
+        resultMap.put("bestReviewList", pageBoardReviewList);
 
         return resultMap;
     }
 
-    private Page<BoardReviewDto> checkBoardReviewLike(Long memberId,
-                                      List<BoardReview> boardReviewList,
-                                      Pageable pageable,
-                                      JPAQuery<Long> count) {
+    private List<BoardReviewDto> checkBoardReviewLike(Long memberId,
+                                      List<BoardReview> boardReviewList) {
         List<BoardReviewDto> boardReviewDtoList = new ArrayList<>();
         for(BoardReview boardReview : boardReviewList){
             boardReviewDtoList.add(getBoardReviewLike(memberId,boardReview));
         }
 
-        return PageableExecutionUtils.getPage(boardReviewDtoList,pageable,count::fetchOne);
+        return boardReviewDtoList;
     }
 
     private BoardReviewDto getBoardReviewLike(Long memberId, BoardReview boardReview) {

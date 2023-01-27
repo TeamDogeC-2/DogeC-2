@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.repository.boardreview;
 
 
 import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
-import ProjectDoge.StudentSoup.dto.board.QBoardReviewDto;
 import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardReviewDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardReviewDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
@@ -75,15 +74,12 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .where(boardReview.board.id.eq(boardId));
     }
     @Override
-    public List<BoardReviewDto> findBestReview(Long boardId){
-        List<BoardReviewDto> query= queryFactory
-                .select(new QBoardReviewDto(boardReview.reviewId,
-                        boardReview.content,
-                        boardReview.likedCount,
-                        boardReview.seq,
-                        boardReview.depth,
-                        boardReview.level))
+    public List<BoardReview> findBestReview(Long boardId){
+        List<BoardReview> query= queryFactory
+                .select(boardReview)
                 .from(boardReview)
+                .leftJoin(boardReview.board,board)
+                .fetchJoin()
                 .where(boardReview.board.id.eq(boardId),boardReview.likedCount.gt(10))
                 .orderBy(boardReview.writeDate.desc())
                 .offset(0)
