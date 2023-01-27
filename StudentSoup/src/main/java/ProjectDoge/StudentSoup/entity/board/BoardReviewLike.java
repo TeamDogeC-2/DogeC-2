@@ -24,7 +24,13 @@ public class BoardReviewLike {
     @JoinColumn(name = "BOARD_REVIEW_LIKED_ID")
     private Member member;
 
-//    == 연관 관계 메서드 ==//
+    public BoardReviewLike createBoardReviewLike(BoardReview boardReview, Member member) {
+        this.boardReview = boardReview;
+        this.member = member;
+        return this;
+    }
+
+    //    == 연관 관계 메서드 ==//
     public void setMember(Member member){
         if(this.member != null){
             this.member.getBoardReviewLikes().remove(this);
