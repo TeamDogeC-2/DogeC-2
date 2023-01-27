@@ -27,13 +27,22 @@ const restaurant = () => {
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
   const [image, setImage] = useState<any>([]);
-
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
 
   const handleClickPage = (e: any) => {
     setClickPage(e);
   };
+
+  const handleMoveScrool = (e: any) => {
+    if (clickPage !== 2) {
+      setClickPage(2);
+      window.scrollTo(0, document.body.scrollHeight);
+    } else if (clickPage === 2) {
+      alert('현재 리뷰 페이지에 있습니다.');
+    }
+  };
+
   const url = `/restaurant/${restaurantNumber}`;
   useEffect(() => {
     axios
@@ -165,7 +174,7 @@ const restaurant = () => {
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center"
+                className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 공유
               </div>
@@ -173,7 +182,10 @@ const restaurant = () => {
             <div className="ml-[32px] mt-[16px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
               <Review className="ml-[30px] mt-[17px]" />
-              <div className="ml-[25px] w-[26px] mt-[11px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center">
+              <div
+                onClick={handleMoveScrool}
+                className="ml-[25px] w-[26px] mt-[11px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+              >
                 리뷰
               </div>
             </div>
