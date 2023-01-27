@@ -1,11 +1,11 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
+import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminRestaurantMenuService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;

@@ -29,6 +29,10 @@ public class RestaurantLike {
         member.getRestaurantLikes().add(this);
     }
 
+    public void setRestaurant(Restaurant restaurant){
+        restaurant.getRestaurantLikes().add(this);
+    }
+
     //== 생성 메서드 ==//
     public RestaurantLike createRestaurantLike(Member member, Restaurant restaurant){
         this.restaurant = restaurant;

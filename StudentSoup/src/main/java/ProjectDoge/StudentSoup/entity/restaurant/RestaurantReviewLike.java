@@ -23,4 +23,20 @@ public class RestaurantReviewLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RESTAURANT_REVIEW_LIKED_ID")
     private Member member;
+
+    //== 연관관계 메서드 ==//
+    public void setMember(Member member){
+        member.getRestaurantReviewLikes().add(this);
+    }
+
+    public void setRestaurant(RestaurantReview restaurantReview){
+        restaurantReview.getRestaurantReviewLikes().add(this);
+    }
+
+    //== 생성 메서드 ==//
+    public RestaurantReviewLike createRestaurantReviewLike(RestaurantReview review, Member member){
+        this.restaurantReview = review;
+        this.member = member;
+        return this;
+    }
 }

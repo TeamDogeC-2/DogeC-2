@@ -1,12 +1,14 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuUpdateDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "RESTAURANT_MENU")
@@ -34,7 +36,8 @@ public class RestaurantMenu {
 
     private int likedCount;
 
-    private float starLiked;
+    @OneToMany(mappedBy = "restaurantMenu", cascade = CascadeType.REMOVE)
+    private List<RestaurantMenuLike> restaurantMenuLikes = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
     public void setRestaurant(Restaurant restaurant){

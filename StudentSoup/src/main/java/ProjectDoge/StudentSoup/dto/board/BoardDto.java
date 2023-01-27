@@ -7,9 +7,11 @@ import ProjectDoge.StudentSoup.entity.board.BoardReview;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
+import nonapi.io.github.classgraph.json.JSONUtils;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -26,7 +28,7 @@ public class BoardDto {
 
     private String ip;
 
-    private ImageFile imageFile;
+    private List<String> fileNames = new ArrayList<>();
 
     private int view;
 
@@ -38,22 +40,26 @@ public class BoardDto {
 
 
     private boolean like;
-    public BoardDto(Board board,Boolean like) {
+
+    public BoardDto(Board board, Boolean like) {
         this.id = board.getId();
         this.boardCategory = board.getBoardCategory();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.ip = board.getIp();
-        if(board.getImageFile() == null){
-            this.imageFile = null;
+        if (board.getImageFiles().isEmpty()) {
+            this.fileNames = Collections.emptyList();
+        } else {
+
+            for (ImageFile imageFile : board.getImageFiles()) {
+                this.fileNames.add(imageFile.getFileName());
+            }
         }
-        else{
-            this.imageFile = board.getImageFile();
-        }
-        this.view = board.getView();
-        this.writeDate = board.getWriteDate();
-        this.updateDate = board.getUpdateDate();
-        this.likedCount = board.getLikedCount();
-        this.like = like;
+            this.view = board.getView();
+            this.writeDate = board.getWriteDate();
+            this.updateDate = board.getUpdateDate();
+            this.likedCount = board.getLikedCount();
+            this.like = like;
+
     }
 }

@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
@@ -16,11 +17,12 @@ public class SchoolRepositoryImpl implements SchoolRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public School findBySchoolName(String schoolName) {
-        JPQLQuery<School> query = queryFactory.select(school)
+    public Optional<School> findBySchoolName(String schoolName) {
+        School query = queryFactory.select(school)
                 .from(school)
-                .where(school.schoolName.eq(schoolName));
-        return query.fetchOne();
+                .where(school.schoolName.eq(schoolName))
+                .fetchOne();
+        return Optional.ofNullable(query);
     }
 
     @Override

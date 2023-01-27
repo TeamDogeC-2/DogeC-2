@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.entity.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -82,6 +83,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<RestaurantReview> restaurantReviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<RestaurantReviewLike> restaurantReviewLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();

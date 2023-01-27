@@ -45,13 +45,14 @@ public class BoardLikeService {
         }
     }
 
+
     private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
         log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
         board.minusLikeCount();
         BoardDto dto = new BoardDto(board,boardNotLiked);
         resultMap.put("data",dto);
-        resultMap.put("result","like");
+        resultMap.put("result","cancel");
         log.info("게시글 좋아요가 삭제되었습니다.");
     }
 
@@ -62,7 +63,7 @@ public class BoardLikeService {
         board.addLikeCount();
         BoardDto dto = new BoardDto(board,boardLiked);
         resultMap.put("data",dto);
-        resultMap.put("result","cancel");
+        resultMap.put("result","like");
         log.info("게시글 좋아요가 저장되었습니다.");
     }
 }

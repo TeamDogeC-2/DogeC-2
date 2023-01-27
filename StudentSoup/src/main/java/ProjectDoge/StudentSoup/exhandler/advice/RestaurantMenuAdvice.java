@@ -1,8 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotSentException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
+import ProjectDoge.StudentSoup.exception.restaurant.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,9 +27,23 @@ public class RestaurantMenuAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RestaurantMenuNotSentException.class)
-    public ErrorResult restaurantMenuNotSentException(RestaurantMenuNotSentException e){
+    @ExceptionHandler(RestaurantMenuIdNotSentException.class)
+    public ErrorResult restaurantMenuIdNotSentHandler(RestaurantMenuIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("RestaurantMenuNotSent",e.getMessage());
+        return new ErrorResult("RestaurantMenuIdNotSent",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantStarLikedMoreThanFiveException.class)
+    public ErrorResult RestaurantStarLikedMoreThanFiveHandler(RestaurantStarLikedMoreThanFiveException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantStarLikedMoreThanFive",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantReviewContentLessThanFiveException.class)
+    public ErrorResult RestaurantReviewContentLessThanFiveHandler(RestaurantReviewContentLessThanFiveException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantReviewContentLessThanFive",e.getMessage());
     }
 }

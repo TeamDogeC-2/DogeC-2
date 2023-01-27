@@ -1,10 +1,10 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantMenuFormDto;
+import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantMenuRepository;
+import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
