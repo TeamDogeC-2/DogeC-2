@@ -10,7 +10,6 @@ const review = (props: any) => {
   const state = useLocation<any>();
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
-  const url = `/restaurant/${restaurantNumber}/reviews`;
   const AVR_RATE = totalStar;
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
