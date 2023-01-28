@@ -6,7 +6,7 @@ const starTest = (data: any) => {
 
   return (
     <>
-      <div className="ml-[44px] flex flex-row">
+      <div className="ml-[5px] flex flex-row">
         {reviewStarArr.map((star, index) => {
           index += 1;
           return (
