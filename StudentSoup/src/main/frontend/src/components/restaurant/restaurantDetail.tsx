@@ -251,7 +251,7 @@ const restaurant = () => {
           </div>
         </div>
       </div>
-      <div className="w-[full] h-full flex justify-center">
+      <div className="w-full h-full flex justify-center">
         <div className="ml-[298px] w-[744px] h-full bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="flex flex-row">
             <div
@@ -311,8 +311,8 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {clickPage === 1 && <MenuInfopage />}
-          {clickPage === 2 && <Reviewpage {...restaurantDetail} />}
+          {clickPage === 2 && <MenuInfopage />}
+          {clickPage === 1 && <Reviewpage {...restaurantDetail} />}
           {clickPage === 3 && <Picturepage />}
         </div>
       </div>
