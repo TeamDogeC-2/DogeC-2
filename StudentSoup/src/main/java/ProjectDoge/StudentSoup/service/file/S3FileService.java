@@ -26,7 +26,6 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@Primary
 @RequiredArgsConstructor
 
 public class S3FileService implements FileService {
