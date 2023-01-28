@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class ProfileController {
+public class ProfileUpdateController {
 
     private final MemberProfileImageUpdateService memberProfileImageUpdateService;
 

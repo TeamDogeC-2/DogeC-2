@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
+import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
@@ -21,6 +22,7 @@ import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
@@ -62,6 +64,8 @@ public class TestDataInit {
     private  final BoardRepository boardRepository;
 
     private final BoardLikeRepository boardLikeRepository;
+
+    private final BoardReviewRegisterService boardReviewRegisterService;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
@@ -71,6 +75,7 @@ public class TestDataInit {
         initRestaurantReview();
         initBoard();
         initBoardLike();
+        initBoardReview();
     }
 
     private void initSchoolAndDepartment(){
@@ -242,8 +247,8 @@ public class TestDataInit {
     }
 
     private void initBoard(){
-        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
-        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+        Member member = memberRepository.findById("dummyTest1").get();
+        Member member1 = memberRepository.findById("dummyTest2").get();
 
         for(int i =0; i<30; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
@@ -262,8 +267,8 @@ public class TestDataInit {
     }
 
     private void initBoardLike(){
-        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
-        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+        Member member = memberRepository.findById("dummyTest1").get();
+        Member member1 = memberRepository.findById("dummyTest2").get();
 
         Board board = boardRepository.findByTitle("테스트 제목");
         Board board1 = boardRepository.findByTitle("테스트 제목2");
@@ -271,6 +276,18 @@ public class TestDataInit {
         BoardLike boardLike = new BoardLike().createBoard(member,board1);
         BoardLike boardLike1 = new BoardLike().createBoard(member1,board1);
         boardLikeRepository.save(boardLike);
+    }
+
+    private void initBoardReview(){
+        Board board = boardRepository.findByTitle("테스트 제목0");
+        Member member = memberRepository.findById("dummyTest1").get();
+        for(int i =0; i< 10; i++){
+            for(int j =0; j<10 ; j++){
+                BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                        board.getId(),member.getMemberId(),"테스트 댓글"+i,i,j,1);
+                        boardReviewRegisterService.join(boardReviewResDto);
+            }
+        }
     }
 
     private void initRestaurantReview(){

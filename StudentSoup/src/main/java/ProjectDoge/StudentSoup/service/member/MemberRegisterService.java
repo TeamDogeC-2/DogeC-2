@@ -4,13 +4,12 @@ import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,10 +21,9 @@ public class MemberRegisterService {
 
     private final MemberRepository memberRepository;
     private final MemberValidationService memberValidationService;
-    private final SchoolRepository schoolRepository;
     private final SchoolFindService schoolFindService;
-    private final DepartmentRepository departmentRepository;
     private final DepartmentFindService departmentFindService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long join(MemberFormBDto dto) {
@@ -39,6 +37,7 @@ public class MemberRegisterService {
         validateDuplicateMember(dto);
 
         Member member = new Member().createMember(dto, school, department);
+        member.setPwd(passwordEncoder.encode(member.getPwd()));
         memberRepository.save(member);
 
         log.info("회원이 생성되었습니다. [{}][{}] ", member.getId(), member.getNickname());
