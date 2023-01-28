@@ -99,8 +99,8 @@ const review = (props: any) => {
 
   return (
     <>
-      <div className="flex flex-row">
-        <div className="ml-[28px] mt-[25px] w-[181px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center">
+      <div className="flex flex-row mt-[2px] w-[742px]">
+        <div className="ml-[28px] mt-[25px] w-[300px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center">
           {name}
         </div>
         {STAR_IDX_ARR.map((item, idx) => {
@@ -128,7 +128,7 @@ const review = (props: any) => {
             </span>
           );
         })}
-        <div className="ml-[11.11px] mt-[24px] w-[45px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center text-[#FF611D]">
+        <div className="ml-[8px] mt-[24px] w-[45px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center text-[#FF611D]">
           {AVR_RATE}
         </div>
         <div className="ml-[5px] mt-[28px] w-[201px] h-[16px] font-[400] text-[14px] leading-[18px] flex items-center text-[#9F9F9F]">
