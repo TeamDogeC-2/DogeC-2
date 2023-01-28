@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
+import BoardContent from './boardContent';
 import BoardSidebar from './boardSidebar';
 
 export const enum BORDER_MENU {
@@ -20,7 +21,10 @@ const BoardMain = () => {
         <div className="z-[2]">
           <BoardSidebar menu={menu} setMenu={setMenu} />
         </div>
-        <div className="w-full"></div>
+        <div className="w-full bg-[#f4f4f5]">
+          {/* TODO */}
+          <BoardContent menu={menu} />
+        </div>
       </div>
     </>
   );
