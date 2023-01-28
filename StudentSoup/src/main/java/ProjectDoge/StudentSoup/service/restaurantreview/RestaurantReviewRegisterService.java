@@ -12,7 +12,7 @@ import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewContentLessT
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantStarLikedMoreThanFiveException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
-import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.file.LocalFileService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -32,13 +31,13 @@ public class RestaurantReviewRegisterService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantReviewRepository restaurantReviewRepository;
     private final FileRepository fileRepository;
-    private final FileService fileService;
+    private final LocalFileService localFileService;
 
     @Transactional(rollbackFor = Exception.class)
     public Long join(Long restaurantId, RestaurantReviewRequestDto dto){
         log.info("음식점 리뷰 등록 서비스가 실행되었습니다.");
         RestaurantReview restaurantReview = createRestaurantReview(restaurantId, dto);
-        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
+        List<UploadFileDto> uploadFileDtoList = localFileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantReviewImage(restaurantReview, uploadFileDtoList);
         RestaurantReview createdRestaurantReview = restaurantReviewRepository.save(restaurantReview);
         log.info("음식점 리뷰 등록이 완료되었습니다.");

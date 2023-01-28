@@ -4,7 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
-import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.file.LocalFileService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdminRestaurantMenuService {
 
     private final RestaurantMenuFindService restaurantMenuFindService;
-    private final FileService fileService;
+    private final LocalFileService localFileService;
 
     private final FileRepository fileRepository;
     public RestaurantMenuUpdateDto adminFindUpdateRestaurantMenu(Long restaurantMenuId){
@@ -32,8 +32,8 @@ public class AdminRestaurantMenuService {
         if (restaurantMenu.getImageFile() != null) {
             fileRepository.delete(restaurantMenu.getImageFile());
         }
-        Long fileId = fileService.join(multipartFile);
-        ImageFile file = fileService.findOne(fileId);
+        Long fileId = localFileService.join(multipartFile);
+        ImageFile file = localFileService.findOne(fileId);
         restaurantMenu.updateRestaurantMenu(restaurantMenuUpdateDto,file);
     }
 }

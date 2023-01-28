@@ -21,7 +21,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FileService {
+public class LocalFileService {
 
     @Value("${file.dir}")
     private String fileDir;

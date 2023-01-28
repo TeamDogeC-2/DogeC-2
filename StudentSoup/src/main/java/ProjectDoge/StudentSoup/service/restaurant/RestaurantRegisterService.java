@@ -7,7 +7,7 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
-import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.file.LocalFileService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class RestaurantRegisterService {
 
     private final SchoolFindService schoolFindService;
     private final FileRepository fileRepository;
-    private final FileService fileService;
+    private final LocalFileService localFileService;
     private final RestaurantValidationService restaurantValidationService;
 
     private final RestaurantRepository restaurantRepository;
@@ -35,7 +35,7 @@ public class RestaurantRegisterService {
         Restaurant restaurant = new Restaurant().createRestaurant(dto,school);
         restaurant.setDistance(restaurant.calcDistance(school));
         restaurantValidationService.validateDuplicateRestaurant(restaurant);
-        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
+        List<UploadFileDto> uploadFileDtoList = localFileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantImage(restaurant, uploadFileDtoList);
         restaurantRepository.save(restaurant);
         log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance());

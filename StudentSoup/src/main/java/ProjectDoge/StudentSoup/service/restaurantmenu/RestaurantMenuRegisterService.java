@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
-import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.file.LocalFileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class RestaurantMenuRegisterService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantMenuValidationService restaurantMenuValidationService;
-    private final FileService fileService;
+    private final LocalFileService localFileService;
     private final RestaurantMenuRepository restaurantMenuRepository;
 
 
@@ -27,8 +27,8 @@ public class RestaurantMenuRegisterService {
     public Long join(RestaurantMenuFormDto dto, MultipartFile multipartFile) {
         log.info("음식점 메뉴 생성 메소드가 실행 되었습니다.");
         Restaurant restaurant = restaurantFindService.findOne(dto.getRestaurantId());
-        Long fileId = fileService.join(multipartFile);
-        ImageFile imageFile = fileService.findOne(fileId);
+        Long fileId = localFileService.join(multipartFile);
+        ImageFile imageFile = localFileService.findOne(fileId);
         restaurantMenuValidationService.validationDuplicateRestaurantMenu(dto);
         RestaurantMenu restaurantMenu = new RestaurantMenu().createRestaurantMenu(dto, restaurant, imageFile);
         restaurantMenuRepository.save(restaurantMenu);
