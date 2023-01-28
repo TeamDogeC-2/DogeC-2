@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 const starTest = (data: any) => {
-  const reviewWriteStarArr = [0, 1, 2, 3, 4];
+  const reviewStarArr = [0, 1, 2, 3, 4];
   const [rating, setRating] = useState(data.starLiked);
 
   return (
     <>
       <div className="ml-[44px] flex flex-row">
-        {reviewWriteStarArr.map((star, index) => {
+        {reviewStarArr.map((star, index) => {
           index += 1;
           return (
             <>
