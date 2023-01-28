@@ -3,6 +3,8 @@ package ProjectDoge.StudentSoup.service.member;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.service.file.FileFindService;
+import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 public class MemberProfileImageUpdateService {
     private final MemberFindService memberFindService;
     private final FileService fileService;
+    private final FileFindService fileFindService;
     @Transactional
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
         log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
@@ -27,7 +30,7 @@ public class MemberProfileImageUpdateService {
 
     private MemberDto createProfileUpdateMemberDto(Long fileId, Member member) {
         if(fileId != null){
-            ImageFile imageFile = fileService.findOne(fileId);
+            ImageFile imageFile = fileFindService.findOne(fileId);
             member.setImageFile(imageFile);
             log.info("멤버 프로필이미지가 업데이트 되었습니다. fileName : [{}]", imageFile.getFileOriginalName());
             return new MemberDto().getMemberDto(member);

@@ -64,7 +64,7 @@ public class MemberValidationService {
     }
 
     private boolean notSameMemberIdPwd(Member member, String pwd) {
-        return passwordEncoder.matches(pwd, member.getPwd());
+        return !passwordEncoder.matches(pwd, member.getPwd());
     }
 
 }
