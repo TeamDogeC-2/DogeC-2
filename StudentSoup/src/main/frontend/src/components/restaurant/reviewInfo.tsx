@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import ReviewWrite from './reviewList';
-import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 
 const review = (props: any) => {
@@ -148,37 +147,6 @@ const review = (props: any) => {
       </div>
       <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
       <div>
-        <div className="flex flex-row">
-          <div
-            onClick={() => {
-              setWhichSort(1);
-            }}
-            className={cn('ml-[21px] mt-[13px] w-[70px] h-[29px] border-[1px] rounded-[10px]', {
-              'border-[#FF611D] text-[#FF611D]': whichSort === 1,
-              'border-[#9C9C9C] text-[#9C9C9C]': whichSort !== 1,
-            })}
-          >
-            <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
-              최신순
-            </div>
-          </div>
-          <div
-            onClick={() => {
-              setWhichSort(2);
-            }}
-            className={cn('ml-[7px] mt-[13px] w-[70px] h-[29px] border-[1px]  rounded-[10px]', {
-              'border-[#FF611D] text-[#FF611D]': whichSort === 2,
-              'border-[#9C9C9C] text-[#9C9C9C]': whichSort !== 2,
-            })}
-          >
-            <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
-              추천순
-            </div>
-          </div>
-          <div className="mt-[20px] ml-[195px] mr-[26px] w-[351px] h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
-            ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
-          </div>
-        </div>
         {reviewclick ? (
           <>
             <div className="mt-[77px] ml-[289px] h-[16px] font-normal text-[24px] leading-[33px] flex items-center">
