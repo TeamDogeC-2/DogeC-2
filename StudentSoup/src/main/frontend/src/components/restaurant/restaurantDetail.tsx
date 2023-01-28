@@ -207,7 +207,6 @@ const restaurant = () => {
             매장정보
           </div>
           <div className="flex flex-row">
-            <Location className="ml-[21px] mt-[20.15px]" />
             <div className="ml-[10.33px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.address}
             </div>
