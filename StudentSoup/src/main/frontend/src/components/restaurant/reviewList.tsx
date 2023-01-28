@@ -35,7 +35,7 @@ const reviewWrite = () => {
   console.log(clickMoreButton);
   return (
     <>
-      {!clickMoreButton ? (
+      {clickMoreButton ? (
         <>
           <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
           <div className="w-[743px] h-[1100px]">
