@@ -46,13 +46,13 @@ const reviewWrite = () => {
                 <div className="ml-[5px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
                   {school.content}
                 </div>
-                <div className="flex flex-row">
-                  <div className="ml-[7px] mt-[18px] h-[16px] font-[400] text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
-                    {school.writedate}
-                    <ReviewSmallHeart className="ml-[95px]" />
-                    <div className="mb-[1px] ml-[3.62px] h-[9px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
-                      {school.likedCount}
-                    </div>
+                <div className="flex flex-row w-[200px]">
+                  <div className="mt-[18px] w-[57px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    {school.writeDate}
+                  </div>
+                  <ReviewSmallHeart className="ml-[99px] mt-[18px]" />
+                  <div className="ml-[3.31px] mt-[15px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    {school.likedCount}
                   </div>
                 </div>
               </div>
