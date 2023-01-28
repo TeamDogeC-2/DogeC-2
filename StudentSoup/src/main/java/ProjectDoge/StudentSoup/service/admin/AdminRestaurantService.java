@@ -7,7 +7,7 @@ import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
-import ProjectDoge.StudentSoup.service.file.LocalFileService;
+import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AdminRestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantFindService restaurantFindService;
     private final SchoolFindService schoolFindService;
-    private final LocalFileService localFileService;
+    private final FileService fileService;
 
     private final FileRepository fileRepository;
 
@@ -48,7 +48,7 @@ public class AdminRestaurantService {
     @Transactional
     public void adminUpdateRestaurant(Long restaurantId, RestaurantUpdateDto dto){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        List<UploadFileDto> uploadFileDtoList = localFileService.createUploadFileDtoList(dto.getMultipartFileList());
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantImage(restaurant, uploadFileDtoList);
         School school = schoolFindService.findOne(dto.getSchool().getId());
         restaurant.updateRestaurant(dto,school);

@@ -8,7 +8,8 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.service.file.LocalFileService;
+import ProjectDoge.StudentSoup.service.file.FileFindService;
+import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.member.MemberValidationService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
@@ -28,7 +29,8 @@ public class AdminMemberService {
     private final MemberValidationService memberValidationService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
-    private final LocalFileService localFileService;
+    private final FileService FileService;
+    private final FileFindService fileFindService;
 
     @Transactional
     public Long adminMemberUpdate(AdminMemberUpdateForm dto, MultipartFile file) {
@@ -46,7 +48,7 @@ public class AdminMemberService {
         validationChangedNicknameEmail(dto, member);
         adminUpdateMemberField(dto, member);
         log.info("회원 정보가 새로 갱신되었습니다.");
-        Long fileId = localFileService.join(file);
+        Long fileId = FileService.join(file);
         updateMemberProfileImage(member, fileId);
 
         return member.getMemberId();
@@ -71,7 +73,7 @@ public class AdminMemberService {
 
     private void updateMemberProfileImage(Member member, Long fileId) {
         if(fileId != null) {
-            ImageFile imageFile = localFileService.findOne(fileId);
+            ImageFile imageFile = fileFindService.findOne(fileId);
             member.setImageFile(imageFile);
         }
     }

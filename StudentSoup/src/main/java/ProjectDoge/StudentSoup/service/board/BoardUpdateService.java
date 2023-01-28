@@ -10,7 +10,7 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
-import ProjectDoge.StudentSoup.service.file.LocalFileService;
+import ProjectDoge.StudentSoup.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class BoardUpdateService {
 
     private final BoardFindService boardFindService;
 
-    private final LocalFileService localFileService;
+    private final FileService fileService;
 
     private final FileRepository fileRepository;
 
@@ -72,7 +72,7 @@ public class BoardUpdateService {
     }
 
     private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
-        List<UploadFileDto> uploadFileDtoList = localFileService.createUploadFileDtoList(multipartFiles);
+        List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
             fileRepository.save(imageFile);

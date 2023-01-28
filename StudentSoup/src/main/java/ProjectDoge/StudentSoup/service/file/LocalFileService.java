@@ -3,7 +3,6 @@ package ProjectDoge.StudentSoup.service.file;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
-import ProjectDoge.StudentSoup.exception.file.ImageFileNotFoundException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LocalFileService {
+public class LocalFileService implements FileService {
 
     @Value("${file.dir}")
     private String fileDir;
@@ -60,7 +59,7 @@ public class LocalFileService {
             log.info("전송된 이미지 파일이 존재하지 않아 파일 저장 메소드가 실행되지 않습니다.");
             return null;
         }
-        log.info("파일 저장 메소드가 실행되었습니다.");
+        log.info("로컬 파일 저장 메소드가 실행되었습니다.");
         String originalFileName = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName);
         String filePath = getFullPath(storeFileName);
@@ -97,17 +96,6 @@ public class LocalFileService {
 
     public String getFullPath(String filename){
         return fileDir + filename;
-    }
-
-    public ImageFile findOne(Long fileId){
-        if(fileId == null){
-            return null;
-        }
-        return fileRepository.findById(fileId)
-                .orElseThrow(()-> {
-                    log.info("이미지 파일 조회 메소드 findOne 에서 예외가 발생했습니다.");
-                    throw new ImageFileNotFoundException("파일이 존재하지 않습니다.");
-                });
     }
 }
 
