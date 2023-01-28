@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
 import { ReactComponent as ReviewSmallHeartActive } from '../../img/ReviewSmallHeartActive.svg';
@@ -7,35 +8,87 @@ import { useLocation } from 'react-router-dom';
 import ReviewStarView from './reviewStarView';
 import ReviewMoreStarView from './reviewMoreStarView';
 import ReviewMoreHeartInfo from './reviewMoreHeartInfo';
-import { ReactComponent as ReviewMoreStar } from '../../img/ReviewMoreStar.svg';
-import { ReactComponent as ReviewMoreHeart } from '../../img/ReviewMoreHeart.svg';
+import { ReactComponent as RightIcon } from '../../img/icon_right.svg';
+import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
+import cn from 'clsx';
 
 const reviewWrite = () => {
   const [reviewList, setReviewList] = useState<any>([]);
   const [clickMoreButton, isClickMoreButton] = useState<boolean>(false);
   const state = useLocation<any>();
+  const [page, setPage] = useState<any>(0);
+  const [clickPage, setClickPage] = useState<any>(1);
+  const [totalPage, setTotalPage] = useState<number>();
+  const [sort, setSort] = useState<string>('liked');
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
   const url = `/restaurant/${restaurantNumber}/reviews`;
   useEffect(() => {
     axios
-      .post(url, {
-        restaurantId: restaurantNumber,
-        memberId: saveMemberId,
-      })
+      .post(
+        url,
+        {
+          restaurantId: restaurantNumber,
+          memberId: saveMemberId,
+        },
+        {
+          params: {
+            page,
+            sorted: sort,
+          },
+        },
+      )
       .then(res => {
+        console.log(res.data);
         setReviewList(res.data.content);
+        setTotalPage(res.data.totalPages);
       })
       .catch(err => {
         console.error(err);
       });
-  }, []);
+  }, [clickPage, sort]);
+
+  const handleClickPage = (e: any) => {
+    setClickPage(e);
+  };
 
   const handleMoreButton = () => {
     isClickMoreButton(!clickMoreButton);
   };
+
   return (
     <>
+      <div className="flex flex-row">
+        <div
+          onClick={() => {
+            setSort('newest');
+          }}
+          className={cn('ml-[21px] mt-[13px] w-[70px] h-[29px] border-[1px] rounded-[10px]', {
+            'border-[#FF611D] text-[#FF611D]': sort === 'newest',
+            'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'newest',
+          })}
+        >
+          <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
+            최신순
+          </div>
+        </div>
+        <div
+          onClick={() => {
+            setSort('liked');
+          }}
+          className={cn('ml-[7px] mt-[13px] w-[70px] h-[29px] border-[1px]  rounded-[10px]', {
+            'border-[#FF611D] text-[#FF611D]': sort === 'liked',
+            'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'liked',
+          })}
+        >
+          <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
+            추천순
+          </div>
+        </div>
+        <div className="mt-[20px] ml-[195px] mr-[26px] w-[351px] h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
+          ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
+        </div>
+      </div>
       {clickMoreButton ? (
         <>
           <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
@@ -84,6 +137,105 @@ const reviewWrite = () => {
                   <div className="mt-[35px] ml-[25px] w-[687px] h-[1px] bg-[#BCBCBC]"></div>
                 </>
               ))}
+              <div className="ml-[20px] flex flex-row mb-[55px]">
+                <LeftIcon
+                  onClick={() => {
+                    setClickPage(clickPage - 1);
+                    if (clickPage === 1) {
+                      alert('첫번째 페이지 입니다.');
+                      setClickPage(1);
+                      setPage(0);
+                    }
+                  }}
+                  className="ml-[234px] mt-[55.63px] cursor-pointer"
+                />
+                <div
+                  onClick={() => {
+                    setClickPage(1);
+                    setPage(0);
+                  }}
+                  className={cn(
+                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
+                    {
+                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 1,
+                      'font-normal text-[#FF611D]': clickPage !== 1,
+                    },
+                  )}
+                >
+                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">1</div>
+                </div>
+                <div
+                  onClick={() => {
+                    setClickPage(2);
+                    setPage(1);
+                  }}
+                  className={cn(
+                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
+                    {
+                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 2,
+                      'font-normal text-[#FF611D]': clickPage !== 2,
+                    },
+                  )}
+                >
+                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">2</div>
+                </div>
+                <div
+                  onClick={() => {
+                    setClickPage(3);
+                    setPage(2);
+                  }}
+                  className={cn(
+                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
+                    {
+                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 3,
+                      'font-normal text-[#FF611D]': clickPage !== 3,
+                    },
+                  )}
+                >
+                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">3</div>
+                </div>
+                <div
+                  onClick={() => {
+                    setClickPage(4);
+                    setPage(3);
+                  }}
+                  className={cn(
+                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
+                    {
+                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 4,
+                      'font-normal text-[#FF611D]': clickPage !== 4,
+                    },
+                  )}
+                >
+                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">4</div>
+                </div>
+                <div
+                  onClick={() => {
+                    setClickPage(5);
+                    setPage(4);
+                  }}
+                  className={cn(
+                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
+                    {
+                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 5,
+                      'font-normal text-[#FF611D]': clickPage !== 5,
+                    },
+                  )}
+                >
+                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">5</div>
+                </div>
+                <RightIcon
+                  onClick={() => {
+                    setClickPage(clickPage + 1);
+                    if (clickPage === 5) {
+                      alert('마지막 페이지 입니다.');
+                      setClickPage(5);
+                      setPage(4);
+                    }
+                  }}
+                  className="ml-[15px] mt-[53.63px] cursor-pointer"
+                />
+              </div>
             </div>
           </div>
         </>
