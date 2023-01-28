@@ -17,6 +17,7 @@ public class RestaurantReviewDto {
     private String memberProfileImageName;
     private String nickName;
     private String content;
+    private String writeDate;
     private int starLiked;
     private int likedCount;
     private boolean like;
@@ -31,6 +32,7 @@ public class RestaurantReviewDto {
         this.memberProfileImageName = setProfileImageFileName(restaurantReview.getMember());
         this.nickName = restaurantReview.getMember().getNickname();
         this.content = restaurantReview.getContent();
+        this.writeDate = restaurantReview.getWriteDate().toString();
         this.starLiked = restaurantReview.getStarLiked();
         this.likedCount = restaurantReview.getLikedCount();
         this.imageFileNameList = setImageFileList(restaurantReview);
