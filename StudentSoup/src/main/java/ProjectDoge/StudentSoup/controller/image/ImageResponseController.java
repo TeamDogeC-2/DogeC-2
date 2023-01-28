@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.controller.image;
 
-import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.file.LocalFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -17,11 +17,11 @@ import java.net.MalformedURLException;
 
 public class ImageResponseController {
 
-    private final FileService fileService;
+    private final LocalFileService localFileService;
 
     @GetMapping("/image/{fileName}")
     public Resource responseImage(@PathVariable String fileName) throws MalformedURLException {
-        log.info("이미지 호출이 시작되었습니다. 해당 이미지의 이름 : [{}], 저장 위치 : [{}]", fileName, fileService.getFullPath(fileName));
-        return new UrlResource("file:" + fileService.getFullPath(fileName));
+        log.info("이미지 호출이 시작되었습니다. 해당 이미지의 이름 : [{}], 저장 위치 : [{}]", fileName, localFileService.getFullPath(fileName));
+        return new UrlResource("file:" + localFileService.getFullPath(fileName));
     }
 }
