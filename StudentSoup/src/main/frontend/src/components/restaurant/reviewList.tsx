@@ -1,10 +1,12 @@
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
+import { ReactComponent as ReviewSmallHeartActive } from '../../img/ReviewSmallHeartActive.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReviewStarView from './reviewStarView';
 import ReviewMoreStarView from './reviewMoreStarView';
+import ReviewMoreHeartInfo from './reviewMoreHeartInfo';
 import { ReactComponent as ReviewMoreStar } from '../../img/ReviewMoreStar.svg';
 import { ReactComponent as ReviewMoreHeart } from '../../img/ReviewMoreHeart.svg';
 
@@ -57,10 +59,7 @@ const reviewWrite = () => {
                         <div className="flex flex-col">
                           <div className="ml-[12px] mt-[37px] h-[16px] font-normal leading-[28px] text-[20px] flex items-center text-[#515151]">
                             {school.nickName}
-                            <ReviewMoreHeart className="ml-[455px] mt-[3px] w-[15px] h-[13px]" />
-                            <div className="ml-[5px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
-                              {school.likedCount}
-                            </div>
+                            <ReviewMoreHeartInfo {...school} school={school} />
                           </div>
                           <div className="flex flex-row">
                             <ReviewMoreStarView {...school} school={school} />
@@ -126,7 +125,11 @@ const reviewWrite = () => {
                     <div className="ml-[20px] mt-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.writeDate}
                     </div>
-                    <ReviewSmallHeart className="ml-[99px] mt-[18px]" />
+                    {school.like ? (
+                      <ReviewSmallHeartActive className="ml-[99px] mt-[18px]" />
+                    ) : (
+                      <ReviewSmallHeart className="ml-[99px] mt-[18px]" />
+                    )}
                     <div className="ml-[3.31px] mt-[15px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.likedCount}
                     </div>
