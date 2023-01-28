@@ -107,7 +107,7 @@ const review = (props: any) => {
           return (
             <span
               className="flex inline-flex items-center ml-[1px] mt-[12.4px]"
-              key={`${item} ${idx}`}
+              key={`${item}_${idx}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

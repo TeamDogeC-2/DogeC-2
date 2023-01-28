@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const starTest = (data: any) => {
+const reviewStarView = (data: any) => {
   const reviewStarArr = [0, 1, 2, 3, 4];
   const [rating, setRating] = useState(data.starLiked);
 
@@ -37,4 +37,4 @@ const starTest = (data: any) => {
   );
 };
 
-export default starTest;
+export default reviewStarView;

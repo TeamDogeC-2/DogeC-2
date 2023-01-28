@@ -3,7 +3,7 @@ import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.s
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import StarTest from './reviewStarView';
+import ReviewStarView from './reviewStarView';
 
 const reviewWrite = () => {
   const [reviewList, setReviewList] = useState<any>([]);
@@ -51,7 +51,7 @@ const reviewWrite = () => {
                   <div className="ml-[4px] mt-[21px] w-[82px] h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
                     {school.nickName}
                   </div>
-                  <StarTest {...school} school={school} />
+                  <ReviewStarView {...school} school={school} />
                 </div>
               </div>
               <div className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
