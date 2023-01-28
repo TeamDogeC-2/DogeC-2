@@ -63,10 +63,13 @@ const reviewWrite = () => {
           onClick={() => {
             setSort('newest');
           }}
-          className={cn('ml-[21px] mt-[13px] w-[70px] h-[29px] border-[1px] rounded-[10px]', {
-            'border-[#FF611D] text-[#FF611D]': sort === 'newest',
-            'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'newest',
-          })}
+          className={cn(
+            'ml-[21px] mt-[13px] w-[70px] h-[29px] border-[1px] rounded-[10px] cursor-pointer',
+            {
+              'border-[#FF611D] text-[#FF611D]': sort === 'newest',
+              'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'newest',
+            },
+          )}
         >
           <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
             최신순
@@ -76,10 +79,13 @@ const reviewWrite = () => {
           onClick={() => {
             setSort('liked');
           }}
-          className={cn('ml-[7px] mt-[13px] w-[70px] h-[29px] border-[1px]  rounded-[10px]', {
-            'border-[#FF611D] text-[#FF611D]': sort === 'liked',
-            'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'liked',
-          })}
+          className={cn(
+            'ml-[7px] mt-[13px] w-[70px] h-[29px] border-[1px]  rounded-[10px] cursor-pointer',
+            {
+              'border-[#FF611D] text-[#FF611D]': sort === 'liked',
+              'border-[#9C9C9C] text-[#9C9C9C]': sort !== 'liked',
+            },
+          )}
         >
           <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
             추천순
