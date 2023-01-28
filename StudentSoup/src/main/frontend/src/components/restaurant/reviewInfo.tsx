@@ -5,6 +5,7 @@ import cn from 'clsx';
 import { useLocation } from 'react-router-dom';
 
 const review = (props: any) => {
+  const totalReviewCount = props.reviewCount;
   const name = props.name;
   const totalStar = props.starLiked;
   const state = useLocation<any>();
@@ -131,7 +132,7 @@ const review = (props: any) => {
           {AVR_RATE}
         </div>
         <div className="ml-[5px] mt-[28px] w-[201px] h-[16px] font-[400] text-[14px] leading-[18px] flex items-center text-[#9F9F9F]">
-          총 302명이 리뷰를 작성했어요.
+          총 {totalReviewCount}명이 리뷰를 작성했어요.
         </div>
         <div
           onClick={reviewButtonClick}
