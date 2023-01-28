@@ -34,7 +34,6 @@ const reviewWrite = () => {
   const handleMoreButton = () => {
     isClickMoreButton(!clickMoreButton);
   };
-  console.log(clickMoreButton);
   return (
     <>
       {clickMoreButton ? (
