@@ -175,7 +175,6 @@ const review = (props: any) => {
     imageUploader.current.click();
   };
 
-  // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = (id: any) => {
     setShowImages(showImages.filter((_, index) => index !== id));
   };
