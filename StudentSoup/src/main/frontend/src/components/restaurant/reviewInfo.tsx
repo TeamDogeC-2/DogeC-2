@@ -65,6 +65,7 @@ const review = (props: any) => {
     } else isReviewClick(!reviewclick);
     if (reviewclick) {
       if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+        setShowImages([]);
         setRating(0);
         setHover(0);
         setClicked([false, false, false, false, false]);
@@ -77,6 +78,7 @@ const review = (props: any) => {
   };
   const cancelReviewValue = (e: any) => {
     if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+      setShowImages([]);
       setRating(0);
       setHover(0);
       setClicked([false, false, false, false, false]);
