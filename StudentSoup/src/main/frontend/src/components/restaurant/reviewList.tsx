@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
 import { ReactComponent as ReviewSmallHeart } from '../../img/ReviewSmallHeart.svg';
 import { ReactComponent as ReviewSmallHeartActive } from '../../img/ReviewSmallHeartActive.svg';
@@ -10,16 +9,21 @@ import ReviewMoreStarView from './reviewMoreStarView';
 import ReviewMoreHeartInfo from './reviewMoreHeartInfo';
 import { ReactComponent as RightIcon } from '../../img/icon_right.svg';
 import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
+import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone.svg';
+import { ReactComponent as RightFillNoneIcon } from '../../img/icon_right_fillnone.svg';
 import cn from 'clsx';
 
 const reviewWrite = () => {
   const [reviewList, setReviewList] = useState<any>([]);
   const [clickMoreButton, isClickMoreButton] = useState<boolean>(false);
   const state = useLocation<any>();
-  const [page, setPage] = useState<any>(0);
-  const [clickPage, setClickPage] = useState<any>(1);
+  const [page, setPage] = useState<number>(0);
+  const [clickPage, setClickPage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>();
+  const [clickNextPage, setClickNextPage] = useState<number>(0);
   const [sort, setSort] = useState<string>('liked');
+  const [selected, setSelected] = useState<number>(1);
+  const [lastPage, isLastPage] = useState<boolean>();
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
   const url = `/restaurant/${restaurantNumber}/reviews`;
@@ -39,9 +43,9 @@ const reviewWrite = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
         setReviewList(res.data.content);
         setTotalPage(res.data.totalPages);
+        isLastPage(res.data.last);
       })
       .catch(err => {
         console.error(err);
@@ -54,6 +58,18 @@ const reviewWrite = () => {
 
   const handleMoreButton = () => {
     isClickMoreButton(!clickMoreButton);
+  };
+
+  const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
+  const setPageNumbersArr = [];
+  for (let i = 0; i < setPageNumbers.length; i += 5) {
+    setPageNumbersArr.push(setPageNumbers.slice(i, i + 5));
+  }
+
+  const handlePageNumberClick = (e: any, idx: any) => {
+    setSelected(idx);
+    setPage(idx - 1);
+    setClickPage(idx);
   };
 
   return (
@@ -144,103 +160,59 @@ const reviewWrite = () => {
                 </>
               ))}
               <div className="ml-[20px] flex flex-row mb-[55px]">
-                <LeftIcon
-                  onClick={() => {
-                    setClickPage(clickPage - 1);
-                    if (clickPage === 1) {
-                      alert('첫번째 페이지 입니다.');
-                      setClickPage(1);
-                      setPage(0);
-                    }
-                  }}
-                  className="ml-[234px] mt-[55.63px] cursor-pointer"
-                />
-                <div
-                  onClick={() => {
-                    setClickPage(1);
-                    setPage(0);
-                  }}
-                  className={cn(
-                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
-                    {
-                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 1,
-                      'font-normal text-[#FF611D]': clickPage !== 1,
-                    },
-                  )}
-                >
-                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">1</div>
-                </div>
-                <div
-                  onClick={() => {
-                    setClickPage(2);
-                    setPage(1);
-                  }}
-                  className={cn(
-                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
-                    {
-                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 2,
-                      'font-normal text-[#FF611D]': clickPage !== 2,
-                    },
-                  )}
-                >
-                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">2</div>
-                </div>
-                <div
-                  onClick={() => {
-                    setClickPage(3);
-                    setPage(2);
-                  }}
-                  className={cn(
-                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
-                    {
-                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 3,
-                      'font-normal text-[#FF611D]': clickPage !== 3,
-                    },
-                  )}
-                >
-                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">3</div>
-                </div>
-                <div
-                  onClick={() => {
-                    setClickPage(4);
-                    setPage(3);
-                  }}
-                  className={cn(
-                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
-                    {
-                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 4,
-                      'font-normal text-[#FF611D]': clickPage !== 4,
-                    },
-                  )}
-                >
-                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">4</div>
-                </div>
-                <div
-                  onClick={() => {
-                    setClickPage(5);
-                    setPage(4);
-                  }}
-                  className={cn(
-                    'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer',
-                    {
-                      'font-bold bg-[#FF611D] text-[#FFFFFF]': clickPage === 5,
-                      'font-normal text-[#FF611D]': clickPage !== 5,
-                    },
-                  )}
-                >
-                  <div className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex">5</div>
-                </div>
-                <RightIcon
-                  onClick={() => {
-                    setClickPage(clickPage + 1);
-                    if (clickPage === 5) {
-                      alert('마지막 페이지 입니다.');
-                      setClickPage(5);
-                      setPage(4);
-                    }
-                  }}
-                  className="ml-[15px] mt-[53.63px] cursor-pointer"
-                />
+                {clickNextPage !== 1 ? (
+                  <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
+                ) : (
+                  <LeftIcon
+                    onClick={() => {
+                      setSelected(selected - 1);
+                      setPage(page - 1);
+                      setClickPage(clickPage - 1);
+                      if (clickPage / 6 === 1) {
+                        setClickNextPage(clickNextPage - 1);
+                      }
+                    }}
+                    className="ml-[234px] mt-[55.63px] cursor-pointer"
+                  />
+                )}
+                {setPageNumbersArr[clickNextPage].map((school: any) => (
+                  <>
+                    <div
+                      id={school}
+                      key={school}
+                      className={
+                        selected === school
+                          ? 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-bold bg-[#FF611D] text-[#FFFFFF]'
+                          : 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-normal text-[#FF611D]'
+                      }
+                      onClick={e => {
+                        handlePageNumberClick(e, school);
+                      }}
+                    >
+                      <div
+                        id={school}
+                        className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex"
+                      >
+                        {school}
+                      </div>
+                    </div>
+                  </>
+                ))}
+                {lastPage ? (
+                  <RightFillNoneIcon className="ml-[15px] mt-[53.63px]" />
+                ) : (
+                  <RightIcon
+                    onClick={() => {
+                      setSelected(selected + 1);
+                      setPage(page + 1);
+                      setClickPage(clickPage + 1);
+                      if (clickPage / 5 === 1) {
+                        setClickNextPage(clickNextPage + 1);
+                      }
+                    }}
+                    className="ml-[15px] mt-[53.63px] cursor-pointer"
+                  />
+                )}
               </div>
             </div>
           </div>
