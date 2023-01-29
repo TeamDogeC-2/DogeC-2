@@ -25,7 +25,6 @@ const reviewWrite = () => {
   const [sort, setSort] = useState<string>('liked');
   const [selected, setSelected] = useState<number>(1);
   const [lastPage, isLastPage] = useState<boolean>();
-  const [viewAllImage, setViewAllImage] = useState<any>([]);
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
   const url = `/restaurant/${restaurantNumber}/reviews`;
@@ -45,8 +44,6 @@ const reviewWrite = () => {
         },
       )
       .then(res => {
-        console.log(res.data.content);
-        setViewAllImage(res.data.content.imageFileNameList);
         setReviewList(res.data.content);
         setTotalPage(res.data.totalPages);
         isLastPage(res.data.last);
