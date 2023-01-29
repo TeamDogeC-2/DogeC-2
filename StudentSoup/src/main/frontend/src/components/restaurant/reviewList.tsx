@@ -254,7 +254,7 @@ const reviewWrite = () => {
                     </div>
                   )}
 
-                  <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
+                  <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">
                     {school.content}
                   </div>
                   <div className="flex flex-row w-[209px]">
