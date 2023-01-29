@@ -45,7 +45,6 @@ const pictureInfo = () => {
       }
     }
   };
-  console.log(size);
 
   return (
     <>
