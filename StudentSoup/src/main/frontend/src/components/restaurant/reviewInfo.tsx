@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import ReviewWrite from './reviewList';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const review = (props: any) => {
+  const [imgs, setImgs] = useState<any>();
+  const imageUploader = useRef<any>(null);
   const totalReviewCount = props.reviewCount;
   const name = props.name;
   const totalStar = props.starLiked;
   const state = useLocation<any>();
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
+  const saveMemberNickName = sessionStorage.getItem('nickname');
+  const [showImages, setShowImages] = useState([]);
   const AVR_RATE = totalStar;
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [starArr, setStarArr] = useState([0, 0, 0, 0, 0]);
@@ -81,21 +86,99 @@ const review = (props: any) => {
       isReviewClick(reviewclick);
     }
   };
-  const handleReviewValue = (e: any) => {
+
+  const handleReviewValue = async (e: any) => {
     if (count < 5) {
       alert('5자 이상 입력해야 합니다.');
     } else if (score === 0) {
       alert('별점은 최소 1점부터 가능합니다.');
-    } else {
+    } else if (!imgs) {
+      await axios.put(
+        `/restaurant/${restaurantNumber}/review/new`,
+        {
+          restaurantName: name,
+          memberId: saveMemberId,
+          nickName: saveMemberNickName,
+          content: textValue,
+          starLiked: rating,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
       alert('리뷰 작성이 완료되었습니다.');
       isReviewClick(!reviewclick);
+      setShowImages([]);
+      setRating(0);
+      setHover(0);
+      setClicked([false, false, false, false, false]);
+      setTextValue('');
+    } else {
+      await axios.put(
+        `/restaurant/${restaurantNumber}/review/new`,
+        {
+          restaurantName: name,
+          memberId: saveMemberId,
+          nickName: saveMemberNickName,
+          content: textValue,
+          starLiked: rating,
+          multipartFileList: [...imgs],
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      alert('리뷰 작성이 완료되었습니다.');
+      isReviewClick(!reviewclick);
+      setShowImages([]);
       setRating(0);
       setHover(0);
       setClicked([false, false, false, false, false]);
       setTextValue('');
     }
   };
+  const handleAddImages = (event: any) => {
+    const maxFilesizeAll = 20 * 1024 * 1000;
+    const imageLists = event.target.files;
+    setImgs(event.target.files);
 
+    let imageUrlLists = [...showImages];
+
+    for (let i = 0; i < imageLists.length; i++) {
+      if (!/\.(gif|jpg|png)$/i.test(imageLists[i].name)) {
+        alert('해당파일은 업로드가 불가능한 파일입니다.');
+        return;
+      } else if (imageLists[i].size > maxFilesizeAll) {
+        alert('업로드 가능한 최대 용량은 20MB입니다.');
+        return;
+      }
+
+      const currentImageUrl = URL.createObjectURL(imageLists[i]) as never;
+
+      imageUrlLists.push(currentImageUrl);
+    }
+
+    if (imageUrlLists.length < 5) {
+      imageUrlLists = imageUrlLists.slice(0, 5);
+    } else {
+      alert('이미지파일은 4개이하만 업로드 할수 있습니다.');
+      return;
+    }
+
+    setShowImages(imageUrlLists);
+  };
+  const onCickImageUpload = () => {
+    imageUploader.current.click();
+  };
+
+  // X버튼 클릭 시 이미지 삭제
+  const handleDeleteImage = (id: any) => {
+    setShowImages(showImages.filter((_, index) => index !== id));
+  };
   return (
     <>
       <div className="flex flex-row mt-[2px] w-[742px]">
@@ -188,8 +271,18 @@ const review = (props: any) => {
               고객님의 리뷰가 다른 고객들에게 도움이 될 수 있어요!
             </div>
             <div>
+              <div onChange={handleAddImages} onClick={onCickImageUpload}>
+                사진 업로드 하기
+                <input
+                  type="file"
+                  multiple
+                  accept=".png,.jpg,.gif"
+                  ref={imageUploader}
+                  className="hidden"
+                />
+              </div>
               <textarea
-                className="w-[694px] h-[220px] ml-[25px] mt-[20px] resize-none border-[2px]"
+                className="w-[694px] h-[220px] ml-[25px] mt-[20px] resize-none border-[2px] bg-[#D9D9D9]"
                 placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현과 주문하신 메뉴 및 매장 서비스에 대해서 작성해주세요. 유용한 팁도 남겨주시면 감사합니다:)"
                 value={textValue}
                 maxLength={399}
@@ -201,12 +294,26 @@ const review = (props: any) => {
                 {count}/400 (최소 5자)
               </div>
             </div>
-            <div className="flex flex-row">
-              <div className="w-[130px] h-[121px] ml-[25px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
-              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
-              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
-              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
-              <div className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"></div>
+            <div className="flex flex-row ml-[14px]">
+              {showImages.map((image, id) => (
+                <>
+                  <div key={id}>
+                    <img
+                      className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"
+                      src={image}
+                      alt={`${image}-${id}`}
+                    />
+
+                    <div
+                      onClick={() => {
+                        handleDeleteImage(id);
+                      }}
+                    >
+                      x
+                    </div>
+                  </div>
+                </>
+              ))}
             </div>
             <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
               사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
