@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import ReviewStarView from './reviewStarView';
 import ReviewMoreStarView from './reviewMoreStarView';
 import ReviewMoreHeartInfo from './reviewMoreHeartInfo';
+import ReviewMoreImageView from './reviewMoreImageView';
 import { ReactComponent as RightIcon } from '../../img/icon_right.svg';
 import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
 import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone.svg';
@@ -24,6 +25,7 @@ const reviewWrite = () => {
   const [sort, setSort] = useState<string>('liked');
   const [selected, setSelected] = useState<number>(1);
   const [lastPage, isLastPage] = useState<boolean>();
+  const [viewAllImage, setViewAllImage] = useState<any>([]);
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
   const url = `/restaurant/${restaurantNumber}/reviews`;
@@ -43,6 +45,8 @@ const reviewWrite = () => {
         },
       )
       .then(res => {
+        console.log(res.data.content);
+        setViewAllImage(res.data.content.imageFileNameList);
         setReviewList(res.data.content);
         setTotalPage(res.data.totalPages);
         isLastPage(res.data.last);
@@ -62,6 +66,7 @@ const reviewWrite = () => {
 
   const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
   const setPageNumbersArr = [];
+
   for (let i = 0; i < setPageNumbers.length; i += 5) {
     setPageNumbersArr.push(setPageNumbers.slice(i, i + 5));
   }
@@ -116,7 +121,7 @@ const reviewWrite = () => {
           <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
           <div className="w-[743px] h-[1100px]">
             <div className="flex flex-col">
-              {reviewList.map((school: any) => (
+              {reviewList.map((school: any, idx: any) => (
                 <>
                   <div className="w-[743px] h-[320px] border-1">
                     <div className="flex flex-row">
@@ -144,11 +149,8 @@ const reviewWrite = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-rows">
-                      <div className="ml-[118px] w-[146px] h-[135px] border-[1px] border-[#A5A5A5]"></div>
-                      <div className="ml-[3px] w-[146px] h-[135px] border-[1px] border-[#A5A5A5]"></div>
-                      <div className="ml-[3px] w-[146px] h-[135px] border-[1px] border-[#A5A5A5]"></div>
-                      <div className="ml-[3px] w-[146px] h-[135px] border-[1px] border-[#A5A5A5]"></div>
+                    <div className="flex flex-rows ml-[118px]">
+                      <ReviewMoreImageView {...school} school={school} />
                     </div>
                     <div>
                       <div className="w-[593px] h-[14px] mt-[10px] ml-[118px] text-[16px] font-normal leading-[21px] text-[#6B6B6B]">
@@ -160,7 +162,7 @@ const reviewWrite = () => {
                 </>
               ))}
               <div className="ml-[20px] flex flex-row mb-[55px]">
-                {clickNextPage !== 1 ? (
+                {clickPage === 1 ? (
                   <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
                 ) : (
                   <LeftIcon
@@ -168,7 +170,7 @@ const reviewWrite = () => {
                       setSelected(selected - 1);
                       setPage(page - 1);
                       setClickPage(clickPage - 1);
-                      if (clickPage / 6 === 1) {
+                      if (page % 5 === 0) {
                         setClickNextPage(clickNextPage - 1);
                       }
                     }}
@@ -206,7 +208,7 @@ const reviewWrite = () => {
                       setSelected(selected + 1);
                       setPage(page + 1);
                       setClickPage(clickPage + 1);
-                      if (clickPage / 5 === 1) {
+                      if (clickPage % 5 === 0) {
                         setClickNextPage(clickNextPage + 1);
                       }
                     }}
@@ -244,9 +246,17 @@ const reviewWrite = () => {
                       <ReviewStarView {...school} school={school} />
                     </div>
                   </div>
-                  <div className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
-                    이미지
-                  </div>
+                  {school.imageFileNameList.length ? (
+                    <img
+                      src={`/image/${school.imageFileNameList[0]}`}
+                      className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
+                    />
+                  ) : (
+                    <div className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
+                      이미지가 없습니다.
+                    </div>
+                  )}
+
                   <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B]">
                     {school.content}
                   </div>
