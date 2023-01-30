@@ -150,7 +150,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.boardCategory.eq(BoardCategory.TIP))
-                .orderBy(board.likedCount.desc(),board.writeDate.asc())
+                .orderBy(board.likedCount.desc(),board.writeDate.desc())
                 .offset(0)
                 .limit(4)
                 .fetch();
@@ -215,7 +215,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         else if(BoardSortedCase.VIEW.getValue() == sorted){
             return board.view.desc();
         }
-        return board.updateDate.asc();
+        return board.writeDate.desc();
     }
 
     @Override
