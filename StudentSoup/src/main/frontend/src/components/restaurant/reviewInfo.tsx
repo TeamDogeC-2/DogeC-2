@@ -329,7 +329,7 @@ const review = (props: any) => {
               ))}
             </div>
             <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
-              사진은 최대 5MB 이하의 JPG, PNG, GIF 파일 4장까지 첨부 가능합니다.
+              사진은 최대 5MB 이하의 JPG, PNG, GIF, BMP, JPEG, SVG 파일 4장까지 첨부 가능합니다.
             </div>
             <div className="flex flex-row">
               <div
