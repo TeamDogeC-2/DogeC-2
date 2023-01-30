@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
+@Primary
 @Service
 @RequiredArgsConstructor
 
