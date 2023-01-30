@@ -29,6 +29,7 @@ const menuInfo = () => {
         },
       )
       .then(res => {
+        console.log(res.data);
         setTotalSize(res.data.totalElements);
         setMenuList(res.data.content);
       })
@@ -59,26 +60,37 @@ const menuInfo = () => {
   };
   return (
     <>
-      <div className="ml-[25px] mt-[10px] grid grid-cols-2">
+      <div className="ml-[25px] mt-[28px] grid grid-cols-2">
         {MenuList?.map((school: any) => (
           <div className="flex flex-row" id={school.restaurantMenuId} key={school.restaurantMenuId}>
-            <div
-              id={school.restaurantMenuId}
-              className="w-[172px] h-[164px] rounded-[5px] bg-[#FF2] mt-[12px] "
-            >
-              <MenuHeartInfo {...school} school={school} />
+            <div id={school.restaurantMenuId}>
+              {school.fileName ? (
+                <>
+                  <img
+                    className="w-[172px] h-[164px] rounded-[5px]"
+                    key={school.fileName}
+                    src={`/image/${school.fileName}`}
+                  />
+                </>
+              ) : (
+                <div className="w-[172px] h-[164px] rounded-[5px] bg-[#A5A5A5]">
+                  <div>사진없음</div>
+                </div>
+              )}
+              <div className="relative bottom-[163px]">
+                <MenuHeartInfo {...school} school={school} />
+              </div>
             </div>
             <div className="flex flex-col">
-              <div className="w-[157px] h-[16px] ml-[14px] mt-[30px] text-[20px] font-semibold leading-[28px] text-[#515151] leading-[28px] flex items-center">
+              <div className="w-[157px] h-[16px] ml-[14px] text-[20px] font-semibold leading-[28px] text-[#515151]flex items-center">
                 {school.restaurantMenuName}
               </div>
-              <div className="ml-[14px] mt-[108px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
+              <div className="ml-[14px] mt-[118px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
                 {school.cost}원
               </div>
             </div>
           </div>
         ))}
-        <div className=" mt-[25px] w-[687px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
       </div>
       {moreButtonClick === 0 && totalsize > 4 ? (
         <div
