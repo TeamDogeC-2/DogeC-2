@@ -44,6 +44,8 @@ public class RestaurantFormDto {
 
     private String detail;
 
+    private String isDelivery;
+
     //== 생성 메서드 ==//
     public void setRestaurant(Restaurant restaurant){
         this.setName(restaurant.getName());
@@ -55,9 +57,12 @@ public class RestaurantFormDto {
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
         this.setDetail(restaurant.getDetail());
+        this.setIsDelivery(restaurant.getIsDelivery());
     }
 
-    public RestaurantFormDto createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail) {
+    public RestaurantFormDto createRestaurantFormDto(
+            String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime,
+            Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail, String isDelivery) {
         this.name = name;
         this.address = address;
         this.restaurantCategory = category;
@@ -68,6 +73,7 @@ public class RestaurantFormDto {
         this.tel = tel;
         this.tag = tag;
         this.detail = detail;
+        this.isDelivery = isDelivery;
 
         return this;
     }
