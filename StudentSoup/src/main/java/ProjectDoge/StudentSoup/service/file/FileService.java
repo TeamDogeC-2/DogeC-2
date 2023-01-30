@@ -16,4 +16,5 @@ public interface FileService {
 
     String createStoreFileName(String originalFileName);
 
+    String getFullPath(String fileName);
 }

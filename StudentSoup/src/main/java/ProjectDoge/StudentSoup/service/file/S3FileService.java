@@ -139,8 +139,8 @@ public class S3FileService implements FileService {
         return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
     }
 
-    private String getFullPath(String fileName){
-        return bucket + fileName;
+    public String getFullPath(String fileName){
+        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     private void removeFile(File createFile) {
