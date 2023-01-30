@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cn from 'clsx';
 import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
@@ -17,6 +17,43 @@ const SearchComponent = () => {
   const [sort, setSort] = useState('전체');
   const [subject, setSubject] = useState('학과');
 
+  const keywordRef: any = useRef(null);
+  const sortRef: any = useRef(null);
+  const subjectRef: any = useRef(null);
+
+  /**
+   * 컴포넌트 특정 영역 외 클릭 감지를 위해 사용
+   * */
+  useEffect(() => {
+    const handleOutside = (e: any) => {
+      if (keywordRef.current && !keywordRef.current.contains(e.target)) setShowKeywords(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [keywordRef]);
+
+  useEffect(() => {
+    const handleOutside = (e: any) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) setShowSorts(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [sortRef]);
+
+  useEffect(() => {
+    const handleOutside = (e: any) => {
+      if (subjectRef.current && !subjectRef.current.contains(e.target)) setShowSubjects(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [subjectRef]);
+
   return (
     <div className="flex justify-between mt-[26px]">
       <div className="flex bg-white border border-solid border-[#BCBCBC] rounded-[5px]">
@@ -28,7 +65,7 @@ const SearchComponent = () => {
       </div>
 
       {/* Keyword */}
-      <div className="relative">
+      <div ref={keywordRef} className="relative">
         <div
           onClick={() => {
             setShowKeywords(prev => !prev);
@@ -46,8 +83,8 @@ const SearchComponent = () => {
               return (
                 <div
                   onClick={() => {
-                    setShowKeywords(false);
                     setKeyword(item);
+                    setShowKeywords(false);
                   }}
                   key={index}
                   className={cn(
@@ -66,7 +103,7 @@ const SearchComponent = () => {
       </div>
 
       {/* Sort */}
-      <div className="relative">
+      <div ref={sortRef} className="relative">
         <div
           onClick={() => {
             setShowSorts(prev => !prev);
@@ -84,8 +121,8 @@ const SearchComponent = () => {
               return (
                 <div
                   onClick={() => {
-                    setShowSorts(false);
                     setSort(item);
+                    setShowSorts(false);
                   }}
                   key={index}
                   className={cn(
@@ -104,7 +141,7 @@ const SearchComponent = () => {
       </div>
 
       {/* Subject */}
-      <div className="relative">
+      <div ref={subjectRef} className="relative">
         <div
           onClick={() => {
             setShowSubjects(prev => !prev);
@@ -122,8 +159,8 @@ const SearchComponent = () => {
               return (
                 <div
                   onClick={() => {
-                    setShowSubjects(false);
                     setSubject(item);
+                    setShowSubjects(false);
                   }}
                   key={index}
                   className={cn(
