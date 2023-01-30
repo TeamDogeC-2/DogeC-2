@@ -94,7 +94,7 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .select(boardReview)
                 .from(boardReview)
                 .where(boardReview.seq.eq(seq))
-                .orderBy(boardReview.depth.desc())
+                .orderBy(boardReview.depth.asc())
                 .fetch();
         return query;
     }
