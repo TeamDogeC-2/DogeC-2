@@ -88,4 +88,14 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
 
         return query;
     }
+    @Override
+    public List<BoardReview> findBySeq(int seq){
+        List<BoardReview> query = queryFactory
+                .select(boardReview)
+                .from(boardReview)
+                .where(boardReview.seq.eq(seq))
+                .orderBy(boardReview.depth.asc())
+                .fetch();
+        return query;
+    }
 }

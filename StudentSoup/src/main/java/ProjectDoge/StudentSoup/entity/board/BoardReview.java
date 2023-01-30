@@ -51,7 +51,7 @@ public class BoardReview {
     private int level;
 
     //댓글 삭제 여부
-    private boolean active;
+    private String active;
 
 
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -80,7 +80,7 @@ public class BoardReview {
         this.setSeq(dto.getSeq());
         this.setDepth(dto.getDepth());
         this.setLevel(dto.getLevel());
-        this.setActive(true);
+        this.setActive("Y");
         return this;
     }
 
@@ -89,7 +89,7 @@ public class BoardReview {
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setLikedCount(0);
         this.setLevel(1);
-        this.setActive(true);
+        this.setActive("Y");
         return this;
     }
     private String dateFormat(LocalDateTime time){
