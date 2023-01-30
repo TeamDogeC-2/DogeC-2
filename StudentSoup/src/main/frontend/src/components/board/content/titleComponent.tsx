@@ -1,19 +1,50 @@
+import { useState } from 'react';
+import cn from 'clsx';
+
 interface PropsType {
   menu: string;
 }
 
+const enum RANGE {
+  SCHOOL = 'SCHOOL',
+  SUBJECT = 'SUBJECT',
+}
+
 const TitleComponent = (props: PropsType) => {
   const { menu } = props;
+  const [range, setRange] = useState(RANGE.SCHOOL);
 
   return (
     <div className="flex justify-between">
       <div className="text-[24px] font-[700]">{menu}</div>
       <div className="flex">
-        <div className="cursor-pointer rounded-[45px] drop-shadow-sm bg-[#fff] w-[110px] h-[36px] text-center border-solid border border-[#BCBCBC] text-[#FF611D] text-[16px] leading-[30px] mr-[13px]">
-          SCHOOL
+        <div
+          onClick={() => {
+            setRange(RANGE.SCHOOL);
+          }}
+          className={cn(
+            'cursor-pointer rounded-[45px] drop-shadow-sm  w-[110px] h-[36px] text-center border-solid border text-[16px] leading-[30px] mr-[13px]',
+            {
+              'bg-[#FF611D] text-[#fff] border-[#FF611D]': range === RANGE.SCHOOL,
+              'bg-[#fff] border-[#BCBCBC] text-[#FF611D]': range !== RANGE.SCHOOL,
+            },
+          )}
+        >
+          {RANGE.SCHOOL}
         </div>
-        <div className="cursor-pointer rounded-[45px] drop-shadow-sm bg-[#FF611D] w-[110px] h-[36px] text-center border-solid border border-[#FF611D] text-[#fff] text-[16px] leading-[30px]">
-          SUBJECT
+        <div
+          onClick={() => {
+            setRange(RANGE.SUBJECT);
+          }}
+          className={cn(
+            'cursor-pointer rounded-[45px] drop-shadow-sm w-[110px] h-[36px] text-center border-solid border text-[16px] leading-[30px] mr-[13px]',
+            {
+              'bg-[#FF611D] text-[#fff] border-[#FF611D]': range === RANGE.SUBJECT,
+              'bg-[#fff] border-[#BCBCBC] text-[#FF611D]': range !== RANGE.SUBJECT,
+            },
+          )}
+        >
+          {RANGE.SUBJECT}
         </div>
       </div>
     </div>
