@@ -19,7 +19,7 @@ public class BoardReviewCallController {
 
     private final BoardReviewCallService boardReviewCallService;
 
-    @GetMapping("/boardReview/{boardId}/{memberId}")
+    @GetMapping("/boardReviews/{boardId}/{memberId}")
     public ConcurrentHashMap<String,Object> callBoard(@PathVariable Long memberId, @PathVariable Long boardId,
                                                       @PageableDefault(size = 6)Pageable pageable){
         ConcurrentHashMap<String, Object> resultMap = boardReviewCallService.callBoardReview(memberId, boardId, pageable);
