@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
+import { ReactComponent as ReviewWriteCamera } from '../../img/reviewwriteCamera.svg';
 import ReviewWrite from './reviewList';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -144,18 +145,18 @@ const review = (props: any) => {
     }
   };
   const handleAddImages = (event: any) => {
-    const maxFilesizeAll = 20 * 1024 * 1000;
+    const maxFilesizeAll = 5 * 1024 * 1000;
     const imageLists = event.target.files;
     setImgs(event.target.files);
 
     let imageUrlLists = [...showImages];
 
     for (let i = 0; i < imageLists.length; i++) {
-      if (!/\.(gif|jpg|png)$/i.test(imageLists[i].name)) {
+      if (!/\.(gif|jpg|png|jpeg|bmp|svg)$/i.test(imageLists[i].name)) {
         alert('해당파일은 업로드가 불가능한 파일입니다.');
         return;
       } else if (imageLists[i].size > maxFilesizeAll) {
-        alert('업로드 가능한 최대 용량은 20MB입니다.');
+        alert('업로드 가능한 최대 용량은 5MB입니다.');
         return;
       }
 
@@ -272,16 +273,6 @@ const review = (props: any) => {
               고객님의 리뷰가 다른 고객들에게 도움이 될 수 있어요!
             </div>
             <div>
-              <div onChange={handleAddImages} onClick={onCickImageUpload}>
-                사진 업로드 하기
-                <input
-                  type="file"
-                  multiple
-                  accept=".png,.jpg,.gif"
-                  ref={imageUploader}
-                  className="hidden"
-                />
-              </div>
               <textarea
                 className="w-[694px] h-[220px] ml-[25px] mt-[20px] resize-none border-[2px] bg-[#D9D9D9]"
                 placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현과 주문하신 메뉴 및 매장 서비스에 대해서 작성해주세요. 유용한 팁도 남겨주시면 감사합니다:)"
@@ -296,6 +287,26 @@ const review = (props: any) => {
               </div>
             </div>
             <div className="flex flex-row ml-[14px]">
+              <div
+                className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC] border-dotted cursor-pointer"
+                onChange={handleAddImages}
+                onClick={onCickImageUpload}
+              >
+                <ReviewWriteCamera className="ml-[53px] mt-[36px] cursor-pointer" />
+                <div className="flex flex-col">
+                  <div className="h-[39px] font-normal text-[14px] leading-[20px] text-center text-[#878787] cursor-pointer">
+                    사진 첨부
+                    <div className="ml-[5px]">{showImages.length}/4</div>
+                  </div>
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  accept=".png,.jpg,.gif,.jpeg,.bmp,.svg"
+                  ref={imageUploader}
+                  className="hidden"
+                />
+              </div>
               {showImages.map((image, id) => (
                 <>
                   <div key={id}>
@@ -306,6 +317,7 @@ const review = (props: any) => {
                     />
 
                     <div
+                      className="w-[20px] h-[20px] border-[1px] ml-[65px] mt-[5.5px]"
                       onClick={() => {
                         handleDeleteImage(id);
                       }}
@@ -317,7 +329,7 @@ const review = (props: any) => {
               ))}
             </div>
             <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
-              사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 4장까지 첨부 가능합니다.
+              사진은 최대 5MB 이하의 JPG, PNG, GIF 파일 4장까지 첨부 가능합니다.
             </div>
             <div className="flex flex-row">
               <div
