@@ -70,7 +70,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
@@ -104,7 +104,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
@@ -123,7 +123,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
@@ -143,7 +143,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
