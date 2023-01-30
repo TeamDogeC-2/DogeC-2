@@ -23,7 +23,7 @@ public class BoardCreateController {
 
     private final BoardCallService boardCallService;
 
-    @PostMapping(value = "board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
                                          BoardFormDto boardFormDto){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
