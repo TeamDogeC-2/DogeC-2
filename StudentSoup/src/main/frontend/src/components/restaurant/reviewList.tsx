@@ -181,17 +181,14 @@ const reviewWrite = () => {
                       key={school}
                       className={
                         selected === school
-                          ? 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-bold bg-[#FF611D] text-[#FFFFFF]'
-                          : 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-normal text-[#FF611D]'
+                          ? 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-bold text-[#FF611D]'
+                          : 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]'
                       }
                       onClick={e => {
                         handlePageNumberClick(e, school);
                       }}
                     >
-                      <div
-                        id={school}
-                        className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px] flex"
-                      >
+                      <div id={school} className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px]">
                         {school}
                       </div>
                     </div>
