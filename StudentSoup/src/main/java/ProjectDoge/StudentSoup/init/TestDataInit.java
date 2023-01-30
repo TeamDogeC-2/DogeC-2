@@ -162,7 +162,8 @@ public class TestDataInit {
                 null,
                 "032-710-6464",
                 "태그",
-                "디테일");
+                "디테일",
+                "Y");
 
         for(int i = 0; i < 30; i++){
             RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점" + i,
@@ -175,7 +176,8 @@ public class TestDataInit {
                     null,
                     "032-710-6464",
                     "태그",
-                    "디테일");
+                    "디테일",
+                    "Y");
             restaurantRegisterService.join(testDto);
         }
 
@@ -189,7 +191,8 @@ public class TestDataInit {
                 null,
                 "032-816-9888",
                 "태그",
-                "디테일");
+                "디테일",
+                "Y");
 
         for(int i = 0; i < 30; i++){
             RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점" + i,
@@ -202,7 +205,8 @@ public class TestDataInit {
                     null,
                     "032-816-9888",
                     "태그",
-                    "디테일");
+                    "디테일",
+                    "Y");
             restaurantRegisterService.join(testDto);
         }
         restaurantRegisterService.join(dto);
