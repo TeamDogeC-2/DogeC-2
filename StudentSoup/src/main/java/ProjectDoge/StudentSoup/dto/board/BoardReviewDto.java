@@ -21,6 +21,8 @@ public class BoardReviewDto {
 
     private int level;
 
+    private String active;
+
     private boolean like;
 
     public BoardReviewDto createBoardReviewDto(BoardReview boardReview, Boolean like) {
@@ -30,6 +32,7 @@ public class BoardReviewDto {
         this.seq = boardReview.getSeq();
         this.depth = boardReview.getDepth();
         this.level = boardReview.getLevel();
+        this.active = boardReview.getActive();
         this.like = like;
         return this;
     }

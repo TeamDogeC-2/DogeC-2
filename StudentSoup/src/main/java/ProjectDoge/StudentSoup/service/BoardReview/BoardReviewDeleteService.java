@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -26,10 +27,41 @@ public class BoardReviewDeleteService {
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         BoardReview boardReview = boardReviewFindService.findOne(boardReviewId);
         checkBoardReviewOwn(memberId,boardReview);
-        boardReviewRepository.delete(boardReview);
+        checkReviewLevel(boardReview);
         resultMap.put("result","ok");
         resultMap.put("boardReviewId",boardReviewId);
         return  resultMap;
+    }
+
+    private void checkReviewLevel(BoardReview boardReview) {
+        if(boardReview.getLevel() == 0){
+            List<BoardReview> boardReviewList = boardReviewRepository.findBySeq(boardReview.getSeq());
+            deleteReply(boardReview, boardReviewList);
+
+        }
+        else{
+            List<BoardReview> boardReviewList = boardReviewRepository.findBySeq(boardReview.getSeq());
+            deleteNestedReply(boardReview, boardReviewList);
+        }
+    }
+
+    private void  deleteNestedReply(BoardReview boardReview, List<BoardReview> boardReviewList) {
+        if(boardReviewList.size() == 2 && boardReviewList.get(0).getActive().equals("N")){
+            boardReviewRepository.delete(boardReview);
+            boardReviewRepository.delete(boardReviewList.get(0));
+        }
+        else{
+            boardReviewRepository.delete(boardReview);
+        }
+    }
+
+    private void deleteReply(BoardReview boardReview, List<BoardReview> boardReviewList) {
+        if (boardReviewList.size() == 1) {
+            boardReviewRepository.delete(boardReview);
+        }
+        else{
+            boardReview.setActive("N");
+        }
     }
 
     private void checkBoardReviewOwn(Long memberId, BoardReview boardReview) {

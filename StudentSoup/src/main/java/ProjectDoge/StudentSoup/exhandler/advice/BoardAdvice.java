@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.board.BoardIdNotSentException;
-import ProjectDoge.StudentSoup.exception.board.BoardNotFoundException;
-import ProjectDoge.StudentSoup.exception.board.BoardSearchDataNotSentException;
-import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
+import ProjectDoge.StudentSoup.exception.board.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,4 +35,12 @@ public class BoardAdvice {
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardNotOwnMemberException",e.getMessage());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardNotQualifiedException.class)
+    public ErrorResult BoardNotQualifiedException(BoardNotQualifiedException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardNotQualifiedException",e.getMessage());
+    }
+
 }

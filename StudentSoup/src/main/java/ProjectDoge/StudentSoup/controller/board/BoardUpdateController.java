@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardUpdateController {
     private final BoardUpdateService boardUpdateService;
 
-    @GetMapping("board/update/{boardId}/{memberId}")
+    @GetMapping("board/{boardId}/{memberId}")
     public BoardUpdateDto updateBoard(@PathVariable Long boardId,@PathVariable Long memberId){
         BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId,memberId);
         return boardUpdateDto;
     }
-    @PutMapping(value = "board/{boardId}/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "board/{boardId}/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> updateBoard(@PathVariable Long boardId,
                                          @PathVariable Long memberId,
                                          BoardFormDto boardFormDto
