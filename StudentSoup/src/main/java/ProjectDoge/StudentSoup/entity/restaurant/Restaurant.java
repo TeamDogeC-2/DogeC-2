@@ -43,7 +43,7 @@ public class Restaurant {
 
     private int distance;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int viewCount;
