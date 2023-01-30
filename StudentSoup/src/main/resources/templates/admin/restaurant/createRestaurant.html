@@ -52,6 +52,20 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-2 pb-2">
+                                                        <div class="form-outline" >
+                                                            <label class="form-label" th:for="address">음식점 주소</label>
+                                                            <input type="text" th:field="*{address}"
+                                                                   placeholder="주소를 입력하세요."
+                                                                   th:class="${#fields.hasErrors('address')}? 'form-control form-control-lg fieldError' : 'form-control form-control-lg'">
+                                                            <p style="color : red;" th:if="${#fields.hasErrors('address')}"
+                                                               th:errors="*{address}">Incorrect data</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="row">
                                                     <div class="col-md-6 mb-2 pb-2">
                                                         <div class="form-outline">
@@ -71,6 +85,21 @@
                                                             <p style="color : red;" th:if="${#fields.hasErrors('endTime')}"
                                                                th:errors="*{endTime}">Incorrect data</p>
                                                         </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-2 pb-2">
+                                                        <select class="form-select" th:field="*{isDelivery}" required="required">
+                                                            <option value="">배달여부 선택</option>
+                                                            <option th:value="'Y'"
+                                                                    th:text="'배달 가능'">
+                                                            </option>
+                                                            <option th:value="'N'"
+                                                                    th:text="'배달 불가능'">
+
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
