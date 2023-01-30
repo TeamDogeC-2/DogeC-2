@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewCallReqDto;
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewCallService;
+import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewImageCallService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class RestaurantReviewCallController {
 
     private final RestaurantReviewCallService restaurantReviewCallService;
+    private final RestaurantReviewImageCallService restaurantReviewImageCallService;
 
     /**
      * @param sorted (newest : 최신순, liked : 좋아요 순)
@@ -36,6 +38,15 @@ public class RestaurantReviewCallController {
                 dto.getMemberId(),
                 sorted,
                 pageable);
+    }
+
+    @GetMapping("/reviews/image")
+    public Page<String> callRestaurantReviewsImage(@PathVariable Long restaurantId,
+                                                   @PageableDefault(size = 6)Pageable pageable){
+        checkPagingSize(pageable.getPageSize());
+        log.info("restaurantId : [{}], pageNumber : [{}], pageSize : [{}]", restaurantId, pageable.getPageNumber(), pageable.getPageSize());
+
+        return restaurantReviewImageCallService.callRestaurantReviewImages(restaurantId, pageable);
     }
 
     private void checkPagingSize(Integer limit) {

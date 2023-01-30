@@ -74,9 +74,9 @@ public class RestaurantEntityTest {
     @Test
     void 음식점등록테스트() throws Exception{
         //given
-        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(), schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(), schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일",  "Y");
         //when
-        Long restaurantId = restaurantRegisterService.join(dto, multipartFile);
+        Long restaurantId = restaurantRegisterService.join(dto);
         School school = schoolFindService.findOne(schoolId);
         //then
         assertThat(restaurantId).isEqualTo(restaurantFindService.findByRestaurantNameAndSchoolName(dto.getName(),school.getSchoolName()).getId());
@@ -85,25 +85,28 @@ public class RestaurantEntityTest {
     void 음식점등록시_학교없음() throws Exception{
         //given
         Long errorSchoolId = 0L;
-        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),errorSchoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),errorSchoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일", "Y");
         //then
-        assertThatThrownBy(() -> restaurantRegisterService.join(dto, multipartFile))
+        assertThatThrownBy(() -> restaurantRegisterService.join(dto))
                 .isInstanceOf(SchoolNotFoundException.class);
     }
     @Test
     void 음식점중복() throws Exception{
         //given
-        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
-        restaurantRegisterService.join(dto, multipartFile);
-        RestaurantFormDto dto1 = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일");
+        RestaurantFormDto dto = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일", "Y");
+        restaurantRegisterService.join(dto);
+        RestaurantFormDto dto1 = createRestaurantDto("음식점1","주소", RestaurantCategory.ASIAN,LocalTime.now(),LocalTime.now(),schoolId,"좌표값",new ImageFile(),"전화번호","태그","디테일", "Y");
         //then
-        assertThatThrownBy(() -> restaurantRegisterService.join(dto1, multipartFile))
+        assertThatThrownBy(() -> restaurantRegisterService.join(dto1))
                 .isInstanceOf(RestaurantValidationException.class);
     }
 
-    private RestaurantFormDto createRestaurantDto(String name, String address, RestaurantCategory category , LocalTime startTime, LocalTime endTime, Long schoolId, String coordinate, ImageFile imageFile, String tel, String tag, String detail) {
+    private RestaurantFormDto createRestaurantDto(
+            String name, String address, RestaurantCategory category,
+            LocalTime startTime, LocalTime endTime, Long schoolId,
+            String coordinate, ImageFile imageFile, String tel, String tag, String detail, String isDelivery) {
         RestaurantFormDto dto = new RestaurantFormDto();
-        dto.createRestaurantFormDto(name,address,category,startTime,endTime,schoolId,coordinate, imageFile,tel,tag,detail);
+        dto.createRestaurantFormDto(name,address,category,startTime,endTime,schoolId,coordinate, imageFile,tel,tag,detail,isDelivery);
         return dto;
     }
 

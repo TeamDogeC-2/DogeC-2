@@ -1,10 +1,7 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantLikeValidationException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuValidationException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotFoundException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantValidationException;
+import ProjectDoge.StudentSoup.exception.restaurant.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,8 +26,6 @@ public class RestaurantAdvice {
         return new ErrorResult("RestaurantValidation", e.getMessage());
     }
 
-
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RestaurantLikeValidationException.class)
     public ErrorResult restaurantLikeValidationHandler(RestaurantLikeValidationException e){
@@ -38,4 +33,17 @@ public class RestaurantAdvice {
         return new ErrorResult("RestaurantLikeValidation", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantIdNotSentException.class)
+    public ErrorResult restaurantIdNotSentHandler(RestaurantIdNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantIdNotSent", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantNotMatchException.class)
+    public ErrorResult restaurantNotMatchHandler(RestaurantNotMatchException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantNotMatch", e.getMessage());
+    }
 }

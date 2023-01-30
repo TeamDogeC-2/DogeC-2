@@ -9,6 +9,7 @@ import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class MemberValidationService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void validateDuplicateMemberNickname(String nickname) {
         log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
@@ -62,7 +64,7 @@ public class MemberValidationService {
     }
 
     private boolean notSameMemberIdPwd(Member member, String pwd) {
-        return !member.getPwd().equals(pwd);
+        return !passwordEncoder.matches(pwd, member.getPwd());
     }
 
 }

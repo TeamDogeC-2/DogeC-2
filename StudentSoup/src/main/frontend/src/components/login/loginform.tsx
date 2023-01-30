@@ -20,13 +20,17 @@ function LoginForm() {
     const userId = sessionStorage.getItem('id') ?? '';
     if (userId.length > 0) {
       setId(userId);
-      sessionStorage.clear();
     }
   }, []);
 
   useEffect(() => {
-    console.log(checked);
-  }, [checked]);
+    const savedCheck = String(sessionStorage.getItem('saved'));
+    if (savedCheck === 'true') {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -50,6 +54,7 @@ function LoginForm() {
           sessionStorage.setItem('memberId', response.data.memberId);
           sessionStorage.setItem('schoolId', response.data.schoolId);
           sessionStorage.setItem('schoolName', response.data.schoolName);
+          sessionStorage.setItem('registrationDate', response.data.registrationDate);
           sessionStorage.setItem('saved', String(checked));
         } else {
           history.push('/');
@@ -63,6 +68,7 @@ function LoginForm() {
           sessionStorage.setItem('memberId', response.data.memberId);
           sessionStorage.setItem('schoolId', response.data.schoolId);
           sessionStorage.setItem('schoolName', response.data.schoolName);
+          sessionStorage.setItem('registrationDate', response.data.registrationDate);
           sessionStorage.setItem('saved', String(checked));
         }
       })

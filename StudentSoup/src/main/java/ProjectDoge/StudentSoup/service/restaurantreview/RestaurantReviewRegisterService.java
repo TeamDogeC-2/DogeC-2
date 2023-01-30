@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantNotMatchException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewContentLessThanFiveException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantStarLikedMoreThanFiveException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
@@ -17,8 +18,8 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -32,11 +33,10 @@ public class RestaurantReviewRegisterService {
     private final FileRepository fileRepository;
     private final FileService fileService;
 
-    @Transactional(rollbackOn = Exception.class)
-    public Long join(RestaurantReviewRequestDto dto){
+    @Transactional(rollbackFor = Exception.class)
+    public Long join(Long restaurantId, RestaurantReviewRequestDto dto){
         log.info("음식점 리뷰 등록 서비스가 실행되었습니다.");
-        checkReviewDto(dto);
-        RestaurantReview restaurantReview = createRestaurantReview(dto);
+        RestaurantReview restaurantReview = createRestaurantReview(restaurantId, dto);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantReviewImage(restaurantReview, uploadFileDtoList);
         RestaurantReview createdRestaurantReview = restaurantReviewRepository.save(restaurantReview);
@@ -44,32 +44,26 @@ public class RestaurantReviewRegisterService {
         return createdRestaurantReview.getId();
     }
 
-    private static void checkReviewDto(RestaurantReviewRequestDto dto) {
+    private RestaurantReview createRestaurantReview(Long restaurantId, RestaurantReviewRequestDto dto) {
+        log.info("음식점 리뷰 엔티티 생성 메소드가 실행 되었습니다.");
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        checkReviewDto(dto, restaurant);
+
+        Member member = memberFindService.findOne(dto.getMemberId());
+        RestaurantReview restaurantReview = new RestaurantReview().createRestaurantReview(dto, restaurant, member);
+        log.info("음식점 리뷰 엔티티 생성 메소드가 완료 되었습니다. 닉네임 : [{}], 음식점 이름 : [{}]", dto.getNickName(), dto.getRestaurantName());
+        return restaurantReview;
+    }
+
+    private void checkReviewDto(RestaurantReviewRequestDto dto, Restaurant restaurant) {
+
         if(dto.getStarLiked() > 5){
             throw new RestaurantStarLikedMoreThanFiveException("별점은 5점을 초과할 수 없습니다.");
         } else if(dto.getContent().length() < 5){
             throw new RestaurantReviewContentLessThanFiveException("리뷰 작성 글은 5글자 이상이여야 합니다.");
+        } else if(!dto.getRestaurantName().equals(restaurant.getName())){
+            throw new RestaurantNotMatchException("잘못 된 음식점 호출입니다.");
         }
-    }
-
-    private RestaurantReviewRegRespDto restaurantRespDto(Long restaurantId, double star) {
-        log.info("리뷰 등록 응답 객체 생성을 시작하였습니다.");
-        RestaurantReviewRegRespDto dto = new RestaurantReviewRegRespDto();
-        dto.setRestaurantId(restaurantId);
-        dto.setStarLiked(star);
-        Long count = restaurantReviewRepository.countByRestaurantId(restaurantId);
-        dto.setReviewCount(count);
-        log.info("음식점 : [{}], 별점 : [{}], 리뷰 개수 : [{}]", restaurantId, star, count);
-        return dto;
-    }
-
-    private RestaurantReview createRestaurantReview(RestaurantReviewRequestDto dto) {
-        log.info("음식점 리뷰 엔티티 생성 메소드가 실행 되었습니다.");
-        Member member = memberFindService.findOne(dto.getMemberId());
-        Restaurant restaurant = restaurantFindService.findOne(dto.getRestaurantId());
-        RestaurantReview restaurantReview = new RestaurantReview().createRestaurantReview(dto, restaurant, member);
-        log.info("음식점 리뷰 엔티티 생성 메소드가 완료 되었습니다. 닉네임 : [{}], 음식점 이름 : [{}]", dto.getNickName(), dto.getRestaurantName());
-        return restaurantReview;
     }
 
     private void uploadRestaurantReviewImage(RestaurantReview restaurantReview, List<UploadFileDto> uploadFileDtoList) {
@@ -84,7 +78,7 @@ public class RestaurantReviewRegisterService {
         log.info("음식점 리뷰 이미지 업로드가 완료되었습니다.");
     }
 
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
@@ -94,5 +88,16 @@ public class RestaurantReviewRegisterService {
         log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
 
         return restaurantRespDto(restaurantId, star);
+    }
+
+    private RestaurantReviewRegRespDto restaurantRespDto(Long restaurantId, double star) {
+        log.info("리뷰 등록 응답 객체 생성을 시작하였습니다.");
+        RestaurantReviewRegRespDto dto = new RestaurantReviewRegRespDto();
+        dto.setRestaurantId(restaurantId);
+        dto.setStarLiked(star);
+        Long count = restaurantReviewRepository.countByRestaurantId(restaurantId);
+        dto.setReviewCount(count);
+        log.info("음식점 : [{}], 별점 : [{}], 리뷰 개수 : [{}]", restaurantId, star, count);
+        return dto;
     }
 }

@@ -3,11 +3,16 @@ package ProjectDoge.StudentSoup.repository.board;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
 import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
+import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
+import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,7 +59,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
     @Override
-    public Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable){
+    public Page<BoardMainDto> orderByCategory(Long schoolId,
+                                              Long departmentId,
+                                              String category,
+                                              int sorted,
+                                              Pageable pageable,
+                                              String column,
+                                              String value){
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -67,7 +78,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.school.id.eq(schoolId),
                         checkDepartment(departmentId),
                         checkSortedBoard(category),
-                        checkSortedLiked(sorted))
+                        checkSortedLiked(sorted),
+                        searchColumnContainsTitle(column,value),
+                        searchColumnContainsContent(column,value),
+                        searchColumnContainsNickname(column,value))
                 .orderBy(checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -82,35 +96,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         checkSortedLiked(sorted));
 
         return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
-    }
-
-    @Override
-    public Page<BoardMainDto> findByDynamicSearch(Long schoolId, String category, String column,String value,Pageable pageable){
-        List<BoardMainDto> query = queryFactory
-                .select(new QBoardMainDto(board.id,
-                        board.boardCategory,
-                        board.title,
-                        board.updateDate,
-                        board.member.nickname,
-                        board.view,
-                        board.likedCount))
-                .from(board)
-                .where(board.school.id.eq(schoolId),
-                        checkSortedBoard(category),
-                        searchColumnContainsTitle(column,value),
-                        searchColumnContainsContent(column,value),
-                        searchColumnContainsNickname(column,value))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        JPQLQuery<Long> count = queryFactory
-                .select(board.count())
-                .from(board)
-                .where(board.school.id.eq(schoolId));
-
-        return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
-
     }
 
     @Override
@@ -173,20 +158,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
-        if(column.equals("title")){
+        if(column!=null && column.equals("title")){
             return board.title.contains(value);
         }
         return null;
     }
 
     private BooleanExpression searchColumnContainsContent(String column,String value){
-        if (column.equals("content")){
+        if (column!=null && column.equals("content")){
             return board.content.contains(value);
         }
         return null;
     }
     private BooleanExpression searchColumnContainsNickname(String column,String value){
-        if(column.equals("nickname")){
+        if(column!=null && column.equals("nickname")){
             return board.member.nickname.contains(value);
         }
         return null;
@@ -204,6 +189,11 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         if(category.equals("ALL")){
             return null;
         }
+        else if (category.equals("CONSULTING") || category.equals("EMPLOYMENT")) {
+            BooleanExpression searchCategory = board.boardCategory.eq(BoardCategory.CONSULTING);
+            BooleanExpression searchCategory1 =  board.boardCategory.eq(BoardCategory.EMPLOYMENT);
+        return Expressions.anyOf(searchCategory,searchCategory1);
+        }
         return board.boardCategory.eq(BoardCategory.valueOf(category));
     }
 
@@ -219,9 +209,42 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         if(BoardSortedCase.LIKED.getValue() == sorted){
             return board.likedCount.desc();
         }
+        else if (BoardSortedCase.REVIEW.getValue() == sorted) {
+            return board.boardReviews.size().desc();
+        }
+        else if(BoardSortedCase.VIEW.getValue() == sorted){
+            return board.view.desc();
+        }
         return board.updateDate.asc();
     }
 
+    @Override
+    public Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable) {
+
+        List<MemberMyPageBoardDto> content = queryFactory.select(new QMemberMyPageBoardDto(board.id, board.writeDate, board.likedCount, board.view))
+                .from(board)
+                .where(board.member.memberId.eq(memberId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(board.writeDate.desc())
+                .fetch();
+
+        JPAQuery<Long> count = queryFactory
+                .select(board.count())
+                .from(board)
+                .where(board.member.memberId.eq(memberId));
+
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
+    }
+
+    @Override
+    public Long countByMemberId(Long memberId) {
+        return queryFactory.select(board.count())
+                .from(board)
+                .where(board.member.memberId.eq(memberId))
+                .fetchOne();
+
+    }
 
 
 }

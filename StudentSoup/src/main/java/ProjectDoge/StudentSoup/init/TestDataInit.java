@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
+import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
@@ -21,6 +22,7 @@ import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
+import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
@@ -62,6 +64,8 @@ public class TestDataInit {
     private  final BoardRepository boardRepository;
 
     private final BoardLikeRepository boardLikeRepository;
+
+    private final BoardReviewRegisterService boardReviewRegisterService;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
@@ -71,6 +75,7 @@ public class TestDataInit {
         initRestaurantReview();
         initBoard();
         initBoardLike();
+        initBoardReview();
     }
 
     private void initSchoolAndDepartment(){
@@ -157,7 +162,8 @@ public class TestDataInit {
                 null,
                 "032-710-6464",
                 "태그",
-                "디테일");
+                "디테일",
+                "Y");
 
         for(int i = 0; i < 30; i++){
             RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점" + i,
@@ -170,7 +176,8 @@ public class TestDataInit {
                     null,
                     "032-710-6464",
                     "태그",
-                    "디테일");
+                    "디테일",
+                    "Y");
             restaurantRegisterService.join(testDto);
         }
 
@@ -184,7 +191,8 @@ public class TestDataInit {
                 null,
                 "032-816-9888",
                 "태그",
-                "디테일");
+                "디테일",
+                "Y");
 
         for(int i = 0; i < 30; i++){
             RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점" + i,
@@ -197,7 +205,8 @@ public class TestDataInit {
                     null,
                     "032-816-9888",
                     "태그",
-                    "디테일");
+                    "디테일",
+                    "Y");
             restaurantRegisterService.join(testDto);
         }
         restaurantRegisterService.join(dto);
@@ -242,8 +251,8 @@ public class TestDataInit {
     }
 
     private void initBoard(){
-        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
-        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+        Member member = memberRepository.findById("dummyTest1").get();
+        Member member1 = memberRepository.findById("dummyTest2").get();
 
         for(int i =0; i<30; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
@@ -262,8 +271,8 @@ public class TestDataInit {
     }
 
     private void initBoardLike(){
-        Member member = memberRepository.findByIdAndPwd("dummyTest1", "test123!").get();
-        Member member1 = memberRepository.findByIdAndPwd("dummyTest2", "test123!").get();
+        Member member = memberRepository.findById("dummyTest1").get();
+        Member member1 = memberRepository.findById("dummyTest2").get();
 
         Board board = boardRepository.findByTitle("테스트 제목");
         Board board1 = boardRepository.findByTitle("테스트 제목2");
@@ -273,33 +282,43 @@ public class TestDataInit {
         boardLikeRepository.save(boardLike);
     }
 
+    private void initBoardReview(){
+        Board board = boardRepository.findByTitle("테스트 제목0");
+        Member member = memberRepository.findById("dummyTest1").get();
+        for(int i =0; i< 10; i++){
+            for(int j =0; j<10 ; j++){
+                BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                        board.getId(),member.getMemberId(),"테스트 댓글"+i,i,j,1);
+                        boardReviewRegisterService.join(boardReviewResDto);
+            }
+        }
+    }
+
     private void initRestaurantReview(){
         Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
         Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
         Member member = memberRepository.findByEmail("dummytest1@naver.com");
         for(int i = 0; i < 30; i++){
             RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
-            dto.setRestaurantId(restaurant1.getId());
             dto.setRestaurantName(restaurant1.getName());
             dto.setMemberId(member.getMemberId());
             dto.setNickName(member.getNickname());
             dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
             dto.setStarLiked((int)(Math.random() * 5) + 1);
             dto.setMultipartFileList(Collections.emptyList());
-            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.join(restaurant1.getId(), dto);
             restaurantReviewRegisterService.starUpdate(restaurant1.getId());
         }
 
         for(int i = 0; i < 20; i++){
             RestaurantReviewRequestDto dto = new RestaurantReviewRequestDto();
-            dto.setRestaurantId(restaurant2.getId());
             dto.setRestaurantName(restaurant2.getName());
             dto.setMemberId(member.getMemberId());
             dto.setNickName(member.getNickname());
             dto.setContent((i + 1) + "번 째로 작성한 리뷰입니다.");
             dto.setStarLiked((int)(Math.random() * 5) + 1);
             dto.setMultipartFileList(Collections.emptyList());
-            restaurantReviewRegisterService.join(dto);
+            restaurantReviewRegisterService.join(restaurant2.getId(), dto);
             restaurantReviewRegisterService.starUpdate(restaurant2.getId());
         }
     }

@@ -6,13 +6,11 @@ import ProjectDoge.StudentSoup.dto.school.SchoolResponseDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.repository.restaurant.RestaurantLikeRepository;
 import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -28,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RestaurantCallService {
 
     private final RestaurantRepository restaurantRepository;
-    private final RestaurantLikeRepository restaurantLikeRepository;
     private final SchoolFindService schoolFindService;
 
     boolean restaurantLiked = true;
