@@ -78,7 +78,7 @@ const pictureInfo = () => {
           )}
         </>
       ) : (
-        <div>이미지가 없습니다. 리뷰를 달아보세요!</div>
+        <div className="text-center mt-[100px]">이미지가 없습니다. 리뷰를 달아보세요!</div>
       )}
     </>
   );

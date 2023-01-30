@@ -286,8 +286,10 @@ const reviewWrite = () => {
               </div>
             </div>
           ) : (
-            <div className="mb-[100px] mt-[24px] text-center leading-[150px]">
-              아직 리뷰가 작성되지 않았어요! 첫 리뷰를 작성해보세요!
+            <div className="mt-[24px]">
+              <div className="text-center">
+                아직 리뷰가 작성되지 않았어요! 첫 리뷰를 작성해보세요!
+              </div>
             </div>
           )}
         </>
