@@ -18,4 +18,6 @@ public interface BoardReviewRepositoryCustom {
 
     JPAQuery<Long> pagingCountByBoardId(Long boardId);
     List<BoardReview> findBestReview(Long boardId);
+
+    List<BoardReview> findBySeq(int seq);
 }
