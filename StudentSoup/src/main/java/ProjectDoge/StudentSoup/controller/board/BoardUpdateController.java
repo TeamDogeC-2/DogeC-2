@@ -24,7 +24,7 @@ public class BoardUpdateController {
         BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId,memberId);
         return boardUpdateDto;
     }
-    @PutMapping(value = "board/{boardId}/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping(value = "board/{boardId}/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> updateBoard(@PathVariable Long boardId,
                                          @PathVariable Long memberId,
                                          BoardFormDto boardFormDto
