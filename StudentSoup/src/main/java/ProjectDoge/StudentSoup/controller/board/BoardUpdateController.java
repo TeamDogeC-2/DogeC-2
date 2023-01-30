@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardUpdateController {
     private final BoardUpdateService boardUpdateService;
 
-    @GetMapping("board/update/{boardId}/{memberId}")
+    @GetMapping("board/{boardId}/{memberId}")
     public BoardUpdateDto updateBoard(@PathVariable Long boardId,@PathVariable Long memberId){
         BoardUpdateDto boardUpdateDto = boardUpdateService.findEditBoard(boardId,memberId);
         return boardUpdateDto;
