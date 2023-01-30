@@ -9,7 +9,7 @@ import lombok.Setter;
 public class BoardCallDto {
     Long schoolId;
 
-    Long DepartmentId;
+    Long departmentId;
 
     Long memberId;
 
