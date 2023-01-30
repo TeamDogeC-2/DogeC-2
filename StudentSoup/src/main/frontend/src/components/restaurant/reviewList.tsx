@@ -275,15 +275,19 @@ const reviewWrite = () => {
             ))}
           </div>
           <div className="ml-[25px] mt-[13px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
-          <div
-            onClick={handleMoreButton}
-            className="mt-[13px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
-          >
-            더보기
-            <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
-              <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+          {reviewList.length ? (
+            <div
+              onClick={handleMoreButton}
+              className="mt-[13px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+            >
+              더보기
+              <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+                <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
+              </div>
             </div>
-          </div>
+          ) : (
+            ''
+          )}
         </>
       )}
     </>
