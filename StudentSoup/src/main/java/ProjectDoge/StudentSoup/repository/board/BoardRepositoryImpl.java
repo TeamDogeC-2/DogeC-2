@@ -129,7 +129,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.likedCount))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
-                        board.likedCount.gt(10),
+                        board.likedCount.goe(10),
                         board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                                 EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
                 .offset(0)
@@ -199,7 +199,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     private BooleanExpression checkSortedLiked(int sorted) {
         if(BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted){
-            return board.likedCount.gt(5);
+            return board.likedCount.goe(5);
         }
         return null;
     }
