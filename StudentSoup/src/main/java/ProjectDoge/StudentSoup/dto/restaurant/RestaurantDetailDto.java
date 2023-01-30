@@ -22,6 +22,7 @@ public class RestaurantDetailDto {
     private String longitude;
     private String latitude;
     private String tel;
+    private String isDelivery;
     private int reviewCount;
     private double starLiked;
     private int likedCount;
@@ -50,6 +51,7 @@ public class RestaurantDetailDto {
         this.like = like;
         this.tag = restaurant.getTag();
         this.detail = restaurant.getDetail();
+        this.isDelivery = restaurant.getIsDelivery();
         return this;
     }
 

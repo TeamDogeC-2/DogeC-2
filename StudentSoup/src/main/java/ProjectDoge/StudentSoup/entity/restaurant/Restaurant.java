@@ -116,6 +116,7 @@ public class Restaurant {
         this.setEndTime(convertStringToDateTime(form.getEndTime()));
         this.setCoordinate(form.getCoordinate());
         this.setTel(form.getTel());
+        this.setIsDelivery(form.getIsDelivery());
         this.setTag(form.getTag());
         this.setDetail(form.getDetail());
         this.setLikedCount(0);
