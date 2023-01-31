@@ -65,9 +65,9 @@ public class BoardCallService {
 
     private void getAnnouncement(ConcurrentHashMap<String,Object> map){
         log.info("공지사항 호출 메서드가 실행됐습니다.");
-        BoardMainDto announcement = boardRepository.findAnnouncement().orElse(null);
-        if(announcement != null) {
-            setWriteDate(announcement);
+        Optional<BoardMainDto> announcement = boardRepository.findAnnouncement();
+        if(announcement.get() != null) {
+            setWriteDate(announcement.get());
         }
         map.put("announcement",announcement);
     }
