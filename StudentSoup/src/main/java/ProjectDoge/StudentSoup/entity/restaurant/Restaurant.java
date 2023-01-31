@@ -43,7 +43,7 @@ public class Restaurant {
 
     private int distance;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int viewCount;
@@ -116,6 +116,7 @@ public class Restaurant {
         this.setEndTime(convertStringToDateTime(form.getEndTime()));
         this.setCoordinate(form.getCoordinate());
         this.setTel(form.getTel());
+        this.setIsDelivery(form.getIsDelivery());
         this.setTag(form.getTag());
         this.setDetail(form.getDetail());
         this.setLikedCount(0);

@@ -70,7 +70,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
@@ -104,7 +104,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
@@ -123,13 +123,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
-                        board.likedCount.gt(10),
+                        board.likedCount.goe(10),
                         board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                                 EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
                 .offset(0)
@@ -143,14 +143,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
-                        board.updateDate,
+                        board.writeDate,
                         board.member.nickname,
                         board.view,
                         board.likedCount))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.boardCategory.eq(BoardCategory.TIP))
-                .orderBy(board.likedCount.desc(),board.writeDate.asc())
+                .orderBy(board.likedCount.desc(),board.writeDate.desc())
                 .offset(0)
                 .limit(4)
                 .fetch();
@@ -199,7 +199,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     private BooleanExpression checkSortedLiked(int sorted) {
         if(BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted){
-            return board.likedCount.gt(5);
+            return board.likedCount.goe(5);
         }
         return null;
     }
@@ -215,7 +215,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         else if(BoardSortedCase.VIEW.getValue() == sorted){
             return board.view.desc();
         }
-        return board.updateDate.asc();
+        return board.writeDate.desc();
     }
 
     @Override

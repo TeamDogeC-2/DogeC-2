@@ -80,12 +80,22 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .from(boardReview)
                 .leftJoin(boardReview.board,board)
                 .fetchJoin()
-                .where(boardReview.board.id.eq(boardId),boardReview.likedCount.gt(10))
+                .where(boardReview.board.id.eq(boardId),boardReview.likedCount.goe(10))
                 .orderBy(boardReview.writeDate.desc())
                 .offset(0)
                 .limit(3)
                 .fetch();
 
+        return query;
+    }
+    @Override
+    public List<BoardReview> findBySeq(int seq){
+        List<BoardReview> query = queryFactory
+                .select(boardReview)
+                .from(boardReview)
+                .where(boardReview.seq.eq(seq))
+                .orderBy(boardReview.depth.asc())
+                .fetch();
         return query;
     }
 }

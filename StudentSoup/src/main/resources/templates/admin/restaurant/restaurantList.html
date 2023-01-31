@@ -135,13 +135,21 @@
                         <td th:text="${findRestaurants.tel}">tel</td>
                         <td th:text="${findRestaurants.tag}">tag</td>
                         <td th:text="${findRestaurants.detail}">detail</td>
-                        <td th:if="${findRestaurants.imageFileList.size() != 0}" th:each="imageFile : ${restaurant.imageFileList}"
-                            th:text="${findRestaurants.imageFile.fileOriginalName}">
-                            fileName
+                        <td th:if="${restaurant.imageFileList.size() != 0}">
+                            <p
+                                    th:each="imageFile : ${restaurant.imageFileList}"
+                                    th:text="${imageFile.getFileName()} + ','">
+                                text
+                            </p>
                         </td>
                         <td th:if="${findRestaurants.imageFileList.size() == 0}">null</td>
                         <td th:text="${findRestaurants.starLiked}">starLiked</td>
                         <td th:text="${findRestaurants.likedCount}">likedCount</td>
+                        <td>
+                            <a th:href="@{/admin/{restaurantId}/restaurantMenus(restaurantId = ${restaurant.id})}">
+                                <img src="/img/admin/icon/card-list.svg">
+                            </a>
+                        </td>
                         <td>
                             <a th:href="@{/admin/restaurant/edit/{restaurantId}(restaurantId = ${findRestaurants.id})}">
                                 <img src="/img/admin/icon/pencil.svg">
@@ -157,7 +165,7 @@
                 <th:block th:if="${findRestaurants.isEmpty()}">
                     <tbody>
                     <tr>
-                        <td colspan="15" style="text-align: center"><h3> 검색된 음식점이 없습니다.</h3></td>
+                        <td colspan="16" style="text-align: center"><h3> 검색된 음식점이 없습니다.</h3></td>
                     </tr>
                     </tbody>
                 </th:block>
