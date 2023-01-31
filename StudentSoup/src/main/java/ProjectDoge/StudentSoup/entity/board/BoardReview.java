@@ -55,7 +55,7 @@ public class BoardReview {
 
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "boardReview", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "boardReview", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReviewLike> boardReviewLikes;
 
 
