@@ -6,12 +6,15 @@ import axios from 'axios';
 const RestaurantMain = (props: any) => {
   const history = useHistory();
   const state = useLocation<any>();
-  const schoolName = state.state[0];
+  const schoolName = state.state;
 
   const [closeList, setCloseList] = useState<boolean>(false);
   const listRef = useRef<HTMLDivElement>(null);
 
   const [sort, setSort] = useState<number>(0);
+  const [category, setCategory] = useState<String>('ALL');
+  // const [data, setData] = useState(items);
+  const maxHeight = useState<number>(0);
 
   const url = '/restaurants';
   useEffect(() => {
@@ -22,11 +25,12 @@ const RestaurantMain = (props: any) => {
       {
         params: {
           sorted: sort,
+          category,
         },
       },
       )
       .then(res => {
-
+        setSort(res.data.data.sort);
       })
       .catch(err => {
         console.error(err);
@@ -163,108 +167,116 @@ const RestaurantMain = (props: any) => {
         </div>
         <div className="w-[1039px] pb-[47px] mb-[58px] mx-auto rounded-[10px] drop-shadow-md bg-white">
           <div className="w-[810px] mx-auto py-[31px] flex flex-wrap gap-x-[20px] gap-y-[32px]">
-            {/* TODO: 활성된 카테고리만 주황색바탕 흰글씨로 class 추가 */}
-            <input
-              type="button"
-              className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
-              )}
-              onClick={() => {
-                //
-              }}
-              value="전체보기"
-            />
-            <input
-              type="button"
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {}}
-              value="한식"
-            />
-            <input
-              type="button"
-              className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
-              )}
-              onClick={() => {}}
-              value="중식"
-            />
-            <input
-              type="button"
+              value="ALL"
+            >
+              전체보기
+            </button>
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {}}
-              value="양식"
-            />
-            <input
-              type="button"
+              value="KOREAN"
+            >
+              한식
+            </button>
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
               onClick={() => {}}
-              value="일식"
-            />
-            <input
-              type="button"
+              value="WESTERN"
+            >
+              양식
+            </button>
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {}}
-              value="세계음식"
-            />
-            <input
-              type="button"
+              value="FASTFOOD"
+            >
+              패스트푸드
+            </button>
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
               onClick={() => {}}
-              value="카페"
-            />
-            <input
-              type="button"
-              className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
-              )}
-              onClick={() => {}}
-              value="브런치"
-            />
-            <input
-              type="button"
-              className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
-              )}
-              onClick={() => {}}
-              value="주점"
-            />
-            <input
-              type="button"
-              className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
-              )}
-              onClick={() => {}}
-              value="패스트푸드"
-            />
-            <input
-              type="button"
+              value="ASIAN"
+            >
+              아시안음식
+            </button>
+            <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {}}
-              value="기타"
-            />
+              value="JAPAN"
+            >
+              일식
+            </button>
+            <button
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
+              onClick={() => {}}
+              value="CHINESE"
+            >
+              중식
+            </button>
+            <button
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
+              onClick={() => {}}
+              value="SNACK"
+            >
+              분식
+            </button>
+            <button
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
+              onClick={() => {}}
+              value="CAFE"
+            >
+              카페
+            </button>
+            <button
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
+              onClick={() => {}}
+              value="BUFFET"
+            >
+              뷔페
+            </button>
+            <button
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50',
+              )}
+              onClick={() => {}}
+              value="OTHERS"
+            >
+              기타
+            </button>
           </div>
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
