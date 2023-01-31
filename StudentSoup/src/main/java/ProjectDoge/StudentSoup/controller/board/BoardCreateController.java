@@ -24,10 +24,10 @@ public class BoardCreateController {
     private final BoardCallService boardCallService;
 
     @PutMapping(value = "board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
+    public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,@RequestParam(required = false) Long departmentId,
                                          BoardFormDto boardFormDto){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
-        Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFiles());
+        Long boardId = boardResisterService.join(memberId,departmentId, boardFormDto, boardFormDto.getMultipartFiles());
         resultMap.put("boardId",boardId);
         resultMap.put("result","ok");
         return resultMap;
