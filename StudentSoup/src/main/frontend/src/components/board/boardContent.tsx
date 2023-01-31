@@ -1,11 +1,12 @@
 import SearchComponent from './content/searchComponent';
-import TitleComponent from './content/titleComponent';
+import TitleComponent, { RANGE } from './content/titleComponent';
 
 import PencilIcon from '../../img/board/icon_pencil.png';
 import BoardListComponent from './content/boardListComponent';
 import TopListComponent from './content/topListComponent';
 import HotListComponent from './content/hotListComponent';
 import { BORDER_MENU } from './boardMain';
+import { useState } from 'react';
 
 interface PropsType {
   menu: BORDER_MENU;
@@ -13,10 +14,12 @@ interface PropsType {
 
 const BoardContent = (props: PropsType) => {
   const { menu } = props;
+  const [range, setRange] = useState(RANGE.SCHOOL);
+
   return (
     <div className="py-[52px] px-[76px] max-w-[1100px]">
-      <TitleComponent menu={menu} />
-      <SearchComponent />
+      <TitleComponent menu={menu} range={range} setRange={setRange} />
+      <SearchComponent range={range} />
       {menu === BORDER_MENU.ALL && (
         <div className="flex justify-between">
           <TopListComponent />

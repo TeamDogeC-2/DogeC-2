@@ -3,16 +3,17 @@ import cn from 'clsx';
 
 interface PropsType {
   menu: string;
+  range: RANGE;
+  setRange: React.Dispatch<React.SetStateAction<RANGE>>;
 }
 
-const enum RANGE {
+export const enum RANGE {
   SCHOOL = 'SCHOOL',
   SUBJECT = 'SUBJECT',
 }
 
 const TitleComponent = (props: PropsType) => {
-  const { menu } = props;
-  const [range, setRange] = useState(RANGE.SCHOOL);
+  const { menu, range, setRange } = props;
 
   return (
     <div className="flex justify-between">

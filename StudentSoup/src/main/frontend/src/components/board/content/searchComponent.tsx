@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import cn from 'clsx';
 import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
+import { RANGE } from './titleComponent';
 
 const keywordList = ['제목', '글쓴이', '내용'];
 const sortList = ['추천순', '최신순', '조회순', '댓글순'];
 const subjectList = ['1', '2'];
 
-const SearchComponent = () => {
+const SearchComponent = ({ range }: { range: RANGE }) => {
   const [showKeywords, setShowKeywords] = useState(false);
   const [showSorts, setShowSorts] = useState(false);
   const [showSubjects, setShowSubjects] = useState(false);
@@ -141,42 +142,48 @@ const SearchComponent = () => {
       </div>
 
       {/* Subject */}
-      <div ref={subjectRef} className="relative">
-        <div
-          onClick={() => {
-            setShowSubjects(prev => !prev);
-          }}
-          className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
-        >
-          {subject}
-          <span>
-            <img src={Arrow} alt="selectbox" />
-          </span>
-        </div>
-        {showSubjects && (
-          <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[165px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
-            {_.map(subjectList, (item, index) => {
-              return (
-                <div
-                  onClick={() => {
-                    setSubject(item);
-                    setShowSubjects(false);
-                  }}
-                  key={index}
-                  className={cn(
-                    'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
-                    {
-                      ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
-                    },
-                  )}
-                >
-                  {item}
-                </div>
-              );
-            })}
+      {range === RANGE.SUBJECT ? (
+        <div ref={subjectRef} className="relative">
+          <div
+            onClick={() => {
+              setShowSubjects(prev => !prev);
+            }}
+            className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
+          >
+            {subject}
+            <span>
+              <img src={Arrow} alt="selectbox" />
+            </span>
           </div>
-        )}
-      </div>
+          {showSubjects && (
+            <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[165px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
+              {_.map(subjectList, (item, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setSubject(item);
+                      setShowSubjects(false);
+                    }}
+                    key={index}
+                    className={cn(
+                      'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
+                      {
+                        ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
+                      },
+                    )}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="relative">
+          <div className="cursor-[no-drop] flex items-center justify-between bg-[#ddd] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"></div>
+        </div>
+      )}
     </div>
   );
 };
