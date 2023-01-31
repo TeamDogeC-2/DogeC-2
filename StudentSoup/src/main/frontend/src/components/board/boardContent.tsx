@@ -24,8 +24,8 @@ const BoardContent = (props: PropsType) => {
         </div>
       )}
       <div className="flex justify-end mt-[21px]">
-        <div className="cursor-pointer text-[14px] leading-[30px] text-center text-[#FF611D] w-[89px] h-[32px] border border-solid border-[#FF611D] rounded-[22px] bg-white">
-          {/* <img src={PencilIcon} alt="write" /> */}
+        <div className="flex justify-center gap-x-[5px] cursor-pointer text-[14px] leading-[30px] text-center text-[#FF611D] w-[89px] h-[32px] border border-solid border-[#FF611D] rounded-[22px] bg-white">
+          <img src={PencilIcon} alt="write" className="self-center" />
           <span>글쓰기</span>
         </div>
       </div>
