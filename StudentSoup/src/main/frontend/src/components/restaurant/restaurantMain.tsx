@@ -1,10 +1,50 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
+import axios from 'axios';
 
-const RestaurantMain = () => {
+const RestaurantMain = (props: any) => {
   const history = useHistory();
   const state = useLocation<any>();
+  const schoolName = state.state[0];
+
+  const [closeList, setCloseList] = useState<boolean>(false);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  const [sort, setSort] = useState<number>(0);
+
+  const url = '/restaurants';
+  useEffect(() => {
+    axios
+      .post(url, {
+        schoolName: state.state,
+      },
+      {
+        params: {
+          sorted: sort,
+        },
+      },
+      )
+      .then(res => {
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
+  function foldList() {
+    if (!listRef?.current) {
+      return;
+    }
+    const style = listRef.current.style;
+    if (closeList) {
+      style.maxHeight = '0';
+    } else if (!closeList) {
+      style.maxHeight = `${listRef.current.scrollHeight}px`;
+    }
+    setCloseList(!closeList);
+  }
 
   console.log(state.state);
 
@@ -12,14 +52,18 @@ const RestaurantMain = () => {
     <div className="pt-[60px] bg-[#1E1E1E]/5">
       {/**/}
       <div className="w-[1039px] mx-auto">
-        <div className="mb-[31px] flex justify-between">
+        <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
             <span className="pr-2 text-[32px] text-[#FF611D]">청운대학교</span>
             <span className="text-[32px] text-[#5A5A5A]">근처 인기 맛집 검색어</span>
           </div>
           <button
             id="filter-button"
-            className="dropdown w-[110px] h-[39px] flex justify-center items-center gap-x-1 rounded-[23.5px] text-[20px] font-semibold text-[#FF611D] bg-white"
+            className={cn(
+              'dropdown w-[110px] h-[39px] flex justify-center items-center gap-x-1 rounded-[23.5px] text-[20px] font-semibold text-[#FF611D] bg-white',
+              `${closeList ? 'close' : 'open'}`,
+            )}
+            onClick={foldList}
           >
             <svg
               width="17"
@@ -35,6 +79,87 @@ const RestaurantMain = () => {
             </svg>
             필터
           </button>
+          <div className={cn(
+            'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
+            'buttonContainer overflow-hidden ease-out dalay-[30s]'
+          )}
+            ref={listRef}
+          >
+            <ul className='text-center divide-y-2'>
+              <li className='py-2'>
+                <button
+                  value="0"
+                  className={cn(
+                    'px-2 rounded-[23.5px] hover:bg-gray-100',
+                    'sort_newest',
+                  )}
+                  onClick={() => {
+                    setSort(0);
+                  }
+                  }
+                >
+                  등록순
+                </button>
+              </li>
+              <li className='py-2'>
+                <button
+                  value="1"
+                  className={cn(
+                    'px-2 rounded-[23.5px] hover:bg-gray-100',
+                    'sort_starCount',
+                  )}
+                  onClick={() => {
+                    setSort(1);
+                  }
+                  }
+                >
+                  별점순
+                </button>
+              </li>
+              <li className='py-2'>
+                <button
+                  value="2"
+                  className={cn(
+                    'px-1 rounded-[23.5px] hover:bg-gray-100',
+                    'sort_likeCount',
+                  )}
+                  onClick={() => {
+                    setSort(2);
+                  }}
+                >
+                  좋아요순
+                </button>
+              </li>
+              <li className='py-2'>
+                <button
+                  value="3"
+                  className={cn(
+                    'px-2 rounded-[23.5px] hover:bg-gray-100',
+                    'sort_reviewCount',
+                  )}
+                  onClick={() => {
+                    setSort(3);
+                  }}
+                >
+                  리뷰순
+                </button>
+              </li>
+              <li className='py-2'>
+                <button
+                  value="4"
+                  className={cn(
+                    'px-2 rounded-[23.5px] hover:bg-gray-100',
+                    'sort_nearest'
+                  )}
+                  onClick={() => {
+                    setSort(4);
+                  }}
+                >
+                  거리순
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
         <div className="w-[1039px] pb-[47px] mb-[58px] mx-auto rounded-[10px] drop-shadow-md bg-white">
           <div className="w-[810px] mx-auto py-[31px] flex flex-wrap gap-x-[20px] gap-y-[32px]">
@@ -43,70 +168,100 @@ const RestaurantMain = () => {
               type="button"
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'accent:text-white accent:bg-[#FF611D]',
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
-                // 나중에 카테고리별 정렬 기능 추가
+                //
               }}
               value="전체보기"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50',
+              )}
               onClick={() => {}}
               value="한식"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="중식"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50',
+              )}
               onClick={() => {}}
               value="양식"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="일식"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50',
+              )}
               onClick={() => {}}
               value="세계음식"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="카페"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="브런치"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="주점"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50'
+              )}
               onClick={() => {}}
               value="패스트푸드"
             />
             <input
               type="button"
-              className="px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white"
+              className={cn(
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
+                'hover:text-white hover:bg-[#FF611D]/50',
+              )}
               onClick={() => {}}
               value="기타"
             />
