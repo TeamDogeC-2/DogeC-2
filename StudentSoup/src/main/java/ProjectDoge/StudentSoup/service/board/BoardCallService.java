@@ -39,6 +39,7 @@ public class BoardCallService {
     public BoardDto getBoardDetail(Long boardId,Long memberId){
         log.info("게시글 클릭시 게시글 호출 로직이 실행되었습니다.");
         Board board = boardFindService.findOne(boardId);
+        board.addViewCount();
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         if(boardLike==null){
             return getNotLikeBoardDto(board);
