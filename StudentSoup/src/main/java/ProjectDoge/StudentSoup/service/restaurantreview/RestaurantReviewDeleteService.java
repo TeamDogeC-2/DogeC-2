@@ -25,9 +25,9 @@ public class RestaurantReviewDeleteService {
     private final RestaurantReviewRepository restaurantReviewRepository;
 
     @Transactional
-    public ConcurrentHashMap<String, String> deleteRestaurantReview(Long restaurantReviewId, Long memberId){
+    public ConcurrentHashMap<String, Object> deleteRestaurantReview(Long restaurantReviewId, Long memberId){
         checkLoginStatus(memberId);
-        ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         RestaurantReview findRestaurantReview = restaurantReviewFindService.findOne(restaurantReviewId);
         if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN){
             throw new RestaurantReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
