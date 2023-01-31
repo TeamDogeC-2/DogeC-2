@@ -6,7 +6,6 @@ import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
-import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
@@ -20,9 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -69,6 +66,9 @@ public class BoardCallService {
     private void getAnnouncement(ConcurrentHashMap<String,Object> map){
         log.info("공지사항 호출 메서드가 실행됐습니다.");
         Optional<BoardMainDto> announcement = boardRepository.findAnnouncement();
+        if(announcement.get() != null) {
+            setWriteDate(announcement.get());
+        }
         map.put("announcement",announcement);
     }
 
@@ -89,9 +89,11 @@ public class BoardCallService {
                     pageable,
                     boardSearchDto.getColumn(),
                     boardSearchDto.getValue());
+            checkWriteDate(boardMainDtoList);
             map.put("boards", boardMainDtoList);
         }
     }
+
 
 
     private void getFirstPage(ConcurrentHashMap<String, Object> map,
@@ -124,6 +126,9 @@ public class BoardCallService {
                 boardSearchDto.getValue());
         List<BoardMainDto> tipBoards = boardRepository.findBestTipBoards(boardCallDto.getSchoolId());
 
+        checkWriteDate(boards);
+        checkWriteDate(tipBoards);
+
         map.put("boards",boards);
         map.put("tipBoards",tipBoards);
     }
@@ -148,6 +153,10 @@ public class BoardCallService {
                 boardSearchDto.getValue());
         List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime,endTime);
         List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(boardCallDto.getSchoolId(),searchTime.minusMonths(1),endTime);
+        checkWriteDate(boards);
+        checkWriteDate(bestBoards);
+        checkWriteDate(hotBoards);
+
 
         log.info("searchTime [{}] endTime[{}]",searchTime,endTime);
         map.put("boards",boards);
@@ -173,4 +182,29 @@ public class BoardCallService {
         return new BoardDto(board,boardNotLiked);
     }
 
+    private void checkWriteDate(Page<BoardMainDto> boardMainDtoList) {
+        for(BoardMainDto dto : boardMainDtoList){
+            setWriteDate(dto);
+        }
+    }
+    private void checkWriteDate(List<BoardMainDto> boardMainDtoList) {
+        for(BoardMainDto dto : boardMainDtoList){
+            setWriteDate(dto);
+        }
+    }
+
+    private void setWriteDate(BoardMainDto boardMainDto) {
+            LocalDateTime writeDateTime = LocalDateTime.parse(boardMainDto.getWriteDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDate writeDate = writeDateTime.toLocalDate();
+            log.info("포멧한 시간 [{}]",writeDate);
+            if (writeDate.equals(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))) {
+                log.info("작성 시간 : [{}]",String.valueOf(writeDateTime.toLocalTime()));
+               boardMainDto.setWriteDate(String.valueOf(writeDateTime.toLocalTime()));
+           } else {
+                log.info("작성 날짜 : [{}]",String.valueOf(writeDate));
+               boardMainDto.setWriteDate(String.valueOf(writeDate).substring(5));
+           }
+
+
+    }
 }
