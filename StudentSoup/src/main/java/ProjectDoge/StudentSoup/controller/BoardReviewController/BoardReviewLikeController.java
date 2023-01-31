@@ -14,7 +14,7 @@ public class BoardReviewLikeController {
 
     private final BoardReviewLikeService boardReviewLikeService;
 
-    @PostMapping("/boardReviewLike/{memberId}/{boardReviewId}")
+    @PostMapping("/boardReviewLike/{boardReviewId}/{memberId}/like")
     public ConcurrentHashMap<String,Object> getBoardReviewLike(@PathVariable Long memberId,@PathVariable Long boardReviewId){
         ConcurrentHashMap<String, Object> resultMap = boardReviewLikeService.boardReviewLike(memberId, boardReviewId);
         return resultMap;

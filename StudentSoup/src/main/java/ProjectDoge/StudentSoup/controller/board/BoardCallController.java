@@ -30,7 +30,7 @@ public class BoardCallController {
      * @param boardCallDto schoolId memberId departmentId
      * @return
      */
-    @PostMapping("/boards")
+    @GetMapping("/boards")
     public Map<String, Object> callBoards(@RequestParam String category,
                                           @RequestParam int sorted,
                                           BoardSearchDto boardSearchDto,

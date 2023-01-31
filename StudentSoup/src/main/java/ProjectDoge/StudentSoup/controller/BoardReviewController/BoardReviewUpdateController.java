@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardReviewUpdateController {
     public final BoardReviewEditService boardReviewEditService;
 
-    @PostMapping("boardReview/{boardReviewId}/{memberId}")
+    @GetMapping("boardReview/{boardReviewId}/{memberId}")
     public BoardReviewUpdateDto editBoardReview(@PathVariable Long boardReviewId,@PathVariable Long memberId){
         BoardReviewUpdateDto editBoardReview = boardReviewEditService.findEditBoardReview(boardReviewId, memberId);
         return editBoardReview;
