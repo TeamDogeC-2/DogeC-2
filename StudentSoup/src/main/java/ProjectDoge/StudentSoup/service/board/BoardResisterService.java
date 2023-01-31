@@ -37,12 +37,12 @@ public class BoardResisterService {
 
     private final DepartmentFindService departmentFindService;
     @Transactional
-    public Long join(Long memberId,Long departmentId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
+    public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
         checkQualification(boardFormDto,member);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
-        Board board = createBoard(departmentId, boardFormDto, member);
+        Board board = createBoard(boardFormDto.getDepartmentId(), boardFormDto, member);
         uploadBoardImage(uploadFileDtoList, board);
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());

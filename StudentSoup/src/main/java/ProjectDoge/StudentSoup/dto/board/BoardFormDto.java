@@ -12,6 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 public class BoardFormDto {
+
+    private Long departmentId;
     private String title;
     private BoardCategory boardCategory;
     private String content;
@@ -21,6 +23,7 @@ public class BoardFormDto {
 
     //== 생성 메서드 ==//
     private void setBoard(Board board){
+        this.setDepartmentId(board.getDepartment().getId());
         this.setTitle(board.getTitle());
         this.setBoardCategory(board.getBoardCategory());
         this.setContent(board.getContent());
