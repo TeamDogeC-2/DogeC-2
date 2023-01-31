@@ -13,7 +13,7 @@ const RestaurantMain = (props: any) => {
 
   const [sort, setSort] = useState<number>(0);
   const [category, setCategory] = useState<String>('ALL');
-  // const [data, setData] = useState(items);
+
   const maxHeight = useState<number>(0);
 
   const url = '/restaurants';
@@ -30,12 +30,11 @@ const RestaurantMain = (props: any) => {
       },
       )
       .then(res => {
-        setSort(res.data.data.sort);
       })
       .catch(err => {
         console.error(err);
       });
-  }, []);
+  }, [sort, category]);
 
   function foldList() {
     if (!listRef?.current) {
@@ -172,7 +171,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('ALL');
+              }}
               value="ALL"
             >
               전체보기
@@ -182,7 +183,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('KOREAN');
+              }}
               value="KOREAN"
             >
               한식
@@ -192,7 +195,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('WESTERN');
+              }}
               value="WESTERN"
             >
               양식
@@ -202,7 +207,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('FASTFOOD');
+              }}
               value="FASTFOOD"
             >
               패스트푸드
@@ -212,7 +219,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('ASIAN');
+              }}
               value="ASIAN"
             >
               아시안음식
@@ -222,7 +231,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('JAPAN');
+              }}
               value="JAPAN"
             >
               일식
@@ -232,7 +243,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('CHINESE');
+              }}
               value="CHINESE"
             >
               중식
@@ -242,7 +255,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('SNACK');
+              }}
               value="SNACK"
             >
               분식
@@ -252,7 +267,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('CAFE');
+              }}
               value="CAFE"
             >
               카페
@@ -262,7 +279,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50'
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('BUFFET');
+              }}
               value="BUFFET"
             >
               뷔페
@@ -272,7 +291,9 @@ const RestaurantMain = (props: any) => {
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
                 'hover:text-white hover:bg-[#FF611D]/50',
               )}
-              onClick={() => {}}
+              onClick={() => {
+                setCategory('OTHERS');
+              }}
               value="OTHERS"
             >
               기타
