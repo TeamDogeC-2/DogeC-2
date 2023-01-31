@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.department;
 
+import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.exception.department.DepartmentIdNotSentException;
 import ProjectDoge.StudentSoup.exception.department.DepartmentNotFoundException;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,6 +55,22 @@ public class DepartmentFindService {
             throw new DepartmentNotFoundException("학과가 존재하지 않습니다.");
         }
         return departments;
+    }
+
+    public List<DepartmentCallDto> getDepartmentBySchoolId(Long schoolId){
+        if(schoolId == null){
+            return Collections.emptyList();
+        }
+        List<Department> departments = departmentRepository.findBySchool_Id(schoolId);
+        List<DepartmentCallDto> departmentCallDtoList = new ArrayList<>();
+        if(departments.isEmpty()){
+            log.info("등록된 학과가 없는 예외가 발생했습니다.");
+            throw new DepartmentNotFoundException("학과가 존재하지 않습니다.");
+        }
+        for(Department department : departments){
+            departmentCallDtoList.add(new DepartmentCallDto(department));
+        }
+        return departmentCallDtoList;
     }
 
 }
