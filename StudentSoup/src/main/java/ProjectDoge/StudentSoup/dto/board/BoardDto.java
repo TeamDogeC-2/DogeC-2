@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 import nonapi.io.github.classgraph.json.JSONUtils;
@@ -30,6 +31,7 @@ public class BoardDto {
 
     private List<String> fileNames = new ArrayList<>();
 
+    private String nickname;
     private int view;
 
     private String writeDate;
@@ -38,7 +40,7 @@ public class BoardDto {
 
     private int likedCount;
 
-
+    private String memberProfileImageName;
     private boolean like;
 
     public BoardDto(Board board, Boolean like) {
@@ -47,6 +49,18 @@ public class BoardDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.ip = board.getIp();
+        setBoardImageFileNames(board);
+        this.nickname = board.getMember().getNickname();
+        this.view = board.getView();
+        this.writeDate = board.getWriteDate();
+        this.updateDate = board.getUpdateDate();
+        this.likedCount = board.getLikedCount();
+        this.memberProfileImageName = setProfileImageFileName(board.getMember());
+        this.like = like;
+
+    }
+
+    private void setBoardImageFileNames(Board board) {
         if (board.getImageFiles().isEmpty()) {
             this.fileNames = Collections.emptyList();
         } else {
@@ -55,11 +69,13 @@ public class BoardDto {
                 this.fileNames.add(imageFile.getFileName());
             }
         }
-            this.view = board.getView();
-            this.writeDate = board.getWriteDate();
-            this.updateDate = board.getUpdateDate();
-            this.likedCount = board.getLikedCount();
-            this.like = like;
+    }
 
+
+    private String setProfileImageFileName(Member member){
+        if(member.getImageFile() != null){
+            return member.getImageFile().getFileName();
+        }
+        return null;
     }
 }
