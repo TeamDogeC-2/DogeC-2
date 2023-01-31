@@ -75,8 +75,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.view,
                         board.likedCount))
                 .from(board)
-                .where(board.school.id.eq(schoolId),
-                        checkDepartment(departmentId),
+                .where(checkTypeOfBoard(schoolId,departmentId),
                         checkSortedBoard(category),
                         checkSortedLiked(sorted),
                         searchColumnContainsTitle(column,value),
@@ -91,7 +90,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .select(board.count())
                 .from(board)
                 .where(board.school.id.eq(schoolId),
-                        checkDepartment(departmentId),
+                        checkTypeOfBoard(schoolId,departmentId),
                         checkSortedBoard(category),
                         checkSortedLiked(sorted));
 
@@ -178,11 +177,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
 
-    private BooleanExpression checkDepartment(Long departmentId) {
+    private BooleanExpression checkTypeOfBoard(Long schoolId,Long departmentId) {
+        BooleanExpression findBySchool = board.school.id.eq(schoolId);
+        BooleanExpression findByDepartment = board.department.id.eq(schoolId);
         if(departmentId == null){
-            return null;
+            return findBySchool;
         }
-        return board.department.id.eq(departmentId);
+
+        return Expressions.allOf(findBySchool,findByDepartment);
     }
 
     private BooleanExpression checkSortedBoard(String category) {

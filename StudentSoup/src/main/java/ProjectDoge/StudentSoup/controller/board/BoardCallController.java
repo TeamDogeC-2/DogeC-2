@@ -4,8 +4,11 @@ import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
+import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
+import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ import java.util.Map;
 public class BoardCallController {
     private final BoardCallService boardCallService;
 
+    private final DepartmentFindService departmentFindService;
 
     /**
      * @param category
@@ -54,6 +58,12 @@ public class BoardCallController {
     public BoardDto clickBoard(@PathVariable Long boardId,@PathVariable Long memberId){
         return  boardCallService.getBoardDetail(boardId,memberId);
     }
+
+    @GetMapping("/board/department/{schoolId}")
+    public List<DepartmentCallDto> getDepartments(@PathVariable Long schoolId){
+        return departmentFindService.getDepartmentBySchoolId(schoolId);
+    }
+
     private void checkPagingSize(Integer limit) {
         if (limit == 0) {
             throw new PagingLimitEqualsZeroException("limit 의 개수는 1 이상이여야 합니다.");
