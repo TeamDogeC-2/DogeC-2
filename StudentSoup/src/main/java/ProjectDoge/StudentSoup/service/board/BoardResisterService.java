@@ -7,9 +7,11 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
+import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.exception.board.BoardNotQualifiedException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
@@ -32,17 +34,31 @@ public class BoardResisterService {
     private final BoardRepository boardRepository;
 
     private final FileRepository fileRepository;
+
+    private final DepartmentFindService departmentFindService;
     @Transactional
-    public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
+    public Long join(Long memberId,Long departmentId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
         checkQualification(boardFormDto,member);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
-        Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), member.getDepartment());
+        Board board = createBoard(departmentId, boardFormDto, member);
         uploadBoardImage(uploadFileDtoList, board);
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();
+    }
+
+    private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
+        if(departmentId == null) {
+            Board board = new Board().createBoard(boardFormDto, member, member.getSchool());
+            return board;
+        }
+        else {
+            Department department = departmentFindService.findOne(departmentId);
+            Board board = new Board().createBoard(boardFormDto, member, member.getSchool(),department);
+            return board;
+        }
     }
 
     private void checkQualification(BoardFormDto boardFormDto, Member member) {

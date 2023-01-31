@@ -89,6 +89,18 @@ public class Board {
         this.setDepartment(department);
         return this;
     }
+    public Board createBoard(BoardFormDto form, Member member, School school) {
+        this.setTitle(form.getTitle());
+        this.setBoardCategory(form.getBoardCategory());
+        this.setWriteDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setContent(form.getContent());
+        this.setView(0);
+        this.setLikedCount(0);
+        this.setMember(member);
+        this.setSchool(school);
+        return this;
+    }
     public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
