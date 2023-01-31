@@ -1,15 +1,18 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRegRespDto;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
+import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotOwnException;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
+import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -17,13 +20,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class RestaurantReviewDeleteService {
 
+    private final RestaurantFindService restaurantFindService;
     private final RestaurantReviewFindService restaurantReviewFindService;
     private final RestaurantReviewRepository restaurantReviewRepository;
 
     @Transactional
-    public ConcurrentHashMap<String, String> deleteRestaurantReview(Long restaurantReviewId, Long memberId){
+    public ConcurrentHashMap<String, Object> deleteRestaurantReview(Long restaurantReviewId, Long memberId){
         checkLoginStatus(memberId);
-        ConcurrentHashMap<String, String> resultMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         RestaurantReview findRestaurantReview = restaurantReviewFindService.findOne(restaurantReviewId);
         if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN){
             throw new RestaurantReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
@@ -40,4 +44,28 @@ public class RestaurantReviewDeleteService {
         }
         log.info("회원의 로그인 상태 확인이 완료되었습니다.");
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
+        double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
+
+        restaurant.updateStarLiked(star);
+        log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);
+
+        return restaurantRespDto(restaurantId, star);
+    }
+
+    private RestaurantReviewRegRespDto restaurantRespDto(Long restaurantId, double star) {
+        log.info("리뷰 삭제 응답 객체 생성을 시작하였습니다.");
+        RestaurantReviewRegRespDto dto = new RestaurantReviewRegRespDto();
+        dto.setRestaurantId(restaurantId);
+        dto.setStarLiked(star);
+        Long count = restaurantReviewRepository.countByRestaurantId(restaurantId);
+        dto.setReviewCount(count);
+        log.info("음식점 : [{}], 별점 : [{}], 리뷰 개수 : [{}]", restaurantId, star, count);
+        return dto;
+    }
+
 }
