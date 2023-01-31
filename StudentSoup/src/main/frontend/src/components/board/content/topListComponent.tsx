@@ -4,9 +4,7 @@ const TopListComponent = () => {
       <div className="bg-white p-[11px] rounded-[5px] border border-solid border-[#bcbcbc]">
         <table className="w-full text-center">
           <colgroup>
-            <col style={{ width: '60%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
+            <col style={{ width: '80%' }} />
             <col style={{ width: '10%' }} />
             <col style={{ width: '10%' }} />
           </colgroup>
