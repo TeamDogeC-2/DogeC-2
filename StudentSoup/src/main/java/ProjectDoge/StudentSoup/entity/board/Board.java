@@ -47,7 +47,7 @@ public class Board {
 
     private String ip;
 
-    @OneToMany(mappedBy = "board" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<ImageFile> imageFiles = new ArrayList<>();
 
     private int view;
@@ -87,6 +87,18 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        return this;
+    }
+    public Board createBoard(BoardFormDto form, Member member, School school) {
+        this.setTitle(form.getTitle());
+        this.setBoardCategory(form.getBoardCategory());
+        this.setWriteDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setContent(form.getContent());
+        this.setView(0);
+        this.setLikedCount(0);
+        this.setMember(member);
+        this.setSchool(school);
         return this;
     }
     public Board editBoard(BoardFormDto boardFormDto){

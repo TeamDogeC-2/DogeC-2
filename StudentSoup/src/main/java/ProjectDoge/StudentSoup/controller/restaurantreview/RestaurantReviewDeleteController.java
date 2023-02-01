@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.restaurantreview;
 
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewDeleteDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRegRespDto;
 import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewDeleteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,20 +12,23 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/{restaurantId}")
+@RequestMapping("/restaurantReview/{restaurantReviewId}")
 @RequiredArgsConstructor
 public class RestaurantReviewDeleteController {
 
     private final RestaurantReviewDeleteService restaurantReviewDeleteService;
 
-    @DeleteMapping("/review")
-    public ResponseEntity<ConcurrentHashMap<String, String>> deleteRestaurantReview(
-            @PathVariable Long restaurantId,
+    @DeleteMapping
+    public ResponseEntity<ConcurrentHashMap<String, Object>> deleteRestaurantReview(
+            @PathVariable Long restaurantReviewId,
             @RequestBody RestaurantReviewDeleteDto dto){
         log.info("리뷰 삭제가 호출되었습니다.");
-        ConcurrentHashMap<String, String> resultMap = restaurantReviewDeleteService.deleteRestaurantReview(
+        ConcurrentHashMap<String, Object> resultMap = restaurantReviewDeleteService.deleteRestaurantReview(
                 dto.getRestaurantReviewId(),
                 dto.getMemberId());
+
+        RestaurantReviewRegRespDto respDto = restaurantReviewDeleteService.starUpdate(dto.getRestaurantId());
+        resultMap.put("data", respDto);
 
         return ResponseEntity.ok(resultMap);
     }
