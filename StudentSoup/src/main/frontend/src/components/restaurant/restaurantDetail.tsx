@@ -61,7 +61,11 @@ const restaurant = () => {
         isHeart(res.data.restaurant.like);
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
+        if (!restaurantNumber || !schoolName) {
+          alert('학교가 등록되지 않았거나 없는 음식점입니다.');
+          history.go(-1);
+        }
       });
   }, []);
 
@@ -105,7 +109,7 @@ const restaurant = () => {
   return (
     <>
       <RestaurantNavbar />
-      <div className="w-[full] h-[535px] flex m-[49px] justify-center">
+      <div className="h-auto flex m-[49px] justify-center">
         <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
           <div className="ml-[22px] mt-[7px] whitespace-normal h-[50px] font-bold text-[25px] leading-[26px] flex items-center">
@@ -206,7 +210,7 @@ const restaurant = () => {
             </div>
           )}
         </div>
-        <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
+        <div className="w-[744px] h-auto bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_214px] gap-1 ml-[20px] mt-[20px]">
             <img src={`/image/${image[0]}`} className="row-span-2 w-[268px] h-[290px] " />
             {imgArr.map((school: any) => (
@@ -246,14 +250,14 @@ const restaurant = () => {
           </div>
           <div className="flex flex-row">
             <InfoHeart className="ml-[21px] mt-[17px]" />
-            <div className="ml-[8px] mt-[14px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
+            <div className="ml-[8px] mb-[20px] mt-[14px] h-auto font-[400] leading-[21px] flex items-center text-[#515151]">
               이 식당에 {clickHeart ? likedCount : restaurantDetail.likedCount}명의 좋아요한
               사용자가 있습니다.
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full h-full flex justify-center">
+      <div className="w-full h-auto flex justify-center">
         <div className="ml-[298px] w-[744px] h-full bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="flex flex-row">
             <div
