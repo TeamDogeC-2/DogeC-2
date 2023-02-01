@@ -12,8 +12,9 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
+    createDefaultProgram: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'tailwind.config.js'],
   plugins: ['react'],
   rules: {
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx', '.js', '.jsx'] }],
