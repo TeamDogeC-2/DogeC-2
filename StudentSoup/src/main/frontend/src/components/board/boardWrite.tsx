@@ -56,7 +56,7 @@ const boardWrite = () => {
             className="h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
           <div className="h-[93px] flex flex-row bg-[#F0F0F0] rounded-[1px] border-x-[1px] border-b-[1px] border-[#BCBCBC]">
-            <div className="ml-[26px] mt-[38px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
+            <div className="ml-[26px] mt-[37px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
               사진첨부
             </div>
             <div className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]">
