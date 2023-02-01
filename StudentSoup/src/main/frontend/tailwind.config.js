@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         sans: ['Helvetica', 'Arial', 'sans-serif'],
       },
+      textColor: {
+        orange: '#FF611D',
+      },
     },
   },
   plugins: [],
