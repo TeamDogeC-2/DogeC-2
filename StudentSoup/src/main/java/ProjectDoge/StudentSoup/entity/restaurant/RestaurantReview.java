@@ -31,6 +31,7 @@ public class RestaurantReview {
     @Column(name = "WRITER_NICKNAME")
     public String nickname;  // Member
 
+    @Lob
     private String content;
 
     @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.ALL)
