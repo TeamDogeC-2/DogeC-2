@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantNavbar from '../common/restaurantNavbar';
-import { ReactComponent as Star } from '../../img/Star.svg';
+import { ReactComponent as Star } from '../../img/restaurantDetailStar.svg';
 import { ReactComponent as Share } from '../../img/Share.svg';
 import { ReactComponent as Review } from '../../img/Review.svg';
 import { ReactComponent as Location } from '../../img/location.svg';
