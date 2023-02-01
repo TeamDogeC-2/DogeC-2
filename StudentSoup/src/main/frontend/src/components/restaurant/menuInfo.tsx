@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MenuHeartInfo from './menuHeartInfo';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
+import { ReactComponent as CameraIcon } from '../../img/MenuInfoCamera.svg';
 
 const menuInfo = () => {
   const state = useLocation<any>();
@@ -59,7 +60,7 @@ const menuInfo = () => {
   };
   return (
     <>
-      <div className="ml-[25px] mt-[28px] grid grid-cols-2">
+      <div className="ml-[25px] mt-[22px] grid grid-cols-2">
         {MenuList?.map((school: any) => (
           <div className="flex flex-row" id={school.restaurantMenuId} key={school.restaurantMenuId}>
             <div id={school.restaurantMenuId}>
@@ -73,7 +74,10 @@ const menuInfo = () => {
                 </>
               ) : (
                 <div className="w-[172px] h-[164px] rounded-[5px] bg-[#A5A5A5]">
-                  <div>사진없음</div>
+                  <CameraIcon className="relative left-[74px] top-[61px]" />
+                  <div className="mt-[68px] ml-[39.5px] font-medium text-[16px] items-center text-[#515151]">
+                    준비중입니다.
+                  </div>
                 </div>
               )}
               <div className="relative bottom-[163px]">
