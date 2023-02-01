@@ -317,8 +317,8 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {clickPage === 2 && <MenuInfopage />}
-          {clickPage === 1 && <Reviewpage {...restaurantDetail} />}
+          {clickPage === 1 && <MenuInfopage />}
+          {clickPage === 2 && <Reviewpage {...restaurantDetail} />}
           {clickPage === 3 && <Picturepage />}
         </div>
       </div>
