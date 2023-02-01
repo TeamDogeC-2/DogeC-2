@@ -12,6 +12,7 @@ import Mypage from './components/mypage/mypage';
 import Restaurant from './components/restaurant/restaurant';
 import RestaurantDetail from './components/restaurant/restaurantDetail';
 import MypageBoardReview from './components/mypage/mypageBoardReview';
+import BoardMain from './components/board/boardMain';
 
 const Routes = () => {
   return (
@@ -28,7 +29,7 @@ const Routes = () => {
       <Route exact path="/restaurant" component={Restaurant} />
       <Route exact path="/restaurant/detail" component={RestaurantDetail} />
       <Route exact path="/mypageBoardReview" component={MypageBoardReview} />
-
+      <Route exact path="/board" component={BoardMain} />
       <Route component={Err404} />
     </Switch>
   );
