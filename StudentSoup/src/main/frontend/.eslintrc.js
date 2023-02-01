@@ -26,7 +26,10 @@ module.exports = {
     '@typescript-eslint/comma-dangle': 'off',
     'no-useless-computed-key': 'off',
     'multiline-ternary': 'off',
+    'array-callback-return': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-misused-promises': 'off',
   },
 };

@@ -2,40 +2,100 @@ import { useState, useRef, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
 import axios from 'axios';
+const kakao = (window as any).kakao;
+
+interface Category {
+  id: string;
+  name: string;
+}
 
 const RestaurantMain = (props: any) => {
-  const history = useHistory();
-  const state = useLocation<any>();
-  const schoolName = state.state;
-
+  const [set, isSet] = useState<any[]>();
+  const [total, isTotal] = useState<number>();
+  const [click, setClick] = useState<number>(0);
+  const [size, setSize] = useState<number>(6);
+  const [latitude, setLatitude] = useState<any>();
+  const [longitude, setLongitude] = useState<any>();
   const [closeList, setCloseList] = useState<boolean>(false);
   const listRef = useRef<HTMLDivElement>(null);
-
   const [sort, setSort] = useState<number>(0);
   const [category, setCategory] = useState<String>('ALL');
-
   const maxHeight = useState<number>(0);
 
+  const history = useHistory();
+  const state = useLocation<any>();
   const url = '/restaurants';
-  useEffect(() => {
+  const getSchool = () => {
     axios
-      .post(url, {
-        schoolName: state.state,
-      },
-      {
-        params: {
-          sorted: sort,
-          category,
+      .post(
+        url,
+        {
+          schoolName: state.state,
         },
-      },
+        {
+          params: {
+            size,
+            sorted: sort,
+            category,
+          },
+        },
       )
       .then(res => {
+        isTotal(res.data.restaurant.totalElements);
+        isSet(res.data.restaurant.content);
+        setLatitude(Number(res.data.school.schoolLatitude));
+        setLongitude(Number(res.data.school.schoolLongitude));
       })
       .catch(err => {
         console.error(err);
       });
-  }, [sort, category]);
+  };
 
+  const MapLocation = [longitude, latitude];
+
+  useEffect(() => {
+    getSchool();
+  }, [click, sort, category]);
+
+  useEffect(() => {
+    // scroll event listener 등록
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      // scroll event listener 해제
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(...MapLocation),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+  });
+
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight && click !== 0) {
+      setClick(click + 1);
+      setSize(size + 6);
+    }
+  };
+
+  const handleClickButton = (e: any) => {
+    setClick(click + 1);
+    setSize(size + 6);
+  };
+
+  const handleDetailPage = (e: any) => {
+    const value = e.target.id;
+
+    history.push('/restaurant/detail', [value, state.state]);
+  };
   function foldList() {
     if (!listRef?.current) {
       return;
@@ -48,16 +108,14 @@ const RestaurantMain = (props: any) => {
     }
     setCloseList(!closeList);
   }
-
-  console.log(state.state);
-
+  console.log(closeList);
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
-      {/**/}
       <div className="w-[1039px] mx-auto">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
-            <span className="pr-2 text-[32px] text-[#FF611D]">청운대학교</span>
+            <span className="pr-2 text-[32px] text-[#FF611D]">{state.state}</span>
+
             <span className="text-[32px] text-[#5A5A5A]">근처 인기 맛집 검색어</span>
           </div>
           <button
@@ -82,50 +140,40 @@ const RestaurantMain = (props: any) => {
             </svg>
             필터
           </button>
-          <div className={cn(
-            'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
-            'buttonContainer overflow-hidden ease-out dalay-[30s]'
-          )}
+          <div
+            className={cn(
+              'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
+              'buttonContainer overflow-hidden ease-out dalay-[30s]',
+            )}
             ref={listRef}
           >
-            <ul className='text-center divide-y-2'>
-              <li className='py-2'>
+            <ul className="text-center divide-y-2">
+              <li className="py-2">
                 <button
                   value="0"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_newest',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_newest')}
                   onClick={() => {
                     setSort(0);
-                  }
-                  }
+                  }}
                 >
                   등록순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="1"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_starCount',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_starCount')}
                   onClick={() => {
                     setSort(1);
-                  }
-                  }
+                  }}
                 >
                   별점순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="2"
-                  className={cn(
-                    'px-1 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_likeCount',
-                  )}
+                  className={cn('px-1 rounded-[23.5px] hover:bg-gray-100', 'sort_likeCount')}
                   onClick={() => {
                     setSort(2);
                   }}
@@ -133,13 +181,10 @@ const RestaurantMain = (props: any) => {
                   좋아요순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="3"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_reviewCount',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_reviewCount')}
                   onClick={() => {
                     setSort(3);
                   }}
@@ -147,13 +192,10 @@ const RestaurantMain = (props: any) => {
                   리뷰순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="4"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_nearest'
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_nearest')}
                   onClick={() => {
                     setSort(4);
                   }}
@@ -193,7 +235,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('WESTERN');
@@ -217,7 +259,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('ASIAN');
@@ -241,7 +283,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('CHINESE');
@@ -253,7 +295,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('SNACK');
@@ -265,7 +307,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('CAFE');
@@ -277,7 +319,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('BUFFET');
@@ -301,17 +343,19 @@ const RestaurantMain = (props: any) => {
           </div>
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
-              청운대학교 근처 맛집(
-              <span className="text-[18px] text-[#FF611D]">234</span>
+              {state.state}(<span className="text-[18px] text-[#FF611D]">{total}</span>
               곳)
             </div>
             <div>
               <span>현위치: </span>
-              <span>위치없음</span>
+
+              <span>{state.state}</span>
             </div>
           </div>
-          <div className="w-[810px] h-[247px] mx-auto mb-[44px] relative rounded-[10px] bg-gray-100">
-            지도
+          <div
+            id="map"
+            className="w-[810px] h-[247px] mx-auto mb-[44px] relative rounded-[10px] bg-gray-100"
+          >
             <button className="px-[17px] py-[8px] right-[22px] bottom-[28px] absolute flex gap-x-2 items-center rounded-[50px] drop-shadow-md text-bold text-white bg-[#FF611D]">
               <svg
                 width="10"
@@ -330,70 +374,81 @@ const RestaurantMain = (props: any) => {
             </button>
           </div>
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
-            <div>
-              {' '}
-              <div className="w-[382px] h-[225px] rounded-[10px] bg-gray-100">가게이미지</div>
-              <div className="mt-[20px] text-[28px] text-[#262626]">
-                가게 이름 적는 곳<span className="px-2 text-[28px] text-[#FF611D]">4.3</span>
-                <div className="text-[20px] text-[#696969]">
-                  제물포역/양식, 파스타, 피자, 리조또
-                </div>
-                <div className="flex gap-x-1 items-center text-[20px] text-[#262626]">
-                  <span>
-                    <svg
-                      width="14"
-                      height="10"
-                      viewBox="0 0 14 10"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="inline-block"
-                    >
-                      <path
-                        d="M7.28072 0.729492C4.24718 0.729492 1.65654 2.61635 0.606934 5.2798C1.65654 7.94325 4.24718 9.83011 7.28072 9.83011C10.3143 9.83011 12.9049 7.94325 13.9545 5.2798C12.9049 2.61635 10.3143 0.729492 7.28072 0.729492ZM7.28072 8.31334C5.60621 8.31334 4.24718 6.95432 4.24718 5.2798C4.24718 3.60529 5.60621 2.24626 7.28072 2.24626C8.95524 2.24626 10.3143 3.60529 10.3143 5.2798C10.3143 6.95432 8.95524 8.31334 7.28072 8.31334ZM7.28072 3.45968C6.27359 3.45968 5.4606 4.27267 5.4606 5.2798C5.4606 6.28694 6.27359 7.09993 7.28072 7.09993C8.28786 7.09993 9.10085 6.28694 9.10085 5.2798C9.10085 4.27267 8.28786 3.45968 7.28072 3.45968Z"
-                        fill="black"
-                      />
-                    </svg>
-                    조회수
-                  </span>
-                  <span>
-                    <svg
-                      width="15"
-                      height="13"
-                      viewBox="0 0 15 13"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="inline-block"
-                    >
-                      <path
-                        d="M11.7028 8.08683C11.5215 8.25855 11.4382 8.5069 11.4795 8.75047L12.1017 12.1166C12.1542 12.4019 12.031 12.6906 11.7868 12.8555C11.5474 13.0265 11.229 13.047 10.9679 12.9102L7.86799 11.3298C7.76021 11.2737 7.64052 11.2436 7.51804 11.2401H7.32836C7.26257 11.2497 7.19818 11.2702 7.13939 11.3017L4.03879 12.8897C3.88551 12.9649 3.71194 12.9916 3.54186 12.9649C3.12751 12.8883 2.85105 12.5024 2.91894 12.0953L3.54186 8.72926C3.58315 8.48364 3.49986 8.23392 3.31859 8.05946L0.791218 5.66488C0.579846 5.46442 0.506355 5.16339 0.602943 4.89178C0.69673 4.62085 0.936099 4.42313 1.22516 4.37865L4.70371 3.88537C4.96827 3.85869 5.20064 3.70133 5.31963 3.46872L6.85243 0.396816C6.88882 0.328399 6.93572 0.265456 6.99241 0.212091L7.0554 0.1642C7.08829 0.128623 7.12609 0.0992039 7.16808 0.0752581L7.24438 0.0478915L7.36336 0H7.65802C7.92119 0.0266824 8.15286 0.18062 8.27394 0.410499L9.82704 3.46872C9.93902 3.69244 10.1567 3.84774 10.408 3.88537L13.8865 4.37865C14.1805 4.4197 14.4261 4.61811 14.5234 4.89178C14.6151 5.16613 14.536 5.46716 14.3205 5.66488L11.7028 8.08683Z"
-                        fill="#FFB21D"
-                      />
-                    </svg>
-                    별점
-                  </span>
-                  <span>
-                    <svg
-                      width="13"
-                      height="12"
-                      viewBox="0 0 13 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="inline-block"
-                    >
-                      <path
-                        d="M6.14663 11.7162L7.01024 10.93C10.0775 8.14861 12.1025 6.31419 12.1025 4.06286C12.1025 2.22844 10.6612 0.787109 8.82679 0.787109C7.79046 0.787109 6.79583 1.26954 6.14663 2.03189C5.49744 1.26954 4.5028 0.787109 3.46647 0.787109C1.63205 0.787109 0.190722 2.22844 0.190722 4.06286C0.190722 6.31419 2.21573 8.14861 5.28302 10.936L6.14663 11.7162Z"
-                        fill="#FF611D"
-                      />
-                    </svg>
-                    좋아요수
-                  </span>
+            {set?.map(school => (
+              <div id={school.restaurantId} key={school.restaurantId}>
+                <img
+                  src={`/image/${school.fileName}`}
+                  onClick={handleDetailPage}
+                  id={school.restaurantId}
+                  className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"
+                />
+
+                <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
+                  {school.name}
+                  <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
+                  <div className="text-[20px] text-[#696969]">{school.restaurantCategory}</div>
+                  <div className="ml-[2px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
+                    <span>
+                      <svg
+                        width="14"
+                        height="10"
+                        viewBox="0 0 14 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inline-block mr-[8px] mb-[2px]"
+                      >
+                        <path
+                          d="M7.28072 0.729492C4.24718 0.729492 1.65654 2.61635 0.606934 5.2798C1.65654 7.94325 4.24718 9.83011 7.28072 9.83011C10.3143 9.83011 12.9049 7.94325 13.9545 5.2798C12.9049 2.61635 10.3143 0.729492 7.28072 0.729492ZM7.28072 8.31334C5.60621 8.31334 4.24718 6.95432 4.24718 5.2798C4.24718 3.60529 5.60621 2.24626 7.28072 2.24626C8.95524 2.24626 10.3143 3.60529 10.3143 5.2798C10.3143 6.95432 8.95524 8.31334 7.28072 8.31334ZM7.28072 3.45968C6.27359 3.45968 5.4606 4.27267 5.4606 5.2798C5.4606 6.28694 6.27359 7.09993 7.28072 7.09993C8.28786 7.09993 9.10085 6.28694 9.10085 5.2798C9.10085 4.27267 8.28786 3.45968 7.28072 3.45968Z"
+                          fill="black"
+                        />
+                      </svg>
+                      {school.viewCount}
+                    </span>
+                    <span>
+                      <svg
+                        width="15"
+                        height="13"
+                        viewBox="0 0 15 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inline-block mr-[8px] mb-[2px]"
+                      >
+                        <path
+                          d="M11.7028 8.08683C11.5215 8.25855 11.4382 8.5069 11.4795 8.75047L12.1017 12.1166C12.1542 12.4019 12.031 12.6906 11.7868 12.8555C11.5474 13.0265 11.229 13.047 10.9679 12.9102L7.86799 11.3298C7.76021 11.2737 7.64052 11.2436 7.51804 11.2401H7.32836C7.26257 11.2497 7.19818 11.2702 7.13939 11.3017L4.03879 12.8897C3.88551 12.9649 3.71194 12.9916 3.54186 12.9649C3.12751 12.8883 2.85105 12.5024 2.91894 12.0953L3.54186 8.72926C3.58315 8.48364 3.49986 8.23392 3.31859 8.05946L0.791218 5.66488C0.579846 5.46442 0.506355 5.16339 0.602943 4.89178C0.69673 4.62085 0.936099 4.42313 1.22516 4.37865L4.70371 3.88537C4.96827 3.85869 5.20064 3.70133 5.31963 3.46872L6.85243 0.396816C6.88882 0.328399 6.93572 0.265456 6.99241 0.212091L7.0554 0.1642C7.08829 0.128623 7.12609 0.0992039 7.16808 0.0752581L7.24438 0.0478915L7.36336 0H7.65802C7.92119 0.0266824 8.15286 0.18062 8.27394 0.410499L9.82704 3.46872C9.93902 3.69244 10.1567 3.84774 10.408 3.88537L13.8865 4.37865C14.1805 4.4197 14.4261 4.61811 14.5234 4.89178C14.6151 5.16613 14.536 5.46716 14.3205 5.66488L11.7028 8.08683Z"
+                          fill="#FFB21D"
+                        />
+                      </svg>
+                      {school.starLiked}
+                    </span>
+                    <span>
+                      <svg
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inline-block mr-[8px] mb-[2px]"
+                      >
+                        <path
+                          d="M6.14663 11.7162L7.01024 10.93C10.0775 8.14861 12.1025 6.31419 12.1025 4.06286C12.1025 2.22844 10.6612 0.787109 8.82679 0.787109C7.79046 0.787109 6.79583 1.26954 6.14663 2.03189C5.49744 1.26954 4.5028 0.787109 3.46647 0.787109C1.63205 0.787109 0.190722 2.22844 0.190722 4.06286C0.190722 6.31419 2.21573 8.14861 5.28302 10.936L6.14663 11.7162Z"
+                          fill="#FF611D"
+                        />
+                      </svg>
+                      {school.likedCount}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-          <button className="w-[807px] h-[60px] mt-[70px] mx-[116px] rounded-[5px] text-[16px] text-white bg-[#FF611D]">
-            검색 결과 더보기
-          </button>
+          {click === 0 && (
+            <button
+              onClick={handleClickButton}
+              className="w-[807px] h-[60px] mt-[70px] mx-[116px] rounded-[5px] text-[16px] text-white bg-[#FF611D]"
+            >
+              검색 결과 더보기
+            </button>
+          )}
         </div>
       </div>
     </div>
