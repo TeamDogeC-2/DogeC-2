@@ -32,7 +32,6 @@ const menuInfo = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
         isLast(res.data.last);
         setTotalPage(res.data.totalPages);
         setTotalSize(res.data.totalElements);
