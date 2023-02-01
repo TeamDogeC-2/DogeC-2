@@ -11,6 +11,8 @@ import MypageModify from './components/mypage/mypageModify';
 import MypageBoardReview from './components/mypage/mypageBoardReview';
 import Mypage from './components/mypage/mypage';
 import Restaurant from './components/restaurant/restaurant';
+import BoardDetail from './components/board/boardDetail';
+import BoardWrite from './components/board/boardWrite';
 
 const Routes = () => {
   return (
@@ -26,6 +28,8 @@ const Routes = () => {
       <Route exact path="/mypagemodify" component={MypageModify} />
       <Route exact path="/mypageBoardReview" component={MypageBoardReview} />
       <Route exact path="/restaurant" component={Restaurant} />
+      <Route exact path="/boardDetail" component={BoardDetail} />
+      <Route exact path="/boardWrite" component={BoardWrite} />
       <Route component={Err404} />
     </Switch>
   );
