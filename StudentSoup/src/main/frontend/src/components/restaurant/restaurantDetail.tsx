@@ -27,6 +27,7 @@ const restaurant = () => {
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
   const [image, setImage] = useState<any>([]);
+  const [isDelivery, setIsDelivery] = useState<string>('');
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
 
@@ -52,6 +53,7 @@ const restaurant = () => {
         memberId: saveMemberId,
       })
       .then(res => {
+        setIsDelivery(res.data.restaurant.isDelivery);
         setImage(res.data.restaurant.fileName);
         setRestaurantDetail(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
@@ -190,11 +192,19 @@ const restaurant = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
-            <div className="ml-[83px] mt-[13px] mb-[15px] w-[82px] h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#FF611D]">
-              배달가능 업체
+          {isDelivery === 'Y' ? (
+            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
+              <div className="ml-[83px] mt-[13px] mb-[15px] w-[82px] h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#FF611D]">
+                배달가능 업체
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#515151]">
+              <div className="ml-[73px] mt-[13px] mb-[15px] w-auto h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#515151]">
+                배달불가능 업체
+              </div>
+            </div>
+          )}
         </div>
         <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_214px] gap-1 ml-[20px] mt-[20px]">
