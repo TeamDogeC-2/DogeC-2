@@ -66,45 +66,43 @@ const menuInfo = () => {
       <div className="ml-[25px] mt-[22px] grid grid-cols-2">
         {MenuList?.map((school: any) => (
           <>
-            <div key={school.restaurantMenuId}>
-              {school.restaurantMenuCategory === '주메뉴' && (
-                <div
-                  className="flex flex-row"
-                  id={school.restaurantMenuId}
-                  key={school.restaurantMenuId}
-                >
-                  <div id={school.restaurantMenuId}>
-                    {school.fileName ? (
-                      <>
-                        <img
-                          className="w-[172px] h-[164px] rounded-[5px]"
-                          key={school.fileName}
-                          src={`/image/${school.fileName}`}
-                        />
-                      </>
-                    ) : (
-                      <div className="w-[172px] h-[164px] rounded-[5px] bg-[#A5A5A5]">
-                        <CameraIcon className="relative left-[74px] top-[61px]" />
-                        <div className="mt-[68px] ml-[39.5px] font-medium text-[16px] items-center text-[#515151]">
-                          준비중입니다.
-                        </div>
+            {school.restaurantMenuCategory === '주메뉴' && (
+              <div
+                className="flex flex-row"
+                id={school.restaurantMenuId}
+                key={school.restaurantMenuId}
+              >
+                <div id={school.restaurantMenuId}>
+                  {school.fileName ? (
+                    <>
+                      <img
+                        className="w-[172px] h-[164px] rounded-[5px]"
+                        key={school.fileName}
+                        src={`/image/${school.fileName}`}
+                      />
+                    </>
+                  ) : (
+                    <div className="w-[172px] h-[164px] rounded-[5px] bg-[#A5A5A5]">
+                      <CameraIcon className="relative left-[74px] top-[61px]" />
+                      <div className="mt-[68px] ml-[39.5px] font-medium text-[16px] items-center text-[#515151]">
+                        준비중입니다.
                       </div>
-                    )}
-                    <div className="relative bottom-[163px]">
-                      <MenuHeartInfo {...school} school={school} />
                     </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="w-[157px] h-[16px] ml-[14px] text-[20px] font-semibold leading-[28px] text-[#515151]flex items-center">
-                      {school.restaurantMenuName}
-                    </div>
-                    <div className="ml-[14px] mt-[118px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
-                      {school.cost}원
-                    </div>
+                  )}
+                  <div className="relative bottom-[163px]">
+                    <MenuHeartInfo {...school} school={school} />
                   </div>
                 </div>
-              )}
-            </div>
+                <div className="flex flex-col">
+                  <div className="w-[157px] h-[16px] ml-[14px] text-[20px] font-semibold leading-[28px] text-[#515151]flex items-center">
+                    {school.restaurantMenuName}
+                  </div>
+                  <div className="ml-[14px] mt-[118px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
+                    {school.cost}원
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         ))}
       </div>
