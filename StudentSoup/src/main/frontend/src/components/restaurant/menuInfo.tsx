@@ -115,15 +115,13 @@ const menuInfo = () => {
                 사이드
               </div>
               {MenuList.map((school: any) => (
-                <div key={school.restaurantMenuId}>
+                <>
                   {school.restaurantMenuCategory === '사이드메뉴' && (
-                    <>
-                      <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
-                        {school.restaurantMenuName} ------- {school.cost}원
-                      </div>
-                    </>
+                    <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
+                      {school.restaurantMenuName} ------- {school.cost}원
+                    </div>
                   )}
-                </div>
+                </>
               ))}
             </div>
             <div className="w-[377px] h-auto border-l-[1px] border-[#D1D1D1]">
@@ -131,15 +129,13 @@ const menuInfo = () => {
                 음료 및 주류
               </div>
               {MenuList.map((school: any) => (
-                <div key={school.restaurantMenuId}>
+                <>
                   {school.restaurantMenuCategory === '음료 및 주류' && (
-                    <>
-                      <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] flex items-center text-[#808080]">
-                        {school.restaurantMenuName} ------- {school.cost}원
-                      </div>
-                    </>
+                    <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] flex items-center text-[#808080]">
+                      {school.restaurantMenuName} ------- {school.cost}원
+                    </div>
                   )}
-                </div>
+                </>
               ))}
             </div>
           </div>
@@ -158,6 +154,7 @@ const menuInfo = () => {
       ) : (
         ''
       )}
+      <div className="mb-[56px]"></div>
     </>
   );
 };
