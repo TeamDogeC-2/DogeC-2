@@ -108,7 +108,6 @@ const RestaurantMain = (props: any) => {
     }
     setCloseList(!closeList);
   }
-  console.log(closeList);
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto">
