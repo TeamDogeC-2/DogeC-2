@@ -9,7 +9,7 @@ interface Category {
   name: string;
 }
 
-const RestaurantMain = (props: any) => {
+const RestaurantMain = (_props: any) => {
   const [set, isSet] = useState<any[]>();
   const [total, isTotal] = useState<number>();
   const [click, setClick] = useState<number>(0);
@@ -46,8 +46,12 @@ const RestaurantMain = (props: any) => {
         setLatitude(Number(res.data.school.schoolLatitude));
         setLongitude(Number(res.data.school.schoolLongitude));
       })
-      .catch(err => {
-        console.error(err);
+      .catch(function (error) {
+        console.log(error.response);
+        if (!state.state) {
+          alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
+          history.go(-1);
+        }
       });
   };
 
@@ -86,7 +90,7 @@ const RestaurantMain = (props: any) => {
     }
   };
 
-  const handleClickButton = (e: any) => {
+  const handleClickButton = (_e: any) => {
     setClick(click + 1);
     setSize(size + 6);
   };
