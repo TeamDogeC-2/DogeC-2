@@ -216,45 +216,37 @@ const restaurant = () => {
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">
             매장정보
           </div>
-          <div className="flex flex-row">
-            <Location className="ml-[21px] mt-[20.15px]" />
-            <div className="ml-[10.33px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              {restaurantDetail.address}
-            </div>
-
-            <div className="ml-[5px] mt-[17px] flex flex-row ">
-              <div className=" h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-                {restaurantDetail.schoolName}
-              </div>
-              <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#7B7B7B]">
-                에서
-              </div>
-              <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#FF611D]">
-                {restaurantDetail.distance}
-              </div>
-            </div>
+          <div className="mt-[5px]">
+            <span className="ml-[21px] w-auto font-[400] text-[16px] leading-[21px] text-[#515151]">
+              <Location className="inline mb-[3px] mr-[5px]" /> {restaurantDetail.address}&nbsp;
+            </span>
+            <span className="w-auto font-semibold  text-[#515151]">
+              {restaurantDetail.schoolName}
+            </span>
+            <span className="ml-[5px] font-normal text-[#7B7B7B]">에서</span>
+            <span className="ml-[5px] font-normal text-[#FF611D]">{restaurantDetail.distance}</span>
           </div>
           <div className="flex flex-row">
-            <Phone className="ml-[21px] mt-[19px]" />
-            <div className="ml-[9.61px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <Phone className="ml-[21px] mt-[15px]" />
+            <div className="ml-[9.61px] mt-[12px] h-[12px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.tel}
             </div>
           </div>
           <div className="flex flex-row">
-            <Clock className="ml-[21px] mt-[21px]" />
-            <div className="ml-[8px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <Clock className="ml-[21px] mt-[16px]" />
+            <div className="ml-[8px] mt-[13px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               영업시간 AM {restaurantDetail.startTime}- PM {restaurantDetail.endTime}
             </div>
           </div>
           <div className="flex flex-row">
-            <PlusCircle className="ml-[21px] mt-[20px]" />
-            <div className="ml-[9px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <PlusCircle className="ml-[21px] mt-[15px]" />
+            <div className="w-[700px] ml-[9px] mt-[12px] h-auto font-normal text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.detail}
             </div>
           </div>
           <div className="flex flex-row">
-            <InfoHeart className="ml-[21px] mt-[19px]" />
-            <div className="ml-[8px] mt-[16px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
+            <InfoHeart className="ml-[21px] mt-[17px]" />
+            <div className="ml-[8px] mt-[14px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
               이 식당에 {clickHeart ? likedCount : restaurantDetail.likedCount}명의 좋아요한
               사용자가 있습니다.
             </div>
