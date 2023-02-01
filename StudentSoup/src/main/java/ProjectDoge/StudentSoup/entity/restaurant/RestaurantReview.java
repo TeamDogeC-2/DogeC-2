@@ -33,7 +33,7 @@ public class RestaurantReview {
 
     private String content;
 
-    @OneToMany(mappedBy = "restaurantReview")
+    @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.ALL)
     private List<ImageFile> imageFileList = new ArrayList<>();
 
     // 리뷰가 좋아요 눌린 수

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurant/{restaurantId}")
+@RequestMapping("/restaurantReview/{restaurantId}")
 public class RestaurantReviewCallController {
 
     private final RestaurantReviewCallService restaurantReviewCallService;
@@ -24,7 +24,7 @@ public class RestaurantReviewCallController {
     /**
      * @param sorted (newest : 최신순, liked : 좋아요 순)
      */
-    @PostMapping("/reviews")
+    @PostMapping
     public Page<RestaurantReviewDto> callRestaurantReviews(@PathVariable Long restaurantId,
                                                            @RequestParam(required = false, defaultValue = "newest") String sorted,
                                                            @RequestBody RestaurantReviewCallReqDto dto,
@@ -40,7 +40,7 @@ public class RestaurantReviewCallController {
                 pageable);
     }
 
-    @GetMapping("/reviews/image")
+    @GetMapping("/images")
     public Page<String> callRestaurantReviewsImage(@PathVariable Long restaurantId,
                                                    @PageableDefault(size = 6)Pageable pageable){
         checkPagingSize(pageable.getPageSize());
