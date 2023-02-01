@@ -12,22 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurant/{restaurantId}")
+@RequestMapping("/restaurantReview/{restaurantReviewId}")
 @RequiredArgsConstructor
 public class RestaurantReviewDeleteController {
 
     private final RestaurantReviewDeleteService restaurantReviewDeleteService;
 
-    @DeleteMapping("/review")
+    @DeleteMapping
     public ResponseEntity<ConcurrentHashMap<String, Object>> deleteRestaurantReview(
-            @PathVariable Long restaurantId,
+            @PathVariable Long restaurantReviewId,
             @RequestBody RestaurantReviewDeleteDto dto){
         log.info("리뷰 삭제가 호출되었습니다.");
         ConcurrentHashMap<String, Object> resultMap = restaurantReviewDeleteService.deleteRestaurantReview(
                 dto.getRestaurantReviewId(),
                 dto.getMemberId());
 
-        RestaurantReviewRegRespDto respDto = restaurantReviewDeleteService.starUpdate(restaurantId);
+        RestaurantReviewRegRespDto respDto = restaurantReviewDeleteService.starUpdate(dto.getRestaurantReviewId());
         resultMap.put("data", respDto);
 
         return ResponseEntity.ok(resultMap);

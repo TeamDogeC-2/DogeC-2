@@ -47,7 +47,7 @@ public class Board {
 
     private String ip;
 
-    @OneToMany(mappedBy = "board" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<ImageFile> imageFiles = new ArrayList<>();
 
     private int view;
