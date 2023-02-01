@@ -112,10 +112,10 @@ const restaurant = () => {
       <div className="h-auto flex m-[49px] justify-center">
         <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
-          <div className="ml-[22px] mt-[7px] whitespace-normal h-[50px] font-bold text-[25px] leading-[26px] flex items-center">
+          <div className="ml-[22px] mt-[7px] whitespace-normal h-auto font-bold text-[25px] leading-[26px] flex items-center">
             {restaurantDetail.name}
           </div>
-          <div className="ml-[22px] h-[16px] font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
+          <div className="ml-[22px] mt-[8px] w-[230px] h-auto font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
             {restaurantDetail.tag}
           </div>
           <div className="flex flex-row">
@@ -127,7 +127,7 @@ const restaurant = () => {
               {restaurantDetail.reviewCount}개의 리뷰
             </div>
           </div>
-          <div className="ml-[22px] mr-[21px] mt-[23px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
+          <div className="ml-[22px] mr-[21px] mt-[20px] border-[1px] border-[#DEDEDE] bg-[#DEDEDE]"></div>
           <div className="flex flex-row w-[238px]">
             <div className="flex flex-col">
               {heart ? (
@@ -197,13 +197,13 @@ const restaurant = () => {
             </div>
           </div>
           {isDelivery === 'Y' ? (
-            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
+            <div className="mt-[30px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
               <div className="ml-[83px] mt-[13px] mb-[15px] w-[82px] h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#FF611D]">
                 배달가능 업체
               </div>
             </div>
           ) : (
-            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#515151]">
+            <div className="mt-[30px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#515151]">
               <div className="ml-[73px] mt-[13px] mb-[15px] w-auto h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#515151]">
                 배달불가능 업체
               </div>
