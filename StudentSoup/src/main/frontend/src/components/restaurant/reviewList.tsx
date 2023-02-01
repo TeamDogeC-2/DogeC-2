@@ -27,7 +27,7 @@ const reviewWrite = () => {
   const [lastPage, isLastPage] = useState<boolean>();
   const restaurantNumber = state.state[0];
   const saveMemberId = sessionStorage.getItem('memberId');
-  const url = `/restaurant/${restaurantNumber}/reviews`;
+  const url = `/restaurantReview/${restaurantNumber}`;
   useEffect(() => {
     axios
       .post(

@@ -97,7 +97,7 @@ const review = (props: any) => {
       alert('별점은 최소 1점부터 가능합니다.');
     } else if (!imgs) {
       await axios.put(
-        `/restaurant/${restaurantNumber}/review/new`,
+        `/restaurantReview/${restaurantNumber}`,
         {
           restaurantName: name,
           memberId: saveMemberId,
@@ -120,7 +120,7 @@ const review = (props: any) => {
       setTextValue('');
     } else {
       await axios.put(
-        `/restaurant/${restaurantNumber}/review/new`,
+        `/restaurantReview/${restaurantNumber}`,
         {
           restaurantName: name,
           memberId: saveMemberId,

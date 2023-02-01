@@ -10,7 +10,7 @@ const pictureInfo = () => {
   const [size, setSize] = useState<number>(6);
   const [totalSize, setTotalSize] = useState<any>();
   const [moreButtonClick, setMoreButtonClick] = useState<number>(0);
-  const url = `/restaurant/${restaurantNumber}/reviews/image`;
+  const url = `/restaurantReview/${restaurantNumber}/images`;
   useEffect(() => {
     axios
       .get(url, { params: { size } })

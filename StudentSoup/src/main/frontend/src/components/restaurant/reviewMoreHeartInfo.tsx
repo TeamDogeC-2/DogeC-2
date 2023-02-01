@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ReactComponent as ReviewMoreHeart } from '../../img/ReviewMoreHeart.svg';
 import { useLocation } from 'react-router-dom';
 const reviewMoreHeartInfo = (data: any) => {
   const state = useLocation<any>();
@@ -15,7 +14,7 @@ const reviewMoreHeartInfo = (data: any) => {
       alert('로그인후 이용 가능한 기능입니다.');
     } else {
       await axios
-        .post(`/restaurant/${restaurantNumber}/review/like`, {
+        .post(`/restaurantReview/${saveReviewId}/like`, {
           restaurantReviewId: saveReviewId,
           memberId: saveMemberId,
         })
