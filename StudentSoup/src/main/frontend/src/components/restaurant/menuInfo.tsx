@@ -31,6 +31,7 @@ const menuInfo = () => {
         },
       )
       .then(res => {
+        console.log(res.data);
         setTotalPage(res.data.totalPages);
         setTotalSize(res.data.totalElements);
         setMenuList(res.data.content);
@@ -140,7 +141,9 @@ const menuInfo = () => {
           </div>
         </>
       )}
-      {totalPage !== 1 ? (
+      {totalPage === 1 || totalPage === 0 ? (
+        ''
+      ) : (
         <div
           onClick={handleClickButton}
           className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
@@ -150,8 +153,6 @@ const menuInfo = () => {
             <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
           </div>
         </div>
-      ) : (
-        ''
       )}
       <div className="mb-[56px]"></div>
     </>
