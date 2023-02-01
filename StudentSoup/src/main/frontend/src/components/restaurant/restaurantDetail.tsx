@@ -106,9 +106,9 @@ const restaurant = () => {
     <>
       <RestaurantNavbar />
       <div className="w-[full] h-[535px] flex m-[49px] justify-center">
-        <div className="w-[281px] h-[532px]  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
-          <div id="map" className="w-[238px] h-[239px] m-[21px]"></div>
-          <div className="ml-[22px] whitespace-normal h-[50px] font-bold text-[25px] leading-[40px] flex items-center">
+        <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
+          <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
+          <div className="ml-[22px] mt-[7px] whitespace-normal h-[50px] font-bold text-[25px] leading-[26px] flex items-center">
             {restaurantDetail.name}
           </div>
           <div className="ml-[22px] h-[16px] font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
@@ -171,12 +171,12 @@ const restaurant = () => {
             </div>
             <div className="ml-[24px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Share className="ml-[35px] mt-[18.24px]" />
+              <Share className="ml-[37px] mt-[15.24px]" />
               <div
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[31px] w-[26px] mt-[12px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 공유
               </div>
@@ -186,7 +186,7 @@ const restaurant = () => {
               <Review className="ml-[30px] mt-[17px]" />
               <div
                 onClick={handleMoveScrool}
-                className="ml-[25px] w-[26px] mt-[11px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[25px] w-[26px] mt-[10px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 리뷰
               </div>
