@@ -13,6 +13,7 @@ import Mypage from './components/mypage/mypage';
 import Restaurant from './components/restaurant/restaurant';
 import BoardDetail from './components/board/boardDetail';
 import BoardMain from './components/board/boardMain';
+import BoardWrite from './components/board/boardWrite';
 
 const Routes = () => {
   return (
