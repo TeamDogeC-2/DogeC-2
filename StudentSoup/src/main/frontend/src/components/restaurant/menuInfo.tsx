@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import MenuHeartInfo from './menuHeartInfo';
 import { ReactComponent as MoreInfo } from '../../img/moreicon.svg';
+import { ReactComponent as CameraIcon } from '../../img/MenuInfoCamera.svg';
 
 const menuInfo = () => {
   const state = useLocation<any>();
@@ -13,6 +14,7 @@ const menuInfo = () => {
   const [size, setSize] = useState<number>(4);
   const [moreButtonClick, setMoreButtonClick] = useState<number>(0);
   const [totalsize, setTotalSize] = useState<any>();
+  const [totalPage, setTotalPage] = useState<any>();
 
   useEffect(() => {
     axios
@@ -30,6 +32,7 @@ const menuInfo = () => {
       )
       .then(res => {
         console.log(res.data);
+        setTotalPage(res.data.totalPages);
         setTotalSize(res.data.totalElements);
         setMenuList(res.data.content);
       })
@@ -40,7 +43,7 @@ const menuInfo = () => {
 
   const handleClickButton = () => {
     setMoreButtonClick(moreButtonClick + 1);
-    setSize(size + 4);
+    setSize(size + 12);
   };
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -55,12 +58,12 @@ const menuInfo = () => {
 
     if (scrollTop + clientHeight >= scrollHeight && moreButtonClick !== 0) {
       setMoreButtonClick(moreButtonClick + 1);
-      setSize(size + 4);
+      setSize(size + 12);
     }
   };
   return (
     <>
-      <div className="ml-[25px] mt-[28px] grid grid-cols-2">
+      <div className="ml-[25px] mt-[22px] grid grid-cols-2">
         {MenuList?.map((school: any) => (
           <div className="flex flex-row" id={school.restaurantMenuId} key={school.restaurantMenuId}>
             <div id={school.restaurantMenuId}>
@@ -77,22 +80,50 @@ const menuInfo = () => {
                   <div>사진없음</div>
                 </div>
               )}
-              <div className="relative bottom-[163px]">
-                <MenuHeartInfo {...school} school={school} />
-              </div>
             </div>
-            <div className="flex flex-col">
-              <div className="w-[157px] h-[16px] ml-[14px] text-[20px] font-semibold leading-[28px] text-[#515151]flex items-center">
-                {school.restaurantMenuName}
-              </div>
-              <div className="ml-[14px] mt-[118px] font-bold text-[20px] leading-[28px] text-[#FF611D] flex items-center">
-                {school.cost}원
-              </div>
-            </div>
-          </div>
+          </>
         ))}
       </div>
-      {moreButtonClick === 0 && totalsize > 4 ? (
+      <div className="ml-[25px] w-[687px] h-[4px] bg-[#EAEAEA]"></div>
+      {totalPage === 1 && (
+        <>
+          <div className="flex flex-row">
+            <div className="w-[377px] h-[227px]">
+              <div className="ml-[22px] mt-[32px] text-[24px] font-semibold text-[#515151]">
+                사이드
+              </div>
+              {MenuList.map((school: any) => (
+                <div key={school.restaurantMenuId}>
+                  {school.restaurantMenuCategory === '사이드메뉴' && (
+                    <>
+                      <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
+                        {school.restaurantMenuName} ------- {school.cost}원
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="w-[200px] h-[200px] border-l-[1px] border-[#D1D1D1]">
+              <div className="ml-[22px] mt-[32px] text-[24px] font-semibold text-[#515151]">
+                음료 및 주류
+              </div>
+              {MenuList.map((school: any) => (
+                <div key={school.restaurantMenuId}>
+                  {school.restaurantMenuCategory === '음료 및 주류' && (
+                    <>
+                      <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] flex items-center text-[#808080]">
+                        {school.restaurantMenuName} ------- {school.cost}원
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+      {totalPage !== 1 ? (
         <div
           onClick={handleClickButton}
           className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"

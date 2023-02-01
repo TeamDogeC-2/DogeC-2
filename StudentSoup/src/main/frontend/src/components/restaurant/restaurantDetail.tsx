@@ -27,6 +27,7 @@ const restaurant = () => {
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
   const [image, setImage] = useState<any>([]);
+  const [isDelivery, setIsDelivery] = useState<string>('');
   const restaurantNumber = state.state[0];
   const schoolName = state.state[1];
 
@@ -52,6 +53,7 @@ const restaurant = () => {
         memberId: saveMemberId,
       })
       .then(res => {
+        setIsDelivery(res.data.restaurant.isDelivery);
         setImage(res.data.restaurant.fileName);
         setRestaurantDetail(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
@@ -104,9 +106,9 @@ const restaurant = () => {
     <>
       <RestaurantNavbar />
       <div className="w-[full] h-[535px] flex m-[49px] justify-center">
-        <div className="w-[281px] h-[532px]  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
-          <div id="map" className="w-[238px] h-[239px] m-[21px]"></div>
-          <div className="ml-[22px] whitespace-normal h-[50px] font-bold text-[25px] leading-[40px] flex items-center">
+        <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
+          <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
+          <div className="ml-[22px] mt-[7px] whitespace-normal h-[50px] font-bold text-[25px] leading-[26px] flex items-center">
             {restaurantDetail.name}
           </div>
           <div className="ml-[22px] h-[16px] font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
@@ -169,12 +171,12 @@ const restaurant = () => {
             </div>
             <div className="ml-[24px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Share className="ml-[35px] mt-[18.24px]" />
+              <Share className="ml-[37px] mt-[15.24px]" />
               <div
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[30px] w-[26px] mt-[9px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[31px] w-[26px] mt-[12px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 공유
               </div>
@@ -184,17 +186,25 @@ const restaurant = () => {
               <Review className="ml-[30px] mt-[17px]" />
               <div
                 onClick={handleMoveScrool}
-                className="ml-[25px] w-[26px] mt-[11px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[25px] w-[26px] mt-[10px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 리뷰
               </div>
             </div>
           </div>
-          <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
-            <div className="ml-[83px] mt-[13px] mb-[15px] w-[82px] h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#FF611D]">
-              배달가능 업체
+          {isDelivery === 'Y' ? (
+            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#FF611D]">
+              <div className="ml-[83px] mt-[13px] mb-[15px] w-[82px] h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#FF611D]">
+                배달가능 업체
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="mt-[23px] ml-[22px] w-[238px] h-[38px] border-[0.7px] rounded-[5px] border-[#515151]">
+              <div className="ml-[73px] mt-[13px] mb-[15px] w-auto h-[11px] font-[400] text-[13px] leading-[18px] flex items-center text-[#515151]">
+                배달불가능 업체
+              </div>
+            </div>
+          )}
         </div>
         <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_214px] gap-1 ml-[20px] mt-[20px]">
@@ -206,45 +216,37 @@ const restaurant = () => {
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">
             매장정보
           </div>
-          <div className="flex flex-row">
-            <Location className="ml-[21px] mt-[20.15px]" />
-            <div className="ml-[10.33px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
-              {restaurantDetail.address}
-            </div>
-
-            <div className="ml-[5px] mt-[17px] flex flex-row ">
-              <div className=" h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
-                {restaurantDetail.schoolName}
-              </div>
-              <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#7B7B7B]">
-                에서
-              </div>
-              <div className="ml-[5px] h-[16px] font-[400] leading-[21px] flex items-center text-[#FF611D]">
-                {restaurantDetail.distance}
-              </div>
-            </div>
+          <div className="mt-[5px]">
+            <span className="ml-[21px] w-auto font-[400] text-[16px] leading-[21px] text-[#515151]">
+              <Location className="inline mb-[3px] mr-[5px]" /> {restaurantDetail.address}&nbsp;
+            </span>
+            <span className="w-auto font-semibold  text-[#515151]">
+              {restaurantDetail.schoolName}
+            </span>
+            <span className="ml-[5px] font-normal text-[#7B7B7B]">에서</span>
+            <span className="ml-[5px] font-normal text-[#FF611D]">{restaurantDetail.distance}</span>
           </div>
           <div className="flex flex-row">
-            <Phone className="ml-[21px] mt-[19px]" />
-            <div className="ml-[9.61px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <Phone className="ml-[21px] mt-[15px]" />
+            <div className="ml-[9.61px] mt-[12px] h-[12px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.tel}
             </div>
           </div>
           <div className="flex flex-row">
-            <Clock className="ml-[21px] mt-[21px]" />
-            <div className="ml-[8px] mt-[18px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <Clock className="ml-[21px] mt-[16px]" />
+            <div className="ml-[8px] mt-[13px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               영업시간 AM {restaurantDetail.startTime}- PM {restaurantDetail.endTime}
             </div>
           </div>
           <div className="flex flex-row">
-            <PlusCircle className="ml-[21px] mt-[20px]" />
-            <div className="ml-[9px] mt-[17px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <PlusCircle className="ml-[21px] mt-[15px]" />
+            <div className="w-[700px] ml-[9px] mt-[12px] h-auto font-normal text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.detail}
             </div>
           </div>
           <div className="flex flex-row">
-            <InfoHeart className="ml-[21px] mt-[19px]" />
-            <div className="ml-[8px] mt-[16px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
+            <InfoHeart className="ml-[21px] mt-[17px]" />
+            <div className="ml-[8px] mt-[14px] h-[16px] font-[400] leading-[21px] flex items-center text-[#515151]">
               이 식당에 {clickHeart ? likedCount : restaurantDetail.likedCount}명의 좋아요한
               사용자가 있습니다.
             </div>

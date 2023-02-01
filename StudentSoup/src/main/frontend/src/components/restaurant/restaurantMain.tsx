@@ -108,7 +108,6 @@ const RestaurantMain = (props: any) => {
     }
     setCloseList(!closeList);
   }
-  console.log(closeList);
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto">
@@ -355,24 +354,7 @@ const RestaurantMain = (props: any) => {
           <div
             id="map"
             className="w-[810px] h-[247px] mx-auto mb-[44px] relative rounded-[10px] bg-gray-100"
-          >
-            <button className="px-[17px] py-[8px] right-[22px] bottom-[28px] absolute flex gap-x-2 items-center rounded-[50px] drop-shadow-md text-bold text-white bg-[#FF611D]">
-              <svg
-                width="10"
-                height="14"
-                viewBox="0 0 10 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="inline-block"
-              >
-                <path
-                  d="M4.94946 0.424805C2.38562 0.424805 0.312012 2.49841 0.312012 5.06226C0.312012 8.54035 4.94946 13.6747 4.94946 13.6747C4.94946 13.6747 9.58692 8.54035 9.58692 5.06226C9.58692 2.49841 7.51331 0.424805 4.94946 0.424805ZM4.94946 6.71849C4.03522 6.71849 3.29323 5.9765 3.29323 5.06226C3.29323 4.14802 4.03522 3.40602 4.94946 3.40602C5.86371 3.40602 6.6057 4.14802 6.6057 5.06226C6.6057 5.9765 5.86371 6.71849 4.94946 6.71849Z"
-                  fill="white"
-                />
-              </svg>
-              지도 자세히
-            </button>
-          </div>
+          ></div>
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
             {set?.map(school => (
               <div id={school.restaurantId} key={school.restaurantId}>

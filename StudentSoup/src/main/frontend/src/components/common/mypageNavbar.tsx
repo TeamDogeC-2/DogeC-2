@@ -76,9 +76,6 @@ const mypageNavbar = () => {
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
           />
         </div>
-        <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative bottom-[15px] right-[10px] cursor-pointer">
-          1
-        </span>
       </div>
     </div>
   );
