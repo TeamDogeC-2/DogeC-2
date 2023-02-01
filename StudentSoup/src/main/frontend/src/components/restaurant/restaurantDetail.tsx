@@ -112,7 +112,7 @@ const restaurant = () => {
       <div className="h-auto flex m-[49px] justify-center">
         <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
-          <div className="ml-[22px] mt-[13px] whitespace-normal h-auto font-bold text-[25px] leading-[26px] flex items-center">
+          <div className="ml-[22px] mt-[13px] whitespace-normal h-auto font-bold text-[25px] leading-[30px] flex items-center">
             {restaurantDetail.name}
           </div>
           <div className="ml-[22px] mt-[8px] w-[230px] h-auto font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
@@ -317,8 +317,8 @@ const restaurant = () => {
               ></div>
             </div>
           </div>
-          {clickPage === 1 && <MenuInfopage />}
-          {clickPage === 2 && <Reviewpage {...restaurantDetail} />}
+          {clickPage === 2 && <MenuInfopage />}
+          {clickPage === 1 && <Reviewpage {...restaurantDetail} />}
           {clickPage === 3 && <Picturepage />}
         </div>
       </div>
