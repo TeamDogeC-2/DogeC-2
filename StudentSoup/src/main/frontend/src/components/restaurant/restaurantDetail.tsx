@@ -115,7 +115,7 @@ const restaurant = () => {
           <div className="ml-[22px] mt-[7px] whitespace-normal h-[50px] font-bold text-[25px] leading-[26px] flex items-center">
             {restaurantDetail.name}
           </div>
-          <div className="ml-[22px] h-[16px] font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
+          <div className="ml-[22px] w-[230px] h-auto font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
             {restaurantDetail.tag}
           </div>
           <div className="flex flex-row">
