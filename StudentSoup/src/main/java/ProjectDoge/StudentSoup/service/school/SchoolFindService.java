@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.school;
 
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNameNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,11 @@ public class SchoolFindService {
     }
 
     public School findOne(String schoolName){
+
+        if(schoolName == null){
+            log.info("[{}]을 호출하였으나 파라미터 : schoolName 이 전달되지 않았습니다.", this.getClass().getName());
+            throw new SchoolNameNotSentException("schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.");
+        }
 
         return schoolRepository.findBySchoolName(schoolName).orElseThrow(() -> {
             log.info("findOne 메소드가 실행되었습니다. [{}]", schoolName);
