@@ -34,9 +34,10 @@ const RestaurantMain = (props: any) => {
         },
         {
           params: {
-          sorted: sort,
-          category,
-        },
+            size,
+            sorted: sort,
+            category,
+          },
         },
       )
       .then(res => {
@@ -78,20 +79,6 @@ const RestaurantMain = (props: any) => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
-     
-     function foldList() {
-    if (!listRef?.current) {
-      return;
-    }
-    const style = listRef.current.style;
-    if (closeList) {
-      style.maxHeight = '0';
-    } else if (!closeList) {
-      style.maxHeight = `${listRef.current.scrollHeight}px`;
-    }
-    setCloseList(!closeList);
-  }
-
 
     if (scrollTop + clientHeight >= scrollHeight && click !== 0) {
       setClick(click + 1);
@@ -109,9 +96,21 @@ const RestaurantMain = (props: any) => {
 
     history.push('/restaurant/detail', [value, state.state]);
   };
+  function foldList() {
+    if (!listRef?.current) {
+      return;
+    }
+    const style = listRef.current.style;
+    if (closeList) {
+      style.maxHeight = '0';
+    } else if (!closeList) {
+      style.maxHeight = `${listRef.current.scrollHeight}px`;
+    }
+    setCloseList(!closeList);
+  }
+  console.log(closeList);
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
-      {/**/}
       <div className="w-[1039px] mx-auto">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
@@ -141,50 +140,40 @@ const RestaurantMain = (props: any) => {
             </svg>
             필터
           </button>
-          <div className={cn(
-            'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
-            'buttonContainer overflow-hidden ease-out dalay-[30s]'
-          )}
+          <div
+            className={cn(
+              'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
+              'buttonContainer overflow-hidden ease-out dalay-[30s]',
+            )}
             ref={listRef}
           >
-            <ul className='text-center divide-y-2'>
-              <li className='py-2'>
+            <ul className="text-center divide-y-2">
+              <li className="py-2">
                 <button
                   value="0"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_newest',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_newest')}
                   onClick={() => {
                     setSort(0);
-                  }
-                  }
+                  }}
                 >
                   등록순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="1"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_starCount',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_starCount')}
                   onClick={() => {
                     setSort(1);
-                  }
-                  }
+                  }}
                 >
                   별점순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="2"
-                  className={cn(
-                    'px-1 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_likeCount',
-                  )}
+                  className={cn('px-1 rounded-[23.5px] hover:bg-gray-100', 'sort_likeCount')}
                   onClick={() => {
                     setSort(2);
                   }}
@@ -192,13 +181,10 @@ const RestaurantMain = (props: any) => {
                   좋아요순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="3"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_reviewCount',
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_reviewCount')}
                   onClick={() => {
                     setSort(3);
                   }}
@@ -206,13 +192,10 @@ const RestaurantMain = (props: any) => {
                   리뷰순
                 </button>
               </li>
-              <li className='py-2'>
+              <li className="py-2">
                 <button
                   value="4"
-                  className={cn(
-                    'px-2 rounded-[23.5px] hover:bg-gray-100',
-                    'sort_nearest'
-                  )}
+                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_nearest')}
                   onClick={() => {
                     setSort(4);
                   }}
@@ -252,7 +235,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('WESTERN');
@@ -276,7 +259,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('ASIAN');
@@ -300,7 +283,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('CHINESE');
@@ -312,7 +295,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('SNACK');
@@ -324,7 +307,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('CAFE');
@@ -336,7 +319,7 @@ const RestaurantMain = (props: any) => {
             <button
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50'
+                'hover:text-white hover:bg-[#FF611D]/50',
               )}
               onClick={() => {
                 setCategory('BUFFET');
@@ -454,7 +437,6 @@ const RestaurantMain = (props: any) => {
                       {school.likedCount}
                     </span>
                   </div>
-
                 </div>
               </div>
             ))}
