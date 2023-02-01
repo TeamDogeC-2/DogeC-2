@@ -377,7 +377,7 @@ const RestaurantMain = (props: any) => {
             {set?.map(school => (
               <div id={school.restaurantId} key={school.restaurantId}>
                 <img
-                  src={`/image/${school.fileName}`}
+                  src={`${process.env.REACT_APP_IMG_KEY}/${school.fileName}`}
                   onClick={handleDetailPage}
                   id={school.restaurantId}
                   className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"

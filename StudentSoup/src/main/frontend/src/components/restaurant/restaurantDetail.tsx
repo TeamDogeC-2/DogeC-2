@@ -198,9 +198,9 @@ const restaurant = () => {
         </div>
         <div className="w-[744px] h-[563px] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="grid grid-row-2 grid-cols-[268px_minmax(214px,_0fr)_214px] gap-1 ml-[20px] mt-[20px]">
-            <img src={`/image/${image[0]}`} className="row-span-2 w-[268px] h-[290px] " />
+            <img src={`${process.env.REACT_APP_IMG_KEY}/${image[0]}`} className="row-span-2 w-[268px] h-[290px] " />
             {imgArr.map((school: any) => (
-              <img key={school} src={`/image/${school}`} className="w-[214px] h-[143px]" />
+              <img key={school} src={`${process.env.REACT_APP_IMG_KEY}/${school}`} className="w-[214px] h-[143px]" />
             ))}
           </div>
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">

@@ -69,7 +69,7 @@ const menuInfo = () => {
                   <img
                     className="w-[172px] h-[164px] rounded-[5px]"
                     key={school.fileName}
-                    src={`/image/${school.fileName}`}
+                    src={`${process.env.REACT_APP_IMG_KEY}/${school.fileName}`}
                   />
                 </>
               ) : (

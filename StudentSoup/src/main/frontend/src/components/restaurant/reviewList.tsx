@@ -126,7 +126,7 @@ const reviewWrite = () => {
                         {school.memberProfileImageName ? (
                           <img
                             key={school.restaurantReviewId}
-                            src={`/image/${school.memberProfileImageName}`}
+                            src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
                             className="ml-[32px] mt-[27px] w-[74px] h-[74px] rounded-full"
                           />
                         ) : (
@@ -227,7 +227,7 @@ const reviewWrite = () => {
                     {school.memberProfileImageName ? (
                       <img
                         key={school.restaurantReviewId}
-                        src={`/image/${school.memberProfileImageName}`}
+                        src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
                         className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C]"
                       />
                     ) : (
@@ -242,7 +242,7 @@ const reviewWrite = () => {
                   </div>
                   {school.imageFileNameList.length ? (
                     <img
-                      src={`/image/${school.imageFileNameList[0]}`}
+                      src={`${process.env.REACT_APP_IMG_KEY}/${school.imageFileNameList[0]}`}
                       className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
                     />
                   ) : (
