@@ -29,7 +29,6 @@ const menuInfo = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
         setTotalSize(res.data.totalElements);
         setMenuList(res.data.content);
       })
