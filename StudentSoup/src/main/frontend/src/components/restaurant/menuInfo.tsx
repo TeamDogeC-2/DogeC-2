@@ -15,6 +15,7 @@ const menuInfo = () => {
   const [moreButtonClick, setMoreButtonClick] = useState<number>(0);
   const [totalsize, setTotalSize] = useState<any>();
   const [totalPage, setTotalPage] = useState<any>();
+  const [last, isLast] = useState<boolean>();
 
   useEffect(() => {
     axios
@@ -31,6 +32,8 @@ const menuInfo = () => {
         },
       )
       .then(res => {
+        console.log(res.data);
+        isLast(res.data.last);
         setTotalPage(res.data.totalPages);
         setTotalSize(res.data.totalElements);
         setMenuList(res.data.content);
@@ -60,6 +63,7 @@ const menuInfo = () => {
       setSize(size + 12);
     }
   };
+  console.log(totalPage);
   return (
     <>
       <div className="ml-[25px] mt-[22px] grid grid-cols-2">
@@ -140,9 +144,7 @@ const menuInfo = () => {
           </div>
         </>
       )}
-      {totalPage === 1 || totalPage === 0 ? (
-        ''
-      ) : (
+      {!last ? (
         <div
           onClick={handleClickButton}
           className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
@@ -152,6 +154,8 @@ const menuInfo = () => {
             <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
           </div>
         </div>
+      ) : (
+        ''
       )}
       <div className="mb-[56px]"></div>
     </>
