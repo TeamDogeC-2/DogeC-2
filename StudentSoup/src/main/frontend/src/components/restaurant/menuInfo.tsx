@@ -112,7 +112,7 @@ const menuInfo = () => {
       {totalPage === 1 && (
         <>
           <div className="flex flex-row">
-            <div className="w-[377px] h-[227px]">
+            <div className="w-[377px] h-auto">
               <div className="ml-[22px] mt-[32px] text-[24px] font-semibold text-[#515151]">
                 사이드
               </div>
@@ -128,7 +128,7 @@ const menuInfo = () => {
                 </div>
               ))}
             </div>
-            <div className="w-[200px] h-[200px] border-l-[1px] border-[#D1D1D1]">
+            <div className="w-[377px] h-auto border-l-[1px] border-[#D1D1D1]">
               <div className="ml-[22px] mt-[32px] text-[24px] font-semibold text-[#515151]">
                 음료 및 주류
               </div>
