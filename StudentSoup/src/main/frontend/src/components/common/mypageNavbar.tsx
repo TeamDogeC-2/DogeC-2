@@ -48,12 +48,20 @@ const mypageNavbar = () => {
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">BOARD</span>
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/board');
+            }}>
+            BOARD
+          </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/restaurant');
+            }}>
             RESTAURANT
           </span>
         </div>
@@ -74,6 +82,9 @@ const mypageNavbar = () => {
           <img
             src={IMAGE_FILE_ID}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
+            onClick={() => {
+              history.push('/mypageHome');
+            }}
           />
         </div>
         <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative bottom-[15px] right-[10px] cursor-pointer">
