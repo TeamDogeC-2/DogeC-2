@@ -10,11 +10,11 @@ public enum BoardSortedCase {
 
     LIKED(1),
 
-    MORETHANFIVELIKED(2),
+    LATEST(2),
 
-    REVIEW(3),
+    VIEW(3),
 
-    VIEW(4);
+    REVIEW(4);
 
     private final int value;
 }

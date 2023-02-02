@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
@@ -23,10 +24,7 @@ public class BoardLikeService {
     private final MemberFindService memberFindService;
 
     private  final BoardFindService boardFindService;
-
-    boolean boardLiked =true;
-
-    boolean boardNotLiked = false;
+    
 
     @Transactional
     public ConcurrentHashMap<String,Object> boardLike(Long boardId,Long memberId){
@@ -40,20 +38,19 @@ public class BoardLikeService {
             return resultMap;
         }
         else{
-            cancelLike(boardLike,board,resultMap);
-            return  resultMap;
+            unLikeBoard(boardLike,board,resultMap);
+            return resultMap;
         }
     }
 
-
-    private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
-        log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
+    private void unLikeBoard(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
+        log.info("좋아요 취소 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
         board.minusLikeCount();
-        BoardDto dto = new BoardDto(board,boardNotLiked);
-        resultMap.put("data",dto);
-        resultMap.put("result","cancel");
-        log.info("게시글 좋아요가 삭제되었습니다.");
+        BoardDto dto = new BoardDto(board, ConstField.NOT_LIKED);
+        resultMap.put("data", dto);
+        resultMap.put("result", "cancel");
+        log.info("게시글 좋아요가 취소 되었습니다.");
     }
 
     private void likeBoard(Member member,Board board,ConcurrentHashMap<String,Object> resultMap) {
@@ -61,9 +58,9 @@ public class BoardLikeService {
         BoardLike boardLike = new BoardLike().createBoard(member,board);
         boardLikeRepository.save(boardLike);
         board.addLikeCount();
-        BoardDto dto = new BoardDto(board,boardLiked);
-        resultMap.put("data",dto);
-        resultMap.put("result","like");
+        BoardDto dto = new BoardDto(board, ConstField.LIKED);
+        resultMap.put("data", dto);
+        resultMap.put("result", "like");
         log.info("게시글 좋아요가 저장되었습니다.");
     }
 }
