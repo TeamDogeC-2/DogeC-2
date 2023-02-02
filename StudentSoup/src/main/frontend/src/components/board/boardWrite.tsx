@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { isContentEditable } from '@testing-library/user-event/dist/utils';
 
 const boardWrite = () => {
@@ -173,7 +173,9 @@ const boardWrite = () => {
           onClick={handleBoardWrite}
           className="w-[469px] h-[67px] rounded-r-lg border-r-[1px] border-y-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#FF611D] font-semibold leading-[22px] cursor-pointer"
         >
-          <div className="ml-[194px] mt-[22px]">작성하기</div>
+          <Link to="/board">
+            <div className="ml-[194px] mt-[22px]">작성하기</div>
+          </Link>
         </div>
       </div>
     </>
