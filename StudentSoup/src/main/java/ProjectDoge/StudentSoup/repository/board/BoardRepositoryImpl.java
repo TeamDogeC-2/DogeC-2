@@ -114,6 +114,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
+    public Long countAnnouncement() {
+        return queryFactory.select(board.count())
+                .from(board)
+                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT), board.isView.eq("Y"))
+                .fetchOne();
+    }
+
+    @Override
     public  List<BoardMainDto>  findLiveBestAndHotBoards(Long schoolId,LocalDateTime searchDate,LocalDateTime EndDate){
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
