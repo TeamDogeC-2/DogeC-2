@@ -262,15 +262,26 @@ public class TestDataInit {
         Member member = memberRepository.findById("dummyTest1").get();
         Member member1 = memberRepository.findById("dummyTest2").get();
 
-        for(int i =0; i<30; i++){
+        for(int i =0; i<10; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
             boardResisterService.join(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =10; i<20; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =20; i<30; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.TIP,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
         }
 
         for(int i =60; i<90; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.EMPLOYMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
+
         for(int i= 100; i<110; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
