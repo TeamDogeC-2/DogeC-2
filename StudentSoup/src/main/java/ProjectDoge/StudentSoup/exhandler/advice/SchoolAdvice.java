@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
+import ProjectDoge.StudentSoup.exception.school.SchoolNameNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolValidationException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
@@ -35,5 +36,12 @@ public class SchoolAdvice {
     public ErrorResult schoolValidationHandler(SchoolValidationException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("SchoolValidationException", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(SchoolNameNotSentException.class)
+    public ErrorResult schoolValidationHandler(SchoolNameNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("SchoolNameNotSentException", e.getMessage());
     }
 }

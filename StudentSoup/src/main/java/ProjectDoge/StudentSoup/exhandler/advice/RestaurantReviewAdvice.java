@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuIdNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewIdNotSentException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotOwnException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,12 @@ public class RestaurantReviewAdvice {
     public ErrorResult restaurantReviewNotOwnHandler(RestaurantReviewNotOwnException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("RestaurantReviewNotOwn",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantReviewNotFoundException.class)
+    public ErrorResult restaurantReviewNotOwnHandler(RestaurantReviewNotFoundException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("RestaurantReviewNotFound",e.getMessage());
     }
 }

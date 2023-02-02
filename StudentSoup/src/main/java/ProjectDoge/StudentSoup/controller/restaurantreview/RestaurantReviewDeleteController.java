@@ -27,7 +27,7 @@ public class RestaurantReviewDeleteController {
                 dto.getRestaurantReviewId(),
                 dto.getMemberId());
 
-        RestaurantReviewRegRespDto respDto = restaurantReviewDeleteService.starUpdate(dto.getRestaurantReviewId());
+        RestaurantReviewRegRespDto respDto = restaurantReviewDeleteService.starUpdate(dto.getRestaurantId());
         resultMap.put("data", respDto);
 
         return ResponseEntity.ok(resultMap);

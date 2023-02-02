@@ -6,5 +6,6 @@ import lombok.Data;
 public class RestaurantReviewDeleteDto {
 
     private Long restaurantReviewId;
+    private Long restaurantId;
     private Long memberId;
 }
