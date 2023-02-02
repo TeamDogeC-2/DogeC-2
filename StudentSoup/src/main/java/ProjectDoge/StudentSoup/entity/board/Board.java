@@ -88,6 +88,7 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
 
@@ -102,6 +103,7 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
 
