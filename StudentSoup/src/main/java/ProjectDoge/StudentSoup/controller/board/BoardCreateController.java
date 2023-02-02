@@ -2,8 +2,11 @@ package ProjectDoge.StudentSoup.controller.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
+import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
+import ProjectDoge.StudentSoup.service.board.BoardFindService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
+import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -23,6 +26,8 @@ public class BoardCreateController {
 
     private final BoardCallService boardCallService;
 
+    private final DepartmentFindService departmentFindService;
+
     @PutMapping(value = "board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
                                          BoardFormDto boardFormDto){
@@ -30,6 +35,16 @@ public class BoardCreateController {
         Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFiles());
         resultMap.put("boardId",boardId);
         resultMap.put("result","ok");
+        return resultMap;
+    }
+    @PostMapping("board/create/{memberId}/{schoolId}")
+    public ConcurrentHashMap<String,Object> getMemberClassificationList(@PathVariable Long memberId, @PathVariable Long schoolId ){
+        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
+        List<String> memberClassifications = boardResisterService.getMemberClassification(memberId);
+        List<DepartmentCallDto> departments = departmentFindService.getDepartmentBySchoolId(schoolId);
+        resultMap.put("category",memberClassifications);
+        resultMap.put("departments",departments);
+
         return resultMap;
     }
 }
