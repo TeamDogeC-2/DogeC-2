@@ -66,11 +66,12 @@ public class BoardCallService {
 
     private void getAnnouncement(ConcurrentHashMap<String,Object> map){
         log.info("공지사항 호출 메서드가 실행됐습니다.");
-        Optional<BoardMainDto> announcement = boardRepository.findAnnouncement();
-        if(announcement.get() != null) {
-            setWriteDate(announcement.get());
+
+        List<BoardMainDto> announcement = boardRepository.findAnnouncement();
+        for(BoardMainDto dto : announcement){
+            setWriteDate(dto);
         }
-        map.put("announcement",announcement);
+        map.put("announcements", announcement);
     }
 
     private void getBoards(BoardCallDto boardCallDto,
@@ -115,7 +116,7 @@ public class BoardCallService {
                                       String category,
                                       int sorted,
                                       BoardSearchDto boardSearchDto) {
-        log.info("팁 게시판 0페이지 호출 메서드가 싷행 됐습니다.");
+        log.info("팁 게시판 0페이지 호출 메서드가 실행 됐습니다.");
         PageRequest pageable = PageRequest.of(0, 8);
 
         Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
