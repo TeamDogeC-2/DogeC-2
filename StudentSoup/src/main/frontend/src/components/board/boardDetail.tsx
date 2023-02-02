@@ -31,7 +31,7 @@ const boardDetail = () => {
             목록
           </div>
         </div>
-        <Link to="/boardWrite">
+        <Link to="/board/write">
           <div className="ml-[14px] mt-[7px] w-[123px] h-[44px] border-[0.8px] border-[#FF611D] rounded-[22px] bg-[#FFFFFF] flex flex-row">
             <BoardWriteIcon className="ml-[22.06px] mt-[13.28px]" />
             <div className="ml-[9.2px] font-normal text-[16px] flex items-center text-[#FF611D]">
