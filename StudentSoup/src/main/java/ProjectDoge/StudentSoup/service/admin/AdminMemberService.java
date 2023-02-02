@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -62,6 +64,13 @@ public class AdminMemberService {
             memberValidationService.validateDuplicateMemberEmail(dto.getEmail());
         }
         log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
+    }
+    public List<Member> searchMember(String filed,String value){
+        if(filed == null){
+            return  Collections.emptyList();
+        }
+        List<Member> findMembers = memberRepository.search(filed, value);
+        return findMembers;
     }
 
 
