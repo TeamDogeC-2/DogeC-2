@@ -51,7 +51,7 @@ const Register1 = () => {
   return (
     <div>
       <RegisterNavbar />
-      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center font-[SDGothic]">
+      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center">
         <div className="flex flex-col text-center w-[530px]">
           <span className="text-[40px] fw-400 leading-[56px] flex justify-center font-bold">
             신규 회원가입

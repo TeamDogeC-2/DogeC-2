@@ -10,6 +10,8 @@ import Logout from '../../img/logout.jpg';
 const RestaurantNavbar = () => {
   const history = useHistory();
 
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
   const [inputSchool, setInputSchool] = useState<string>();
@@ -126,8 +128,13 @@ const RestaurantNavbar = () => {
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className='w-[40px] h-[40px] bg-[url("./img/circle_fill_gray.jpg")] bg-cover relative top-[14px] rounded-full border-[1px] border-[#FF4D14] cursor-pointer'></div>
-          <div className='w-[20px] h-[21px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[17px] mb-[10px]'></div>
+          <img
+            src={IMAGE_FILE_ID}
+            className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
+            onClick={() => {
+              history.push('/mypage');
+            }}
+          />
         </div>
       </div>
     </div>

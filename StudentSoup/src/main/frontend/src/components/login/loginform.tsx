@@ -93,7 +93,7 @@ function LoginForm() {
         LOGIN
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col justify-center items-center font-[SDGothic]">
+        <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col justify-center">
             <input
               id="id"
@@ -144,7 +144,7 @@ function LoginForm() {
             </div>
           </div>
         </div>
-        <div className="mt-[58px] flex flex-col justify-center items-center font-[SDGothic]">
+        <div className="mt-[58px] flex flex-col justify-center items-center">
           <button
             type="submit"
             className="w-[558px] h-[60px] rounded-[20px] text-[20px] font-bold text-white bg-[#FF611D]"
@@ -160,7 +160,7 @@ function LoginForm() {
           </button>
         </div>
       </form>
-      <div className="mt-[58px] flex flex-col justify-center items-center font-[SDGothic]">
+      <div className="mt-[58px] flex flex-col justify-center items-center">
         <div className="flex justify-center items-center">
           <span className="w-[54.5px] h-0 border bg-[#C6C6C6]"></span>
           <label className="px-[34px] text-[16px] text-[#A0A0A0]">간편 로그인/가입</label>

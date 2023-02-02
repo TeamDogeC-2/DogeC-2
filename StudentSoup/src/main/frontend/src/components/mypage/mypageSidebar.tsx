@@ -46,7 +46,7 @@ const MypageSidebar = (props: propTypes) => {
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[65px] cursor-pointer font-[SDGothic]', {
+            className={cn('flex items-center w-full h-[54px] mt-[65px] cursor-pointer', {
               ['bg-[#F5F5F5]']: id === 'home',
               ['']: id !== 'home',
             })}
@@ -75,7 +75,7 @@ const MypageSidebar = (props: propTypes) => {
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
               ['bg-[#F5F5F5]']: id === 'scheduler',
               ['']: id !== 'scheduler',
             })}
@@ -104,7 +104,7 @@ const MypageSidebar = (props: propTypes) => {
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
               ['bg-[#F5F5F5]']: id === 'modify',
               ['']: id !== 'modify',
             })}
@@ -139,7 +139,7 @@ const MypageSidebar = (props: propTypes) => {
         <li className="mb-[20px]">
           <div
             onClick={onClickMypageBoardReview}
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
               ['bg-[#F5F5F5]']: id === 'boardReview',
               ['']: id !== 'boardReview',
             })}

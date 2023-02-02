@@ -36,7 +36,7 @@ const mypageNavbar = () => {
   };
 
   return (
-    <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg font-[SDGothic]">
+    <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <img
         src={Reddit}
         alt=""
@@ -78,7 +78,7 @@ const mypageNavbar = () => {
             src={IMAGE_FILE_ID}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
             onClick={() => {
-              history.push('/mypageHome');
+              history.push('/mypage');
             }}
           />
         </div>

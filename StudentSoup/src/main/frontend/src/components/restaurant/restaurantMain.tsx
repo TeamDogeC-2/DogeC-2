@@ -65,10 +65,10 @@ const RestaurantMain = (_props: any) => {
         setLongitude(Number(res.data.school.schoolLongitude));
       })
       .catch(function (_error) {
-        if (!state.state) {
-          alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
-          history.go(-1);
-        }
+        // if (!state.state) {
+        //   alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
+        //   history.go(-1);
+        // }
       });
   };
 
@@ -87,14 +87,14 @@ const RestaurantMain = (_props: any) => {
     };
   });
 
-  useEffect(() => {
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(...MapLocation),
-      level: 3,
-    };
-    const map = new kakao.maps.Map(container, options);
-  });
+  // useEffect(() => {
+  //   const container = document.getElementById('map');
+  //   const options = {
+  //     center: new kakao.maps.LatLng(...MapLocation),
+  //     level: 3,
+  //   };
+  //   const map = new kakao.maps.Map(container, options);
+  // });
 
   const handleScroll = () => {
     const scrollHeight = document.documentElement.scrollHeight;
@@ -131,7 +131,7 @@ const RestaurantMain = (_props: any) => {
   console.log(state.state);
 
   return (
-    <div className="pt-[60px] bg-[#1E1E1E]/5 font-[SDGothic]">
+    <div className="pt-[60px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto relative">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
@@ -387,12 +387,12 @@ const RestaurantMain = (_props: any) => {
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
             {set?.map(school => (
               <div id={school.restaurantId} key={school.restaurantId}>
-                <img
+                {/* <img
                   src={`/image/${school.fileName}`}
                   onClick={handleDetailPage}
                   id={school.restaurantId}
                   className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"
-                />
+                /> */}
 
                 <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
                   {school.name}

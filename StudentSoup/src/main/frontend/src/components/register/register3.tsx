@@ -120,7 +120,7 @@ const Register3 = () => {
   return (
     <>
       <RegisterNavbar />
-      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center font-[SDGothic]">
+      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center">
         <div className="flex flex-col text-center w-[530px]">
           <span className="text-[40px] fw-400 leading-[56px] flex justify-center font-bold mb-[47px]">
             신규 회원가입
@@ -215,7 +215,7 @@ const Register3 = () => {
                   value={school.schoolId}
                   key={school.schoolId}
                   id={school.schoolId}
-                  className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                  className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                 >
                   {school.schoolName}
                 </option>
@@ -252,7 +252,7 @@ const Register3 = () => {
                       value={depart.departmentId}
                       key={depart.departmentId}
                       id={depart.departmentId}
-                      className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                      className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                     >
                       {depart.departmentName}
                     </option>

@@ -191,7 +191,7 @@ const MypageModify = (props: propTypes) => {
   };
 
   return (
-    <div className="flex flex-[9] w-full h-[120vh] z-[1] font-[SDGothic] bg-zinc-100">
+    <div className="flex flex-[9] w-full h-[120vh] z-[1] bg-zinc-100">
       {checkPwd ? (
         <div className="w-[814px] h-[674px] flex flex-col ml-[161px] mt-[88px]">
           <div className="flex flex-col">
