@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -98,8 +99,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Optional<BoardMainDto> findAnnouncement(){
-        BoardMainDto query = queryFactory
+    public List<BoardMainDto> findAnnouncement(){
+        return queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
@@ -108,12 +109,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.view,
                         board.likedCount))
                 .from(board)
-                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
-                .offset(0)
-                .limit(1)
-                .fetchOne();
-
-        return Optional.ofNullable(query);
+                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT), board.isView.eq("Y"))
+                .fetch();
     }
 
     @Override
