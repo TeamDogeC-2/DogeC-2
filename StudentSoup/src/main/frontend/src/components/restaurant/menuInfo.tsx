@@ -62,7 +62,6 @@ const menuInfo = () => {
       setSize(size + 12);
     }
   };
-  console.log(totalPage);
   return (
     <>
       <div className="ml-[25px] mt-[22px] grid grid-cols-2">
