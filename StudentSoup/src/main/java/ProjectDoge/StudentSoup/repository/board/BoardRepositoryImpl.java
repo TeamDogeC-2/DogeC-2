@@ -129,27 +129,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return query;
     }
 
-    @Override
-    public List<BoardMainDto> findBestTipBoards(Long schoolId) {
-        List<BoardMainDto> query = queryFactory
-                .select(new QBoardMainDto(board.id,
-                        board.boardCategory,
-                        board.title,
-                        board.writeDate,
-                        board.member.nickname,
-                        board.view,
-                        board.likedCount,
-                        board.authentication))
-                .from(board)
-                .where(board.school.id.eq(schoolId),
-                        board.boardCategory.eq(BoardCategory.TIP))
-                .orderBy(board.likedCount.desc(), board.writeDate.desc())
-                .offset(0)
-                .limit(4)
-                .fetch();
-        return query;
-    }
-
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
         if (column != null && column.equals("title")) {
             return board.title.contains(value);

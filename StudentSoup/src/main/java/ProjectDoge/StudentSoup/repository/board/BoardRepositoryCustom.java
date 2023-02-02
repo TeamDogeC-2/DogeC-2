@@ -20,8 +20,6 @@ public interface BoardRepositoryCustom {
 
     List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchTime,LocalDateTime endDateTime);
 
-    List<BoardMainDto> findBestTipBoards(Long schoolId);
-
     Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
 
     Long countByMemberId(Long memberId);
