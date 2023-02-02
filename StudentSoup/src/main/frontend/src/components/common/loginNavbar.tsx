@@ -17,14 +17,6 @@ const LoginNavbar = () => {
       <div className="mr-[24px] flex items-center">
         <button
           onClick={() => {
-            console.log('click FAQ');
-          }}
-          className="w-[65px] h-[60px] mr-[21px] flex justify-center items-center text-[25px]"
-        >
-          FAQ
-        </button>
-        <button
-          onClick={() => {
             history.push('/login');
           }}
           className="w-[93px] h-[40px] border-[1.2px] border-[#FF4D14] rounded-[41px] cursor-pointer text-[20px] text-[#FF4D14] bg-white"

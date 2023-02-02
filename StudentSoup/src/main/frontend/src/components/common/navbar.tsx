@@ -36,9 +36,6 @@ const Navbar = () => {
         }}
       />
       <div className="flex items-center mr-[49px] m-5">
-        <div className="w-[65px] h-[60px] mr-[21px] flex justify-center items-center">
-          <span className="text-[25px] leading-[35px] fw-400">FAQ</span>
-        </div>
         <div onClick={onClickToggleModal}>
           {isLogin ? (
             <div className="flex sticky">

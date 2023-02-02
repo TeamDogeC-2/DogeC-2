@@ -65,11 +65,6 @@ const mypageNavbar = () => {
             RESTAURANT
           </span>
         </div>
-        <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
-        <div className="flex justify-center items-center w-[73px] cursor-pointer">
-          <img src={Faq} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">FAQ</span>
-        </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
         <div
           onClick={handleClickLogout}
@@ -87,9 +82,6 @@ const mypageNavbar = () => {
             }}
           />
         </div>
-        <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative bottom-[15px] right-[10px] cursor-pointer">
-          1
-        </span>
       </div>
     </div>
   );
