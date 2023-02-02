@@ -37,24 +37,24 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Board> findBySchoolId(Long schoolId){
-        List<Board> query= queryFactory.
+    public List<Board> findBySchoolId(Long schoolId) {
+        List<Board> query = queryFactory.
                 select(board)
                 .from(board)
-                .leftJoin(board.school,school)
+                .leftJoin(board.school, school)
                 .fetchJoin()
-                .leftJoin(board.member,member)
+                .leftJoin(board.member, member)
                 .fetchJoin()
                 .where(board.school.id.eq(schoolId))
                 .fetch();
 
-    return query;
+        return query;
     }
 
     //더미 데이터용
     //추후에 카테고리별 검색 쿼리로 리팩토링
     @Override
-    public Board findByTitle(String title){
+    public Board findByTitle(String title) {
         Board query = queryFactory.
                 select(board)
                 .from(board)
@@ -62,6 +62,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchOne();
         return query;
     }
+
     @Override
     public Page<BoardMainDto> orderByCategory(Long schoolId,
                                               Long departmentId,
@@ -69,7 +70,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                                               int sorted,
                                               Pageable pageable,
                                               String column,
-                                              String value){
+                                              String value) {
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -79,13 +80,14 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.view,
                         board.likedCount))
                 .from(board)
-                .where(checkTypeOfBoard(schoolId,departmentId),
-                        checkSortedBoard(category),
-                        checkSortedLiked(sorted),
-                        searchColumnContainsTitle(column,value),
-                        searchColumnContainsContent(column,value),
-                        searchColumnContainsNickname(column,value)
-                                .or(checkAnnouncement()))
+                .where(
+                        checkAnnouncement().or(checkSortedBoard(category))
+                                .and(checkTypeOfBoard(schoolId, departmentId))
+                                .and(checkSortedLiked(sorted))
+                                .and(searchColumnContainsTitle(column, value))
+                                .and(searchColumnContainsContent(column, value))
+                                .and(searchColumnContainsNickname(column, value))
+                )
                 .orderBy(priorOrderAnnouncement(), checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -94,16 +96,18 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPQLQuery<Long> count = queryFactory
                 .select(board.count())
                 .from(board)
-                .where(board.school.id.eq(schoolId),
-                        checkTypeOfBoard(schoolId,departmentId),
-                        checkSortedBoard(category),
-                        checkSortedLiked(sorted));
+                .where(checkAnnouncement().or(checkSortedBoard(category))
+                        .and(checkTypeOfBoard(schoolId, departmentId))
+                        .and(checkSortedLiked(sorted))
+                        .and(searchColumnContainsTitle(column, value))
+                        .and(searchColumnContainsContent(column, value))
+                        .and(searchColumnContainsNickname(column, value)));
 
-        return PageableExecutionUtils.getPage(query,pageable,count::fetchOne);
+        return PageableExecutionUtils.getPage(query, pageable, count::fetchOne);
     }
 
     @Override
-    public List<BoardMainDto> findAnnouncement(){
+    public List<BoardMainDto> findAnnouncement() {
         return queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -126,7 +130,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public  List<BoardMainDto>  findLiveBestAndHotBoards(Long schoolId,LocalDateTime searchDate,LocalDateTime EndDate){
+    public List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchDate, LocalDateTime EndDate) {
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -145,8 +149,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
         return query;
     }
+
     @Override
-    public List<BoardMainDto> findBestTipBoards(Long schoolId){
+    public List<BoardMainDto> findBestTipBoards(Long schoolId) {
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -158,7 +163,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.boardCategory.eq(BoardCategory.TIP))
-                .orderBy(board.likedCount.desc(),board.writeDate.desc())
+                .orderBy(board.likedCount.desc(), board.writeDate.desc())
                 .offset(0)
                 .limit(4)
                 .fetch();
@@ -166,56 +171,56 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
-        if(column!=null && column.equals("title")){
+        if (column != null && column.equals("title")) {
             return board.title.contains(value);
         }
         return null;
     }
 
-    private BooleanExpression searchColumnContainsContent(String column,String value){
-        if (column!=null && column.equals("content")){
+    private BooleanExpression searchColumnContainsContent(String column, String value) {
+        if (column != null && column.equals("content")) {
             return board.content.contains(value);
         }
         return null;
     }
-    private BooleanExpression searchColumnContainsNickname(String column,String value){
-        if(column!=null && column.equals("nickname")){
+
+    private BooleanExpression searchColumnContainsNickname(String column, String value) {
+        if (column != null && column.equals("nickname")) {
             return board.member.nickname.contains(value);
         }
         return null;
     }
 
 
-    private BooleanExpression checkTypeOfBoard(Long schoolId,Long departmentId) {
+    private BooleanExpression checkTypeOfBoard(Long schoolId, Long departmentId) {
         BooleanExpression findBySchool = board.school.id.eq(schoolId);
-        BooleanExpression findByDepartment = board.department.id.eq(schoolId);
-        if(departmentId == null){
+        BooleanExpression findByDepartment = board.department.id.eq(departmentId);
+        if (departmentId == null) {
             return findBySchool;
         }
 
-        return Expressions.allOf(findBySchool,findByDepartment);
+        return Expressions.allOf(findBySchool, findByDepartment);
     }
 
     private BooleanExpression checkSortedBoard(String category) {
-        if(category.equals("ALL")){
-            return null;
-        }
-        else if (category.equals("CONSULTING") || category.equals("EMPLOYMENT")) {
+        if (category.equals("ALL")) {
+            return board.boardCategory.ne(BoardCategory.ANNOUNCEMENT);
+        } else if (category.equals("CONSULTING") || category.equals("EMPLOYMENT")) {
             BooleanExpression searchCategory = board.boardCategory.eq(BoardCategory.CONSULTING);
-            BooleanExpression searchCategory1 =  board.boardCategory.eq(BoardCategory.EMPLOYMENT);
-            return Expressions.anyOf(searchCategory,searchCategory1);
+            BooleanExpression searchCategory1 = board.boardCategory.eq(BoardCategory.EMPLOYMENT);
+            return Expressions.anyOf(searchCategory, searchCategory1);
         }
         return board.boardCategory.eq(BoardCategory.valueOf(category));
     }
 
-    private BooleanExpression checkAnnouncement(){
+    private BooleanExpression checkAnnouncement() {
         BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
         BooleanExpression categoryCond2 = board.isView.eq("Y");
-        return Expressions.anyOf(categoryCond1, categoryCond2);
+        return Expressions.allOf(categoryCond1, categoryCond2);
     }
 
     private BooleanExpression checkSortedLiked(int sorted) {
-        if(BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted){
+        if (BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted) {
             return board.likedCount.goe(5);
         }
         return null;
@@ -223,19 +228,17 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 
     private OrderSpecifier<?> checkSortedCondition(int sorted) {
-        if(BoardSortedCase.LIKED.getValue() == sorted){
+        if (BoardSortedCase.LIKED.getValue() == sorted) {
             return board.likedCount.desc();
-        }
-        else if (BoardSortedCase.REVIEW.getValue() == sorted) {
+        } else if (BoardSortedCase.REVIEW.getValue() == sorted) {
             return board.boardReviews.size().desc();
-        }
-        else if(BoardSortedCase.VIEW.getValue() == sorted){
+        } else if (BoardSortedCase.VIEW.getValue() == sorted) {
             return board.view.desc();
         }
         return board.writeDate.desc();
     }
 
-    private OrderSpecifier<?> priorOrderAnnouncement(){
+    private OrderSpecifier<?> priorOrderAnnouncement() {
         NumberExpression<Integer> cases = new CaseBuilder()
                 .when(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
                 .then(1)
