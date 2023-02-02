@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.service.restaurant;
 
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolResponseDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
@@ -27,9 +28,6 @@ public class RestaurantCallService {
 
     private final RestaurantRepository restaurantRepository;
     private final SchoolFindService schoolFindService;
-
-    boolean restaurantLiked = true;
-    boolean restaurantNotLiked = false;
 
     public ConcurrentHashMap<String, Object> restaurantSortedCall(Long schoolId,
                                                                   String schoolName,
@@ -98,11 +96,11 @@ public class RestaurantCallService {
     }
 
     private RestaurantDto getLikeRestaurantDto(Restaurant restaurant) {
-        return new RestaurantDto().createRestaurantDto(restaurant, restaurantLiked);
+        return new RestaurantDto().createRestaurantDto(restaurant, ConstField.LIKED);
     }
 
     private RestaurantDto getNotLikeRestaurantDto(Restaurant restaurant) {
-        return new RestaurantDto().createRestaurantDto(restaurant, restaurantNotLiked);
+        return new RestaurantDto().createRestaurantDto(restaurant, ConstField.NOT_LIKED);
     }
 
     private ConcurrentHashMap<String, Object> getNotLoginRestaurantList(List<Restaurant> restaurants,

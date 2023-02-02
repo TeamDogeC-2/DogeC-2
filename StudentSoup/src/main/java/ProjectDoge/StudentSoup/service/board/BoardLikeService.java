@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
@@ -40,17 +41,16 @@ public class BoardLikeService {
             return resultMap;
         }
         else{
-            cancelLike(boardLike,board,resultMap);
-            return  resultMap;
+            unLikeBoard(boardLike,board,resultMap);
+            return resultMap;
         }
     }
 
-
-    private void cancelLike(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
+    private void unLikeBoard(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
         log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
         board.minusLikeCount();
-        BoardDto dto = new BoardDto(board,boardNotLiked);
+        BoardDto dto = new BoardDto(board, ConstField.NOT_LIKED);
         resultMap.put("data",dto);
         resultMap.put("result","cancel");
         log.info("게시글 좋아요가 삭제되었습니다.");
@@ -61,9 +61,9 @@ public class BoardLikeService {
         BoardLike boardLike = new BoardLike().createBoard(member,board);
         boardLikeRepository.save(boardLike);
         board.addLikeCount();
-        BoardDto dto = new BoardDto(board,boardLiked);
-        resultMap.put("data",dto);
-        resultMap.put("result","like");
+        BoardDto dto = new BoardDto(board, ConstField.LIKED);
+        resultMap.put("data", dto);
+        resultMap.put("result", "like");
         log.info("게시글 좋아요가 저장되었습니다.");
     }
 }

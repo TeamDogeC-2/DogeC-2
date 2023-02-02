@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
@@ -29,9 +30,6 @@ public class BoardCallService {
     private final BoardFindService boardFindService;
     private final BoardRepository boardRepository;
     private  final BoardLikeRepository boardLikeRepository;
-    boolean boardLiked = true;
-    boolean boardNotLiked = false;
-
 
     public BoardDto getBoardDetail(Long boardId,Long memberId){
         log.info("게시글 클릭시 게시글 호출 로직이 실행되었습니다.");
@@ -177,11 +175,11 @@ public class BoardCallService {
     }
 
     private BoardDto getLikeBoardDto(Board board) {
-        return new BoardDto(board,boardLiked);
+        return new BoardDto(board, ConstField.LIKED);
     }
 
     private BoardDto getNotLikeBoardDto(Board board) {
-        return new BoardDto(board,boardNotLiked);
+        return new BoardDto(board, ConstField.NOT_LIKED);
     }
 
     private void checkWriteDate(Page<BoardMainDto> boardMainDtoList) {

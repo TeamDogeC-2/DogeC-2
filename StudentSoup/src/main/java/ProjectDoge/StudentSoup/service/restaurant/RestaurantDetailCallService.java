@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurant;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDetailDto;
 import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
@@ -29,9 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RestaurantDetailCallService {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantLikeRepository restaurantLikeRepository;
-
-    private final boolean LIKED = true;
-    private final boolean NOT_LIKED = false;
 
     @Transactional
     public ConcurrentHashMap<String, Object> restaurantDetailCall(Long restaurantId, Long memberId){
@@ -103,12 +101,12 @@ public class RestaurantDetailCallService {
     }
 
     private void getLikeRestaurantDto(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
-        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, LIKED);
+        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, ConstField.LIKED);
         resultMap.put("restaurant", dto);
     }
 
     private void getNotLikeRestaurantDto(ConcurrentHashMap<String, Object> resultMap, Restaurant restaurant) {
-        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, NOT_LIKED);
+        RestaurantDetailDto dto = new RestaurantDetailDto().createRestaurantDetailDto(restaurant, ConstField.NOT_LIKED);
         resultMap.put("restaurant", dto);
     }
 }
