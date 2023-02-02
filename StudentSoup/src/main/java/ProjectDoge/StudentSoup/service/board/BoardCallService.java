@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +51,7 @@ public class BoardCallService {
         return new BoardDto(board, ConstField.NOT_LIKED);
     }
 
+    @Transactional(readOnly = true)
     public ConcurrentHashMap<String, Object> getBoardSortedCall(BoardCallDto boardCallDto,
                                                                 String category,
                                                                 int sorted,
@@ -58,8 +60,8 @@ public class BoardCallService {
         log.info("게시판 호출 정렬 서비스 로직이 실행되었습니다");
         isLoginMember(boardCallDto.getMemberId());
         ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
-        if (isFirstPage(pageable)) {
-            getFirstPageBoards(boardCallDto, category, sorted, boardSearchDto, map);
+        if (category.equals("ALL")) {
+            getAllBoards(boardCallDto, category, sorted, boardSearchDto, map);
         } else {
             getBoards(boardCallDto, category, sorted, pageable, map, boardSearchDto);
         }
@@ -75,68 +77,7 @@ public class BoardCallService {
         log.info("회원이 로그인이 되어있는 상태입니다.");
     }
 
-    private boolean isFirstPage(Pageable pageable) {
-        return pageable.getPageNumber() == 0;
-    }
-
-    private void getFirstPageBoards(
-            BoardCallDto boardCallDto,
-            String category,
-            int sorted,
-            BoardSearchDto boardSearchDto,
-            ConcurrentHashMap<String, Object> map) {
-
-        if (category.equals("ALL")) {
-            getFirstAllBoardsPage(boardCallDto, category, sorted, boardSearchDto, map);
-        } else {
-//            getFirstBoardsPage()
-        }
-    }
-
-    private void getBoards(BoardCallDto boardCallDto,
-                           String category, int sorted,
-                           Pageable pageable,
-                           ConcurrentHashMap<String, Object> map,
-                           BoardSearchDto boardSearchDto) {
-        log.info("게시판 호출 메서드가 실행되었습니다.");
-        Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
-                boardCallDto.getDepartmentId(),
-                category,
-                sorted,
-                pageable,
-                boardSearchDto.getColumn(),
-                boardSearchDto.getValue());
-        checkWriteDate(boardMainDtoList);
-        map.put("boards", boardMainDtoList);
-    }
-
-
-    private void getFirstTipBoardsPage(
-            BoardCallDto boardCallDto,
-            String category,
-            int sorted,
-            BoardSearchDto boardSearchDto,
-            ConcurrentHashMap<String, Object> map) {
-        log.info("팁 게시판 0페이지 호출 메서드가 실행 됐습니다.");
-        PageRequest pageable = PageRequest.of(0, 8);
-
-        Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
-                boardCallDto.getDepartmentId(),
-                category,
-                sorted,
-                pageable,
-                boardSearchDto.getColumn(),
-                boardSearchDto.getValue());
-        List<BoardMainDto> tipBoards = boardRepository.findBestTipBoards(boardCallDto.getSchoolId());
-
-        checkWriteDate(boards);
-        checkWriteDate(tipBoards);
-
-        map.put("boards", boards);
-        map.put("tipBoards", tipBoards);
-    }
-
-    private void getFirstAllBoardsPage(
+    private void getAllBoards(
             BoardCallDto boardCallDto,
             String category,
             int sorted,
@@ -171,6 +112,23 @@ public class BoardCallService {
         map.put("boards", boards);
         map.put("bestBoards", bestBoards);
         map.put("hotBoards", hotBoards);
+    }
+
+    private void getBoards(BoardCallDto boardCallDto,
+                           String category, int sorted,
+                           Pageable pageable,
+                           ConcurrentHashMap<String, Object> map,
+                           BoardSearchDto boardSearchDto) {
+        log.info("게시판 호출 메서드가 실행되었습니다.");
+        Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
+                boardCallDto.getDepartmentId(),
+                category,
+                sorted,
+                pageable,
+                boardSearchDto.getColumn(),
+                boardSearchDto.getValue());
+        checkWriteDate(boardMainDtoList);
+        map.put("boards", boardMainDtoList);
     }
 
     private void checkTodayWriteDate(
