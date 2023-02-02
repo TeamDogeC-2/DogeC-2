@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.repository.member;
 import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public interface MemberRepositoryCustom {
     List<Member> findByNameAndSchool_SchoolName(String name, String schoolName);
     List<Member> findByDepartment_Id(Long id);
     List<Member> findBySchool_SchoolId(Long id);
-    List<Member> search(MemberSearch memberSearch);
+    List<Member> search(String field,String value);
     Member findByNickname(String nickname);
     Member findByEmail(String email);
     Member findByEmailAndId(String email, String id);
