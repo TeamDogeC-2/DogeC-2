@@ -55,7 +55,7 @@ const pictureInfo = () => {
               <>
                 <img
                   key={school}
-                  src={`/image/${school}`}
+                  src={`${process.env.REACT_APP_IMG_KEY}/${school}`}
                   className='className="mt-[14px] w-[226px] h-[190px]'
                 />
               </>
