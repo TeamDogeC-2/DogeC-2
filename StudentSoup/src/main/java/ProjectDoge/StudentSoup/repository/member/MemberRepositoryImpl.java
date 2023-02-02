@@ -148,9 +148,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private BooleanExpression checkFiled(String field,String value) {
         if(field.equals("id")){
-            return member.id.eq(value);
+            return member.id.contains(value);
         }
-        return member.nickname.eq(value);
+        return member.nickname.contains(value);
     }
 
     @Override
