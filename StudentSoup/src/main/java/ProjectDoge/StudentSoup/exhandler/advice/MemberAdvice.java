@@ -48,8 +48,29 @@ public class MemberAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MemberNotMatchIdEmailException.class)
-    public ErrorResult memberNotMatchIdEmail(MemberNotMatchIdEmailException e){
+    public ErrorResult memberNotMatchIdEmailHandler(MemberNotMatchIdEmailException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("MemberNotMatchIdEmail", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberIdOutOfRangeException.class)
+    public ErrorResult MemberIdOutOfRangeHandler(MemberIdOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberIdOutOfRange", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberNicknameOutOfRangeException.class)
+    public ErrorResult MemberNicknameOutOfRangeHandler(MemberNicknameOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberNicknameOutOfRange", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberRegexException.class)
+    public ErrorResult MemberRegexHandler(MemberRegexException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("MemberRegex", e.getMessage());
     }
 }
