@@ -1,11 +1,7 @@
 package ProjectDoge.StudentSoup.service.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
-import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotMatchIdPwdException;
-import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
+import ProjectDoge.StudentSoup.exception.member.*;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +40,16 @@ public class MemberValidationService {
 
     public void validateDuplicateMemberId(String memberId) {
         log.info("회원 아이디 중복 검증 메소드가 실행되었습니다.");
+
+        if(memberId.length() < 5 || memberId.length() > 20){
+            log.info("회원의 아이디가 5자 미만이거나, 20자 초과입니다. 입력받은 아이디 : [{}]", memberId);
+            throw new MemberIdOutOfRangeException("회원의 아이디가 5자 미만이거나, 20자를 초과입니다.");
+        }
+
+        if(memberId.matches("^[A-za-z0-9]{5,20}$/g")){
+            log.info("회원의 아이디가 올바르지 않은 방법으로 작성되었습니다. 입력받은 아이디  : [{}]", memberId);
+            throw new MemberRegexException("회원의 아이디가 올바르지 않은 방법으로 작성되었습니다.");
+        }
 
         Member findMember = memberRepository.findById(memberId)
                 .orElse(null);
