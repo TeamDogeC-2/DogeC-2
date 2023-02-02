@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.admin.AdminMemberForm;
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
@@ -96,4 +97,17 @@ public class AdminController {
                 .collect(Collectors.toList());
         return dto;
     }
+    @GetMapping("members")
+    public String getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
+
+        List<Member> member = memberRepository.findAll();
+        List<Member> findMember = adminMemberService.searchMember(field,value);
+        model.addAttribute("members",member);
+        model.addAttribute("findMembers",findMember);
+        model.addAttribute("memberSearch",new MemberSearch());
+        return "/admin/member/memberList";
+    }
+
+
+
 }
