@@ -84,7 +84,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(
                         checkAnnouncement().or(checkSortedBoard(category))
                                 .and(checkTypeOfBoard(schoolId, departmentId))
-                                .and(checkSortedLiked(sorted))
                                 .and(searchColumnContainsTitle(column, value))
                                 .and(searchColumnContainsContent(column, value))
                                 .and(searchColumnContainsNickname(column, value))
@@ -99,7 +98,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(checkAnnouncement().or(checkSortedBoard(category))
                         .and(checkTypeOfBoard(schoolId, departmentId))
-                        .and(checkSortedLiked(sorted))
                         .and(searchColumnContainsTitle(column, value))
                         .and(searchColumnContainsContent(column, value))
                         .and(searchColumnContainsNickname(column, value)));
@@ -178,12 +176,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return Expressions.allOf(categoryCond1, categoryCond2);
     }
 
+    // TODO 차후 인증 글 서비스 추가
+    /*
     private BooleanExpression checkSortedLiked(int sorted) {
         if (BoardSortedCase.MORETHANFIVELIKED.getValue() == sorted) {
             return board.likedCount.goe(5);
         }
         return null;
     }
+    */
 
 
     private OrderSpecifier<?> checkSortedCondition(int sorted) {
