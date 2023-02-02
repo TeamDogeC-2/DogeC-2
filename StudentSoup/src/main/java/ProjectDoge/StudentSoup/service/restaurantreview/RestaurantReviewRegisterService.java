@@ -82,7 +82,8 @@ public class RestaurantReviewRegisterService {
     public RestaurantReviewRegRespDto starUpdate(Long restaurantId){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         log.info("레스토랑의 업데이트 전 별점 : [{}]", restaurant.getStarLiked());
-        double star = Math.round(restaurantReviewRepository.avgByRestaurantId(restaurantId) * 10) / 10.0;
+        Double starAvg = restaurantReviewRepository.avgByRestaurantId(restaurantId).orElse(0.0);
+        double star = Math.round(starAvg * 10) / 10.0;
 
         restaurant.updateStarLiked(star);
         log.info("레스토랑의 업데이트 된 별점 : [{}] , 쿼리 결과 별점 : [{}]", restaurant.getStarLiked(), star);

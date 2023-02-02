@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardCategoryDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -36,6 +38,7 @@ public class BoardResisterService {
     private final FileRepository fileRepository;
 
     private final DepartmentFindService departmentFindService;
+
     @Transactional
     public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
@@ -47,6 +50,19 @@ public class BoardResisterService {
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();
+    }
+
+    public List<BoardCategoryDto> getMemberClassification(Long memberId) {
+        Member member = memberFindService.findOne(memberId);
+
+        List<BoardCategoryDto> categoryDtoList = new ArrayList<>();
+        for (BoardCategory category : BoardCategory.values()){
+            categoryDtoList.add(new BoardCategoryDto(String.valueOf(category), category.getBoardCategory()));
+            log.info("boardCategory [{}], boardCategory [{}]",category.getBoardCategory(),category.name());
+    }
+        if(!member.getMemberClassification().equals(MemberClassification.ADMIN))
+            categoryDtoList.remove(categoryDtoList.size() - 1);
+        return categoryDtoList;
     }
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
@@ -80,6 +96,16 @@ public class BoardResisterService {
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
         Board board = new Board().createBoard(boardFormDto,member, member.getSchool(),member.getDepartment());
+        boardRepository.save(board);
+        log.info("게시글이 저장되었습니다.[{}]",board.getId());
+        return board.getId();
+    }
+
+    @Transactional
+    public  Long testJoin(Long memberId,BoardFormDto boardFormDto){
+        log.info("게시글 생성 메소드가 실행되었습니다");
+        Member member = memberFindService.findOne(memberId);
+        Board board = new Board().createTestBoard(boardFormDto,member, member.getSchool(),member.getDepartment());
         boardRepository.save(board);
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();

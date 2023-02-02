@@ -12,6 +12,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurant.restaurant;
@@ -23,27 +24,25 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Double avgByRestaurantId(Long restaurantId) {
-        List<Double> result = queryFactory
+    public Optional<Double> avgByRestaurantId(Long restaurantId) {
+        Double result = queryFactory
                 .select(restaurantReview.starLiked.avg())
                 .from(restaurantReview)
                 .where(restaurantReview.restaurant.id.eq(restaurantId))
-                .fetch();
+                .fetchOne();
 
 
-        return result.get(0);
+        return Optional.ofNullable(result);
     }
 
     @Override
     public Long countByRestaurantId(Long restaurantId) {
 
-        List<Long> result = queryFactory
+        return queryFactory
                 .select(restaurantReview.count())
                 .from(restaurantReview)
                 .where(restaurantReview.restaurant.id.eq(restaurantId))
-                .fetch();
-
-        return result.get(0);
+                .fetchOne();
     }
 
     @Override
