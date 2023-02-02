@@ -4,6 +4,8 @@ import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.exception.member.MemberNicknameOutOfRangeException;
+import ProjectDoge.StudentSoup.exception.member.MemberRegexException;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
@@ -34,7 +36,7 @@ public class MemberRegisterService {
 
         log.info("회원의 학교는 : {}, 회원의 학과는 : {}", school.getSchoolName(), department.getDepartmentName());
 
-        validateDuplicateMember(dto);
+        validateMember(dto);
 
         Member member = new Member().createMember(dto, school, department);
         member.setPwd(passwordEncoder.encode(member.getPwd()));
@@ -45,9 +47,26 @@ public class MemberRegisterService {
         return member.getMemberId();
     }
 
+    private void validateMember(MemberFormBDto dto) {
+        validateDuplicateMember(dto);
+        validateNickname(dto.getNickname());
+    }
+
     private void validateDuplicateMember(MemberFormBDto dto) {
         memberValidationService.validateDuplicateMemberNickname(dto.getNickname());
         memberValidationService.validateDuplicateMemberEmail(dto.getEmail());
+    }
+
+    private void validateNickname(String nickname){
+        if(nickname.length() < 2 || nickname.length() > 12){
+            log.info("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다. 전달받은 nickname : [{}]", nickname);
+            throw new MemberNicknameOutOfRangeException("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다.");
+        }
+
+        if(nickname.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]")){
+            log.info("회원의 닉네임에 특수문자가 포함되어 있습니다. 전달받은 nickname : [{}]", nickname);
+            throw new MemberRegexException("회원의 닉네임에 특수문자가 포함되어 있습니다.");
+        }
     }
 
 
