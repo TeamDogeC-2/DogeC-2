@@ -8,9 +8,12 @@ import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -81,8 +84,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         checkSortedLiked(sorted),
                         searchColumnContainsTitle(column,value),
                         searchColumnContainsContent(column,value),
-                        searchColumnContainsNickname(column,value))
-                .orderBy(checkSortedCondition(sorted))
+                        searchColumnContainsNickname(column,value)
+                                .or(checkAnnouncement()))
+                .orderBy(priorOrderAnnouncement(), checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -143,7 +147,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
     @Override
     public List<BoardMainDto> findBestTipBoards(Long schoolId){
-        List<BoardMainDto> query =queryFactory
+        List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
@@ -199,9 +203,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         else if (category.equals("CONSULTING") || category.equals("EMPLOYMENT")) {
             BooleanExpression searchCategory = board.boardCategory.eq(BoardCategory.CONSULTING);
             BooleanExpression searchCategory1 =  board.boardCategory.eq(BoardCategory.EMPLOYMENT);
-        return Expressions.anyOf(searchCategory,searchCategory1);
+            return Expressions.anyOf(searchCategory,searchCategory1);
         }
         return board.boardCategory.eq(BoardCategory.valueOf(category));
+    }
+
+    private BooleanExpression checkAnnouncement(){
+        BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
+        BooleanExpression categoryCond2 = board.isView.eq("Y");
+        return Expressions.anyOf(categoryCond1, categoryCond2);
     }
 
     private BooleanExpression checkSortedLiked(int sorted) {
@@ -223,6 +233,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
             return board.view.desc();
         }
         return board.writeDate.desc();
+    }
+
+    private OrderSpecifier<?> priorOrderAnnouncement(){
+        NumberExpression<Integer> cases = new CaseBuilder()
+                .when(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
+                .then(1)
+                .otherwise(2);
+
+        return new OrderSpecifier<>(Order.ASC, cases);
     }
 
     @Override
