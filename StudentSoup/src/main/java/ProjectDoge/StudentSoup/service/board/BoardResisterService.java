@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.dto.board.BoardCategoryDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -37,6 +38,7 @@ public class BoardResisterService {
     private final FileRepository fileRepository;
 
     private final DepartmentFindService departmentFindService;
+
     @Transactional
     public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
@@ -50,16 +52,17 @@ public class BoardResisterService {
         return board.getId();
     }
 
-    public List<String> getMemberClassification(Long memberId) {
+    public List<BoardCategoryDto> getMemberClassification(Long memberId) {
         Member member = memberFindService.findOne(memberId);
-        List<String> boardCategory = new ArrayList<>();
+
+        List<BoardCategoryDto> categoryDtoList = new ArrayList<>();
         for (BoardCategory category : BoardCategory.values()){
-            boardCategory.add(category.getBoardCategory());
+            categoryDtoList.add(new BoardCategoryDto(String.valueOf(category), category.getBoardCategory()));
             log.info("boardCategory [{}], boardCategory [{}]",category.getBoardCategory(),category.name());
     }
         if(!member.getMemberClassification().equals(MemberClassification.ADMIN))
-            boardCategory.remove("공지사항");
-        return boardCategory;
+            categoryDtoList.remove(categoryDtoList.size() - 1);
+        return categoryDtoList;
     }
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
