@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import { ReactComponent as ReviewWriteCamera } from '../../img/reviewwriteCamera.svg';
+import { ReactComponent as ReviewWriteClose } from '../../img/ReviewWriteClose.svg';
 import ReviewWrite from './reviewList';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -315,15 +316,12 @@ const review = (props: any) => {
                       src={image}
                       alt={`${image}-${id}`}
                     />
-
-                    <div
-                      className="w-[20px] h-[20px] border-[1px] ml-[65px] mt-[5.5px]"
+                    <ReviewWriteClose
                       onClick={() => {
                         handleDeleteImage(id);
                       }}
-                    >
-                      x
-                    </div>
+                      className="w-[20px] h-[20px] ml-[65px] mt-[5.5px] cursor-pointer"
+                    />
                   </div>
                 </>
               ))}
