@@ -131,7 +131,7 @@ const RestaurantMain = (_props: any) => {
   console.log(state.state);
 
   return (
-    <div className="pt-[60px] bg-[#1E1E1E]/5">
+    <div className="pt-[60px] bg-[#1E1E1E]/5 font-[SDGothic]">
       <div className="w-[1039px] mx-auto relative">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
@@ -196,7 +196,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'ALL',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'ALL',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'ALL',
                 },
@@ -212,7 +212,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'KOREAN',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'KOREAN',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'KOREAN',
                 },
@@ -228,7 +228,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'WESTERN',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'WESTERN',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'WESTERN',
                 },
@@ -244,7 +244,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'FASTFOOD',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'FASTFOOD',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'FASTFOOD',
                 },
@@ -260,7 +260,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'ASIAN',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'ASIAN',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'ASIAN',
                 },
@@ -276,7 +276,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'JAPAN',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'JAPAN',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'JAPAN',
                 },
@@ -292,7 +292,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'CHINESE',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'CHINESE',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'CHINESE',
                 },
@@ -308,7 +308,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'SNACK',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'SNACK',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'SNACK',
                 },
@@ -324,7 +324,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'CAFE',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'CAFE',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'CAFE',
                 },
@@ -340,7 +340,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'BUFFET',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'BUFFET',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'BUFFET',
                 },
@@ -356,7 +356,7 @@ const RestaurantMain = (_props: any) => {
               className={cn(
                 'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
                 {
-                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'OTHERS',
+                  'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'OTHERS',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
                     category !== 'OTHERS',
                 },
