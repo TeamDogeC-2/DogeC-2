@@ -76,7 +76,7 @@ const reviewWrite = () => {
 
   return (
     <>
-      <div className="flex flex-row">
+      <div className="flex flex-row ml-[5px] mt-[5px]">
         <div
           onClick={() => {
             setSort('newest');
@@ -89,9 +89,7 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
-            최신순
-          </div>
+          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">최신순</div>
         </div>
         <div
           onClick={() => {
@@ -105,22 +103,20 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[11.5px] mt-[2px] font-[400] text-[16px] leading-[21px] flex items-center">
-            추천순
-          </div>
+          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">추천순</div>
         </div>
-        <div className="mt-[20px] ml-[195px] mr-[26px] w-[351px] h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
+        <div className="mt-[20px] ml-[125px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
           ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
         </div>
       </div>
       {clickMoreButton ? (
         <>
-          <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
-          <div className="w-[743px] h-[1100px]">
+          <div className="ml-[18px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
+          <div className="w-[743px] h-auto">
             <div className="flex flex-col">
               {reviewList.map((school: any, idx: any) => (
                 <>
-                  <div className="w-[743px] h-[320px] border-1">
+                  <div className="w-[743px] h-auto border-1">
                     <div className="flex flex-row">
                       <div className="flex flex-row" key={school.restaurantReviewId}>
                         {school.memberProfileImageName ? (
@@ -150,15 +146,15 @@ const reviewWrite = () => {
                       <ReviewMoreImageView {...school} school={school} />
                     </div>
                     <div>
-                      <div className="w-[593px] h-[14px] mt-[10px] ml-[118px] text-[16px] font-normal leading-[21px] text-[#6B6B6B]">
+                      <div className="w-[593px] h-auto mt-[10px] ml-[118px] text-[16px] font-normal leading-[21px] text-[#6B6B6B]">
                         {school.content}
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[35px] ml-[25px] w-[687px] h-[1px] bg-[#BCBCBC]"></div>
+                  <div className="mt-[20px] ml-[25px] w-[687px] h-[1px] bg-[#BCBCBC]"></div>
                 </>
               ))}
-              <div className="ml-[20px] flex flex-row mb-[55px]">
+              <div className="flex flex-row mb-[55px]">
                 {clickPage === 1 ? (
                   <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
                 ) : (
@@ -188,14 +184,14 @@ const reviewWrite = () => {
                         handlePageNumberClick(e, school);
                       }}
                     >
-                      <div id={school} className="ml-[12.3px] mt-[4px] text-[20px] leading-[26px]">
+                      <div id={school} className="mt-[1.8px] text-[20px] text-center">
                         {school}
                       </div>
                     </div>
                   </>
                 ))}
                 {lastPage ? (
-                  <RightFillNoneIcon className="ml-[15px] mt-[53.63px]" />
+                  <RightFillNoneIcon className="relative left-[15px] top-[53.63px]" />
                 ) : (
                   <RightIcon
                     onClick={() => {
@@ -206,7 +202,7 @@ const reviewWrite = () => {
                         setClickNextPage(clickNextPage + 1);
                       }
                     }}
-                    className="ml-[15px] mt-[53.63px] cursor-pointer"
+                    className="relative left-[15px] top-[53.63px] cursor-pointer"
                   />
                 )}
               </div>
@@ -215,7 +211,7 @@ const reviewWrite = () => {
         </>
       ) : (
         <>
-          <div className="ml-[25px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
+          <div className="ml-[25px] mt-[18px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
           <div className="grid grid-cols-[235px_minmax(235px,_0fr)_235px]">
             {reviewList.map((school: any) => (
               <>
@@ -241,29 +237,33 @@ const reviewWrite = () => {
                     </div>
                   </div>
                   {school.imageFileNameList.length ? (
-                    <img
-                      src={`${process.env.REACT_APP_IMG_KEY}/${school.imageFileNameList[0]}`}
-                      className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
-                    />
+                    <>
+                      <img
+                        src={`${process.env.REACT_APP_IMG_KEY}/${school.imageFileNameList[0]}`}
+                        className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
+                      />
+                      <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">
+                        {school.content}
+                      </div>
+                    </>
                   ) : (
-                    <div className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px] text-center bg-[#DDDDDD]">
-                      이미지가 없습니다.
-                    </div>
+                    <>
+                      <div className="ml-[20px] mt-[11px] w-[184px] h-[194.12px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">
+                        {school.content}
+                      </div>
+                    </>
                   )}
 
-                  <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">
-                    {school.content}
-                  </div>
                   <div className="flex flex-row w-[209px]">
                     <div className="ml-[20px] mt-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.writeDate}
                     </div>
                     {school.like ? (
-                      <ReviewSmallHeartActive className="ml-[99px] mt-[18px]" />
+                      <ReviewSmallHeartActive className="ml-[99px] mt-[20px]" />
                     ) : (
-                      <ReviewSmallHeart className="ml-[99px] mt-[18px]" />
+                      <ReviewSmallHeart className="ml-[99px] mt-[20px]" />
                     )}
-                    <div className="ml-[3.31px] mt-[15px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    <div className="ml-[3.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.likedCount}
                     </div>
                   </div>

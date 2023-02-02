@@ -1,13 +1,27 @@
+import _ from 'lodash';
 import { useState, useRef, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
 import axios from 'axios';
 const kakao = (window as any).kakao;
 
+interface sortItem {
+  title: string;
+  value: number;
+}
+
 interface Category {
   id: string;
   name: string;
 }
+
+const sortList = [
+  { title: '등록순', value: 0 },
+  { title: '별점순', value: 1 },
+  { title: '좋아요순', value: 2 },
+  { title: '리뷰순', value: 3 },
+  { title: '거리순', value: 4 },
+];
 
 const RestaurantMain = (_props: any) => {
   const [set, isSet] = useState<any[]>();
@@ -20,7 +34,11 @@ const RestaurantMain = (_props: any) => {
   const listRef = useRef<HTMLDivElement>(null);
   const [sort, setSort] = useState<number>(0);
   const [category, setCategory] = useState<String>('ALL');
-  const maxHeight = useState<number>(0);
+  const [showSorts, setShowSorts] = useState(false);
+  const [showCategorys, setShowCategorys] = useState(false);
+
+  const sortRef: any = useRef(null);
+  const categoryRef: any = useRef(null);
 
   const history = useHistory();
   const state = useLocation<any>();
@@ -46,8 +64,7 @@ const RestaurantMain = (_props: any) => {
         setLatitude(Number(res.data.school.schoolLatitude));
         setLongitude(Number(res.data.school.schoolLongitude));
       })
-      .catch(function (error) {
-        console.log(error.response);
+      .catch(function (_error) {
         if (!state.state) {
           alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
           history.go(-1);
@@ -100,21 +117,22 @@ const RestaurantMain = (_props: any) => {
 
     history.push('/restaurant/detail', [value, state.state]);
   };
-  function foldList() {
-    if (!listRef?.current) {
-      return;
-    }
-    const style = listRef.current.style;
-    if (closeList) {
-      style.maxHeight = '0';
-    } else if (!closeList) {
-      style.maxHeight = `${listRef.current.scrollHeight}px`;
-    }
-    setCloseList(!closeList);
-  }
+
+  useEffect(() => {
+    const handleOutside = (e: any) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) setShowSorts(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [sortRef]);
+
+  console.log(state.state);
+
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
-      <div className="w-[1039px] mx-auto">
+      <div className="w-[1039px] mx-auto relative">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
             <span className="pr-2 text-[32px] text-[#FF611D]">{state.state}</span>
@@ -125,9 +143,10 @@ const RestaurantMain = (_props: any) => {
             id="filter-button"
             className={cn(
               'dropdown w-[110px] h-[39px] flex justify-center items-center gap-x-1 rounded-[23.5px] text-[20px] font-semibold text-[#FF611D] bg-white',
-              `${closeList ? 'close' : 'open'}`,
             )}
-            onClick={foldList}
+            onClick={() => {
+              setShowSorts(prev => !prev);
+            }}
           >
             <svg
               width="17"
@@ -143,78 +162,46 @@ const RestaurantMain = (_props: any) => {
             </svg>
             필터
           </button>
-          <div
-            className={cn(
-              'w-[110px] z-10 px-4 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25',
-              'buttonContainer overflow-hidden ease-out dalay-[30s]',
-            )}
-            ref={listRef}
-          >
-            <ul className="text-center divide-y-2">
-              <li className="py-2">
-                <button
-                  value="0"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_newest')}
-                  onClick={() => {
-                    setSort(0);
-                  }}
-                >
-                  등록순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="1"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_starCount')}
-                  onClick={() => {
-                    setSort(1);
-                  }}
-                >
-                  별점순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="2"
-                  className={cn('px-1 rounded-[23.5px] hover:bg-gray-100', 'sort_likeCount')}
-                  onClick={() => {
-                    setSort(2);
-                  }}
-                >
-                  좋아요순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="3"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_reviewCount')}
-                  onClick={() => {
-                    setSort(3);
-                  }}
-                >
-                  리뷰순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="4"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_nearest')}
-                  onClick={() => {
-                    setSort(4);
-                  }}
-                >
-                  거리순
-                </button>
-              </li>
-            </ul>
-          </div>
+
+          {/* filter */}
+          {showSorts && (
+            <div className="px-2 py-4 z-10 flex flex-col gap-y-1 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25">
+              {_.map(sortList, (item, index) => {
+                return (
+                  <div
+                    className={cn(
+                      'w-[110px] z-10 px-4 py-1 mx-auto top-12 right-0 text-center cursor-pointer rounded-[23.5px]',
+                      {
+                        'font-bold text-[#FFFFFF] bg-[#FF611D]': sort === index,
+                        'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                          sort !== index,
+                      },
+                      // 'buttonContainer overflow-hidden ease-out dalay-[30s]'
+                    )}
+                    onClick={() => {
+                      setSort(index);
+                      setShowSorts(false);
+                    }}
+                    key={index}
+                  >
+                    {item.title}
+                    {/* sortList.title */}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="w-[1039px] pb-[47px] mb-[58px] mx-auto rounded-[10px] drop-shadow-md bg-white">
           <div className="w-[810px] mx-auto py-[31px] flex flex-wrap gap-x-[20px] gap-y-[32px]">
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'ALL',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'ALL',
+                },
               )}
               onClick={() => {
                 setCategory('ALL');
@@ -225,8 +212,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'KOREAN',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'KOREAN',
+                },
               )}
               onClick={() => {
                 setCategory('KOREAN');
@@ -237,8 +228,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'WESTERN',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'WESTERN',
+                },
               )}
               onClick={() => {
                 setCategory('WESTERN');
@@ -249,8 +244,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'FASTFOOD',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'FASTFOOD',
+                },
               )}
               onClick={() => {
                 setCategory('FASTFOOD');
@@ -261,8 +260,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'ASIAN',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'ASIAN',
+                },
               )}
               onClick={() => {
                 setCategory('ASIAN');
@@ -273,8 +276,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'JAPAN',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'JAPAN',
+                },
               )}
               onClick={() => {
                 setCategory('JAPAN');
@@ -285,8 +292,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'CHINESE',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'CHINESE',
+                },
               )}
               onClick={() => {
                 setCategory('CHINESE');
@@ -297,8 +308,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'SNACK',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'SNACK',
+                },
               )}
               onClick={() => {
                 setCategory('SNACK');
@@ -309,8 +324,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'CAFE',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'CAFE',
+                },
               )}
               onClick={() => {
                 setCategory('CAFE');
@@ -321,8 +340,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'BUFFET',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'BUFFET',
+                },
               )}
               onClick={() => {
                 setCategory('BUFFET');
@@ -333,8 +356,12 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer text-[#808080] bg-white',
-                'hover:text-white hover:bg-[#FF611D]/50',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                {
+                  'font-bold text-[#FFFFFF] bg-[#FF611D]': category === 'OTHERS',
+                  'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
+                    category !== 'OTHERS',
+                },
               )}
               onClick={() => {
                 setCategory('OTHERS');
@@ -357,7 +384,7 @@ const RestaurantMain = (_props: any) => {
           </div>
           <div
             id="map"
-            className="w-[810px] h-[247px] mx-auto mb-[44px] relative rounded-[10px] bg-gray-100"
+            className="w-[810px] h-[247px] mx-auto mb-[45px] relative rounded-[10px] bg-gray-100"
           ></div>
           <div className="w-[810px] mx-auto grid grid-cols-2 gap-x-[46px] justify-center place-content-stretch">
             {set?.map(school => (
@@ -373,7 +400,7 @@ const RestaurantMain = (_props: any) => {
                   {school.name}
                   <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
                   <div className="text-[20px] text-[#696969]">{school.restaurantCategory}</div>
-                  <div className="ml-[2px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
+                  <div className="ml-[2px] mb-[25px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
                     <span>
                       <svg
                         width="14"
