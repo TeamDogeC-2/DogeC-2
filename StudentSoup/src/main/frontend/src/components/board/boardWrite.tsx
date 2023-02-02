@@ -68,7 +68,7 @@ const boardWrite = () => {
               0/5
             </div>
             <div className="mt-[39px] ml-[15px] font-medium text-[16px] leading-[21px] text-[#9F9F9F]">
-              사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
+              사진은 최대 4MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
             </div>
           </div>
         </div>
