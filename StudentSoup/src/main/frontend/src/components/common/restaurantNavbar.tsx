@@ -55,11 +55,6 @@ const RestaurantNavbar = () => {
             RESTAURANT
           </span>
         </div>
-        <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
-        <div className="flex justify-center items-center w-[73px] cursor-pointer">
-          <img src={Faq} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">FAQ</span>
-        </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
         <div className="flex justify-center items-center w-[110px] cursor-pointer">
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
