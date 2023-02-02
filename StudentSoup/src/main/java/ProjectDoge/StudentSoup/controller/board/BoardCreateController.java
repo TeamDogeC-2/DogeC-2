@@ -37,7 +37,7 @@ public class BoardCreateController {
         resultMap.put("result","ok");
         return resultMap;
     }
-    @PostMapping("board/create/{memberId}/{schoolId}")
+    @GetMapping("board/create/{memberId}/{schoolId}")
     public ConcurrentHashMap<String,Object> getMemberClassificationList(@PathVariable Long memberId, @PathVariable Long schoolId ){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         List<String> memberClassifications = boardResisterService.getMemberClassification(memberId);
