@@ -85,6 +85,20 @@ public class BoardReview {
         return this;
     }
 
+    public BoardReview createTestBoardReview(Member member, Board board, BoardReviewResDto dto){
+        this.setBoard(board);
+        this.setMember(member);
+        this.setContent(dto.getContent());
+        this.setWriteDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setLikedCount(10);
+        this.setSeq(dto.getSeq());
+        this.setDepth(dto.getDepth());
+        this.setLevel(dto.getLevel());
+        this.setActive("Y");
+        return this;
+    }
+
     public BoardReview createBoardNestedReply() {
         this.setWriteDate(dateFormat(LocalDateTime.now()));
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
