@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -59,6 +60,9 @@ public class Board {
     private int likedCount;
 
     private String isView;
+
+    @ColumnDefault("'N'")
+    private String authentication;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
