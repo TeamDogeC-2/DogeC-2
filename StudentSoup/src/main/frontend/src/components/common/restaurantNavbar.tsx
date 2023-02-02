@@ -38,12 +38,20 @@ const RestaurantNavbar = () => {
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">BOARD</span>
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/board');
+            }}>
+            BOARD
+          </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/restaurant');
+            }}>
             RESTAURANT
           </span>
         </div>
