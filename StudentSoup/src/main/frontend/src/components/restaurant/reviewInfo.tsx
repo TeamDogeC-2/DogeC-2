@@ -119,6 +119,7 @@ const review = (props: any) => {
       setHover(0);
       setClicked([false, false, false, false, false]);
       setTextValue('');
+      location.reload();
     } else {
       await axios.put(
         `/restaurantReview/${restaurantNumber}`,
@@ -143,6 +144,7 @@ const review = (props: any) => {
       setHover(0);
       setClicked([false, false, false, false, false]);
       setTextValue('');
+      location.reload();
     }
   };
   const handleAddImages = (event: any) => {
