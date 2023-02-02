@@ -1,8 +1,84 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
+import { useHistory, useLocation } from 'react-router-dom';
+import { isContentEditable } from '@testing-library/user-event/dist/utils';
 
 const boardWrite = () => {
+  const [departmentlist, setDepartMentList] = useState<any>([]);
+  const [boardCategory, setBoardCategory] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [departmentId, setDepartMentId] = useState<number>();
+  const [content, setContent] = useState<string>('');
+  const [img, setImg] = useState<any>();
+  const history = useHistory();
+  const state = useLocation<any>();
+  const schoolName = state.state;
+  const saveMemberId = sessionStorage.getItem('memberId');
+  const saveSchoolId = sessionStorage.getItem('schoolId');
+
+  const url = `/board/department/${saveSchoolId}`;
+  useEffect(() => {
+    axios
+      .get(url)
+      .then(res => {
+        setDepartMentList(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+  const handleBoardWrite = (e: any) => {
+    if (!title || !content) {
+      alert('제목과 내용을 입력해주세요.');
+      return;
+    }
+    if (departmentId === 0 || !departmentId) {
+      alert('학과를 선택해주세요.');
+      return;
+    }
+    if (boardCategory === 'null' || !boardCategory) {
+      alert('게시판을 선택해주세요.');
+      return;
+    }
+    axios
+      .put(
+        `/board/${saveMemberId}`,
+        {
+          title,
+          departmentId,
+          boardCategory,
+          content,
+          // mutipartFiles,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    alert('작성이 완료되었습니다.');
+  };
+  const handleSetTitleValue = (e: any) => {
+    setTitle(e.target.value);
+  };
+  const handleSetContentValue = (e: any) => {
+    setContent(e.target.value);
+  };
+  const handleSetDepartMentId = (e: any) => {
+    setDepartMentId(e.target.value);
+  };
+  const handleSetBoardCategory = (e: any) => {
+    setBoardCategory(e.target.value);
+  };
   return (
     <>
       <MypageNavbar />
@@ -10,27 +86,40 @@ const boardWrite = () => {
         <div className="mr-[295px] w-[296px] h-[60px] font-bold text-[24px] leading-[29px] flex items-center">
           게시글 쓰기
         </div>
-        <select className="w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]">
+        <select
+          onChange={handleSetDepartMentId}
+          className="w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]"
+        >
           <option
             className="font-normal text-[16px] leading-[22px] flex items-center text-[#A4A4A4]"
-            value="null"
+            value="0"
           >
             학과 선택
           </option>
-          <option value="1">학과 1</option>
-          <option value="2">학과 2</option>
+          {departmentlist.map((school: any, index: any) => (
+            <option key={index} value={school.departmentId}>
+              {school.departmentName}
+            </option>
+          ))}
         </select>
-        <select className="ml-[16px] w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]">
+        <select
+          onChange={handleSetBoardCategory}
+          className="ml-[16px] w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]"
+        >
           <option value="null">전체</option>
-          <option value="1">자유게시판</option>
-          <option value="2">취업게시판</option>
-          <option value="3">상담게시판</option>
-          <option value="4">팁게시판</option>
+          <option value="FREE">자유게시판</option>
+          <option value="EMPLOYMENT">취업게시판</option>
+          <option value="CONSULTING">상담게시판</option>
+          <option value="TIP">팁게시판</option>
+          <option value="ANNOUNCEMENT">공지사항</option>
         </select>
       </div>
       <div className="flex justify-center">
         <div className="flex flex-col w-[938px] h-auto bg-[#FFFFFF] border-[1px] shadow-[2px_2px_6px_rgba(0,0,0,0.05)]">
           <input
+            onChange={e => {
+              handleSetTitleValue(e);
+            }}
             placeholder="제목"
             type="text"
             className="w-[936px] h-[40px] resize-none border-[#C4C4C4] border-[1px]"
@@ -52,6 +141,9 @@ const boardWrite = () => {
             </div>
           </div>
           <textarea
+            onChange={e => {
+              handleSetContentValue(e);
+            }}
             placeholder="내용"
             className="h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
@@ -77,7 +169,10 @@ const boardWrite = () => {
         <div className="w-[469px] h-[67px] rounded-l-lg border-r-[0.5px] border-y-[1px] border-l-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#9F9F9F] font-semibold leading-[22px]">
           <div className="ml-[194px] mt-[22px]">취소하기</div>
         </div>
-        <div className="w-[469px] h-[67px] rounded-r-lg border-r-[1px] border-y-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#FF611D] font-semibold leading-[22px]">
+        <div
+          onClick={handleBoardWrite}
+          className="w-[469px] h-[67px] rounded-r-lg border-r-[1px] border-y-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#FF611D] font-semibold leading-[22px] cursor-pointer"
+        >
           <div className="ml-[194px] mt-[22px]">작성하기</div>
         </div>
       </div>
