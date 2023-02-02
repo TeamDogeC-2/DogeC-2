@@ -24,10 +24,7 @@ public class BoardLikeService {
     private final MemberFindService memberFindService;
 
     private  final BoardFindService boardFindService;
-
-    boolean boardLiked =true;
-
-    boolean boardNotLiked = false;
+    
 
     @Transactional
     public ConcurrentHashMap<String,Object> boardLike(Long boardId,Long memberId){
@@ -47,13 +44,13 @@ public class BoardLikeService {
     }
 
     private void unLikeBoard(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
-        log.info("게시글 삭제 서비스 로직이 실행되었습니다.");
+        log.info("좋아요 취소 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
         board.minusLikeCount();
         BoardDto dto = new BoardDto(board, ConstField.NOT_LIKED);
-        resultMap.put("data",dto);
-        resultMap.put("result","cancel");
-        log.info("게시글 좋아요가 삭제되었습니다.");
+        resultMap.put("data", dto);
+        resultMap.put("result", "cancel");
+        log.info("게시글 좋아요가 취소 되었습니다.");
     }
 
     private void likeBoard(Member member,Board board,ConcurrentHashMap<String,Object> resultMap) {
