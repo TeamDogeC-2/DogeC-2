@@ -24,6 +24,7 @@
                         <th scope="col">gender</th>
                         <th scope="col">email</th>
                         <th scope="col">registrationDate</th>
+                        <th scope="col">imageName</th>
                         <th scope="col">memberClassification</th>
                         <th scope="col">school</th>
                         <th scope="col">department</th>
@@ -40,6 +41,10 @@
                             <td th:text="${member.gender}">gender</td>
                             <td th:text="${member.email}">email</td>
                             <td th:text="${member.registrationDate}">birth</td>
+                            <td th:if="${member.imageFile} != null"
+                                th:text="${member.imageFile.fileName}">
+                                imageName</td>
+                            <td th:if="${member.imageFile} == null">null</td>
                             <td th:text="${member.memberClassification}">classification</td>
                             <td th:text="${member.school.schoolName}">school_name</td>
                             <td th:text="${member.department.departmentName}">department_name</td>
@@ -91,6 +96,7 @@
                             <th scope="col">gender</th>
                             <th scope="col">email</th>
                             <th scope="col">registrationDate</th>
+                            <th scope="col">imageName</th>
                             <th scope="col">member_classification</th>
                             <th scope="col">school</th>
                             <th scope="col">department</th>
@@ -106,7 +112,11 @@
                             <td th:text="${member.nickname}">nickname</td>
                             <td th:text="${member.gender}">gender</td>
                             <td th:text="${member.email}">email</td>
-                            <td th:text="${member.registrationDate}">birth</td>
+                            <td th:text="${member.registrationDate}">registrationDate</td>
+                            <td th:if="${member.imageFile} != null"
+                                th:text="${member.imageFile.fileName}">
+                                imageName</td>
+                            <td th:if="${member.imageFile} == null">null</td>
                             <td th:text="${member.memberClassification}">classification</td>
                             <td th:text="${member.school.schoolName}">school_name</td>
                             <td th:text="${member.department.departmentName}">department_name</td>
