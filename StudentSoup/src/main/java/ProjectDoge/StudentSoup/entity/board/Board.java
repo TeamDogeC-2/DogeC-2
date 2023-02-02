@@ -8,9 +8,9 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "BOARD")
+@DynamicInsert
 @Getter
 @Setter
 public class Board {
