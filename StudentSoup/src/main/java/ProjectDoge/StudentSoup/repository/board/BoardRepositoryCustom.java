@@ -18,10 +18,6 @@ public interface BoardRepositoryCustom {
 
     Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable,String column,String value);
 
-    List<BoardMainDto> findAnnouncement();
-
-    Long countAnnouncement();
-
     List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchTime,LocalDateTime endDateTime);
 
     List<BoardMainDto> findBestTipBoards(Long schoolId);

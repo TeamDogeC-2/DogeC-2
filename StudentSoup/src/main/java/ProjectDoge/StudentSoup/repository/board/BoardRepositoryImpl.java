@@ -78,7 +78,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.writeDate,
                         board.member.nickname,
                         board.view,
-                        board.likedCount))
+                        board.likedCount,
+                        board.authentication))
                 .from(board)
                 .where(
                         checkAnnouncement().or(checkSortedBoard(category))
@@ -88,7 +89,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                                 .and(searchColumnContainsContent(column, value))
                                 .and(searchColumnContainsNickname(column, value))
                 )
-                .orderBy(priorOrderAnnouncement(), checkSortedCondition(sorted))
+                .orderBy(priorOrderAnnouncement(), priorTipBest(), checkSortedCondition(sorted))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -107,29 +108,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<BoardMainDto> findAnnouncement() {
-        return queryFactory
-                .select(new QBoardMainDto(board.id,
-                        board.boardCategory,
-                        board.title,
-                        board.writeDate,
-                        board.member.nickname,
-                        board.view,
-                        board.likedCount))
-                .from(board)
-                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT), board.isView.eq("Y"))
-                .fetch();
-    }
-
-    @Override
-    public Long countAnnouncement() {
-        return queryFactory.select(board.count())
-                .from(board)
-                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT), board.isView.eq("Y"))
-                .fetchOne();
-    }
-
-    @Override
     public List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchDate, LocalDateTime EndDate) {
         List<BoardMainDto> query = queryFactory
                 .select(new QBoardMainDto(board.id,
@@ -138,7 +116,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.writeDate,
                         board.member.nickname,
                         board.view,
-                        board.likedCount))
+                        board.likedCount,
+                        board.authentication))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.likedCount.goe(10),
@@ -159,7 +138,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.writeDate,
                         board.member.nickname,
                         board.view,
-                        board.likedCount))
+                        board.likedCount,
+                        board.authentication))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.boardCategory.eq(BoardCategory.TIP))
@@ -241,6 +221,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private OrderSpecifier<?> priorOrderAnnouncement() {
         NumberExpression<Integer> cases = new CaseBuilder()
                 .when(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
+                .then(1)
+                .otherwise(2);
+
+        return new OrderSpecifier<>(Order.ASC, cases);
+    }
+
+    private OrderSpecifier<?> priorTipBest() {
+        NumberExpression<Integer> cases = new CaseBuilder()
+                .when(board.authentication.eq("Y"))
                 .then(1)
                 .otherwise(2);
 
