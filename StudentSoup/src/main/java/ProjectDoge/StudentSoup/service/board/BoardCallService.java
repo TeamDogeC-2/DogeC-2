@@ -29,7 +29,7 @@ public class BoardCallService {
     private final BoardFindService boardFindService;
     private final BoardRepository boardRepository;
     private  final BoardLikeRepository boardLikeRepository;
-    boolean boardLiked =true;
+    boolean boardLiked = true;
     boolean boardNotLiked = false;
 
 
