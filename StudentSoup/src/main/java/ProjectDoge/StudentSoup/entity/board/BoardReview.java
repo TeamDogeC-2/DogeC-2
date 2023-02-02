@@ -37,6 +37,7 @@ public class BoardReview {
 
     private String updateDate;
 
+    @Lob
     private String content;
 
     private int likedCount;

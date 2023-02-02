@@ -26,6 +26,7 @@ import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberUpdateService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
@@ -33,6 +34,7 @@ import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegister
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -43,11 +45,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 @Profile("local")
 @RequiredArgsConstructor
 public class TestDataInit {
     private final MemberRegisterService memberRegisterService;
-    private final SchoolRepository schoolRepository;
+    private final MemberUpdateService memberUpdateService;
     private final SchoolRegisterService schoolRegisterService;
     private final SchoolFindService schoolFindService;
     private final DepartmentRepository departmentRepository;
@@ -139,6 +142,8 @@ public class TestDataInit {
                 GenderType.WOMAN, schoolId2, departments2.get(1).getId());
         MemberFormBDto dto6 = createMemberFormDto("dummyTest6", "test123!", "더미테스트6", "dummytest6@naver.com",
                 GenderType.WOMAN, schoolId2, departments2.get(1).getId());
+        MemberFormBDto dto7 = createMemberFormDto("admin", "admin123!", "운영자", "admin@naver.com",
+                GenderType.MAN, schoolId2, departments2.get(1).getId());
 
         memberRegisterService.join(dto1);
         memberRegisterService.join(dto2);
@@ -146,6 +151,9 @@ public class TestDataInit {
         memberRegisterService.join(dto4);
         memberRegisterService.join(dto5);
         memberRegisterService.join(dto6);
+        memberRegisterService.join(dto7);
+
+        memberRepository.findById("admin").ifPresent(memberUpdateService::updateMemberClassification);
     }
 
     private void initRestaurant(){
