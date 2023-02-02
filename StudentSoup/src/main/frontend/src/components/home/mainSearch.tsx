@@ -60,7 +60,7 @@ const MainSearch = () => {
   };
 
   return (
-    <div className="w-full flex flex-col mt-[290px] items-center">
+    <div className="w-full flex flex-col mt-[290px] items-center font-[SDGothic]">
       <div
         className={cn(
           'flex flex-col text-center relative bottom-[88px]',
@@ -68,7 +68,7 @@ const MainSearch = () => {
         )}
       >
         <span className="text-[45px] fw-400 leading-[59px] text-white">대학생을 위한</span>
-        <span className="text-[65px] fw-400 leading-[93px] text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
+        <span className="text-[65px] fw-400 leading-[93px] font-extrabold text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천
         </span>
         <div className="mt-[28px] w-full h-[60px] rounded-[5px] bg-white flex flex-row">
@@ -77,8 +77,8 @@ const MainSearch = () => {
             onChange={handleChange}
             name="text"
             value={inputSchool}
-            placeholder="학교 명을 입력하세요."
-            className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] border-none"
+            placeholder="지역 학교 명을 입력하세요."
+            className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] outline-0"
           ></input>
           <button
             onClick={handlePushRestaurant}
