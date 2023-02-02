@@ -58,6 +58,7 @@ public class Board {
 
     private int likedCount;
 
+    private String isView;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
@@ -114,8 +115,16 @@ public class Board {
         this.setLikedCount(0);
         this.setMember(member);
         this.setSchool(school);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
+
+    private String setViewOption(BoardCategory category){
+        if(String.valueOf(category).equals("ANNOUNCEMENT"))
+            return "N";
+        return "Y";
+    }
+
     public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
