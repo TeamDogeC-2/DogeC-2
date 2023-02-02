@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -150,6 +151,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 
     private BooleanExpression checkTypeOfBoard(Long schoolId, Long departmentId) {
+        if(schoolId == null){
+            throw new SchoolIdNotSentException("학교 기본키가 전달되지 않았습니다.");
+        }
         BooleanExpression findBySchool = board.school.id.eq(schoolId);
         if (departmentId == null) {
             return findBySchool;
