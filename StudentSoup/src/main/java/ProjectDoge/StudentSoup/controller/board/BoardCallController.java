@@ -5,19 +5,17 @@ import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
-import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
 import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
@@ -30,16 +28,16 @@ public class BoardCallController {
 
     /**
      * @param category
-     * @param sorted  0 normal(업데이트 순), 1(좋아요 5개 이상), 2(좋아요 순)
+     * @param sorted  0 normal(작성 순), 1(좋아요 5개 이상), 2(좋아요 순)
      * @param boardCallDto schoolId memberId departmentId
      * @return
      */
     @PostMapping ("/boards")
-    public Map<String, Object> callBoards(@RequestParam String category,
-                                          @RequestParam int sorted,
-                                          BoardSearchDto boardSearchDto,
-                                          @RequestBody BoardCallDto boardCallDto,
-                                          @PageableDefault(size = 12) Pageable pageable){
+    public ConcurrentHashMap<String, Object> callBoards(@RequestParam(defaultValue = "ALL") String category,
+                                                        @RequestParam(defaultValue = "0") int sorted,
+                                                        BoardSearchDto boardSearchDto,
+                                                        @RequestBody BoardCallDto boardCallDto,
+                                                        @PageableDefault(size = 12) Pageable pageable){
         log.info("category [{}], sorted [{}] schoolId[{}] departmentId [{}] memberId [{}] offset[{}] size [{}] column [{}] value [{}]",
                 category,
                 sorted,
