@@ -43,10 +43,10 @@ public class MemberValidationService {
 
         if(memberId.length() < 5 || memberId.length() > 20){
             log.info("회원의 아이디가 5자 미만이거나, 20자 초과입니다. 입력받은 아이디 : [{}]", memberId);
-            throw new MemberIdOutOfRangeException("회원의 아이디가 5자 미만이거나, 20자를 초과입니다.");
+            throw new MemberIdOutOfRangeException("회원의 아이디가 5자 미만이거나, 20자를 초과합니다.");
         }
 
-        if(memberId.matches("^[A-za-z0-9]{5,20}$/g")){
+        if(!memberId.matches("^[a-zA-Z0-9]*$")){
             log.info("회원의 아이디가 올바르지 않은 방법으로 작성되었습니다. 입력받은 아이디  : [{}]", memberId);
             throw new MemberRegexException("회원의 아이디가 올바르지 않은 방법으로 작성되었습니다.");
         }

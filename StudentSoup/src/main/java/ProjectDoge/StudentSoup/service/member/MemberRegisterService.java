@@ -63,7 +63,7 @@ public class MemberRegisterService {
             throw new MemberNicknameOutOfRangeException("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다.");
         }
 
-        if(nickname.matches("[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힝]")){
+        if(!nickname.matches("^[a-zA-Z0-9가-힣]*$")){
             log.info("회원의 닉네임에 특수문자가 포함되어 있습니다. 전달받은 nickname : [{}]", nickname);
             throw new MemberRegexException("회원의 닉네임에 특수문자가 포함되어 있습니다.");
         }
