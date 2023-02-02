@@ -93,7 +93,7 @@ function LoginForm() {
         LOGIN
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center font-[SDGothic]">
           <div className="flex flex-col justify-center">
             <input
               id="id"
@@ -144,23 +144,23 @@ function LoginForm() {
             </div>
           </div>
         </div>
-        <div className="mt-[58px] flex flex-col justify-center items-center">
+        <div className="mt-[58px] flex flex-col justify-center items-center font-[SDGothic]">
           <button
             type="submit"
-            className="w-[558px] h-[60px] rounded-[20px] text-[20px] text-white bg-[#FF611D]"
+            className="w-[558px] h-[60px] rounded-[20px] text-[20px] font-bold text-white bg-[#FF611D]"
           >
             로그인
           </button>
           <button
             type="button"
             onClick={onClickSignup}
-            className="w-[558px] h-[60px] mt-[10px] rounded-[20px] text-[20px] border border-[#FF611D] text-[#FF611D] bg-white"
+            className="w-[558px] h-[60px] mt-[10px] rounded-[20px] text-[20px] font-bold border border-[#FF611D] text-[#FF611D] bg-white"
           >
             회원가입
           </button>
         </div>
       </form>
-      <div className="mt-[58px] flex flex-col justify-center items-center">
+      <div className="mt-[58px] flex flex-col justify-center items-center font-[SDGothic]">
         <div className="flex justify-center items-center">
           <span className="w-[54.5px] h-0 border bg-[#C6C6C6]"></span>
           <label className="px-[34px] text-[16px] text-[#A0A0A0]">간편 로그인/가입</label>

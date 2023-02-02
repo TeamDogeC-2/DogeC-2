@@ -5,7 +5,7 @@ const LoginNavbar = () => {
   const history = useHistory();
 
   return (
-    <div className="w-full h-[80px] flex justify-between items-center sticky border-b border-[#FF4D14]">
+    <div className="w-full h-[80px] flex justify-between items-center sticky border-b border-[#FF4D14] font-[SDGothic]">
       <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
         onClick={() => {
           history.push('/');
