@@ -4,7 +4,7 @@ import cn from 'clsx';
 
 const MypageCalendar = () => {
   return (
-    <div className="flex flex-[9] w-full h-[120vh] z-[1] bg-zinc-100">
+    <div className="flex flex-[9] w-full h-[120vh] z-[1] font-[SDGothic] bg-zinc-100">
       <div className="flex flex-col w-[716px] h-[724px] ml-[161px] mt-[100px]">
         <div className="flex flex-row justify-between">
           <span className="flex text-[26px] leading-[37px] text-left text-[#FF611D] font-bold">

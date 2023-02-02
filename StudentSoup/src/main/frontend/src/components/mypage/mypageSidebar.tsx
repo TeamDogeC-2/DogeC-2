@@ -41,12 +41,12 @@ const MypageSidebar = (props: propTypes) => {
         <li className="mb-[42px]">
           <div className="flex items-center w-full h-[54px] font-bold pt-[35px]">
             <img src={Menu} alt="" className="w-[15.5px] h-[11.64px] ml-[40px] mr-[13.47px]" />
-            <span className="w-full">Menu</span>
+            <span className="w-full font-Helvetica">Menu</span>
           </div>
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[65px] cursor-pointer', {
+            className={cn('flex items-center w-full h-[54px] mt-[65px] cursor-pointer font-[SDGothic]', {
               ['bg-[#F5F5F5]']: id === 'home',
               ['']: id !== 'home',
             })}
@@ -75,7 +75,7 @@ const MypageSidebar = (props: propTypes) => {
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
               ['bg-[#F5F5F5]']: id === 'scheduler',
               ['']: id !== 'scheduler',
             })}
@@ -104,7 +104,7 @@ const MypageSidebar = (props: propTypes) => {
         </li>
         <li className="mb-[20px]">
           <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
               ['bg-[#F5F5F5]']: id === 'modify',
               ['']: id !== 'modify',
             })}
@@ -139,7 +139,7 @@ const MypageSidebar = (props: propTypes) => {
         <li className="mb-[20px]">
           <div
             onClick={onClickMypageBoardReview}
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
+            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer font-[SDGothic]', {
               ['bg-[#F5F5F5]']: id === 'boardReview',
               ['']: id !== 'boardReview',
             })}

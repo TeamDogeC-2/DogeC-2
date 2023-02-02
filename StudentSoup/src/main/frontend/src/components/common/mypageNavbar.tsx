@@ -36,7 +36,7 @@ const mypageNavbar = () => {
   };
 
   return (
-    <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
+    <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg font-[SDGothic]">
       <img
         src={Reddit}
         alt=""

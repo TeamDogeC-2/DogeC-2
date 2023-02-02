@@ -55,7 +55,7 @@ const MypageHome = () => {
   };
 
   return (
-    <div className="flex-[9] z-[1] bg-zinc-100">
+    <div className="flex-[9] z-[1] font-[SDGothic] bg-zinc-100">
       <div className="w-full h-[259px] flex items-center justify-center bg-zinc-300">
         <span>배너 이미지 업로드</span>
       </div>
