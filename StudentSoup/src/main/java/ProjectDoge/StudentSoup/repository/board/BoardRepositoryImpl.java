@@ -151,10 +151,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     private BooleanExpression checkTypeOfBoard(Long schoolId, Long departmentId) {
         BooleanExpression findBySchool = board.school.id.eq(schoolId);
-        BooleanExpression findByDepartment = board.department.id.eq(departmentId);
         if (departmentId == null) {
             return findBySchool;
         }
+        BooleanExpression findByDepartment = board.department.id.eq(departmentId);
 
         return Expressions.allOf(findBySchool, findByDepartment);
     }
