@@ -1,3 +1,5 @@
+import axios from 'axios';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Reddit from '../../img/Reddit.svg';
 import Board from '../../img/board.jpg';
@@ -7,6 +9,60 @@ import Logout from '../../img/logout.jpg';
 
 const RestaurantNavbar = () => {
   const history = useHistory();
+
+  const [searchSchool, setSearchSchool] = useState<any[]>();
+  const [posts, setPosts] = useState<any[]>();
+  const [inputSchool, setInputSchool] = useState<string>();
+  const [listSchool, setListSchool] = useState<string>('');
+
+  const getSchool = () => {
+    axios
+      .get('/home')
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputSchool(value);
+    if (value.length === 0 || value === '' || value === null || value === undefined) {
+      setSearchSchool(undefined);
+      return;
+    }
+    const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    setSearchSchool(resultArray);
+    setListSchool(compareResult?.shift().schoolName);
+  };
+
+  const handleClick = (e: any) => {
+    setInputSchool(e.target.innerText);
+    const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    setSearchSchool(resultArray);
+    setListSchool(compareResult?.shift().schoolName);
+  };
+
+  const handlePushRestaurant = () => {
+    if (inputSchool === '' || inputSchool === undefined) {
+      alert('학교를 검색해주세요');
+    } else if (inputSchool === listSchool) {
+      history.push('/restaurant', inputSchool);
+    } else {
+      alert('학교 정보가 올바르지 않습니다.');
+    }
+  };
+
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handlePushRestaurant();
+    }
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="ml-[24px] flex items-center gap-x-[32px]">
@@ -29,10 +85,19 @@ const RestaurantNavbar = () => {
             />
           </svg>
           <input
+            onChange={handleChange}
+            onKeyDown={handleOnKeyPress}
             type="text"
+            value={inputSchool}
             placeholder="학교 명을 입력하세요"
-            className="w-full text-[#717171] bg-transparent"
+            className="w-full text-[#717171] bg-transparent outline-0"
           ></input>
+          <button
+            onClick={handlePushRestaurant}
+            className="hidden"
+          >
+            검색
+          </button>
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">

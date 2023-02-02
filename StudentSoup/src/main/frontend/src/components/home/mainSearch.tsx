@@ -77,7 +77,7 @@ const MainSearch = () => {
             onChange={handleChange}
             name="text"
             value={inputSchool}
-            placeholder="지역 학교 명을 입력하세요."
+            placeholder="학교 명을 입력하세요."
             className="w-[500px] h-[58px] text-[25px] fw-400 leading-[33px] text-[#A0A0A0] border-none"
           ></input>
           <button
