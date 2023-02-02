@@ -304,13 +304,27 @@ public class TestDataInit {
     private void initBoardReview(){
         Board board = boardRepository.findByTitle("테스트 제목0");
         Member member = memberRepository.findById("dummyTest1").get();
+
+        for(int i =0; i<3; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.TestJoin(boardReviewResDto);
+        }
+
+        for(int i =3; i<7; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.TestJoin(boardReviewResDto);
+        }
+
         for(int i =0; i< 10; i++){
-            for(int j =0; j<10 ; j++){
+            for(int j =1; j<10 ; j++){
                 BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                        board.getId(),member.getMemberId(),"테스트 댓글"+i,i,j,1);
+                        board.getId(),member.getMemberId(),"테스트 댓글"+j,i,j,1);
                         boardReviewRegisterService.join(boardReviewResDto);
             }
         }
+
     }
 
     private void initRestaurantReview(){
