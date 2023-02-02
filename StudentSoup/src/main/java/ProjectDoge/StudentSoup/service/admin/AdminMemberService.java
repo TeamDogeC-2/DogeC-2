@@ -66,7 +66,7 @@ public class AdminMemberService {
         log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
     }
     public List<Member> searchMember(String filed,String value){
-        if(filed == null){
+        if(filed == null || filed.length() == 0 || value == null || value.length()==0){
             return  Collections.emptyList();
         }
         List<Member> findMembers = memberRepository.search(filed, value);
