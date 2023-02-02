@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuLike;
@@ -22,9 +23,6 @@ import java.util.List;
 public class RestaurantMenuCallService {
 
     private final RestaurantMenuRepository restaurantMenuRepository;
-
-    private final boolean LIKED = true;
-    private final boolean NOT_LIKED = false;
 
     @Transactional
     public Page<RestaurantMenuDto> restaurantMenuCall(Long restaurantId, Long memberId, Pageable pageable){
@@ -85,10 +83,10 @@ public class RestaurantMenuCallService {
     }
 
     private RestaurantMenuDto getNotLikeRestaurantMenuDto(RestaurantMenu restaurantMenu){
-        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, NOT_LIKED);
+        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, ConstField.NOT_LIKED);
     }
 
     private RestaurantMenuDto getLikeRestaurantMenuDto(RestaurantMenu restaurantMenu){
-        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, LIKED);
+        return new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, ConstField.LIKED);
     }
 }

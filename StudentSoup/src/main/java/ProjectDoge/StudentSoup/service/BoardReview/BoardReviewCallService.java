@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.service.BoardReview;
 
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
@@ -22,10 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 @Service
 public class BoardReviewCallService {
-
-    boolean boardReviewLiked = true;
-
-    boolean boardReviewNotLiked = false;
     private final BoardReviewRepository boardReviewRepository;
 
     public ConcurrentHashMap<String,Object> callBoardReview(Long memberId,Long boardId, Pageable pageable){
@@ -60,8 +57,8 @@ public class BoardReviewCallService {
     private BoardReviewDto getBoardReviewLike(Long memberId, BoardReview boardReview) {
         for(BoardLike boardLike : boardReview.getBoard().getBoardLikes()){
             if(boardLike.getMember().getMemberId().equals(memberId))
-                return new BoardReviewDto().createBoardReviewDto(boardReview,boardReviewLiked);
+                return new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.LIKED);
         }
-        return new BoardReviewDto().createBoardReviewDto(boardReview,boardReviewNotLiked);
+        return new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.NOT_LIKED);
     }
 }
