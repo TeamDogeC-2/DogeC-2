@@ -36,7 +36,7 @@ const RestaurantMain = (_props: any) => {
   const [category, setCategory] = useState<String>('ALL');
   const [showSorts, setShowSorts] = useState(false);
   const [showCategorys, setShowCategorys] = useState(false);
-  // const maxHeight = useState<number>(0);
+
   const sortRef: any = useRef(null);
   const categoryRef: any = useRef(null);
 
@@ -117,18 +117,7 @@ const RestaurantMain = (_props: any) => {
 
     history.push('/restaurant/detail', [value, state.state]);
   };
-  // function foldList() {
-  //   if (!listRef?.current) {
-  //     return;
-  //   }
-  //   const style = listRef.current.style;
-  //   if (closeList) {
-  //     style.maxHeight = '0';
-  //   } else if (!closeList) {
-  //     style.maxHeight = `${listRef.current.scrollHeight}px`;
-  //   }
-  //   setCloseList(!closeList);
-  // }
+
   useEffect(() => {
     const handleOutside = (e: any) => {
       if (sortRef.current && !sortRef.current.contains(e.target))setShowSorts(false);
@@ -154,7 +143,6 @@ const RestaurantMain = (_props: any) => {
             id="filter-button"
             className={cn(
               'dropdown w-[110px] h-[39px] flex justify-center items-center gap-x-1 rounded-[23.5px] text-[20px] font-semibold text-[#FF611D] bg-white',
-              // `${closeList ? 'close' : 'open'}`,
             )}
             onClick={() => {
               setShowSorts(prev => !prev);
@@ -174,73 +162,7 @@ const RestaurantMain = (_props: any) => {
             </svg>
             필터
           </button>
-          {/* 선택된 sort */}
-          <div
-            className={cn(
-              'w-[110px] z-10 px-2 absolute top-12 right-0 rounded-[23.5px] text-center bg-white',
-              // 'buttonContainer overflow-hidden ease-out dalay-[30s]',
-            )}
-            ref={sortRef}
-          >
-            {sort}
-            {/* <ul className="text-center divide-y-2">
-              <li className="py-2">
-                <button
-                  value="0"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_newest')}
-                  onClick={() => {
-                    setSort(0);
-                  }}
-                >
-                  등록순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="1"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_starCount')}
-                  onClick={() => {
-                    setSort(1);
-                  }}
-                >
-                  별점순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="2"
-                  className={cn('px-1 rounded-[23.5px] hover:bg-gray-100', 'sort_likeCount')}
-                  onClick={() => {
-                    setSort(2);
-                  }}
-                >
-                  좋아요순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="3"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_reviewCount')}
-                  onClick={() => {
-                    setSort(3);
-                  }}
-                >
-                  리뷰순
-                </button>
-              </li>
-              <li className="py-2">
-                <button
-                  value="4"
-                  className={cn('px-2 rounded-[23.5px] hover:bg-gray-100', 'sort_nearest')}
-                  onClick={() => {
-                    setSort(4);
-                  }}
-                >
-                  거리순
-                </button>
-              </li>
-            </ul> */}
-          </div>
+
           {/* filter */}
           {showSorts && (
             <div className='px-2 py-4 z-10 flex flex-col gap-y-1 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25'>
