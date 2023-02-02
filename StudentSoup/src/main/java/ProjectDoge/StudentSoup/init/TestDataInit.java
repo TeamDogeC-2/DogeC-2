@@ -308,10 +308,10 @@ public class TestDataInit {
         for(int i =0; i<3; i++){
             BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
                     board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
-            boardReviewRegisterService.TestJoin(boardReviewResDto);
+            boardReviewRegisterService.join(boardReviewResDto);
         }
 
-        for(int i =3; i<7; i++){
+        for(int i =3; i<10; i++){
             BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
                     board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
             boardReviewRegisterService.TestJoin(boardReviewResDto);
