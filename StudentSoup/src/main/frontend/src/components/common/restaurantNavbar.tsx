@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import Reddit from '../../img/Reddit.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
@@ -5,10 +6,15 @@ import Faq from '../../img/faq.jpg';
 import Logout from '../../img/logout.jpg';
 
 const RestaurantNavbar = () => {
+  const history = useHistory();
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="ml-[24px] flex items-center gap-x-[32px]">
-        <img src={Reddit} alt="" className="w-[162px] h-[72px]" />
+        <img src={Reddit} alt="" className="w-[162px] h-[72px]"
+          onClick={() => {
+            history.push('/');
+          }}
+        />
         <div className="w-[466px] h-[44px] px-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
           <svg
             width="25"
