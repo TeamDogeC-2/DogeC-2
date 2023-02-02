@@ -120,7 +120,7 @@ const Register3 = () => {
   return (
     <>
       <RegisterNavbar />
-      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center">
+      <div className="w-full h-[calc(100vh-88px)] flex flex-col justify-center items-center font-[SDGothic]">
         <div className="flex flex-col text-center w-[530px]">
           <span className="text-[40px] fw-400 leading-[56px] flex justify-center font-bold mb-[47px]">
             신규 회원가입
@@ -149,7 +149,7 @@ const Register3 = () => {
             </div>
           </div>
           <div className="mt-[49px]">
-            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-bold">
+            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-semibold">
               SFOO의 서비스를 위한 개인정보를 <br />
               입력해주세요.
             </span>
