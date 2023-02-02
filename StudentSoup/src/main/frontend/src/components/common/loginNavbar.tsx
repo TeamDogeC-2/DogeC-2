@@ -5,15 +5,11 @@ const LoginNavbar = () => {
   const history = useHistory();
 
   return (
-    <div className="w-full h-[88px] flex justify-between items-center sticky border-b border-[#FF4D14]">
-      <div
+    <div className="w-full h-[80px] flex justify-between items-center sticky border-b border-[#FF4D14]">
+      <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
         onClick={() => {
           history.push('/');
-        }}
-        className="w-[162px] h-[80px] ml-6 flex items-center cursor-pointer"
-      >
-        <img src={Reddit} alt="" />
-      </div>
+        }}/>
       <div className="mr-[24px] flex items-center">
         <button
           onClick={() => {
