@@ -7,9 +7,10 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "BOARD")
+@DynamicInsert
 @Getter
 @Setter
 public class Board {
@@ -58,6 +60,10 @@ public class Board {
 
     private int likedCount;
 
+    private String isView;
+
+    @ColumnDefault("'N'")
+    private String authentication;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
@@ -87,6 +93,7 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
 
@@ -101,6 +108,7 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
 
@@ -114,8 +122,16 @@ public class Board {
         this.setLikedCount(0);
         this.setMember(member);
         this.setSchool(school);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
+
+    private String setViewOption(BoardCategory category){
+        if(String.valueOf(category).equals("ANNOUNCEMENT"))
+            return "N";
+        return "Y";
+    }
+
     public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());

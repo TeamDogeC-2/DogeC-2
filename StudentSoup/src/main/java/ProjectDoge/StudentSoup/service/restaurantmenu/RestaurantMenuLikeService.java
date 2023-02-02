@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantmenu;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
@@ -22,9 +23,6 @@ public class RestaurantMenuLikeService {
     private final RestaurantMenuLikeRepository restaurantMenuLikeRepository;
     private final RestaurantMenuFindService restaurantMenuFindService;
     private final MemberFindService memberFindService;
-
-    boolean restaurantMenuLiked = true;
-    boolean restaurantMenuNotLiked = false;
 
     @Transactional
     public ConcurrentHashMap<String, Object> restaurantMenuLike(Long restaurantMenuId, Long memberId){
@@ -67,7 +65,7 @@ public class RestaurantMenuLikeService {
         restaurantMenuLikeRepository.deleteById(restaurantLikeId);
         restaurantMenu.minusLikedCount();
 
-        RestaurantMenuDto dto = new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, restaurantMenuNotLiked);
+        RestaurantMenuDto dto = new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, ConstField.NOT_LIKED);
         resultMap.put("data", dto);
         resultMap.put("result", "cancel");
 
@@ -81,7 +79,7 @@ public class RestaurantMenuLikeService {
         restaurantMenuLikeRepository.save(restaurantMenuLike);
         restaurantMenu.addLikedCount();
 
-        RestaurantMenuDto dto = new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, restaurantMenuLiked);
+        RestaurantMenuDto dto = new RestaurantMenuDto().createRestaurantMenu(restaurantMenu, ConstField.LIKED);
         resultMap.put("data", dto);
         resultMap.put("result", "like");
 
