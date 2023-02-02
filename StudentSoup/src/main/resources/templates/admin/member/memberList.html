@@ -27,7 +27,6 @@
                         <th scope="col">memberClassification</th>
                         <th scope="col">school</th>
                         <th scope="col">department</th>
-                        <th scope="col">subDepartment</th>
                         <th scope="col">edit/delete</th>
                     </tr>
                     </thead>
@@ -72,7 +71,7 @@
                         <select class="form-select form-select-sm" th:field="*{field}" th:name="field">
                             <option value="">검색 필드</option>
                             <option value="id" th:text="id">id</option>
-                            <option value="name" th:text="name">name</option>
+                            <option value="name" th:text="nickname">nickname</option>
                         </select>
                         <input type="text" th:field="*{value}" class="form-control" th:name="value">
 
@@ -88,17 +87,13 @@
                             <th scope="col">#</th>
                             <th scope="col">id</th>
                             <th scope="col">pwd</th>
-                            <th scope="col">name</th>
                             <th scope="col">nickname</th>
-                            <th scope="col">phone</th>
                             <th scope="col">gender</th>
                             <th scope="col">email</th>
-                            <th scope="col">birth</th>
+                            <th scope="col">registrationDate</th>
                             <th scope="col">member_classification</th>
                             <th scope="col">school</th>
-                            <th scope="col">studentId</th>
                             <th scope="col">department</th>
-                            <th scope="col">sub_department</th>
                             <th scope="col">edit/delete</th>
                         </tr>
                         </thead>
@@ -108,21 +103,13 @@
                             <td th:text="${member.memberId}">#</td>
                             <td th:text="${member.id}">id</td>
                             <td th:text="${member.pwd}">pwd</td>
-                            <td th:text="${member.name}">name</td>
                             <td th:text="${member.nickname}">nickname</td>
-                            <td th:text="${member.phone}">phone</td>
                             <td th:text="${member.gender}">gender</td>
                             <td th:text="${member.email}">email</td>
-                            <td th:text="${member.birth}">birth</td>
+                            <td th:text="${member.registrationDate}">birth</td>
                             <td th:text="${member.memberClassification}">classification</td>
                             <td th:text="${member.school.schoolName}">school_name</td>
-                            <td th:text="${member.studentId}">studentId</td>
                             <td th:text="${member.department.departmentName}">department_name</td>
-                            <td th:if="${member.subDepartment != null}"
-                                th:text="${member.subDepartment.departmentName}">
-                                subDepartmentName
-                            </td>
-                            <td th:if="${member.subDepartment == null}">null</td>
                             <td>
                                 <a th:href="@{/admin/member/edit/{memberId}(memberId = ${member.memberId})}">
                                     <img src="/img/admin/icon/pencil.svg">

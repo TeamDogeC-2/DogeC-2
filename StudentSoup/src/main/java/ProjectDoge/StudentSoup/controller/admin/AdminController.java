@@ -98,12 +98,16 @@ public class AdminController {
         return dto;
     }
     @GetMapping("members")
-    public String getMembers(Model model){
+    public String getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
+
         List<Member> member = memberRepository.findAll();
+        List<Member> findMember = adminMemberService.searchMember(field,value);
         model.addAttribute("members",member);
+        model.addAttribute("findMembers",findMember);
         model.addAttribute("memberSearch",new MemberSearch());
         return "/admin/member/memberList";
     }
+
 
 
 }
