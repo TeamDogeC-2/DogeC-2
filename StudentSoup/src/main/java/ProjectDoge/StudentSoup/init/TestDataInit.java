@@ -262,15 +262,26 @@ public class TestDataInit {
         Member member = memberRepository.findById("dummyTest1").get();
         Member member1 = memberRepository.findById("dummyTest2").get();
 
-        for(int i =0; i<30; i++){
+        for(int i =0; i<10; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
             boardResisterService.join(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =10; i<20; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =20; i<30; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.TIP,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
         }
 
         for(int i =60; i<90; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.EMPLOYMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
+
         for(int i= 100; i<110; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
@@ -293,13 +304,27 @@ public class TestDataInit {
     private void initBoardReview(){
         Board board = boardRepository.findByTitle("테스트 제목0");
         Member member = memberRepository.findById("dummyTest1").get();
+
+        for(int i =0; i<3; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.join(boardReviewResDto);
+        }
+
+        for(int i =3; i<10; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.TestJoin(boardReviewResDto);
+        }
+
         for(int i =0; i< 10; i++){
-            for(int j =0; j<10 ; j++){
+            for(int j =1; j<10 ; j++){
                 BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                        board.getId(),member.getMemberId(),"테스트 댓글"+i,i,j,1);
+                        board.getId(),member.getMemberId(),"테스트 댓글"+j,i,j,1);
                         boardReviewRegisterService.join(boardReviewResDto);
             }
         }
+
     }
 
     private void initRestaurantReview(){

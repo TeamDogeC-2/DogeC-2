@@ -97,4 +97,14 @@ public class BoardResisterService {
         log.info("게시글이 저장되었습니다.[{}]",board.getId());
         return board.getId();
     }
+
+    @Transactional
+    public  Long testJoin(Long memberId,BoardFormDto boardFormDto){
+        log.info("게시글 생성 메소드가 실행되었습니다");
+        Member member = memberFindService.findOne(memberId);
+        Board board = new Board().createTestBoard(boardFormDto,member, member.getSchool(),member.getDepartment());
+        boardRepository.save(board);
+        log.info("게시글이 저장되었습니다.[{}]",board.getId());
+        return board.getId();
+    }
 }
