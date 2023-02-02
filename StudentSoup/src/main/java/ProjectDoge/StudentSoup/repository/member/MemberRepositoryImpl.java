@@ -4,10 +4,14 @@ import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.member.QMember;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -133,8 +137,20 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     @Override
 
-    public List<Member> search(MemberSearch memberSearch) {
-        return null;
+    public List<Member> search(String field,  String value) {
+        List<Member> query =queryFactory
+                .select(member)
+                .from(member)
+                .where(checkFiled(field,value))
+                .fetch();
+        return query;
+    }
+
+    private BooleanExpression checkFiled(String field,String value) {
+        if(field.equals("id")){
+            return member.id.eq(value);
+        }
+        return member.nickname.eq(value);
     }
 
     @Override
