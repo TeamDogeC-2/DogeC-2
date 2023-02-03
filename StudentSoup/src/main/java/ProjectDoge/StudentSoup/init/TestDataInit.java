@@ -26,6 +26,7 @@ import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberUpdateService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
@@ -33,6 +34,7 @@ import ProjectDoge.StudentSoup.service.restaurantreview.RestaurantReviewRegister
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolRegisterService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -43,11 +45,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 @Profile("local")
 @RequiredArgsConstructor
 public class TestDataInit {
     private final MemberRegisterService memberRegisterService;
-    private final SchoolRepository schoolRepository;
+    private final MemberUpdateService memberUpdateService;
     private final SchoolRegisterService schoolRegisterService;
     private final SchoolFindService schoolFindService;
     private final DepartmentRepository departmentRepository;
@@ -139,6 +142,8 @@ public class TestDataInit {
                 GenderType.WOMAN, schoolId2, departments2.get(1).getId());
         MemberFormBDto dto6 = createMemberFormDto("dummyTest6", "test123!", "더미테스트6", "dummytest6@naver.com",
                 GenderType.WOMAN, schoolId2, departments2.get(1).getId());
+        MemberFormBDto dto7 = createMemberFormDto("admin", "admin123!", "운영자", "admin@naver.com",
+                GenderType.MAN, schoolId2, departments2.get(1).getId());
 
         memberRegisterService.join(dto1);
         memberRegisterService.join(dto2);
@@ -146,6 +151,9 @@ public class TestDataInit {
         memberRegisterService.join(dto4);
         memberRegisterService.join(dto5);
         memberRegisterService.join(dto6);
+        memberRegisterService.join(dto7);
+
+        memberRepository.findById("admin").ifPresent(memberUpdateService::updateMemberClassification);
     }
 
     private void initRestaurant(){
@@ -254,15 +262,26 @@ public class TestDataInit {
         Member member = memberRepository.findById("dummyTest1").get();
         Member member1 = memberRepository.findById("dummyTest2").get();
 
-        for(int i =0; i<30; i++){
+        for(int i =0; i<10; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
             boardResisterService.join(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =10; i<20; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.FREE,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
+        }
+
+        for(int i =20; i<30; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.TIP,"테스트 내용"+i);
+            boardResisterService.testJoin(member.getMemberId(),boardFormDto);
         }
 
         for(int i =60; i<90; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.EMPLOYMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
+
         for(int i= 100; i<110; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
@@ -285,13 +304,27 @@ public class TestDataInit {
     private void initBoardReview(){
         Board board = boardRepository.findByTitle("테스트 제목0");
         Member member = memberRepository.findById("dummyTest1").get();
+
+        for(int i =0; i<3; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.join(boardReviewResDto);
+        }
+
+        for(int i =3; i<10; i++){
+            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
+                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+            boardReviewRegisterService.TestJoin(boardReviewResDto);
+        }
+
         for(int i =0; i< 10; i++){
-            for(int j =0; j<10 ; j++){
+            for(int j =1; j<10 ; j++){
                 BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                        board.getId(),member.getMemberId(),"테스트 댓글"+i,i,j,1);
+                        board.getId(),member.getMemberId(),"테스트 댓글"+j,i,j,1);
                         boardReviewRegisterService.join(boardReviewResDto);
             }
         }
+
     }
 
     private void initRestaurantReview(){

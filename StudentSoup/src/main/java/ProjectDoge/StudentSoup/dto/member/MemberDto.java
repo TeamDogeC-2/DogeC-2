@@ -19,6 +19,7 @@ public class MemberDto {
     private String nickname;
     private String email;
     private String registrationDate;
+    private String memberClassification;
 
 
     // 생성 메소드
@@ -37,6 +38,7 @@ public class MemberDto {
         } else{
             this.fileName = member.getImageFile().getFileName();
         }
+        this.memberClassification = member.getMemberClassification().toString();
         return this;
     }
 }

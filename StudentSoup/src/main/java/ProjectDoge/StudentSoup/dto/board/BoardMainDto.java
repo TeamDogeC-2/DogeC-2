@@ -10,16 +10,13 @@ import lombok.Setter;
 @Setter
 public class BoardMainDto {
     private Long boardId;
-
     private BoardCategory boardCategory;
-
     private String title;
-
     private String writeDate;
-
-    private String nickName;
+    private String nickname;
     private int view;
     private int likedCount;
+    private String authentication;
 
     public BoardMainDto(Board board) {
         this.boardId = board.getId();
@@ -28,17 +25,29 @@ public class BoardMainDto {
         this.writeDate = board.getWriteDate();
         this.likedCount = board.getLikedCount();
         this.view = board.getView();
-        this.nickName = board.getMember().getNickname();
+        this.nickname = board.getMember().getNickname();
+        this.authentication = board.getAuthentication();
     }
+
     @QueryProjection
-    public BoardMainDto(Long boardId, BoardCategory boardCategory, String title, String writeDate, String nickName, int view, int likedCount) {
+    public BoardMainDto(
+            Long boardId,
+            BoardCategory boardCategory,
+            String title,
+            String writeDate,
+            String nickname,
+            int view,
+            int likedCount,
+            String authentication) {
+
         this.boardId = boardId;
         this.boardCategory = boardCategory;
         this.title = title;
         this.writeDate = writeDate;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.view = view;
         this.likedCount = likedCount;
+        this.authentication = authentication;
     }
 
 }
