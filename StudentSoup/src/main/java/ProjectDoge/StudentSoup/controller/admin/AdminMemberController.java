@@ -85,7 +85,7 @@ public class AdminMemberController {
         Member member = memberFindService.findOne(updateId);
         log.info("updated member password : [{}]", member.getPwd());
 
-        return "redirect:/admin";
+        return "redirect:/admin/members";
     }
 
     @PostMapping("/member/ajax")
@@ -110,7 +110,7 @@ public class AdminMemberController {
         return "/admin/member/memberList";
     }
 
-    @GetMapping("/member/{memberId}")
+    @GetMapping("/member/delete/{memberId}")
     public String deleteMember(@PathVariable Long memberId){
         memberDeleteService.deleteMember(memberId);
         return "redirect:/admin/members";
