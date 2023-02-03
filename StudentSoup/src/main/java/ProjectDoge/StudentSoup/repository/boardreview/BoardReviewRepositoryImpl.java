@@ -80,8 +80,8 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .from(boardReview)
                 .leftJoin(boardReview.board,board)
                 .fetchJoin()
-                .where(boardReview.board.id.eq(boardId),boardReview.likedCount.goe(10))
-                .orderBy(boardReview.writeDate.desc())
+                .where(boardReview.board.id.eq(boardId), boardReview.likedCount.goe(10))
+                .orderBy(boardReview.likedCount.desc())
                 .offset(0)
                 .limit(3)
                 .fetch();
