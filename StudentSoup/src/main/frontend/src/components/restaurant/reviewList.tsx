@@ -129,15 +129,15 @@ const reviewWrite = () => {
                           <div className="ml-[32px] mt-[27px] w-[74px] h-[74px] border-[5px] border-[#D9D9D9] bg-[#D9D9D9] rounded-full"></div>
                         )}
                         <div className="flex flex-col">
-                          <div className="ml-[12px] mt-[37px] h-[16px] font-normal leading-[28px] text-[20px] flex items-center text-[#515151]">
+                          <div className="ml-[12px] mt-[37px] w-[800px] h-[16px] font-normal leading-[28px] text-[20px] flex items-center text-[#515151]">
                             {school.nickName}
-                            <ReviewMoreHeartInfo {...school} school={school} />
                           </div>
                           <div className="flex flex-row">
                             <ReviewMoreStarView {...school} school={school} />
                             <div className="ml-[9.4px] mt-[2px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
                               {school.writeDate}
                             </div>
+                            <ReviewMoreHeartInfo {...school} school={school} />
                           </div>
                         </div>
                       </div>
@@ -145,10 +145,8 @@ const reviewWrite = () => {
                     <div className="flex flex-rows ml-[118px]">
                       <ReviewMoreImageView {...school} school={school} />
                     </div>
-                    <div>
-                      <div className="w-[593px] h-auto mt-[10px] ml-[118px] text-[16px] font-normal leading-[21px] text-[#6B6B6B]">
-                        {school.content}
-                      </div>
+                    <div className="w-[593px] h-auto mt-[10px] ml-[118px] text-[16px] font-normal leading-[21px] text-[#6B6B6B]">
+                      {school.content}
                     </div>
                   </div>
                   <div className="mt-[20px] ml-[25px] w-[687px] h-[1px] bg-[#BCBCBC]"></div>
@@ -230,7 +228,7 @@ const reviewWrite = () => {
                       <div className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C] bg-[#9C9C9C]"></div>
                     )}
                     <div className="">
-                      <div className="ml-[4px] mt-[21px] w-[82px] h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
+                      <div className="ml-[4px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
                         {school.nickName}
                       </div>
                       <ReviewStarView {...school} school={school} />
