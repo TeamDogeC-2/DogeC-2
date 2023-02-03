@@ -67,7 +67,7 @@ const RestaurantMain = (_props: any) => {
       .catch(function (_error) {
         if (!state.state) {
           alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
-          history.go(-1);
+          history.push('/');
         }
       });
   };
