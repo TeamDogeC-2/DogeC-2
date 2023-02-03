@@ -41,7 +41,7 @@ const MypageSidebar = (props: propTypes) => {
         <li className="mb-[42px]">
           <div className="flex items-center w-full h-[54px] font-bold pt-[35px]">
             <img src={Menu} alt="" className="w-[15.5px] h-[11.64px] ml-[40px] mr-[13.47px]" />
-            <span className="w-full">Menu</span>
+            <span className="w-full font-Helvetica">Menu</span>
           </div>
         </li>
         <li className="mb-[20px]">

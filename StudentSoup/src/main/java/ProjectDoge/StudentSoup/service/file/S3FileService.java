@@ -5,7 +5,9 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
 import ProjectDoge.StudentSoup.exception.file.ImageConvertException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ import java.util.UUID;
 public class S3FileService implements FileService {
     private final FileRepository fileRepository;
     private final AmazonS3Client amazonS3Client;
+    private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -134,9 +137,18 @@ public class S3FileService implements FileService {
         return originalFileName.substring(pos + 1);
     }
 
+    @Override
+    public void deleteFile(List<ImageFile> imageFileList) {
+        for(ImageFile image : imageFileList){
+            if(!amazonS3.doesObjectExist(bucket, image.getFileName()))
+                throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
+            amazonS3.deleteObject(bucket, image.getFileName());
+        }
+    }
+
     private boolean isNotImageFile(String ext){
         log.info("올바른 이미지 파일인지 확인하는 확장자 체크 로직이 실행되었습니다. [{}]", ext);
-        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
+        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg") && !ext.equals("jfif");
     }
 
     public String getFullPath(String fileName){
@@ -150,4 +162,5 @@ public class S3FileService implements FileService {
             log.info("파일 삭제를 실패하였습니다.");
         }
     }
+
 }

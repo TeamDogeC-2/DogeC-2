@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.BoardReview;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
 import ProjectDoge.StudentSoup.entity.board.BoardReviewLike;
@@ -17,10 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @RequiredArgsConstructor
 public class BoardReviewLikeService {
-        boolean boardReviewLiked =true;
-
-        boolean boardReviewNotLiked = false;
-
         private final BoardReviewLikeRepository boardReviewLikeRepository;
         private final BoardReviewFindService boardReviewFindService;
         private final MemberFindService memberFindService;
@@ -36,16 +33,16 @@ public class BoardReviewLikeService {
             likeBoardReview(boardReview,member,resultMap);
         }
         else{
-            cancelBoardReview(boardReview,boardReviewLike,resultMap);
+            unlikeBoardReview(boardReview,boardReviewLike,resultMap);
         }
 
         return  resultMap;
     }
 
-    private void cancelBoardReview(BoardReview boardReview,BoardReviewLike boardReviewLike, ConcurrentHashMap<String, Object> resultMap) {
+    private void unlikeBoardReview(BoardReview boardReview,BoardReviewLike boardReviewLike, ConcurrentHashMap<String, Object> resultMap) {
         boardReviewLikeRepository.delete(boardReviewLike);
         boardReview.minusLikeCount();
-        BoardReviewDto boardReviewDto = new BoardReviewDto().createBoardReviewDto(boardReview,boardReviewNotLiked);
+        BoardReviewDto boardReviewDto = new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.NOT_LIKED);
         resultMap.put("data",boardReviewDto);
         resultMap.put("result","cancel");
     }
@@ -54,7 +51,7 @@ public class BoardReviewLikeService {
         BoardReviewLike boardReviewLike = new BoardReviewLike().createBoardReviewLike(boardReview,member);
         boardReviewLikeRepository.save(boardReviewLike);
         boardReview.addLikeCount();
-        BoardReviewDto boardReviewDto = new BoardReviewDto().createBoardReviewDto(boardReview,boardReviewLiked);
+        BoardReviewDto boardReviewDto = new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.LIKED);
         resultMap.put("data",boardReviewDto);
         resultMap.put("result","like");
     }
