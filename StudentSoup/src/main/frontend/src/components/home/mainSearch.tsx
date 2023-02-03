@@ -61,13 +61,15 @@ const MainSearch = () => {
 
   return (
     <div className="w-full flex flex-col mt-[290px] items-center">
+      <span className="relative bottom-[88px] text-[45px] fw-400 leading-[59px] text-white">
+        대학생을 위한
+      </span>
       <div
         className={cn(
           'flex flex-col text-center relative bottom-[88px]',
           'after:flex after:flex-col after:text-center after:relative after:bottom-[88px]',
         )}
       >
-        <span className="text-[45px] fw-400 leading-[59px] text-white">대학생을 위한</span>
         <span className="text-[65px] fw-400 leading-[93px] font-extrabold text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천
         </span>
