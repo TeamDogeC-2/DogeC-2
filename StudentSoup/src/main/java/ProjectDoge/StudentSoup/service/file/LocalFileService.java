@@ -93,7 +93,7 @@ public class LocalFileService implements FileService {
     }
 
     private static boolean isNotImageFile(String ext) {
-        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
+        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg") && !ext.equals("jfif");
     }
 
     public String getFullPath(String filename){

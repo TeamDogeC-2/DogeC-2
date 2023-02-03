@@ -136,7 +136,7 @@ public class S3FileService implements FileService {
 
     private boolean isNotImageFile(String ext){
         log.info("올바른 이미지 파일인지 확인하는 확장자 체크 로직이 실행되었습니다. [{}]", ext);
-        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg");
+        return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg") && !ext.equals("jfif");
     }
 
     public String getFullPath(String fileName){
