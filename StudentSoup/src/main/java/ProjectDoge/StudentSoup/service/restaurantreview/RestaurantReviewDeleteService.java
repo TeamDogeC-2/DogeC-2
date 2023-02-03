@@ -45,7 +45,7 @@ public class RestaurantReviewDeleteService {
         if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN) {
             throw new RestaurantReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
         }
-        deleteService(findRestaurantReview);
+        fileService.deleteFile(findRestaurantReview.getImageFileList());
         restaurantReviewRepository.delete(findRestaurantReview);
         resultMap.put("result", "ok");
         return resultMap;
@@ -57,33 +57,6 @@ public class RestaurantReviewDeleteService {
             throw new MemberNotFoundException("기본키가 전달되지 않았거나, 로그인 되지 않은 상태에서 리뷰 삭제는 불가능합니다.");
         }
         log.info("회원의 로그인 상태 확인이 완료되었습니다.");
-    }
-
-    private void deleteService(RestaurantReview review){
-        if(profiles.equals("release")){
-            removeS3ImageObject(review);
-        } else if(profiles.equals("local")){
-            removeLocalImageObject(review);
-        }
-    }
-
-    private void removeS3ImageObject(RestaurantReview review) {
-        for(ImageFile image : review.getImageFileList()){
-            if(!amazonS3.doesObjectExist(bucket, image.getFileName()))
-                throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
-            amazonS3.deleteObject(bucket, image.getFileName());
-        }
-    }
-
-    private void removeLocalImageObject(RestaurantReview review){
-        for(ImageFile image : review.getImageFileList()){
-            Path filePath = Paths.get(fileService.getFullPath(image.getFileName()));
-            try {
-                Files.deleteIfExists(filePath);
-            } catch (IOException e){
-                throw new RuntimeException("입력 에러 발생이 됐습니다.", e);
-            }
-        }
     }
 
     @Transactional(rollbackFor = Exception.class)
