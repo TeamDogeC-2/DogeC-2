@@ -128,8 +128,6 @@ const RestaurantMain = (_props: any) => {
     };
   }, [sortRef]);
 
-  console.log(state.state);
-
   return (
     <div className="pt-[60px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto relative">
@@ -408,7 +406,9 @@ const RestaurantMain = (_props: any) => {
                 <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
                   {school.name}
                   <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
-                  <div className="text-[20px] text-[#696969]">{school.restaurantCategory}</div>
+                  <div className="text-[20px] text-[#696969] truncate">
+                    {school.restaurantCategory} | {school.tag}
+                  </div>
                   <div className="ml-[2px] mb-[25px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
                     <span>
                       <svg
