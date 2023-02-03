@@ -45,10 +45,16 @@ public class RestaurantReviewDeleteService {
         if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN) {
             throw new RestaurantReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
         }
-        fileService.deleteFile(findRestaurantReview.getImageFileList());
+        ifPresentImageDelete(findRestaurantReview);
         restaurantReviewRepository.delete(findRestaurantReview);
         resultMap.put("result", "ok");
         return resultMap;
+    }
+
+    private void ifPresentImageDelete(RestaurantReview findRestaurantReview) {
+        for(ImageFile image : findRestaurantReview.getImageFileList()){
+            fileService.deleteFile(image);
+        }
     }
 
     private void checkLoginStatus(Long memberId){
