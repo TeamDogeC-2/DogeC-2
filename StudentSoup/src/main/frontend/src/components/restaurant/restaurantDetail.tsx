@@ -132,7 +132,8 @@ const restaurant = () => {
             <div className="flex flex-col">
               {heart ? (
                 <svg
-                  className="ml-[47px] mt-[17px] mb-[12.26px]"
+                  onClick={handleHeartCount}
+                  className="ml-[47px] mt-[17px] mb-[12.26px] cursor-pointer"
                   width="16"
                   height="14"
                   viewBox="0 0 16 14"
@@ -149,7 +150,8 @@ const restaurant = () => {
                 </svg>
               ) : (
                 <svg
-                  className="ml-[47px] mt-[17px] mb-[12.26px]"
+                  onClick={handleHeartCount}
+                  className="ml-[47px] mt-[17px] mb-[12.26px] cursor-pointer"
                   width="16"
                   height="14"
                   viewBox="0 0 16 14"
@@ -168,29 +170,34 @@ const restaurant = () => {
 
               <div
                 onClick={handleHeartCount}
-                className="ml-[37px] w-[39px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center text-[#515151] cursor-pointer"
+                className="ml-[38px] w-[39px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center text-[#515151] cursor-pointer"
               >
                 좋아요
               </div>
             </div>
-            <div className="ml-[24px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
+            <div className="ml-[20px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Share className="ml-[37px] mt-[15px]" />
+              <Share
+                onClick={async => {
+                  void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
+                }}
+                className="ml-[36px] mt-[15px] cursor-pointer"
+              />
               <div
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[33px] w-[26px] mt-[13px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[31px] w-[26px] mt-[13px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 공유
               </div>
             </div>
-            <div className="ml-[32px] mt-[16px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
+            <div className="ml-[27px] mt-[16px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Review className="ml-[30px] mt-[14px]" />
+              <Review onClick={handleMoveScrool} className="ml-[32px] mt-[15px] cursor-pointer" />
               <div
                 onClick={handleMoveScrool}
-                className="ml-[27px] w-[26px] mt-[14px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[28px] w-[26px] mt-[12.5px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 리뷰
               </div>
