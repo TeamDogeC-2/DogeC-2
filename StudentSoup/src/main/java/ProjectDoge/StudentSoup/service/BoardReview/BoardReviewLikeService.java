@@ -35,7 +35,6 @@ public class BoardReviewLikeService {
         else{
             unlikeBoardReview(boardReview,boardReviewLike,resultMap);
         }
-
         return  resultMap;
     }
 
