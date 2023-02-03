@@ -145,10 +145,10 @@ const menuInfo = () => {
       {!last ? (
         <div
           onClick={handleClickButton}
-          className="mt-[14px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+          className="mt-[14px] mb-[18px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
         >
           더보기
-          <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+          <div className="mb-[2px] ml-[2px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
             <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
           </div>
         </div>

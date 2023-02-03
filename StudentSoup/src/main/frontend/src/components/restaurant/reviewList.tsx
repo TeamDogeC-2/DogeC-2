@@ -134,7 +134,7 @@ const reviewWrite = () => {
                           </div>
                           <div className="flex flex-row">
                             <ReviewMoreStarView {...school} school={school} />
-                            <div className="ml-[9.4px] mt-[2px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
+                            <div className="ml-[9.4px] mt-[5px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
                               {school.writeDate}
                             </div>
                             <ReviewMoreHeartInfo {...school} school={school} />
@@ -182,7 +182,7 @@ const reviewWrite = () => {
                         handlePageNumberClick(e, school);
                       }}
                     >
-                      <div id={school} className="mt-[1.8px] text-[20px] text-center">
+                      <div id={school} className="mt-[4px] text-[20px] text-center">
                         {school}
                       </div>
                     </div>
@@ -273,10 +273,10 @@ const reviewWrite = () => {
           {reviewList.length ? (
             <div
               onClick={handleMoreButton}
-              className="mt-[13px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+              className="mt-[14px] mb-[18px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
             >
               더보기
-              <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+              <div className="mb-[2px] ml-[2px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
                 <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
               </div>
             </div>
