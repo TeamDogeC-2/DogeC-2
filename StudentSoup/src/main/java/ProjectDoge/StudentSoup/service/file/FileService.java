@@ -19,5 +19,5 @@ public interface FileService {
 
     String getFullPath(String fileName);
 
-    void deleteFile(List<ImageFile> imageFileList);
+    void deleteFile(ImageFile image);
 }

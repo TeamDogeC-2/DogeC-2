@@ -42,7 +42,7 @@ public class S3FileService implements FileService {
     @Transactional(rollbackFor = Exception.class)
     public Long join(MultipartFile multipartFile) {
         UploadFileDto uploadFileDto = storeFile(multipartFile);
-        if(uploadFileDto == null)
+        if (uploadFileDto == null)
             return null;
 
         ImageFile file = new ImageFile().createFile(uploadFileDto);
@@ -56,9 +56,9 @@ public class S3FileService implements FileService {
 
         log.info("S3에 다중 파일 등록 서비스 메소드를 실행하였습니다.");
         List<UploadFileDto> uploadFileDtoList = new ArrayList<>();
-        if(multipartFileList != null){
-            for (MultipartFile multipartFile : multipartFileList){
-                if(!multipartFileList.isEmpty()){
+        if (multipartFileList != null) {
+            for (MultipartFile multipartFile : multipartFileList) {
+                if (!multipartFileList.isEmpty()) {
                     uploadFileDtoList.add(storeFile(multipartFile));
                 }
             }
@@ -69,7 +69,7 @@ public class S3FileService implements FileService {
 
     @Override
     public UploadFileDto storeFile(MultipartFile multipartFile) {
-        if(multipartFile.isEmpty()){
+        if (multipartFile.isEmpty()) {
             log.info("전송된 이미지 파일이 존재하지 않아 파일 저장 메소드가 실행되지 않습니다.");
             return null;
         }
@@ -101,18 +101,18 @@ public class S3FileService implements FileService {
         File convertFile = new File(file.getOriginalFilename());
         FileOutputStream fos = null;
         try {
-            if(convertFile.createNewFile()){
+            if (convertFile.createNewFile()) {
                 fos = new FileOutputStream(convertFile);
                 fos.write(file.getBytes());
                 return Optional.of(convertFile);
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            if(fos != null)
+            if (fos != null)
                 try {
                     fos.close();
-                } catch (IOException e){
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
         }
@@ -123,7 +123,7 @@ public class S3FileService implements FileService {
     public String createStoreFileName(String originalFileName) {
         log.info("파일 저장용 파일 이름 생성 메소드가 실행되었습니다.");
         String ext = extractExt(originalFileName);
-        if(isNotImageFile(ext.toLowerCase()))
+        if (isNotImageFile(ext.toLowerCase()))
             throw new FileExtNotMatchException("잘못된 이미지 파일 확장자입니다.");
 
         String uuid = UUID.randomUUID().toString();
@@ -131,32 +131,31 @@ public class S3FileService implements FileService {
         return uuid + "." + ext;
     }
 
-    private String extractExt(String originalFileName){
+    private String extractExt(String originalFileName) {
         log.info("확장자 추출이 시작되었습니다.");
         int pos = originalFileName.lastIndexOf('.');
         return originalFileName.substring(pos + 1);
     }
 
     @Override
-    public void deleteFile(List<ImageFile> imageFileList) {
-        for(ImageFile image : imageFileList){
-            if(!amazonS3.doesObjectExist(bucket, image.getFileName()))
-                throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
-            amazonS3.deleteObject(bucket, image.getFileName());
-        }
+    public void deleteFile(ImageFile image) {
+        if (!amazonS3.doesObjectExist(bucket, image.getFileName()))
+            throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
+        amazonS3.deleteObject(bucket, image.getFileName());
+
     }
 
-    private boolean isNotImageFile(String ext){
+    private boolean isNotImageFile(String ext) {
         log.info("올바른 이미지 파일인지 확인하는 확장자 체크 로직이 실행되었습니다. [{}]", ext);
         return !ext.equals("jpeg") && !ext.equals("jpg") && !ext.equals("bmp") && !ext.equals("gif") && !ext.equals("png") && !ext.equals("svg") && !ext.equals("jfif");
     }
 
-    public String getFullPath(String fileName){
+    public String getFullPath(String fileName) {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     private void removeFile(File createFile) {
-        if(createFile.delete()){
+        if (createFile.delete()) {
             log.info("메모리에 생성된 파일이 삭제되었습니다.");
         } else {
             log.info("파일 삭제를 실패하였습니다.");

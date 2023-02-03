@@ -151,7 +151,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 
     private BooleanExpression checkTypeOfBoard(Long schoolId, Long departmentId) {
-        if(schoolId == null){
+        if (schoolId == null) {
             throw new SchoolIdNotSentException("학교 기본키가 전달되지 않았습니다.");
         }
         BooleanExpression findBySchool = board.school.id.eq(schoolId);
@@ -223,7 +223,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     @Override
     public Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable) {
 
-        List<MemberMyPageBoardDto> content = queryFactory.select(new QMemberMyPageBoardDto(board.id, board.writeDate, board.likedCount, board.view))
+        List<MemberMyPageBoardDto> content = queryFactory.select(new QMemberMyPageBoardDto(
+                        board.id,
+                        board.title,
+                        board.writeDate,
+                        board.likedCount,
+                        board.view))
                 .from(board)
                 .where(board.member.memberId.eq(memberId))
                 .offset(pageable.getOffset())

@@ -70,7 +70,19 @@ public class AdminRestaurantService {
     private void ifPresentImageFileDelete(Restaurant restaurant) {
         if(!restaurant.getImageFileList().isEmpty()){
             log.info("이미지 파일이 존재하여 이미지 파일을 삭제하였습니다.");
-            fileRepository.deleteAll(restaurant.getImageFileList());
+            for(ImageFile image : restaurant.getImageFileList()){
+                fileService.deleteFile(image);
+            }
+            fileRepository.deleteAllInBatch(restaurant.getImageFileList());
         }
+        restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public void adminDeleteRestaurant(Long restaurantId){
+        Restaurant restaurant = restaurantFindService.findOne(restaurantId);
+        for(ImageFile image : restaurant.getImageFileList())
+            fileService.deleteFile(image);
+        restaurantRepository.delete(restaurant);
     }
 }
