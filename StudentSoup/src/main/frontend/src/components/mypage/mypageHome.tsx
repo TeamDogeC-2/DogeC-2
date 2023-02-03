@@ -8,10 +8,6 @@ import WritingComponent from './content/writingComponent';
 import ReplyComponent from './content/replyComponent';
 import ReviewComponent from './content/reviewComponent';
 
-interface PropsType {
-  content: 
-}
-
 const MypageHome = () => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
@@ -122,7 +118,7 @@ const MypageHome = () => {
         <div className="w-[635px] h-full flex flex-col">
           <div className='mt-[47px] text-[24px] text-[#353535]'>미리보기</div>
           {/* tap menus */}
-          <div className="flex flex-row gap-x-[70px] mt-[36px] mb-[32px]">
+          <div className="flex flex-row gap-x-[40px] mt-[36px] mb-[32px]">
             <button
               className={cn(
                 'w-[95px] h-[34px] rounded-[38px] text-[16px] font-semibold',
@@ -162,20 +158,32 @@ const MypageHome = () => {
             </button>
           </div>
           {/* tap contents */}
-          <div className="w-[573px] h-[490px] py-1 overflow-hidden rounded-[5px] border border-[#E1E1E1] shadow-lg bg-white">
+          <div className="w-[573px] h-[383px] py-1 overflow-hidden rounded-[5px] border border-[#E1E1E1] shadow-lg bg-white">
             <div className={cn(
-              'hidden': content !== 'WRITING',
+              {
+                hidden: content !== 'WRITING',
+              }
             )}>
               <WritingComponent />
             </div>
-            <div>
+            <div className={cn(
+              {
+                hidden: content !== 'REPLY',
+              }
+            )}>
               <ReplyComponent />
             </div>
-            <div>
+            <div className={cn(
+              {
+                hidden: content !== 'REVIEW',
+              }
+            )}>
               <ReviewComponent />
             </div>
           </div>
-          <button className='w-[573px] h-[52px] mt-[12px] text-white border rounded-[5px] border-[#E1E1E1] bg-[#FF611D]'>자세히 보러가기</button>
+          <button className='w-[573px] h-[52px] mt-[12px] text-white border rounded-[5px] border-[#E1E1E1] bg-[#FF611D]'
+          onClick={() => {
+          }}>자세히 보러가기</button>
         </div>
       </div>
     </div>
