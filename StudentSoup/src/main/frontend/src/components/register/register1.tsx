@@ -82,7 +82,7 @@ const Register1 = () => {
             </div>
           </div>
           <div className="mt-[49px]">
-            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-bold">
+            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-extrabold">
               SFOO 서비스 이용약관에
               <br />
               동의해주세요.
@@ -95,7 +95,7 @@ const Register1 = () => {
               onChange={handleAllCheck}
               className="w-[20px] h-[20px] mr-[8px] accent-[#FF611D]"
             />
-            <span className="text-[16px] fw-400 leading-[21px]">모든 약관에 동의 합니다.</span>
+            <span className="text-[16px] fw-400 leading-[21px] font-[#484848]">모든 약관에 동의 합니다.</span>
           </div>
           <span className="w-[530px] h-[1px] bg-[#D9D9D9]"></span>
           <div className="flex-col justify-center items-center">
@@ -106,7 +106,10 @@ const Register1 = () => {
                   ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfo,
                 })}
               ></div>
-              <span className="flex text-left">[필수] 개인정보 수집 및 이용동의</span>
+              <span className="flex text-left text-[#484848]">
+                <span className='pr-1 font-semibold'>[필수]</span>
+                개인정보 수집 및 이용동의
+              </span>
             </div>
             <div
               onClick={handleCheckPersonInfoTerm}
@@ -118,7 +121,10 @@ const Register1 = () => {
                   ['bg-[url("./img/Vector15.jpg")]']: requireClickPersonInfoTerm,
                 })}
               ></div>
-              <span className="flex text-left">[필수] 개인정보 보유기간 및 이용기간</span>
+              <span className="flex text-left text-[#484848]">
+                <span className='pr-1 font-semibold'>[필수]</span>
+                개인정보 보유기간 및 이용기간
+              </span>
             </div>
             <div onClick={handleCheck} className="flex flex-row items-center my-[22px]">
               <div
@@ -127,7 +133,9 @@ const Register1 = () => {
                   ['bg-[url("./img/Vector15.jpg")]']: clickPersonInfo,
                 })}
               ></div>
-              <span className="flex text-left">[선택] 광고성 정보 수신 및 마케팅 활용 동의</span>
+              <span className="flex text-left text-[#484848]">
+                <span className='pr-1 font-semibold'>[선택]</span>
+                광고성 정보 수신 및 마케팅 활용 동의</span>
             </div>
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[28px]">
               고객님께서는 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이

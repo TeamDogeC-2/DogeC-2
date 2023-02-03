@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewDto;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
@@ -22,9 +23,6 @@ import java.util.List;
 public class RestaurantReviewCallService {
 
     private final RestaurantReviewRepository restaurantReviewRepository;
-
-    private final boolean LIKED = true;
-    private final boolean NOT_LIKED = false;
 
     @Transactional
     public Page<RestaurantReviewDto> getRestaurantReviewCall(Long restaurantId,
@@ -69,11 +67,11 @@ public class RestaurantReviewCallService {
     }
 
     private RestaurantReviewDto getLikeRestaurantReviewDto(RestaurantReview restaurantReview){
-        return new RestaurantReviewDto(restaurantReview, LIKED);
+        return new RestaurantReviewDto(restaurantReview, ConstField.LIKED);
     }
 
     private RestaurantReviewDto getNotLikeRestaurantReviewDto(RestaurantReview restaurantReview){
-        return new RestaurantReviewDto(restaurantReview, NOT_LIKED);
+        return new RestaurantReviewDto(restaurantReview, ConstField.NOT_LIKED);
     }
 
     private Page<RestaurantReviewDto> getNotLoginRestaurantReviewList(List<RestaurantReview> sortedRestaurantReviews,

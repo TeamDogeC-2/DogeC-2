@@ -149,7 +149,7 @@ const Register3 = () => {
             </div>
           </div>
           <div className="mt-[49px]">
-            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-bold">
+            <span className="flex text-[26px] leading-[37px] text-left text-[#161616] font-semibold">
               SFOO의 서비스를 위한 개인정보를 <br />
               입력해주세요.
             </span>
@@ -215,7 +215,7 @@ const Register3 = () => {
                   value={school.schoolId}
                   key={school.schoolId}
                   id={school.schoolId}
-                  className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                  className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                 >
                   {school.schoolName}
                 </option>
@@ -252,7 +252,7 @@ const Register3 = () => {
                       value={depart.departmentId}
                       key={depart.departmentId}
                       id={depart.departmentId}
-                      className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                      className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                     >
                       {depart.departmentName}
                     </option>

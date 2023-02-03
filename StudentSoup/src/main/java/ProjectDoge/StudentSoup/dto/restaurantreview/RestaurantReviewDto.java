@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class RestaurantReviewDto {
         this.memberProfileImageName = setProfileImageFileName(restaurantReview.getMember());
         this.nickName = restaurantReview.getMember().getNickname();
         this.content = restaurantReview.getContent();
-        this.writeDate = restaurantReview.getWriteDate().toString();
+        this.writeDate = restaurantReview.getWriteDate().toLocalDate().toString();
         this.starLiked = restaurantReview.getStarLiked();
         this.likedCount = restaurantReview.getLikedCount();
         this.imageFileNameList = setImageFileList(restaurantReview);
