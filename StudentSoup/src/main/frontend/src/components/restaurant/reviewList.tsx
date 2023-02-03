@@ -257,9 +257,9 @@ const reviewWrite = () => {
                       {school.writeDate}
                     </div>
                     {school.like ? (
-                      <ReviewSmallHeartActive className="ml-[99px] mt-[20px]" />
+                      <ReviewSmallHeartActive className="ml-[89px] mt-[20px]" />
                     ) : (
-                      <ReviewSmallHeart className="ml-[99px] mt-[20px]" />
+                      <ReviewSmallHeart className="ml-[89px] mt-[20px]" />
                     )}
                     <div className="ml-[3.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.likedCount}
