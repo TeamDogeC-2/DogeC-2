@@ -8,7 +8,11 @@ import WritingComponent from './content/writingComponent';
 import ReplyComponent from './content/replyComponent';
 import ReviewComponent from './content/reviewComponent';
 
-const MypageHome = () => {
+interface propTypes {
+  onClickMenu: Function;
+}
+
+const MypageHome = (props: any) => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
@@ -24,6 +28,12 @@ const MypageHome = () => {
   const [content, setContent] = useState<String>('WRITING');
   const [showContent, setShowContent] = useState(false);
   const contentRef: any = useRef(null);
+
+  const [id, setId] = useState<string>('home');
+  const onClickMypageBoardReview = () => {
+    setId('boardReview');
+    props.onClickMenu('boardReview');
+  };
 
   const formatDate = `${year}년 ${month}월 ${day}일`;
 
@@ -182,8 +192,9 @@ const MypageHome = () => {
             </div>
           </div>
           <button className='w-[573px] h-[52px] mt-[12px] text-white border rounded-[5px] border-[#E1E1E1] bg-[#FF611D]'
-          onClick={() => {
-          }}>자세히 보러가기</button>
+            onClick={onClickMypageBoardReview}>
+            자세히 보러가기
+          </button>
         </div>
       </div>
     </div>
