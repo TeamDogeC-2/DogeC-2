@@ -51,19 +51,17 @@ public class BoardReviewRepositoryImpl implements BoardReviewRepositoryCustom {
                 .fetchOne();
     }
     @Override
-    public List<BoardReview> findByBoardId(Long boardId,Pageable pageable){
-        List<BoardReview> query= queryFactory
+    public List<BoardReview> findByBoardId(Long boardId){
+        List<BoardReview> query = queryFactory
                 .select(boardReview)
                 .from(boardReview)
                 .leftJoin(boardReview.board,board)
                 .fetchJoin()
                 .where(boardReview.board.id.eq(boardId))
                 .orderBy(boardReview.seq.asc(),boardReview.depth.asc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
 
-                return  query;
+                return query;
     }
 
     @Override
