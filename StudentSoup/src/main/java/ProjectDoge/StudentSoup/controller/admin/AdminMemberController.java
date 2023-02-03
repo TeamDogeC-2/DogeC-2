@@ -12,6 +12,7 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminMemberService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
+import ProjectDoge.StudentSoup.service.member.MemberDeleteService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
@@ -29,11 +30,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @Controller
-public class AdminController {
+public class AdminMemberController {
     private final MemberRepository memberRepository;
     private final MemberFindService memberFindService;
     private final MemberRegisterService memberRegisterService;
     private final AdminMemberService adminMemberService;
+    private final MemberDeleteService memberDeleteService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
 
@@ -106,6 +108,12 @@ public class AdminController {
         model.addAttribute("findMembers",findMember);
         model.addAttribute("memberSearch",new MemberSearch());
         return "/admin/member/memberList";
+    }
+
+    @GetMapping("/member/{memberId}")
+    public String deleteMember(@PathVariable Long memberId){
+        memberDeleteService.deleteMember(memberId);
+        return "redirect:/admin/members";
     }
 
 
