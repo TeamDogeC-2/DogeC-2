@@ -105,7 +105,7 @@ const reviewWrite = () => {
         >
           <div className="ml-[13.5px] mt-[4px] font-[400] text-[16px] leading-[21px]">추천순</div>
         </div>
-        <div className="mt-[20px] ml-[125px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
+        <div className="mt-[20px] ml-[185px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
           ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
         </div>
       </div>
@@ -261,7 +261,7 @@ const reviewWrite = () => {
                     ) : (
                       <ReviewSmallHeart className="ml-[89px] mt-[20px]" />
                     )}
-                    <div className="ml-[3.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    <div className="ml-[4.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.likedCount}
                     </div>
                   </div>
