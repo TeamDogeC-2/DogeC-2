@@ -30,10 +30,12 @@ const MypageHome = (props: any) => {
   const contentRef: any = useRef(null);
 
   const [id, setId] = useState<string>('home');
-  const onClickMypageBoardReview = () => {
+  const onClickMypageBoardReview = (props: any) => {
     setId('boardReview');
     props.onClickMenu('boardReview');
   };
+
+  const url = '/mypage';
 
   const formatDate = `${year}년 ${month}월 ${day}일`;
 
