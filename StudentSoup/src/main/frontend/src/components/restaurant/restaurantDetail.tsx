@@ -120,10 +120,10 @@ const restaurant = () => {
           </div>
           <div className="flex flex-row">
             <Star className="ml-[22px] mt-[10px]" />
-            <div className="ml-[5.92px] mt-[10px] h-[16px] font-bold text-[16px] leading-[23px] flex items-center text-[#515151]">
+            <div className="ml-[5.92px] mt-[11px] h-[16px] font-bold text-[16px] leading-[23px] flex items-center text-[#515151]">
               {restaurantDetail.starLiked}
             </div>
-            <div className="ml-[10px] mt-[10px] h-[16px] font-[400] text-[13px] leading-[17px] flex items-center text-[#9C9C9C]">
+            <div className="ml-[10px] mt-[11px] h-[16px] font-[400] text-[13px] leading-[17px] flex items-center text-[#9C9C9C]">
               {restaurantDetail.reviewCount}개의 리뷰
             </div>
           </div>
