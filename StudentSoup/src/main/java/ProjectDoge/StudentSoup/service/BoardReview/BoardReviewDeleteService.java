@@ -23,14 +23,14 @@ public class BoardReviewDeleteService {
     private final BoardReviewRepository boardReviewRepository;
 
     @Transactional
-    public ConcurrentHashMap<String,Object> deleteBoardReview(Long boardReviewId,Long memberId){
+    public ConcurrentHashMap<String,Object> deleteBoardReview(Long boardReviewId, Long memberId){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         BoardReview boardReview = boardReviewFindService.findOne(boardReviewId);
         checkBoardReviewOwn(memberId,boardReview);
         checkReviewLevel(boardReview);
         resultMap.put("result","ok");
         resultMap.put("boardReviewId",boardReviewId);
-        return  resultMap;
+        return resultMap;
     }
 
     private void checkReviewLevel(BoardReview boardReview) {
@@ -66,7 +66,7 @@ public class BoardReviewDeleteService {
 
     private void checkBoardReviewOwn(Long memberId, BoardReview boardReview) {
         if (boardReview.getMember().getMemberId() != memberId){
-            throw  new BoardReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
+            throw new BoardReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
         }
     }
 }

@@ -25,8 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardReviewCallService {
     private final BoardReviewRepository boardReviewRepository;
 
-    public ConcurrentHashMap<String,Object> callBoardReview(Long memberId,Long boardId, Pageable pageable){
-        ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<String,Object>();
+    public ConcurrentHashMap<String, Object> callBoardReview(Long memberId, Long boardId, Pageable pageable) {
+        ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<String, Object>();
 
         List<BoardReview> boardReviewList = boardReviewRepository.findByBoardId(boardId, pageable);
         JPAQuery<Long> count = boardReviewRepository.pagingCountByBoardId(boardId);
@@ -35,28 +35,27 @@ public class BoardReviewCallService {
         Page<BoardReviewDto> pageBoardReviewDtoList = PageableExecutionUtils.getPage(boardReviewDtoList, pageable, count::fetchOne);
 
 
-        List<BoardReview> bestReview =  boardReviewRepository.findBestReview(boardId);
+        List<BoardReview> bestReview = boardReviewRepository.findBestReview(boardId);
         List<BoardReviewDto> pageBoardReviewList = checkBoardReviewLike(memberId, bestReview);
 
-        resultMap.put("boardReviewList",pageBoardReviewDtoList);
+        resultMap.put("boardReviewList", pageBoardReviewDtoList);
         resultMap.put("bestReviewList", pageBoardReviewList);
 
         return resultMap;
     }
 
     private List<BoardReviewDto> checkBoardReviewLike(Long memberId,
-                                      List<BoardReview> boardReviewList) {
+                                                      List<BoardReview> boardReviewList) {
         List<BoardReviewDto> boardReviewDtoList = new ArrayList<>();
-        for(BoardReview boardReview : boardReviewList){
-            boardReviewDtoList.add(getBoardReviewLike(memberId,boardReview));
+        for (BoardReview boardReview : boardReviewList) {
+            boardReviewDtoList.add(getBoardReviewLike(memberId, boardReview));
         }
-
         return boardReviewDtoList;
     }
 
     private BoardReviewDto getBoardReviewLike(Long memberId, BoardReview boardReview) {
-        for(BoardLike boardLike : boardReview.getBoard().getBoardLikes()){
-            if(boardLike.getMember().getMemberId().equals(memberId))
+        for (BoardLike boardLike : boardReview.getBoard().getBoardLikes()) {
+            if (boardLike.getMember().getMemberId().equals(memberId))
                 return new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.LIKED);
         }
         return new BoardReviewDto().createBoardReviewDto(boardReview, ConstField.NOT_LIKED);
