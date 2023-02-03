@@ -73,8 +73,9 @@ public class AdminRestaurantService {
             for(ImageFile image : restaurant.getImageFileList()){
                 fileService.deleteFile(image);
             }
-            fileRepository.deleteAll(restaurant.getImageFileList());
+            fileRepository.deleteAllInBatch(restaurant.getImageFileList());
         }
+        restaurantRepository.save(restaurant);
     }
 
     @Transactional
