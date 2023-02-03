@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.controller.BoardReviewController;
+package ProjectDoge.StudentSoup.controller.boardreview;
 
 import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewDeleteService;
 import lombok.RequiredArgsConstructor;
