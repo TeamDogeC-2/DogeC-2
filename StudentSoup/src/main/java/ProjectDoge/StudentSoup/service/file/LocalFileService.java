@@ -14,6 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -98,6 +101,18 @@ public class LocalFileService implements FileService {
 
     public String getFullPath(String filename){
         return fileDir + filename;
+    }
+
+    @Override
+    public void deleteFile(List<ImageFile> imageFileList) {
+        for(ImageFile image : imageFileList){
+            Path filePath = Paths.get(getFullPath(image.getFileName()));
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e){
+                throw new RuntimeException("입력 에러 발생이 됐습니다.", e);
+            }
+        }
     }
 }
 
