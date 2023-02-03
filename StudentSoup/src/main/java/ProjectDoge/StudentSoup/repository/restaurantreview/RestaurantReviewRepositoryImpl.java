@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,13 +102,13 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
         if(cond == null)
             return null;
         else if(cond.equals("today"))
-            return restaurantReview.writeDate.eq(LocalDate.now());
+            return restaurantReview.writeDate.eq(LocalDateTime.now());
         else if(cond.equals("month"))
-            return restaurantReview.writeDate.between(LocalDate.now().minusMonths(1), LocalDate.now());
+            return restaurantReview.writeDate.between(LocalDateTime.now().minusMonths(1), LocalDateTime.now());
         else if(cond.equals("halfYear"))
-            return restaurantReview.writeDate.between(LocalDate.now().minusMonths(6), LocalDate.now());
+            return restaurantReview.writeDate.between(LocalDateTime.now().minusMonths(6), LocalDateTime.now());
         else if(cond.equals("year"))
-            return restaurantReview.writeDate.between(LocalDate.now().minusYears(1), LocalDate.now());
+            return restaurantReview.writeDate.between(LocalDateTime.now().minusYears(1), LocalDateTime.now());
         else
             return null;
     }
