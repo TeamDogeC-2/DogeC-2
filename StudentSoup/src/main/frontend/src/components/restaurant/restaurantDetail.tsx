@@ -187,7 +187,7 @@ const restaurant = () => {
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[31px] w-[26px] mt-[13px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[31.5px] w-[26px] mt-[13px] h-[11px] font-[400] text-[13px] leading-[22px] flex items-center cursor-pointer"
               >
                 공유
               </div>
