@@ -69,10 +69,9 @@ public class RestaurantReviewDeleteService {
 
     private void removeS3ImageObject(RestaurantReview review) {
         for(ImageFile image : review.getImageFileList()){
-            String awsKey = fileService.getFullPath(image.getFileName());
-            if(!amazonS3.doesObjectExist(bucket, awsKey))
-                throw new AmazonS3Exception("Object " + awsKey + "Not Exist!");
-            amazonS3.deleteObject(bucket, awsKey);
+            if(!amazonS3.doesObjectExist(bucket, image.getFileName()))
+                throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
+            amazonS3.deleteObject(bucket, image.getFileName());
         }
     }
 
