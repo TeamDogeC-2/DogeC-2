@@ -89,7 +89,7 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">최신순</div>
+          <div className="ml-[13.5px] mt-[4px] font-[400] text-[16px] leading-[21px]">최신순</div>
         </div>
         <div
           onClick={() => {
@@ -103,15 +103,15 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">추천순</div>
+          <div className="ml-[13.5px] mt-[4px] font-[400] text-[16px] leading-[21px]">추천순</div>
         </div>
-        <div className="mt-[20px] ml-[125px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
+        <div className="mt-[20px] ml-[185px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
           ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
         </div>
       </div>
       {clickMoreButton ? (
         <>
-          <div className="ml-[18px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
+          <div className="ml-[18px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5]"></div>
           <div className="w-[743px] h-auto">
             <div className="flex flex-col">
               {reviewList.map((school: any, idx: any) => (
@@ -134,7 +134,7 @@ const reviewWrite = () => {
                           </div>
                           <div className="flex flex-row">
                             <ReviewMoreStarView {...school} school={school} />
-                            <div className="ml-[9.4px] mt-[2px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
+                            <div className="ml-[9.4px] mt-[5px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
                               {school.writeDate}
                             </div>
                             <ReviewMoreHeartInfo {...school} school={school} />
@@ -182,7 +182,7 @@ const reviewWrite = () => {
                         handlePageNumberClick(e, school);
                       }}
                     >
-                      <div id={school} className="mt-[1.8px] text-[20px] text-center">
+                      <div id={school} className="mt-[4px] text-[20px] text-center">
                         {school}
                       </div>
                     </div>
@@ -228,7 +228,7 @@ const reviewWrite = () => {
                       <div className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C] bg-[#9C9C9C]"></div>
                     )}
                     <div className="">
-                      <div className="ml-[4px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
+                      <div className="ml-[5px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
                         {school.nickName}
                       </div>
                       <ReviewStarView {...school} school={school} />
@@ -257,11 +257,11 @@ const reviewWrite = () => {
                       {school.writeDate}
                     </div>
                     {school.like ? (
-                      <ReviewSmallHeartActive className="ml-[99px] mt-[20px]" />
+                      <ReviewSmallHeartActive className="ml-[89px] mt-[20px]" />
                     ) : (
-                      <ReviewSmallHeart className="ml-[99px] mt-[20px]" />
+                      <ReviewSmallHeart className="ml-[89px] mt-[20px]" />
                     )}
-                    <div className="ml-[3.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
+                    <div className="ml-[4.31px] mt-[18px] w-[18px] h-[16px] font-normal text-[11px] leading-[14px] flex items-center text-[#A5A5A5]">
                       {school.likedCount}
                     </div>
                   </div>
@@ -273,10 +273,10 @@ const reviewWrite = () => {
           {reviewList.length ? (
             <div
               onClick={handleMoreButton}
-              className="mt-[13px] mb-[20px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
+              className="mt-[14px] mb-[18px] ml-[649px] font-[400] text-[16px] leading-[22px] flex items-center cursor-pointer"
             >
               더보기
-              <div className="w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
+              <div className="mb-[2px] ml-[2px] w-[14px] h-[14px] rounded-full border border-[#FF611D] bg-[#FF611D]">
                 <MoreInfo className="ml-[2.22px] mt-[3.5px]" />
               </div>
             </div>

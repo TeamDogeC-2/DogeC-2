@@ -86,7 +86,7 @@ const menuItem = (data: any) => {
           <div
             id={data.restaurantMenuId}
             key={data.restaurantMenuId}
-            className="ml-[2.93px] mt-[2.4px] font-[400] text-[16px] leading-[22px] flex items-center text-[#FFFFFF]"
+            className="ml-[2.93px] mt-[4px] font-[400] text-[16px] leading-[22px] flex items-center text-[#FFFFFF]"
           >
             {clicklike ? likeCount : data.likedCount}
           </div>

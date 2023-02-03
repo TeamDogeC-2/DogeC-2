@@ -128,8 +128,6 @@ const RestaurantMain = (_props: any) => {
     };
   }, [sortRef]);
 
-  console.log(state.state);
-
   return (
       <div className="pt-[60px] bg-[#1E1E1E]/5">
         <div className="w-[1039px] mx-auto relative">
@@ -162,7 +160,6 @@ const RestaurantMain = (_props: any) => {
               </svg>
               필터
             </button>
-
             {/* filter */}
             {showSorts && (
                 <div className="px-2 py-4 z-10 flex flex-col gap-y-1 absolute top-12 right-0 rounded-[23.5px] bg-white shadow-sm shadow-black/25">
@@ -404,12 +401,13 @@ const RestaurantMain = (_props: any) => {
                         id={school.restaurantId}
                         className="w-[382px] h-[225px] rounded-[10px] bg-gray-100 cursor-pointer"
                     />
-
-                    <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
-                      {school.name}
-                      <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
-                      <div className="text-[20px] text-[#696969]">{school.restaurantCategory}</div>
-                      <div className="ml-[2px] mb-[25px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
+                <div id={school.restaurantId} className="mt-[20px] text-[28px] text-[#262626]">
+                  {school.name}
+                  <span className="px-2 text-[28px] text-[#FF611D]">{school.starLiked}</span>
+                  <div className="text-[20px] text-[#696969] truncate">
+                    {school.restaurantCategory} | {school.tag}
+                  </div>
+                  <div className="ml-[2px] mb-[25px] flex gap-x-9 items-center text-[20px] font-medium text-[#262626]">
                     <span>
                       <svg
                           width="14"

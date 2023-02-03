@@ -112,7 +112,7 @@ const restaurant = () => {
       <div className="h-auto flex m-[49px] justify-center">
         <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
-          <div className="ml-[22px] mt-[13px] whitespace-normal h-auto font-bold text-[25px] leading-[30px] flex items-center">
+          <div className="ml-[22px] mt-[13px] whitespace-normal h-auto font-semibold text-[25px] leading-[30px] flex items-center">
             {restaurantDetail.name}
           </div>
           <div className="ml-[22px] mt-[8px] w-[230px] h-auto font-[400] leading-[21px] text-[16px] flex items-center text-[#717171]">
@@ -120,10 +120,10 @@ const restaurant = () => {
           </div>
           <div className="flex flex-row">
             <Star className="ml-[22px] mt-[10px]" />
-            <div className="ml-[5.92px] mt-[10px] h-[16px] font-bold text-[16px] leading-[23px] flex items-center text-[#515151]">
+            <div className="ml-[5.92px] mt-[11px] h-[16px] font-bold text-[16px] leading-[23px] flex items-center text-[#515151]">
               {restaurantDetail.starLiked}
             </div>
-            <div className="ml-[10px] mt-[10px] h-[16px] font-[400] text-[13px] leading-[17px] flex items-center text-[#9C9C9C]">
+            <div className="ml-[10px] mt-[11px] h-[16px] font-[400] text-[13px] leading-[17px] flex items-center text-[#9C9C9C]">
               {restaurantDetail.reviewCount}개의 리뷰
             </div>
           </div>
@@ -132,7 +132,8 @@ const restaurant = () => {
             <div className="flex flex-col">
               {heart ? (
                 <svg
-                  className="ml-[47px] mt-[17px] mb-[12.26px]"
+                  onClick={handleHeartCount}
+                  className="ml-[47px] mt-[17px] mb-[12.26px] cursor-pointer"
                   width="16"
                   height="14"
                   viewBox="0 0 16 14"
@@ -149,7 +150,8 @@ const restaurant = () => {
                 </svg>
               ) : (
                 <svg
-                  className="ml-[47px] mt-[17px] mb-[12.26px]"
+                  onClick={handleHeartCount}
+                  className="ml-[47px] mt-[17px] mb-[12.26px] cursor-pointer"
                   width="16"
                   height="14"
                   viewBox="0 0 16 14"
@@ -168,29 +170,34 @@ const restaurant = () => {
 
               <div
                 onClick={handleHeartCount}
-                className="ml-[35px] w-[39px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center text-[#515151] cursor-pointer"
+                className="ml-[38px] w-[39px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center text-[#515151] cursor-pointer"
               >
                 좋아요
               </div>
             </div>
-            <div className="ml-[24px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
+            <div className="ml-[20px] mt-[17px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Share className="ml-[37px] mt-[15.24px]" />
+              <Share
+                onClick={async => {
+                  void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
+                }}
+                className="ml-[36px] mt-[15px] cursor-pointer"
+              />
               <div
                 onClick={async => {
                   void handleCopyClipBoard(`/restaurant/${restaurantNumber}`);
                 }}
-                className="ml-[31px] w-[26px] mt-[12px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[31.5px] w-[26px] mt-[13px] h-[11px] font-[400] text-[13px] leading-[22px] flex items-center cursor-pointer"
               >
                 공유
               </div>
             </div>
-            <div className="ml-[32px] mt-[16px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
+            <div className="ml-[27px] mt-[16px] border-[1px] border-[#DEDEDE] rotate-[90] bg-[#DEDEDE]"></div>
             <div className="flex flex-col">
-              <Review className="ml-[30px] mt-[17px]" />
+              <Review onClick={handleMoveScrool} className="ml-[32px] mt-[15px] cursor-pointer" />
               <div
                 onClick={handleMoveScrool}
-                className="ml-[25px] w-[26px] mt-[10px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
+                className="ml-[28px] w-[26px] mt-[12.5px] h-[11px] font-[400] text-[13px] leading-[17px] flex items-center cursor-pointer"
               >
                 리뷰
               </div>
@@ -220,7 +227,7 @@ const restaurant = () => {
           <div className="ml-[21px] mt-[32px] font-[400] text-[24px] flex items-center">
             매장정보
           </div>
-          <div className="mt-[5px]">
+          <div className="mt-[6px]">
             <span className="ml-[21px] w-auto font-[400] text-[16px] leading-[21px] text-[#515151]">
               <Location className="inline mb-[3px] mr-[5px]" /> {restaurantDetail.address}&nbsp;
             </span>
@@ -231,26 +238,26 @@ const restaurant = () => {
             <span className="ml-[5px] font-normal text-[#FF611D]">{restaurantDetail.distance}</span>
           </div>
           <div className="flex flex-row">
-            <Phone className="ml-[21px] mt-[15px]" />
-            <div className="ml-[9.61px] mt-[12px] h-[12px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
+            <Phone className="ml-[21px] mt-[12px]" />
+            <div className="ml-[9.61px] mt-[13px] h-[12px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.tel}
             </div>
           </div>
           <div className="flex flex-row">
-            <Clock className="ml-[21px] mt-[16px]" />
+            <Clock className="ml-[21px] mt-[14px]" />
             <div className="ml-[8px] mt-[13px] h-[16px] font-[400] text-[16px] leading-[21px] flex items-center text-[#515151]">
               영업시간 AM {restaurantDetail.startTime}- PM {restaurantDetail.endTime}
             </div>
           </div>
           <div className="flex flex-row">
-            <PlusCircle className="ml-[21px] mt-[15px]" />
+            <PlusCircle className="ml-[21px] mt-[14px]" />
             <div className="w-[700px] ml-[9px] mt-[12px] h-auto font-normal text-[16px] leading-[21px] flex items-center text-[#515151]">
               {restaurantDetail.detail}
             </div>
           </div>
           <div className="flex flex-row">
-            <InfoHeart className="ml-[21px] mt-[17px]" />
-            <div className="ml-[8px] mb-[20px] mt-[14px] h-auto font-[400] leading-[21px] flex items-center text-[#515151]">
+            <InfoHeart className="ml-[21px] mt-[8px]" />
+            <div className="ml-[7px] mb-[20px] mt-[6px] h-auto font-[400] leading-[21px] flex items-center text-[#515151]">
               이 식당에 {clickHeart ? likedCount : restaurantDetail.likedCount}명의 좋아요한
               사용자가 있습니다.
             </div>
@@ -259,7 +266,7 @@ const restaurant = () => {
       </div>
       <div className="w-full h-auto flex justify-center">
         <div className="ml-[298px] w-[744px] h-full bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
-          <div className="flex flex-row">
+          <div className="flex flex-row ml-[10px]">
             <div
               onClick={() => {
                 setClickPage(1);
@@ -279,7 +286,7 @@ const restaurant = () => {
                 setClickPage(2);
               }}
               className={cn(
-                'ml-[160px] mt-[43px] h-[16px] text-[24px] leading-[34px] flex items-center cursor-pointer',
+                'ml-[170px] mt-[43px] h-[16px] text-[24px] leading-[34px] flex items-center cursor-pointer',
                 {
                   'font-bold text-[#FF611D]': clickPage === 2,
                   'font-[400] text-[#515151]': clickPage !== 2,
@@ -293,7 +300,7 @@ const restaurant = () => {
                 setClickPage(3);
               }}
               className={cn(
-                'ml-[181px] mt-[43px] h-[16px]  text-[24px] leading-[34px] flex items-center cursor-pointer',
+                'ml-[191px] mt-[43px] h-[16px]  text-[24px] leading-[34px] flex items-center cursor-pointer',
                 {
                   'font-bold text-[#FF611D]': clickPage === 3,
                   'font-[400] text-[#515151]': clickPage !== 3,

@@ -187,7 +187,7 @@ const review = (props: any) => {
   return (
     <>
       <div className="flex flex-row mt-[2px] w-[742px]">
-        <div className="ml-[28px] mt-[25px] w-[300px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center">
+        <div className="ml-[28px] mt-[26px] w-[300px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center">
           {name}
         </div>
         {STAR_IDX_ARR.map((item, idx) => {
@@ -215,7 +215,7 @@ const review = (props: any) => {
             </span>
           );
         })}
-        <div className="ml-[8px] mt-[24px] w-[45px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center text-[#FF611D]">
+        <div className="ml-[8px] mt-[27px] w-[45px] h-[16px] font-bold text-[24px] leading-[33px] flex items-center text-[#FF611D]">
           {AVR_RATE}
         </div>
         <div className="ml-[5px] mt-[28px] w-[201px] h-[16px] font-[400] text-[14px] leading-[18px] flex items-center text-[#9F9F9F]">
@@ -223,11 +223,11 @@ const review = (props: any) => {
         </div>
         <div
           onClick={reviewButtonClick}
-          className="mt-[16px] mr-[36px] w-[177px] h-[38px] bg-[#FF611D] rounded-[22px] cursor-pointer"
+          className="mt-[16px] ml-[1px] mr-[36px] w-[177px] h-[38px] bg-[#FF611D] rounded-[22px] cursor-pointer"
         >
-          <div className="flex flex-row">
-            <ReviewEdit className="ml-[16px] mt-[12.39px]" />
-            <button className="ml-[6.51px] mr-[17.46px] mt-[10.39px] w-[120px] h-[16px] leading-[20px] flex items-center fw-400 text-[14px] text-[#FFFFFF]">
+          <div className="flex flex-row ml-[3px]">
+            <ReviewEdit className="ml-[17px] mt-[12.39px]" />
+            <button className="ml-[9.51px] mr-[10.46px] mt-[11.39px] w-[120px] h-[16px] leading-[20px] flex items-center fw-400 text-[14px] text-[#FFFFFF]">
               리뷰 작성하러 가기
             </button>
           </div>
@@ -240,7 +240,7 @@ const review = (props: any) => {
             <div className="mt-[77px] ml-[289px] h-[16px] font-normal text-[24px] leading-[33px] flex items-center">
               맛있게 드셨나요?
             </div>
-            <div className="flex flex-row ml-[273px]">
+            <div className="flex flex-row ml-[258px]">
               {reviewWriteStarArr.map((star, index) => {
                 index += 1;
                 return (
@@ -258,7 +258,7 @@ const review = (props: any) => {
                     }}
                     className={
                       index <= (hover || rating)
-                        ? 'ml-[4.15px] mt-[20px] fill-[#FFB21D]'
+                        ? 'ml-[4.15px] mt-[20px] fill-[#FFB21D] cursor-pointer'
                         : 'ml-[4.15px] mt-[20px] fill-[#CDCDCD] hover:fill-[#FFB21D] cursor-pointer peer-hover:text-yellow-400'
                     }
                     width="40"
