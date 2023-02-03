@@ -89,7 +89,7 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">최신순</div>
+          <div className="ml-[13.5px] mt-[4px] font-[400] text-[16px] leading-[21px]">최신순</div>
         </div>
         <div
           onClick={() => {
@@ -103,7 +103,7 @@ const reviewWrite = () => {
             },
           )}
         >
-          <div className="ml-[9.5px] mt-[2px] font-[400] text-[16px] leading-[21px]">추천순</div>
+          <div className="ml-[13.5px] mt-[4px] font-[400] text-[16px] leading-[21px]">추천순</div>
         </div>
         <div className="mt-[20px] ml-[125px] mr-[26px] w-auto h-[16px] fw-400 text-[13px] leading-[17px] flex items-center text-[#9F9F9F]">
           ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될수있습니다.
@@ -111,7 +111,7 @@ const reviewWrite = () => {
       </div>
       {clickMoreButton ? (
         <>
-          <div className="ml-[18px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5] "></div>
+          <div className="ml-[18px] mt-[20px] w-[687px] h-[1px] border border-[#D5D5D5] bg-[#D5D5D5]"></div>
           <div className="w-[743px] h-auto">
             <div className="flex flex-col">
               {reviewList.map((school: any, idx: any) => (
@@ -228,7 +228,7 @@ const reviewWrite = () => {
                       <div className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C] bg-[#9C9C9C]"></div>
                     )}
                     <div className="">
-                      <div className="ml-[4px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
+                      <div className="ml-[5px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
                         {school.nickName}
                       </div>
                       <ReviewStarView {...school} school={school} />
