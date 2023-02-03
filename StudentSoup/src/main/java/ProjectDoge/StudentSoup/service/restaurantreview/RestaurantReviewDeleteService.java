@@ -1,18 +1,25 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRegRespDto;
+import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotOwnException;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
+import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -20,8 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class RestaurantReviewDeleteService {
 
+    @Value("${spring.profiles.active}")
+    private String profiles;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    private final AmazonS3 amazonS3;
     private final RestaurantFindService restaurantFindService;
     private final RestaurantReviewFindService restaurantReviewFindService;
+    private final FileService fileService;
     private final RestaurantReviewRepository restaurantReviewRepository;
 
     @Transactional
@@ -29,9 +42,10 @@ public class RestaurantReviewDeleteService {
         checkLoginStatus(memberId);
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         RestaurantReview findRestaurantReview = restaurantReviewFindService.findOne(restaurantReviewId);
-        if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN){
+        if(!findRestaurantReview.getMember().getMemberId().equals(memberId) && findRestaurantReview.getMember().getMemberClassification() != MemberClassification.ADMIN) {
             throw new RestaurantReviewNotOwnException("해당 리뷰는 해당 회원이 작성한 리뷰가 아닙니다.");
         }
+        deleteService(findRestaurantReview);
         restaurantReviewRepository.delete(findRestaurantReview);
         resultMap.put("result", "ok");
         return resultMap;
@@ -43,6 +57,34 @@ public class RestaurantReviewDeleteService {
             throw new MemberNotFoundException("기본키가 전달되지 않았거나, 로그인 되지 않은 상태에서 리뷰 삭제는 불가능합니다.");
         }
         log.info("회원의 로그인 상태 확인이 완료되었습니다.");
+    }
+
+    private void deleteService(RestaurantReview review){
+        if(profiles.equals("release")){
+            removeS3ImageObject(review);
+        } else if(profiles.equals("local")){
+            removeLocalImageObject(review);
+        }
+    }
+
+    private void removeS3ImageObject(RestaurantReview review) {
+        for(ImageFile image : review.getImageFileList()){
+            String awsKey = fileService.getFullPath(image.getFileName());
+            if(!amazonS3.doesObjectExist(bucket, awsKey))
+                throw new AmazonS3Exception("Object " + awsKey + "Not Exist!");
+            amazonS3.deleteObject(bucket, awsKey);
+        }
+    }
+
+    private void removeLocalImageObject(RestaurantReview review){
+        for(ImageFile image : review.getImageFileList()){
+            Path filePath = Paths.get(fileService.getFullPath(image.getFileName()));
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e){
+                throw new RuntimeException("입력 에러 발생이 됐습니다.", e);
+            }
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
