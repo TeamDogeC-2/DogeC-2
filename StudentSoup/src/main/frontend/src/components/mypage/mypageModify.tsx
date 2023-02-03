@@ -17,6 +17,7 @@ const MypageModify = (props: propTypes) => {
   const [lengthValidated, setLengthValidated] = useState<boolean>(false);
   const [matchPassword, setMatchPassword] = useState<boolean>(false);
   const [checkSubmit, setCheckSubmit] = useState<boolean>(false);
+  const [validationPwd, setValidationPwd] = useState<boolean>(true);
 
   const [checkPwd, setCheckPwd] = useState<boolean>(false);
   const [pwd, setPwd] = useState<string>('');
@@ -96,8 +97,8 @@ const MypageModify = (props: propTypes) => {
         setCheckPwd(true);
       })
       .catch(function (error) {
+        setValidationPwd(false);
         console.log(error);
-        alert(error.response.data.message);
       });
   };
 
@@ -410,8 +411,8 @@ const MypageModify = (props: propTypes) => {
             </button>
           </div>
           <div className="mt-[41px]">
-            <span className="text-[20px] leading-[28px] text-[#B44747] font-semibold">
-              {checkPwd ? '' : '비밀번호가 일치하지 않습니다.'}
+            <span className="text-[20px] leading-[28px] text-[#B44747] font-semibold absolute top-[415px] left-[750px]">
+              {validationPwd ? '' : '비밀번호가 일치하지 않습니다.'}
             </span>
           </div>
         </div>
