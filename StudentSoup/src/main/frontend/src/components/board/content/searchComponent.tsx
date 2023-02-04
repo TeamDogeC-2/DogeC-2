@@ -10,6 +10,10 @@ interface PropsType {
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
   range: RANGE;
+  sort: number;
+  setSort: React.Dispatch<React.SetStateAction<number>>;
+  column: string;
+  setColumn: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const keywordList = [
@@ -17,7 +21,14 @@ const keywordList = [
   { label: '글쓴이', value: 'nickname' },
   { label: '내용', value: 'content' },
 ];
-const sortList = ['추천순', '최신순', '조회순', '댓글순'];
+
+// const sortList = ['추천순', '최신순', '조회순', '댓글순'];
+const sortList = [
+  { label: '추천순', value: 1 },
+  { label: '최신순', value: 2 },
+  { label: '조회순', value: 3 },
+  { label: '댓글순', value: 4 },
+];
 
 const SearchComponent = (props: PropsType) => {
   const [showKeywords, setShowKeywords] = useState(false);
@@ -25,7 +36,6 @@ const SearchComponent = (props: PropsType) => {
   const [showSubjects, setShowSubjects] = useState(false);
 
   const [keyword, setKeyword] = useState('전체');
-  const [sort, setSort] = useState('전체');
   const [subject, setSubject] = useState('학과');
 
   const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
@@ -34,7 +44,7 @@ const SearchComponent = (props: PropsType) => {
   const sortRef: any = useRef(null);
   const subjectRef: any = useRef(null);
 
-  const { range, searchValue, setSearchValue } = props;
+  const { range, searchValue, setSearchValue, sort, setSort, column, setColumn } = props;
 
   const { getDepartmentList } = useBoardData();
 
@@ -127,7 +137,11 @@ const SearchComponent = (props: PropsType) => {
           }}
           className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[137px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
         >
-          {sort}
+          {sort === 0
+            ? '전체'
+            : _.find(sortList, item => {
+                return item.value === sort;
+              })?.label}
           <span>
             <img src={Arrow} alt="selectbox" />
           </span>
@@ -138,7 +152,7 @@ const SearchComponent = (props: PropsType) => {
               return (
                 <div
                   onClick={() => {
-                    setSort(item);
+                    setSort(item.value);
                     setShowSorts(false);
                   }}
                   key={index}
@@ -149,7 +163,7 @@ const SearchComponent = (props: PropsType) => {
                     },
                   )}
                 >
-                  {item}
+                  {item.label}
                 </div>
               );
             })}

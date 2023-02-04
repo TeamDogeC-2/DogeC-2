@@ -4,6 +4,7 @@ import HeartIcon from '../../../img/board/icon_heart.png';
 export interface BoardListType {
   authentication: string;
   boardCategory: string;
+  tag: string;
   boardId: number;
   likedCount: number;
   nickname: string;
@@ -87,7 +88,9 @@ const BoardListComponent = (props: PropsType) => {
                   className=" py-[15px] px-[13px] border-b-[1px] border-solid border-[#BCBCBC]"
                 >
                   <td className="text-start py-[15px] px-[13px]">
-                    {item.title} <span className="text-[#FF611D]">{item.reviewCount}</span>
+                    {item.authentication === 'Y' && <span className="text-[#FF611D]">[BEST]</span>}{' '}
+                    [{item.tag}] {item.title}{' '}
+                    <span className="text-[#FF611D]">{item.reviewCount}</span>
                   </td>
                   <td className="py-[15px] px-[13px]">{item.nickname}</td>
                   <td className="py-[15px] px-[13px]">{item.writeDate}</td>

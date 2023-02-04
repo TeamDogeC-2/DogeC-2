@@ -6,8 +6,8 @@ import BoardListComponent, { BoardListType } from './content/boardListComponent'
 import TopListComponent from './content/topListComponent';
 import HotListComponent from './content/hotListComponent';
 import { useEffect, useState } from 'react';
-import useBoardData from './data/useBoardData';
 import _ from 'lodash';
+import useBoardData, { DataResType } from './data/useBoardData';
 
 interface PropsType {
   boardCategory: string;
@@ -21,28 +21,44 @@ const BoardContent = (props: PropsType) => {
   const [topList, setTopList] = useState<BoardListType[]>([]);
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
+  /**
+   * TODO: column, value, sorted, page
+   */
   const [searchValue, setSearchValue] = useState('');
+  const [value, setValue] = useState();
+  const [page, setPage] = useState();
+
+  const [column, setColumn] = useState('');
+  const [sort, setSort] = useState(0);
 
   useEffect(() => {
     const request = {
       column: 'title',
       value: searchValue,
-      category: boardCategory,
-      sorted: 0,
-      page: 0,
-      size: 12,
+      category: boardCategory, // ok
+      sorted: sort, // ok
+      page: 0, // page
+      size: boardCategory === 'ALL' ? 7 : 12, // ok
     };
-    getBoardList(request, res => {
+    getBoardList(request, (res: DataResType) => {
       setList(res.boards.content);
       if (res.bestBoards) setTopList(res.bestBoards);
       if (res.hotBoards) setHotList(res.hotBoards);
     });
-  }, [boardCategory]);
+  }, [boardCategory, sort]);
 
   return (
     <div className="py-[52px] px-[76px] max-w-[1100px]">
       <TitleComponent boardCategory={boardCategory} range={range} setRange={setRange} />
-      <SearchComponent range={range} setSearchValue={setSearchValue} searchValue={searchValue} />
+      <SearchComponent
+        range={range}
+        setSearchValue={setSearchValue}
+        searchValue={searchValue}
+        sort={sort}
+        setSort={setSort}
+        column={column}
+        setColumn={setColumn}
+      />
       {boardCategory === 'ALL' && (
         <div className="flex justify-between">
           <TopListComponent topList={topList} />

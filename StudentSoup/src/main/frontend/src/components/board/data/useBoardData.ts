@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { BoardListType } from '../content/boardListComponent';
 
 interface RequestType {
@@ -12,7 +11,7 @@ interface RequestType {
   size: number; // 게시판 크기 (default=12)
 }
 
-interface DataResType {
+export interface DataResType {
   boards: { content: BoardListType[] };
   bestBoards?: BoardListType[];
   hotBoards?: BoardListType[];

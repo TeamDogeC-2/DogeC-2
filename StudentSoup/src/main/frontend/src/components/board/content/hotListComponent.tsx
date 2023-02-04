@@ -35,7 +35,7 @@ const HotListComponent = (props: PropsType) => {
                   className="py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]"
                 >
                   <td className="text-start py-[15px] px-[13px]">
-                    [{item.boardCategory}] {item.title}{' '}
+                    [{item.tag}] {item.title}{' '}
                     <span className="text-orange">{item.reviewCount}</span>
                   </td>
                   <td className="flex py-[15px] px-[13px] gap-x-[5px]">
