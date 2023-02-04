@@ -76,11 +76,6 @@ const boardWrite = () => {
         )
         .then(res => {
           history.push('/board');
-          console.log('제목 :' + title);
-          console.log('내용 :' + content);
-          console.log('학과아이디 :' + departmentId);
-          console.log('카테고리아이디 :' + boardcategory);
-          console.log('이미지 :' + imgs);
         })
         .catch(err => {
           console.error(err);
@@ -137,7 +132,11 @@ const boardWrite = () => {
   const handleSetBoardCategory = (e: any) => {
     setBoardCategory(e.target.value);
   };
-
+  const handleCancelClickButton = () => {
+    if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
+      history.push('/board');
+    }
+  };
   return (
     <>
       <MypageNavbar />
@@ -222,7 +221,7 @@ const boardWrite = () => {
                   ref={imageUploader}
                   className="hidden"
                 />
-                <div className="mt-[2px] ml-[9.5px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
+                <div className="mt-[2px] ml-[10px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
                   사진첨부
                 </div>
               </div>
@@ -256,7 +255,10 @@ const boardWrite = () => {
         </div>
       </div>
       <div className="flex flex-row mt-[17px] mb-[79px] justify-center">
-        <div className="w-[469px] h-[67px] rounded-l-lg border-r-[0.5px] border-y-[1px] border-l-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#9F9F9F] font-semibold leading-[22px]">
+        <div
+          onClick={handleCancelClickButton}
+          className="w-[469px] h-[67px] rounded-l-lg border-r-[0.5px] border-y-[1px] border-l-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#9F9F9F] font-semibold leading-[22px]"
+        >
           <div className="ml-[194px] mt-[22px]">취소하기</div>
         </div>
         <div
