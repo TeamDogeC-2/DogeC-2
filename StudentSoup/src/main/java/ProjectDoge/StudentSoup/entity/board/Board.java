@@ -11,6 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class Board {
     @JoinColumn(name = "WRITER_NICKNAME")
     private Member member;
 
-    @Lob
+    @Size(min = 5, max = 1000)
     private String content;
 
     private String ip;
