@@ -40,11 +40,7 @@ const MypageBoardReview = () => {
         </div>
         <div className="flex flex-col w-[962px]">
           <div className="text-[24px] leading-[33px] font-bold text-[#262626]">리뷰</div>
-          <div className="flex flex-row items-center justify-between">
-            <div className="flex flex-row mt-[25px]">
-              <Remove className="mr-[15px]" />
-              <Modify />
-            </div>
+          <div className="flex flex-row items-center justify-end">
             <div>
               <select className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]">
                 <option value="0">전체</option>
