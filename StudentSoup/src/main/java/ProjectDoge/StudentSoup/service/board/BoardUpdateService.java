@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
@@ -67,7 +68,7 @@ public class BoardUpdateService {
     }
 
     private void deleteImageFile(Board board) {
-        fileRepository.deleteAllInBatch(board.getImageFiles());
+        fileRepository.deleteAllInBatch(board.getImageFileList());
     }
 
     private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
