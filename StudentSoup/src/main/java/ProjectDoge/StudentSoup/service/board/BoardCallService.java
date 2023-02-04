@@ -1,10 +1,7 @@
 package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.commonmodule.ConstField;
-import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
-import ProjectDoge.StudentSoup.dto.board.BoardDto;
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
+import ProjectDoge.StudentSoup.dto.board.*;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
@@ -96,12 +93,12 @@ public class BoardCallService {
                 boardSearchDto.getColumn(),
                 boardSearchDto.getValue());
 
-        List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardBestHotMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime,
                 ConstField.endTime);
 
-        List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardBestHotMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime.minusMonths(1),
                 ConstField.endTime);
@@ -133,15 +130,15 @@ public class BoardCallService {
 
     private void checkTodayWriteDate(
             Page<BoardMainDto> boardMainDtoList,
-            List<BoardMainDto> bestBoardList,
-            List<BoardMainDto> hotBoardList) {
+            List<BoardBestHotMainDto> bestBoardList,
+            List<BoardBestHotMainDto> hotBoardList) {
 
         checkWriteDate(boardMainDtoList);
         checkWriteDate(bestBoardList);
         checkWriteDate(hotBoardList);
     }
 
-    private void checkWriteDate(Iterable<BoardMainDto> boardMainDtoList) {
+    private void checkWriteDate(Iterable<? extends BoardMainDto> boardMainDtoList) {
         for (BoardMainDto dto : boardMainDtoList) {
             setWriteDate(dto);
         }
