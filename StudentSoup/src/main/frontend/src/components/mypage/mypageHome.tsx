@@ -12,7 +12,7 @@ interface propTypes {
   onClickMenu: Function;
 }
 
-const MypageHome = (props: any) => {
+const MypageHome = (props: propTypes) => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
@@ -30,8 +30,9 @@ const MypageHome = (props: any) => {
   const contentRef: any = useRef(null);
 
   const [id, setId] = useState<string>('home');
-  const onClickMypageBoardReview = (props: any) => {
+  const onClickMypageBoardReview = (e: React.MouseEvent<Element, MouseEvent>) => {
     setId('boardReview');
+    console.log(id);
     props.onClickMenu('boardReview');
   };
 
