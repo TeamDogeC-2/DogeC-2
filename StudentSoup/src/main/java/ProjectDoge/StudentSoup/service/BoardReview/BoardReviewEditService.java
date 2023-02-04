@@ -1,13 +1,10 @@
 package ProjectDoge.StudentSoup.service.BoardReview;
 
 
-import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
-import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewUpdateDto;
-import ProjectDoge.StudentSoup.dto.board.BoardUpdateDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewContentNullException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotOwnException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

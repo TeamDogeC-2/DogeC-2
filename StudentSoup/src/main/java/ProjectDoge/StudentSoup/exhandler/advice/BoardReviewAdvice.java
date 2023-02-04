@@ -1,9 +1,9 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewIdNotSentException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotFoundException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewContentNullException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewIdNotSentException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotFoundException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotOwnException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
