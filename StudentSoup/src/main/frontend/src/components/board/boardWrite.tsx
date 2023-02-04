@@ -41,31 +41,46 @@ const boardWrite = () => {
     }
     if (boardcategory === 'null' || !boardcategory) {
       alert('게시판을 선택해주세요.');
-      return;
-    }
-    axios
-      .put(
-        `/board/${saveMemberId}`,
-        {
+    } else if (!imgs) {
+      axios
+        .put(`/board/${saveMemberId}`, {
           title,
           departmentId,
           boardCategory: boardcategory,
           content,
-          // mutipartFiles,
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
+        })
+        .then(res => {
+          history.push('/board');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      alert('작성이 완료되었습니다.');
+    } else {
+      axios
+        .put(
+          `/board/${saveMemberId}`,
+          {
+            title,
+            departmentId,
+            boardCategory: boardcategory,
+            content,
+            mutipartFiles: [...imgs],
           },
-        },
-      )
-      .then(res => {
-        history.push('/board');
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    alert('작성이 완료되었습니다.');
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
+        .then(res => {
+          history.push('/board');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      alert('작성이 완료되었습니다.');
+    }
   };
   const handleAddImages = (event: any) => {
     const maxFilesizeAll = 4 * 1024 * 1000;
@@ -225,7 +240,7 @@ const boardWrite = () => {
                       onClick={() => {
                         handleDeleteImage(id);
                       }}
-                      className="w-[20px] h-[20px] ml-[85px] mt-[5.5px] cursor-pointer"
+                      className="w-[20px] h-[20px] mb-[15px] ml-[85px] mt-[5.5px] cursor-pointer"
                     />
                   </div>
                 </>
