@@ -11,11 +11,21 @@ const RestaurantNavbar = () => {
   const history = useHistory();
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const userId = sessionStorage.getItem('id');
 
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
   const [inputSchool, setInputSchool] = useState<string>();
   const [listSchool, setListSchool] = useState<string>('');
+
+  useEffect(() => {
+    if (userId === null) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, []);
 
   const getSchool = () => {
     axios
@@ -65,10 +75,36 @@ const RestaurantNavbar = () => {
     }
   };
 
+  const handleLogin = (e: any) => {
+    const value = e.target.innerText;
+    if (value === 'LOGOUT') {
+      if (sessionStorage.getItem('saved') === String(true)) {
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('departmentId');
+        sessionStorage.removeItem('departmentName');
+        sessionStorage.removeItem('fileName');
+        sessionStorage.removeItem('memberId');
+        sessionStorage.removeItem('schoolId');
+        sessionStorage.removeItem('schoolName');
+        sessionStorage.removeItem('registrationDate');
+        history.push('/');
+      } else {
+        sessionStorage.clear();
+        history.push('/');
+      }
+    } else if (value === 'LOGIN') {
+      history.push('/login');
+    }
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
-        <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+        <img
+          src={Reddit}
+          alt=""
+          className="w-[162px] h-[72px] cursor-pointer"
           onClick={() => {
             history.push('/');
           }}
@@ -94,10 +130,7 @@ const RestaurantNavbar = () => {
             placeholder="학교 명을 입력하세요"
             className="w-full text-[#717171] bg-transparent outline-0"
           ></input>
-          <button
-            onClick={handlePushRestaurant}
-            className="hidden"
-          >
+          <button onClick={handlePushRestaurant} className="hidden">
             검색
           </button>
         </div>
@@ -105,27 +138,42 @@ const RestaurantNavbar = () => {
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/board');
-            }}>
+            }}
+          >
             BOARD
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/restaurant');
-            }}>
+            }}
+          >
             RESTAURANT
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
-        <div className="flex justify-center items-center w-[110px] cursor-pointer">
+        <div
+          onClick={handleLogin}
+          className="flex justify-center items-center w-[110px] cursor-pointer"
+        >
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
+          {isLogin ? (
+            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
+              LOGOUT
+            </span>
+          ) : (
+            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
+              LOGIN
+            </span>
+          )}
         </div>
         <div className="flex flex-col items-center">
           <img
