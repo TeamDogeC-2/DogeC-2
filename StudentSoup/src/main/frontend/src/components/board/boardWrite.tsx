@@ -35,20 +35,32 @@ const boardWrite = () => {
       });
   }, []);
   const handleBoardWrite = (e: any) => {
-    if (!title || !content) {
-      alert('제목과 내용을 입력해주세요.');
+    if (title.length < 2 || !title) {
+      alert('제목은 2글자 이상 입력해야합니다.');
+      return;
+    }
+    if (!content || content.length < 5) {
+      alert('내용은 5글자 이상 입력해야합니다.');
       return;
     }
     if (boardcategory === 'null' || !boardcategory) {
       alert('게시판을 선택해주세요.');
     } else if (!imgs) {
       axios
-        .put(`/board/${saveMemberId}`, {
-          title,
-          departmentId,
-          boardCategory: boardcategory,
-          content,
-        })
+        .put(
+          `/board/${saveMemberId}`,
+          {
+            title,
+            departmentId,
+            boardCategory: boardcategory,
+            content,
+          },
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
         .then(res => {
           history.push('/board');
         })
@@ -176,6 +188,7 @@ const boardWrite = () => {
             onChange={e => {
               handleSetTitleValue(e);
             }}
+            maxLength={50}
             placeholder="제목(2~50자)"
             type="text"
             className="pl-[14px] w-[936px] h-[40px] resize-none border-[#C4C4C4] border-[1px]"
@@ -200,6 +213,7 @@ const boardWrite = () => {
             onChange={e => {
               handleSetContentValue(e);
             }}
+            maxLength={1000}
             placeholder="내용(5~1000자)"
             className="pt-[8px] pl-[14px] h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
