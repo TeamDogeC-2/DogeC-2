@@ -57,19 +57,19 @@ const boardDetail = () => {
             <div className="ml-[5.11px] font-normal text-[14px] text-[#A8A8A8]">6</div>
           </div>
           <div className="ml-[28px] mt-[22px] w-[884px] border-[1px] border-[#BCBCBC] bg-[#BCBCBC] "></div>
-          <div className="w-[856px] ml-[41px] mt-[34px] font-normal text-[16px] text-left leading-[26px] text-[#636363]">
+          <div className="w-[856px] ml-[41px] mt-[34px] font-normal text-[16px] text-left leading-[26px] text-[#636363] mb-[20px]">
             뭘 부터 해야할지 도저히 감이 안 잡혀.... 이럴 땐 어떻게 해야 좋을지 정말 감이 안잡히네요
             ㅜㅠㅜㅜㅠㅠ 이제 곧 4학년 돼서 뭔가라도 준비해놔야하는 상황인데 어쩌저젖우자우우느누웅
             어쩌구저쩌구구구구구구 ㅜㅠㅜㅜㅠㅠ 이제 곧 4학년 돼서 뭔가라도 준비해놔야하는
             상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데준비해놔야하는
             상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데
           </div>
-          <div className="flex flex-row">
-            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
-            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
-            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
-            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
-            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+          <div className="flex flex-row ml-[8px]">
+            <div className="w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
+            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
+            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
+            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
+            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
           </div>
           <button className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]">
             <div className="flex flex-row">
