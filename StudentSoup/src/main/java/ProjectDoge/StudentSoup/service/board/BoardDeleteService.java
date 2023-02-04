@@ -14,12 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 @Service
 public class BoardDeleteService {
+
     private final BoardFindService boardFindService;
     private final BoardRepository boardRepository;
     private final FileService fileService;
 
     @Transactional
-    public ConcurrentHashMap<String,Object> deleteBoard(Long boardId,Long memberId){
+    public ConcurrentHashMap<String,Object> deleteBoard(Long boardId, Long memberId){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         Board board = boardFindService.findOne(boardId);
         checkBoardOwn(board,memberId);
