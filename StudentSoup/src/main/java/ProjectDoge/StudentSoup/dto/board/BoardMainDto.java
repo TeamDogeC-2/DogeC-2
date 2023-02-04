@@ -56,7 +56,8 @@ public class BoardMainDto {
     }
 
     private String replaceCategory(String category){
-        return category.replaceAll("게시판", "");
+        category = category.replaceAll("게시판", "");
+        return category.replaceAll("사항", "");
     }
 
     protected BoardMainDto() {
