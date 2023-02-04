@@ -34,11 +34,15 @@ const ReplyComponent = () => {
         <span className='w-[20%] text-center'>작성일</span>
         <span className='w-[20%] text-center'>좋아요</span>
       </div>
-      <div className='h-[50px] px-[34px] flex items-center overflow-hidden text-[#353535] border-b border-[#D9D9D9]'>
-        <span className='w-[60%] truncate text-[#909090]'>{content}</span>
-        <span className='w-[20%] text-center text-[#909090]'>{writeDate}</span>
-        <span className='w-[20%] text-center text-[#909090]'>{likedCount}</span>
-      </div>
+      {set?.map((reply: any) => (
+        <>
+        <div key={reply.memberId} className='h-[50px] px-[34px] flex items-center overflow-hidden text-[#353535] border-b border-[#D9D9D9]'>
+          <span className='w-[60%] truncate text-[#909090]'>{reply.content}</span>
+          <span className='w-[20%] text-center text-[#909090]'>{reply.writeDate}</span>
+          <span className='w-[20%] text-center text-[#909090]'>{reply.likedCount}</span>
+        </div>
+        </>
+      ))}
     </div>
   );
 };

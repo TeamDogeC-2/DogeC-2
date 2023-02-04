@@ -27,19 +27,6 @@ const ReviewComponent = () => {
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .post('/restaurantReview/{restaurantId}', {
-        memberId: savedMemberId,
-      })
-      .then(res => {
-        setLikedCount(res.data.content);
-      })
-      .catch(res => {
-        console.log(res.data);
-      });
-  }, []);
-
   return (
     <div className="text-[14px]">
       <div className='h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]'>
@@ -47,11 +34,15 @@ const ReviewComponent = () => {
         <span className='w-[20%] text-center'>좋아요</span>
         <span className='w-[20%] text-center'>별점</span>
       </div>
-      <div className='h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]'>
-        <span className='w-[60%] truncate text-[#909090]'>{content}</span>
-        <span className='w-[20%] text-center text-[#909090]'>{likedCount}</span>
-        <span className='w-[20%] text-center text-[#909090]'>{starLiked}</span>
-      </div>
+      {set?.map((review: any) => (
+        <>
+        <div key={review.memberId} className='h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]'>
+          <span className='w-[60%] truncate text-[#909090]'>{review.content}</span>
+          <span className='w-[20%] text-center text-[#909090]'>{review.likedCount}</span>
+          <span className='w-[20%] text-center text-[#909090]'>{review.starLiked}</span>
+        </div>
+        </>
+      ))}
     </div>
   );
 };
