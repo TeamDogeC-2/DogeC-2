@@ -18,7 +18,24 @@ interface DataResType {
   hotBoards?: BoardListType[];
 }
 
+export interface DepartmentType {
+  departmentId: number;
+  departmentName: string;
+}
+
 const useBoardData = () => {
+  const getDepartmentList = (callback: (data: DepartmentType[]) => void) => {
+    const schoolId = Number(sessionStorage.getItem('schoolId')) ?? 0;
+
+    axios
+      .get(`/board/department/${schoolId}`)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   const getBoardList = (request: RequestType, callback: (data: DataResType) => void) => {
     const { category, sorted, page, size = 12, column, value } = request;
 
@@ -45,7 +62,7 @@ const useBoardData = () => {
       });
   };
 
-  return { getBoardList };
+  return { getBoardList, getDepartmentList };
 };
 
 export default useBoardData;

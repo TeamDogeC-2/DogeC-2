@@ -4,6 +4,7 @@ import cn from 'clsx';
 import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
 import { RANGE } from './titleComponent';
+import useBoardData, { DepartmentType } from '../data/useBoardData';
 
 interface PropsType {
   searchValue: string;
@@ -17,7 +18,6 @@ const keywordList = [
   { label: '내용', value: 'content' },
 ];
 const sortList = ['추천순', '최신순', '조회순', '댓글순'];
-const subjectList = ['1', '2']; // TODO: api data
 
 const SearchComponent = (props: PropsType) => {
   const [showKeywords, setShowKeywords] = useState(false);
@@ -28,11 +28,15 @@ const SearchComponent = (props: PropsType) => {
   const [sort, setSort] = useState('전체');
   const [subject, setSubject] = useState('학과');
 
+  const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
+
   const keywordRef: any = useRef(null);
   const sortRef: any = useRef(null);
   const subjectRef: any = useRef(null);
 
   const { range, searchValue, setSearchValue } = props;
+
+  const { getDepartmentList } = useBoardData();
 
   /**
    * 컴포넌트 특정 영역 외 클릭 감지를 위해 사용
@@ -159,6 +163,11 @@ const SearchComponent = (props: PropsType) => {
           <div
             onClick={() => {
               setShowSubjects(prev => !prev);
+              if (!showSubjects) {
+                getDepartmentList(data => {
+                  setSubjectList(data);
+                });
+              }
             }}
             className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
           >
@@ -173,7 +182,7 @@ const SearchComponent = (props: PropsType) => {
                 return (
                   <div
                     onClick={() => {
-                      setSubject(item);
+                      setSubject(item.departmentName);
                       setShowSubjects(false);
                     }}
                     key={index}
@@ -184,7 +193,7 @@ const SearchComponent = (props: PropsType) => {
                       },
                     )}
                   >
-                    {item}
+                    {item.departmentName}
                   </div>
                 );
               })}
