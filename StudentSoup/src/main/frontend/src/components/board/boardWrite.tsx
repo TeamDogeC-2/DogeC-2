@@ -39,7 +39,6 @@ const boardWrite = () => {
       alert('제목과 내용을 입력해주세요.');
       return;
     }
-
     if (boardcategory === 'null' || !boardcategory) {
       alert('게시판을 선택해주세요.');
     } else if (!imgs) {
@@ -80,7 +79,7 @@ const boardWrite = () => {
         .catch(err => {
           console.error(err);
         });
-      alert(' 작성이 완료되었습니다.');
+      alert('작성이 완료되었습니다.');
     }
   };
   const handleAddImages = (event: any) => {
@@ -177,7 +176,7 @@ const boardWrite = () => {
             onChange={e => {
               handleSetTitleValue(e);
             }}
-            placeholder="제목"
+            placeholder="제목(2~50자)"
             type="text"
             className="pl-[14px] w-[936px] h-[40px] resize-none border-[#C4C4C4] border-[1px]"
           ></input>
@@ -201,12 +200,12 @@ const boardWrite = () => {
             onChange={e => {
               handleSetContentValue(e);
             }}
-            placeholder="내용"
+            placeholder="내용(5~1000자)"
             className="pt-[8px] pl-[14px] h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
           <div className="h-auto bg-[#F0F0F0] rounded-[1px] border-x-[1px] border-b-[1px] border-[#BCBCBC]">
             <div className="flex flex-row justify-center">
-              <div className="ml-[26px] mt-[37px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
+              <div className="ml-[26px] mt-[39px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
                 사진첨부
               </div>
               <div
@@ -257,15 +256,15 @@ const boardWrite = () => {
       <div className="flex flex-row mt-[17px] mb-[79px] justify-center">
         <div
           onClick={handleCancelClickButton}
-          className="w-[469px] h-[67px] rounded-l-lg border-r-[0.5px] border-y-[1px] border-l-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#9F9F9F] font-semibold leading-[22px]"
+          className="w-[469px] h-[67px] rounded-l-lg border-r-[0.5px] border-y-[1px] border-l-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#9F9F9F] font-semibold leading-[22px] cursor-pointer"
         >
-          <div className="ml-[194px] mt-[22px]">취소하기</div>
+          <div className="ml-[200px] mt-[22px]">취소하기</div>
         </div>
         <div
           onClick={handleBoardWrite}
           className="w-[469px] h-[67px] rounded-r-lg border-r-[1px] border-y-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#FF611D] font-semibold leading-[22px] cursor-pointer"
         >
-          <div className="ml-[194px] mt-[22px]">작성하기</div>
+          <div className="ml-[200px] mt-[22px]">작성하기</div>
         </div>
       </div>
     </>
