@@ -211,7 +211,7 @@ const MypageBoardReview = () => {
             <div className="flex flex-col max-h-[450px] overflow-auto">
               {restaurantReivew?.map(restaurantReivew => (
                 <>
-                  <div className="flex flex-row my-[19px]">
+                  <div key={restaurantReivew.boardId} className="flex flex-row my-[19px]">
                     <div className="w-[20%]">
                       <img
                         src={`/image/${restaurantReivew.imageName}`}
