@@ -96,7 +96,7 @@ function LoginForm() {
             <input
               id="id"
               name="id"
-              placeholder="아이디 또는 이메일을 입력해주세요"
+              placeholder="아이디를 입력해주세요"
               onChange={e => {
                 setId(e.target.value);
               }}

@@ -10,9 +10,11 @@ import MypageScheduler from './components/mypage/mypageScheduler';
 import MypageModify from './components/mypage/mypageModify';
 import Mypage from './components/mypage/mypage';
 import Restaurant from './components/restaurant/restaurant';
+import BoardDetail from './components/board/boardDetail';
 import RestaurantDetail from './components/restaurant/restaurantDetail';
 import MypageBoardReview from './components/mypage/mypageBoardReview';
 import BoardMain from './components/board/boardMain';
+import BoardWrite from './components/board/boardWrite';
 
 const Routes = () => {
   return (
@@ -30,6 +32,8 @@ const Routes = () => {
       <Route exact path="/restaurant/detail" component={RestaurantDetail} />
       <Route exact path="/mypageBoardReview" component={MypageBoardReview} />
       <Route exact path="/board" component={BoardMain} />
+      <Route exact path="/board/detail" component={BoardDetail} />
+      <Route exact path="/board/write" component={BoardWrite} />
       <Route component={Err404} />
     </Switch>
   );
