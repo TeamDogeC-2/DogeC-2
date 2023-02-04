@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service.member;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.file.FileService;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 public class MemberProfileImageUpdateService {
     private final MemberFindService memberFindService;
     private final FileService fileService;
+    private final FileRepository fileRepository;
     private final FileFindService fileFindService;
     @Transactional
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
@@ -29,6 +31,11 @@ public class MemberProfileImageUpdateService {
     }
 
     private MemberDto createProfileUpdateMemberDto(Long fileId, Member member) {
+        if(member.getImageFile() != null){
+            fileService.deleteFile(member.getImageFile());
+            fileRepository.delete(member.getImageFile());
+        }
+
         if(fileId != null){
             ImageFile imageFile = fileFindService.findOne(fileId);
             member.setImageFile(imageFile);

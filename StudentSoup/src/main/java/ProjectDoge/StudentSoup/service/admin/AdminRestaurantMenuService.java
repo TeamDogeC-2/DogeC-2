@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.restaurantmenu.RestaurantMenuUpdateDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
+import ProjectDoge.StudentSoup.repository.restaurantmenu.RestaurantMenuRepository;
 import ProjectDoge.StudentSoup.service.file.FileFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuFindService;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class AdminRestaurantMenuService {
 
+    private final RestaurantMenuRepository restaurantMenuRepository;
     private final RestaurantMenuFindService restaurantMenuFindService;
     private final FileService fileService;
     private final FileFindService fileFindService;
@@ -32,10 +34,18 @@ public class AdminRestaurantMenuService {
     public void adminUpdateRestaurantMenu(Long restaurantMenuId, MultipartFile multipartFile, RestaurantMenuUpdateDto restaurantMenuUpdateDto) {
         RestaurantMenu restaurantMenu = restaurantMenuFindService.findOne(restaurantMenuId);
         if (restaurantMenu.getImageFile() != null) {
+            fileService.deleteFile(restaurantMenu.getImageFile());
             fileRepository.delete(restaurantMenu.getImageFile());
         }
         Long fileId = fileService.join(multipartFile);
         ImageFile file = fileFindService.findOne(fileId);
         restaurantMenu.updateRestaurantMenu(restaurantMenuUpdateDto,file);
+    }
+
+    @Transactional
+    public void adminDeleteRestaurantMenu(Long restaurantMenuId){
+        RestaurantMenu restaurantMenu = restaurantMenuFindService.findOne(restaurantMenuId);
+        fileService.deleteFile(restaurantMenu.getImageFile());
+        restaurantMenuRepository.delete(restaurantMenu);
     }
 }

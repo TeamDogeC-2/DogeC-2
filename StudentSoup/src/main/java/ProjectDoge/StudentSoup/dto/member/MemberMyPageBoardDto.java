@@ -7,6 +7,7 @@ import lombok.Data;
 public class MemberMyPageBoardDto {
 
     private Long boardId;
+    private String title;
     private String writeDate;
     private int likedCount;
     private int viewCount;
@@ -16,8 +17,9 @@ public class MemberMyPageBoardDto {
     }
 
     @QueryProjection
-    public MemberMyPageBoardDto(Long boardId, String writeDate, int likedCount, int viewCount){
+    public MemberMyPageBoardDto(Long boardId, String title, String writeDate, int likedCount, int viewCount){
         this.boardId = boardId;
+        this.title = title;
         this.writeDate = writeDate;
         this.likedCount = likedCount;
         this.viewCount = viewCount;
