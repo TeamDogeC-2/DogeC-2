@@ -4,10 +4,11 @@ import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone
 import { ReactComponent as RightFillNoneIcon } from '../../img/icon_right_fillnone.svg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import ReviewStarView from '../restaurant/reviewStarView';
 
 const MypageBoardReview = () => {
   const boardUrl = '/mypage/board';
-  const reviewUrl = '/mypage/boardReview';
+  const reviewUrl = '/mypage/restaurantReview';
   const memberId = sessionStorage.getItem('memberId');
 
   const [selected, setSelected] = useState<number>(1);
@@ -15,9 +16,11 @@ const MypageBoardReview = () => {
   const [clickPage, setClickPage] = useState<number>(1);
   const [board, setBoard] = useState<any[]>();
   const [totalBoard, setTotalBoard] = useState<number>();
+  const [totalReview, setTotalReview] = useState<number>();
   const [totalPage, setTotalPage] = useState<number>();
   const [clickNextPage, setClickNextPage] = useState<number>(0);
   const [lastPage, isLastPage] = useState<boolean>();
+  const [restaurantReivew, setRestaurantReivew] = useState<any[]>();
 
   useEffect(() => {
     axios
@@ -33,7 +36,6 @@ const MypageBoardReview = () => {
         },
       )
       .then(function (response) {
-        console.log(response.data.totalElements);
         setBoard(response.data.content);
         setTotalBoard(response.data.totalElements);
         setTotalPage(response.data.totalPages);
@@ -50,7 +52,9 @@ const MypageBoardReview = () => {
         memberId,
       })
       .then(function (response) {
-        console.log(response.data);
+        console.log(response.data.content.writeDate);
+        setRestaurantReivew(response.data.content);
+        setTotalReview(response.data.totalElements);
       })
       .catch(function (error) {
         console.log(error);
@@ -82,7 +86,7 @@ const MypageBoardReview = () => {
               게시글({totalBoard})
             </div>
             <div className="w-[50%] rounded-r-[5px] bg-white items-center justify-center flex">
-              댓글(0)
+              댓글({totalReview})
             </div>
           </div>
           <div className="w-[962px] h-[225px] flex flex-col mt-[25px]">
@@ -116,7 +120,7 @@ const MypageBoardReview = () => {
               </div>
             )}
             <div className="w-full h-[2px] bg-[#BCBCBC]"></div>
-            <div className='absolute right-[400px] top-[620px]'>
+            <div className="absolute right-[400px] top-[620px]">
               <div className="flex flex-row mb-[55px]">
                 {clickPage === 1 ? (
                   <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
@@ -186,11 +190,35 @@ const MypageBoardReview = () => {
             </div>
           </div>
           <div className="mt-[13px]">
-            <div className="w-full h-[3px] bg-[#BCBCBC]"></div>
-            <div className="w-full h-[224px] bg-white text-[20px] leading-[28px] font-semibold text-[#353535] flex items-center justify-center">
-              작성된 리뷰가 없습니다
+            <div className="w-full h-[3px] border-[1px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
+            <div className="flex flex-col max-h-[450px]">
+              {restaurantReivew?.map(restaurantReivew => (
+                <>
+                  <div className="flex flex-row my-[19px]">
+                    <div className="w-[20%]">
+                      <img
+                        src={`/image/${restaurantReivew.imageName}`}
+                        className="w-[189px] h-[141px] border border-[#DDDDDD] rounded-[10px]"
+                      />
+                    </div>
+                    <div className="w-[60%] flex flex-col ml-[40px]">
+                      <div className="flex flex-row">
+                        <div>평점</div>
+                        <ReviewStarView {...restaurantReivew} school={restaurantReivew} />
+                      </div>
+                      <div>{restaurantReivew.content}</div>
+                    </div>
+                    <div className="w-[20%] flex flex-col items-center justify-center">
+                      <div>{restaurantReivew.writeDate}</div>
+                      <button className="w-[105px] h-[35px] bg-[#FF611D] rounded-[5px] text-white">
+                        수정하기
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ))}
             </div>
-            <div className="w-full h-[3px] bg-[#BCBCBC]"></div>
+            <div className="w-full h-[3px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
           </div>
         </div>
       </div>
