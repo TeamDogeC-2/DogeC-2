@@ -136,7 +136,7 @@ const Register2 = () => {
                 setId(e.target.value);
               }}
               required
-              placeholder="아이디(이메일)입력"
+              placeholder="아이디 입력"
               className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
             ></input>
             <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[8px]">

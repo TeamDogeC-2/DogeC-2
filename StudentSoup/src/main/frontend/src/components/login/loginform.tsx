@@ -32,6 +32,8 @@ function LoginForm() {
     }
   }, []);
 
+  useEffect(() => {}, [checked]);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
@@ -41,10 +43,8 @@ function LoginForm() {
         pwd,
       })
       .then(function (response) {
-        console.log(response.data);
         if (state.state) {
           history.push(state.state.pathName.pathname);
-          console.log('이전 화면 이동');
           sessionStorage.setItem('email', response.data.email);
           sessionStorage.setItem('nickname', response.data.nickname);
           sessionStorage.setItem('id', response.data.id);
@@ -58,7 +58,6 @@ function LoginForm() {
           sessionStorage.setItem('saved', String(checked));
         } else {
           history.push('/');
-          console.log('홈으로 이동');
           sessionStorage.setItem('email', response.data.email);
           sessionStorage.setItem('nickname', response.data.nickname);
           sessionStorage.setItem('id', response.data.id);
@@ -73,7 +72,6 @@ function LoginForm() {
         }
       })
       .catch(function (error) {
-        console.log(error);
         alert(error.response.data.message);
       });
   };
@@ -98,7 +96,7 @@ function LoginForm() {
             <input
               id="id"
               name="id"
-              placeholder="아이디 또는 이메일을 입력해주세요"
+              placeholder="아이디를 입력해주세요"
               onChange={e => {
                 setId(e.target.value);
               }}
