@@ -191,7 +191,7 @@ const MypageBoardReview = () => {
           </div>
           <div className="mt-[13px]">
             <div className="w-full h-[3px] border-[1px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
-            <div className="flex flex-col max-h-[450px]">
+            <div className="flex flex-col max-h-[450px] overflow-auto">
               {restaurantReivew?.map(restaurantReivew => (
                 <>
                   <div className="flex flex-row my-[19px]">
