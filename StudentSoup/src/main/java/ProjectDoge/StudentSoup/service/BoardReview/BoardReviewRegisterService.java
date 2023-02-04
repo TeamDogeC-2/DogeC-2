@@ -19,11 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardReviewRegisterService {
 
-    private  final BoardFindService boardFindService;
-
+    private final BoardFindService boardFindService;
     private final MemberFindService memberFindService;
-
-
     private final BoardReviewRepository boardReviewRepository;
 
     @Transactional
@@ -42,11 +39,10 @@ public class BoardReviewRegisterService {
         }
     }
 
-
     private BoardReview createBoardReview(BoardReviewResDto dto) {
         Board board = boardFindService.findOne(dto.getBoardId());
         Member member = memberFindService.findOne(dto.getMemberId());
-        BoardReview boardReview = new BoardReview().createBoardReview(member,board,dto);
+        BoardReview boardReview = new BoardReview().createBoardReview(member, board, dto);
 
         return boardReview;
     }
@@ -64,7 +60,7 @@ public class BoardReviewRegisterService {
     private BoardReview createTestBoardReview(BoardReviewResDto dto) {
         Board board = boardFindService.findOne(dto.getBoardId());
         Member member = memberFindService.findOne(dto.getMemberId());
-        BoardReview boardReview = new BoardReview().createTestBoardReview(member,board,dto);
+        BoardReview boardReview = new BoardReview().createTestBoardReview(member, board, dto);
 
         return boardReview;
     }

@@ -30,17 +30,13 @@ import java.util.List;
 public class BoardResisterService {
 
     private final MemberFindService memberFindService;
-
     private final FileService fileService;
-
     private final BoardRepository boardRepository;
-
     private final FileRepository fileRepository;
-
     private final DepartmentFindService departmentFindService;
 
     @Transactional
-    public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
+    public Long join(Long memberId, BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
         checkQualification(boardFormDto,member);
@@ -72,7 +68,7 @@ public class BoardResisterService {
         }
         else {
             Department department = departmentFindService.findOne(departmentId);
-            Board board = new Board().createBoard(boardFormDto, member, member.getSchool(),department);
+            Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), department);
             return board;
         }
     }
@@ -91,7 +87,7 @@ public class BoardResisterService {
     }
 
     @Transactional
-    public Long join(Long memberId,BoardFormDto boardFormDto){
+    public Long join(Long memberId, BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
         Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), member.getDepartment());
@@ -101,7 +97,7 @@ public class BoardResisterService {
     }
 
     @Transactional
-    public Long testJoin(Long memberId,BoardFormDto boardFormDto){
+    public Long testJoin(Long memberId, BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
         Board board = new Board().createTestBoard(boardFormDto, member, member.getSchool(), member.getDepartment());
