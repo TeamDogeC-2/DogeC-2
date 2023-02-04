@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface BoardRepositoryCustom {
 
@@ -18,7 +17,7 @@ public interface BoardRepositoryCustom {
 
     Page<BoardMainDto> orderByCategory(Long schoolId, Long departmentId, String category, int sorted, Pageable pageable,String column,String value);
 
-    List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchTime,LocalDateTime endDateTime);
+    List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchTime, LocalDateTime endDateTime);
 
     Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
 

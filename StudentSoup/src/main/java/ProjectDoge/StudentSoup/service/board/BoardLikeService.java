@@ -20,30 +20,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardLikeService {
 
     private final BoardLikeRepository boardLikeRepository;
-
     private final MemberFindService memberFindService;
-
-    private  final BoardFindService boardFindService;
+    private final BoardFindService boardFindService;
     
 
     @Transactional
-    public ConcurrentHashMap<String,Object> boardLike(Long boardId,Long memberId){
+    public ConcurrentHashMap<String,Object> boardLike(Long boardId, Long memberId){
         log.info("좋아요 / 좋아요 취소 서비스 로직이 실행되었습니다.");
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         Member member = memberFindService.findOne(memberId);
         Board board = boardFindService.findOne(boardId);
         if (boardLike==null){
-            likeBoard(member,board,resultMap);
+            likeBoard(member, board, resultMap);
             return resultMap;
         }
         else{
-            unLikeBoard(boardLike,board,resultMap);
+            unLikeBoard(boardLike, board, resultMap);
             return resultMap;
         }
     }
 
-    private void unLikeBoard(BoardLike boardLike,Board board, ConcurrentHashMap<String, Object> resultMap) {
+    private void unLikeBoard(BoardLike boardLike, Board board, ConcurrentHashMap<String, Object> resultMap) {
         log.info("좋아요 취소 서비스 로직이 실행되었습니다.");
         boardLikeRepository.delete(boardLike);
         board.minusLikeCount();
@@ -53,9 +51,9 @@ public class BoardLikeService {
         log.info("게시글 좋아요가 취소 되었습니다.");
     }
 
-    private void likeBoard(Member member,Board board,ConcurrentHashMap<String,Object> resultMap) {
+    private void likeBoard(Member member, Board board, ConcurrentHashMap<String,Object> resultMap) {
         log.info("게시글 좋아요 서비스 로직이 실행되었습니다.");
-        BoardLike boardLike = new BoardLike().createBoard(member,board);
+        BoardLike boardLike = new BoardLike().createBoard(member, board);
         boardLikeRepository.save(boardLike);
         board.addLikeCount();
         BoardDto dto = new BoardDto(board, ConstField.LIKED);

@@ -36,7 +36,7 @@ public class BoardResisterService {
     private final BoardValidationService boardValidationService;
 
     @Transactional
-    public Long join(Long memberId, BoardFormDto boardFormDto, List<MultipartFile> multipartFiles) {
+    public Long join(Long memberId, BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
         boardValidationService.checkValidation(boardFormDto, member);
@@ -61,15 +61,14 @@ public class BoardResisterService {
     private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList, Board board) {
         for (UploadFileDto fileDto : uploadFileDtoList) {
             ImageFile imageFile = new ImageFile().createFile(fileDto);
-            fileRepository.save(imageFile);
-            board.addImageFile(imageFile);
+            board.addImageFile(fileRepository.save(imageFile));
         }
     }
 
     public List<BoardCategoryDto> getMemberClassification(Long memberId) {
         Member member = memberFindService.findOne(memberId);
-
         List<BoardCategoryDto> categoryDtoList = new ArrayList<>();
+        
         for (BoardCategory category : BoardCategory.values()) {
             categoryDtoList.add(new BoardCategoryDto(String.valueOf(category), category.getBoardCategory()));
             log.info("boardCategory [{}], boardCategory [{}]", category.getBoardCategory(), category.name());
@@ -80,7 +79,7 @@ public class BoardResisterService {
     }
 
     @Transactional
-    public Long join(Long memberId, BoardFormDto boardFormDto) {
+    public Long join(Long memberId, BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
         Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), member.getDepartment());
@@ -90,7 +89,7 @@ public class BoardResisterService {
     }
 
     @Transactional
-    public Long testJoin(Long memberId, BoardFormDto boardFormDto) {
+    public Long testJoin(Long memberId, BoardFormDto boardFormDto){
         log.info("게시글 생성 메소드가 실행되었습니다");
         Member member = memberFindService.findOne(memberId);
         Board board = new Board().createTestBoard(boardFormDto, member, member.getSchool(), member.getDepartment());

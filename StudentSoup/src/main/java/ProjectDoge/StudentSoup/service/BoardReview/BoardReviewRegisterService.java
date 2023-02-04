@@ -35,10 +35,16 @@ public class BoardReviewRegisterService {
         return review.getReviewId();
     }
 
+    private void checkNullContent(BoardReviewResDto dto) {
+        if(dto.getContent().strip().length()==0 || dto.getContent().length()==0){
+            throw new BoardReviewContentNullException("리뷰 내용이 null 또는 빈칸 입니다.");
+        }
+    }
+
     private BoardReview createBoardReview(BoardReviewResDto dto) {
         Board board = boardFindService.findOne(dto.getBoardId());
         Member member = memberFindService.findOne(dto.getMemberId());
-        BoardReview boardReview = new BoardReview().createBoardReview(member,board,dto);
+        BoardReview boardReview = new BoardReview().createBoardReview(member, board, dto);
 
         return boardReview;
     }

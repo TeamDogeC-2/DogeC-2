@@ -1,17 +1,13 @@
 package ProjectDoge.StudentSoup.dto.board;
 
-import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class BoardMainDto {
+@Data
+public class BoardBestHotMainDto extends BoardMainDto {
     private Long boardId;
     private String boardCategory;
-    private String tag;
     private String title;
     private String writeDate;
     private String nickname;
@@ -20,19 +16,9 @@ public class BoardMainDto {
     private int reviewCount;
     private String authentication;
 
-    public BoardMainDto(Board board) {
-        this.boardId = board.getId();
-        this.boardCategory = board.getBoardCategory().getBoardCategory();
-        this.title = board.getTitle();
-        this.writeDate = board.getWriteDate();
-        this.likedCount = board.getLikedCount();
-        this.view = board.getView();
-        this.nickname = board.getMember().getNickname();
-        this.authentication = board.getAuthentication();
-    }
 
     @QueryProjection
-    public BoardMainDto(
+    public BoardBestHotMainDto(
             Long boardId,
             BoardCategory boardCategory,
             String title,
@@ -42,10 +28,8 @@ public class BoardMainDto {
             int likedCount,
             int reviewCount,
             String authentication) {
-
         this.boardId = boardId;
-        this.boardCategory = boardCategory.getBoardCategory();
-        this.tag = replaceCategory(boardCategory.getBoardCategory());
+        this.boardCategory = replaceCategory(boardCategory.getBoardCategory());
         this.title = title;
         this.writeDate = writeDate;
         this.nickname = nickname;
@@ -56,11 +40,6 @@ public class BoardMainDto {
     }
 
     private String replaceCategory(String category){
-        category = category.replaceAll("게시판", "");
-        return category.replaceAll("사항", "");
-    }
-
-    protected BoardMainDto() {
-
+        return category.replaceAll("게시판", "");
     }
 }
