@@ -98,6 +98,14 @@ const RestaurantNavbar = () => {
     }
   };
 
+  const handleMypage = () => {
+    if (userId === null) {
+      alert('로그인 후 이용가능합니다.');
+    } else {
+      history.push('/mypage');
+    }
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
@@ -175,13 +183,11 @@ const RestaurantNavbar = () => {
             </span>
           )}
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center cursor-pointer">
           <img
             src={IMAGE_FILE_ID}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-            onClick={() => {
-              history.push('/mypage');
-            }}
+            onClick={handleMypage}
           />
         </div>
       </div>
