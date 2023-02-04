@@ -95,4 +95,11 @@ public class BoardUpdateService {
         boardRepository.save(board);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void updateBoardAuthentication(Board board){
+        board.setAuthentication("Y");
+        boardRepository.save(board);
+    }
+
+
 }
