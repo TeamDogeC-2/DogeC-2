@@ -24,6 +24,7 @@ const MypageBoardReview = () => {
   const [click, setClick] = useState<number>(0);
   const [size, setSize] = useState<number>(6);
   const [last, isLast] = useState<boolean>(false);
+  const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -63,7 +64,7 @@ const MypageBoardReview = () => {
         },
       )
       .then(function (response) {
-        console.log(response.data.content.writeDate);
+        console.log(response.data.content);
         setRestaurantReivew(response.data.content);
         setTotalReview(response.data.totalElements);
         isLast(response.data.last);
@@ -71,7 +72,7 @@ const MypageBoardReview = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [click]);
+  }, [click, deleteCheck]);
 
   const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
   const setPageNumbersArr = [];
@@ -89,6 +90,24 @@ const MypageBoardReview = () => {
   const handleClickButton = (_e: any) => {
     setClick(click + 1);
     setSize(size + 6);
+  };
+
+  const handleDelete = (e: any) => {
+    const restaurantReviewId = e.target.id;
+    const restaurantId = e.target.value;
+    axios
+      .delete(`/restaurantReview/${restaurantReviewId}`, {
+        data: { restaurantReviewId, restaurantId, memberId },
+      })
+      .then(function (response) {
+        console.log(response);
+        setDeleteCheck(true);
+        alert('삭제되었습니다.');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    setDeleteCheck(false);
   };
 
   return (
@@ -211,7 +230,10 @@ const MypageBoardReview = () => {
             <div className="flex flex-col max-h-[450px] overflow-auto">
               {restaurantReivew?.map(restaurantReivew => (
                 <>
-                  <div key={restaurantReivew.boardId} className="flex flex-row my-[19px]">
+                  <div
+                    key={restaurantReivew.restaurantReviewId}
+                    className="flex flex-row my-[19px]"
+                  >
                     <div className="w-[20%]">
                       <img
                         src={`/image/${restaurantReivew.imageName}`}
@@ -229,6 +251,14 @@ const MypageBoardReview = () => {
                       <div>{restaurantReivew.writeDate}</div>
                       <button className="w-[105px] h-[35px] bg-[#FF611D] rounded-[5px] text-white">
                         수정하기
+                      </button>
+                      <button
+                        id={restaurantReivew.restaurantReviewId}
+                        value={restaurantReivew.restaurantId}
+                        onClick={handleDelete}
+                        className="w-[105px] h-[35px] mt-[5px] bg-[#FF611D] rounded-[5px] text-white"
+                      >
+                        삭제하기
                       </button>
                     </div>
                   </div>
