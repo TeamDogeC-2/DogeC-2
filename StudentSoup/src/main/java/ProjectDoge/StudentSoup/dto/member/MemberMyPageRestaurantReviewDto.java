@@ -4,6 +4,8 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MemberMyPageRestaurantReviewDto {
 
@@ -20,15 +22,15 @@ public class MemberMyPageRestaurantReviewDto {
     public MemberMyPageRestaurantReviewDto(RestaurantReview restaurantReview){
         this.restaurantReviewId = restaurantReview.getId();
         this.restaurantId = restaurantReview.getRestaurant().getId();
-        this.imageName = setImageFileName(restaurantReview.getImageFileList().get(0));
+        this.imageName = setImageFileName(restaurantReview.getImageFileList());
         this.starLiked = restaurantReview.getStarLiked();
         this.content = restaurantReview.getContent();
-        this.writeDate = restaurantReview.getWriteDate().toString();
+        this.writeDate = restaurantReview.getWriteDate().toLocalDate().toString().replaceAll("-", ".");
     }
 
-    private String setImageFileName(ImageFile imageFile){
-        if(imageFile != null){
-            return imageFile.getFileName();
+    private String setImageFileName(List<ImageFile> imageFileList){
+        if(imageFileList.size() != 0){
+            return imageFileList.get(0).getFileName();
         }
         return null;
     }

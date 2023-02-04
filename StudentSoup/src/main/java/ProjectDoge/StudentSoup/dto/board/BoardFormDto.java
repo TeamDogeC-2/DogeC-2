@@ -18,7 +18,7 @@ public class BoardFormDto {
     private BoardCategory boardCategory;
     private String content;
 
-    private List<MultipartFile> multipartFiles;
+    private List<MultipartFile> multipartFileList;
 
 
     //== 생성 메서드 ==//

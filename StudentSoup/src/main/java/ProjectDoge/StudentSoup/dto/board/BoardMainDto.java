@@ -11,6 +11,7 @@ import lombok.Setter;
 public class BoardMainDto {
     private Long boardId;
     private String boardCategory;
+    private String tag;
     private String title;
     private String writeDate;
     private String nickname;
@@ -44,6 +45,7 @@ public class BoardMainDto {
 
         this.boardId = boardId;
         this.boardCategory = boardCategory.getBoardCategory();
+        this.tag = replaceCategory(boardCategory.getBoardCategory());
         this.title = title;
         this.writeDate = writeDate;
         this.nickname = nickname;
@@ -51,6 +53,11 @@ public class BoardMainDto {
         this.likedCount = likedCount;
         this.authentication = authentication;
         this.reviewCount = reviewCount;
+    }
+
+    private String replaceCategory(String category){
+        category = category.replaceAll("게시판", "");
+        return category.replaceAll("사항", "");
     }
 
     protected BoardMainDto() {
