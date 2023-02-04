@@ -9,6 +9,7 @@ import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.Department;
+import ProjectDoge.StudentSoup.exception.board.BoardContentOutOfRangeException;
 import ProjectDoge.StudentSoup.exception.board.BoardNotQualifiedException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
@@ -40,10 +41,10 @@ public class BoardResisterService {
     private final DepartmentFindService departmentFindService;
 
     @Transactional
-    public Long join(Long memberId,BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
+    public Long join(Long memberId, BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(memberId);
-        checkQualification(boardFormDto,member);
+        checkValidation(boardFormDto, member);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
         Board board = createBoard(boardFormDto.getDepartmentId(), boardFormDto, member);
         uploadBoardImage(uploadFileDtoList, board);
@@ -52,17 +53,20 @@ public class BoardResisterService {
         return board.getId();
     }
 
-    public List<BoardCategoryDto> getMemberClassification(Long memberId) {
-        Member member = memberFindService.findOne(memberId);
-
-        List<BoardCategoryDto> categoryDtoList = new ArrayList<>();
-        for (BoardCategory category : BoardCategory.values()){
-            categoryDtoList.add(new BoardCategoryDto(String.valueOf(category), category.getBoardCategory()));
-            log.info("boardCategory [{}], boardCategory [{}]", category.getBoardCategory(), category.name());
+    private void checkValidation(BoardFormDto boardFormDto, Member member){
+        checkQualification(boardFormDto, member);
+        checkBoardContentLength(boardFormDto);
     }
-        if(!member.getMemberClassification().equals(MemberClassification.ADMIN))
-            categoryDtoList.remove(categoryDtoList.size() - 1);
-        return categoryDtoList;
+
+    private void checkQualification(BoardFormDto boardFormDto, Member member) {
+        if(boardFormDto.getBoardCategory() == BoardCategory.ANNOUNCEMENT && member.getMemberClassification() != MemberClassification.ADMIN){
+            throw new BoardNotQualifiedException("공지사항은 관리자만 작성 가능합니다.");
+        }
+    }
+
+    private static void checkBoardContentLength(BoardFormDto boardFormDto) {
+        if(boardFormDto.getContent().length() < 5 || boardFormDto.getContent().length() > 1000)
+            throw new BoardContentOutOfRangeException("게시글의 내용은 5자 이상 1000자 이하여야 합니다.");
     }
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
@@ -77,18 +81,25 @@ public class BoardResisterService {
         }
     }
 
-    private void checkQualification(BoardFormDto boardFormDto, Member member) {
-        if(boardFormDto.getBoardCategory() == BoardCategory.ANNOUNCEMENT && member.getMemberClassification() != MemberClassification.ADMIN){
-            throw new BoardNotQualifiedException("공지사항은 관리자만 작성 가능합니다.");
-        }
-    }
-
-    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList,Board board) {
+    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList, Board board) {
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
             fileRepository.save(imageFile);
             board.addImageFile(imageFile);
         }
+    }
+
+    public List<BoardCategoryDto> getMemberClassification(Long memberId) {
+        Member member = memberFindService.findOne(memberId);
+
+        List<BoardCategoryDto> categoryDtoList = new ArrayList<>();
+        for (BoardCategory category : BoardCategory.values()){
+            categoryDtoList.add(new BoardCategoryDto(String.valueOf(category), category.getBoardCategory()));
+            log.info("boardCategory [{}], boardCategory [{}]", category.getBoardCategory(), category.name());
+    }
+        if(!member.getMemberClassification().equals(MemberClassification.ADMIN))
+            categoryDtoList.remove(categoryDtoList.size() - 1);
+        return categoryDtoList;
     }
 
     @Transactional
