@@ -1,5 +1,4 @@
 package ProjectDoge.StudentSoup.service.board;
-
 import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
@@ -8,8 +7,6 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
-import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
@@ -29,11 +26,8 @@ import java.util.List;
 public class BoardUpdateService {
 
     private final BoardFindService boardFindService;
-
     private final FileService fileService;
-
     private final FileRepository fileRepository;
-
     private final BoardLikeRepository boardLikeRepository;
     private final BoardRepository boardRepository;
 
@@ -67,7 +61,7 @@ public class BoardUpdateService {
     }
 
     private void deleteImageFile(Board board) {
-            for(ImageFile imageFile : board.getImageFiles()){
+            for(ImageFile imageFile : board.getImageFileList()){
                 fileRepository.delete(imageFile);
         }
     }
