@@ -72,7 +72,7 @@ public class BoardResisterService {
         }
         else {
             Department department = departmentFindService.findOne(departmentId);
-            Board board = new Board().createBoard(boardFormDto, member, member.getSchool(),department);
+            Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), department);
             return board;
         }
     }
