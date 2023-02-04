@@ -1,10 +1,7 @@
 package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.commonmodule.ConstField;
-import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
-import ProjectDoge.StudentSoup.dto.board.BoardDto;
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
+import ProjectDoge.StudentSoup.dto.board.*;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
@@ -61,9 +58,9 @@ public class BoardCallService {
         isLoginMember(boardCallDto.getMemberId());
         ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
         if (category.equals("ALL")) {
-            getAllBoards(boardCallDto, category, sorted, boardSearchDto, map);
+            getAllBoards(boardCallDto, category, sorted, pageable, boardSearchDto, map);
         } else {
-            getBoards(boardCallDto, category, sorted, pageable, map, boardSearchDto);
+            getBoards(boardCallDto, category, sorted, pageable, boardSearchDto, map);
         }
         return map;
     }
@@ -81,12 +78,13 @@ public class BoardCallService {
             BoardCallDto boardCallDto,
             String category,
             int sorted,
+            Pageable pageable,
             BoardSearchDto boardSearchDto,
-            ConcurrentHashMap<String, Object> map) {
+            ConcurrentHashMap<String, Object> map
+            ) {
 
         log.info("전체게시판 0페이지 호출 메서드가 실행 됐습니다.");
 
-        Pageable pageable = PageRequest.of(0, 8);
 
         Page<BoardMainDto> boards = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
                 boardCallDto.getDepartmentId(),
@@ -96,12 +94,12 @@ public class BoardCallService {
                 boardSearchDto.getColumn(),
                 boardSearchDto.getValue());
 
-        List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardBestHotMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime,
                 ConstField.endTime);
 
-        List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardBestHotMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime.minusMonths(1),
                 ConstField.endTime);
@@ -117,8 +115,8 @@ public class BoardCallService {
     private void getBoards(BoardCallDto boardCallDto,
                            String category, int sorted,
                            Pageable pageable,
-                           ConcurrentHashMap<String, Object> map,
-                           BoardSearchDto boardSearchDto) {
+                           BoardSearchDto boardSearchDto,
+                           ConcurrentHashMap<String, Object> map) {
         log.info("게시판 호출 메서드가 실행되었습니다.");
         Page<BoardMainDto> boardMainDtoList = boardRepository.orderByCategory(boardCallDto.getSchoolId(),
                 boardCallDto.getDepartmentId(),
@@ -133,15 +131,15 @@ public class BoardCallService {
 
     private void checkTodayWriteDate(
             Page<BoardMainDto> boardMainDtoList,
-            List<BoardMainDto> bestBoardList,
-            List<BoardMainDto> hotBoardList) {
+            List<BoardBestHotMainDto> bestBoardList,
+            List<BoardBestHotMainDto> hotBoardList) {
 
         checkWriteDate(boardMainDtoList);
         checkWriteDate(bestBoardList);
         checkWriteDate(hotBoardList);
     }
 
-    private void checkWriteDate(Iterable<BoardMainDto> boardMainDtoList) {
+    private void checkWriteDate(Iterable<? extends BoardMainDto> boardMainDtoList) {
         for (BoardMainDto dto : boardMainDtoList) {
             setWriteDate(dto);
         }
