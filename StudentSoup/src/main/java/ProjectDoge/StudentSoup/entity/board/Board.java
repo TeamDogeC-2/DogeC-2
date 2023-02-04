@@ -7,9 +7,11 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "BOARD")
+@DynamicInsert
 @Getter
 @Setter
 public class Board {
@@ -42,7 +45,7 @@ public class Board {
     @JoinColumn(name = "WRITER_NICKNAME")
     private Member member;
 
-    @Lob
+    @Size(min = 5, max = 1000)
     private String content;
 
     private String ip;
@@ -58,6 +61,10 @@ public class Board {
 
     private int likedCount;
 
+    private String isView;
+
+    @ColumnDefault("'N'")
+    private String authentication;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReview> boardReviews = new ArrayList<>();
@@ -87,8 +94,25 @@ public class Board {
         this.setMember(member);
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
+
+    public Board createTestBoard(BoardFormDto form, Member member, School school, Department department) {
+        this.setTitle(form.getTitle());
+        this.setBoardCategory(form.getBoardCategory());
+        this.setWriteDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setContent(form.getContent());
+        this.setView(0);
+        this.setLikedCount(10);
+        this.setMember(member);
+        this.setSchool(school);
+        this.setDepartment(department);
+        this.setIsView(setViewOption(form.getBoardCategory()));
+        return this;
+    }
+
     public Board createBoard(BoardFormDto form, Member member, School school) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
@@ -99,8 +123,16 @@ public class Board {
         this.setLikedCount(0);
         this.setMember(member);
         this.setSchool(school);
+        this.setIsView(setViewOption(form.getBoardCategory()));
         return this;
     }
+
+    private String setViewOption(BoardCategory category){
+        if(String.valueOf(category).equals("ANNOUNCEMENT"))
+            return "N";
+        return "Y";
+    }
+
     public Board editBoard(BoardFormDto boardFormDto){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());

@@ -51,6 +51,23 @@ public class BoardReviewRegisterService {
         return boardReview;
     }
 
+    @Transactional
+    public Long TestJoin(BoardReviewResDto dto){
+        log.info("게시글 리뷰 등록 서비스가 실행됐습니다.");
+        checkNullContent(dto);
+        BoardReview boardReview = createTestBoardReview(dto);
+        BoardReview review = boardReviewRepository.save(boardReview);
+        log.info("게시글 리뷰 등록 서비스가 실행됐습니다.");
+        return review.getReviewId();
+    }
+
+    private BoardReview createTestBoardReview(BoardReviewResDto dto) {
+        Board board = boardFindService.findOne(dto.getBoardId());
+        Member member = memberFindService.findOne(dto.getMemberId());
+        BoardReview boardReview = new BoardReview().createTestBoardReview(member,board,dto);
+
+        return boardReview;
+    }
 
 
 }

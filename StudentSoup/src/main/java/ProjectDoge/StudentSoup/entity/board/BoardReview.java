@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class BoardReview {
 
     private String updateDate;
 
+    @Size(min = 5, max = 500)
     private String content;
 
     private int likedCount;
@@ -77,6 +79,20 @@ public class BoardReview {
         this.setWriteDate(dateFormat(LocalDateTime.now()));
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setLikedCount(0);
+        this.setSeq(dto.getSeq());
+        this.setDepth(dto.getDepth());
+        this.setLevel(dto.getLevel());
+        this.setActive("Y");
+        return this;
+    }
+
+    public BoardReview createTestBoardReview(Member member, Board board, BoardReviewResDto dto){
+        this.setBoard(board);
+        this.setMember(member);
+        this.setContent(dto.getContent());
+        this.setWriteDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setLikedCount(10);
         this.setSeq(dto.getSeq());
         this.setDepth(dto.getDepth());
         this.setLevel(dto.getLevel());

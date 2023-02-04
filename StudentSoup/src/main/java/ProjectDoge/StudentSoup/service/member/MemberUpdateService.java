@@ -2,15 +2,17 @@ package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberUpdateDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -21,6 +23,8 @@ public class MemberUpdateService {
     private final MemberValidationService memberValidationService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
+    private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
 
 
     @Transactional
@@ -54,8 +58,15 @@ public class MemberUpdateService {
 
         member.setSchool(school);
         member.setDepartment(department);
-        member.setPwd(dto.getPwd());
+        member.setPwd(passwordEncoder.encode(dto.getPwd()));
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
+        memberRepository.save(member);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateMemberClassification(Member member){
+        member.setMemberClassification(MemberClassification.ADMIN);
+        memberRepository.save(member);
     }
 }

@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
+import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.file.FileFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
@@ -15,10 +16,13 @@ import ProjectDoge.StudentSoup.service.member.MemberValidationService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -29,8 +33,10 @@ public class AdminMemberService {
     private final MemberValidationService memberValidationService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
-    private final FileService FileService;
+    private final FileService fileService;
+    private final FileRepository fileRepository;
     private final FileFindService fileFindService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long adminMemberUpdate(AdminMemberUpdateForm dto, MultipartFile file) {
@@ -48,8 +54,9 @@ public class AdminMemberService {
         validationChangedNicknameEmail(dto, member);
         adminUpdateMemberField(dto, member);
         log.info("회원 정보가 새로 갱신되었습니다.");
-        Long fileId = FileService.join(file);
+        Long fileId = fileService.join(file);
         updateMemberProfileImage(member, fileId);
+        memberRepository.save(member);
 
         return member.getMemberId();
     }
@@ -63,15 +70,27 @@ public class AdminMemberService {
         }
         log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
     }
+    public List<Member> searchMember(String filed,String value){
+        if(filed == null || filed.length() == 0 || value == null || value.length()==0){
+            return  Collections.emptyList();
+        }
+        List<Member> findMembers = memberRepository.search(filed, value);
+        return findMembers;
+    }
 
 
     private void adminUpdateMemberField(MemberUpdateDto dto, Member member) {
-        member.setPwd(dto.getPwd());
+        member.setPwd(passwordEncoder.encode(dto.getPwd()));
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
     }
 
     private void updateMemberProfileImage(Member member, Long fileId) {
+        if(member.getImageFile() != null){
+            fileService.deleteFile(member.getImageFile());
+            fileRepository.delete(member.getImageFile());
+        }
+
         if(fileId != null) {
             ImageFile imageFile = fileFindService.findOne(fileId);
             member.setImageFile(imageFile);

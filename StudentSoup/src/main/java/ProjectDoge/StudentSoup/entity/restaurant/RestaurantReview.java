@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class RestaurantReview {
     @Column(name = "WRITER_NICKNAME")
     public String nickname;  // Member
 
+    @Lob
     private String content;
 
     @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.ALL)
@@ -42,11 +44,11 @@ public class RestaurantReview {
     // 리뷰에서 작성한 음식점의 별점
     private int starLiked;
 
-    @Column(columnDefinition = "DATE")
-    private LocalDate writeDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime writeDate;
 
-    @Column(columnDefinition = "DATE")
-    private LocalDate updateDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "restaurantReview", cascade = CascadeType.REMOVE)
     private List<RestaurantReviewLike> restaurantReviewLikes = new ArrayList<>();
@@ -72,8 +74,8 @@ public class RestaurantReview {
         this.content = dto.getContent();
         this.likedCount = 0;
         this.starLiked = dto.getStarLiked();
-        this.writeDate = LocalDate.now();
-        this.updateDate = LocalDate.now();
+        this.writeDate = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
         return this;
     }
 
@@ -82,8 +84,8 @@ public class RestaurantReview {
         restaurantReview.setContent("레스토랑 리뷰 내용");
         restaurantReview.setLikedCount(0);
         restaurantReview.setStarLiked(0);
-        restaurantReview.setWriteDate(LocalDate.now());
-        restaurantReview.setUpdateDate(LocalDate.now());
+        restaurantReview.setWriteDate(LocalDateTime.now());
+        restaurantReview.setUpdateDate(LocalDateTime.now());
 
         return restaurantReview;
     }

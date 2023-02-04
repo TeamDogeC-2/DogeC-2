@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Reddit from '../../img/Reddit.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
@@ -5,10 +8,71 @@ import Faq from '../../img/faq.jpg';
 import Logout from '../../img/logout.jpg';
 
 const RestaurantNavbar = () => {
+  const history = useHistory();
+
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+
+  const [searchSchool, setSearchSchool] = useState<any[]>();
+  const [posts, setPosts] = useState<any[]>();
+  const [inputSchool, setInputSchool] = useState<string>();
+  const [listSchool, setListSchool] = useState<string>('');
+
+  const getSchool = () => {
+    axios
+      .get('/home')
+      .then(res => {
+        setPosts(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputSchool(value);
+    if (value.length === 0 || value === '' || value === null || value === undefined) {
+      setSearchSchool(undefined);
+      return;
+    }
+    const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    setSearchSchool(resultArray);
+    setListSchool(compareResult?.shift().schoolName);
+  };
+
+  const handleClick = (e: any) => {
+    setInputSchool(e.target.innerText);
+    const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
+    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    setSearchSchool(resultArray);
+    setListSchool(compareResult?.shift().schoolName);
+  };
+
+  const handlePushRestaurant = () => {
+    if (inputSchool === '' || inputSchool === undefined) {
+      alert('학교를 검색해주세요');
+    } else if (inputSchool === listSchool) {
+      history.push('/restaurant', inputSchool);
+    } else {
+      alert('학교 정보가 올바르지 않습니다.');
+    }
+  };
+
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handlePushRestaurant();
+    }
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
-      <div className="ml-[24px] flex items-center gap-x-[32px]">
-        <img src={Reddit} alt="" className="w-[162px] h-[72px]" />
+      <div className="flex items-center gap-x-[32px]">
+        <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+          onClick={() => {
+            history.push('/');
+          }}
+        />
         <div className="w-[466px] h-[44px] px-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
           <svg
             width="25"
@@ -23,28 +87,40 @@ const RestaurantNavbar = () => {
             />
           </svg>
           <input
+            onChange={handleChange}
+            onKeyDown={handleOnKeyPress}
             type="text"
+            value={inputSchool}
             placeholder="학교 명을 입력하세요"
-            className="w-full text-[#717171] bg-transparent"
+            className="w-full text-[#717171] bg-transparent outline-0"
           ></input>
+          <button
+            onClick={handlePushRestaurant}
+            className="hidden"
+          >
+            검색
+          </button>
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">BOARD</span>
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/board');
+            }}>
+            BOARD
+          </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+            onClick={() => {
+              history.push('/restaurant');
+            }}>
             RESTAURANT
           </span>
-        </div>
-        <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
-        <div className="flex justify-center items-center w-[73px] cursor-pointer">
-          <img src={Faq} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">FAQ</span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
         <div className="flex justify-center items-center w-[110px] cursor-pointer">
@@ -52,12 +128,14 @@ const RestaurantNavbar = () => {
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className='w-[40px] h-[40px] bg-[url("./img/circle_fill_gray.jpg")] bg-cover relative top-[14px] rounded-full border-[1px] border-[#FF4D14] cursor-pointer'></div>
-          <div className='w-[20px] h-[21px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[17px] mb-[10px]'></div>
+          <img
+            src={IMAGE_FILE_ID}
+            className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
+            onClick={() => {
+              history.push('/mypage');
+            }}
+          />
         </div>
-        <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative bottom-[15px] right-[10px]">
-          1
-        </span>
       </div>
     </div>
   );

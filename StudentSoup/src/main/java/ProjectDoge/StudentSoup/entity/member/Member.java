@@ -20,6 +20,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,12 +43,14 @@ public class Member {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
+    @Size(min = 5, max = 20)
     @NotEmpty
     private String id;
 
     @NotEmpty
     private String pwd;
 
+    @Size(min = 2, max = 12)
     @NotEmpty
     private String nickname;
 
