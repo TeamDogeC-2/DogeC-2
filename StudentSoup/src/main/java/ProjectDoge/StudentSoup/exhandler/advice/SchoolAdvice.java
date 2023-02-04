@@ -21,27 +21,27 @@ public class SchoolAdvice {
     @ExceptionHandler(SchoolIdNotSentException.class)
     public ErrorResult schoolIdNotSentHandler(SchoolIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("SchoolIdNotSentException", e.getMessage());
+        return new ErrorResult("SchoolIdNotSent", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SchoolNotFoundException.class)
     public ErrorResult schoolNotFoundHandler(SchoolNotFoundException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("SchoolNotFoundException", e.getMessage());
+        return new ErrorResult("SchoolNotFound", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SchoolValidationException.class)
     public ErrorResult schoolValidationHandler(SchoolValidationException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("SchoolValidationException", e.getMessage());
+        return new ErrorResult("SchoolValidation", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(SchoolNameNotSentException.class)
     public ErrorResult schoolValidationHandler(SchoolNameNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("SchoolNameNotSentException", e.getMessage());
+        return new ErrorResult("SchoolNameNotSent", e.getMessage());
     }
 }
