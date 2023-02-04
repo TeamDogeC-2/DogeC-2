@@ -25,7 +25,7 @@ public class MemberMyPageRestaurantReviewDto {
         this.imageName = setImageFileName(restaurantReview.getImageFileList());
         this.starLiked = restaurantReview.getStarLiked();
         this.content = restaurantReview.getContent();
-        this.writeDate = restaurantReview.getWriteDate().toString();
+        this.writeDate = restaurantReview.getWriteDate().toLocalDate().toString().replaceAll("-", ".");
     }
 
     private String setImageFileName(List<ImageFile> imageFileList){
