@@ -46,7 +46,6 @@ const Navbar = () => {
                 ></div>
                 <div className='w-[20px] h-[21px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[17px] mb-[10px]'></div>
               </div>
-              <span className="w-[14px] h-[14px] bg-[#FF4D14] rounded-full text-[10px] text-white flex items-center justify-center relative top-[15px] right-[10px]"></span>
             </div>
           ) : (
             <button
@@ -57,7 +56,7 @@ const Navbar = () => {
             </button>
           )}
         </div>
-        {isModal && <Modal setIsLogin={setIsLogin} onClickToggleModal={onClickToggleModal}/>}
+        {isModal && <Modal setIsLogin={setIsLogin} onClickToggleModal={onClickToggleModal} />}
       </div>
     </div>
   );
