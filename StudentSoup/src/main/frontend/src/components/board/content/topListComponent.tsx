@@ -1,6 +1,13 @@
+import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
+import { BoardListType } from './boardListComponent';
 
-const TopListComponent = () => {
+interface PropsType {
+  topList: BoardListType[];
+}
+
+const TopListComponent = (props: PropsType) => {
+  const { topList } = props;
   return (
     <div className="my-[15px] w-[48%]">
       <div className="bg-white p-[11px] rounded-[5px] border border-solid border-[#bcbcbc]">
@@ -20,56 +27,24 @@ const TopListComponent = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]">
-              <td className="text-start py-[15px] px-[13px]">
-                [자유] 카카오 선물하기 <span className="text-orange">5</span>
-              </td>
-              <td className="flex py-[15px] px-[13px] gap-x-[5px]">
-                <img src={HeartIcon} alt="heart" className="self-center" />
-                123
-              </td>
-              <td className="py-[15px] px-[13px]">11:30</td>
-            </tr>
-            <tr className="py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]">
-              <td className="text-start py-[15px] px-[13px]">
-                [자유] 카카오 선물하기 <span className="text-orange">5</span>
-              </td>
-              <td className="flex py-[15px] px-[13px] gap-x-[5px]">
-                <img src={HeartIcon} alt="heart" className="self-center" />
-                123
-              </td>
-              <td className="py-[15px] px-[13px]">11:30</td>
-            </tr>
-            <tr className=" py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]">
-              <td className="text-start py-[15px] px-[13px]">
-                [자유] 카카오 선물하기 <span className="text-orange">5</span>
-              </td>
-              <td className="flex py-[15px] px-[13px] gap-x-[5px]">
-                <img src={HeartIcon} alt="heart" className="self-center" />
-                123
-              </td>
-              <td className="py-[15px] px-[13px]">11:30</td>
-            </tr>
-            <tr className=" py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]">
-              <td className="text-start py-[15px] px-[13px]">
-                [자유] 카카오 선물하기 <span className="text-orange">5</span>
-              </td>
-              <td className="flex py-[15px] px-[13px] gap-x-[5px]">
-                <img src={HeartIcon} alt="heart" className="self-center" />
-                123
-              </td>
-              <td className="py-[15px] px-[13px]">11:30</td>
-            </tr>
-            <tr className=" py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]">
-              <td className="text-start py-[15px] px-[13px]">
-                [자유] 카카오 선물하기 <span className="text-orange">5</span>
-              </td>
-              <td className="flex py-[15px] px-[13px] gap-x-[5px]">
-                <img src={HeartIcon} alt="heart" className="self-center" />
-                123
-              </td>
-              <td className="py-[15px] px-[13px]">11:30</td>
-            </tr>
+            {_.map(topList, (item, index) => {
+              return (
+                <tr
+                  key={index}
+                  className="py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]"
+                >
+                  <td className="text-start py-[15px] px-[13px]">
+                    [{item.boardCategory}] {item.title}{' '}
+                    <span className="text-orange">{item.reviewCount}</span>
+                  </td>
+                  <td className="flex py-[15px] px-[13px] gap-x-[5px]">
+                    <img src={HeartIcon} alt="heart" className="self-center" />
+                    {item.view}
+                  </td>
+                  <td className="py-[15px] px-[13px]">{item.writeDate}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

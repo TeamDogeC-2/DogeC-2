@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import cn from 'clsx';
 
 interface PropsType {
-  menu: string;
+  boardCategory: string;
   range: RANGE;
   setRange: React.Dispatch<React.SetStateAction<RANGE>>;
 }
@@ -13,11 +12,11 @@ export const enum RANGE {
 }
 
 const TitleComponent = (props: PropsType) => {
-  const { menu, range, setRange } = props;
+  const { boardCategory, range, setRange } = props;
 
   return (
     <div className="flex justify-between">
-      <div className="text-[24px] font-[700]">{menu}</div>
+      <div className="text-[24px] font-[700]">{boardCategory}</div>
       <div className="flex">
         <div
           onClick={() => {

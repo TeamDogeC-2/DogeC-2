@@ -2,28 +2,51 @@ import SearchComponent from './content/searchComponent';
 import TitleComponent, { RANGE } from './content/titleComponent';
 
 import PencilIcon from '../../img/board/icon_pencil.png';
-import BoardListComponent from './content/boardListComponent';
+import BoardListComponent, { BoardListType } from './content/boardListComponent';
 import TopListComponent from './content/topListComponent';
 import HotListComponent from './content/hotListComponent';
-import { BORDER_MENU } from './boardMain';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useBoardData from './data/useBoardData';
+import _ from 'lodash';
 
 interface PropsType {
-  menu: BORDER_MENU;
+  boardCategory: string;
 }
 
 const BoardContent = (props: PropsType) => {
-  const { menu } = props;
+  const { boardCategory } = props;
   const [range, setRange] = useState(RANGE.SCHOOL);
+  const { getBoardList } = useBoardData();
+  const [list, setList] = useState<BoardListType[]>([]);
+  const [topList, setTopList] = useState<BoardListType[]>([]);
+  const [hotList, setHotList] = useState<BoardListType[]>([]);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  useEffect(() => {
+    const request = {
+      column: 'title',
+      value: searchValue,
+      category: boardCategory,
+      sorted: 0,
+      page: 0,
+      size: 12,
+    };
+    getBoardList(request, res => {
+      setList(res.boards.content);
+      if (res.bestBoards) setTopList(res.bestBoards);
+      if (res.hotBoards) setHotList(res.hotBoards);
+    });
+  }, [boardCategory]);
 
   return (
     <div className="py-[52px] px-[76px] max-w-[1100px]">
-      <TitleComponent menu={menu} range={range} setRange={setRange} />
-      <SearchComponent range={range} />
-      {menu === BORDER_MENU.ALL && (
+      <TitleComponent boardCategory={boardCategory} range={range} setRange={setRange} />
+      <SearchComponent range={range} setSearchValue={setSearchValue} searchValue={searchValue} />
+      {boardCategory === 'ALL' && (
         <div className="flex justify-between">
-          <TopListComponent />
-          <HotListComponent />
+          <TopListComponent topList={topList} />
+          <HotListComponent hotList={hotList} />
         </div>
       )}
       <div className="flex justify-end mt-[21px]">
@@ -32,7 +55,7 @@ const BoardContent = (props: PropsType) => {
           <span>글쓰기</span>
         </div>
       </div>
-      <BoardListComponent />
+      <BoardListComponent list={list} boardCategory={boardCategory} />
     </div>
   );
 };

@@ -1,37 +1,20 @@
 import Menu from '../../img/menu.jpg';
 import CheckRight from '../../img/check_right.png';
 
-import CheckSquareIcon from '../../img/board/icon_check_square.png';
-import UserIcon from '../../img/board/icon_users.png';
-import ChatIcon from '../../img/board/icon_chat.png';
-import DocumentIcon from '../../img/board/icon_document.png';
-import CheckSquareActiveIcon from '../../img/board/icon_check_square_active.png';
-import UserActiveIcon from '../../img/board/icon_users_active.png';
-import ChatActiveIcon from '../../img/board/icon_chat_active.png';
-import DocumentActiveIcon from '../../img/board/icon_document_active.png';
-
 import cn from 'clsx';
-import { BORDER_MENU } from './boardMain';
 import _ from 'lodash';
+import { categoryList } from './data/_constant';
 
 interface propTypes {
-  menu: BORDER_MENU;
-  setMenu: React.Dispatch<React.SetStateAction<BORDER_MENU>>;
+  boardCategory: string;
+  setBoardCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const BoardSidebar = (props: propTypes) => {
-  const { menu, setMenu } = props;
+  const { boardCategory, setBoardCategory } = props;
 
-  const menuList = [
-    { value: BORDER_MENU.ALL, imgPath: DocumentIcon, activeImgPath: DocumentActiveIcon },
-    { value: BORDER_MENU.FREE, imgPath: ChatIcon, activeImgPath: ChatActiveIcon },
-    { value: BORDER_MENU.CONSULTING, imgPath: UserIcon, activeImgPath: UserActiveIcon },
-    { value: BORDER_MENU.TIP, imgPath: CheckSquareIcon, activeImgPath: CheckSquareActiveIcon },
-    { value: BORDER_MENU.NOTICE, imgPath: DocumentIcon, activeImgPath: DocumentActiveIcon },
-  ];
-
-  const onClickBoardMenu = (currentMenu: BORDER_MENU) => {
-    setMenu(currentMenu);
+  const onClickBoardMenu = (current: string) => {
+    setBoardCategory(current);
   };
 
   return (
@@ -44,9 +27,9 @@ const BoardSidebar = (props: propTypes) => {
           </div>
         </li>
 
-        {_.map(menuList, (item, index) => {
-          const { value, imgPath, activeImgPath } = item;
-          const isActive = menu === value;
+        {_.map(categoryList, (item, index) => {
+          const { label, imgPath, activeImgPath, value } = item;
+          const isActive = boardCategory === value;
 
           return (
             <li className="mb-[20px]" key={index}>
@@ -70,7 +53,7 @@ const BoardSidebar = (props: propTypes) => {
                     ['']: !isActive,
                   })}
                 >
-                  {value}
+                  {label}
                 </span>
                 <img
                   src={isActive ? '' : CheckRight}

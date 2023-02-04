@@ -5,11 +5,21 @@ import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
 import { RANGE } from './titleComponent';
 
-const keywordList = ['제목', '글쓴이', '내용'];
-const sortList = ['추천순', '최신순', '조회순', '댓글순'];
-const subjectList = ['1', '2'];
+interface PropsType {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  range: RANGE;
+}
 
-const SearchComponent = ({ range }: { range: RANGE }) => {
+const keywordList = [
+  { label: '제목', value: 'title' },
+  { label: '글쓴이', value: 'nickname' },
+  { label: '내용', value: 'content' },
+];
+const sortList = ['추천순', '최신순', '조회순', '댓글순'];
+const subjectList = ['1', '2']; // TODO: api data
+
+const SearchComponent = (props: PropsType) => {
   const [showKeywords, setShowKeywords] = useState(false);
   const [showSorts, setShowSorts] = useState(false);
   const [showSubjects, setShowSubjects] = useState(false);
@@ -21,6 +31,8 @@ const SearchComponent = ({ range }: { range: RANGE }) => {
   const keywordRef: any = useRef(null);
   const sortRef: any = useRef(null);
   const subjectRef: any = useRef(null);
+
+  const { range, searchValue, setSearchValue } = props;
 
   /**
    * 컴포넌트 특정 영역 외 클릭 감지를 위해 사용
@@ -84,7 +96,7 @@ const SearchComponent = ({ range }: { range: RANGE }) => {
               return (
                 <div
                   onClick={() => {
-                    setKeyword(item);
+                    setKeyword(item.label);
                     setShowKeywords(false);
                   }}
                   key={index}
@@ -95,7 +107,7 @@ const SearchComponent = ({ range }: { range: RANGE }) => {
                     },
                   )}
                 >
-                  {item}
+                  {item.label}
                 </div>
               );
             })}
