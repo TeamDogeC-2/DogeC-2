@@ -16,7 +16,7 @@ public class BoardLikeController {
 
     private final BoardLikeService boardLikeService;
 
-    @PostMapping("board/{boardId}/{memberId}/like")
+    @PostMapping("/board/{boardId}/{memberId}/like")
     public ResponseEntity<ConcurrentHashMap<String,Object>> boardLike(@PathVariable Long boardId,@PathVariable Long memberId){
         ConcurrentHashMap<String, Object> resultMap = boardLikeService.boardLike(boardId, memberId);
         return ResponseEntity.ok(resultMap);
