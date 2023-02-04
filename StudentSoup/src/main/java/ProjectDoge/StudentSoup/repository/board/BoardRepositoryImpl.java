@@ -72,7 +72,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
-                        board.boardReviews.size(),
+                        board.boardReplies.size(),
                         board.authentication))
                 .from(board)
                 .where(
@@ -109,7 +109,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
-                        board.boardReviews.size(),
+                        board.boardReplies.size(),
                         board.authentication))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
@@ -191,7 +191,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         if (BoardSortedCase.LIKED.getValue() == sorted) {
             return board.likedCount.desc();
         } else if (BoardSortedCase.REVIEW.getValue() == sorted) {
-            return board.boardReviews.size().desc();
+            return board.boardReplies.size().desc();
         } else if (BoardSortedCase.VIEW.getValue() == sorted) {
             return board.view.desc();
         }
