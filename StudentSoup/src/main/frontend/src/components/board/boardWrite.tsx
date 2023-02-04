@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { ReactComponent as ReviewWriteClose } from '../../img/ReviewWriteClose.svg';
+import React, { useEffect, useRef, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
@@ -10,9 +11,10 @@ const boardWrite = () => {
   const [title, setTitle] = useState<string>('');
   const [departmentId, setDepartMentId] = useState<number>();
   const [content, setContent] = useState<string>('');
-  const [img, setImg] = useState<any>();
   const history = useHistory();
-  const state = useLocation<any>();
+  const [showImages, setShowImages] = useState([]);
+  const [imgs, setImgs] = useState<any>();
+  const imageUploader = useRef<any>(null);
   const saveMemberId = sessionStorage.getItem('memberId');
   const saveSchoolId = sessionStorage.getItem('schoolId');
 
@@ -64,6 +66,43 @@ const boardWrite = () => {
         console.error(err);
       });
     alert('작성이 완료되었습니다.');
+  };
+  const handleAddImages = (event: any) => {
+    const maxFilesizeAll = 4 * 1024 * 1000;
+    const imageLists = event.target.files;
+    setImgs(event.target.files);
+
+    let imageUrlLists = [...showImages];
+
+    for (let i = 0; i < imageLists.length; i++) {
+      if (!/\.(gif|jpg|png|jpeg|bmp|svg)$/i.test(imageLists[i].name)) {
+        alert('해당파일은 업로드가 불가능한 파일입니다.');
+        return;
+      } else if (imageLists[i].size > maxFilesizeAll) {
+        alert('업로드 가능한 최대 용량은 4MB입니다.');
+        return;
+      }
+
+      const currentImageUrl = URL.createObjectURL(imageLists[i]) as never;
+
+      imageUrlLists.push(currentImageUrl);
+    }
+
+    if (imageUrlLists.length < 6) {
+      imageUrlLists = imageUrlLists.slice(0, 6);
+    } else {
+      alert('이미지파일은 5개이하만 업로드 할수 있습니다.');
+      return;
+    }
+
+    setShowImages(imageUrlLists);
+  };
+  const onCickImageUpload = () => {
+    imageUploader.current.click();
+  };
+
+  const handleDeleteImage = (id: any) => {
+    setShowImages(showImages.filter((_, index) => index !== id));
   };
   const handleSetTitleValue = (e: any) => {
     setTitle(e.target.value);
@@ -149,17 +188,47 @@ const boardWrite = () => {
             <div className="ml-[26px] mt-[37px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
               사진첨부
             </div>
-            <div className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]">
-              <div className="ml-[6.5px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
+            <div
+              onChange={handleAddImages}
+              onClick={onCickImageUpload}
+              className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]"
+            >
+              <input
+                type="file"
+                multiple
+                accept=".png,.jpg,.gif,.jpeg,.bmp,.svg"
+                ref={imageUploader}
+                className="hidden"
+              />
+              <div className="mt-[2px] ml-[9.5px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
                 사진첨부
               </div>
             </div>
-            <div className="mt-[37px] ml-[13px] font-normal text-[16px] leading-[26px] text-[#6D6D6D]">
-              0/5
+            <div className="mt-[39px] ml-[13px] font-normal text-[16px] leading-[26px] text-[#6D6D6D]">
+              {showImages.length}/5
             </div>
-            <div className="mt-[39px] ml-[15px] font-medium text-[16px] leading-[21px] text-[#9F9F9F]">
+            <div className="mt-[41px] ml-[15px] font-medium text-[16px] leading-[21px] text-[#9F9F9F]">
               사진은 최대 4MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
             </div>
+          </div>
+          <div className="flex flex-row">
+            {showImages.map((image, id) => (
+              <>
+                <div key={id}>
+                  <img
+                    className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"
+                    src={image}
+                    alt={`${image}-${id}`}
+                  />
+                  <ReviewWriteClose
+                    onClick={() => {
+                      handleDeleteImage(id);
+                    }}
+                    className="w-[20px] h-[20px] ml-[65px] mt-[5.5px] cursor-pointer"
+                  />
+                </div>
+              </>
+            ))}
           </div>
         </div>
       </div>
