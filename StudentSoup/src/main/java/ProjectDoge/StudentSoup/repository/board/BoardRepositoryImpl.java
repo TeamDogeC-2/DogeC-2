@@ -1,20 +1,14 @@
 package ProjectDoge.StudentSoup.repository.board;
 
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
-import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
-import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.*;
 import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,11 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
@@ -80,10 +72,11 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
+                        board.boardReviews.size(),
                         board.authentication))
                 .from(board)
                 .where(
-                        checkAnnouncement().or(checkSortedBoard(category))
+                        checkAnnouncement(category).or(checkSortedBoard(category))
                                 .and(checkTypeOfBoard(schoolId, departmentId))
                                 .and(searchColumnContainsTitle(column, value))
                                 .and(searchColumnContainsContent(column, value))
@@ -97,7 +90,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPQLQuery<Long> count = queryFactory
                 .select(board.count())
                 .from(board)
-                .where(checkAnnouncement().or(checkSortedBoard(category))
+                .where(checkAnnouncement(category).or(checkSortedBoard(category))
                         .and(checkTypeOfBoard(schoolId, departmentId))
                         .and(searchColumnContainsTitle(column, value))
                         .and(searchColumnContainsContent(column, value))
@@ -108,7 +101,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     @Override
     public List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchDate, LocalDateTime EndDate) {
-        List<BoardMainDto> query = queryFactory
+        return queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
@@ -116,6 +109,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
+                        board.boardReviews.size(),
                         board.authentication))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
@@ -125,7 +119,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .offset(0)
                 .limit(5)
                 .fetch();
-        return query;
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
@@ -174,10 +167,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return board.boardCategory.eq(BoardCategory.valueOf(category));
     }
 
-    private BooleanExpression checkAnnouncement() {
-        BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
-        BooleanExpression categoryCond2 = board.isView.eq("Y");
-        return Expressions.allOf(categoryCond1, categoryCond2);
+    private BooleanExpression checkAnnouncement(String category) {
+        if(!category.equals("ANNOUNCEMENT")) {
+            BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
+            BooleanExpression categoryCond2 = board.isView.eq("Y");
+            return Expressions.allOf(categoryCond1, categoryCond2);
+        }
+        return board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
     }
 
     // TODO 차후 인증 글 서비스 추가
