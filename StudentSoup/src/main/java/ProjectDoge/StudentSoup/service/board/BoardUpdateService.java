@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.board;
 
+import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.board.BoardUpdateDto;
@@ -7,8 +8,11 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
+import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +35,8 @@ public class BoardUpdateService {
     private final FileRepository fileRepository;
 
     private final BoardLikeRepository boardLikeRepository;
+    private final BoardRepository boardRepository;
 
-
-    boolean boardLiked =true;
-
-    boolean boardNotLiked = false;
 
     public BoardUpdateDto findEditBoard(Long boardId,Long memberId){
         Board board = boardFindService.findOne(boardId);
@@ -80,13 +81,18 @@ public class BoardUpdateService {
         }
     }
 
-
     private BoardDto getBoardDto(Long boardId, Long memberId, Board board) {
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         if(boardLike == null) {
-            return new BoardDto(board, boardNotLiked);
+            return new BoardDto(board, ConstField.NOT_LIKED);
         }
-        return new BoardDto(board, boardLiked);
+        return new BoardDto(board, ConstField.LIKED);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateBoardView(Board board){
+        board.setIsView("Y");
+        boardRepository.save(board);
     }
 
 }
