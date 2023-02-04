@@ -16,6 +16,7 @@ public class BoardMainDto {
     private String nickname;
     private int view;
     private int likedCount;
+    private int reviewCount;
     private String authentication;
 
     public BoardMainDto(Board board) {
@@ -38,6 +39,7 @@ public class BoardMainDto {
             String nickname,
             int view,
             int likedCount,
+            int reviewCount,
             String authentication) {
 
         this.boardId = boardId;
@@ -48,6 +50,7 @@ public class BoardMainDto {
         this.view = view;
         this.likedCount = likedCount;
         this.authentication = authentication;
+        this.reviewCount = reviewCount;
     }
 
 }

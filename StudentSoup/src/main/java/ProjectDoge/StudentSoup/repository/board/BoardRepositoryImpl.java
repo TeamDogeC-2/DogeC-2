@@ -80,6 +80,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
+                        board.boardReviews.size(),
                         board.authentication))
                 .from(board)
                 .where(
@@ -116,6 +117,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.member.nickname,
                         board.view,
                         board.likedCount,
+                        board.boardReviews.size(),
                         board.authentication))
                 .from(board)
                 .where(board.school.id.eq(schoolId),
