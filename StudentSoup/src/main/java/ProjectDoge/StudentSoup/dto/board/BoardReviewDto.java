@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.dto.board;
 
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ public class BoardReviewDto {
 
     private Long boardReviewId;
 
-    private String  content;
+    private String content;
 
     private int likeCount;
 
