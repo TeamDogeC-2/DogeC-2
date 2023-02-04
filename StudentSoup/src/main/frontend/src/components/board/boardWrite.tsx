@@ -1,30 +1,28 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { isContentEditable } from '@testing-library/user-event/dist/utils';
 
 const boardWrite = () => {
   const [departmentlist, setDepartMentList] = useState<any>([]);
-  const [boardCategory, setBoardCategory] = useState<string>('');
+  const [boardcategoryList, setBoardCategoryList] = useState<any>([]);
+  const [boardcategory, setBoardCategory] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [departmentId, setDepartMentId] = useState<number>();
   const [content, setContent] = useState<string>('');
   const [img, setImg] = useState<any>();
   const history = useHistory();
   const state = useLocation<any>();
-  const schoolName = state.state;
   const saveMemberId = sessionStorage.getItem('memberId');
   const saveSchoolId = sessionStorage.getItem('schoolId');
 
-  const url = `/board/department/${saveSchoolId}`;
+  const url = `/board/create/${saveMemberId}/${saveSchoolId}`;
   useEffect(() => {
     axios
       .get(url)
       .then(res => {
-        setDepartMentList(res.data);
-        console.log(res.data);
+        setBoardCategoryList(res.data.category);
+        setDepartMentList(res.data.departments);
       })
       .catch(err => {
         console.error(err);
@@ -39,7 +37,7 @@ const boardWrite = () => {
       alert('학과를 선택해주세요.');
       return;
     }
-    if (boardCategory === 'null' || !boardCategory) {
+    if (boardcategory === 'null' || !boardcategory) {
       alert('게시판을 선택해주세요.');
       return;
     }
@@ -49,7 +47,7 @@ const boardWrite = () => {
         {
           title,
           departmentId,
-          boardCategory,
+          boardCategory: boardcategory,
           content,
           // mutipartFiles,
         },
@@ -60,7 +58,7 @@ const boardWrite = () => {
         },
       )
       .then(res => {
-        console.log(res.data);
+        history.push('/board');
       })
       .catch(err => {
         console.error(err);
@@ -96,8 +94,8 @@ const boardWrite = () => {
           >
             학과 선택
           </option>
-          {departmentlist.map((school: any, index: any) => (
-            <option key={index} value={school.departmentId}>
+          {departmentlist.map((school: any) => (
+            <option key={school.departmentId} value={school.departmentId}>
               {school.departmentName}
             </option>
           ))}
@@ -107,11 +105,11 @@ const boardWrite = () => {
           className="ml-[16px] w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]"
         >
           <option value="null">전체</option>
-          <option value="FREE">자유게시판</option>
-          <option value="EMPLOYMENT">취업게시판</option>
-          <option value="CONSULTING">상담게시판</option>
-          <option value="TIP">팁게시판</option>
-          <option value="ANNOUNCEMENT">공지사항</option>
+          {boardcategoryList.map((school: any) => (
+            <option key={school.categoryKey} value={school.categoryKey}>
+              {school.categoryValue}
+            </option>
+          ))}
         </select>
       </div>
       <div className="flex justify-center">
@@ -173,9 +171,7 @@ const boardWrite = () => {
           onClick={handleBoardWrite}
           className="w-[469px] h-[67px] rounded-r-lg border-r-[1px] border-y-[1px] bg-[#FFFFFF] border-[#BCBCBC] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] text-[#FF611D] font-semibold leading-[22px] cursor-pointer"
         >
-          <Link to="/board">
-            <div className="ml-[194px] mt-[22px]">작성하기</div>
-          </Link>
+          <div className="ml-[194px] mt-[22px]">작성하기</div>
         </div>
       </div>
     </>

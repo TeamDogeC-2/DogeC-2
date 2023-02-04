@@ -65,6 +65,13 @@ const boardDetail = () => {
             상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데준비해놔야하는
             상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데
           </div>
+          <div className="flex flex-row">
+            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+            <div className="w-[187.6px] h-[200px] border-[1px] bg-[#A5A5A5]"></div>
+          </div>
           <button className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]">
             <div className="flex flex-row">
               <BoardWriteWhiteHeart className="ml-[21px] mt-[7px]" />
