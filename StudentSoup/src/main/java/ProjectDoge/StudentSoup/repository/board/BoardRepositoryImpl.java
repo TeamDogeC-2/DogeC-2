@@ -76,7 +76,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.authentication))
                 .from(board)
                 .where(
-                        checkAnnouncement().or(checkSortedBoard(category))
+                        checkAnnouncement(category).or(checkSortedBoard(category))
                                 .and(checkTypeOfBoard(schoolId, departmentId))
                                 .and(searchColumnContainsTitle(column, value))
                                 .and(searchColumnContainsContent(column, value))
@@ -90,7 +90,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPQLQuery<Long> count = queryFactory
                 .select(board.count())
                 .from(board)
-                .where(checkAnnouncement().or(checkSortedBoard(category))
+                .where(checkAnnouncement(category).or(checkSortedBoard(category))
                         .and(checkTypeOfBoard(schoolId, departmentId))
                         .and(searchColumnContainsTitle(column, value))
                         .and(searchColumnContainsContent(column, value))
@@ -100,9 +100,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public List<BoardBestHotMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchDate, LocalDateTime EndDate) {
+    public List<BoardMainDto> findLiveBestAndHotBoards(Long schoolId, LocalDateTime searchDate, LocalDateTime EndDate) {
         return queryFactory
-                .select(new QBoardBestHotMainDto(board.id,
+                .select(new QBoardMainDto(board.id,
                         board.boardCategory,
                         board.title,
                         board.writeDate,
@@ -167,10 +167,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return board.boardCategory.eq(BoardCategory.valueOf(category));
     }
 
-    private BooleanExpression checkAnnouncement() {
-        BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
-        BooleanExpression categoryCond2 = board.isView.eq("Y");
-        return Expressions.allOf(categoryCond1, categoryCond2);
+    private BooleanExpression checkAnnouncement(String category) {
+        if(!category.equals("ANNOUNCEMENT")) {
+            BooleanExpression categoryCond1 = board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
+            BooleanExpression categoryCond2 = board.isView.eq("Y");
+            return Expressions.allOf(categoryCond1, categoryCond2);
+        }
+        return board.boardCategory.eq(BoardCategory.ANNOUNCEMENT);
     }
 
     // TODO 차후 인증 글 서비스 추가
