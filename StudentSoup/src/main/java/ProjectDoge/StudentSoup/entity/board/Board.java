@@ -39,6 +39,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
 
+    @Size(min = 2, max = 50)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
