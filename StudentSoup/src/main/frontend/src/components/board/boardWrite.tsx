@@ -184,51 +184,53 @@ const boardWrite = () => {
             placeholder="내용"
             className="h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
-          <div className="h-[93px] flex flex-row bg-[#F0F0F0] rounded-[1px] border-x-[1px] border-b-[1px] border-[#BCBCBC]">
-            <div className="ml-[26px] mt-[37px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
-              사진첨부
-            </div>
-            <div
-              onChange={handleAddImages}
-              onClick={onCickImageUpload}
-              className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]"
-            >
-              <input
-                type="file"
-                multiple
-                accept=".png,.jpg,.gif,.jpeg,.bmp,.svg"
-                ref={imageUploader}
-                className="hidden"
-              />
-              <div className="mt-[2px] ml-[9.5px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
+          <div className="h-auto bg-[#F0F0F0] rounded-[1px] border-x-[1px] border-b-[1px] border-[#BCBCBC]">
+            <div className="flex flex-row justify-center">
+              <div className="ml-[26px] mt-[37px] font-semibold text-[16px] leading-[26px] items-center text-[#6D6D6D]">
                 사진첨부
               </div>
-            </div>
-            <div className="mt-[39px] ml-[13px] font-normal text-[16px] leading-[26px] text-[#6D6D6D]">
-              {showImages.length}/5
-            </div>
-            <div className="mt-[41px] ml-[15px] font-medium text-[16px] leading-[21px] text-[#9F9F9F]">
-              사진은 최대 4MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
-            </div>
-          </div>
-          <div className="flex flex-row">
-            {showImages.map((image, id) => (
-              <>
-                <div key={id}>
-                  <img
-                    className="w-[130px] h-[121px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"
-                    src={image}
-                    alt={`${image}-${id}`}
-                  />
-                  <ReviewWriteClose
-                    onClick={() => {
-                      handleDeleteImage(id);
-                    }}
-                    className="w-[20px] h-[20px] ml-[65px] mt-[5.5px] cursor-pointer"
-                  />
+              <div
+                onChange={handleAddImages}
+                onClick={onCickImageUpload}
+                className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]"
+              >
+                <input
+                  type="file"
+                  multiple
+                  accept=".png,.jpg,.gif,.jpeg,.bmp,.svg"
+                  ref={imageUploader}
+                  className="hidden"
+                />
+                <div className="mt-[2px] ml-[9.5px] font-semibold text-[16px] leading-[26px] text-[#FF661D]">
+                  사진첨부
                 </div>
-              </>
-            ))}
+              </div>
+              <div className="mt-[39px] ml-[13px] font-normal text-[16px] leading-[26px] text-[#6D6D6D]">
+                {showImages.length}/5
+              </div>
+              <div className="mt-[41px] mb-[30px] ml-[15px] font-medium text-[16px] leading-[21px] text-[#9F9F9F]">
+                사진은 최대 4MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.
+              </div>
+            </div>
+            <div className="flex flex-row justify-center mr-[20px]">
+              {showImages.map((image, id) => (
+                <>
+                  <div key={id}>
+                    <img
+                      className="w-[180px] h-[150px] ml-[11px] border-[1px] rounded-[5px] border-[#BCBCBC]"
+                      src={image}
+                      alt={`${image}-${id}`}
+                    />
+                    <ReviewWriteClose
+                      onClick={() => {
+                        handleDeleteImage(id);
+                      }}
+                      className="w-[20px] h-[20px] ml-[85px] mt-[5.5px] cursor-pointer"
+                    />
+                  </div>
+                </>
+              ))}
+            </div>
           </div>
         </div>
       </div>
