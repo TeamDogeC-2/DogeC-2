@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import axios from 'axios';
 import { ReactComponent as ReviewWriteClose } from '../../img/ReviewWriteClose.svg';
+import { ReactComponent as BoardImgCloseIcon } from '../../img/boardImgCloseIcon.svg';
 import React, { useEffect, useRef, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -18,6 +20,8 @@ const boardWrite = () => {
   const saveMemberId = sessionStorage.getItem('memberId');
   const saveSchoolId = sessionStorage.getItem('schoolId');
 
+  const schoolName = sessionStorage.getItem('schoolName');
+
   const url = `/board/create/${saveMemberId}/${saveSchoolId}`;
   useEffect(() => {
     axios
@@ -35,10 +39,7 @@ const boardWrite = () => {
       alert('제목과 내용을 입력해주세요.');
       return;
     }
-    if (departmentId === 0 || !departmentId) {
-      alert('학과를 선택해주세요.');
-      return;
-    }
+
     if (boardcategory === 'null' || !boardcategory) {
       alert('게시판을 선택해주세요.');
     } else if (!imgs) {
@@ -65,7 +66,7 @@ const boardWrite = () => {
             departmentId,
             boardCategory: boardcategory,
             content,
-            mutipartFiles: [...imgs],
+            multipartFileList: [...imgs],
           },
           {
             headers: {
@@ -75,11 +76,16 @@ const boardWrite = () => {
         )
         .then(res => {
           history.push('/board');
+          console.log('제목 :' + title);
+          console.log('내용 :' + content);
+          console.log('학과아이디 :' + departmentId);
+          console.log('카테고리아이디 :' + boardcategory);
+          console.log('이미지 :' + imgs);
         })
         .catch(err => {
           console.error(err);
         });
-      alert('작성이 완료되었습니다.');
+      alert(' 작성이 완료되었습니다.');
     }
   };
   const handleAddImages = (event: any) => {
@@ -131,22 +137,21 @@ const boardWrite = () => {
   const handleSetBoardCategory = (e: any) => {
     setBoardCategory(e.target.value);
   };
+
   return (
     <>
       <MypageNavbar />
       <div className="flex flex-row mt-[103px] justify-center">
-        <div className="mr-[295px] w-[296px] h-[60px] font-bold text-[24px] leading-[29px] flex items-center">
+        <div className="mr-[155px] w-[296px] h-[60px] font-bold text-[24px] leading-[29px] flex items-center">
           게시글 쓰기
         </div>
+        <div className="font-medium mt-[13px]">전체/학과</div>
         <select
           onChange={handleSetDepartMentId}
-          className="w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]"
+          className="w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4] mr-[20px] ml-[16px]"
         >
-          <option
-            className="font-normal text-[16px] leading-[22px] flex items-center text-[#A4A4A4]"
-            value="0"
-          >
-            학과 선택
+          <option className="font-normal text-[16px] leading-[22px] flex items-center text-[#A4A4A4]">
+            {schoolName}
           </option>
           {departmentlist.map((school: any) => (
             <option key={school.departmentId} value={school.departmentId}>
@@ -154,11 +159,12 @@ const boardWrite = () => {
             </option>
           ))}
         </select>
+        <div className="font-medium mt-[13px]">게시판</div>
         <select
           onChange={handleSetBoardCategory}
           className="ml-[16px] w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4]"
         >
-          <option value="null">전체</option>
+          <option value="null">선택</option>
           {boardcategoryList.map((school: any) => (
             <option key={school.categoryKey} value={school.categoryKey}>
               {school.categoryValue}
@@ -174,7 +180,7 @@ const boardWrite = () => {
             }}
             placeholder="제목"
             type="text"
-            className="w-[936px] h-[40px] resize-none border-[#C4C4C4] border-[1px]"
+            className="pl-[14px] w-[936px] h-[40px] resize-none border-[#C4C4C4] border-[1px]"
           ></input>
           <div className="w-[936px] h-[124px] bg-[#F0F0F0] border-x-[1px] border-[#C4C4C4]">
             <div className="ml-[26px] mt-[28px] w-[744px] h-[41px] font-normal text-[14px] leading-[26px] items-center text-[#6D6D6D]">
@@ -197,7 +203,7 @@ const boardWrite = () => {
               handleSetContentValue(e);
             }}
             placeholder="내용"
-            className="h-[374px] border-[1px] border-[#BCBCBC]"
+            className="pt-[8px] pl-[14px] h-[374px] border-[1px] border-[#BCBCBC]"
           ></textarea>
           <div className="h-auto bg-[#F0F0F0] rounded-[1px] border-x-[1px] border-b-[1px] border-[#BCBCBC]">
             <div className="flex flex-row justify-center">
@@ -236,7 +242,7 @@ const boardWrite = () => {
                       src={image}
                       alt={`${image}-${id}`}
                     />
-                    <ReviewWriteClose
+                    <BoardImgCloseIcon
                       onClick={() => {
                         handleDeleteImage(id);
                       }}
