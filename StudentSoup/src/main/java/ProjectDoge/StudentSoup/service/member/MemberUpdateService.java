@@ -10,6 +10,7 @@ import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,7 @@ public class MemberUpdateService {
     private final MemberValidationService memberValidationService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
-
+    private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
 
@@ -57,9 +58,10 @@ public class MemberUpdateService {
 
         member.setSchool(school);
         member.setDepartment(department);
-        member.setPwd(dto.getPwd());
+        member.setPwd(passwordEncoder.encode(dto.getPwd()));
         member.setEmail(dto.getEmail());
         member.setNickname(dto.getNickname());
+        memberRepository.save(member);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class BoardMainDto {
     private Long boardId;
-    private BoardCategory boardCategory;
+    private String boardCategory;
     private String title;
     private String writeDate;
     private String nickname;
@@ -20,7 +20,7 @@ public class BoardMainDto {
 
     public BoardMainDto(Board board) {
         this.boardId = board.getId();
-        this.boardCategory = board.getBoardCategory();
+        this.boardCategory = board.getBoardCategory().getBoardCategory();
         this.title = board.getTitle();
         this.writeDate = board.getWriteDate();
         this.likedCount = board.getLikedCount();
@@ -41,7 +41,7 @@ public class BoardMainDto {
             String authentication) {
 
         this.boardId = boardId;
-        this.boardCategory = boardCategory;
+        this.boardCategory = boardCategory.getBoardCategory();
         this.title = title;
         this.writeDate = writeDate;
         this.nickname = nickname;

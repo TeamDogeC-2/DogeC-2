@@ -12,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Slf4j
@@ -27,7 +28,9 @@ public class MemberAccountFindService {
 
     private final MemberRepository memberRepository;
     private final MailSender mailSender;
+    private final PasswordEncoder passwordEncoder;
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public EmailDto createFindMemberIdUsingEmail(String email){
         log.info("회원 아이디 찾기 서비스 로직을 실행하였습니다.");
         MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmail(email)
@@ -47,7 +50,7 @@ public class MemberAccountFindService {
         return dto;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public EmailDto createFindPwdUsingEmailAndId(String email, String id) {
         log.info("회원 비밀번호 찾기 서비스 로직이 실행되었습니다.");
         MemberFindAccountDto findMember = memberRepository.findByAccountUsingEmailAndId(email, id)
@@ -76,7 +79,8 @@ public class MemberAccountFindService {
                 });
         String tempPwd = UUID.randomUUID().toString();
         tempPwd = tempPwd.substring(0, tempPwd.indexOf('-'));
-        member.setPwd(tempPwd);
+        member.setPwd(passwordEncoder.encode(tempPwd));
+        memberRepository.save(member);
         findMember.setPwd(tempPwd);
         log.info("변경 된 회원의 비밀번호 : " + member.getPwd());
         log.info("임시 비밀번호 업데이트가 완료되었습니다.");

@@ -150,12 +150,9 @@ public class BoardCallService {
     private void setWriteDate(BoardMainDto boardMainDto) {
         LocalDateTime writeDateTime = LocalDateTime.parse(boardMainDto.getWriteDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         LocalDate writeDate = writeDateTime.toLocalDate();
-        log.info("포멧한 시간 [{}]", writeDate);
         if (writeDate.equals(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))) {
-            log.info("작성 시간 : [{}]", String.valueOf(writeDateTime.toLocalTime()));
             boardMainDto.setWriteDate(String.valueOf(writeDateTime.toLocalTime()));
         } else {
-            log.info("작성 날짜 : [{}]", String.valueOf(writeDate));
             boardMainDto.setWriteDate(String.valueOf(writeDate).substring(5));
         }
     }
