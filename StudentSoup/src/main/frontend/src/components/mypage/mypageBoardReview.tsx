@@ -21,6 +21,9 @@ const MypageBoardReview = () => {
   const [clickNextPage, setClickNextPage] = useState<number>(0);
   const [lastPage, isLastPage] = useState<boolean>();
   const [restaurantReivew, setRestaurantReivew] = useState<any[]>();
+  const [click, setClick] = useState<number>(0);
+  const [size, setSize] = useState<number>(6);
+  const [last, isLast] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -48,18 +51,27 @@ const MypageBoardReview = () => {
 
   useEffect(() => {
     axios
-      .post(reviewUrl, {
-        memberId,
-      })
+      .post(
+        reviewUrl,
+        {
+          memberId,
+        },
+        {
+          params: {
+            size,
+          },
+        },
+      )
       .then(function (response) {
         console.log(response.data.content.writeDate);
         setRestaurantReivew(response.data.content);
         setTotalReview(response.data.totalElements);
+        isLast(response.data.last);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [click]);
 
   const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
   const setPageNumbersArr = [];
@@ -72,6 +84,11 @@ const MypageBoardReview = () => {
     setSelected(idx);
     setPage(idx - 1);
     setClickPage(idx);
+  };
+
+  const handleClickButton = (_e: any) => {
+    setClick(click + 1);
+    setSize(size + 6);
   };
 
   return (
@@ -217,6 +234,16 @@ const MypageBoardReview = () => {
                   </div>
                 </>
               ))}
+              {!last && (
+                <div className="flex items-center justify-center ">
+                  <button
+                    onClick={handleClickButton}
+                    className="w-[100px] h-[40px] mb-[15px] rounded-[5px] text-[16px] text-white bg-[#FF611D]"
+                  >
+                    리뷰 더보기
+                  </button>
+                </div>
+              )}
             </div>
             <div className="w-full h-[3px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
           </div>
