@@ -1,6 +1,5 @@
-package ProjectDoge.StudentSoup.controller.BoardReviewController;
+package ProjectDoge.StudentSoup.controller.boardreview;
 
-import ProjectDoge.StudentSoup.dto.board.BoardReviewDto;
 import ProjectDoge.StudentSoup.dto.board.BoardReviewUpdateDto;
 import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewEditService;
 import lombok.RequiredArgsConstructor;

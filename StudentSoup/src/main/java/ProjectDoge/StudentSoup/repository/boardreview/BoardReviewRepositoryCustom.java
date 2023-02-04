@@ -14,7 +14,7 @@ public interface BoardReviewRepositoryCustom {
     Page<MemberMyPageBoardReviewDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
 
     Long countByMemberId(Long memberId);
-    List<BoardReview> findByBoardId(Long boardId, Pageable pageable);
+    List<BoardReview> findByBoardId(Long boardId);
 
     JPAQuery<Long> pagingCountByBoardId(Long boardId);
     List<BoardReview> findBestReview(Long boardId);
