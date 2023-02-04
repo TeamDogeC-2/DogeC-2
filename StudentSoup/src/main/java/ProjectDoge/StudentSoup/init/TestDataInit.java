@@ -24,6 +24,7 @@ import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
+import ProjectDoge.StudentSoup.service.board.BoardUpdateService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberUpdateService;
@@ -59,16 +60,12 @@ public class TestDataInit {
     private final RestaurantFindService restaurantFindService;
     private final RestaurantMenuRegisterService restaurantMenuRegisterService;
     private final RestaurantReviewRegisterService restaurantReviewRegisterService;
-
     private final BoardResisterService boardResisterService;
-
     private  final MemberRepository memberRepository;
-
     private  final BoardRepository boardRepository;
-
     private final BoardLikeRepository boardLikeRepository;
-
     private final BoardReviewRegisterService boardReviewRegisterService;
+    private final BoardUpdateService boardUpdateService;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
         initSchoolAndDepartment();
@@ -286,6 +283,9 @@ public class TestDataInit {
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목"+i,BoardCategory.ANNOUNCEMENT,"테스트 내용"+i);
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
+
+        boardRepository.findById(212L).ifPresent(boardUpdateService::updateBoardView);
+        boardRepository.findById(215L).ifPresent(boardUpdateService::updateBoardView);
 
     }
 
