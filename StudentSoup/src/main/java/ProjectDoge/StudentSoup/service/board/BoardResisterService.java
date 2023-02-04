@@ -83,11 +83,10 @@ public class BoardResisterService {
         }
     }
 
-    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList,Board board) {
+    private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList, Board board) {
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
-            fileRepository.save(imageFile);
-            board.addImageFile(imageFile);
+            board.addImageFile(fileRepository.save(imageFile));
         }
     }
 
