@@ -2,9 +2,8 @@ package ProjectDoge.StudentSoup.service.BoardReview;
 
 
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotOwnException;
 import ProjectDoge.StudentSoup.repository.boardreview.BoardReviewRepository;
-import ProjectDoge.StudentSoup.service.board.BoardFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

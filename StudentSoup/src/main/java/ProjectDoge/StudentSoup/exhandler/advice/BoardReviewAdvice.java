@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.board.BoardReviewContentNullException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewIdNotSentException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotFoundException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreview.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,30 +14,37 @@ public class BoardReviewAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardReviewContentNullException.class)
-    public ErrorResult boardReviewContentNullException(BoardReviewContentNullException e){
+    public ErrorResult boardReviewContentNullHandler(BoardReviewContentNullException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardReviewContentNullException",e.getMessage());
+        return new ErrorResult("BoardReviewContentNull",e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardReviewNotFoundException.class)
-    public ErrorResult boardReviewNotFoundException(BoardReviewNotFoundException e){
+    public ErrorResult boardReviewNotFoundHandler(BoardReviewNotFoundException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardReviewNotFoundException",e.getMessage());
+        return new ErrorResult("BoardReviewNotFound",e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardReviewIdNotSentException.class)
-    public ErrorResult boardReviewIdNotSentException(BoardReviewIdNotSentException e){
+    public ErrorResult boardReviewIdNotSentHandler(BoardReviewIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardReviewIdNotSentException",e.getMessage());
+        return new ErrorResult("BoardReviewIdNotSent",e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardReviewNotOwnException.class)
-    public ErrorResult boardReviewNotOwnException(BoardReviewNotOwnException e){
+    public ErrorResult boardReviewNotOwnHandler(BoardReviewNotOwnException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardReviewNotOwnException",e.getMessage());
+        return new ErrorResult("BoardReviewNotOwn",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardReviewContentOutOfRangeException.class)
+    public ErrorResult BoardReviewContentOutOfRangeHandler(BoardReviewContentOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardReviewContentOutOfRange",e.getMessage());
     }
 
 }
