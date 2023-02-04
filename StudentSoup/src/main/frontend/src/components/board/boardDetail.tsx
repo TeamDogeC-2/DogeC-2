@@ -43,11 +43,10 @@ const boardDetail = () => {
       <div className="flex justify-center">
         <div className="w-[938px] h-auto border-[1px] border-[#BCBCBC] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] content-center">
           <div className="flex flex-row">
-            <div className="ml-[41px] mt-[35px] w-[356px] h-[16px] text-[20px] font-medium flex items-center text-[#252525]">
-              취업하려는데 어떻게 시작해야 될까...?
-            </div>
-            <div className="mt-[35px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#FF611D]">
-              6
+            <div className="ml-[41px] mt-[35px] w-[850px] h-auto text-[20px] font-medium flex items-center text-[#252525]">
+              취업하려는데 어떻게 시작취업하려는데 어떻게 시작 취업하려는데 어떻게 시작어떻게
+              시작어떻게 시작어떻게 시작어떻게 시작어떻게 시작어떻게 시작어떻게 시작어떻게
+              시작어떻게 시작어떻게 시작어떻게 시작어떻게 시작
             </div>
           </div>
           <div className="flex flex-row w-[400px] h-[17px] ml-[41px] mt-[21px]">
