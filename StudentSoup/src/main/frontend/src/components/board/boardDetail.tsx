@@ -9,9 +9,10 @@ import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteRepl
 import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const boardDetail = () => {
+  const history = useHistory();
   const [setNestedReply, isSetNestedReply] = useState<boolean>(false);
   const [countIndex, setCountIndex] = useState();
   const BestArr = [0, 1, 2];
@@ -26,8 +27,13 @@ const boardDetail = () => {
         <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
           취업 상담 게시판
         </div>
-        <div className="ml-[428px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF]">
-          <div className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]">
+        <div className="ml-[428px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
+          <div
+            onClick={() => {
+              history.push('/board');
+            }}
+            className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]"
+          >
             목록
           </div>
         </div>
