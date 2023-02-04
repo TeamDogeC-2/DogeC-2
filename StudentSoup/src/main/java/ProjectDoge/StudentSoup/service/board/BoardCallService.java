@@ -94,12 +94,12 @@ public class BoardCallService {
                 boardSearchDto.getColumn(),
                 boardSearchDto.getValue());
 
-        List<BoardBestHotMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardMainDto> bestBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime,
                 ConstField.endTime);
 
-        List<BoardBestHotMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
+        List<BoardMainDto> hotBoards = boardRepository.findLiveBestAndHotBoards(
                 boardCallDto.getSchoolId(),
                 ConstField.startTime.minusMonths(1),
                 ConstField.endTime);
@@ -131,8 +131,8 @@ public class BoardCallService {
 
     private void checkTodayWriteDate(
             Page<BoardMainDto> boardMainDtoList,
-            List<BoardBestHotMainDto> bestBoardList,
-            List<BoardBestHotMainDto> hotBoardList) {
+            List<BoardMainDto> bestBoardList,
+            List<BoardMainDto> hotBoardList) {
 
         checkWriteDate(boardMainDtoList);
         checkWriteDate(bestBoardList);
