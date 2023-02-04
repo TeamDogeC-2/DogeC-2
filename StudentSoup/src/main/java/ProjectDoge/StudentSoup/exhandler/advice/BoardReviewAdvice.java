@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewContentNullException;
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewIdNotSentException;
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotFoundException;
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreview.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,6 +38,13 @@ public class BoardReviewAdvice {
     public ErrorResult boardReviewNotOwnHandler(BoardReviewNotOwnException e){
         log.error("[exceptionHandle] ex", e);
         return new ErrorResult("BoardReviewNotOwn",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardReviewContentOutOfRangeException.class)
+    public ErrorResult BoardReviewContentOutOfRangeHandler(BoardReviewContentOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardReviewContentOutOfRange",e.getMessage());
     }
 
 }
