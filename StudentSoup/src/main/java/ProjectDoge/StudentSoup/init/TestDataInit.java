@@ -285,7 +285,9 @@ public class TestDataInit {
         }
 
         boardRepository.findById(212L).ifPresent(boardUpdateService::updateBoardView);
-        boardRepository.findById(215L).ifPresent(boardUpdateService::updateBoardView);
+        boardRepository.findById(215L).ifPresent(boardUpdateService::updateBoardView); // 172, 174
+        boardRepository.findById(172L).ifPresent(boardUpdateService::updateBoardAuthentication);
+        boardRepository.findById(174L).ifPresent(boardUpdateService::updateBoardAuthentication);
 
     }
 
