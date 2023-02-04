@@ -50,4 +50,11 @@ public class BoardAdvice {
         return new ErrorResult("BoardContentOutOfRange",e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardTitleOutOfRangeException.class)
+    public ErrorResult BoardTitleOutOfRangeHandler(BoardTitleOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardTitleOutOfRange",e.getMessage());
+    }
+
 }
