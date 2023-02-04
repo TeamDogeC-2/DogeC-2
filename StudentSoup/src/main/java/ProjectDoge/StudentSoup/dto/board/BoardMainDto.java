@@ -53,4 +53,7 @@ public class BoardMainDto {
         this.reviewCount = reviewCount;
     }
 
+    protected BoardMainDto() {
+
+    }
 }
