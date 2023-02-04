@@ -212,7 +212,7 @@ const boardWrite = () => {
               <div
                 onChange={handleAddImages}
                 onClick={onCickImageUpload}
-                className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px]"
+                className="ml-[12px] mt-[36px] w-[79px] h-[29px] border-[1px] border-[#FF611D] bg-[#FFFFFF] rounded-[5px] cursor-pointer"
               >
                 <input
                   type="file"
