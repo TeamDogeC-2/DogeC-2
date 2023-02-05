@@ -35,8 +35,8 @@ public class MyPageCallController {
         return memberMyPageCallService.callMyPageBoard(dto.getMemberId(), pageable);
     }
 
-    @PostMapping("/boardReview")
-    public Page<MemberMyPageBoardReviewDto> callMyPageBoardReview(
+    @PostMapping("/boardReply")
+    public Page<MemberMyPageBoardReplyDto> callMyPageBoardReply(
             @RequestBody MemberMyPageRequestDto dto,
             @PageableDefault(size = 6) Pageable pageable
     ) {
