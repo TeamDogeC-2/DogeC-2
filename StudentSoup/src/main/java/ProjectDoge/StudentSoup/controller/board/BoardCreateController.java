@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,8 +25,9 @@ public class BoardCreateController {
 
     @PutMapping(value = "/board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
-                                         BoardFormDto boardFormDto){
+                                                        BoardFormDto boardFormDto, HttpServletRequest request){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
+        boardFormDto.setIp(httpServletRequest.getRemoteAddr());
         Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFileList());
         resultMap.put("boardId",boardId);
         resultMap.put("result","ok");
