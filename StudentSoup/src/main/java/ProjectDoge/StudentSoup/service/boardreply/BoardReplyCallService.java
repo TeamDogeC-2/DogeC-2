@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyDto;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReplyRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

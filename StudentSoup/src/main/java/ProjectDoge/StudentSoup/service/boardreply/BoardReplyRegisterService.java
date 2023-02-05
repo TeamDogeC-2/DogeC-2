@@ -6,7 +6,7 @@ import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.boardreview.BoardReplyContentNullException;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReplyRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.service.board.BoardFindService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;

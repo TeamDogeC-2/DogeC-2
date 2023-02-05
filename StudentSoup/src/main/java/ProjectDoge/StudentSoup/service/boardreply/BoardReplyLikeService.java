@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.board.BoardReplyLike;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReplyLikeRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyLikeRepository;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

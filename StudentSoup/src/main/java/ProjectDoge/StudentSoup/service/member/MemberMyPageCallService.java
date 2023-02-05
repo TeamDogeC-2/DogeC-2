@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReplyRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
 import lombok.RequiredArgsConstructor;

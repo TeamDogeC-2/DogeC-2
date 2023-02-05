@@ -3,7 +3,7 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.exception.boardreview.BoardReplyNotOwnException;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReplyRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
