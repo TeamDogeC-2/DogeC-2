@@ -28,7 +28,7 @@ const boardReviewList = (data: any) => {
         seq: reply,
       })
       .then(res => {
-        alert('성공');
+        alert('성공적으로 댓글을 작성하였습니다.');
         location.reload();
       })
       .catch(err => {
@@ -42,7 +42,6 @@ const boardReviewList = (data: any) => {
       .then(res => {
         setReplyLikeCount(res.data.data.likeCount);
         isReplyLike(res.data.data.like);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -50,7 +49,27 @@ const boardReviewList = (data: any) => {
     isReplyLike(!replyLike);
     isLike(!like);
   };
-  console.log(replyLike);
+
+  const handleDeleteReply = (e: any) => {
+    const boardReplyId = e.target.id;
+    console.log(boardReplyId);
+    console.log(saveMemberId);
+    if (confirm('정말로 댓글을 삭제하시겟습니까?')) {
+      axios
+        .delete(`/boardReply/${boardReplyId}/${saveMemberId}`)
+        .then(res => {
+          console.log(res.data);
+          alert('댓글이 삭제되었습니다.');
+          location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      /* empty */
+    }
+  };
+
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
@@ -77,7 +96,13 @@ const boardReviewList = (data: any) => {
                 <>
                   <div className="text-[14px] text-[#989898]">수정</div>
                   <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                  <div
+                    onClick={handleDeleteReply}
+                    id={data.boardReplyId}
+                    className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                  >
+                    삭제
+                  </div>
                 </>
               ) : (
                 ''
@@ -216,7 +241,13 @@ const boardReviewList = (data: any) => {
                   <>
                     <div className="text-[14px] text-[#989898]">수정</div>
                     <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                    <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                    <div
+                      onClick={handleDeleteReply}
+                      id={data.boardReplyId}
+                      className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                    >
+                      삭제
+                    </div>
                   </>
                 ) : (
                   ''
