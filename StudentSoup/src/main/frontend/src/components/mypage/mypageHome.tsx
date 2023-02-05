@@ -9,12 +9,10 @@ import ReplyComponent from './content/replyComponent';
 import ReviewComponent from './content/reviewComponent';
 
 interface propTypes {
-  memu: string;
   onClickMenu: Function;
 }
 
 const MypageHome = (props: propTypes) => {
-  const { menu } = props;
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
@@ -197,7 +195,7 @@ const MypageHome = (props: propTypes) => {
             </div>
           </div>
           <button className='w-[573px] h-[52px] mt-[12px] text-white border rounded-[5px] border-[#E1E1E1] bg-[#FF611D]'
-            onClick="onClickMypageBoardReview(menu='boardReview')">
+            onClick={onClickMypageBoardReview}>
             자세히 보러가기
           </button>
         </div>

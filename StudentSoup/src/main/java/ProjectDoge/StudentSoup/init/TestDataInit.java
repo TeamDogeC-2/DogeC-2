@@ -248,6 +248,38 @@ public class TestDataInit {
             restaurantMenuRegisterService.join(testDto);
         }
 
+        for(int i = 0; i < 10; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
+                    "뼈 추가" + i,
+                    RestaurantMenuCategory.Side,
+                    7000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
+        for(int i = 0; i < 10; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
+                    "우리 가게를 살 수 있는 권한을 가지게 되었습니다." + i,
+                    RestaurantMenuCategory.Side,
+                    100000000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
+        for(int i = 0; i < 10; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
+                    "소주" + i,
+                    RestaurantMenuCategory.Drink,
+                    4000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
+        for(int i = 0; i < 10; i++){
+            RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
+                    "마실 음료가 얼마나 많은지 알아요?" + i,
+                    RestaurantMenuCategory.Drink,
+                    5000);
+            restaurantMenuRegisterService.join(testDto);
+        }
+
         for(int i = 0; i < 4; i++){
             RestaurantMenuFormDto testDto = new RestaurantMenuFormDto().createRestaurantMenuDto(
                     restaurant2.getId(),
