@@ -44,6 +44,15 @@ public class BoardReplyDeleteService {
         }
     }
 
+    private void deleteReply(BoardReply boardReply, List<BoardReply> boardReplyList) {
+        if (boardReplyList.size() == 1) {
+            boardReplyRepository.delete(boardReply);
+        }
+        else{
+            boardReply.setActive("N");
+        }
+    }
+
     private void deleteNestedReply(BoardReply boardReply, List<BoardReply> boardReplyList) {
         if(boardReplyList.size() == 2 && boardReplyList.get(0).getActive().equals("N")){
             boardReplyRepository.delete(boardReply);
@@ -51,15 +60,6 @@ public class BoardReplyDeleteService {
         }
         else{
             boardReplyRepository.delete(boardReply);
-        }
-    }
-
-    private void deleteReply(BoardReply boardReply, List<BoardReply> boardReplyList) {
-        if (boardReplyList.size() == 1) {
-            boardReplyRepository.delete(boardReply);
-        }
-        else{
-            boardReply.setActive("N");
         }
     }
 
