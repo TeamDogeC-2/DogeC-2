@@ -48,7 +48,8 @@ const MypageBoardReview = () => {
     axios
       .post(detailUrl, { memberId })
       .then(function (res) {
-        console.log(res.data);
+        setBoardCount(res.data.boardWriteCount);
+        setReplyCount(res.data.boardReplyWriteCount);
       })
       .catch(function (error) {
         console.log(error);
