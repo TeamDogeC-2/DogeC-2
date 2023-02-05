@@ -1,14 +1,14 @@
 package ProjectDoge.StudentSoup.entity.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
-import ProjectDoge.StudentSoup.entity.board.BoardReview;
-import ProjectDoge.StudentSoup.entity.board.BoardReviewLike;
+import ProjectDoge.StudentSoup.entity.board.BoardReplyLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Getter;
@@ -94,10 +94,10 @@ public class Member {
     private List<BoardLike> boardLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardReviewLike> boardReviewLikes = new ArrayList<>();
+    private List<BoardReplyLike> boardReplyLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardReview> boardReviews = new ArrayList<>();
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
     public void setSchool(School school){

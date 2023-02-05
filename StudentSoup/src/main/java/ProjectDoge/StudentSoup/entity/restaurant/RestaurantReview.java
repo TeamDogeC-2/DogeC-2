@@ -1,13 +1,13 @@
 package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
+import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewUpdateReqDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 public class RestaurantReview {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -79,15 +80,9 @@ public class RestaurantReview {
         return this;
     }
 
-    public RestaurantReview createTestRestaurantReview(){
-        RestaurantReview restaurantReview = new RestaurantReview();
-        restaurantReview.setContent("레스토랑 리뷰 내용");
-        restaurantReview.setLikedCount(0);
-        restaurantReview.setStarLiked(0);
-        restaurantReview.setWriteDate(LocalDateTime.now());
-        restaurantReview.setUpdateDate(LocalDateTime.now());
-
-        return restaurantReview;
+    public void updateRestaurantReview(RestaurantReviewUpdateReqDto dto){
+        this.content = dto.getContent();
+        this.starLiked = dto.getStarLiked();
     }
 
     //== 비즈니스 로직 ==//

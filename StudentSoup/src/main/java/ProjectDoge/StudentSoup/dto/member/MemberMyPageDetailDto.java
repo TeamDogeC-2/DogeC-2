@@ -6,10 +6,10 @@ import lombok.Data;
 public class MemberMyPageDetailDto {
 
     private long boardWriteCount;
-    private long boardReviewWriteCount;
+    private long boardReplyWriteCount;
 
-    public MemberMyPageDetailDto(long boardWriteCount, long boardReviewWriteCount){
+    public MemberMyPageDetailDto(long boardWriteCount, long boardReplyWriteCount){
         this.boardWriteCount = boardWriteCount;
-        this.boardReviewWriteCount = boardReviewWriteCount;
+        this.boardReplyWriteCount = boardReplyWriteCount;
     }
 }
