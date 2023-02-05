@@ -306,26 +306,16 @@ public class TestDataInit {
         Board board = boardRepository.findByTitle("테스트 제목0");
         Member member = memberRepository.findById("dummyTest1").get();
 
-        for(int i =0; i<3; i++){
-            BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto().createBoardReply(
-                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
+        for(int i = 1; i <= 5; i++){
+            BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트댓글 " + i, null, null, 0);
             boardReplyRegisterService.join(boardReplyReqDto);
         }
-
-        for(int i =3; i<10; i++){
-            BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto().createBoardReply(
-                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
-            boardReplyRegisterService.TestJoin(boardReplyReqDto);
-        }
-
-        for(int i =0; i< 10; i++){
-            for(int j =1; j<10 ; j++){
-                BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto().createBoardReply(
-                        board.getId(),member.getMemberId(),"테스트 댓글"+j,i,j,1);
-                        boardReplyRegisterService.join(boardReplyReqDto);
+        for(int i = 1; i <= 5; i++){
+            for(int j = 1; j <= 4; j++){
+                BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트 대 댓글 " + j, i, null, 1);
+                boardReplyRegisterService.join(boardReplyReqDto);
             }
         }
-
     }
 
     private void initRestaurantReview(){
