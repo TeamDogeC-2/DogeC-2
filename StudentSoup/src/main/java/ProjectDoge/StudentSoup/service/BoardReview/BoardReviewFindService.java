@@ -2,8 +2,8 @@ package ProjectDoge.StudentSoup.service.BoardReview;
 
 
 import ProjectDoge.StudentSoup.entity.board.BoardReview;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewIdNotSentException;
-import ProjectDoge.StudentSoup.exception.board.BoardReviewNotFoundException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewIdNotSentException;
+import ProjectDoge.StudentSoup.exception.boardreview.BoardReviewNotFoundException;
 import ProjectDoge.StudentSoup.repository.boardreview.BoardReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

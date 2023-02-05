@@ -39,6 +39,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
 
+    @Size(min = 2, max = 50)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +52,7 @@ public class Board {
     private String ip;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<ImageFile> imageFiles = new ArrayList<>();
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int view;
 
@@ -171,7 +172,7 @@ public class Board {
         }
     }
     public void addImageFile(ImageFile imageFile){
-        this.getImageFiles().add(imageFile);
+        this.getImageFileList().add(imageFile);
 
         if(imageFile.getBoard() != this)
              imageFile.setBoard(this);
