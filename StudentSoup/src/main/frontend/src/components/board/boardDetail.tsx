@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
-import cn from 'clsx';
+import BoardReviewList from './boardReviewList';
 import axios from 'axios';
 import { ReactComponent as BoardWriteIcon } from '../../img/BoardWriteIcon.svg';
 import { ReactComponent as BoardWriteIconHeart } from '../../img/boardWriteIconHeart.svg';
+import { ReactComponent as BoardOrangeIconHeart } from '../../img/boardOrangeIconHeart.svg';
 import { ReactComponent as BoardWriteWhiteHeart } from '../../img/BoardWriteWhiteHeart.svg';
+import { ReactComponent as BoardWriteActiveHeart } from '../../img/BoardWriteActiveHeart.svg';
 import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
-import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
 import { Link, useHistory } from 'react-router-dom';
@@ -22,18 +23,20 @@ const boardDetail = () => {
   const [boardReviewList, setBoardReviewList] = useState<any>([]);
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
   const [reply, setReply] = useState<number>(0);
-  const [level, setLevel] = useState<number>(0);
-  const [findId, setFindId] = useState<number>();
   const [categoryList, setCategoryList] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
   const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
   const [replyTextValue, setReplyTextValue] = useState<string>('');
+  const [like, isLike] = useState<boolean>(false);
+  const [clickLike, isClickLike] = useState<boolean>();
+  const [likeCount, setLikeCount] = useState<number>();
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/152/${saveMemberId}`)
+      .post(`/board/192/${saveMemberId}`)
       .then(res => {
+        console.log(res.data);
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
         setBoardNickName(res.data.nickname);
@@ -50,9 +53,8 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/152/${saveMemberId}`)
+      .get(`/boardReplies/192/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
       })
@@ -78,7 +80,7 @@ const boardDetail = () => {
   const handleReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 152,
+        boardId: 192,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -95,7 +97,7 @@ const boardDetail = () => {
   const handleReReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 152,
+        boardId: 192,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -115,8 +117,7 @@ const boardDetail = () => {
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
   };
-  const _scrollTop = window.scrollY || document.documentElement.scrollTop;
-  console.log(_scrollTop);
+
   const handleScrollDown = () => {
     window.scrollTo(0, document.body.scrollHeight);
   };
@@ -125,6 +126,22 @@ const boardDetail = () => {
       top: 0,
       left: 0,
     });
+  };
+
+  const handleBoardLikeCount = () => {
+    // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
+    axios
+      .post(`/board/192/${saveMemberId}/like`)
+      .then(res => {
+        isClickLike(res.data.data.like);
+        setLikeCount(res.data.data.likedCount);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isLike(!like);
+    isBoardLiked(!boardLiked);
   };
   return (
     <>
@@ -164,9 +181,14 @@ const boardDetail = () => {
             <div className="font-normal text-[14px] text-[#A8A8A8]">
               {boardNickName} | {boardDate} | 조회 {boardView} |
             </div>
-            <BoardWriteIconHeart className="ml-[6px] mt-[6.4px]" />
+            {boardLiked ? (
+              <BoardOrangeIconHeart className="ml-[6px] mt-[6.4px]" />
+            ) : (
+              <BoardWriteIconHeart className="ml-[6px] mt-[6.4px]" />
+            )}
+
             <div className="ml-[5.11px] font-normal text-[14px] text-[#A8A8A8]">
-              {boardLikedCount}
+              {like ? likeCount : boardLikedCount}
             </div>
           </div>
           <div className="ml-[28px] mt-[22px] w-[884px] border-[1px] border-[#BCBCBC] bg-[#BCBCBC] "></div>
@@ -180,11 +202,19 @@ const boardDetail = () => {
             <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
             <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
           </div>
-          <button className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]">
+          <button
+            onClick={handleBoardLikeCount}
+            className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]"
+          >
             <div className="flex flex-row">
-              <BoardWriteWhiteHeart className="ml-[21px] mt-[7px]" />
+              {boardLiked ? (
+                <BoardWriteActiveHeart className="ml-[21px] mt-[7px]" />
+              ) : (
+                <BoardWriteWhiteHeart className="ml-[21px] mt-[7px]" />
+              )}
+
               <div className="ml-[6px] mb-[10px] w-auto h-[20px] font-normal text-[20px] text-[#FFFFFF]">
-                추천 <span>{boardLikedCount}</span>
+                추천 <span>{like ? likeCount : boardLikedCount}</span>
               </div>
             </div>
           </button>
@@ -248,134 +278,10 @@ const boardDetail = () => {
               </div>
             </>
           ))}
+
           {boardReviewList.map((data: any) => (
             <>
-              <div
-                key={data.boardReplyId}
-                className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]"
-              >
-                {data.seq && data.level === 0 ? (
-                  <>
-                    <div
-                      key={data.boardReplyId}
-                      className="ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9] row-span-2"
-                    ></div>
-                    <div className="flex flex-row mt-[20px]">
-                      <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                        {data.nickname}
-                      </div>
-                      <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                        {data.writeDate}
-                      </div>
-                    </div>
-                    <div className="flex flex-row ml-[19px] mt-[18px]">
-                      <div className="text-[14px] text-[#989898]">수정</div>
-                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                      <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                    </div>
-                    <div className="col-span-2 mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                      {data.content}
-                    </div>
-                    <div className="flex flex-row col-span-3">
-                      {findId === data.boardReplyId ? (
-                        <button
-                          id={data.boardReplyId}
-                          onClick={() => {
-                            setFindId(0);
-                            setReply(0);
-                            setLevel(0);
-                            setReReplyTextValue('');
-                          }}
-                          className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
-                        >
-                          답글작성 취소
-                        </button>
-                      ) : (
-                        <button
-                          id={data.boardReplyId}
-                          value={data.seq}
-                          onClick={() => {
-                            setFindId(data.boardReplyId);
-                            setReply(data.seq);
-                            setLevel(1);
-                          }}
-                          className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
-                        >
-                          답글작성
-                        </button>
-                      )}
-                      {findId === data.boardReplyId ? (
-                        ''
-                      ) : (
-                        <>
-                          <BoardWriteReplyHeart className="ml-[725px] mt-[2px]" />
-                          <div className="ml-[6.03px] mt-[1px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                            {data.likeCount}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    {findId === data.boardReplyId && (
-                      <>
-                        <textarea
-                          onChange={e => {
-                            handleSetContentValue(e);
-                          }}
-                          placeholder="댓글을 입력해주세요."
-                          className="ml-[28px] mt-[16px] w-[834px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
-                        ></textarea>
-                        <button
-                          onClick={handleReReply}
-                          className="relative left-[760px] mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
-                        >
-                          등록
-                        </button>
-                      </>
-                    )}
-                    <div className="col-span-3 ml-[28px] mt-[10px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
-              <div className="grid grid-cols-[74px_60px_720px_100px]">
-                {data.seq && data.level === 1 ? (
-                  <>
-                    <div
-                      key={data.boardReplyId}
-                      className="mt-[23px] grid grid-cols-[74px_60px_720px_100px]"
-                    >
-                      <BoardReplyIcon className="row-span-2 ml-[38px]" />
-                      <div className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-                      <div className="flex flex-row">
-                        <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                          {data.nickname}
-                        </div>
-                        <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                          {data.writeDate}
-                        </div>
-                      </div>
-                      <div className="flex flex-row row-span-2">
-                        <div className="text-[14px] text-[#989898]">수정</div>
-                        <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                        <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                      </div>
-                      <div className="mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                        {data.content}
-                      </div>
-                      <div className="flex flex-row ml-[853px] col-span-4 ">
-                        <BoardWriteReplyHeart className="mt-[5px] ml-[13px]" />
-                        <div className="ml-[6.03px] mt-[3px] font-normal text-[16px] leading-[21px] mb-[10px] text-[#898989]">
-                          {data.likeCount}
-                        </div>
-                      </div>
-                      <div className="col-span-3 ml-[28px] mt-[5px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-                    </div>
-                  </>
-                ) : (
-                  ''
-                )}
-              </div>
+              <BoardReviewList {...data} data={data} />
             </>
           ))}
         </div>
