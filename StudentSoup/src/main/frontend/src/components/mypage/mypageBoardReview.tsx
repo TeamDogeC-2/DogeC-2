@@ -117,7 +117,11 @@ const MypageBoardReview = () => {
     console.log(e);
     const id: string = e.target.value;
     setSorted(id);
-  }
+  };
+
+  const handlePushBoard = (e: any) => {
+    const id = e.target.id;
+  };
 
   return (
     <div className="flex flex-[9] w-full h-[150vh] z-[1] bg-zinc-100">
@@ -150,12 +154,28 @@ const MypageBoardReview = () => {
             </div>
             <div className="w-full h-[2px] border-[1px] border-[#FF611D] bg-[#FF611D] mt-[19px]"></div>
             {board?.map(board => (
-              <div key={board.boardId} className="text-[14px]">
-                <div className="h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]">
-                  <span className="w-[60%] truncate text-[#909090]">{board.title}</span>
-                  <span className="w-[30%] truncate text-[#909090]">{board.writeDate}</span>
-                  <span className="w-[20%] text-center text-[#909090]">{board.viewCount}</span>
-                  <span className="w-[20%] text-center text-[#909090]">{board.likedCount}</span>
+              <div
+                onClick={handlePushBoard}
+                id={board.boardId}
+                key={board.boardId}
+                className="text-[14px]"
+              >
+                <div
+                  id={board.boardId}
+                  className="h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]"
+                >
+                  <span id={board.boardId} className="w-[60%] truncate text-[#909090]">
+                    {board.title}
+                  </span>
+                  <span id={board.boardId} className="w-[30%] truncate text-[#909090]">
+                    {board.writeDate}
+                  </span>
+                  <span id={board.boardId} className="w-[20%] text-center text-[#909090]">
+                    {board.viewCount}
+                  </span>
+                  <span id={board.boardId} className="w-[20%] text-center text-[#909090]">
+                    {board.likedCount}
+                  </span>
                 </div>
               </div>
             ))}
@@ -225,12 +245,15 @@ const MypageBoardReview = () => {
           <div className="text-[24px] leading-[33px] font-bold text-[#262626]">리뷰</div>
           <div className="flex flex-row items-center justify-end">
             <div>
-              <select onChange={handleSorted} className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]">
-                <option value=''>전체</option>
-                <option value='today'>오늘</option>
-                <option value='month'>한달</option>
-                <option value='halfYear'>6개월</option>
-                <option value='year'>1년</option>
+              <select
+                onChange={handleSorted}
+                className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]"
+              >
+                <option value="">전체</option>
+                <option value="today">오늘</option>
+                <option value="month">한달</option>
+                <option value="halfYear">6개월</option>
+                <option value="year">1년</option>
               </select>
             </div>
           </div>
