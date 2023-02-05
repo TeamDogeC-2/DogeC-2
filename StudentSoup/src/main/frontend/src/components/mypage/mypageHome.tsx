@@ -62,7 +62,14 @@ const MypageHome = () => {
       <div className="flex flex-row w-full h-[685px]">
         <div className="w-[451px] relative bottom-[140px]">
           <div className="flex flex-col items-center w-[319px] h-[425px] ml-[75px] mr-[57px] bg-white shadow-lg rounded-[5px] z-[2]">
-            <div className="mt-[35px]">
+            <div onClick={() => imageUploader.current.click()} className="mt-[35px]">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                ref={imageUploader}
+                className="hidden"
+              />
               <img
                 ref={uploadImage}
                 src={IMAGE_FILE_ID}
@@ -87,17 +94,7 @@ const MypageHome = () => {
               </div>
             </div>
             <div className="w-[262px] h-[44px]">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                ref={imageUploader}
-                className="hidden"
-              />
-              <button
-                onClick={() => imageUploader.current.click()}
-                className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]"
-              >
+              <button className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]">
                 내 프로필 편집
               </button>
             </div>
