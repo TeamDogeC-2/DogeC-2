@@ -1,6 +1,6 @@
 import School from '../../img/school.png';
 import Major from '../../img/major.png';
-import Human from '../../img/circle_human.png';
+import { ReactComponent as X } from '../../img/x.svg';
 import { useRef } from 'react';
 import axios from 'axios';
 
@@ -60,7 +60,7 @@ const MypageHome = (props: propTypes) => {
 
   const handleModify = (e: any) => {
     props.onClickMenu('modify');
-  }
+  };
 
   return (
     <div className="flex-[9] z-[1] bg-zinc-100">
@@ -83,6 +83,12 @@ const MypageHome = (props: propTypes) => {
                 src={IMAGE_FILE_ID}
                 className='w-[122px] h-[122px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
               />
+              <X className='relative bottom-[87px] left-[109px] rotate-45'/>
+              <button
+                className="h-[25px] px-[5px] text-[#919191] border-[1px] border-[#919191] rounded-[11px] text-[15px] leading-[21px] relative bottom-[70px]"
+              >
+                기본 프로필로 지정
+              </button>
             </div>
             <div className="relative bottom-[60px]">
               <span className="text-[28px] leading-39px text-[#353535]">{savedName}</span>
@@ -102,7 +108,10 @@ const MypageHome = (props: propTypes) => {
               </div>
             </div>
             <div className="w-[262px] h-[44px]">
-              <button onClick={handleModify} className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]">
+              <button
+                onClick={handleModify}
+                className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]"
+              >
                 내 프로필 편집
               </button>
             </div>
