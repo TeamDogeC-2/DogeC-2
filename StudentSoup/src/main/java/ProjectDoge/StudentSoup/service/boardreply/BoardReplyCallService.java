@@ -26,7 +26,7 @@ public class BoardReplyCallService {
         List<BoardReply> boardReplyList = boardReplyRepository.findByBoardId(boardId);
         List<BoardReplyDto> boardReplyDtoList = checkBoardReplyLike(memberId, boardReplyList);
 
-        List<BoardReply> bestReview = boardReplyRepository.findBestReviewByBoardId(boardId);
+        List<BoardReply> bestReview = boardReplyRepository.findBestReplyByBoardId(boardId);
         List<BoardReplyDto> bestReviewDtoList = checkBoardReplyLike(memberId, bestReview);
 
         resultMap.put("boardReplyList", boardReplyDtoList);
