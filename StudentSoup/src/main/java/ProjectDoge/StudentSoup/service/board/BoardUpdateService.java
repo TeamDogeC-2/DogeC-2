@@ -7,11 +7,13 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,18 +32,23 @@ public class BoardUpdateService {
     private final FileRepository fileRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final BoardRepository boardRepository;
+    private final MemberFindService memberFindService;
+    private final BoardValidationService boardValidationService;
 
 
-    public BoardUpdateDto findEditBoard(Long boardId,Long memberId){
+    public BoardUpdateDto findEditBoard(Long boardId, Long memberId){
         Board board = boardFindService.findOne(boardId);
         checkOwnMember(memberId, board);
         BoardUpdateDto boardFormDto = new BoardUpdateDto().createBoardFormDto(board);
         return boardFormDto;
     }
+
     @Transactional
-    public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId,Long memberId, List<MultipartFile> multipartFiles){
+    public BoardDto editBoard(BoardFormDto boardFormDto, Long boardId, Long memberId, List<MultipartFile> multipartFiles){
         log.info("게시판 업데이트 서비스가 실행되었습니다.");
         Board board = boardFindService.findOne(boardId);
+        Member member = memberFindService.findOne(memberId);
+        boardValidationService.checkValidation(boardFormDto, member);
         updateBoardImage(multipartFiles, board);
         board.editBoard(boardFormDto);
         return getBoardDto(boardId, memberId, board);
@@ -61,9 +68,7 @@ public class BoardUpdateService {
     }
 
     private void deleteImageFile(Board board) {
-            for(ImageFile imageFile : board.getImageFileList()){
-                fileRepository.delete(imageFile);
-        }
+        fileRepository.deleteAllInBatch(board.getImageFileList());
     }
 
     private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
