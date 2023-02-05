@@ -1,11 +1,10 @@
 package ProjectDoge.StudentSoup.service.boardreply;
 
 
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyReqDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReplyContentNullException;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.service.board.BoardFindService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
@@ -32,12 +31,6 @@ public class BoardReplyRegisterService {
         BoardReply review = boardReplyRepository.save(boardReply);
         log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
         return review.getReplyId();
-    }
-
-    private void checkNullContent(BoardReplyReqDto dto) {
-        if(dto.getContent().strip().length()==0 || dto.getContent().length()==0){
-            throw new BoardReplyContentNullException("리뷰 내용이 null 또는 빈칸 입니다.");
-        }
     }
 
     private BoardReply createBoardReply(BoardReplyReqDto dto) {

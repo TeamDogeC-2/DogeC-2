@@ -2,7 +2,7 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 
 import ProjectDoge.StudentSoup.commonmodule.ConstField;
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyDto;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;

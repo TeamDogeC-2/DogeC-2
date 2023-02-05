@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.boardreview.*;
+import ProjectDoge.StudentSoup.exception.boardreply.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

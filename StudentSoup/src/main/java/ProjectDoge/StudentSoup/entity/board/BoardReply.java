@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.entity.board;
 
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyReqDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;

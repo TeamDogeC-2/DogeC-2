@@ -1,6 +1,6 @@
 package ProjectDoge.StudentSoup.controller.boardreply;
 
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyReqDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.service.boardreply.BoardReplyRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyReqDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;

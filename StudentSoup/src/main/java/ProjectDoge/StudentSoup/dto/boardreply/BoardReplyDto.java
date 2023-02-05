@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.dto.boardreview;
+package ProjectDoge.StudentSoup.dto.boardreply;
 
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.Member;

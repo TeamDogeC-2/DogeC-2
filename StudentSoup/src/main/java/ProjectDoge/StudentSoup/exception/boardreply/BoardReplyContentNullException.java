@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.exception.boardreview;
+package ProjectDoge.StudentSoup.exception.boardreply;
 
 public class BoardReplyContentNullException extends RuntimeException{
     public BoardReplyContentNullException() { super(); }

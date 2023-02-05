@@ -1,9 +1,9 @@
 package ProjectDoge.StudentSoup.service.boardreply;
 
 
-import ProjectDoge.StudentSoup.dto.boardreview.BoardReplyUpdateDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyUpdateDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
-import ProjectDoge.StudentSoup.exception.boardreview.BoardReplyNotOwnException;
+import ProjectDoge.StudentSoup.exception.boardreply.BoardReplyNotOwnException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

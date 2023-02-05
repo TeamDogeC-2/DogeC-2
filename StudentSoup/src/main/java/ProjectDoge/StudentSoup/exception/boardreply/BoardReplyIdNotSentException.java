@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.exception.boardreview;
+package ProjectDoge.StudentSoup.exception.boardreply;
 
 public class BoardReplyIdNotSentException extends RuntimeException{
     public BoardReplyIdNotSentException() {
