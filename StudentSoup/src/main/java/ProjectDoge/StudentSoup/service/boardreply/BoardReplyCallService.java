@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.commonmodule.ConstField;
 import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyDto;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
+import ProjectDoge.StudentSoup.entity.board.BoardReplyLike;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +46,8 @@ public class BoardReplyCallService {
     }
 
     private BoardReplyDto getBoardReplyLike(Long memberId, BoardReply boardReply) {
-        for (BoardLike boardLike : boardReply.getBoard().getBoardLikes()) {
-            if (boardLike.getMember().getMemberId().equals(memberId))
+        for (BoardReplyLike boardReplyLike : boardReply.getBoardReplyLikes()) {
+            if (boardReplyLike.getMember().getMemberId().equals(memberId))
                 return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.LIKED);
         }
         return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.NOT_LIKED);
