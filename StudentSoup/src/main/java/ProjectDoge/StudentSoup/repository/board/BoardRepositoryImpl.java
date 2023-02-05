@@ -5,6 +5,8 @@ import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
+import ProjectDoge.StudentSoup.entity.board.QBoardReply;
+import ProjectDoge.StudentSoup.entity.file.QImageFile;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -20,8 +22,11 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
+import static ProjectDoge.StudentSoup.entity.board.QBoardReply.boardReply;
+import static ProjectDoge.StudentSoup.entity.file.QImageFile.imageFile;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
@@ -247,6 +252,18 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.member.memberId.eq(memberId))
                 .fetchOne();
 
+    }
+
+    @Override
+    public Optional<Board> findByIdForBoardDetail(Long boardId) {
+        Board query = queryFactory.select(board)
+                .from(board)
+                .leftJoin(board.member, member)
+                .fetchJoin()
+                .where(board.id.eq(boardId))
+                .fetchOne();
+
+        return Optional.ofNullable(query);
     }
 
 
