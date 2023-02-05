@@ -1,55 +1,23 @@
-import { ReactComponent as RightIcon } from '../../img/icon_right.svg';
-import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
-import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone.svg';
-import { ReactComponent as RightFillNoneIcon } from '../../img/icon_right_fillnone.svg';
 import axios from 'axios';
+import cn from 'clsx';
 import { useEffect, useState } from 'react';
 import ReviewStarView from '../restaurant/reviewStarView';
+import MypageBoard from './mypageBoard';
+import MypageBoardReply from './mypageBoardReply';
 
 const MypageBoardReview = () => {
-  const boardUrl = '/mypage/board';
   const reviewUrl = '/mypage/restaurantReview';
+  const detailUrl = '/mypage/detail';
   const memberId = sessionStorage.getItem('memberId');
-
-  const [selected, setSelected] = useState<number>(1);
-  const [page, setPage] = useState<number>(0);
-  const [clickPage, setClickPage] = useState<number>(1);
-  const [board, setBoard] = useState<any[]>();
-  const [totalBoard, setTotalBoard] = useState<number>();
-  const [totalReview, setTotalReview] = useState<number>();
-  const [totalPage, setTotalPage] = useState<number>();
-  const [clickNextPage, setClickNextPage] = useState<number>(0);
-  const [lastPage, isLastPage] = useState<boolean>();
-  const [restaurantReivew, setRestaurantReivew] = useState<any[]>();
   const [click, setClick] = useState<number>(0);
+  const [restaurantReivew, setRestaurantReivew] = useState<any[]>();
   const [size, setSize] = useState<number>(6);
   const [last, isLast] = useState<boolean>(false);
   const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
   const [sorted, setSorted] = useState<string>('');
-
-  useEffect(() => {
-    axios
-      .post(
-        boardUrl,
-        {
-          memberId,
-        },
-        {
-          params: {
-            page,
-          },
-        },
-      )
-      .then(function (response) {
-        setBoard(response.data.content);
-        setTotalBoard(response.data.totalElements);
-        setTotalPage(response.data.totalPages);
-        isLastPage(response.data.last);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [page]);
+  const [clickBoardOrReply, setClickBoardOrReply] = useState<string>('게시판');
+  const [boardCount, setBoardCount] = useState<number>();
+  const [replyCount, setReplyCount] = useState<number>();
 
   useEffect(() => {
     axios
@@ -69,7 +37,6 @@ const MypageBoardReview = () => {
         console.log(response.data);
         console.log(sorted);
         setRestaurantReivew(response.data.content);
-        setTotalReview(response.data.totalElements);
         isLast(response.data.last);
       })
       .catch(function (error) {
@@ -77,18 +44,16 @@ const MypageBoardReview = () => {
       });
   }, [click, deleteCheck, sorted]);
 
-  const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
-  const setPageNumbersArr = [];
-
-  for (let i = 0; i < setPageNumbers.length; i += 5) {
-    setPageNumbersArr.push(setPageNumbers.slice(i, i + 5));
-  }
-
-  const handlePageNumberClick = (e: any, idx: any) => {
-    setSelected(idx);
-    setPage(idx - 1);
-    setClickPage(idx);
-  };
+  useEffect(() => {
+    axios
+      .post(detailUrl, { memberId })
+      .then(function (res) {
+        console.log(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const handleClickButton = (_e: any) => {
     setClick(click + 1);
@@ -114,13 +79,22 @@ const MypageBoardReview = () => {
   };
 
   const handleSorted = (e: any) => {
-    console.log(e);
     const id: string = e.target.value;
     setSorted(id);
   };
 
   const handlePushBoard = (e: any) => {
     const id = e.target.id;
+  };
+
+  const handleClickBoard = (e: any) => {
+    const id = e.target.id;
+    setClickBoardOrReply(id);
+  };
+
+  const handleClickReply = (e: any) => {
+    const id = e.target.id;
+    setClickBoardOrReply(id);
   };
 
   return (
@@ -130,116 +104,30 @@ const MypageBoardReview = () => {
           <span className="text-[24px] leading-[33px] text-[#262626] font-bold">게시글</span>
         </div>
         <div className="flex flex-col w-[962px] h-auto mt-[30px]">
-          <div className="flex flex-row h-[50px] border-[1px] border-[#BCBCBC] rounded-[5px]">
-            <div className="w-[50%] border-r-[1px] border-[#BCBCBC] rounded-l-[5px] bg-white items-center justify-center flex">
-              게시글({totalBoard})
+          <div className="flex flex-row h-[50px]">
+            <div
+              onClick={handleClickBoard}
+              id="게시판"
+              className={cn('w-[50%] rounded-l-[5px] bg-white items-center justify-center flex', {
+                ['border-[#FF611D] border-[2px]']: clickBoardOrReply === '게시판',
+                ['border-[#BCBCBC] border-[1px]']: clickBoardOrReply === '댓글',
+              })}
+            >
+              게시글({boardCount})
             </div>
-            <div className="w-[50%] rounded-r-[5px] bg-white items-center justify-center flex">
-              댓글({totalReview})
-            </div>
-          </div>
-          <div className="w-[962px] h-[225px] flex flex-col mt-[25px]">
-            <div className="w-full h-[4px] border-[1px] border-[#FF611D] bg-[#FF611D]"></div>
-            <div className="flex flex-row mt-[18px]">
-              <div className="w-[30px] h-[19px] text-[16px] leading-[22px] text-[#353535] ml-[50px]">
-                제목
-              </div>
-              <div className="ml-[400px] mr-[143px] text-[#353535]">작성일</div>
-              <div className="w-[65px] h-[19px] ml-[40px] text-[16px] leading-[22px] text-[#353535]">
-                조회수
-              </div>
-              <div className="w-[63px] h-[19px] ml-[70px] text-[16px] leading-[22px] text-[#353535]">
-                좋아요
-              </div>
-            </div>
-            <div className="w-full h-[2px] border-[1px] border-[#FF611D] bg-[#FF611D] mt-[19px]"></div>
-            {board?.map(board => (
-              <div
-                onClick={handlePushBoard}
-                id={board.boardId}
-                key={board.boardId}
-                className="text-[14px]"
-              >
-                <div
-                  id={board.boardId}
-                  className="h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]"
-                >
-                  <span id={board.boardId} className="w-[60%] truncate text-[#909090]">
-                    {board.title}
-                  </span>
-                  <span id={board.boardId} className="w-[30%] truncate text-[#909090]">
-                    {board.writeDate}
-                  </span>
-                  <span id={board.boardId} className="w-[20%] text-center text-[#909090]">
-                    {board.viewCount}
-                  </span>
-                  <span id={board.boardId} className="w-[20%] text-center text-[#909090]">
-                    {board.likedCount}
-                  </span>
-                </div>
-              </div>
-            ))}
-            {board?.length === 0 && (
-              <div className="w-full h-[164px] font-bold text-[20px] leading-[28px] text-[#353535] flex items-center justify-center">
-                작성된 게시글이 없습니다.
-              </div>
-            )}
-            <div className="w-full h-[2px] bg-[#BCBCBC]"></div>
-            <div className="absolute right-[400px] top-[620px]">
-              <div className="flex flex-row mb-[55px]">
-                {clickPage === 1 ? (
-                  <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
-                ) : (
-                  <LeftIcon
-                    onClick={() => {
-                      setSelected(selected - 1);
-                      setPage(page - 1);
-                      setClickPage(clickPage - 1);
-                      if (page % 5 === 0) {
-                        setClickNextPage(clickNextPage - 1);
-                      }
-                    }}
-                    className="ml-[234px] mt-[55.63px] cursor-pointer"
-                  />
-                )}
-                {setPageNumbersArr[clickNextPage].map((school: any) => (
-                  <>
-                    <div
-                      id={school}
-                      key={school}
-                      className={
-                        selected === school
-                          ? 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-bold text-[#FF611D]'
-                          : 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]'
-                      }
-                      onClick={e => {
-                        handlePageNumberClick(e, school);
-                      }}
-                    >
-                      <div id={school} className="mt-[4px] text-[20px] text-center">
-                        {school}
-                      </div>
-                    </div>
-                  </>
-                ))}
-                {lastPage ? (
-                  <RightFillNoneIcon className="relative left-[15px] top-[53.63px]" />
-                ) : (
-                  <RightIcon
-                    onClick={() => {
-                      setSelected(selected + 1);
-                      setPage(page + 1);
-                      setClickPage(clickPage + 1);
-                      if (clickPage % 5 === 0) {
-                        setClickNextPage(clickNextPage + 1);
-                      }
-                    }}
-                    className="relative left-[15px] top-[53.63px] cursor-pointer"
-                  />
-                )}
-              </div>
+            <div
+              onClick={handleClickReply}
+              id="댓글"
+              className={cn('w-[50%] rounded-r-[5px] bg-white items-center justify-center flex', {
+                ['border-[#FF611D] border-[2px]']: clickBoardOrReply === '댓글',
+                ['border-[#BCBCBC] border-[1px]']: clickBoardOrReply === '게시판',
+              })}
+            >
+              댓글({replyCount})
             </div>
           </div>
+          {clickBoardOrReply === '게시판' && <MypageBoard />}
+          {clickBoardOrReply === '댓글' && <MypageBoardReply />}
         </div>
         <div className="flex flex-col w-[962px] mt-[220px]">
           <div className="text-[24px] leading-[33px] font-bold text-[#262626]">리뷰</div>
