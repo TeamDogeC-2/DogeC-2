@@ -16,12 +16,11 @@ public class BoardReplyUpdateController {
 
     @GetMapping("boardReply/{boardReplyId}/{memberId}")
     public BoardReplyUpdateDto editBoardReply(@PathVariable Long boardReplyId, @PathVariable Long memberId){
-        BoardReplyUpdateDto editBoardReply = boardReplyEditService.findEditBoardReply(boardReplyId, memberId);
-        return editBoardReply;
+        return boardReplyEditService.findEditBoardReply(boardReplyId, memberId);
     }
 
     @PatchMapping("/boardReply/{boardReplyId}")
-    public ConcurrentHashMap<String, Object> editBoardReply(@PathVariable Long boardReplyId, BoardReplyUpdateDto boardReplyUpdateDto){
+    public ConcurrentHashMap<String, Object> editBoardReply(@PathVariable Long boardReplyId, @RequestBody BoardReplyUpdateDto boardReplyUpdateDto){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         Long replyId = boardReplyEditService.editBoardReply(boardReplyUpdateDto, boardReplyId);
         resultMap.put("boardReplyId", replyId);

@@ -16,8 +16,7 @@ public class BoardReplyDeleteController {
     private  final BoardReplyDeleteService boardReplyDeleteService;
 
     @DeleteMapping("/boardReply/{boardReplyId}/{memberId}")
-    public ConcurrentHashMap<String,Object> deleteBoardReply(@PathVariable Long boardReplyId,@PathVariable Long memberId){
-        ConcurrentHashMap<String, Object> resultMap = boardReplyDeleteService.deleteBoardReply(boardReplyId, memberId);
-        return resultMap;
+    public ConcurrentHashMap<String,Object> deleteBoardReply(@PathVariable Long boardReplyId, @PathVariable Long memberId){
+        return boardReplyDeleteService.deleteBoardReply(boardReplyId, memberId);
     }
 }

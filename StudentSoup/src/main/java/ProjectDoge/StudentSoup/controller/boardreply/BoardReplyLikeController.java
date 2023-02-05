@@ -15,8 +15,7 @@ public class BoardReplyLikeController {
     private final BoardReplyLikeService boardReplyLikeService;
 
     @PostMapping("/boardReplyLike/{boardReplyId}/{memberId}/like")
-    public ConcurrentHashMap<String,Object> BoardReplyLike(@PathVariable Long memberId,@PathVariable Long boardReplyId){
-        ConcurrentHashMap<String, Object> resultMap = boardReplyLikeService.boardReplyLike(memberId, boardReplyId);
-        return resultMap;
+    public ConcurrentHashMap<String,Object> BoardReplyLike(@PathVariable Long memberId, @PathVariable Long boardReplyId){
+        return boardReplyLikeService.boardReplyLike(memberId, boardReplyId);
     }
 }
