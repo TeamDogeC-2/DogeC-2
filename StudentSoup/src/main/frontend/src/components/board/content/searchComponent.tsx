@@ -7,13 +7,14 @@ import { RANGE } from './titleComponent';
 import useBoardData, { DepartmentType } from '../data/useBoardData';
 
 interface PropsType {
+  range: RANGE;
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-  range: RANGE;
   sort: number;
   setSort: React.Dispatch<React.SetStateAction<number>>;
   column: string;
   setColumn: React.Dispatch<React.SetStateAction<string>>;
+  handleSearchButton: () => void;
 }
 
 const keywordList = [
@@ -34,7 +35,6 @@ const SearchComponent = (props: PropsType) => {
   const [showSorts, setShowSorts] = useState(false);
   const [showSubjects, setShowSubjects] = useState(false);
 
-  const [keyword, setKeyword] = useState('title');
   const [subject, setSubject] = useState('학과');
 
   const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
@@ -43,7 +43,16 @@ const SearchComponent = (props: PropsType) => {
   const sortRef: any = useRef(null);
   const subjectRef: any = useRef(null);
 
-  const { range, searchValue, setSearchValue, sort, setSort, column, setColumn } = props;
+  const {
+    range,
+    searchValue,
+    setSearchValue,
+    sort,
+    setSort,
+    column,
+    setColumn,
+    handleSearchButton,
+  } = props;
 
   const { getDepartmentList } = useBoardData();
 
@@ -93,7 +102,7 @@ const SearchComponent = (props: PropsType) => {
           >
             {
               _.find(keywordList, item => {
-                return item.value === keyword;
+                return item.value === column;
               })?.label
             }
             <span>
@@ -106,7 +115,7 @@ const SearchComponent = (props: PropsType) => {
                 return (
                   <div
                     onClick={() => {
-                      setKeyword(item.value);
+                      setColumn(item.value);
                       setShowKeywords(false);
                     }}
                     key={index}
@@ -127,10 +136,22 @@ const SearchComponent = (props: PropsType) => {
 
         {/* Search */}
         <input
+          value={searchValue}
+          onChange={e => {
+            setSearchValue(e.target.value);
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter') handleSearchButton();
+          }}
           placeholder="글 제목, 내용, 해시태그를 적어주세요"
           className="bg-white border-r border-y border-solid border-[#BCBCBC] rounded-r-[5px] mr-[5px] w-[280px] h-[46px] p-[13px] text-[16px] focus:outline-none"
         />
-        <div className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]">
+        <div
+          onClick={() => {
+            handleSearchButton();
+          }}
+          className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]"
+        >
           검색
         </div>
       </div>

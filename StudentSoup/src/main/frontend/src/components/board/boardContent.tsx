@@ -28,23 +28,27 @@ const BoardContent = (props: PropsType) => {
   const [value, setValue] = useState();
   const [page, setPage] = useState();
 
-  const [column, setColumn] = useState('');
+  const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
 
-  useEffect(() => {
+  const handleSearchButton = () => {
     const request = {
-      column: 'title',
+      column,
       value: searchValue,
-      category: boardCategory, // ok
-      sorted: sort, // ok
-      page: 0, // page
-      size: boardCategory === 'ALL' ? 7 : 12, // ok
+      category: boardCategory,
+      sorted: sort,
+      page: 0,
+      size: boardCategory === 'ALL' ? 7 : 12,
     };
     getBoardList(request, (res: DataResType) => {
       setList(res.boards.content);
       if (res.bestBoards) setTopList(res.bestBoards);
       if (res.hotBoards) setHotList(res.hotBoards);
     });
+  };
+
+  useEffect(() => {
+    handleSearchButton();
   }, [boardCategory, sort]);
 
   return (
@@ -58,6 +62,7 @@ const BoardContent = (props: PropsType) => {
         setSort={setSort}
         column={column}
         setColumn={setColumn}
+        handleSearchButton={handleSearchButton}
       />
       {boardCategory === 'ALL' && (
         <div className="flex justify-between">
