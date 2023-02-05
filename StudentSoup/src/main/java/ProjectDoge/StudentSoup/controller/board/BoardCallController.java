@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.controller.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
@@ -22,8 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 public class BoardCallController {
-    private final BoardCallService boardCallService;
 
+    private final BoardCallService boardCallService;
     private final DepartmentFindService departmentFindService;
 
     /**
@@ -49,12 +48,12 @@ public class BoardCallController {
                 boardSearchDto.getColumn(),
                 boardSearchDto.getValue());
         checkPagingSize(pageable.getPageSize());
-        return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable,boardSearchDto);
+        return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable, boardSearchDto);
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
-    public BoardDto clickBoard(@PathVariable Long boardId,@PathVariable Long memberId){
-        return  boardCallService.getBoardDetail(boardId,memberId);
+    public BoardDto clickBoard(@PathVariable Long boardId, @PathVariable Long memberId){
+        return boardCallService.getBoardDetail(boardId, memberId);
     }
 
     @GetMapping("/board/department/{schoolId}")

@@ -21,26 +21,40 @@ public class BoardAdvice {
     @ExceptionHandler(BoardIdNotSentException.class)
     public ErrorResult BoardIdNotSentHandler(BoardIdNotSentException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardIdNotSentException", e.getMessage());
+        return new ErrorResult("BoardIdNotSent", e.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardSearchDataNotSentException.class)
-    public  ErrorResult BoardIdNotSentException(BoardIdNotSentException e) {
+    public  ErrorResult BoardSearchDataNotSentHandler(BoardSearchDataNotSentException e) {
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardIdNotSentException", e.getMessage());
+        return new ErrorResult("BoardSearchDataNotSent", e.getMessage());
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardNotOwnMemberException.class)
-    public ErrorResult BoardNotOwnMemberException(BoardNotOwnMemberException e){
+    public ErrorResult BoardNotOwnMemberHandler(BoardNotOwnMemberException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardNotOwnMemberException",e.getMessage());
+        return new ErrorResult("BoardNotOwnMember",e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardNotQualifiedException.class)
-    public ErrorResult BoardNotQualifiedException(BoardNotQualifiedException e){
+    public ErrorResult BoardNotQualifiedHandler(BoardNotQualifiedException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("BoardNotQualifiedException",e.getMessage());
+        return new ErrorResult("BoardNotQualified",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardContentOutOfRangeException.class)
+    public ErrorResult BoardContentOutOfRangeHandler(BoardContentOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardContentOutOfRange",e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BoardTitleOutOfRangeException.class)
+    public ErrorResult BoardTitleOutOfRangeHandler(BoardTitleOutOfRangeException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("BoardTitleOutOfRange",e.getMessage());
     }
 
 }
