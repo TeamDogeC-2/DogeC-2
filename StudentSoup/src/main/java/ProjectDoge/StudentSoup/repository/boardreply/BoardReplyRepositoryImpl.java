@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.board.QBoardReply.boardReply;
@@ -95,5 +96,25 @@ public class BoardReplyRepositoryImpl implements BoardReplyRepositoryCustom {
                 .orderBy(boardReply.depth.asc())
                 .fetch();
         return query;
+    }
+
+    @Override
+    public Optional<Integer> findMaxSeqByBoardId(Long boardId) {
+        Integer query = queryFactory.select(boardReply.seq.max())
+                .from(boardReply)
+                .where(boardReply.board.id.eq(boardId))
+                .fetchOne();
+
+        return Optional.ofNullable(query);
+    }
+
+    @Override
+    public Optional<Integer> findMaxDepthByReplyId(Long boardId, int seq) {
+        Integer query =  queryFactory.select(boardReply.depth.max())
+                .from(boardReply)
+                .where(boardReply.board.id.eq(boardId), boardReply.seq.eq(seq))
+                .fetchOne();
+
+        return Optional.ofNullable(query);
     }
 }

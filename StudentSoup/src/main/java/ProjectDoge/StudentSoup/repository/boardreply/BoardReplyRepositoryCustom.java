@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardReplyRepositoryCustom {
 
@@ -16,4 +17,6 @@ public interface BoardReplyRepositoryCustom {
     JPAQuery<Long> pagingCountByBoardId(Long boardId);
     List<BoardReply> findBestReviewByBoardId(Long boardId);
     List<BoardReply> findBySeq(int seq);
+    Optional<Integer> findMaxSeqByBoardId(Long boardId);
+    Optional<Integer> findMaxDepthByReplyId(Long boardId, int seq);
 }
