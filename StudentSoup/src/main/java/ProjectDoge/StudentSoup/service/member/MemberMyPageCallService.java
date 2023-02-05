@@ -5,7 +5,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
-import ProjectDoge.StudentSoup.repository.boardreview.BoardReviewRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MemberMyPageCallService {
     private final BoardRepository boardRepository;
-    private final BoardReviewRepository boardReviewRepository;
+    private final BoardReplyRepository boardReplyRepository;
     private final RestaurantReviewRepository restaurantReviewRepository;
     private final MemberRepository memberRepository;
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -34,16 +34,16 @@ public class MemberMyPageCallService {
     public MemberMyPageDetailDto callMyPageDetail(Long memberId){
         isNotNullMemberId(memberId);
         Long boardCount = boardRepository.countByMemberId(memberId);
-        Long boardReviewCount = boardReviewRepository.countByMemberId(memberId);
+        Long boardReplyCount = boardReplyRepository.countByMemberId(memberId);
 
-        return new MemberMyPageDetailDto(boardCount, boardReviewCount);
+        return new MemberMyPageDetailDto(boardCount, boardReplyCount);
     }
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Page<MemberMyPageBoardReviewDto> callMyPageBoardReview(Long memberId, Pageable pageable){
+    public Page<MemberMyPageBoardReplyDto> callMyPageBoardReview(Long memberId, Pageable pageable){
         isNotNullMemberId(memberId);
-        return boardReviewRepository.findByMemberIdForMyPage(memberId, pageable);
+        return boardReplyRepository.findByMemberIdForMyPage(memberId, pageable);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

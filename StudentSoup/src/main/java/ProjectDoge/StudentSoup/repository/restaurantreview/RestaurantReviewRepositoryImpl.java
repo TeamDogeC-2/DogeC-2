@@ -102,7 +102,7 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
         if(cond == null)
             return null;
         else if(cond.equals("today"))
-            return restaurantReview.writeDate.eq(LocalDateTime.now());
+            return restaurantReview.writeDate.between(todayMidnight(), LocalDateTime.now());
         else if(cond.equals("month"))
             return restaurantReview.writeDate.between(LocalDateTime.now().minusMonths(1), LocalDateTime.now());
         else if(cond.equals("halfYear"))
@@ -111,5 +111,10 @@ public class RestaurantReviewRepositoryImpl implements RestaurantReviewRepositor
             return restaurantReview.writeDate.between(LocalDateTime.now().minusYears(1), LocalDateTime.now());
         else
             return null;
+    }
+
+    private LocalDateTime todayMidnight(){
+        LocalDateTime now = LocalDateTime.now();
+        return LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 0, 0, 0);
     }
 }

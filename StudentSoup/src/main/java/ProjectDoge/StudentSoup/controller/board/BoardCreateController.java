@@ -21,16 +21,16 @@ public class BoardCreateController {
     private final BoardResisterService boardResisterService;
     private final DepartmentFindService departmentFindService;
 
-    @PutMapping(value = "board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/board/{memberId}",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
                                          BoardFormDto boardFormDto){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
-        Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFiles());
+        Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFileList());
         resultMap.put("boardId",boardId);
         resultMap.put("result","ok");
         return resultMap;
     }
-    @GetMapping("board/create/{memberId}/{schoolId}")
+    @GetMapping("/board/create/{memberId}/{schoolId}")
     public ConcurrentHashMap<String,Object> getMemberClassificationList(@PathVariable Long memberId, @PathVariable Long schoolId ){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
         List<BoardCategoryDto> memberClassificationList = boardResisterService.getMemberClassification(memberId);

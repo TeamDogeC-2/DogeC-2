@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardDeleteController {
 
     private final BoardDeleteService boardDeleteService;
-    @DeleteMapping("board/{boardId}/{memberId}")
+    @DeleteMapping("/board/{boardId}/{memberId}")
     public ConcurrentHashMap<String, Object> deleteBoard(@PathVariable Long boardId, @PathVariable Long memberId){
         ConcurrentHashMap<String, Object> resultMap = boardDeleteService.deleteBoard(boardId, memberId);
         return resultMap;
