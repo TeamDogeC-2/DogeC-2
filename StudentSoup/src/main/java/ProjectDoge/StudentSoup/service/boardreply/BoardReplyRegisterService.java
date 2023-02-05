@@ -27,35 +27,45 @@ public class BoardReplyRegisterService {
     public Long join(BoardReplyReqDto dto){
         log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
         boardReplyValidationService.checkContent(dto.getContent());
-        BoardReply boardReply = createBoardReply(dto);
-        BoardReply review = boardReplyRepository.save(boardReply);
+        BoardReply boardReply;
+        if(isReply(dto)){
+            boardReply = createBoardReply(dto);
+        } else {
+            boardReply = createNestedBoardReply(dto);
+        }
+        BoardReply reply = boardReplyRepository.save(boardReply);
         log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
-        return review.getReplyId();
+        return reply.getReplyId();
     }
 
-    private BoardReply createBoardReply(BoardReplyReqDto dto) {
+    private boolean isReply(BoardReplyReqDto dto) {
+        return dto.getLevel() == 0;
+    }
+
+    private BoardReply createBoardReply(BoardReplyReqDto dto){
+        setCreateReplyDtoValue(dto);
         Board board = boardFindService.findOne(dto.getBoardId());
         Member member = memberFindService.findOne(dto.getMemberId());
-        BoardReply boardReply = new BoardReply().createBoardReply(member, board, dto);
-
-        return boardReply;
+        return new BoardReply().createBoardReply(member, board, dto);
     }
 
-    @Transactional
-    public Long TestJoin(BoardReplyReqDto dto){
-        log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
-        boardReplyValidationService.checkContent(dto.getContent());
-        BoardReply boardReply = createTestBoardReply(dto);
-        BoardReply review = boardReplyRepository.save(boardReply);
-        log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
-        return review.getReplyId();
+    private void setCreateReplyDtoValue(BoardReplyReqDto dto) {
+        int seq = boardReplyRepository.findMaxSeqByBoardId(dto.getBoardId())
+                        .orElse(0);
+        dto.setSeq(seq + 1);
+        dto.setDepth(0);
     }
 
-    private BoardReply createTestBoardReply(BoardReplyReqDto dto) {
+    private BoardReply createNestedBoardReply(BoardReplyReqDto dto){
+        setCreateBoardNestedDtoValue(dto);
         Board board = boardFindService.findOne(dto.getBoardId());
         Member member = memberFindService.findOne(dto.getMemberId());
-        BoardReply boardReply = new BoardReply().createTestBoardReply(member, board, dto);
+        return new BoardReply().createBoardReply(member, board, dto);
+    }
 
-        return boardReply;
+    private void setCreateBoardNestedDtoValue(BoardReplyReqDto dto){
+        int depth = boardReplyRepository.findMaxDepthByReplyId(dto.getBoardId(), dto.getSeq())
+                .orElse(0);
+        dto.setDepth(depth + 1);
     }
 }
