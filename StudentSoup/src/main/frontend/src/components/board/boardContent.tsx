@@ -70,6 +70,7 @@ const BoardContent = (props: PropsType) => {
     };
     getBoardList(request, (res: DataResType) => {
       setList(res.boards.content);
+      setPageInfo(res.boards.totalPages);
       if (res.bestBoards) setTopList(res.bestBoards);
       if (res.hotBoards) setHotList(res.hotBoards);
     });
