@@ -14,7 +14,6 @@ import { Link, useHistory } from 'react-router-dom';
 const boardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [boardContent, setBoardContent] = useState<string>('');
-  const [shownComments, setShownComments] = useState([]);
   const [boardNickName, setBoardNickName] = useState<string>('');
   const [boardDate, setBoardDate] = useState<any>();
   const [boardView, setBoardView] = useState<number>();
@@ -22,10 +21,11 @@ const boardDetail = () => {
   const [boardLiked, isBoardLiked] = useState<boolean>();
   const [boardReviewList, setBoardReviewList] = useState<any>([]);
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
-  const [openReply, isOpenReply] = useState<boolean>(false);
+  const [reply, setReply] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
-  const [t, setT] = useState<string>('');
-  const [s, setS] = useState<string>('');
+  const [categoryList, setCategoryList] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
@@ -39,7 +39,7 @@ const boardDetail = () => {
         setBoardView(res.data.view);
         setBoardLikedCount(res.data.likedCount);
         isBoardLiked(res.data.like);
-        setT(res.data.boardCategory);
+        setCategoryList(res.data.boardCategory);
       })
       .catch(err => {
         console.error(err);
@@ -50,7 +50,6 @@ const boardDetail = () => {
     axios
       .get(`/boardReviews/152/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardReviewList(res.data.boardReviewList);
         setBoardBestReviewList(res.data.bestReviewList);
       })
@@ -60,30 +59,26 @@ const boardDetail = () => {
   }, []);
 
   useEffect(() => {
-    if (t === 'FREE') {
-      setS('자유게시판');
-    } else if (t === 'CONSULTING') {
-      setS('취업/상담게시판');
-    } else if (t === 'TIP') {
-      setS('팁게시판');
-    } else if (t === 'NOTICE') {
-      setS('공지사항');
-    } else if (t === 'EMPLOYMENT') {
-      setS('취업/상담게시판');
+    if (categoryList === 'FREE') {
+      setCategory('자유게시판');
+    } else if (categoryList === 'CONSULTING') {
+      setCategory('취업/상담게시판');
+    } else if (categoryList === 'TIP') {
+      setCategory('팁게시판');
+    } else if (categoryList === 'NOTICE') {
+      setCategory('공지사항');
+    } else if (categoryList === 'EMPLOYMENT') {
+      setCategory('취업/상담게시판');
     }
   });
 
-  const handleTest = (e: any) => {
-    console.log(e.target.id);
-    setFindId(e.target.id);
-  };
   return (
     <>
       <MypageNavbar />
       <div className="w-full h-[103px]"></div>
       <div className="flex flex-row justify-center">
         <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
-          {s}
+          {category}
         </div>
         <div className="ml-[428px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
           <div
@@ -227,6 +222,8 @@ const boardDetail = () => {
                           id={data.boardReviewId}
                           onClick={() => {
                             setFindId(0);
+                            setReply(0);
+                            setLevel(0);
                           }}
                           className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                         >
@@ -235,8 +232,11 @@ const boardDetail = () => {
                       ) : (
                         <button
                           id={data.boardReviewId}
+                          value={data.seq}
                           onClick={() => {
                             setFindId(data.boardReviewId);
+                            setReply(data.seq);
+                            setLevel(1);
                           }}
                           className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                         >
