@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuIdNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewIdNotSentException;
+import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotFoundException;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class RestaurantReviewFindService {
     public RestaurantReview findOne(Long restaurantReviewId){
         checkRestaurantMenuIdSent(restaurantReviewId);
         return restaurantReviewRepository.findById(restaurantReviewId).orElseThrow(() -> {
-            return new RestaurantMenuNotFoundException("등록되지 않은 메뉴 입니다.");
+            throw new RestaurantReviewNotFoundException("등록되지 않은 리뷰 입니다.");
         });
     }
 
