@@ -20,11 +20,12 @@ public class BoardDto {
     private String title;
     private String content;
     private String ip;
-    private List<String> fileNames = new ArrayList<>();
+    private List<String> fileNames;
     private String nickname;
     private int view;
     private String writeDate;
     private String updateDate;
+    private int reviewCount;
     private int likedCount;
     private String memberProfileImageName;
     private boolean like;
@@ -35,26 +36,27 @@ public class BoardDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.ip = board.getIp();
-        setBoardImageFileNames(board);
+        this.fileNames = setBoardImageFileNames(board);
         this.nickname = board.getMember().getNickname();
         this.view = board.getView();
         this.writeDate = board.getWriteDate();
         this.updateDate = board.getUpdateDate();
+        this.reviewCount = board.getBoardReplies().size();
         this.likedCount = board.getLikedCount();
         this.memberProfileImageName = setProfileImageFileName(board.getMember());
         this.like = like;
     }
 
-    private void setBoardImageFileNames(Board board) {
-        if (board.getImageFileList().isEmpty()) {
-            this.fileNames = Collections.emptyList();
-        } else {
+    private List<String> setBoardImageFileNames(Board board) {
+        if(!board.getImageFileList().isEmpty()) {
+            List<String> imageFileList = new ArrayList<>();
             for (ImageFile imageFile : board.getImageFileList()) {
-                this.fileNames.add(imageFile.getFileName());
+                imageFileList.add(imageFile.getFileName());
             }
+            return imageFileList;
         }
+        return Collections.emptyList();
     }
-
 
     private String setProfileImageFileName(Member member){
         if(member.getImageFile() != null){

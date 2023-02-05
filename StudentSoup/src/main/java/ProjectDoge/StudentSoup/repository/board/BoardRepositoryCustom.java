@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface BoardRepositoryCustom {
 
@@ -22,4 +23,6 @@ public interface BoardRepositoryCustom {
     Page<MemberMyPageBoardDto> findByMemberIdForMyPage(Long memberId, Pageable pageable);
 
     Long countByMemberId(Long memberId);
+
+    Optional<Board> findByIdForBoardDetail(Long boardId);
 }
