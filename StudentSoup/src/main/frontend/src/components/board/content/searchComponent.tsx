@@ -14,6 +14,8 @@ interface PropsType {
   setSort: React.Dispatch<React.SetStateAction<number>>;
   column: string;
   setColumn: React.Dispatch<React.SetStateAction<string>>;
+  departmentId: number | undefined;
+  setDepartmentId: React.Dispatch<React.SetStateAction<number | undefined>>;
   handleSearchButton: () => void;
 }
 
@@ -31,18 +33,6 @@ const sortList = [
 ];
 
 const SearchComponent = (props: PropsType) => {
-  const [showKeywords, setShowKeywords] = useState(false);
-  const [showSorts, setShowSorts] = useState(false);
-  const [showSubjects, setShowSubjects] = useState(false);
-
-  const [subject, setSubject] = useState('학과');
-
-  const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
-
-  const keywordRef: any = useRef(null);
-  const sortRef: any = useRef(null);
-  const subjectRef: any = useRef(null);
-
   const {
     range,
     searchValue,
@@ -51,8 +41,20 @@ const SearchComponent = (props: PropsType) => {
     setSort,
     column,
     setColumn,
+    departmentId,
+    setDepartmentId,
     handleSearchButton,
   } = props;
+
+  const [showKeywords, setShowKeywords] = useState(false);
+  const [showSorts, setShowSorts] = useState(false);
+  const [showSubjects, setShowSubjects] = useState(false);
+
+  const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
+
+  const keywordRef: any = useRef(null);
+  const sortRef: any = useRef(null);
+  const subjectRef: any = useRef(null);
 
   const { getDepartmentList } = useBoardData();
 
@@ -166,7 +168,7 @@ const SearchComponent = (props: PropsType) => {
             className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[137px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
           >
             {sort === 0
-              ? '필터'
+              ? '정렬'
               : _.find(sortList, item => {
                   return item.value === sort;
                 })?.label}
@@ -213,7 +215,11 @@ const SearchComponent = (props: PropsType) => {
               }}
               className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
             >
-              {subject}
+              {departmentId === undefined
+                ? '학과'
+                : _.find(subjectList, item => {
+                    return item.departmentId === departmentId;
+                  })?.departmentName}
               <span>
                 <img src={Arrow} alt="selectbox" />
               </span>
@@ -224,8 +230,9 @@ const SearchComponent = (props: PropsType) => {
                   return (
                     <div
                       onClick={() => {
-                        setSubject(item.departmentName);
+                        // setSubject(item.departmentName);
                         setShowSubjects(false);
+                        setDepartmentId(item.departmentId);
                       }}
                       key={index}
                       className={cn(
