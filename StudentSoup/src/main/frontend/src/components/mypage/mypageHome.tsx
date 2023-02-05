@@ -4,7 +4,11 @@ import Human from '../../img/circle_human.png';
 import { useRef } from 'react';
 import axios from 'axios';
 
-const MypageHome = () => {
+interface propTypes {
+  onClickMenu: Function;
+}
+
+const MypageHome = (props: propTypes) => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
@@ -54,6 +58,10 @@ const MypageHome = () => {
     location.reload();
   };
 
+  const handleModify = (e: any) => {
+    props.onClickMenu('modify');
+  }
+
   return (
     <div className="flex-[9] z-[1] bg-zinc-100">
       <div className="w-full h-[259px] flex items-center justify-center bg-zinc-300">
@@ -94,7 +102,7 @@ const MypageHome = () => {
               </div>
             </div>
             <div className="w-[262px] h-[44px]">
-              <button className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]">
+              <button onClick={handleModify} className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]">
                 내 프로필 편집
               </button>
             </div>
