@@ -14,6 +14,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 const boardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>('');
+  const [boardImg, setBoardImg] = useState<any>([]);
   const [boardContent, setBoardContent] = useState<string>('');
   const [boardNickName, setBoardNickName] = useState<string>('');
   const [boardDate, setBoardDate] = useState<any>();
@@ -34,7 +35,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/192/${saveMemberId}`)
+      .post(`/board/299/${saveMemberId}`)
       .then(res => {
         console.log(res.data);
         setBoardTitle(res.data.title);
@@ -45,6 +46,7 @@ const boardDetail = () => {
         setBoardLikedCount(res.data.likedCount);
         isBoardLiked(res.data.like);
         setCategoryList(res.data.boardCategory);
+        setBoardImg(res.data.fileNames);
       })
       .catch(err => {
         console.error(err);
@@ -53,7 +55,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/192/${saveMemberId}`)
+      .get(`/boardReplies/299/${saveMemberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -80,7 +82,7 @@ const boardDetail = () => {
   const handleReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: 299,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -94,26 +96,7 @@ const boardDetail = () => {
         console.error(err);
       });
   };
-  const handleReReply = (e: any) => {
-    axios
-      .put('/boardReply', {
-        boardId: 192,
-        memberId: saveMemberId,
-        content: rereplyTextValue,
-        level: 1,
-        seq: reply,
-      })
-      .then(res => {
-        alert('성공');
-        location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
-  const handleSetContentValue = (e: any) => {
-    setReReplyTextValue(e.target.value);
-  };
+
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
   };
@@ -131,11 +114,10 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/192/${saveMemberId}/like`)
+      .post(`/board/299/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -196,11 +178,15 @@ const boardDetail = () => {
             {boardContent}
           </div>
           <div className="flex flex-row ml-[8px]">
-            <div className="w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
-            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
-            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
-            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
-            <div className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"></div>
+            {boardImg.map((school: any) => (
+              <>
+                <img
+                  key={school}
+                  src={`/image/${school}`}
+                  className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"
+                />
+              </>
+            ))}
           </div>
           <button
             onClick={handleBoardLikeCount}
