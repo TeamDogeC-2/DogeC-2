@@ -25,6 +25,7 @@ const MypageBoardReview = () => {
   const [size, setSize] = useState<number>(6);
   const [last, isLast] = useState<boolean>(false);
   const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
+  const [sorted, setSorted] = useState<string>();
 
   useEffect(() => {
     axios
@@ -60,11 +61,13 @@ const MypageBoardReview = () => {
         {
           params: {
             size,
+            filter: sorted,
           },
         },
       )
       .then(function (response) {
-        console.log(response.data.content);
+        console.log(response.data);
+        console.log(sorted);
         setRestaurantReivew(response.data.content);
         setTotalReview(response.data.totalElements);
         isLast(response.data.last);
@@ -109,6 +112,12 @@ const MypageBoardReview = () => {
       });
     setDeleteCheck(false);
   };
+
+  const handleSorted = (e: any) => {
+    console.log(e.target.id);
+    const id = e.target.id;
+    setSorted(id);
+  }
 
   return (
     <div className="flex flex-[9] w-full h-[150vh] z-[1] bg-zinc-100">
@@ -216,12 +225,12 @@ const MypageBoardReview = () => {
           <div className="text-[24px] leading-[33px] font-bold text-[#262626]">리뷰</div>
           <div className="flex flex-row items-center justify-end">
             <div>
-              <select className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]">
-                <option value="0">전체</option>
-                <option value="1">오늘</option>
-                <option value="2">한달</option>
-                <option value="3">6개월</option>
-                <option value="4">1년</option>
+              <select onChange={handleSorted} className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]">
+                <option id='' value="0">전체</option>
+                <option id='today' value="1">오늘</option>
+                <option id='month' value="2">한달</option>
+                <option id='halfYear' value="3">6개월</option>
+                <option id='year' value="4">1년</option>
               </select>
             </div>
           </div>
@@ -249,7 +258,7 @@ const MypageBoardReview = () => {
                     </div>
                     <div className="w-[20%] flex flex-col items-center justify-center">
                       <div>{restaurantReivew.writeDate}</div>
-                      <button className="w-[105px] h-[35px] bg-[#FF611D] rounded-[5px] text-white">
+                      <button className="w-[105px] h-[35px] mt-[20px] bg-[#FF611D] rounded-[5px] text-white">
                         수정하기
                       </button>
                       <button
