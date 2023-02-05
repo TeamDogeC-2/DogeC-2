@@ -18,8 +18,7 @@ public class BoardReplyCallController {
 
     @GetMapping("/boardReplies/{boardId}/{memberId}")
     public ConcurrentHashMap<String,Object> callBoardReply(@PathVariable Long memberId, @PathVariable Long boardId){
-        ConcurrentHashMap<String, Object> resultMap = boardReplyCallService.callBoardReply(memberId, boardId);
-        return resultMap;
+        return boardReplyCallService.callBoardReply(memberId, boardId);
     }
 
 }
