@@ -32,7 +32,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/247/${saveMemberId}`)
+      .post(`/board/152/${saveMemberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -50,7 +50,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/247/${saveMemberId}`)
+      .get(`/boardReplies/152/${saveMemberId}`)
       .then(res => {
         console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
@@ -78,7 +78,7 @@ const boardDetail = () => {
   const handleReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 247,
+        boardId: 152,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -95,7 +95,7 @@ const boardDetail = () => {
   const handleReReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 247,
+        boardId: 152,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -115,19 +115,26 @@ const boardDetail = () => {
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
   };
-
-  console.log(`회원 아이디 ${saveMemberId}`);
-  console.log(`내용 ${rereplyTextValue}`);
-  console.log(`seq: ${reply}`);
+  const _scrollTop = window.scrollY || document.documentElement.scrollTop;
+  console.log(_scrollTop);
+  const handleScrollDown = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+  const handleScrollUp = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  };
   return (
     <>
       <MypageNavbar />
-      <div className="w-full h-[103px]"></div>
+      <div className="w-full h-[103px] scroll-smooth"></div>
       <div className="flex flex-row justify-center">
         <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
           {category}
         </div>
-        <div className="ml-[428px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
+        <div className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
           <div
             onClick={() => {
               history.push('/board');
@@ -371,10 +378,13 @@ const boardDetail = () => {
               </div>
             </>
           ))}
-          <div className="flex flex-row mt-[46px] mb-[66.62px] justify-center">
-            <BoardScrollDown className="mr-[19.11px]" />
-            <BoardScrollUp />
-          </div>
+        </div>
+        <div className="relative flex flex-col left-[30px]">
+          <BoardScrollUp onClick={handleScrollUp} className="sticky top-[90%] left-[80%]" />
+          <BoardScrollDown
+            onClick={handleScrollDown}
+            className="sticky mt-[20px] top-[95%] left-[80%]"
+          />
         </div>
       </div>
     </>
