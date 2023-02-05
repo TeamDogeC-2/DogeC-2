@@ -27,6 +27,7 @@ const boardDetail = () => {
   const [categoryList, setCategoryList] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
+  const saveMemberName = sessionStorage.getItem('nickname');
   const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
   const [replyTextValue, setReplyTextValue] = useState<string>('');
   const [like, isLike] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/299/${saveMemberId}`)
+      .post(`/board/292/${saveMemberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -54,7 +55,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/299/${saveMemberId}`)
+      .get(`/boardReplies/292/${saveMemberId}`)
       .then(res => {
         console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
@@ -82,7 +83,7 @@ const boardDetail = () => {
   const handleReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 299,
+        boardId: 292,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -114,7 +115,7 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/299/${saveMemberId}/like`)
+      .post(`/board/292/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
@@ -208,13 +209,18 @@ const boardDetail = () => {
             <div className="w-[423px] h-[23px] leading-[22px] mt-[72px] font-medium text-[16px] text-[#404040]">
               {/* {boardReviewList.length}개의 댓글 */}
             </div>
-            <div className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898]">
-              수정
-            </div>
-
-            <div className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898]">
-              삭제
-            </div>
+            {saveMemberName === boardNickName ? (
+              <>
+                <div className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898]">
+                  수정
+                </div>
+                <div className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898]">
+                  삭제
+                </div>
+              </>
+            ) : (
+              ''
+            )}
           </div>
           <div className="flex flex-row">
             <textarea
@@ -255,9 +261,15 @@ const boardDetail = () => {
                   </div>
                 </div>
                 <div className="flex flex-row ml-[3px] row-span-2 mt-[20px]">
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                  {saveMemberName === data.nickname ? (
+                    <>
+                      <div className="text-[14px] text-[#989898]">수정</div>
+                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                      <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                    </>
+                  ) : (
+                    ''
+                  )}
                 </div>
                 <div className="ml-[2px] mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
                   {data.content}

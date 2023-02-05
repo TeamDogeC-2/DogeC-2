@@ -9,13 +9,14 @@ const boardReviewList = (data: any) => {
   const [findId, setFindId] = useState<number>();
   const saveMemberId = sessionStorage.getItem('memberId');
   const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
+  const saveMemberName = sessionStorage.getItem('nickname');
   const handleSetContentValue = (e: any) => {
     setReReplyTextValue(e.target.value);
   };
   const handleReReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 299,
+        boardId: 292,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -51,9 +52,15 @@ const boardReviewList = (data: any) => {
               </div>
             </div>
             <div className="flex flex-row ml-[19px] mt-[18px]">
-              <div className="text-[14px] text-[#989898]">수정</div>
-              <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-              <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+              {saveMemberName === data.nickname ? (
+                <>
+                  <div className="text-[14px] text-[#989898]">수정</div>
+                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                </>
+              ) : (
+                ''
+              )}
             </div>
             <div className="col-span-2 mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
               {data.content}
@@ -145,9 +152,15 @@ const boardReviewList = (data: any) => {
                 </div>
               </div>
               <div className="flex flex-row row-span-2">
-                <div className="text-[14px] text-[#989898]">수정</div>
-                <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                {saveMemberName === data.nickname ? (
+                  <>
+                    <div className="text-[14px] text-[#989898]">수정</div>
+                    <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                    <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
+                  </>
+                ) : (
+                  ''
+                )}
               </div>
               <div className="mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
                 {data.content}
