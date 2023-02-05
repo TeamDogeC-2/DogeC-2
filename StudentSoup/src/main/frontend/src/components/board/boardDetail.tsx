@@ -15,6 +15,7 @@ import { Link, useHistory } from 'react-router-dom';
 const boardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [boardImg, setBoardImg] = useState<any>([]);
+  const [boardReviewCount, setBoardReviewCount] = useState<number>();
   const [boardContent, setBoardContent] = useState<string>('');
   const [boardNickName, setBoardNickName] = useState<string>('');
   const [boardDate, setBoardDate] = useState<any>();
@@ -38,6 +39,8 @@ const boardDetail = () => {
     axios
       .post(`/board/292/${saveMemberId}`)
       .then(res => {
+        console.log(res.data);
+        setBoardReviewCount(res.data.reviewCount);
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
         setBoardNickName(res.data.nickname);
@@ -57,7 +60,6 @@ const boardDetail = () => {
     axios
       .get(`/boardReplies/292/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
       })
@@ -207,7 +209,7 @@ const boardDetail = () => {
           </button>
           <div className="flex flex-row ml-[30px]">
             <div className="w-[423px] h-[23px] leading-[22px] mt-[72px] font-medium text-[16px] text-[#404040]">
-              {/* {boardReviewList.length}개의 댓글 */}
+              {boardReviewCount}개의 댓글
             </div>
             {saveMemberName === boardNickName ? (
               <>
