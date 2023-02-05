@@ -25,7 +25,7 @@ const MypageBoardReview = () => {
   const [size, setSize] = useState<number>(6);
   const [last, isLast] = useState<boolean>(false);
   const [deleteCheck, setDeleteCheck] = useState<boolean>(false);
-  const [sorted, setSorted] = useState<string>();
+  const [sorted, setSorted] = useState<string>('');
 
   useEffect(() => {
     axios
@@ -75,7 +75,7 @@ const MypageBoardReview = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [click, deleteCheck]);
+  }, [click, deleteCheck, sorted]);
 
   const setPageNumbers = [...Array(totalPage)].map((v, i) => i + 1);
   const setPageNumbersArr = [];
@@ -114,8 +114,8 @@ const MypageBoardReview = () => {
   };
 
   const handleSorted = (e: any) => {
-    console.log(e.target.id);
-    const id = e.target.id;
+    console.log(e);
+    const id: string = e.target.value;
     setSorted(id);
   }
 
@@ -226,11 +226,11 @@ const MypageBoardReview = () => {
           <div className="flex flex-row items-center justify-end">
             <div>
               <select onChange={handleSorted} className="w-[191px] h-[35px] text-[#939393] text-[16px] fw-400 leading-[21px] pl-[3px] border-[1px] border-[#BCBCBC] rounded-[3px]">
-                <option id='' value="0">전체</option>
-                <option id='today' value="1">오늘</option>
-                <option id='month' value="2">한달</option>
-                <option id='halfYear' value="3">6개월</option>
-                <option id='year' value="4">1년</option>
+                <option value=''>전체</option>
+                <option value='today'>오늘</option>
+                <option value='month'>한달</option>
+                <option value='halfYear'>6개월</option>
+                <option value='year'>1년</option>
               </select>
             </div>
           </div>
