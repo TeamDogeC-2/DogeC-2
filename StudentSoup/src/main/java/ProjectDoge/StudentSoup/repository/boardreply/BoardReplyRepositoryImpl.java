@@ -72,7 +72,7 @@ public class BoardReplyRepositoryImpl implements BoardReplyRepositoryCustom {
     }
 
     @Override
-    public List<BoardReply> findBestReviewByBoardId(Long boardId) {
+    public List<BoardReply> findBestReplyByBoardId(Long boardId) {
         List<BoardReply> query = queryFactory
                 .select(boardReply)
                 .from(boardReply)

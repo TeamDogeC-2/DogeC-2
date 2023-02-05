@@ -11,6 +11,7 @@ import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
+import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
@@ -19,8 +20,10 @@ import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
+import ProjectDoge.StudentSoup.service.boardreply.BoardReplyFindService;
 import ProjectDoge.StudentSoup.service.boardreply.BoardReplyRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.board.BoardUpdateService;
@@ -63,7 +66,9 @@ public class TestDataInit {
     private  final MemberRepository memberRepository;
     private  final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final BoardReplyRepository boardReplyRepository;
     private final BoardReplyRegisterService boardReplyRegisterService;
+    private final BoardReplyFindService boardReplyFindService;
     private final BoardUpdateService boardUpdateService;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
@@ -310,12 +315,23 @@ public class TestDataInit {
             BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트댓글 " + i, null, null, 0);
             boardReplyRegisterService.join(boardReplyReqDto);
         }
+
         for(int i = 1; i <= 5; i++){
             for(int j = 1; j <= 4; j++){
                 BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트 대 댓글 " + j, i, null, 1);
                 boardReplyRegisterService.join(boardReplyReqDto);
             }
         }
+
+        BoardReply reply1 = boardReplyFindService.findOne(222L);
+        reply1.setLikedCount(10);
+
+        BoardReply reply2 = boardReplyFindService.findOne(224L);
+        reply2.setLikedCount(10);
+
+        boardReplyRepository.save(reply1);
+        boardReplyRepository.save(reply2);
+
     }
 
     private void initRestaurantReview(){
