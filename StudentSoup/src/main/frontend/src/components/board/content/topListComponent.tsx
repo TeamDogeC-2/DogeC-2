@@ -13,9 +13,9 @@ const TopListComponent = (props: PropsType) => {
       <div className="bg-white p-[11px] rounded-[5px] border border-solid border-[#bcbcbc]">
         <table className="w-full text-center">
           <colgroup>
-            <col style={{ width: '70%' }} />
+            <col style={{ width: '65%' }} />
             <col style={{ width: '15%' }} />
-            <col style={{ width: '15%' }} />
+            <col style={{ width: '20%' }} />
           </colgroup>
           <thead>
             <tr>
