@@ -16,10 +16,15 @@ interface propTypes {
   id: string;
   setId: React.Dispatch<React.SetStateAction<string>>;
   onClickMenu: Function;
+  menu: string;
 }
 const MypageSidebar = (props: propTypes) => {
   // const [id, setId] = useState<string>('home');
   const { id, setId } = props;
+
+  useEffect(() => {
+    setId(props.menu);
+  });
 
   const onClickMypageHome = () => {
     setId('home');

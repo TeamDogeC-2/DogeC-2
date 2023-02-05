@@ -36,7 +36,6 @@ const MypageHome = (props: propTypes) => {
     setId('boardReview');
     console.log(id);
     props.onClickMenu('boardReview')
-    props.onClickMenu();
   };
 
   const url = '/mypage';

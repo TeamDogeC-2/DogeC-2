@@ -39,6 +39,7 @@ public class Board {
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
 
+    @Size(min = 2, max = 50)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,7 +52,7 @@ public class Board {
     private String ip;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<ImageFile> imageFiles = new ArrayList<>();
+    private List<ImageFile> imageFileList = new ArrayList<>();
 
     private int view;
 
@@ -67,7 +68,7 @@ public class Board {
     private String authentication;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardReview> boardReviews = new ArrayList<>();
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board" , cascade = CascadeType.REMOVE)
     private List<BoardLike> boardLikes = new ArrayList<>();
@@ -158,11 +159,11 @@ public class Board {
 
     //== 비즈니스 로직 ==//
     public void addViewCount(){
-        this.view++;
+        this.view += 1;
     }
 
     public void addLikeCount() {
-        this.likedCount+=1;
+        this.likedCount += 1;
     }
 
     public void minusLikeCount() {
@@ -171,7 +172,7 @@ public class Board {
         }
     }
     public void addImageFile(ImageFile imageFile){
-        this.getImageFiles().add(imageFile);
+        this.getImageFileList().add(imageFile);
 
         if(imageFile.getBoard() != this)
              imageFile.setBoard(this);
