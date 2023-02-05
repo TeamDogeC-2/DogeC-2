@@ -14,9 +14,14 @@ import cn from 'clsx';
 
 interface propTypes {
   onClickMenu: Function;
+  menu: string;
 }
 const MypageSidebar = (props: propTypes) => {
   const [id, setId] = useState<string>('home');
+
+  useEffect(() => {
+    setId(props.menu);
+  });
 
   const onClickMypageHome = () => {
     setId('home');

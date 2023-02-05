@@ -33,7 +33,7 @@ const MypageHome = (props: propTypes) => {
   const onClickMypageBoardReview = (e: React.MouseEvent<Element, MouseEvent>) => {
     setId('boardReview');
     console.log(id);
-    props.onClickMenu('boardReview');
+    props.onClickMenu('boardReview')
   };
 
   const url = '/mypage';
