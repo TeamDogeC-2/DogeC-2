@@ -22,7 +22,7 @@ public class MyPageCallController {
         return memberMyPageCallService.callMyPageMain(dto.getMemberId());
     }
 
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     public MemberMyPageDetailDto callMyPageDetail(@RequestBody MemberMyPageRequestDto dto){
         return memberMyPageCallService.callMyPageDetail(dto.getMemberId());
     }
