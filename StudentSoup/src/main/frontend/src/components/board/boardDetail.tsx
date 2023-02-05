@@ -37,7 +37,6 @@ const boardDetail = () => {
     axios
       .post(`/board/299/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
         setBoardNickName(res.data.nickname);
@@ -57,6 +56,7 @@ const boardDetail = () => {
     axios
       .get(`/boardReplies/299/${saveMemberId}`)
       .then(res => {
+        console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
       })
@@ -234,7 +234,15 @@ const boardDetail = () => {
           {boardBestReviewList.map((data: any) => (
             <>
               <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
-                <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
+                {data.memberProfileImageName ? (
+                  <img
+                    src={`/image/${data.memberProfileImageName}`}
+                    className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
+                  />
+                ) : (
+                  <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
+                )}
+
                 <div className="row-span-2 ml-[18px] mt-[20px] h-[23px] font-semibold text-[16px] leading-[22px] text-[#FF611D]">
                   BEST
                 </div>
