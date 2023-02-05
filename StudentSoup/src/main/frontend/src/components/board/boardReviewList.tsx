@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
 import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
+import { ReactComponent as BardWriteReplyActiveHeart } from '../../img/BoardWriteReplyActiveHeart.svg';
 import axios from 'axios';
 
 const boardReviewList = (data: any) => {
+  console.log(data);
   const [reply, setReply] = useState<number>(0);
   const [level, setLevel] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
   const saveMemberId = sessionStorage.getItem('memberId');
   const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
   const saveMemberName = sessionStorage.getItem('nickname');
+  const [ReplyLikeCount, setReplyLikeCount] = useState<any>();
+  const [replyLike, isReplyLike] = useState<boolean>(data.like);
+  const [like, isLike] = useState<boolean>(false);
   const handleSetContentValue = (e: any) => {
     setReReplyTextValue(e.target.value);
   };
   const handleReReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -30,6 +35,22 @@ const boardReviewList = (data: any) => {
         console.error(err);
       });
   };
+  const handleReplyLikeCount = (e: any) => {
+    const boardReplyId = e.target.id;
+    axios
+      .post(`/boardReply/${boardReplyId}/${saveMemberId}/like`)
+      .then(res => {
+        setReplyLikeCount(res.data.data.likeCount);
+        isReplyLike(res.data.data.like);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isReplyLike(!replyLike);
+    isLike(!like);
+  };
+  console.log(replyLike);
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
@@ -97,9 +118,48 @@ const boardReviewList = (data: any) => {
                 ''
               ) : (
                 <>
-                  <BoardWriteReplyHeart className="ml-[725px] mt-[2px]" />
+                  {replyLike ? (
+                    <svg
+                      id={data.boardReplyId}
+                      onClick={handleReplyLikeCount}
+                      className="ml-[725px] mt-[2px]"
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="#FF611D"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        id={data.boardReplyId}
+                        d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                        stroke="#FF661D"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      id={data.boardReplyId}
+                      onClick={handleReplyLikeCount}
+                      className="ml-[725px] mt-[2px]"
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        id={data.boardReplyId}
+                        d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                        stroke="#898989"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+
                   <div className="ml-[6.03px] mt-[1px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    {data.likeCount}
+                    {like ? ReplyLikeCount : data.likeCount}
                   </div>
                 </>
               )}
@@ -166,9 +226,35 @@ const boardReviewList = (data: any) => {
                 {data.content}
               </div>
               <div className="flex flex-row ml-[853px] col-span-4 ">
-                <BoardWriteReplyHeart className="mt-[5px] ml-[13px]" />
+                {replyLike ? (
+                  <svg
+                    id={data.boardReplyId}
+                    onClick={handleReplyLikeCount}
+                    className="mt-[5px] ml-[13px]"
+                    width="16"
+                    height="14"
+                    viewBox="0 0 16 14"
+                    fill="#FF611D"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={data.boardReplyId}
+                      d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                      stroke="#FF661D"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <BoardWriteReplyHeart
+                    id={data.boardReplyId}
+                    onClick={handleReplyLikeCount}
+                    className="mt-[5px] ml-[13px]"
+                  />
+                )}
+
                 <div className="ml-[6.03px] mt-[3px] font-normal text-[16px] leading-[21px] mb-[10px] text-[#898989]">
-                  {data.likeCount}
+                  {like ? ReplyLikeCount : data.likeCount}
                 </div>
               </div>
               <div className="col-span-3 ml-[28px] mt-[5px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
