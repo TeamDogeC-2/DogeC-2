@@ -13,10 +13,13 @@ import { ReactComponent as Document_fill } from '../../img/document_fill.svg';
 import cn from 'clsx';
 
 interface propTypes {
+  id: string;
+  setId: React.Dispatch<React.SetStateAction<string>>;
   onClickMenu: Function;
 }
 const MypageSidebar = (props: propTypes) => {
-  const [id, setId] = useState<string>('home');
+  // const [id, setId] = useState<string>('home');
+  const { id, setId } = props;
 
   const onClickMypageHome = () => {
     setId('home');
