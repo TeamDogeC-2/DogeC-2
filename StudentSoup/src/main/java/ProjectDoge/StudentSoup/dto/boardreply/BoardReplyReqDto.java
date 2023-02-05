@@ -23,13 +23,8 @@ public class BoardReplyReqDto {
         this.level = level;
     }
 
-    public BoardReplyReqDto createBoardReply(Long boardId, Long memberId, String content, int level) {
-        this.boardId = boardId;
-        this.memberId = memberId;
-        this.content = content;
-        this.level = level;
+    protected BoardReplyReqDto(){
 
-        return this;
     }
 
 }
