@@ -320,10 +320,10 @@ public class TestDataInit {
             boardResisterService.join(member1.getMemberId(),boardFormDto);
         }
 
-        boardRepository.findById(212L).ifPresent(boardUpdateService::updateBoardView);
-        boardRepository.findById(215L).ifPresent(boardUpdateService::updateBoardView); // 172, 174
-        boardRepository.findById(172L).ifPresent(boardUpdateService::updateBoardAuthentication);
-        boardRepository.findById(174L).ifPresent(boardUpdateService::updateBoardAuthentication);
+        boardRepository.findById(252L).ifPresent(boardUpdateService::updateBoardView);
+        boardRepository.findById(254L).ifPresent(boardUpdateService::updateBoardView);
+        boardRepository.findById(213L).ifPresent(boardUpdateService::updateBoardAuthentication);
+        boardRepository.findById(217L).ifPresent(boardUpdateService::updateBoardAuthentication);
 
     }
 
@@ -355,10 +355,10 @@ public class TestDataInit {
             }
         }
 
-        BoardReply reply1 = boardReplyFindService.findOne(222L);
+        BoardReply reply1 = boardReplyFindService.findOne(263L);
         reply1.setLikedCount(10);
 
-        BoardReply reply2 = boardReplyFindService.findOne(224L);
+        BoardReply reply2 = boardReplyFindService.findOne(265L);
         reply2.setLikedCount(10);
 
         boardReplyRepository.save(reply1);
