@@ -21,22 +21,18 @@ const BoardContent = (props: PropsType) => {
   const [topList, setTopList] = useState<BoardListType[]>([]);
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
-  /**
-   * TODO: column, value, sorted, page
-   */
   const [searchValue, setSearchValue] = useState('');
-  const [value, setValue] = useState();
-  const [page, setPage] = useState();
-
+  const [page, setPage] = useState(0); // TODO
   const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
 
-  const handleSearchButton = () => {
+  useEffect(() => {
+    handleSearchValueInit();
     const request = {
-      column,
-      value: searchValue,
+      column: 'title',
+      value: '',
       category: boardCategory,
-      sorted: sort,
+      sorted: 0,
       page: 0,
       size: boardCategory === 'ALL' ? 7 : 12,
     };
@@ -45,11 +41,34 @@ const BoardContent = (props: PropsType) => {
       if (res.bestBoards) setTopList(res.bestBoards);
       if (res.hotBoards) setHotList(res.hotBoards);
     });
-  };
+  }, [boardCategory]);
 
   useEffect(() => {
     handleSearchButton();
-  }, [boardCategory, sort]);
+  }, [sort]);
+
+  const handleSearchValueInit = () => {
+    setSearchValue('');
+    setPage(0);
+    setColumn('title');
+    setSort(0);
+  };
+
+  const handleSearchButton = () => {
+    const request = {
+      column,
+      value: searchValue,
+      category: boardCategory,
+      sorted: sort,
+      page,
+      size: boardCategory === 'ALL' ? 7 : 12,
+    };
+    getBoardList(request, (res: DataResType) => {
+      setList(res.boards.content);
+      if (res.bestBoards) setTopList(res.bestBoards);
+      if (res.hotBoards) setHotList(res.hotBoards);
+    });
+  };
 
   return (
     <div className="py-[52px] px-[76px] max-w-[1100px]">
@@ -76,7 +95,7 @@ const BoardContent = (props: PropsType) => {
           <span>글쓰기</span>
         </div>
       </div>
-      <BoardListComponent list={list} boardCategory={boardCategory} />
+      <BoardListComponent list={list} boardCategory={boardCategory} page={page} setPage={setPage} />
     </div>
   );
 };
