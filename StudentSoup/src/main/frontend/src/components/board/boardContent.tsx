@@ -18,6 +18,7 @@ const BoardContent = (props: PropsType) => {
   const [range, setRange] = useState(RANGE.SCHOOL);
   const { getBoardList } = useBoardData();
   const [list, setList] = useState<BoardListType[]>([]);
+  const [pageInfo, setPageInfo] = useState<number>(0);
   const [topList, setTopList] = useState<BoardListType[]>([]);
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
@@ -39,6 +40,7 @@ const BoardContent = (props: PropsType) => {
     };
     getBoardList(request, (res: DataResType) => {
       setList(res.boards.content);
+      setPageInfo(res.boards.totalPages);
       if (res.bestBoards) setTopList(res.bestBoards);
       if (res.hotBoards) setHotList(res.hotBoards);
     });
@@ -46,7 +48,7 @@ const BoardContent = (props: PropsType) => {
 
   useEffect(() => {
     handleSearchButton();
-  }, [sort, departmentId]);
+  }, [sort, departmentId, page]);
 
   const handleSearchValueInit = () => {
     setSearchValue('');
@@ -100,7 +102,13 @@ const BoardContent = (props: PropsType) => {
           <span>글쓰기</span>
         </div>
       </div>
-      <BoardListComponent list={list} boardCategory={boardCategory} page={page} setPage={setPage} />
+      <BoardListComponent
+        list={list}
+        totalPages={pageInfo}
+        boardCategory={boardCategory}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 };

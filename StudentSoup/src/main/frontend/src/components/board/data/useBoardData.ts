@@ -14,7 +14,7 @@ interface RequestType {
 }
 
 export interface DataResType {
-  boards: { content: BoardListType[] };
+  boards: { content: BoardListType[]; totalPages: number };
   bestBoards?: BoardListType[];
   hotBoards?: BoardListType[];
 }

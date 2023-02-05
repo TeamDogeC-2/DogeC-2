@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
+import ReactPaginate from 'react-paginate';
 
 export interface BoardListType {
   authentication: string;
@@ -16,11 +17,18 @@ export interface BoardListType {
 
 interface PropsType {
   list: BoardListType[];
+  totalPages: number;
   boardCategory: string;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const BoardListComponent = (props: PropsType) => {
-  const { list, boardCategory } = props;
+  const { list, boardCategory, page, setPage, totalPages } = props;
+
+  const handlePageChange = (event: any) => {
+    setPage(event.selected);
+  };
 
   return (
     <div className="my-[15px]">
@@ -103,62 +111,23 @@ const BoardListComponent = (props: PropsType) => {
               );
             })}
           </tbody>
-          <tfoot>
-            {/* TODO: 페이지네이션 */}
-            {/* <div className="flex flex-row mb-[55px]">
-              {clickPage === 1 ? (
-                <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
-              ) : (
-                <LeftIcon
-                  onClick={() => {
-                    setSelected(selected - 1);
-                    setPage(page - 1);
-                    setClickPage(clickPage - 1);
-                    if (page % 5 === 0) {
-                      setClickNextPage(clickNextPage - 1);
-                    }
-                  }}
-                  className="ml-[234px] mt-[55.63px] cursor-pointer"
-                />
-              )}
-              {setPageNumbersArr[clickNextPage].map((school: any) => (
-                <>
-                  <div
-                    id={school}
-                    key={school}
-                    className={
-                      selected === school
-                        ? 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#FF611D] rounded-full cursor-pointer font-bold text-[#FF611D]'
-                        : 'ml-[9.5px] mt-[43px] w-[38px] h-[38px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]'
-                    }
-                    onClick={e => {
-                      handlePageNumberClick(e, school);
-                    }}
-                  >
-                    <div id={school} className="mt-[4px] text-[20px] text-center">
-                      {school}
-                    </div>
-                  </div>
-                </>
-              ))}
-              {lastPage ? (
-                <RightFillNoneIcon className="relative left-[15px] top-[53.63px]" />
-              ) : (
-                <RightIcon
-                  onClick={() => {
-                    setSelected(selected + 1);
-                    setPage(page + 1);
-                    setClickPage(clickPage + 1);
-                    if (clickPage % 5 === 0) {
-                      setClickNextPage(clickNextPage + 1);
-                    }
-                  }}
-                  className="relative left-[15px] top-[53.63px] cursor-pointer"
-                />
-              )}
-            </div> */}
-          </tfoot>
         </table>
+        <div>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel=">"
+            onPageChange={handlePageChange}
+            pageRangeDisplayed={5}
+            forcePage={page}
+            pageCount={totalPages}
+            previousLabel="<"
+            previousClassName="text-orange mx-[5px]"
+            nextClassName="text-orange mx-[5px]"
+            className="flex justify-center my-[18px]" // ul 태그 스타일
+            activeLinkClassName="border border-solid border-[#FF611C] text-orange" // 클릭된 a 태그 스타일
+            pageLinkClassName="inline-block text-[14px] text-center mx-[5px] w-[23px] h-[23px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]" // a 태그 스타일
+          />
+        </div>
       </div>
     </div>
   );
