@@ -139,7 +139,6 @@ const MypageModify = (props: propTypes) => {
           sessionStorage.setItem('schoolName', response.data.schoolName);
           sessionStorage.setItem('registrationDate', response.data.registrationDate);
           props.onClickMenu('home');
-          window.location.reload();
         })
         .catch(function (error) {
           alert(error.response.data.message);
