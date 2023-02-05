@@ -27,10 +27,12 @@ const boardDetail = () => {
   const [categoryList, setCategoryList] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
+  const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
+  const [replyTextValue, setReplyTextValue] = useState<string>('');
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/152/${saveMemberId}`)
+      .post(`/board/247/${saveMemberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -48,10 +50,11 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReviews/152/${saveMemberId}`)
+      .get(`/boardReplies/247/${saveMemberId}`)
       .then(res => {
-        setBoardReviewList(res.data.boardReviewList);
-        setBoardBestReviewList(res.data.bestReviewList);
+        console.log(res.data);
+        setBoardReviewList(res.data.boardReplyList);
+        setBoardBestReviewList(res.data.bestReplyList);
       })
       .catch(err => {
         console.error(err);
@@ -72,6 +75,50 @@ const boardDetail = () => {
     }
   });
 
+  const handleReply = (e: any) => {
+    axios
+      .put('/boardReply', {
+        boardId: 247,
+        memberId: saveMemberId,
+        content: replyTextValue,
+        level: 0,
+        seq: reply,
+      })
+      .then(res => {
+        alert('성공');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+  const handleReReply = (e: any) => {
+    axios
+      .put('/boardReply', {
+        boardId: 247,
+        memberId: saveMemberId,
+        content: rereplyTextValue,
+        level: 1,
+        seq: reply,
+      })
+      .then(res => {
+        alert('성공');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+  const handleSetContentValue = (e: any) => {
+    setReReplyTextValue(e.target.value);
+  };
+  const handleReplySetContentValue = (e: any) => {
+    setReplyTextValue(e.target.value);
+  };
+
+  console.log(`회원 아이디 ${saveMemberId}`);
+  console.log(`내용 ${rereplyTextValue}`);
+  console.log(`seq: ${reply}`);
   return (
     <>
       <MypageNavbar />
@@ -136,7 +183,7 @@ const boardDetail = () => {
           </button>
           <div className="flex flex-row ml-[30px]">
             <div className="w-[423px] h-[23px] leading-[22px] mt-[72px] font-medium text-[16px] text-[#404040]">
-              {boardReviewList.length}개의 댓글
+              {/* {boardReviewList.length}개의 댓글 */}
             </div>
             <div className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898]">
               수정
@@ -148,16 +195,22 @@ const boardDetail = () => {
           </div>
           <div className="flex flex-row">
             <textarea
+              onChange={e => {
+                handleReplySetContentValue(e);
+              }}
               placeholder="댓글을 입력해주세요."
               className="ml-[28px] mt-[16px] w-[834px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
             ></textarea>
-            <button className="mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]">
+            <button
+              onClick={handleReply}
+              className="mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+            >
               등록
             </button>
           </div>
           {boardBestReviewList.map((data: any) => (
             <>
-              <div key={data.boardReviewId} className="grid grid-cols-[74px_60px_720px_100px]">
+              <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
                 <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
                 <div className="row-span-2 ml-[18px] mt-[20px] h-[23px] font-semibold text-[16px] leading-[22px] text-[#FF611D]">
                   BEST
@@ -191,13 +244,13 @@ const boardDetail = () => {
           {boardReviewList.map((data: any) => (
             <>
               <div
-                key={data.boardReviewId}
+                key={data.boardReplyId}
                 className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]"
               >
                 {data.seq && data.level === 0 ? (
                   <>
                     <div
-                      key={data.boardReviewId}
+                      key={data.boardReplyId}
                       className="ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9] row-span-2"
                     ></div>
                     <div className="flex flex-row mt-[20px]">
@@ -217,13 +270,14 @@ const boardDetail = () => {
                       {data.content}
                     </div>
                     <div className="flex flex-row col-span-3">
-                      {findId === data.boardReviewId ? (
+                      {findId === data.boardReplyId ? (
                         <button
-                          id={data.boardReviewId}
+                          id={data.boardReplyId}
                           onClick={() => {
                             setFindId(0);
                             setReply(0);
                             setLevel(0);
+                            setReReplyTextValue('');
                           }}
                           className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                         >
@@ -231,10 +285,10 @@ const boardDetail = () => {
                         </button>
                       ) : (
                         <button
-                          id={data.boardReviewId}
+                          id={data.boardReplyId}
                           value={data.seq}
                           onClick={() => {
-                            setFindId(data.boardReviewId);
+                            setFindId(data.boardReplyId);
                             setReply(data.seq);
                             setLevel(1);
                           }}
@@ -243,7 +297,7 @@ const boardDetail = () => {
                           답글작성
                         </button>
                       )}
-                      {findId === data.boardReviewId ? (
+                      {findId === data.boardReplyId ? (
                         ''
                       ) : (
                         <>
@@ -254,13 +308,19 @@ const boardDetail = () => {
                         </>
                       )}
                     </div>
-                    {findId === data.boardReviewId && (
+                    {findId === data.boardReplyId && (
                       <>
                         <textarea
+                          onChange={e => {
+                            handleSetContentValue(e);
+                          }}
                           placeholder="댓글을 입력해주세요."
                           className="ml-[28px] mt-[16px] w-[834px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
                         ></textarea>
-                        <button className="relative left-[760px] mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]">
+                        <button
+                          onClick={handleReReply}
+                          className="relative left-[760px] mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+                        >
                           등록
                         </button>
                       </>
@@ -275,7 +335,7 @@ const boardDetail = () => {
                 {data.seq && data.level === 1 ? (
                   <>
                     <div
-                      key={data.boardReviewId}
+                      key={data.boardReplyId}
                       className="mt-[23px] grid grid-cols-[74px_60px_720px_100px]"
                     >
                       <BoardReplyIcon className="row-span-2 ml-[38px]" />
