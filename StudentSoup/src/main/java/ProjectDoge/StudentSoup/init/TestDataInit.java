@@ -1,7 +1,7 @@
 package ProjectDoge.StudentSoup.init;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
-import ProjectDoge.StudentSoup.dto.board.BoardReviewResDto;
+import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
@@ -21,8 +21,7 @@ import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
-import ProjectDoge.StudentSoup.service.BoardReview.BoardReviewRegisterService;
+import ProjectDoge.StudentSoup.service.boardreply.BoardReplyRegisterService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.board.BoardUpdateService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
@@ -64,7 +63,7 @@ public class TestDataInit {
     private  final MemberRepository memberRepository;
     private  final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
-    private final BoardReviewRegisterService boardReviewRegisterService;
+    private final BoardReplyRegisterService boardReplyRegisterService;
     private final BoardUpdateService boardUpdateService;
     @EventListener(ApplicationReadyEvent.class)
     public void init(){
@@ -307,26 +306,16 @@ public class TestDataInit {
         Board board = boardRepository.findByTitle("테스트 제목0");
         Member member = memberRepository.findById("dummyTest1").get();
 
-        for(int i =0; i<3; i++){
-            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
-            boardReviewRegisterService.join(boardReviewResDto);
+        for(int i = 1; i <= 5; i++){
+            BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트댓글 " + i, null, null, 0);
+            boardReplyRegisterService.join(boardReplyReqDto);
         }
-
-        for(int i =3; i<10; i++){
-            BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                    board.getId(),member.getMemberId(),"테스트 댓글"+i,i,0,0);
-            boardReviewRegisterService.TestJoin(boardReviewResDto);
-        }
-
-        for(int i =0; i< 10; i++){
-            for(int j =1; j<10 ; j++){
-                BoardReviewResDto boardReviewResDto = new BoardReviewResDto().createBoardReview(
-                        board.getId(),member.getMemberId(),"테스트 댓글"+j,i,j,1);
-                        boardReviewRegisterService.join(boardReviewResDto);
+        for(int i = 1; i <= 5; i++){
+            for(int j = 1; j <= 4; j++){
+                BoardReplyReqDto boardReplyReqDto = new BoardReplyReqDto(board.getId(), member.getMemberId(), "테스트 대 댓글 " + j, i, null, 1);
+                boardReplyRegisterService.join(boardReplyReqDto);
             }
         }
-
     }
 
     private void initRestaurantReview(){

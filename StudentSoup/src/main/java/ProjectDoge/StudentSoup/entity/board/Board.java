@@ -68,7 +68,7 @@ public class Board {
     private String authentication;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardReview> boardReviews = new ArrayList<>();
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board" , cascade = CascadeType.REMOVE)
     private List<BoardLike> boardLikes = new ArrayList<>();
@@ -159,11 +159,11 @@ public class Board {
 
     //== 비즈니스 로직 ==//
     public void addViewCount(){
-        this.view++;
+        this.view += 1;
     }
 
     public void addLikeCount() {
-        this.likedCount+=1;
+        this.likedCount += 1;
     }
 
     public void minusLikeCount() {
