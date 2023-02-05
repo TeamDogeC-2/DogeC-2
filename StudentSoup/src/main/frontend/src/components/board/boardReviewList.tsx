@@ -15,7 +15,7 @@ const boardReviewList = (data: any) => {
   const handleReReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: 299,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -34,10 +34,14 @@ const boardReviewList = (data: any) => {
       <div key={data.boardReplyId} className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
         {data.seq && data.level === 0 ? (
           <>
-            <div
-              key={data.boardReplyId}
-              className="ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9] row-span-2"
-            ></div>
+            {data.memberProfileImageName ? (
+              <img
+                src={`/image/${data.memberProfileImageName}`}
+                className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
+              />
+            ) : (
+              <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
+            )}
             <div className="flex flex-row mt-[20px]">
               <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
                 {data.nickname}
@@ -124,7 +128,14 @@ const boardReviewList = (data: any) => {
               className="mt-[23px] grid grid-cols-[74px_60px_720px_100px]"
             >
               <BoardReplyIcon className="row-span-2 ml-[38px]" />
-              <div className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
+              {data.memberProfileImageName ? (
+                <img
+                  src={`/image/${data.memberProfileImageName}`}
+                  className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
+                />
+              ) : (
+                <div className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
+              )}
               <div className="flex flex-row">
                 <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
                   {data.nickname}
