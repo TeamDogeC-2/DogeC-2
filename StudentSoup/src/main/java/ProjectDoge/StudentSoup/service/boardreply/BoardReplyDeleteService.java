@@ -50,6 +50,7 @@ public class BoardReplyDeleteService {
         }
         else{
             boardReply.setActive("N");
+            boardReply.setContent("삭제된 댓글 입니다.");
         }
     }
 
