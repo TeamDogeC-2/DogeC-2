@@ -8,9 +8,11 @@ import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
+import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
@@ -32,6 +34,7 @@ public class BoardUpdateService {
     private final FileRepository fileRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final BoardRepository boardRepository;
+    private final DepartmentRepository departmentRepository;
     private final MemberFindService memberFindService;
     private final BoardValidationService boardValidationService;
 
@@ -50,7 +53,9 @@ public class BoardUpdateService {
         Member member = memberFindService.findOne(memberId);
         boardValidationService.checkValidation(boardFormDto, member);
         updateBoardImage(multipartFiles, board);
-        board.editBoard(boardFormDto);
+        Department department = departmentRepository.findById(boardId).orElse(null);
+        board.editBoard(boardFormDto, department);
+        boardRepository.save(board);
         return getBoardDto(boardId, memberId, board);
     }
 
@@ -99,6 +104,4 @@ public class BoardUpdateService {
         board.setAuthentication("Y");
         boardRepository.save(board);
     }
-
-
 }
