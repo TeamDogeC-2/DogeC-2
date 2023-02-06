@@ -66,17 +66,20 @@ public class BoardUpdateService {
     }
 
     private void updateBoardImage(List<MultipartFile> multipartFiles, Board board) {
-        if(!multipartFiles.isEmpty()){
+        log.info("게시글 이미지 업데이트 호출 메소드가 실행되었습니다.");
+        if(multipartFiles != null && !multipartFiles.isEmpty()){
+            log.info("게시글 이미지가 존재하며 기존 이미지를 삭제하고 새로 업데이트 합니다.");
             deleteImageFile(board);
             uploadBoardImage(board, multipartFiles);
         }
+        log.info("게시글 이미지 업데이트가 완료되었습니다.");
     }
 
     private void deleteImageFile(Board board) {
         fileRepository.deleteAllInBatch(board.getImageFileList());
     }
 
-    private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
+    private void uploadBoardImage(Board board, List<MultipartFile> multipartFiles) {
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
