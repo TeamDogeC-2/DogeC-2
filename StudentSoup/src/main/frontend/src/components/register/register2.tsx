@@ -46,7 +46,7 @@ const Register2 = () => {
     if (checkButton) {
       axios
         .post(url, {
-          id: id,
+          id,
           pwd: password,
         })
         .then(function (response) {
