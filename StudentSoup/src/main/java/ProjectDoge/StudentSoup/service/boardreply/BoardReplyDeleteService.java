@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.exception.boardreply.BoardReplyNotOwnException;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyLikeRepository;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ public class BoardReplyDeleteService {
     private final BoardReplyFindService boardReplyFindService;
 
     private final BoardReplyRepository boardReplyRepository;
+
+    private final BoardReplyLikeRepository boardReplyLikeRepository;
 
     @Transactional
     public ConcurrentHashMap<String,Object> deleteBoardReply(Long boardReplyId, Long memberId){
@@ -51,6 +54,7 @@ public class BoardReplyDeleteService {
         else{
             boardReply.setActive("N");
             boardReply.setContent("삭제된 댓글 입니다.");
+            boardReplyLikeRepository.deleteAllInBatch(boardReply.getBoardReplyLikes());
         }
     }
 
