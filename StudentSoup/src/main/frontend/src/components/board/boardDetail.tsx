@@ -61,7 +61,6 @@ const boardDetail = () => {
     axios
       .get(`/boardReplies/192/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
       })
