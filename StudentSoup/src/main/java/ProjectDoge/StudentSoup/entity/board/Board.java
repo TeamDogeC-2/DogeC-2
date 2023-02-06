@@ -191,6 +191,9 @@ public class Board {
             this.department.getBoards().remove(this);
             this.department = department;
             this.department.getBoards().add(this);
+        } else if(this.department != null && department == null){
+            this.department.getBoards().remove(this);
+            this.department = department;
         }
     }
 }
