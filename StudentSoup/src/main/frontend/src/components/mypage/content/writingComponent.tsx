@@ -47,7 +47,7 @@ const WritingComponent = (data: any) => {
       </div>
       {set?.map((writing: any) => (
         <>
-        <div key={writing.memberId} className='h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]'>
+        <div key={writing.memberId} className='h-[50px] px-[34px] flex flex-row items-center text-[#353535] border-b border-[#D9D9D9]'>
           <span className='w-[60%] truncate text-[#909090]'>{writing.title}</span>
           <span className='w-[20%] text-center text-[#909090]'>{writing.viewCount}</span>
           <span className='w-[20%] text-center text-[#909090]'>{writing.likedCount}</span>

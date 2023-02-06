@@ -13,7 +13,7 @@ const ReplyComponent = () => {
   const [likedCount, setLikedCount] = useState<number>();
   const [size, setSize] = useState<number>(6);
 
-  const url = '/mypage/boardReview';
+  const url = '/mypage/boardReply';
   useEffect(() => {
     axios
       .post(url, {
@@ -22,8 +22,8 @@ const ReplyComponent = () => {
       .then(res => {
         isSet(res.data.content);
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.log(error);
       });
   }, []);
 
@@ -36,7 +36,7 @@ const ReplyComponent = () => {
       </div>
       {set?.map((reply: any) => (
         <>
-        <div key={reply.memberId} className='h-[50px] px-[34px] flex items-center overflow-hidden text-[#353535] border-b border-[#D9D9D9]'>
+        <div key={reply.memberId} className='h-[50px] px-[34px] flex flex-row items-center overflow-hidden text-[#353535] border-b border-[#D9D9D9]'>
           <span className='w-[60%] truncate text-[#909090]'>{reply.content}</span>
           <span className='w-[20%] text-center text-[#909090]'>{reply.writeDate}</span>
           <span className='w-[20%] text-center text-[#909090]'>{reply.likedCount}</span>

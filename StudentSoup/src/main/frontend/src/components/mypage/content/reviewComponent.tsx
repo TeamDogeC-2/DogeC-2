@@ -42,7 +42,7 @@ const ReviewComponent = () => {
           <span className='w-[60%] truncate text-[#909090]'>{review.content}</span>
           <span className='w-[20%] text-center text-[#909090]'>{review.likedCount}</span>
           <span key={review.starLiked} className='w-[20%] text-center text-[#909090]'>
-            <div className="ml-[5px] flex flex-row">
+            <div className="ml-[5px] flex flex-row justify-center">
               {starArr?.map((starLiked, index) => {
                 index += 1;
                 return (
