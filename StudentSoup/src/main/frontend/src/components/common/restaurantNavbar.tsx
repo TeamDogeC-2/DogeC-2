@@ -38,6 +38,10 @@ const RestaurantNavbar = () => {
       });
   };
 
+  useEffect(() => {
+    getSchool();
+  }, []);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputSchool(value);
@@ -52,6 +56,7 @@ const RestaurantNavbar = () => {
   };
 
   const handleClick = (e: any) => {
+    console.log(e);
     setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
     const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
@@ -64,6 +69,8 @@ const RestaurantNavbar = () => {
       alert('학교를 검색해주세요');
     } else if (inputSchool === listSchool) {
       history.push('/restaurant', inputSchool);
+      setInputSchool('');
+      setSearchSchool([]);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
     }
@@ -117,7 +124,7 @@ const RestaurantNavbar = () => {
             history.push('/');
           }}
         />
-        <div className="w-[466px] h-[44px] px-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
+        <div className="w-[466px] h-[44px] pl-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
           <svg
             width="25"
             height="24"
@@ -138,10 +145,27 @@ const RestaurantNavbar = () => {
             placeholder="학교 명을 입력하세요"
             className="w-full text-[#717171] bg-transparent outline-0"
           ></input>
-          <button onClick={handlePushRestaurant} className="hidden">
+          <button
+            onClick={handlePushRestaurant}
+            className="flex items-center justify-center w-[80px] h-full bg-[#FF611D] text-white rounded-[5px]"
+          >
             검색
           </button>
         </div>
+        {searchSchool?.map(school => (
+          <div
+            key={school.schoolId}
+            className="absolute top-[70px] left-[195px] w-[466px] h-[58px] rounded-[5px] bg-white"
+          >
+            <span
+              onClick={handleClick}
+              id={school.schoolId}
+              className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium"
+            >
+              {school.schoolName}
+            </span>
+          </div>
+        ))}
       </div>
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
