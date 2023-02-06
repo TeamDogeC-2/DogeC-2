@@ -82,7 +82,7 @@ const MypageReviewModal = (props: any) => {
           },
         )
         .then(function (response) {
-          alert('리뷰 작성이 완료되었습니다.');
+          alert('리뷰 수정이 완료되었습니다.');
           setShowImages([]);
           setRating(0);
           setHover(0);
