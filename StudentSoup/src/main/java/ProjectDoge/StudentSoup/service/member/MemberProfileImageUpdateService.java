@@ -27,16 +27,17 @@ public class MemberProfileImageUpdateService {
     @Transactional
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
         log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
-        Long fileId = fileService.join(multipartFile);
         Member member = memberFindService.findOne(memberId);
-        return createProfileUpdateMemberDto(fileId, member);
+        return createProfileUpdateMemberDto(member, multipartFile);
     }
 
-    private MemberDto createProfileUpdateMemberDto(Long fileId, Member member) {
+    private MemberDto createProfileUpdateMemberDto(Member member, MultipartFile multipartFile) {
         if(member.getImageFile() != null){
             fileService.deleteFile(member.getImageFile());
             fileRepository.delete(member.getImageFile());
         }
+
+        Long fileId = fileService.join(multipartFile);
 
         if(fileId != null){
             ImageFile imageFile = fileFindService.findOne(fileId);
