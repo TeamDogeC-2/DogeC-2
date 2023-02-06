@@ -14,6 +14,7 @@ const MypageReviewModal = (props: any) => {
   const [count, setCount] = useState<number>(0);
   const [maxCount, setMaxCount] = useState<number>(400);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
+  const [valueChange, setValueChange] = useState<boolean>(false);
 
   const score = clicked.filter(Boolean).length;
 
@@ -46,6 +47,10 @@ const MypageReviewModal = (props: any) => {
     setMaxCount(maxCount);
   };
 
+  useEffect(() => {
+    setCount(textValue.length);
+  }, [valueChange]);
+
   const cancelReviewValue = (e: any) => {
     if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
       setShowImages([]);
@@ -60,7 +65,7 @@ const MypageReviewModal = (props: any) => {
   const handleReviewValue = (e: any) => {
     if (count < 5) {
       alert('5자 이상 입력해야 합니다.');
-    } else if (score === 0) {
+    } else if (rating === 0) {
       alert('별점은 최소 1점부터 가능합니다.');
     } else {
       axios
@@ -107,6 +112,7 @@ const MypageReviewModal = (props: any) => {
                 onClick={() => {
                   handleStarClick(star);
                   setRating(index);
+                  setValueChange(true);
                 }}
                 onMouseEnter={() => {
                   setHover(index);
@@ -141,6 +147,7 @@ const MypageReviewModal = (props: any) => {
             maxLength={399}
             onChange={e => {
               handleSetValue(e);
+              setValueChange(true);
             }}
           ></textarea>
           <div className="relative w-[150px] h-[20px] left-[573px] bottom-[40px] font-normal text-[16px] leading-[22px] text-[#5F5F5F]">
