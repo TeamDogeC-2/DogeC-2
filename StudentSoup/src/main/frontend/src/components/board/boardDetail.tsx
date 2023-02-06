@@ -29,17 +29,17 @@ const boardDetail = () => {
   const [category, setCategory] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
   const saveMemberName = sessionStorage.getItem('nickname');
-  const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
   const [replyTextValue, setReplyTextValue] = useState<string>('');
   const [like, isLike] = useState<boolean>(false);
   const [clickLike, isClickLike] = useState<boolean>();
   const [likeCount, setLikeCount] = useState<number>();
+  const [replyLikeCount, setReplyLikeCount] = useState<number>();
+  const [replyLike, isReplyLike] = useState<boolean>();
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/292/${saveMemberId}`)
+      .post(`/board/192/${saveMemberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardReviewCount(res.data.reviewCount);
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -58,7 +58,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/292/${saveMemberId}`)
+      .get(`/boardReplies/192/${saveMemberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -85,7 +85,7 @@ const boardDetail = () => {
   const handleReply = (e: any) => {
     axios
       .put('/boardReply', {
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -117,7 +117,7 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/292/${saveMemberId}/like`)
+      .post(`/board/192/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
@@ -127,6 +127,21 @@ const boardDetail = () => {
       });
     isLike(!like);
     isBoardLiked(!boardLiked);
+  };
+
+  const handleReplyLikeCount = (e: any) => {
+    const boardReplyId = e.target.id;
+    axios
+      .post(`/boardReply/${boardReplyId}/${saveMemberId}/like`)
+      .then(res => {
+        setReplyLikeCount(res.data.data.likeCount);
+        isReplyLike(res.data.data.like);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isReplyLike(!replyLike);
   };
   return (
     <>
@@ -277,7 +292,11 @@ const boardDetail = () => {
                   {data.content}
                 </div>
                 <div className="flex flex-row ml-[853px] col-span-4 ">
-                  <BoardWriteReplyHeart className="mt-[2px] ml-[13px]" />
+                  <BoardWriteReplyHeart
+                    id={data.boardReplyId}
+                    onClick={handleReplyLikeCount}
+                    className="mt-[2px] ml-[13px]"
+                  />
                   <div className="ml-[6.03px] font-normal text-[16px] leading-[21px] text-[#898989]">
                     {data.likeCount}
                   </div>
