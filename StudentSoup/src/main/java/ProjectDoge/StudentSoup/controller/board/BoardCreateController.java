@@ -27,7 +27,7 @@ public class BoardCreateController {
     public ConcurrentHashMap<String,Object> createBoard(@PathVariable Long memberId,
                                                         BoardFormDto boardFormDto, HttpServletRequest request){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
-        boardFormDto.setIp(httpServletRequest.getRemoteAddr());
+        boardFormDto.setIp(request.getRemoteAddr());
         Long boardId = boardResisterService.join(memberId, boardFormDto, boardFormDto.getMultipartFileList());
         resultMap.put("boardId",boardId);
         resultMap.put("result","ok");
