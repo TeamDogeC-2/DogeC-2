@@ -80,7 +80,8 @@ public class Board {
     }
     public void setDepartment(Department department){
         this.department = department;
-        department.getBoards().add(this);
+        if(department != null)
+            department.getBoards().add(this);
     }
 
     //== 생성 메서드 ==//
