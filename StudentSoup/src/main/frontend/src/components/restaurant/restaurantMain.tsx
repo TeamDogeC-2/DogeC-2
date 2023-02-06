@@ -381,11 +381,9 @@ const RestaurantMain = (_props: any) => {
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
               {state.state}
-              {set?.map(school => (
-                <span id={school.restaurantCategory} key={school.restaurantCategory}
-                  className="text-[18px] text-[#FF611D]">({total}곳)
-                </span>
-              ))}
+              <span
+                className="text-[18px] text-[#FF611D]">({total}곳)
+              </span>
             </div>
             <div>
               <span>현위치: </span>
