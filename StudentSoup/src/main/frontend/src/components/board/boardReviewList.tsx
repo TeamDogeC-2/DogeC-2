@@ -5,7 +5,6 @@ import { ReactComponent as BardWriteReplyActiveHeart } from '../../img/BoardWrit
 import axios from 'axios';
 
 const boardReviewList = (data: any) => {
-  console.log(data);
   const [reply, setReply] = useState<number>(0);
   const [level, setLevel] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
