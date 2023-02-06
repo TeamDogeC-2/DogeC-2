@@ -1,11 +1,23 @@
+import axios from 'axios';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Modal = (props: any) => {
   const history = useHistory();
+
+  const logoutUrl = '/members/logout';
+
   const handleClick = (e: any) => {
     e.stopPropagation();
     if (e.target.innerHTML === '로그아웃') {
+      axios
+        .post(logoutUrl)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
       if (sessionStorage.getItem('saved') === String(true)) {
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('nickname');
@@ -40,10 +52,11 @@ const Modal = (props: any) => {
       <div className="w-[290px] h-[240.45px] absolute top-0 right-0 mr-[24px] mt-[108.89px] border-[1px] border-white bg-white rounded-[5px] z-[56]">
         <div className="topModal">
           <ul className="text-[14px] fw-400 leading-[18px]">
-            <li onClick={handleClickMypage} className="flex items-center justify-between cursor-pointer">
-              <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">
-                마이페이지
-              </div>
+            <li
+              onClick={handleClickMypage}
+              className="flex items-center justify-between cursor-pointer"
+            >
+              <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">마이페이지</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
             <li className="flex items-center justify-between">
