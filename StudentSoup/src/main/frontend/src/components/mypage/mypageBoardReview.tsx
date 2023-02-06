@@ -111,9 +111,6 @@ const MypageBoardReview = () => {
     setReviewId(id);
     setModal(true);
   };
-  useEffect(() => {
-    console.log(reviewId);
-  }, [isModal]);
 
   return (
     <div className="flex flex-[9] w-full h-[150vh] z-[1] bg-zinc-100">
