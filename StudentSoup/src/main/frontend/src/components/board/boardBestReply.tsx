@@ -6,8 +6,12 @@ const boardBestReplyHeart = (data: any) => {
   const [replyLikeCount, setReplyLikeCount] = useState<number>();
   const [replyLike, isReplyLike] = useState<boolean>(data.like);
   const [like, isLike] = useState<boolean>(false);
+  const [replyTextValue, setReplyTextValue] = useState<string>('');
   const saveMemberId = sessionStorage.getItem('memberId');
   const saveMemberName = sessionStorage.getItem('nickname');
+  const [editClick, isEditClick] = useState<boolean>(false);
+  const [contented, setContented] = useState<string>('');
+  const [saveBoardId, setSaveBoardId] = useState<any>();
   const handleReplyLikeCount = (e: any) => {
     const boardReplyId = e.target.id;
     axios
@@ -24,6 +28,10 @@ const boardBestReplyHeart = (data: any) => {
     isLike(!like);
   };
 
+  const handleReplySetContentValue = (e: any) => {
+    setReplyTextValue(e.target.value);
+    setContented(e.target.value);
+  };
   const handleDeleteReply = (e: any) => {
     const boardReplyId = e.target.id;
     console.log(boardReplyId);
@@ -43,6 +51,46 @@ const boardBestReplyHeart = (data: any) => {
       /* empty */
     }
   };
+  const handleEditClick = (e: any) => {
+    setSaveBoardId(e.target.id);
+    axios
+      .get(`/boardReply/${e.target.id}/${saveMemberId}`)
+      .then(res => {
+        setContented(res.data.content);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isEditClick(!editClick);
+  };
+  const handleEditReply = (e: any) => {
+    const boardReplyId = e.target.id;
+    console.log(boardReplyId);
+    if (replyTextValue.length === 0) {
+      alert('댓글이 비어있거나 수정되지 않았습니다.');
+      return;
+    }
+    if (replyTextValue.length < 5 || replyTextValue.length > 500) {
+      alert('댓글은 5자이상 500자 이하입니다.');
+      return;
+    }
+    axios
+      .patch(`/boardReply/${saveBoardId}`, {
+        boardReplyId,
+        boardId: 192,
+        memberId: saveMemberId,
+        content: replyTextValue,
+      })
+      .then(res => {
+        alert('성공적으로 수정하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
@@ -73,15 +121,35 @@ const boardBestReplyHeart = (data: any) => {
                 <></>
               ) : (
                 <>
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div
-                    onClick={handleDeleteReply}
-                    id={data.boardReplyId}
-                    className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
-                  >
-                    삭제
-                  </div>
+                  {editClick ? (
+                    <>
+                      <div
+                        id={data.boardReplyId}
+                        onClick={handleEditClick}
+                        className="text-[14px] text-[#989898 cursor-pointer"
+                      >
+                        수정취소
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        id={data.boardReplyId}
+                        onClick={handleEditClick}
+                        className="text-[14px] text-[#989898] cursor-pointer"
+                      >
+                        수정
+                      </div>
+                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                      <div
+                        onClick={handleDeleteReply}
+                        id={data.boardReplyId}
+                        className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                      >
+                        삭제
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </>
@@ -90,7 +158,29 @@ const boardBestReplyHeart = (data: any) => {
           )}
         </div>
         <div className="ml-[2px] mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-          {data.content}
+          {editClick ? (
+            <>
+              <div className="flex flex-row">
+                <textarea
+                  value={contented}
+                  onChange={e => {
+                    handleReplySetContentValue(e);
+                  }}
+                  placeholder="댓글을 입력해주세요."
+                  className="w-[534px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
+                ></textarea>
+                <button
+                  onClick={handleEditReply}
+                  className="ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+                >
+                  등록
+                </button>
+              </div>
+            </>
+          ) : (
+            data.content
+          )}
+          {/* {data.content} */}
         </div>
         <div className="flex flex-row ml-[853px] col-span-4 ">
           {data.active === 'N' ? (
