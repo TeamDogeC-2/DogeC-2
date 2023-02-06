@@ -93,15 +93,21 @@ const boardReviewList = (data: any) => {
             <div className="flex flex-row ml-[19px] mt-[18px]">
               {saveMemberName === data.nickname ? (
                 <>
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div
-                    onClick={handleDeleteReply}
-                    id={data.boardReplyId}
-                    className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
-                  >
-                    삭제
-                  </div>
+                  {data.active === 'N' ? (
+                    <></>
+                  ) : (
+                    <>
+                      <div className="text-[14px] text-[#989898]">수정</div>
+                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                      <div
+                        onClick={handleDeleteReply}
+                        id={data.boardReplyId}
+                        className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                      >
+                        삭제
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 ''
@@ -111,80 +117,92 @@ const boardReviewList = (data: any) => {
               {data.content}
             </div>
             <div className="flex flex-row col-span-3">
-              {findId === data.boardReplyId ? (
-                <button
-                  id={data.boardReplyId}
-                  onClick={() => {
-                    setFindId(0);
-                    setReply(0);
-                    setLevel(0);
-                    setReReplyTextValue('');
-                  }}
-                  className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
-                >
-                  답글작성 취소
-                </button>
-              ) : (
-                <button
-                  id={data.boardReplyId}
-                  value={data.seq}
-                  onClick={() => {
-                    setFindId(data.boardReplyId);
-                    setReply(data.seq);
-                    setLevel(1);
-                  }}
-                  className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
-                >
-                  답글작성
-                </button>
-              )}
-              {findId === data.boardReplyId ? (
-                ''
+              {data.active === 'N' ? (
+                <></>
               ) : (
                 <>
-                  {replyLike ? (
-                    <svg
+                  {findId === data.boardReplyId ? (
+                    <button
                       id={data.boardReplyId}
-                      onClick={handleReplyLikeCount}
-                      className="ml-[725px] mt-[2px]"
-                      width="16"
-                      height="14"
-                      viewBox="0 0 16 14"
-                      fill="#FF611D"
-                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={() => {
+                        setFindId(0);
+                        setReply(0);
+                        setLevel(0);
+                        setReReplyTextValue('');
+                      }}
+                      className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                     >
-                      <path
-                        id={data.boardReplyId}
-                        d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
-                        stroke="#FF661D"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                      답글작성 취소
+                    </button>
                   ) : (
-                    <svg
+                    <button
                       id={data.boardReplyId}
-                      onClick={handleReplyLikeCount}
-                      className="ml-[725px] mt-[2px]"
-                      width="16"
-                      height="14"
-                      viewBox="0 0 16 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                      value={data.seq}
+                      onClick={() => {
+                        setFindId(data.boardReplyId);
+                        setReply(data.seq);
+                        setLevel(1);
+                      }}
+                      className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                     >
-                      <path
-                        id={data.boardReplyId}
-                        d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
-                        stroke="#898989"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                      답글작성
+                    </button>
                   )}
+                  {findId === data.boardReplyId ? (
+                    ''
+                  ) : (
+                    <>
+                      {data.active === 'N' ? (
+                        <></>
+                      ) : (
+                        <>
+                          {replyLike ? (
+                            <svg
+                              id={data.boardReplyId}
+                              onClick={handleReplyLikeCount}
+                              className="ml-[725px] mt-[2px]"
+                              width="16"
+                              height="14"
+                              viewBox="0 0 16 14"
+                              fill="#FF611D"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                id={data.boardReplyId}
+                                d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                                stroke="#FF661D"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              id={data.boardReplyId}
+                              onClick={handleReplyLikeCount}
+                              className="ml-[725px] mt-[2px]"
+                              width="16"
+                              height="14"
+                              viewBox="0 0 16 14"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                id={data.boardReplyId}
+                                d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                                stroke="#898989"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          )}
 
-                  <div className="ml-[6.03px] mt-[1px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    {like ? ReplyLikeCount : data.likeCount}
-                  </div>
+                          <div className="ml-[6.03px] mt-[1px] font-normal text-[16px] leading-[21px] text-[#898989]">
+                            {like ? ReplyLikeCount : data.likeCount}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -276,11 +294,24 @@ const boardReviewList = (data: any) => {
                     />
                   </svg>
                 ) : (
-                  <BoardWriteReplyHeart
+                  <svg
                     id={data.boardReplyId}
                     onClick={handleReplyLikeCount}
                     className="mt-[5px] ml-[13px]"
-                  />
+                    width="16"
+                    height="14"
+                    viewBox="0 0 16 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={data.boardReplyId}
+                      d="M4.49271 1C2.56374 1 1 2.5481 1 4.45778C1 5.99947 1.61099 9.65822 7.62742 13.3574C7.8453 13.4914 8.12555 13.4914 8.34343 13.3574C14.3598 9.65822 14.9708 5.99947 14.9708 4.45778C14.9708 2.5481 13.4071 1 11.4781 1C9.54918 1 7.98542 3.09563 7.98542 3.09563C7.98542 3.09563 6.42168 1 4.49271 1Z"
+                      stroke="#898989"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 )}
 
                 <div className="ml-[6.03px] mt-[3px] font-normal text-[16px] leading-[21px] mb-[10px] text-[#898989]">
