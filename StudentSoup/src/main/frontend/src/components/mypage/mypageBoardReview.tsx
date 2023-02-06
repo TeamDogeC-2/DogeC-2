@@ -1,9 +1,10 @@
 import axios from 'axios';
 import cn from 'clsx';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReviewStarView from '../restaurant/reviewStarView';
 import MypageBoard from './mypageBoard';
 import MypageBoardReply from './mypageBoardReply';
+import MypageReviewModal from './mypageReviewModal';
 
 const MypageBoardReview = () => {
   const reviewUrl = '/mypage/restaurantReview';
@@ -18,6 +19,8 @@ const MypageBoardReview = () => {
   const [clickBoardOrReply, setClickBoardOrReply] = useState<string>('게시판');
   const [boardCount, setBoardCount] = useState<number>();
   const [replyCount, setReplyCount] = useState<number>();
+  const [isModal, setModal] = useState<Boolean>(false);
+  const [reivewId, setReviewId] = useState<number>();
 
   useEffect(() => {
     axios
@@ -56,6 +59,10 @@ const MypageBoardReview = () => {
       });
   }, []);
 
+  const onClickToggleModal = useCallback(() => {
+    setModal(!isModal);
+  }, [isModal]);
+
   const handleClickButton = (_e: any) => {
     setClick(click + 1);
     setSize(size + 6);
@@ -84,6 +91,7 @@ const MypageBoardReview = () => {
     setSorted(id);
   };
 
+  // 게시글 클릭 시, 이동 기능 추가
   const handlePushBoard = (e: any) => {
     const id = e.target.id;
   };
@@ -97,6 +105,15 @@ const MypageBoardReview = () => {
     const id = e.target.id;
     setClickBoardOrReply(id);
   };
+
+  const handleModify = (e: any) => {
+    const id = e.target.id;
+    setReviewId(id);
+    setModal(true);
+  };
+  useEffect(() => {
+    console.log(reivewId);
+  }, [isModal]);
 
   return (
     <div className="flex flex-[9] w-full h-[150vh] z-[1] bg-zinc-100">
@@ -170,7 +187,11 @@ const MypageBoardReview = () => {
                     </div>
                     <div className="w-[20%] flex flex-col items-center justify-center">
                       <div>{restaurantReivew.writeDate}</div>
-                      <button className="w-[105px] h-[35px] mt-[20px] bg-[#FF611D] rounded-[5px] text-white">
+                      <button
+                        onClick={handleModify}
+                        id={restaurantReivew.restaurantReviewId}
+                        className="w-[105px] h-[35px] mt-[20px] bg-[#FF611D] rounded-[5px] text-white"
+                      >
                         수정하기
                       </button>
                       <button
@@ -197,6 +218,7 @@ const MypageBoardReview = () => {
               )}
             </div>
             <div className="w-full h-[3px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
+            {isModal && <MypageReviewModal onClickToggleModal={onClickToggleModal} />}
           </div>
         </div>
       </div>
