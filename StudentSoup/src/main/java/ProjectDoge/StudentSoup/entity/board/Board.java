@@ -90,6 +90,7 @@ public class Board {
         this.setWriteDate(dateFormat(LocalDateTime.now()));
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setContent(form.getContent());
+        this.setIp(form.getIp());
         this.setView(0);
         this.setLikedCount(0);
         this.setMember(member);

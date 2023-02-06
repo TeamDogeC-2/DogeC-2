@@ -18,6 +18,8 @@ public class BoardFormDto {
     private BoardCategory boardCategory;
     private String content;
 
+    private String ip;
+
     private List<MultipartFile> multipartFileList;
 
 
