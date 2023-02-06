@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.file.FileFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.file.FileService;
@@ -22,6 +23,7 @@ public class MemberProfileImageUpdateService {
     private final FileService fileService;
     private final FileRepository fileRepository;
     private final FileFindService fileFindService;
+    private final MemberRepository memberRepository;
     @Transactional
     public MemberDto memberProfileUpdate(Long memberId, MultipartFile multipartFile){
         log.info("멤버 프로필이미지 업데이트가 시작되었습니다.");
@@ -40,10 +42,10 @@ public class MemberProfileImageUpdateService {
             ImageFile imageFile = fileFindService.findOne(fileId);
             member.setImageFile(imageFile);
             log.info("멤버 프로필이미지가 업데이트 되었습니다. fileName : [{}]", imageFile.getFileOriginalName());
-            return new MemberDto().getMemberDto(member);
         } else {
             log.info("전송된 프로필 이미지가 없으므로, 프로필 이미지가 업데이트되지 않았습니다.");
-            return new MemberDto().getMemberDto(member);
         }
+        memberRepository.save(member);
+        return new MemberDto().getMemberDto(member);
     }
 }
