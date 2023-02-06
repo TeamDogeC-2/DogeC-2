@@ -99,7 +99,7 @@ const MypageBoard = () => {
       )}
       <div className="w-full h-[2px] bg-[#BCBCBC]"></div>
       {totalBoard >= 6 && (
-        <div className="absolute right-[400px] top-[620px]">
+        <div className="right-[400px] ml-[120px] top-[620px]">
           <div className="flex flex-row mb-[55px]">
             {clickPage === 1 ? (
               <LeftFillNoneIcon className="ml-[234px] mt-[55.63px]" />
