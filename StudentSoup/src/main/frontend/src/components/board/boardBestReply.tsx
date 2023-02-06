@@ -19,7 +19,6 @@ const boardBestReplyHeart = (data: any) => {
       .then(res => {
         setReplyLikeCount(res.data.data.likeCount);
         isReplyLike(res.data.data.like);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -34,13 +33,10 @@ const boardBestReplyHeart = (data: any) => {
   };
   const handleDeleteReply = (e: any) => {
     const boardReplyId = e.target.id;
-    console.log(boardReplyId);
-    console.log(saveMemberId);
     if (confirm('정말로 댓글을 삭제하시겟습니까?')) {
       axios
         .delete(`/boardReply/${boardReplyId}/${saveMemberId}`)
         .then(res => {
-          console.log(res.data);
           alert('댓글이 삭제되었습니다.');
           location.reload();
         })
@@ -57,16 +53,15 @@ const boardBestReplyHeart = (data: any) => {
       .get(`/boardReply/${e.target.id}/${saveMemberId}`)
       .then(res => {
         setContented(res.data.content);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
       });
+
     isEditClick(!editClick);
   };
   const handleEditReply = (e: any) => {
     const boardReplyId = e.target.id;
-    console.log(boardReplyId);
     if (replyTextValue.length === 0) {
       alert('댓글이 비어있거나 수정되지 않았습니다.');
       return;
@@ -162,6 +157,7 @@ const boardBestReplyHeart = (data: any) => {
             <>
               <div className="flex flex-row">
                 <textarea
+                  maxLength={500}
                   value={contented}
                   onChange={e => {
                     handleReplySetContentValue(e);
@@ -180,7 +176,6 @@ const boardBestReplyHeart = (data: any) => {
           ) : (
             data.content
           )}
-          {/* {data.content} */}
         </div>
         <div className="flex flex-row ml-[853px] col-span-4 ">
           {data.active === 'N' ? (
