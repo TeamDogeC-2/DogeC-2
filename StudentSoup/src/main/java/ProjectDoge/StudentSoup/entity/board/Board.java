@@ -79,9 +79,14 @@ public class Board {
         school.getBoards().add(this);
     }
     public void setDepartment(Department department){
+        if(department.getBoards().contains(this))
+            department.getBoards().remove(this);
+
         this.department = department;
-        if(department != null)
+
+        if(department != null) {
             department.getBoards().add(this);
+        }
     }
 
     //== 생성 메서드 ==//
