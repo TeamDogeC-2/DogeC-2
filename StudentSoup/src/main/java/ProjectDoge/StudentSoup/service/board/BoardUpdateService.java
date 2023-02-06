@@ -53,7 +53,7 @@ public class BoardUpdateService {
         Member member = memberFindService.findOne(memberId);
         boardValidationService.checkValidation(boardFormDto, member);
         updateBoardImage(multipartFiles, board);
-        Department department = departmentRepository.findById(boardId).orElse(null);
+        Department department = departmentRepository.findById(boardFormDto.getDepartmentId()).orElse(null);
         board.editBoard(boardFormDto, department);
         boardRepository.save(board);
         return getBoardDto(boardId, memberId, board);
