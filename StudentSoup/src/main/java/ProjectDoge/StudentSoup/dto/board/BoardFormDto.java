@@ -17,9 +17,7 @@ public class BoardFormDto {
     private String title;
     private BoardCategory boardCategory;
     private String content;
-
     private String ip;
-
     private List<MultipartFile> multipartFileList;
 
 
@@ -31,7 +29,7 @@ public class BoardFormDto {
         this.setContent(board.getContent());
 
     }
-    public BoardFormDto createBoardFormDto(String title,BoardCategory category,String content){
+    public BoardFormDto createBoardFormDto(String title, BoardCategory category, String content){
         this.title = title;
         this.boardCategory = category;
         this.content = content;

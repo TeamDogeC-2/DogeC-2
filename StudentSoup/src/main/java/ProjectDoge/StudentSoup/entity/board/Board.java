@@ -135,9 +135,11 @@ public class Board {
         return "Y";
     }
 
-    public Board editBoard(BoardFormDto boardFormDto){
+    public Board editBoard(BoardFormDto boardFormDto, Department department){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
+        this.setDepartment(department);
+        this.setBoardCategory(boardFormDto.getBoardCategory());
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }
