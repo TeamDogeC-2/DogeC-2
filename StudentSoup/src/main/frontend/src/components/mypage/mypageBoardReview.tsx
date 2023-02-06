@@ -20,7 +20,7 @@ const MypageBoardReview = () => {
   const [boardCount, setBoardCount] = useState<number>();
   const [replyCount, setReplyCount] = useState<number>();
   const [isModal, setModal] = useState<Boolean>(false);
-  const [reivewId, setReviewId] = useState<number>();
+  const [reviewId, setReviewId] = useState<number>();
 
   useEffect(() => {
     axios
@@ -112,7 +112,7 @@ const MypageBoardReview = () => {
     setModal(true);
   };
   useEffect(() => {
-    console.log(reivewId);
+    console.log(reviewId);
   }, [isModal]);
 
   return (
@@ -218,7 +218,7 @@ const MypageBoardReview = () => {
               )}
             </div>
             <div className="w-full h-[3px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
-            {isModal && <MypageReviewModal onClickToggleModal={onClickToggleModal} />}
+            {isModal && <MypageReviewModal onClickToggleModal={onClickToggleModal} reviewId={reviewId} />}
           </div>
         </div>
       </div>
