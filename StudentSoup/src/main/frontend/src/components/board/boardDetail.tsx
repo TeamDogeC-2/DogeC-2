@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import BoardReviewList from './boardReviewList';
+import BoardBestReplyHeart from './boardBestReplyHeart';
 import axios from 'axios';
 import { ReactComponent as BoardWriteIcon } from '../../img/BoardWriteIcon.svg';
 import { ReactComponent as BoardWriteIconHeart } from '../../img/boardWriteIconHeart.svg';
 import { ReactComponent as BoardOrangeIconHeart } from '../../img/boardOrangeIconHeart.svg';
 import { ReactComponent as BoardWriteWhiteHeart } from '../../img/BoardWriteWhiteHeart.svg';
 import { ReactComponent as BoardWriteActiveHeart } from '../../img/BoardWriteActiveHeart.svg';
-import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
 import { Link, useHistory } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { Link, useHistory } from 'react-router-dom';
 const boardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [boardImg, setBoardImg] = useState<any>([]);
+  const [active, setActive] = useState<string>('');
   const [boardReviewCount, setBoardReviewCount] = useState<number>();
   const [boardContent, setBoardContent] = useState<string>('');
   const [boardNickName, setBoardNickName] = useState<string>('');
@@ -60,6 +61,7 @@ const boardDetail = () => {
     axios
       .get(`/boardReplies/192/${saveMemberId}`)
       .then(res => {
+        console.log(res.data);
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
       })
@@ -92,7 +94,7 @@ const boardDetail = () => {
         seq: reply,
       })
       .then(res => {
-        alert('성공');
+        alert('성공적으로 댓글을 작성하였습니다.');
         location.reload();
       })
       .catch(err => {
@@ -129,20 +131,6 @@ const boardDetail = () => {
     isBoardLiked(!boardLiked);
   };
 
-  const handleReplyLikeCount = (e: any) => {
-    const boardReplyId = e.target.id;
-    axios
-      .post(`/boardReply/${boardReplyId}/${saveMemberId}/like`)
-      .then(res => {
-        setReplyLikeCount(res.data.data.likeCount);
-        isReplyLike(res.data.data.like);
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    isReplyLike(!replyLike);
-  };
   return (
     <>
       <MypageNavbar />
@@ -256,53 +244,7 @@ const boardDetail = () => {
           </div>
           {boardBestReviewList.map((data: any) => (
             <>
-              <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
-                {data.memberProfileImageName ? (
-                  <img
-                    src={`/image/${data.memberProfileImageName}`}
-                    className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
-                  />
-                ) : (
-                  <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-                )}
-
-                <div className="row-span-2 ml-[18px] mt-[20px] h-[23px] font-semibold text-[16px] leading-[22px] text-[#FF611D]">
-                  BEST
-                </div>
-                <div className="flex flex-row mt-[20px]">
-                  <div className="h-[23px] ml-[2px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                    {data.nickname}
-                  </div>
-                  <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                    {data.writeDate}
-                  </div>
-                </div>
-                <div className="flex flex-row ml-[3px] row-span-2 mt-[20px]">
-                  {saveMemberName === data.nickname ? (
-                    <>
-                      <div className="text-[14px] text-[#989898]">수정</div>
-                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                      <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                </div>
-                <div className="ml-[2px] mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                  {data.content}
-                </div>
-                <div className="flex flex-row ml-[853px] col-span-4 ">
-                  <BoardWriteReplyHeart
-                    id={data.boardReplyId}
-                    onClick={handleReplyLikeCount}
-                    className="mt-[2px] ml-[13px]"
-                  />
-                  <div className="ml-[6.03px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    {data.likeCount}
-                  </div>
-                </div>
-                <div className="col-span-3 ml-[28px] mt-[5px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-              </div>
+              <BoardBestReplyHeart {...data} data={data} />
             </>
           ))}
 
