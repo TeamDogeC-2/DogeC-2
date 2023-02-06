@@ -6,14 +6,18 @@ import axios from 'axios';
 
 const boardReviewList = (data: any) => {
   const [reply, setReply] = useState<number>(0);
-  const [level, setLevel] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
   const saveMemberId = sessionStorage.getItem('memberId');
   const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
   const saveMemberName = sessionStorage.getItem('nickname');
   const [ReplyLikeCount, setReplyLikeCount] = useState<any>();
   const [replyLike, isReplyLike] = useState<boolean>(data.like);
+  const [editClick, isEditClick] = useState<boolean>(false);
   const [like, isLike] = useState<boolean>(false);
+  const [saveBoardId, setSaveBoardId] = useState<any>();
+  const [contented, setContented] = useState<string>('');
+  const [edit, isEdit] = useState<number>(0);
+  const [replyTextValue, setReplyTextValue] = useState<string>('');
   const handleSetContentValue = (e: any) => {
     setReReplyTextValue(e.target.value);
   };
@@ -51,13 +55,10 @@ const boardReviewList = (data: any) => {
 
   const handleDeleteReply = (e: any) => {
     const boardReplyId = e.target.id;
-    console.log(boardReplyId);
-    console.log(saveMemberId);
     if (confirm('정말로 댓글을 삭제하시겟습니까?')) {
       axios
         .delete(`/boardReply/${boardReplyId}/${saveMemberId}`)
         .then(res => {
-          console.log(res.data);
           alert('댓글이 삭제되었습니다.');
           location.reload();
         })
@@ -68,7 +69,48 @@ const boardReviewList = (data: any) => {
       /* empty */
     }
   };
+  const handleEditClick = (e: any) => {
+    setSaveBoardId(e.target.id);
+    axios
+      .get(`/boardReply/${e.target.id}/${saveMemberId}`)
+      .then(res => {
+        setContented(res.data.content);
+      })
+      .catch(err => {
+        console.error(err);
+      });
 
+    isEditClick(!editClick);
+  };
+  const handleReplySetContentValue = (e: any) => {
+    setReplyTextValue(e.target.value);
+    setContented(e.target.value);
+  };
+  const handleEditReply = (e: any) => {
+    const boardReplyId = e.target.id;
+    if (replyTextValue.length === 0) {
+      alert('댓글이 비어있거나 수정되지 않았습니다.');
+      return;
+    }
+    if (replyTextValue.length < 5 || replyTextValue.length > 500) {
+      alert('댓글은 5자이상 500자 이하입니다.');
+      return;
+    }
+    axios
+      .patch(`/boardReply/${saveBoardId}`, {
+        boardReplyId,
+        boardId: 192,
+        memberId: saveMemberId,
+        content: replyTextValue,
+      })
+      .then(res => {
+        alert('성공적으로 수정하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
@@ -97,15 +139,35 @@ const boardReviewList = (data: any) => {
                     <></>
                   ) : (
                     <>
-                      <div className="text-[14px] text-[#989898]">수정</div>
-                      <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                      <div
-                        onClick={handleDeleteReply}
-                        id={data.boardReplyId}
-                        className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
-                      >
-                        삭제
-                      </div>
+                      {editClick ? (
+                        <>
+                          <div
+                            id={data.boardReplyId}
+                            onClick={handleEditClick}
+                            className="text-[14px] text-[#989898 cursor-pointer"
+                          >
+                            수정취소
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            id={data.boardReplyId}
+                            onClick={handleEditClick}
+                            className="text-[14px] text-[#989898] cursor-pointer"
+                          >
+                            수정
+                          </div>
+                          <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                          <div
+                            onClick={handleDeleteReply}
+                            id={data.boardReplyId}
+                            className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                          >
+                            삭제
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </>
@@ -113,8 +175,33 @@ const boardReviewList = (data: any) => {
                 ''
               )}
             </div>
-            <div className="col-span-2 mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-              {data.content}
+            <div
+              id={data.boardReplyId}
+              className="col-span-2 mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]"
+            >
+              {editClick ? (
+                <>
+                  <div className="flex flex-row">
+                    <textarea
+                      maxLength={500}
+                      value={contented}
+                      onChange={e => {
+                        handleReplySetContentValue(e);
+                      }}
+                      placeholder="댓글을 입력해주세요."
+                      className="w-[534px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
+                    ></textarea>
+                    <button
+                      onClick={handleEditReply}
+                      className="ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+                    >
+                      등록
+                    </button>
+                  </div>
+                </>
+              ) : (
+                data.content
+              )}
             </div>
             <div className="flex flex-row col-span-3">
               {data.active === 'N' ? (
@@ -127,7 +214,6 @@ const boardReviewList = (data: any) => {
                       onClick={() => {
                         setFindId(0);
                         setReply(0);
-                        setLevel(0);
                         setReReplyTextValue('');
                       }}
                       className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
@@ -141,7 +227,6 @@ const boardReviewList = (data: any) => {
                       onClick={() => {
                         setFindId(data.boardReplyId);
                         setReply(data.seq);
-                        setLevel(1);
                       }}
                       className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                     >
@@ -256,22 +341,70 @@ const boardReviewList = (data: any) => {
               <div className="flex flex-row row-span-2">
                 {saveMemberName === data.nickname ? (
                   <>
-                    <div className="text-[14px] text-[#989898]">수정</div>
-                    <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                    <div
-                      onClick={handleDeleteReply}
-                      id={data.boardReplyId}
-                      className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
-                    >
-                      삭제
-                    </div>
+                    {data.active === 'N' ? (
+                      <></>
+                    ) : (
+                      <>
+                        {editClick ? (
+                          <>
+                            <div
+                              id={data.boardReplyId}
+                              onClick={handleEditClick}
+                              className="text-[14px] text-[#989898 cursor-pointer"
+                            >
+                              수정취소
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              id={data.boardReplyId}
+                              onClick={handleEditClick}
+                              className="text-[14px] text-[#989898] cursor-pointer"
+                            >
+                              수정
+                            </div>
+                            <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
+                            <div
+                              onClick={handleDeleteReply}
+                              id={data.boardReplyId}
+                              className="ml-[4px] text-[14px] text-[#989898] cursor-pointer"
+                            >
+                              삭제
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
                   </>
                 ) : (
                   ''
                 )}
               </div>
               <div className="mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                {data.content}
+                {editClick ? (
+                  <>
+                    <div className="flex flex-row">
+                      <textarea
+                        maxLength={500}
+                        value={contented}
+                        onChange={e => {
+                          handleReplySetContentValue(e);
+                        }}
+                        placeholder="댓글을 입력해주세요."
+                        className="w-[534px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
+                      ></textarea>
+                      <button
+                        onClick={handleEditReply}
+                        className="ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+                      >
+                        등록
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  data.content
+                )}
               </div>
               <div className="flex flex-row ml-[853px] col-span-4 ">
                 {replyLike ? (
