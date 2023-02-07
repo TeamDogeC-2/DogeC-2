@@ -32,7 +32,7 @@ const boardReviewList = (data: any) => {
     }
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: 292,
         memberId: saveMemberId,
         content: rereplyTextValue,
         level: 1,
@@ -100,14 +100,14 @@ const boardReviewList = (data: any) => {
       alert('댓글을 입력해주세요.');
       return;
     }
-    if (contented.length < 5 || contented.length > 500) {
-      alert('댓글은 5자이상 500자 이하입니다.');
+    if (contented.length < 2 || contented.length > 500) {
+      alert('댓글은 2자이상 500자 이하입니다.');
       return;
     }
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 293,
+        boardId: 292,
         memberId: saveMemberId,
         content: contented,
       })

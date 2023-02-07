@@ -52,7 +52,7 @@ const boardEditWrite = () => {
       // board/{boardId}/{memberId} 진짜 데이터
       axios
         .patch(
-          `/board/192/${saveMemberId}`,
+          `/board/292/${saveMemberId}`,
           {
             title: titled,
             departmentId: selectDepartmentId,
