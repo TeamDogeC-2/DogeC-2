@@ -8,9 +8,11 @@ import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.exception.board.BoardNotOwnMemberException;
 import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
+import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
@@ -32,6 +34,7 @@ public class BoardUpdateService {
     private final FileRepository fileRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final BoardRepository boardRepository;
+    private final DepartmentRepository departmentRepository;
     private final MemberFindService memberFindService;
     private final BoardValidationService boardValidationService;
 
@@ -50,7 +53,9 @@ public class BoardUpdateService {
         Member member = memberFindService.findOne(memberId);
         boardValidationService.checkValidation(boardFormDto, member);
         updateBoardImage(multipartFiles, board);
-        board.editBoard(boardFormDto);
+        Department department = departmentRepository.findById(boardFormDto.getDepartmentId()).orElse(null);
+        board.editBoard(boardFormDto, department);
+        boardRepository.save(board);
         return getBoardDto(boardId, memberId, board);
     }
 
@@ -61,17 +66,20 @@ public class BoardUpdateService {
     }
 
     private void updateBoardImage(List<MultipartFile> multipartFiles, Board board) {
-        if(!multipartFiles.isEmpty()){
+        log.info("게시글 이미지 업데이트 호출 메소드가 실행되었습니다.");
+        if(multipartFiles != null && !multipartFiles.isEmpty()){
+            log.info("게시글 이미지가 존재하며 기존 이미지를 삭제하고 새로 업데이트 합니다.");
             deleteImageFile(board);
             uploadBoardImage(board, multipartFiles);
         }
+        log.info("게시글 이미지 업데이트가 완료되었습니다.");
     }
 
     private void deleteImageFile(Board board) {
         fileRepository.deleteAllInBatch(board.getImageFileList());
     }
 
-    private void uploadBoardImage(Board board,List<MultipartFile> multipartFiles) {
+    private void uploadBoardImage(Board board, List<MultipartFile> multipartFiles) {
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFiles);
         for(UploadFileDto fileDto : uploadFileDtoList){
             ImageFile imageFile = new ImageFile().createFile(fileDto);
@@ -99,6 +107,4 @@ public class BoardUpdateService {
         board.setAuthentication("Y");
         boardRepository.save(board);
     }
-
-
 }
