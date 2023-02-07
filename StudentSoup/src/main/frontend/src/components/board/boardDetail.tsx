@@ -15,7 +15,6 @@ import { Link, useHistory } from 'react-router-dom';
 const boardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [boardImg, setBoardImg] = useState<any>([]);
-  const [active, setActive] = useState<string>('');
   const [boardReviewCount, setBoardReviewCount] = useState<number>();
   const [boardContent, setBoardContent] = useState<string>('');
   const [boardNickName, setBoardNickName] = useState<string>('');
@@ -34,8 +33,6 @@ const boardDetail = () => {
   const [like, isLike] = useState<boolean>(false);
   const [clickLike, isClickLike] = useState<boolean>();
   const [likeCount, setLikeCount] = useState<number>();
-  const [replyLikeCount, setReplyLikeCount] = useState<number>();
-  const [replyLike, isReplyLike] = useState<boolean>();
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
@@ -84,6 +81,14 @@ const boardDetail = () => {
   });
 
   const handleReply = (e: any) => {
+    if (!replyTextValue) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+    if (replyTextValue.length < 2 || replyTextValue.length > 500) {
+      alert('댓글은 5자이상 500자 이하입니다.');
+      return;
+    }
     axios
       .put('/boardReply', {
         boardId: 192,
@@ -130,6 +135,38 @@ const boardDetail = () => {
     isBoardLiked(!boardLiked);
   };
 
+  const handleBoardDelete = () => {
+    // /board/{boardId}/{memberId} 가 최종 데이터
+    if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
+      axios
+        .delete(`/board/192/${saveMemberId}`)
+        .then(res => {
+          alert('게시글이 삭제되었습니다.');
+          history.push('/board');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  };
+  const handleBoardEdit = () => {
+    // /board/{boardId}/{memberId} 가 최종 데이터
+    if (confirm('정말로 게시글을 수정하시겠습니까?')) {
+      axios
+        .get(`/board/192/${saveMemberId}`)
+        .then(res => {
+          history.push('/board/edit', [
+            boardTitle,
+            boardContent,
+            categoryList,
+            res.data.departmentId,
+          ]);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  };
   return (
     <>
       <MypageNavbar />
@@ -215,10 +252,16 @@ const boardDetail = () => {
             </div>
             {saveMemberName === boardNickName ? (
               <>
-                <div className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898]">
+                <div
+                  onClick={handleBoardEdit}
+                  className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898] cursor-pointer"
+                >
                   수정
                 </div>
-                <div className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898]">
+                <div
+                  onClick={handleBoardDelete}
+                  className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898] cursor-pointer"
+                >
                   삭제
                 </div>
               </>
@@ -254,10 +297,13 @@ const boardDetail = () => {
           ))}
         </div>
         <div className="relative flex flex-col left-[30px]">
-          <BoardScrollUp onClick={handleScrollUp} className="sticky top-[90%] left-[80%]" />
+          <BoardScrollUp
+            onClick={handleScrollUp}
+            className="sticky top-[90%] left-[80%] cursor-pointer"
+          />
           <BoardScrollDown
             onClick={handleScrollDown}
-            className="sticky mt-[20px] top-[95%] left-[80%]"
+            className="sticky mt-[20px] top-[95%] left-[80%] cursor-pointer"
           />
         </div>
       </div>
