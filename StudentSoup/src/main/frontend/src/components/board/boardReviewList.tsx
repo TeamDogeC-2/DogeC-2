@@ -8,7 +8,7 @@ const boardReviewList = (data: any) => {
   const [reply, setReply] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
   const saveMemberId = sessionStorage.getItem('memberId');
-  const [rereplyTextValue, setReReplyTextValue] = useState<string>('');
+  const [nestedReply, setNestedReply] = useState<string>('');
   const saveMemberName = sessionStorage.getItem('nickname');
   const [ReplyLikeCount, setReplyLikeCount] = useState<any>();
   const [replyLike, isReplyLike] = useState<boolean>(data.like);
@@ -19,22 +19,22 @@ const boardReviewList = (data: any) => {
   const [edit, isEdit] = useState<number>(0);
   const [replyTextValue, setReplyTextValue] = useState<string>('');
   const handleSetContentValue = (e: any) => {
-    setReReplyTextValue(e.target.value);
+    setNestedReply(e.target.value);
   };
   const handleReReply = (e: any) => {
-    if (!rereplyTextValue) {
+    if (!nestedReply) {
       alert('댓글을 입력해주세요');
       return;
     }
-    if (rereplyTextValue.length < 2 || replyTextValue.length > 500) {
+    if (nestedReply.length < 2 || replyTextValue.length > 500) {
       alert('댓글은 2자에서 500자까지 입력가능합니다.');
       return;
     }
     axios
       .put('/boardReply', {
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
-        content: rereplyTextValue,
+        content: nestedReply,
         level: 1,
         seq: reply,
       })
@@ -107,7 +107,7 @@ const boardReviewList = (data: any) => {
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
         content: contented,
       })
@@ -222,7 +222,7 @@ const boardReviewList = (data: any) => {
                       onClick={() => {
                         setFindId(0);
                         setReply(0);
-                        setReReplyTextValue('');
+                        setNestedReply('');
                       }}
                       className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]"
                     >
