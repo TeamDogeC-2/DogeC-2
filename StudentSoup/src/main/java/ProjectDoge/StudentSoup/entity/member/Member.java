@@ -96,7 +96,7 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardReplyLike> boardReplyLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoardReply> boardReplies = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
