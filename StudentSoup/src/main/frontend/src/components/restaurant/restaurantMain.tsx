@@ -380,8 +380,10 @@ const RestaurantMain = (_props: any) => {
           </div>
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
-              {state.state}(<span className="text-[18px] text-[#FF611D]">{total}</span>
-              곳)
+              {state.state}
+              <span
+                className="text-[18px] text-[#FF611D]">({total}곳)
+              </span>
             </div>
             <div>
               <span>현위치: </span>
