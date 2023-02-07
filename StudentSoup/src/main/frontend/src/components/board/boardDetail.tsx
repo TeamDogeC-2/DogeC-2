@@ -36,7 +36,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/192/${saveMemberId}`)
+      .post(`/board/292/${saveMemberId}`)
       .then(res => {
         setBoardReviewCount(res.data.reviewCount);
         setBoardTitle(res.data.title);
@@ -56,7 +56,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/192/${saveMemberId}`)
+      .get(`/boardReplies/292/${saveMemberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -86,12 +86,12 @@ const boardDetail = () => {
       return;
     }
     if (replyTextValue.length < 2 || replyTextValue.length > 500) {
-      alert('댓글은 5자이상 500자 이하입니다.');
+      alert('댓글은 2자이상 500자 이하입니다.');
       return;
     }
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: 292,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -106,6 +106,7 @@ const boardDetail = () => {
       });
   };
 
+  console.log(replyTextValue);
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
   };
@@ -123,7 +124,7 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/192/${saveMemberId}/like`)
+      .post(`/board/292/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
@@ -139,7 +140,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
       axios
-        .delete(`/board/192/${saveMemberId}`)
+        .delete(`/board/292/${saveMemberId}`)
         .then(res => {
           alert('게시글이 삭제되었습니다.');
           history.push('/board');
@@ -153,7 +154,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 수정하시겠습니까?')) {
       axios
-        .get(`/board/192/${saveMemberId}`)
+        .get(`/board/292/${saveMemberId}`)
         .then(res => {
           history.push('/board/edit', [
             boardTitle,
@@ -271,6 +272,7 @@ const boardDetail = () => {
           </div>
           <div className="flex flex-row">
             <textarea
+              maxLength={500}
               onChange={e => {
                 handleReplySetContentValue(e);
               }}
@@ -299,11 +301,11 @@ const boardDetail = () => {
         <div className="relative flex flex-col left-[30px]">
           <BoardScrollUp
             onClick={handleScrollUp}
-            className="sticky top-[90%] left-[80%] cursor-pointer"
+            className="sticky top-[85%] left-[75%] cursor-pointer"
           />
           <BoardScrollDown
             onClick={handleScrollDown}
-            className="sticky mt-[20px] top-[95%] left-[80%] cursor-pointer"
+            className="sticky top-[95%] left-[75%] cursor-pointer"
           />
         </div>
       </div>
