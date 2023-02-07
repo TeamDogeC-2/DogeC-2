@@ -73,7 +73,7 @@ const boardBestReplyHeart = (data: any) => {
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
         content: contented,
       })

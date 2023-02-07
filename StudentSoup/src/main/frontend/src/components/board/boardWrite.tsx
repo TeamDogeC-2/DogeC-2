@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import axios from 'axios';
-import { ReactComponent as ReviewWriteClose } from '../../img/ReviewWriteClose.svg';
 import { ReactComponent as BoardImgCloseIcon } from '../../img/boardImgCloseIcon.svg';
 import React, { useEffect, useRef, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const boardWrite = () => {
   const [departmentlist, setDepartMentList] = useState<any>([]);

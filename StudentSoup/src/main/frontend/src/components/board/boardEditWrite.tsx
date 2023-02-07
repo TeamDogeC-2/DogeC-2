@@ -28,7 +28,6 @@ const boardEditWrite = () => {
     axios
       .get(url)
       .then(res => {
-        console.log(res.data);
         setBoardCategoryList(res.data.category);
         setDepartMentList(res.data.departments);
       })
@@ -52,7 +51,7 @@ const boardEditWrite = () => {
       // board/{boardId}/{memberId} 진짜 데이터
       axios
         .patch(
-          `/board/292/${saveMemberId}`,
+          `/board/192/${saveMemberId}`,
           {
             title: titled,
             departmentId: selectDepartmentId,

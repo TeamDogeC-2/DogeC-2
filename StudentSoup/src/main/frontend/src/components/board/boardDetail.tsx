@@ -36,7 +36,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/292/${saveMemberId}`)
+      .post(`/board/192/${saveMemberId}`)
       .then(res => {
         setBoardReviewCount(res.data.reviewCount);
         setBoardTitle(res.data.title);
@@ -56,7 +56,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/292/${saveMemberId}`)
+      .get(`/boardReplies/192/${saveMemberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -91,7 +91,7 @@ const boardDetail = () => {
     }
     axios
       .put('/boardReply', {
-        boardId: 292,
+        boardId: 192,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -124,7 +124,7 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/292/${saveMemberId}/like`)
+      .post(`/board/192/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
@@ -140,7 +140,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
       axios
-        .delete(`/board/292/${saveMemberId}`)
+        .delete(`/board/192/${saveMemberId}`)
         .then(res => {
           alert('게시글이 삭제되었습니다.');
           history.push('/board');
@@ -154,7 +154,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 수정하시겠습니까?')) {
       axios
-        .get(`/board/292/${saveMemberId}`)
+        .get(`/board/192/${saveMemberId}`)
         .then(res => {
           history.push('/board/edit', [
             boardTitle,
