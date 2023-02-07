@@ -36,7 +36,7 @@ public class BoardReply {
 
     private String updateDate;
 
-    @Size(min = 5, max = 500)
+    @Size(min = 2, max = 500)
     private String content;
 
     private int likedCount;
