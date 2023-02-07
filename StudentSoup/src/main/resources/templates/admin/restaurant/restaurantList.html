@@ -135,9 +135,9 @@
                         <td th:text="${findRestaurants.tel}">tel</td>
                         <td th:text="${findRestaurants.tag}">tag</td>
                         <td th:text="${findRestaurants.detail}">detail</td>
-                        <td th:if="${restaurant.imageFileList.size() != 0}">
+                        <td th:if="${findRestaurants.imageFileList.size() != 0}">
                             <p
-                                    th:each="imageFile : ${restaurant.imageFileList}"
+                                    th:each="imageFile : ${findRestaurants.imageFileList}"
                                     th:text="${imageFile.getFileName()} + ','">
                                 text
                             </p>
@@ -146,7 +146,7 @@
                         <td th:text="${findRestaurants.starLiked}">starLiked</td>
                         <td th:text="${findRestaurants.likedCount}">likedCount</td>
                         <td>
-                            <a th:href="@{/admin/{restaurantId}/restaurantMenus(restaurantId = ${restaurant.id})}">
+                            <a th:href="@{/admin/{restaurantId}/restaurantMenus(restaurantId = ${findRestaurants.id})}">
                                 <img src="/img/admin/icon/card-list.svg">
                             </a>
                         </td>
@@ -154,8 +154,8 @@
                             <a th:href="@{/admin/restaurant/edit/{restaurantId}(restaurantId = ${findRestaurants.id})}">
                                 <img src="/img/admin/icon/pencil.svg">
                             </a>
-                            /
-                            <a th:href="@{/admin/restaurant/delete/{restaurantId}(restaurantId = ${findRestaurants.id})}">
+
+                            <a th:href="@{/admin/restaurant/{restaurantId}(restaurantId = ${findRestaurants.id})}">
                                 <img src="/img/admin/icon/trash.svg">
                             </a>
                         </td>
