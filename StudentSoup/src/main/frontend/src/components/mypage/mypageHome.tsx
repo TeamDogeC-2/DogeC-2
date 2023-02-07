@@ -8,8 +8,6 @@ const MypageHome = () => {
   const uploadImage = useRef<any>(null);
   const imageUploader = useRef<any>(null);
 
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
-
   const memberId = sessionStorage.getItem('memberId');
   const savedName = sessionStorage.getItem('nickname');
   const savedSchool = sessionStorage.getItem('schoolName');
@@ -19,19 +17,12 @@ const MypageHome = () => {
 
   const formatDate = `${year}년 ${month}월 ${day}일`;
 
-  const handleImageUpload = (e: any) => {
+  const handleImageUpload = async (e: any) => {
+    console.log(e.target.files);
     const [file] = e.target.files;
     console.log(file);
     if (file) {
-      const reader = new FileReader();
-      const { current } = uploadImage;
-      current.file = file;
-      reader.onload = (e: any) => {
-        current.src = e.target.result;
-        sessionStorage.setItem('fileName', current.src);
-      };
-      reader.readAsDataURL(file);
-      axios
+      await axios
         .post(
           '/members/edit/image',
           {
@@ -45,7 +36,8 @@ const MypageHome = () => {
           },
         )
         .then(function (response) {
-          console.log(response);
+          sessionStorage.setItem('fileName', response.data.fileName);
+          alert('프로필 사진이 변경되었습니다.');
         })
         .catch(function (error) {
           console.log(error);
@@ -65,7 +57,7 @@ const MypageHome = () => {
             <div className="mt-[35px]">
               <img
                 ref={uploadImage}
-                src={IMAGE_FILE_ID}
+                src={`/image/${sessionStorage.getItem('fileName')}`}
                 className='w-[122px] h-[122px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
               />
             </div>
