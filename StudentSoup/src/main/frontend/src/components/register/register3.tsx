@@ -99,9 +99,9 @@ const Register3 = () => {
         .post(renderUrl, {
           id: userId,
           pwd: userPwd,
-          nickname: nickname,
-          email: email,
-          gender: gender,
+          nickname,
+          email,
+          gender,
           schoolId: selectedId,
           departmentId: selectDepartId,
         })
