@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class BoardReplyValidationService {
 
     public void checkContent(String content) {
-        if(content.length() < 5 || content.length() > 500){
-            throw new BoardReplyContentOutOfRangeException("댓글의 내용은 5자 이상이거나 500자 이하이여야 합니다.");
+        if(content.length() < 2 || content.length() > 500){
+            throw new BoardReplyContentOutOfRangeException("댓글의 내용은 2자 이상이거나 500자 이하이여야 합니다.");
         }
     }
 
