@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import cn from 'clsx';
 import RegisterNavbar from '../common/registerNavbar';
 import FindId from './findId';
@@ -41,12 +42,6 @@ const FindAccount = () => {
         <div className='mt-[62px] mb-[36px] text-[26px] break-keep'>아래에 정보를 입력하여 SFOO의 {tab}를 찾아주세요.</div>
         <div>{ tab === '아이디' && <FindId />}</div>
         <div>{ tab === '비밀번호' && <FindPw />}</div>
-        <button className={cn(
-          'h-[54px] mt-[24px] mb-[220px] text-white',
-          'bg-[#B8B8B8]',
-          // 'bg-[#FF6B2B]'
-        )}>인증하기
-        </button>
       </div>
     </div>
   );
