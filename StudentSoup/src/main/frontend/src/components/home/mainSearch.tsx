@@ -9,9 +9,9 @@ const MainSearch = () => {
 
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
+  const [schoolValue, setSchoolValue] = useState<string>();
 
   const [inputSchool, setInputSchool] = useState<string>();
-  const [listSchool, setListSchool] = useState<string>('');
 
   const getSchool = () => {
     axios
@@ -36,23 +36,27 @@ const MainSearch = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
+    const reducc = searchSchool?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
   };
 
   const handleClick = (e: any) => {
-    setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const reducc = resultArray?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
+    setInputSchool(reducc.schoolName);
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
     if (inputSchool === '' || inputSchool === undefined) {
       alert('학교를 검색해주세요');
-    } else if (inputSchool === listSchool) {
+    } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
