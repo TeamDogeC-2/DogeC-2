@@ -88,11 +88,11 @@ public class BoardReplyRepositoryImpl implements BoardReplyRepositoryCustom {
     }
 
     @Override
-    public List<BoardReply> findBySeq(int seq) {
+    public List<BoardReply> findBySeq(Long boardId,int seq) {
         List<BoardReply> query = queryFactory
                 .select(boardReply)
                 .from(boardReply)
-                .where(boardReply.seq.eq(seq))
+                .where(boardReply.board.id.eq(boardId),boardReply.seq.eq(seq))
                 .orderBy(boardReply.depth.asc())
                 .fetch();
         return query;

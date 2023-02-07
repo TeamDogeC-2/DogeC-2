@@ -31,11 +31,12 @@ public class BoardReply {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
     private String writeDate;
 
     private String updateDate;
 
-    @Size(min = 5, max = 500)
+    @Size(min = 2, max = 500)
     private String content;
 
     private int likedCount;
@@ -65,6 +66,11 @@ public class BoardReply {
         }
         this.member = member;
         member.getBoardReplies().add(this);
+    }
+
+    public void deleteMember(){
+        this.member.getBoardReplies().remove(this);
+        this.member = null;
     }
 
 
