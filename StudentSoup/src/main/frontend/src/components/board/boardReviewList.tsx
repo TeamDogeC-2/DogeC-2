@@ -22,6 +22,14 @@ const boardReviewList = (data: any) => {
     setReReplyTextValue(e.target.value);
   };
   const handleReReply = (e: any) => {
+    if (!rereplyTextValue) {
+      alert('댓글을 입력해주세요');
+      return;
+    }
+    if (rereplyTextValue.length < 2 || replyTextValue.length > 500) {
+      alert('댓글은 2자에서 500자까지 입력가능합니다.');
+      return;
+    }
     axios
       .put('/boardReply', {
         boardId: 192,
@@ -70,7 +78,9 @@ const boardReviewList = (data: any) => {
     }
   };
   const handleEditClick = (e: any) => {
+    isEditClick(!editClick);
     setSaveBoardId(e.target.id);
+
     axios
       .get(`/boardReply/${e.target.id}/${saveMemberId}`)
       .then(res => {
@@ -79,8 +89,6 @@ const boardReviewList = (data: any) => {
       .catch(err => {
         console.error(err);
       });
-
-    isEditClick(!editClick);
   };
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
@@ -88,20 +96,20 @@ const boardReviewList = (data: any) => {
   };
   const handleEditReply = (e: any) => {
     const boardReplyId = e.target.id;
-    if (replyTextValue.length === 0) {
-      alert('댓글이 비어있거나 수정되지 않았습니다.');
+    if (!contented.length) {
+      alert('댓글을 입력해주세요.');
       return;
     }
-    if (replyTextValue.length < 5 || replyTextValue.length > 500) {
+    if (contented.length < 5 || contented.length > 500) {
       alert('댓글은 5자이상 500자 이하입니다.');
       return;
     }
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 192,
+        boardId: 293,
         memberId: saveMemberId,
-        content: replyTextValue,
+        content: contented,
       })
       .then(res => {
         alert('성공적으로 수정하였습니다.');
