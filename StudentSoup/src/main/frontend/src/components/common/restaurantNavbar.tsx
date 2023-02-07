@@ -157,7 +157,7 @@ const RestaurantNavbar = () => {
         </div>
         <div className="flex flex-col items-center">
           <img
-            src={IMAGE_FILE_ID}
+            src={`/image/${IMAGE_FILE_ID}`}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
             onClick={() => {
               history.push('/mypage');
