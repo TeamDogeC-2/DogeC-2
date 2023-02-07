@@ -27,6 +27,7 @@ const boardWrite = () => {
     axios
       .get(url)
       .then(res => {
+        console.log(res.data);
         setBoardCategoryList(res.data.category);
         setDepartMentList(res.data.departments);
       })
@@ -160,7 +161,10 @@ const boardWrite = () => {
           onChange={handleSetDepartMentId}
           className="w-[165px] h-[46px] bg-[#FFFFFF] shadow-[2px_2px_6px_rgba(0,0,0,0.05)] border-[1px] rounded-[5px] text-[#A4A4A4] cursor-pointer focus:text-[#A4A4A4] mr-[20px] ml-[16px]"
         >
-          <option className="font-normal text-[16px] leading-[22px] flex items-center text-[#A4A4A4]">
+          <option
+            value={0}
+            className="font-normal text-[16px] leading-[22px] flex items-center text-[#A4A4A4]"
+          >
             {schoolName}
           </option>
           {departmentlist.map((school: any) => (
