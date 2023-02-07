@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Reddit from '../../img/Reddit.svg';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import cn from 'clsx';
 import axios from 'axios';
 import _ from 'lodash';
@@ -138,7 +138,7 @@ function LoginForm() {
               </label>
             </div>
             <div>
-              <a className="text-[#3E3E3E] cursor-pointer">아이디/비밀번호 찾기</a>
+              <a href='/login/findAccount' className="text-[#3E3E3E] cursor-pointer">아이디/비밀번호 찾기</a>
             </div>
           </div>
         </div>
