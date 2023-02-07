@@ -31,6 +31,7 @@ public class BoardReply {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
     private String writeDate;
 
     private String updateDate;
@@ -65,6 +66,11 @@ public class BoardReply {
         }
         this.member = member;
         member.getBoardReplies().add(this);
+    }
+
+    public void deleteMember(){
+        this.member.getBoardReplies().remove(this);
+        this.member = null;
     }
 
 
