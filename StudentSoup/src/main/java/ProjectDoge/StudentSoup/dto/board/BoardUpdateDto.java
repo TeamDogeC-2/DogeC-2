@@ -34,6 +34,6 @@ public class BoardUpdateDto {
             if(department != null){
                 return department.getId();
             }
-            return null;
+            return 0L;
         }
     }

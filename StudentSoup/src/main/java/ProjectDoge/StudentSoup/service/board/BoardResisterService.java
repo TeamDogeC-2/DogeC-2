@@ -49,7 +49,7 @@ public class BoardResisterService {
     }
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
-        if (departmentId == null) {
+        if (departmentId == null || departmentId == 0) {
             Board board = new Board().createBoard(boardFormDto, member, member.getSchool());
             return board;
         }

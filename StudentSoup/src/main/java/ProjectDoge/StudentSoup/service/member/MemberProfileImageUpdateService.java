@@ -33,10 +33,12 @@ public class MemberProfileImageUpdateService {
 
     private MemberDto createProfileUpdateMemberDto(Member member, MultipartFile multipartFile) {
         if(member.getImageFile() != null){
+            log.info("회원의 이미지가 존재하여 기존 이미지 파일을 삭제합니다.");
             fileService.deleteFile(member.getImageFile());
             fileRepository.delete(member.getImageFile());
         }
 
+        log.info("회원의 이미지를 새로 등록합니다.");
         Long fileId = fileService.join(multipartFile);
 
         if(fileId != null){
