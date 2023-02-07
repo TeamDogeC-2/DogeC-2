@@ -62,11 +62,11 @@ const boardBestReplyHeart = (data: any) => {
   };
   const handleEditReply = (e: any) => {
     const boardReplyId = e.target.id;
-    if (replyTextValue.length === 0) {
-      alert('댓글이 비어있거나 수정되지 않았습니다.');
+    if (!contented) {
+      alert('댓글을 입력해주세요.');
       return;
     }
-    if (replyTextValue.length < 5 || replyTextValue.length > 500) {
+    if (contented.length < 5 || contented.length > 500) {
       alert('댓글은 5자이상 500자 이하입니다.');
       return;
     }
@@ -75,7 +75,7 @@ const boardBestReplyHeart = (data: any) => {
         boardReplyId,
         boardId: 192,
         memberId: saveMemberId,
-        content: replyTextValue,
+        content: contented,
       })
       .then(res => {
         alert('성공적으로 수정하였습니다.');
