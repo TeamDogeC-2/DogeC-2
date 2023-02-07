@@ -26,6 +26,9 @@ const Register3 = () => {
   const [checkGender, setCheckGender] = useState<boolean>(false);
   const [checkSubmit, setCheckSubmit] = useState<boolean>(false);
 
+  const [notSame, setNotSame] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+
   const handleSelect = (e: any) => {
     setSelectedId(e.target.value);
     console.log(e.target.value);
@@ -112,7 +115,8 @@ const Register3 = () => {
           history.push('/login');
         })
         .catch(function (error) {
-          alert(error.response.data.message);
+          setNotSame(true);
+          setErrorMessage(error.response.data.message);
         });
     }
   };
@@ -155,32 +159,38 @@ const Register3 = () => {
             </span>
           </div>
           {/* 성별 */}
-          <div className="flex justify-center">
-            <div></div>
-          </div>
-          <div className="flex text-left mt-[46px] mb-[20px]">
-            성별
-            <div className="ml-[32px]">
-              <input
-                className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
-                type="radio"
-                name="flexRadioDefault"
-                id="WOMAN"
-                checked={gender === 'WOMAN'}
-                onChange={handleClickRadio}
-              />
-              <label className="form-check-label inline-block text-gray-800 mr-[9px]">여</label>
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex text-left mt-[46px] mb-[20px]">
+              성별
+              <div className="ml-[32px]">
+                <input
+                  className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="WOMAN"
+                  checked={gender === 'WOMAN'}
+                  onChange={handleClickRadio}
+                />
+                <label className="form-check-label inline-block text-gray-800 mr-[9px]">여</label>
+              </div>
+              <div>
+                <input
+                  className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="MAN"
+                  checked={gender === 'MAN'}
+                  onChange={handleClickRadio}
+                />
+                <label className="form-check-label inline-block text-gray-800 mr-[9px]">남</label>
+              </div>
             </div>
-            <div>
-              <input
-                className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-[#FF611D] checked:border-[#FF611D] focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-[9px] cursor-pointer"
-                type="radio"
-                name="flexRadioDefault"
-                id="MAN"
-                checked={gender === 'MAN'}
-                onChange={handleClickRadio}
-              />
-              <label className="form-check-label inline-block text-gray-800 mr-[9px]">남</label>
+            <div className="flex justify-end">
+              {notSame && (
+                <span className="text-[12px] fw-400 leading-[16px] text-[#FF611D] pt-[10px]">
+                  {errorMessage}
+                </span>
+              )}
             </div>
           </div>
           {/* 이메일 */}
