@@ -37,12 +37,13 @@ public class BoardReplyDeleteService {
 
     private void checkReplyLevel(BoardReply boardReply) {
         if(boardReply.getLevel() == 0){
-            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getSeq());
+            log.info("boardReplyLevel [{}]",boardReply.getLevel());
+            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getBoard().getId(),boardReply.getSeq());
             deleteReply(boardReply, boardReplyList);
 
         }
         else{
-            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getSeq());
+            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getBoard().getId(),boardReply.getSeq());
             deleteNestedReply(boardReply, boardReplyList);
         }
     }
@@ -60,7 +61,9 @@ public class BoardReplyDeleteService {
     }
 
     private void deleteNestedReply(BoardReply boardReply, List<BoardReply> boardReplyList) {
-        if(boardReplyList.size() == 2 && boardReplyList.get(0).getActive().equals("N")){
+        log.info("boardReply.size : [{}]",boardReplyList.size());
+        log.info("boardReply.(0).id [{}]",boardReplyList.get(0).getReplyId());
+        if(boardReplyList.size() <= 2 && boardReplyList.get(0).getActive().equals("N")){
             boardReplyRepository.delete(boardReply);
             boardReplyRepository.delete(boardReplyList.get(0));
         }
