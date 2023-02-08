@@ -30,6 +30,8 @@ const BoardContent = (props: PropsType) => {
   const [sort, setSort] = useState(0);
   const [departmentId, setDepartmentId] = useState<number | undefined>(undefined);
 
+  const size = boardCategory === 'ALL' ? 7 : 12;
+
   useEffect(() => {
     handleSearchButton();
   }, [sort, range, page, departmentId]);
@@ -41,7 +43,7 @@ const BoardContent = (props: PropsType) => {
       category: boardCategory,
       sorted: sort,
       page: page - 1,
-      size: boardCategory === 'ALL' ? 7 : 12,
+      size,
       departmentId: range === RANGE.SUBJECT ? departmentId : undefined,
     };
     getBoardList(request, (res: DataResType) => {
@@ -66,6 +68,8 @@ const BoardContent = (props: PropsType) => {
         departmentId={departmentId}
         setDepartmentId={setDepartmentId}
         handleSearchButton={handleSearchButton}
+        page={page}
+        setPage={setPage}
       />
       {boardCategory === 'ALL' && (
         <div className="flex justify-between">
@@ -88,6 +92,7 @@ const BoardContent = (props: PropsType) => {
         boardCategory={boardCategory}
         page={page}
         setPage={setPage}
+        size={size}
       />
     </div>
   );

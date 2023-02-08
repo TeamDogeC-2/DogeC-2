@@ -2,6 +2,7 @@ import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
 import { useHistory } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
+import { useEffect } from 'react';
 
 export interface BoardListType {
   authentication: string;
@@ -22,10 +23,11 @@ interface PropsType {
   boardCategory: string;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  size: number;
 }
 
 const BoardListComponent = (props: PropsType) => {
-  const { list, boardCategory, page, setPage, totalPages } = props;
+  const { list, boardCategory, page, setPage, totalPages, size } = props;
   const history = useHistory();
 
   const handlePageChange = (page: any) => {
@@ -127,8 +129,8 @@ const BoardListComponent = (props: PropsType) => {
           <Pagination
             innerClass="text-center my-[18px]"
             activePage={page}
-            itemsCountPerPage={12}
-            totalItemsCount={12 * totalPages - 1}
+            itemsCountPerPage={size}
+            totalItemsCount={size * totalPages}
             pageRangeDisplayed={5}
             firstPageText={'<'}
             lastPageText={'>'}
