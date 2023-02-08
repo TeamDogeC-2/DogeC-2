@@ -8,12 +8,14 @@ import HotListComponent from './content/hotListComponent';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import useBoardData, { DataResType } from './data/useBoardData';
+import { useHistory } from 'react-router-dom';
 
 interface PropsType {
   boardCategory: string;
 }
 
 const BoardContent = (props: PropsType) => {
+  const history = useHistory();
   const { boardCategory } = props;
   const [range, setRange] = useState(RANGE.SCHOOL);
   const { getBoardList } = useBoardData();
@@ -98,7 +100,10 @@ const BoardContent = (props: PropsType) => {
         </div>
       )}
       <div className="flex justify-end mt-[21px]">
-        <div className="flex justify-center gap-x-[5px] cursor-pointer text-[14px] leading-[30px] text-center text-[#FF611D] w-[89px] h-[32px] border border-solid border-[#FF611D] rounded-[22px] bg-white">
+        <div
+          onClick={() => history.push('/board/write')}
+          className="flex justify-center gap-x-[5px] cursor-pointer text-[14px] leading-[30px] text-center text-[#FF611D] w-[89px] h-[32px] border border-solid border-[#FF611D] rounded-[22px] bg-white"
+        >
           <img src={PencilIcon} alt="write" className="self-center" />
           <span>글쓰기</span>
         </div>
