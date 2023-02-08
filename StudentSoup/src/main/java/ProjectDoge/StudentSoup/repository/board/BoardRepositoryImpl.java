@@ -153,8 +153,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
             throw new SchoolIdNotSentException("학교 기본키가 전달되지 않았습니다.");
         }
         BooleanExpression findBySchool = board.school.id.eq(schoolId);
+        BooleanExpression findNullDepartment = board.department.isNull();
         if (departmentId == null) {
-            return findBySchool;
+            return Expressions.allOf(findBySchool,findNullDepartment);
         }
         BooleanExpression findByDepartment = board.department.id.eq(departmentId);
 
