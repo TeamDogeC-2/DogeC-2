@@ -1,7 +1,7 @@
 import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
-import Faq from '../../img/faq.jpg';
+import Circle_human from '../../img/circle_human.png';
 import Logout from '../../img/logout.jpg';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -42,6 +42,10 @@ const mypageNavbar = () => {
 
   const handlePushRestaurant = (e: any) => {
     history.push('/restaurant', mySchool);
+  };
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
   };
 
   return (
@@ -85,22 +89,14 @@ const mypageNavbar = () => {
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
         <div className="flex flex-col items-center">
-          {!IMAGE_FILE_ID ? (
-            <img
-              src={`/image/${IMAGE_FILE_ID}`}
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px] cursor-pointer'
-              onClick={() => {
-                history.push('/mypage');
-              }}
-            />
-          ) : (
-            <img
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px] cursor-pointer'
-              onClick={() => {
-                history.push('/mypage');
-              }}
-            />
-          )}
+          <img
+            src={`/image/${IMAGE_FILE_ID}`}
+            onError={handleImgError}
+            className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px] cursor-pointer'
+            onClick={() => {
+              history.push('/mypage');
+            }}
+          />
         </div>
       </div>
     </div>
