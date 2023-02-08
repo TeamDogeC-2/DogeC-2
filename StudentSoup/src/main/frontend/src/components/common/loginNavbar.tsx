@@ -1,15 +1,19 @@
 import { useHistory } from 'react-router-dom';
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 
 const LoginNavbar = () => {
   const history = useHistory();
 
   return (
     <div className="w-full h-[80px] flex justify-between items-center sticky border-b border-[#FF4D14]">
-      <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+      <img
+        src={mainLogo}
+        alt=""
+        className="w-[106px] h-[30px] ml-[28px] cursor-pointer"
         onClick={() => {
           history.push('/');
-        }}/>
+        }}
+      />
       <div className="mr-[24px] flex items-center">
         <button
           onClick={() => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
 import Faq from '../../img/faq.jpg';
@@ -86,7 +86,7 @@ const RestaurantNavbar = () => {
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
-        <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+        <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
           onClick={() => {
             history.push('/');
           }}

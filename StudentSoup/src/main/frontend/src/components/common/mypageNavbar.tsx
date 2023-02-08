@@ -1,4 +1,4 @@
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
 import Faq from '../../img/faq.jpg';
@@ -38,12 +38,12 @@ const mypageNavbar = () => {
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <img
-        src={Reddit}
+        src={mainLogo}
         alt=""
         onClick={() => {
           history.push('/');
         }}
-        className="w-[162px] h-[72px] cursor-pointer"
+        className="w-[106px] h-[30px] ml-[28px] cursor-pointer"
       />
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
