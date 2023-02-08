@@ -194,7 +194,7 @@ const RestaurantMain = (_props: any) => {
           <div className="w-[810px] mx-auto py-[31px] flex flex-wrap gap-x-[20px] gap-y-[32px]">
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'ALL',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
@@ -210,7 +210,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'KOREAN',
                   'font-[400] text-[#808080] hover:text-white hover:bg-[#FF611D]/50':
@@ -226,7 +226,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'WESTERN',
 
@@ -243,7 +243,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'FASTFOOD',
 
@@ -260,7 +260,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'ASIAN',
 
@@ -277,7 +277,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'JAPAN',
 
@@ -294,7 +294,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'CHINESE',
 
@@ -311,7 +311,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'SNACK',
 
@@ -328,7 +328,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'CAFE',
 
@@ -345,7 +345,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'BUFFET',
 
@@ -362,7 +362,7 @@ const RestaurantMain = (_props: any) => {
             </button>
             <button
               className={cn(
-                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer bg-white',
+                'px-[19px] py-[7px] border border-[#FF611D] rounded-[38px] cursor-pointer',
                 {
                   'font-semibold text-[#FFFFFF] bg-[#FF611D]': category === 'OTHERS',
 
@@ -381,9 +381,7 @@ const RestaurantMain = (_props: any) => {
           <div className="w-[810px] mx-auto mb-[16px] flex justify-between">
             <div className="text-[18px] text-[#262626]">
               {state.state}
-              <span
-                className="text-[18px] text-[#FF611D]">({total}곳)
-              </span>
+              <span className="text-[18px] text-[#FF611D]">({total}곳)</span>
             </div>
             <div>
               <span>현위치: </span>
