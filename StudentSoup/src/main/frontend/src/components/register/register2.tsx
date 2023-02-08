@@ -14,6 +14,7 @@ const Register2 = () => {
   const [lengthValidated, setLengthValidated] = useState<boolean>(false);
   const [matchPassword, setMatchPassword] = useState<boolean>(false);
   const [checkButton, setCheckButton] = useState<boolean>(false);
+  const [notSame, setNotSame] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>('');
   const [id, setId] = useState<string>('');
@@ -46,7 +47,7 @@ const Register2 = () => {
     if (checkButton) {
       axios
         .post(url, {
-          id: id,
+          id,
           pwd: password,
         })
         .then(function (response) {
@@ -56,7 +57,8 @@ const Register2 = () => {
           history.push('/register/3');
         })
         .catch(function (error) {
-          alert(error.response.data.message);
+          console.log(error);
+          setNotSame(true);
         });
     }
   };
@@ -139,9 +141,11 @@ const Register2 = () => {
               placeholder="아이디 입력"
               className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
             ></input>
-            <span className="text-[12px] fw-400 leading-[16px] text-[#939393] mt-[8px]">
-              아이디가 일치합니다.
-            </span>
+            {notSame && (
+              <span className="text-[12px] fw-400 leading-[16px] text-[#FF611D] mt-[8px]">
+                중복된 아이디입니다.
+              </span>
+            )}
           </div>
           <div className="flex flex-row mt-[12px]">
             <div className="w-full flex flex-col text-left">

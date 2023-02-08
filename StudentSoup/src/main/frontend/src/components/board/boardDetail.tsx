@@ -1,33 +1,188 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
-import cn from 'clsx';
+import BoardReviewList from './boardReviewList';
+import BoardBestReplyHeart from './boardBestReply';
 import axios from 'axios';
 import { ReactComponent as BoardWriteIcon } from '../../img/BoardWriteIcon.svg';
 import { ReactComponent as BoardWriteIconHeart } from '../../img/boardWriteIconHeart.svg';
+import { ReactComponent as BoardOrangeIconHeart } from '../../img/boardOrangeIconHeart.svg';
 import { ReactComponent as BoardWriteWhiteHeart } from '../../img/BoardWriteWhiteHeart.svg';
-import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
-import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
+import { ReactComponent as BoardWriteActiveHeart } from '../../img/BoardWriteActiveHeart.svg';
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const boardDetail = () => {
-  const [setNestedReply, isSetNestedReply] = useState<boolean>(false);
-  const [countIndex, setCountIndex] = useState();
-  const BestArr = [0, 1, 2];
-  const ArrTest = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const nestedReplyArr = [0, 1, 2, 3, 4, 5];
+  const [boardTitle, setBoardTitle] = useState<string>('');
+  const [boardImg, setBoardImg] = useState<any>([]);
+  const [boardReviewCount, setBoardReviewCount] = useState<number>();
+  const [boardContent, setBoardContent] = useState<string>('');
+  const [boardNickName, setBoardNickName] = useState<string>('');
+  const [boardDate, setBoardDate] = useState<any>();
+  const [boardView, setBoardView] = useState<number>();
+  const [boardLikedCount, setBoardLikedCount] = useState<number>();
+  const [boardLiked, isBoardLiked] = useState<boolean>();
+  const [boardReviewList, setBoardReviewList] = useState<any>([]);
+  const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
+  const [reply, setReply] = useState<number>(0);
+  const [categoryList, setCategoryList] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const saveMemberId = sessionStorage.getItem('memberId');
+  const saveMemberName = sessionStorage.getItem('nickname');
+  const [replyTextValue, setReplyTextValue] = useState<string>('');
+  const [like, isLike] = useState<boolean>(false);
+  const [clickLike, isClickLike] = useState<boolean>();
+  const [likeCount, setLikeCount] = useState<number>();
+  // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
+  useEffect(() => {
+    axios
+      .post(`/board/192/${saveMemberId}`)
+      .then(res => {
+        setBoardReviewCount(res.data.reviewCount);
+        setBoardTitle(res.data.title);
+        setBoardContent(res.data.content);
+        setBoardNickName(res.data.nickname);
+        setBoardDate(res.data.writeDate);
+        setBoardView(res.data.view);
+        setBoardLikedCount(res.data.likedCount);
+        isBoardLiked(res.data.like);
+        setCategoryList(res.data.boardCategory);
+        setBoardImg(res.data.fileNames);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+  const history = useHistory();
+  useEffect(() => {
+    axios
+      .get(`/boardReplies/192/${saveMemberId}`)
+      .then(res => {
+        setBoardReviewList(res.data.boardReplyList);
+        setBoardBestReviewList(res.data.bestReplyList);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
 
+  useEffect(() => {
+    if (categoryList === 'FREE') {
+      setCategory('자유게시판');
+    } else if (categoryList === 'CONSULTING') {
+      setCategory('취업/상담게시판');
+    } else if (categoryList === 'TIP') {
+      setCategory('팁게시판');
+    } else if (categoryList === 'NOTICE') {
+      setCategory('공지사항');
+    } else if (categoryList === 'EMPLOYMENT') {
+      setCategory('취업/상담게시판');
+    }
+  });
+
+  const handleReply = (e: any) => {
+    if (!replyTextValue) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+    if (replyTextValue.length < 2 || replyTextValue.length > 500) {
+      alert('댓글은 2자이상 500자 이하입니다.');
+      return;
+    }
+    axios
+      .put('/boardReply', {
+        boardId: 192,
+        memberId: saveMemberId,
+        content: replyTextValue,
+        level: 0,
+        seq: reply,
+      })
+      .then(res => {
+        alert('성공적으로 댓글을 작성하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  console.log(replyTextValue);
+  const handleReplySetContentValue = (e: any) => {
+    setReplyTextValue(e.target.value);
+  };
+
+  const handleScrollDown = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+  const handleScrollUp = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  };
+
+  const handleBoardLikeCount = () => {
+    // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
+    axios
+      .post(`/board/192/${saveMemberId}/like`)
+      .then(res => {
+        isClickLike(res.data.data.like);
+        setLikeCount(res.data.data.likedCount);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isLike(!like);
+    isBoardLiked(!boardLiked);
+  };
+
+  const handleBoardDelete = () => {
+    // /board/{boardId}/{memberId} 가 최종 데이터
+    if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
+      axios
+        .delete(`/board/192/${saveMemberId}`)
+        .then(res => {
+          alert('게시글이 삭제되었습니다.');
+          history.push('/board');
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  };
+  const handleBoardEdit = () => {
+    // /board/{boardId}/{memberId} 가 최종 데이터
+    if (confirm('정말로 게시글을 수정하시겠습니까?')) {
+      axios
+        .get(`/board/192/${saveMemberId}`)
+        .then(res => {
+          history.push('/board/edit', [
+            boardTitle,
+            boardContent,
+            categoryList,
+            res.data.departmentId,
+          ]);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  };
   return (
     <>
       <MypageNavbar />
-      <div className="w-full h-[103px]"></div>
+      <div className="w-full h-[103px] scroll-smooth"></div>
       <div className="flex flex-row justify-center">
         <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
-          취업 상담 게시판
+          {category}
         </div>
-        <div className="ml-[428px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF]">
-          <div className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]">
+        <div className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
+          <div
+            onClick={() => {
+              history.push('/board');
+            }}
+            className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]"
+          >
             목록
           </div>
         </div>
@@ -43,176 +198,115 @@ const boardDetail = () => {
       <div className="flex justify-center">
         <div className="w-[938px] h-auto border-[1px] border-[#BCBCBC] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] content-center">
           <div className="flex flex-row">
-            <div className="ml-[41px] mt-[35px] w-[356px] h-[16px] text-[20px] font-medium flex items-center text-[#252525]">
-              취업하려는데 어떻게 시작해야 될까...?
-            </div>
-            <div className="mt-[35px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#FF611D]">
-              6
+            <div className="ml-[41px] mt-[35px] w-[850px] h-auto text-[20px] font-medium flex items-center text-[#252525]">
+              {boardTitle}
             </div>
           </div>
           <div className="flex flex-row w-[400px] h-[17px] ml-[41px] mt-[21px]">
             <div className="font-normal text-[14px] text-[#A8A8A8]">
-              비둘기 | 2023.02.11. 11:40 | 조회 1123 |
+              {boardNickName} | {boardDate} | 조회 {boardView} |
             </div>
-            <BoardWriteIconHeart className="ml-[6px] mt-[6.4px]" />
-            <div className="ml-[5.11px] font-normal text-[14px] text-[#A8A8A8]">6</div>
+            {boardLiked ? (
+              <BoardOrangeIconHeart className="ml-[6px] mt-[6.4px]" />
+            ) : (
+              <BoardWriteIconHeart className="ml-[6px] mt-[6.4px]" />
+            )}
+
+            <div className="ml-[5.11px] font-normal text-[14px] text-[#A8A8A8]">
+              {like ? likeCount : boardLikedCount}
+            </div>
           </div>
           <div className="ml-[28px] mt-[22px] w-[884px] border-[1px] border-[#BCBCBC] bg-[#BCBCBC] "></div>
-          <div className="w-[856px] ml-[41px] mt-[34px] font-normal text-[16px] text-left leading-[26px] text-[#636363]">
-            뭘 부터 해야할지 도저히 감이 안 잡혀.... 이럴 땐 어떻게 해야 좋을지 정말 감이 안잡히네요
-            ㅜㅠㅜㅜㅠㅠ 이제 곧 4학년 돼서 뭔가라도 준비해놔야하는 상황인데 어쩌저젖우자우우느누웅
-            어쩌구저쩌구구구구구구 ㅜㅠㅜㅜㅠㅠ 이제 곧 4학년 돼서 뭔가라도 준비해놔야하는
-            상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데준비해놔야하는
-            상황인데준비해놔야하는 상황인데준비해놔야하는 상황인데
+          <div className="w-[856px] ml-[41px] mt-[34px] font-normal text-[16px] text-left leading-[26px] text-[#636363] mb-[20px]">
+            {boardContent}
           </div>
-          <button className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]">
+          <div className="flex flex-row ml-[8px]">
+            {boardImg.map((school: any) => (
+              <>
+                <img
+                  key={school}
+                  src={`/image/${school}`}
+                  className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"
+                />
+              </>
+            ))}
+          </div>
+          <button
+            onClick={handleBoardLikeCount}
+            className="ml-[398px] mt-[34px] w-[139px] h-[56px] border-[1px] rounded-[20px] bg-[#FF611D]"
+          >
             <div className="flex flex-row">
-              <BoardWriteWhiteHeart className="ml-[21px] mt-[7px]" />
+              {boardLiked ? (
+                <BoardWriteActiveHeart className="ml-[21px] mt-[7px]" />
+              ) : (
+                <BoardWriteWhiteHeart className="ml-[21px] mt-[7px]" />
+              )}
+
               <div className="ml-[6px] mb-[10px] w-auto h-[20px] font-normal text-[20px] text-[#FFFFFF]">
-                추천 <span>22</span>
+                추천 <span>{like ? likeCount : boardLikedCount}</span>
               </div>
             </div>
           </button>
           <div className="flex flex-row ml-[30px]">
             <div className="w-[423px] h-[23px] leading-[22px] mt-[72px] font-medium text-[16px] text-[#404040]">
-              88개의 댓글
+              {boardReviewCount}개의 댓글
             </div>
-            <div className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898]">
-              수정
-            </div>
-
-            <div className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898]">
-              삭제
-            </div>
+            {saveMemberName === boardNickName ? (
+              <>
+                <div
+                  onClick={handleBoardEdit}
+                  className="ml-[397px] mt-[72px] h-[23px] font-semibold text-[16px] leading-[23px] text-[#989898] cursor-pointer"
+                >
+                  수정
+                </div>
+                <div
+                  onClick={handleBoardDelete}
+                  className="ml-[7px] mt-[72px] font-semibold text-[16px] leading-[23px] text-[#989898] cursor-pointer"
+                >
+                  삭제
+                </div>
+              </>
+            ) : (
+              ''
+            )}
           </div>
           <div className="flex flex-row">
             <textarea
+              maxLength={500}
+              onChange={e => {
+                handleReplySetContentValue(e);
+              }}
               placeholder="댓글을 입력해주세요."
               className="ml-[28px] mt-[16px] w-[834px] h-[50px] resize-y border-[1px] rounded-[5px] border-[#C4C4C4]"
             ></textarea>
-            <button className="mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]">
+            <button
+              onClick={handleReply}
+              className="mt-[16px] ml-[10px] w-[50px] h-[50px] bg-[#FF611D] rounded-[5px] text-[16px] font-normal text-[#FFFFFF]"
+            >
               등록
             </button>
           </div>
-          {BestArr.map(data => (
+          {boardBestReviewList.map((data: any) => (
             <>
-              <div className="mt-[25px] grid grid-cols-[74px_60px_720px_100px]">
-                <div className="row-span-2 ml-[38px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-                <div className="row-span-2 ml-[18px] h-[23px] font-semibold text-[16px] leading-[22px] text-[#FF611D]">
-                  BEST
-                </div>
-                <div className="flex flex-row">
-                  <div className="h-[23px] ml-[2px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                    냠냠쿠키
-                  </div>
-                  <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                    2023.02.11 11:50
-                  </div>
-                </div>
-                <div className="flex flex-row ml-[3px] row-span-2">
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                </div>
-                <div className="ml-[2px] mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                  곧 졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을 졸업
-                  예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을곧 졸업 예정자인
-                  사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을 졸업 예정자인 사람으로써
-                  조언을 하자면졸업 예정자인 사람으로써 조언을을 하자면졸업 예정자인 사람으로써
-                  조언을 졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을을
-                  하자면졸업 예정자인 사람으로써 조언을 졸업 예정자인 사람으로써 조언을 하자면졸업
-                  예정자인 사람으로써 조언을을 하자면졸업 예정자인 사람으로써 조언을 졸업 예정자인
-                  사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을을 하자면졸업 예정자인
-                  사람으로써 조언을 졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써
-                  조언을을 하자면졸업 예정자인 사람으로써 조언을 졸업 예정자인 사람으로써 조언을
-                  하자면졸업 예정자인 사람으로써 조언을을 하자면졸업 예정자인 사람으로써 조언을 졸업
-                </div>
-                <div className="flex flex-row ml-[853px] col-span-4 ">
-                  <BoardWriteReplyHeart className="mt-[5px] ml-[13px]" />
-                  <div className="ml-[6.03px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    14
-                  </div>
-                </div>
-                <div className="col-span-3 ml-[28px] mt-[5px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-              </div>
-            </>
-          ))}
-          {ArrTest.map(data => (
-            <>
-              <div key={data} className="mt-[25px] grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
-                <div className="ml-[38px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9] row-span-2"></div>
-                <div className="flex flex-row">
-                  <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                    냠냠쿠키
-                  </div>
-                  <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                    2023.02.11 11:50
-                  </div>
-                </div>
-                <div className="flex flex-row ml-[18px]">
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                </div>
-                <div className="col-span-2 mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                  곧 졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을
-                  하자면졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을
-                  하자면졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을
-                  하자면졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을정자인
-                  사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인
-                  사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인
-                  사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을
-                </div>
-                <div className="flex flex-row col-span-3">
-                  <div className="ml-[96px] mt-[10px] font-normal text-[13px] leading-[17px] text-[#404040]">
-                    답글작성
-                  </div>
-                  <BoardWriteReplyHeart className="ml-[719px] mt-[5px]" />
-                  <div className="ml-[6.03px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    14
-                  </div>
-                </div>
-                <div className="col-span-3 ml-[28px] mt-[10px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-              </div>
+              <BoardBestReplyHeart {...data} data={data} />
             </>
           ))}
 
-          {nestedReplyArr.map(data => (
+          {boardReviewList.map((data: any) => (
             <>
-              <div className="mt-[25px] grid grid-cols-[74px_60px_720px_100px]">
-                <BoardReplyIcon className="row-span-2 ml-[38px]" />
-                <div className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-                <div className="flex flex-row">
-                  <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
-                    냠냠쿠키
-                  </div>
-                  <div className="ml-[8px] font-normal text-[14px] leading-[18px] text-[#919191]">
-                    2023.02.11 11:50
-                  </div>
-                </div>
-                <div className="flex flex-row row-span-2">
-                  <div className="text-[14px] text-[#989898]">수정</div>
-                  <span className="ml-[4px] text-[14px] text-[#989898]">|</span>
-                  <div className="ml-[4px] text-[14px] text-[#989898]">삭제</div>
-                </div>
-                <div className="mt-[2px] w-[723px] h-auto font-normal text-[16px] leading-[21px] text-[#404040]">
-                  곧 졸업 예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을 졸업
-                  예정자인 사람으로써 조언을 하자면졸업 예정자인 사람으로써 조언을
-                </div>
-                <div className="flex flex-row ml-[853px] col-span-4 ">
-                  <BoardWriteReplyHeart className="mt-[5px] ml-[13px]" />
-                  <div className="ml-[6.03px] font-normal text-[16px] leading-[21px] text-[#898989]">
-                    14
-                  </div>
-                </div>
-                <div className="col-span-3 ml-[28px] mt-[5px] w-[884px] border-[1px] border-[#BCBCBC]"></div>
-              </div>
+              <BoardReviewList {...data} data={data} />
             </>
           ))}
-          <div className="flex flex-row mt-[46px] mb-[66.62px] justify-center">
-            <BoardScrollDown className="mr-[19.11px]" />
-            <BoardScrollUp />
-          </div>
+        </div>
+        <div className="relative flex flex-col left-[30px]">
+          <BoardScrollUp
+            onClick={handleScrollUp}
+            className="sticky top-[85%] left-[75%] cursor-pointer"
+          />
+          <BoardScrollDown
+            onClick={handleScrollDown}
+            className="sticky top-[95%] left-[75%] cursor-pointer"
+          />
         </div>
       </div>
     </>

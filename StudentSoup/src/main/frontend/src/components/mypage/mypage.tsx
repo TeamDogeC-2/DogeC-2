@@ -20,9 +20,9 @@ const Mypage = () => {
           <MypageSidebar onClickMenu={onClickMenu} menu={menu} />
         </div>
         <div className="w-full">
-          <div>{menu === 'home' && <MypageHome onClickMenu={onClickMenu}/>}</div>
+          <div>{menu === 'home' && <MypageHome onClickMenu={onClickMenu} />}</div>
           <div>{menu === 'scheduler' && <MypageScheduler />}</div>
-          <div>{menu === 'modify' && <MypageModify onClickMenu={onClickMenu}/>}</div>
+          <div>{menu === 'modify' && <MypageModify onClickMenu={onClickMenu} />}</div>
           <div>{menu === 'boardReview' && <MypageBoardReivew />}</div>
         </div>
       </div>

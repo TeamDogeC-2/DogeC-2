@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 import Modal from '../home/modal';
 
 const Navbar = () => {
@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-[88px] items-center sticky flex justify-between bg-gradient-to-b from-[rgba(255,255,255,0.6)] to-[rgba(255,255,255,0)] border-b-[1px]">
-      <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+      <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
         onClick={() => {
           history.push('/');
         }}
