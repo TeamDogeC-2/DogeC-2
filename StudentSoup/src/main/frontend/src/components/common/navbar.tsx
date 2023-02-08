@@ -45,11 +45,18 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex sticky">
               <div className="flex flex-col items-center">
-                <img
-                  src={`/image/${IMAGE_FILE_ID}`}
-                  id="로그아웃"
-                  className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
-                />
+                {IMAGE_FILE_ID === '' ? (
+                  <img
+                    src={`/image/${IMAGE_FILE_ID}`}
+                    id="로그아웃"
+                    className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
+                  />
+                ) : (
+                  <img
+                    id="로그아웃"
+                    className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
+                  />
+                )}
               </div>
             </div>
           ) : (
