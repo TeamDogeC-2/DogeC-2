@@ -45,7 +45,7 @@ const Modal = (props: any) => {
   };
 
   const handleClickBoard = (e: any) => {
-    history.push('/board/');
+    history.push('/board/all');
   };
 
   return (

@@ -62,7 +62,7 @@ const boardWrite = () => {
           },
         )
         .then(res => {
-          history.push('/board');
+          history.goBack();
         })
         .catch(err => {
           console.error(err);
@@ -86,7 +86,7 @@ const boardWrite = () => {
           },
         )
         .then(res => {
-          history.push('/board');
+          history.goBack();
         })
         .catch(err => {
           console.error(err);
@@ -145,7 +145,7 @@ const boardWrite = () => {
   };
   const handleCancelClickButton = () => {
     if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {
-      history.push('/board');
+      history.goBack();
     }
   };
   return (

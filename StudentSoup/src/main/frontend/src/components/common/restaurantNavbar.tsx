@@ -177,7 +177,7 @@ const RestaurantNavbar = () => {
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
-              history.push('/board');
+              history.push('/board/all');
             }}
           >
             BOARD
