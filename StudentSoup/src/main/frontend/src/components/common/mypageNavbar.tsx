@@ -11,6 +11,7 @@ const mypageNavbar = () => {
   const history = useHistory();
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const mySchool = sessionStorage.getItem('schoolName');
 
   const logoutUrl = '/members/logout';
   const handleClickLogout = () => {
@@ -37,6 +38,10 @@ const mypageNavbar = () => {
       sessionStorage.clear();
       history.push('/');
     }
+  };
+
+  const handlePushRestaurant = (e: any) => {
+    history.push('/restaurant', mySchool);
   };
 
   return (
@@ -66,9 +71,7 @@ const mypageNavbar = () => {
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
-            onClick={() => {
-              history.push('/restaurant');
-            }}
+            onClick={handlePushRestaurant}
           >
             RESTAURANT
           </span>
@@ -84,7 +87,7 @@ const mypageNavbar = () => {
         <div className="flex flex-col items-center">
           <img
             src={`/image/${IMAGE_FILE_ID}`}
-            className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
+            className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px] cursor-pointer'
             onClick={() => {
               history.push('/mypage');
             }}

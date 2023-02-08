@@ -7,6 +7,8 @@ const Navbar = () => {
   const history = useHistory();
   const pathName = useLocation();
 
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const [isModal, setModal] = useState<Boolean>(false);
@@ -30,7 +32,10 @@ const Navbar = () => {
 
   return (
     <div className="w-full h-[88px] items-center sticky flex justify-between bg-gradient-to-b from-[rgba(255,255,255,0.6)] to-[rgba(255,255,255,0)] border-b-[1px]">
-      <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
+      <img
+        src={mainLogo}
+        alt=""
+        className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
         onClick={() => {
           history.push('/');
         }}
@@ -40,11 +45,11 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex sticky">
               <div className="flex flex-col items-center">
-                <div
+                <img
+                  src={`/image/${IMAGE_FILE_ID}`}
                   id="로그아웃"
-                  className='w-[40px] h-[40px] bg-[url("./img/circle_fill_gray.jpg")] bg-cover relative top-[14px] rounded-full border-[1px] border-[#FF4D14] cursor-pointer'
-                ></div>
-                <div className='w-[20px] h-[21px] bg-[url("./img/human.jpg")] bg-cover relative bottom-[17px] mb-[10px]'></div>
+                  className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
+                />
               </div>
             </div>
           ) : (

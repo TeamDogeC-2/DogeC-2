@@ -4,8 +4,11 @@ import { ReactComponent as RightIcon } from '../../img/icon_right.svg';
 import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
 import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone.svg';
 import { ReactComponent as RightFillNoneIcon } from '../../img/icon_right_fillnone.svg';
+import { useHistory } from 'react-router-dom';
 
 const MypageBoard = () => {
+  const history = useHistory();
+
   const boardUrl = '/mypage/board';
   const memberId = sessionStorage.getItem('memberId');
   const [board, setBoard] = useState<any>([]);
@@ -54,6 +57,11 @@ const MypageBoard = () => {
     setClickPage(idx);
   };
 
+  const handlePushBoard = (e: any) => {
+    const id = e.target.id;
+    history.push('/board/detail', id);
+  };
+
   return (
     <div className="w-[962px] h-[225px] flex flex-col mt-[25px]">
       <div className="w-full h-[2px] border-[1px] border-[#FF611D] bg-[#FF611D]"></div>
@@ -72,7 +80,12 @@ const MypageBoard = () => {
       <div className="w-full h-[2px] border-[1px] border-[#FF611D] bg-[#FF611D] mt-[19px]"></div>
       {board.length ? (
         board?.map((board: any) => (
-          <div id={board.boardId} key={board.boardId} className="text-[14px]">
+          <div
+            id={board.boardId}
+            key={board.boardId}
+            onClick={handlePushBoard}
+            className="text-[14px]"
+          >
             <div
               id={board.boardId}
               className="h-[50px] px-[34px] flex items-center text-[#353535] border-b border-[#D9D9D9]"

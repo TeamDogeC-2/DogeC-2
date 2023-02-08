@@ -121,7 +121,10 @@ const RestaurantNavbar = () => {
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
-        <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
+        <img
+          src={mainLogo}
+          alt=""
+          className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
           onClick={() => {
             history.push('/');
           }}
@@ -154,20 +157,19 @@ const RestaurantNavbar = () => {
             검색
           </button>
         </div>
-        {searchSchool?.map(school => (
-          <div
-            key={school.schoolId}
-            className="absolute top-[70px] left-[195px] w-[466px] h-[58px] rounded-[5px] bg-white"
-          >
-            <span
-              onClick={handleClick}
-              id={school.schoolId}
-              className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium"
-            >
-              {school.schoolName}
-            </span>
-          </div>
-        ))}
+        <div className="absolute top-[70px] left-[160px]">
+          {searchSchool?.map(school => (
+            <div key={school.schoolId} className="w-[466px] h-[58px] rounded-[5px] bg-white">
+              <span
+                onClick={handleClick}
+                id={school.schoolId}
+                className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+              >
+                {school.schoolName}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
