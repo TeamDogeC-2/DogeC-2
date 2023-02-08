@@ -4,18 +4,15 @@ import CheckRight from '../../img/check_right.png';
 import cn from 'clsx';
 import _ from 'lodash';
 import { categoryList } from './data/_constant';
+import { useHistory } from 'react-router-dom';
 
 interface propTypes {
   boardCategory: string;
-  setBoardCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const BoardSidebar = (props: propTypes) => {
-  const { boardCategory, setBoardCategory } = props;
-
-  const onClickBoardMenu = (current: string) => {
-    setBoardCategory(current);
-  };
+  const { boardCategory } = props;
+  const history = useHistory();
 
   return (
     <div className="flex-[3] w-[354px] h-[120vh] items-center justify-center flex-col shadow-2xl z-[2]">
@@ -28,7 +25,7 @@ const BoardSidebar = (props: propTypes) => {
         </li>
 
         {_.map(categoryList, (item, index) => {
-          const { label, imgPath, activeImgPath, value } = item;
+          const { label, imgPath, activeImgPath, value, link } = item;
           const isActive = boardCategory === value;
 
           return (
@@ -39,7 +36,7 @@ const BoardSidebar = (props: propTypes) => {
                   ['']: !isActive,
                 })}
                 onClick={() => {
-                  onClickBoardMenu(value);
+                  history.push(`/board${link}`);
                 }}
               >
                 <img
