@@ -45,7 +45,7 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex sticky">
               <div className="flex flex-col items-center">
-                {IMAGE_FILE_ID !== '' ? (
+                {!IMAGE_FILE_ID ? (
                   <img
                     src={`/image/${IMAGE_FILE_ID}`}
                     id="로그아웃"

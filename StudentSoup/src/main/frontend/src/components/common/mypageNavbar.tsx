@@ -85,7 +85,7 @@ const mypageNavbar = () => {
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
         <div className="flex flex-col items-center">
-          {IMAGE_FILE_ID !== '' ? (
+          {!IMAGE_FILE_ID ? (
             <img
               src={`/image/${IMAGE_FILE_ID}`}
               className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px] cursor-pointer'
