@@ -66,7 +66,7 @@ const RestaurantMain = (_props: any) => {
       })
       .catch(function (_error) {
         if (!state.state) {
-          alert('schoolName 이 전달되지 않았습니다. 올바른 접근이 필요합니다.');
+          alert('비정상적인 경로입니다. 메인페이지로 이동합니다.');
           history.push('/');
         }
       });
@@ -96,7 +96,7 @@ const RestaurantMain = (_props: any) => {
     const map = new kakao.maps.Map(container, options);
     const markerPosition = new kakao.maps.LatLng(...MapLocation);
     const marker = new kakao.maps.Marker({
-      position: markerPosition
+      position: markerPosition,
     });
     marker.setMap(map);
   });
