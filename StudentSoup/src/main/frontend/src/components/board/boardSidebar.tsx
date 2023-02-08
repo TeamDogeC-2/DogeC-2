@@ -28,8 +28,6 @@ const BoardSidebar = (props: propTypes) => {
           const { label, imgPath, activeImgPath, value, link } = item;
           const isActive = boardCategory === value;
 
-          console.log(link);
-
           return (
             <li className="mb-[20px]" key={index}>
               <div

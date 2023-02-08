@@ -25,40 +25,14 @@ const BoardContent = (props: PropsType) => {
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(0); // TODO
+  const [page, setPage] = useState(0);
   const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
   const [departmentId, setDepartmentId] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    handleSearchValueInit();
-    const request = {
-      column: 'title',
-      value: '',
-      category: boardCategory,
-      sorted: 0,
-      page: 0,
-      size: boardCategory === 'ALL' ? 7 : 12,
-    };
-    getBoardList(request, (res: DataResType) => {
-      setList(res.boards.content);
-      setPageInfo(res.boards.totalPages);
-      if (res.bestBoards) setTopList(res.bestBoards);
-      if (res.hotBoards) setHotList(res.hotBoards);
-    });
-  }, [boardCategory, range]);
-
-  useEffect(() => {
     handleSearchButton();
-  }, [sort, departmentId, page]);
-
-  const handleSearchValueInit = () => {
-    setSearchValue('');
-    setPage(0);
-    setColumn('title');
-    setSort(0);
-    setDepartmentId(undefined);
-  };
+  }, [sort, departmentId, page, range]);
 
   const handleSearchButton = () => {
     const request = {
