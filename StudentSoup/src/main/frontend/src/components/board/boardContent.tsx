@@ -32,15 +32,24 @@ const BoardContent = (props: PropsType) => {
 
   useEffect(() => {
     handleSearchButton();
-  }, [sort, departmentId, page, range]);
+  }, [departmentId]);
 
-  const handleSearchButton = () => {
+  useEffect(() => {
+    handleSearchButton(false);
+  }, [sort, range, page]);
+
+  /**
+   * 검색 Api
+   * @param goFirstPage 첫 번째 페이지로 이동할 것인지 여부
+   */
+  const handleSearchButton = (goFirstPage: boolean = true) => {
+    if (goFirstPage) setPage(0);
     const request = {
       column,
       value: searchValue,
       category: boardCategory,
       sorted: sort,
-      page,
+      page: goFirstPage ? 0 : page,
       size: boardCategory === 'ALL' ? 7 : 12,
       departmentId: range === RANGE.SUBJECT ? departmentId : undefined,
     };
