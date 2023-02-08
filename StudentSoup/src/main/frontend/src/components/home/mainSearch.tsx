@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import cn from 'clsx';
+import mainLogo_white from '../../img/mainLogo_white.svg';
 import { ReactComponent as Search } from '../../img/search_icon.svg';
 import { useHistory } from 'react-router-dom';
 
@@ -67,10 +68,17 @@ const MainSearch = () => {
     <div className="w-full flex flex-col mt-[290px] items-center">
       <div
         className={cn(
-          'flex flex-col text-center relative bottom-[88px]',
-          'after:flex after:flex-col after:text-center after:relative after:bottom-[88px]',
+          'flex flex-col text-center relative bottom-[150px]',
+          'after:flex after:flex-col after:text-center after:relative after:bottom-[150px]',
         )}
       >
+        <div className='flex items-center justify-center mb-[20px]'>
+          <img
+            src={mainLogo_white}
+            alt=""
+            className="w-[200px] h-[56px] ml-[28px]"
+          />
+        </div>
         <span className="text-[45px] fw-400 leading-[59px] text-white">대학생을 위한</span>
         <span className="text-[65px] fw-400 leading-[93px] font-extrabold text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천

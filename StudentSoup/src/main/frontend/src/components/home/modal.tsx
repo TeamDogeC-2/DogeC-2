@@ -59,11 +59,16 @@ const Modal = (props: any) => {
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">마이페이지</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
-            <li className="flex items-center justify-between">
+            <li
+              onClick={() => {
+                history.push('/board');
+              }}
+              className="flex items-center justify-between cursor-pointer"
+            >
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">게시판</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
-            <li className="flex items-center justify-between">
+            <li className="flex items-center justify-between cursor-pointer">
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">FAQ</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>

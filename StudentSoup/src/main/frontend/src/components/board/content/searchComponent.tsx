@@ -4,23 +4,59 @@ import cn from 'clsx';
 import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
 import { RANGE } from './titleComponent';
+import useBoardData, { DepartmentType } from '../data/useBoardData';
 
-const keywordList = ['제목', '글쓴이', '내용'];
-const sortList = ['추천순', '최신순', '조회순', '댓글순'];
-const subjectList = ['1', '2'];
+interface PropsType {
+  range: RANGE;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  sort: number;
+  setSort: React.Dispatch<React.SetStateAction<number>>;
+  column: string;
+  setColumn: React.Dispatch<React.SetStateAction<string>>;
+  departmentId: number | undefined;
+  setDepartmentId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  handleSearchButton: () => void;
+}
 
-const SearchComponent = ({ range }: { range: RANGE }) => {
+const keywordList = [
+  { label: '제목', value: 'title' },
+  { label: '글쓴이', value: 'nickname' },
+  { label: '내용', value: 'content' },
+];
+
+const sortList = [
+  { label: '추천순', value: 1 },
+  { label: '최신순', value: 2 },
+  { label: '조회순', value: 3 },
+  { label: '댓글순', value: 4 },
+];
+
+const SearchComponent = (props: PropsType) => {
+  const {
+    range,
+    searchValue,
+    setSearchValue,
+    sort,
+    setSort,
+    column,
+    setColumn,
+    departmentId,
+    setDepartmentId,
+    handleSearchButton,
+  } = props;
+
   const [showKeywords, setShowKeywords] = useState(false);
   const [showSorts, setShowSorts] = useState(false);
   const [showSubjects, setShowSubjects] = useState(false);
 
-  const [keyword, setKeyword] = useState('전체');
-  const [sort, setSort] = useState('전체');
-  const [subject, setSubject] = useState('학과');
+  const [subjectList, setSubjectList] = useState<DepartmentType[]>([]);
 
   const keywordRef: any = useRef(null);
   const sortRef: any = useRef(null);
   const subjectRef: any = useRef(null);
+
+  const { getDepartmentList } = useBoardData();
 
   /**
    * 컴포넌트 특정 영역 외 클릭 감지를 위해 사용
@@ -57,112 +93,32 @@ const SearchComponent = ({ range }: { range: RANGE }) => {
 
   return (
     <div className="flex justify-between mt-[26px]">
-      <div className="flex bg-white border border-solid border-[#BCBCBC] rounded-[5px]">
-        <img src={SearchIcon} alt="" className="w-[19px] ml-[13px]" />
-        <input
-          placeholder="글 제목, 내용, 해시태그를 적어주세요"
-          className="w-[444px] h-[46px] p-[13px] text-[16px] rounded-[5px] focus:outline-none"
-        />
-      </div>
-
-      {/* Keyword */}
-      <div ref={keywordRef} className="relative">
-        <div
-          onClick={() => {
-            setShowKeywords(prev => !prev);
-          }}
-          className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[137px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
-        >
-          {keyword}
-          <span>
-            <img src={Arrow} alt="selectbox" />
-          </span>
-        </div>
-        {showKeywords && (
-          <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[137px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
-            {_.map(keywordList, (item, index) => {
-              return (
-                <div
-                  onClick={() => {
-                    setKeyword(item);
-                    setShowKeywords(false);
-                  }}
-                  key={index}
-                  className={cn(
-                    'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
-                    {
-                      ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
-                    },
-                  )}
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Sort */}
-      <div ref={sortRef} className="relative">
-        <div
-          onClick={() => {
-            setShowSorts(prev => !prev);
-          }}
-          className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[137px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
-        >
-          {sort}
-          <span>
-            <img src={Arrow} alt="selectbox" />
-          </span>
-        </div>
-        {showSorts && (
-          <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[137px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
-            {_.map(sortList, (item, index) => {
-              return (
-                <div
-                  onClick={() => {
-                    setSort(item);
-                    setShowSorts(false);
-                  }}
-                  key={index}
-                  className={cn(
-                    'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
-                    {
-                      ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
-                    },
-                  )}
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Subject */}
-      {range === RANGE.SUBJECT ? (
-        <div ref={subjectRef} className="relative">
+      <div className="flex">
+        {/* Keyword */}
+        <div ref={keywordRef} className="relative">
           <div
             onClick={() => {
-              setShowSubjects(prev => !prev);
+              setShowKeywords(prev => !prev);
             }}
-            className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
+            className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[84px] h-[46px] rounded-l-[5px] border border-solid border-[#BCBCBC]"
           >
-            {subject}
+            {
+              _.find(keywordList, item => {
+                return item.value === column;
+              })?.label
+            }
             <span>
               <img src={Arrow} alt="selectbox" />
             </span>
           </div>
-          {showSubjects && (
-            <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[165px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
-              {_.map(subjectList, (item, index) => {
+          {showKeywords && (
+            <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[84px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
+              {_.map(keywordList, (item, index) => {
                 return (
                   <div
                     onClick={() => {
-                      setSubject(item);
-                      setShowSubjects(false);
+                      setColumn(item.value);
+                      setShowKeywords(false);
                     }}
                     key={index}
                     className={cn(
@@ -172,18 +128,129 @@ const SearchComponent = ({ range }: { range: RANGE }) => {
                       },
                     )}
                   >
-                    {item}
+                    {item.label}
                   </div>
                 );
               })}
             </div>
           )}
         </div>
-      ) : (
-        <div className="relative">
-          <div className="cursor-[no-drop] flex items-center justify-between bg-[#ddd] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"></div>
+
+        {/* Search */}
+        <input
+          value={searchValue}
+          onChange={e => {
+            setSearchValue(e.target.value);
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter') handleSearchButton();
+          }}
+          placeholder="글 제목, 내용, 해시태그를 적어주세요"
+          className="bg-white border-r border-y border-solid border-[#BCBCBC] rounded-r-[5px] mr-[5px] w-[280px] h-[46px] p-[13px] text-[16px] focus:outline-none"
+        />
+        <div
+          onClick={() => {
+            handleSearchButton();
+          }}
+          className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]"
+        >
+          검색
         </div>
-      )}
+      </div>
+
+      <div className="flex justify-end gap-x-[5px]">
+        {/* Sort */}
+        <div ref={sortRef} className="relative">
+          <div
+            onClick={() => {
+              setShowSorts(prev => !prev);
+            }}
+            className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[137px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
+          >
+            {sort === 0
+              ? '정렬'
+              : _.find(sortList, item => {
+                  return item.value === sort;
+                })?.label}
+            <span>
+              <img src={Arrow} alt="selectbox" />
+            </span>
+          </div>
+          {showSorts && (
+            <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[137px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
+              {_.map(sortList, (item, index) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setSort(item.value);
+                      setShowSorts(false);
+                    }}
+                    key={index}
+                    className={cn(
+                      'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
+                      {
+                        ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
+                      },
+                    )}
+                  >
+                    {item.label}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Subject */}
+        {range === RANGE.SUBJECT && (
+          <div ref={subjectRef} className="relative">
+            <div
+              onClick={() => {
+                setShowSubjects(prev => !prev);
+                if (!showSubjects) {
+                  getDepartmentList(data => {
+                    setSubjectList(data);
+                  });
+                }
+              }}
+              className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
+            >
+              {departmentId === undefined
+                ? '학과'
+                : _.find(subjectList, item => {
+                    return item.departmentId === departmentId;
+                  })?.departmentName}
+              <span>
+                <img src={Arrow} alt="selectbox" />
+              </span>
+            </div>
+            {showSubjects && (
+              <div className="flex flex-col absolute border border-solid border-[#BCBCBC] rounded-[5px] w-[165px] bg-[#E9E9E9] text-[#7B7B7B] top-[52px]">
+                {_.map(subjectList, (item, index) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        // setSubject(item.departmentName);
+                        setShowSubjects(false);
+                        setDepartmentId(item.departmentId);
+                      }}
+                      key={index}
+                      className={cn(
+                        'py-[7px] px-[12px] cursor-pointer hover:bg-[#dddddd] first-of-type:rounded-t-[5px] last-of-type:rounded-b-[5px]',
+                        {
+                          ['border-t-[1px] border-solid border-[#BCBCBC]']: index !== 0,
+                        },
+                      )}
+                    >
+                      {item.departmentName}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
