@@ -18,6 +18,7 @@ const MypageHome = (props: propTypes) => {
   const imageUploader = useRef<any>(null);
 
   const memberId = sessionStorage.getItem('memberId');
+  console.log(memberId);
   const savedName = sessionStorage.getItem('nickname');
   const savedSchool = sessionStorage.getItem('schoolName');
   const savedDepart = sessionStorage.getItem('departmentName');
@@ -69,6 +70,19 @@ const MypageHome = (props: propTypes) => {
     location.reload();
   };
 
+  const handleDeleteProfileImage = () => {
+    axios
+      .delete('/members/delete/image', { params: { memberId } })
+      .then(function (response) {
+        sessionStorage.setItem('fileName', response.data.fileName);
+        alert('기본 이미지로 변경되었습니다.');
+        location.reload();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const handleModify = (e: any) => {
     props.onClickMenu('modify');
   };
@@ -79,7 +93,10 @@ const MypageHome = (props: propTypes) => {
       <div className="flex flex-row w-full h-[100vh]">
         <div className="w-[451px] relative bottom-[140px]">
           <div className="flex flex-col items-center w-[319px] h-[425px] ml-[75px] mr-[57px] bg-white shadow-lg rounded-[5px] z-[2]">
-            <div onClick={() => imageUploader.current.click()} className="w-[122px] h-[122px] mt-[20px]">
+            <div
+              onClick={() => imageUploader.current.click()}
+              className="w-[122px] h-[122px] mt-[20px]"
+            >
               <input
                 type="file"
                 accept="image/*"
@@ -94,7 +111,10 @@ const MypageHome = (props: propTypes) => {
               />
               <X className="relative bottom-[87px] left-[109px] rotate-45" />
             </div>
-            <button className="h-[25px] px-[5px] text-[#919191] mt-[90px] border-[1px] border-[#919191] rounded-[11px] text-[15px] leading-[21px] relative bottom-[70px]">
+            <button
+              onClick={handleDeleteProfileImage}
+              className="h-[25px] px-[5px] text-[#919191] mt-[90px] border-[1px] border-[#919191] rounded-[11px] text-[15px] leading-[21px] relative bottom-[70px]"
+            >
               기본 프로필로 지정
             </button>
             <div className="relative bottom-[60px]">
