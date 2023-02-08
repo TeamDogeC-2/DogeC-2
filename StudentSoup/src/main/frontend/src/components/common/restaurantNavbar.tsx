@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
-import Faq from '../../img/faq.jpg';
+import Circle_human from '../../img/circle_human.png';
 import Logout from '../../img/logout.jpg';
 
 const RestaurantNavbar = () => {
@@ -12,6 +12,7 @@ const RestaurantNavbar = () => {
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
   const userId = sessionStorage.getItem('id');
+  const mySchool = sessionStorage.getItem('schoolName');
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [searchSchool, setSearchSchool] = useState<any[]>();
@@ -112,10 +113,18 @@ const RestaurantNavbar = () => {
 
   const handleMypage = () => {
     if (userId === null) {
-      alert('로그인 후 이용가능합니다.');
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        history.push('/login');
+      } else {
+        /* empty */
+      }
     } else {
       history.push('/mypage');
     }
+  };
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
   };
 
   return (
@@ -177,7 +186,16 @@ const RestaurantNavbar = () => {
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
-              history.push('/board/all');
+              if (userId === null) {
+                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                  history.push('/login');
+                } else {
+                  return;
+                }
+              }
+              if (userId) {
+                history.push('/board/all');
+              }
             }}
           >
             BOARD
@@ -189,7 +207,15 @@ const RestaurantNavbar = () => {
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
-              history.push('/restaurant');
+              if (isLogin) {
+                history.push('/restaurant', mySchool);
+              } else {
+                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                  history.push('/login');
+                } else {
+                  /* empty */
+                }
+              }
             }}
           >
             RESTAURANT
@@ -212,18 +238,12 @@ const RestaurantNavbar = () => {
           )}
         </div>
         <div className="flex flex-col items-center cursor-pointer">
-          {IMAGE_FILE_ID === '' ? (
-            <img
-              src={`/image/${IMAGE_FILE_ID}`}
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-              onClick={handleMypage}
-            />
-          ) : (
-            <img
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-              onClick={handleMypage}
-            />
-          )}
+          <img
+            src={`/image/${IMAGE_FILE_ID}`}
+            onError={handleImgError}
+            className="relative top-[34px] bg-cover w-[40px] h-[40px] rounded-full mb-[70px]"
+            onClick={handleMypage}
+          />
         </div>
       </div>
     </div>

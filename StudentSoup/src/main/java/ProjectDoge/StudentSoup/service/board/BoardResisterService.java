@@ -50,12 +50,10 @@ public class BoardResisterService {
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
         if (departmentId == null || departmentId == 0) {
-            Board board = new Board().createBoard(boardFormDto, member, member.getSchool());
-            return board;
+            return new Board().createBoard(boardFormDto, member, member.getSchool());
         }
         Department department = departmentFindService.findOne(departmentId);
-        Board board = new Board().createBoard(boardFormDto, member, member.getSchool(), department);
-        return board;
+        return new Board().createBoard(boardFormDto, member, member.getSchool(), department);
     }
 
     private void uploadBoardImage(List<UploadFileDto> uploadFileDtoList, Board board) {
@@ -97,4 +95,15 @@ public class BoardResisterService {
         log.info("게시글이 저장되었습니다.[{}]", board.getId());
         return board.getId();
     }
+
+    @Transactional
+    public Long boardAllJoin(Long memberId, BoardFormDto boardFormDto){
+        log.info("게시글 생성 메소드가 실행되었습니다");
+        Member member = memberFindService.findOne(memberId);
+        Board board = new Board().createBoard(boardFormDto, member, member.getSchool());
+        boardRepository.save(board);
+        log.info("게시글이 저장되었습니다.[{}]", board.getId());
+        return board.getId();
+    }
+
 }

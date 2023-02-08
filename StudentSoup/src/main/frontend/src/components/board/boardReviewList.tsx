@@ -3,6 +3,7 @@ import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteRepl
 import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
 import { ReactComponent as BardWriteReplyActiveHeart } from '../../img/BoardWriteReplyActiveHeart.svg';
 import { useLocation } from 'react-router-dom';
+import Circle_human from '../../img/circle_human.png';
 
 import axios from 'axios';
 
@@ -123,19 +124,19 @@ const boardReviewList = (data: any) => {
         console.error(err);
       });
   };
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[96px_minmax(720px,_1fr)_100px]">
         {data.seq && data.level === 0 ? (
           <>
-            {data.memberProfileImageName ? (
-              <img
-                src={`/image/${data.memberProfileImageName}`}
-                className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
-              />
-            ) : (
-              <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-            )}
+            <img
+              src={`/image/${data.memberProfileImageName}`}
+              onError={handleImgError}
+              className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full"
+            />
             <div className="flex flex-row mt-[20px]">
               <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
                 {data.nickname}
@@ -334,14 +335,12 @@ const boardReviewList = (data: any) => {
               className="mt-[23px] grid grid-cols-[74px_60px_720px_100px]"
             >
               <BoardReplyIcon className="row-span-2 ml-[38px]" />
-              {data.memberProfileImageName ? (
-                <img
-                  src={`/image/${data.memberProfileImageName}`}
-                  className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
-                />
-              ) : (
-                <div className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-              )}
+              <img
+                src={`/image/${data.memberProfileImageName}`}
+                onError={handleImgError}
+                className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full"
+              />
+
               <div className="flex flex-row">
                 <div className="h-[23px] font-normal text-[16px] leading-[22px] text-[#404040]">
                   {data.nickname}
