@@ -13,13 +13,6 @@ const mypageNavbar = () => {
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const logoutUrl = '/members/logout';
-
-  // const [image, setImage] = useState<string>();
-
-  // useEffect(() => {
-  //   setImage(IMAGE_FILE_ID);
-  // });
-
   const handleClickLogout = () => {
     axios
       .post(logoutUrl)
@@ -90,7 +83,7 @@ const mypageNavbar = () => {
         </div>
         <div className="flex flex-col items-center">
           <img
-            src={IMAGE_FILE_ID}
+            src={`/image/${IMAGE_FILE_ID}`}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
             onClick={() => {
               history.push('/mypage');

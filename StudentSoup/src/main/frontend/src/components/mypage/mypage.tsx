@@ -22,7 +22,7 @@ const Mypage = () => {
         <div className="w-full">
           <div>{menu === 'home' && <MypageHome onClickMenu={onClickMenu} />}</div>
           <div>{menu === 'scheduler' && <MypageScheduler />}</div>
-          <div>{menu === 'modify' && <MypageModify onClickMenu={onClickMenu}/>}</div>
+          <div>{menu === 'modify' && <MypageModify onClickMenu={onClickMenu} />}</div>
           <div>{menu === 'boardReview' && <MypageBoardReivew />}</div>
         </div>
       </div>
