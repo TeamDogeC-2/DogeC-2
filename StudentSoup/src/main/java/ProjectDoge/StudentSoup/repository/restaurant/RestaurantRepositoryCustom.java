@@ -19,5 +19,5 @@ public interface RestaurantRepositoryCustom {
 
     List<Restaurant> findBySchoolId(Long schoolId, Pageable pageable);
 
-    JPAQuery<Long> countBySchoolId(Long schoolId);
+    JPAQuery<Long> countBySchoolId(Long schoolId,String category);
 }
