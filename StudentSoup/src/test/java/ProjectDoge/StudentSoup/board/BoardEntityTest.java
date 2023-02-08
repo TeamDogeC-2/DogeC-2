@@ -85,7 +85,7 @@ public class BoardEntityTest {
         BoardFormDto boardDto = createBoardDto("테스트 제목", BoardCategory.FREE,"테스트 내용");
 
         //when
-        Long boardId = boardResisterService.join(memberId, boardDto, multipartFile);
+        Long boardId = boardResisterService.join(memberId, boardDto);
 
         //then
         assertThat(boardId).isEqualTo(boardFindService.findOne(boardId).getId());
