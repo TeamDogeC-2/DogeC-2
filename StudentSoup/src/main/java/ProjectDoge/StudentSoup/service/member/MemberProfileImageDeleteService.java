@@ -24,10 +24,12 @@ public class MemberProfileImageDeleteService {
     @Transactional
     public MemberDto deleteImage(Long memberId) {
         Member member = memberFindService.findOne(memberId);
-        fileService.deleteFile(member.getImageFile());
-        fileRepository.delete(member.getImageFile());
-        member.setImageFile(null);
-        memberRepository.save(member);
+        if(member.getImageFile() != null) {
+            fileService.deleteFile(member.getImageFile());
+            fileRepository.delete(member.getImageFile());
+            member.setImageFile(null);
+            memberRepository.save(member);
+        }
         MemberDto memberDto = new MemberDto().getMemberDto(member);
 
         return memberDto;
