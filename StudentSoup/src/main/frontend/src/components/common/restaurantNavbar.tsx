@@ -12,6 +12,7 @@ const RestaurantNavbar = () => {
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
   const userId = sessionStorage.getItem('id');
+  const mySchool = sessionStorage.getItem('schoolName');
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [searchSchool, setSearchSchool] = useState<any[]>();
@@ -112,7 +113,11 @@ const RestaurantNavbar = () => {
 
   const handleMypage = () => {
     if (userId === null) {
-      alert('로그인 후 이용가능합니다.');
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        history.push('/login');
+      } else {
+        /* empty */
+      }
     } else {
       history.push('/mypage');
     }
@@ -177,7 +182,16 @@ const RestaurantNavbar = () => {
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
-              history.push('/board');
+              if (userId === null) {
+                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                  history.push('/login');
+                } else {
+                  return;
+                }
+              }
+              if (userId) {
+                history.push('/board');
+              }
             }}
           >
             BOARD
@@ -189,7 +203,15 @@ const RestaurantNavbar = () => {
           <span
             className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
-              history.push('/restaurant');
+              if (isLogin) {
+                history.push('/restaurant', mySchool);
+              } else {
+                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                  history.push('/login');
+                } else {
+                  /* empty */
+                }
+              }
             }}
           >
             RESTAURANT
