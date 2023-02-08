@@ -45,7 +45,7 @@ const Modal = (props: any) => {
   };
 
   const handleClickBoard = (e: any) => {
-    history.push('/board');
+    history.push('/board/');
   };
 
   return (
@@ -63,7 +63,10 @@ const Modal = (props: any) => {
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">마이페이지</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
-            <li onClick={handleClickBoard} className="flex items-center justify-between cursor-pointer">
+            <li
+              onClick={handleClickBoard}
+              className="flex items-center justify-between cursor-pointer"
+            >
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">게시판</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
