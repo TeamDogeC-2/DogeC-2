@@ -129,7 +129,7 @@ const RestaurantNavbar = () => {
             history.push('/');
           }}
         />
-        <div className="w-[466px] h-[44px] px-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
+        <div className="w-[466px] h-[44px] pl-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
           <svg
             width="25"
             height="24"
@@ -157,7 +157,7 @@ const RestaurantNavbar = () => {
             검색
           </button>
         </div>
-        <div className="absolute top-[70px] left-[195px]">
+        <div className="absolute top-[70px] left-[160px]">
           {searchSchool?.map(school => (
             <div key={school.schoolId} className="w-[466px] h-[58px] rounded-[5px] bg-white">
               <span
