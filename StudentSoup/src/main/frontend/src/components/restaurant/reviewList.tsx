@@ -126,7 +126,7 @@ const reviewWrite = () => {
                       <div className="flex flex-row" key={school.restaurantReviewId}>
                         <img
                           key={school.restaurantReviewId}
-                          src={`/image/${school.memberProfileImageName}`}
+                          src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
                           onError={handleImgError}
                           className="ml-[32px] mt-[27px] w-[74px] h-[74px] rounded-full"
                         />
@@ -222,7 +222,7 @@ const reviewWrite = () => {
                   <div className="flex flex-row">
                     <img
                       key={school.restaurantReviewId}
-                      src={`/image/${school.memberProfileImageName}`}
+                      src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
                       onError={handleImgError}
                       className="w-[39px] h-[40px] ml-[13px] mt-[15px] rounded-full border-[#9C9C9C]"
                     />
@@ -236,7 +236,7 @@ const reviewWrite = () => {
                   {school.imageFileNameList.length ? (
                     <>
                       <img
-                        src={`/image/${school.imageFileNameList[0]}`}
+                        src={`${process.env.REACT_APP_IMG_KEY}/${school.imageFileNameList[0]}`}
                         className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
                       />
                       <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">

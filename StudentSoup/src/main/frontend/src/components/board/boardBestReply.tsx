@@ -98,7 +98,7 @@ const boardBestReplyHeart = (data: any) => {
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
         <img
-          src={`/image/${data.memberProfileImageName}`}
+          src={`${process.env.REACT_APP_IMG_KEY}/${data.memberProfileImageName}`}
           onError={handleImgError}
           className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
         />

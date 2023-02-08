@@ -133,7 +133,7 @@ const boardReviewList = (data: any) => {
         {data.seq && data.level === 0 ? (
           <>
             <img
-              src={`/image/${data.memberProfileImageName}`}
+              src={`${process.env.REACT_APP_IMG_KEY}/${data.memberProfileImageName}`}
               onError={handleImgError}
               className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full"
             />
@@ -336,7 +336,7 @@ const boardReviewList = (data: any) => {
             >
               <BoardReplyIcon className="row-span-2 ml-[38px]" />
               <img
-                src={`/image/${data.memberProfileImageName}`}
+                src={`${process.env.REACT_APP_IMG_KEY}/${data.memberProfileImageName}`}
                 onError={handleImgError}
                 className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full"
               />

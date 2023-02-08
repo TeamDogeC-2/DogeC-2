@@ -118,5 +118,5 @@ task buildReact(type: Exec) {
 task copyReactFile(type: Copy) {
 	dependsOn "buildReact"
 	from "$reactAppDir/build"
-	into "$buildDir/resources/main/static"
+	into "$projectDir/resources/main/static"
 }

@@ -239,7 +239,7 @@ const RestaurantNavbar = () => {
         </div>
         <div className="flex flex-col items-center cursor-pointer">
           <img
-            src={`/image/${IMAGE_FILE_ID}`}
+            src={`${process.env.REACT_APP_IMG_KEY}/${IMAGE_FILE_ID}`}
             onError={handleImgError}
             className="relative top-[34px] bg-cover w-[40px] h-[40px] rounded-full mb-[70px]"
             onClick={handleMypage}

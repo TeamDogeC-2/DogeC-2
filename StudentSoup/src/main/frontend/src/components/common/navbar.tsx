@@ -51,7 +51,7 @@ const Navbar = () => {
             <div className="flex sticky">
               <div className="flex flex-col items-center">
                 <img
-                  src={`/image/${IMAGE_FILE_ID}`}
+                  src={`${process.env.REACT_APP_IMG_KEY}/${IMAGE_FILE_ID}`}
                   onError={handleImgError}
                   id="로그아웃"
                   className='w-[50px] h-[50px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
