@@ -34,9 +34,10 @@ public class BoardCallService {
     private final BoardLikeRepository boardLikeRepository;
 
     @Transactional
-    public BoardDto getBoardDetail(Long boardId, Long memberId) {
+    public BoardDto getBoardDetail(Long boardId, Long memberId,HttpServletRequest request,HttpServletResponse response) {
         log.info("게시글 클릭시 게시글 호출 로직이 실행되었습니다.");
         Board board = boardFindService.findOneForBoardDetail(boardId);
+        updateView(board,request,response);
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         if (boardLike == null) {
             return getNotLikeBoardDto(board);
@@ -65,18 +66,11 @@ public class BoardCallService {
     private Cookie createNewCookie(Board board) {
         Cookie newCookie = new Cookie("alreadyViewCookie" + board.getId(),String.valueOf(board.getId()));
         newCookie.setComment("조회수 중복 증가 방지 쿠키");
-        newCookie.setMaxAge(getRemainSecondForTomorrow());
+        newCookie.setMaxAge(60*5);
         newCookie.setHttpOnly(true);
         board.addViewCount();
         return newCookie;
     }
-
-    private int getRemainSecondForTomorrow() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
-        return (int) now.until(tomorrow, ChronoUnit.SECONDS);
-    }
-
 
     private BoardDto getLikeBoardDto(Board board) {
         return new BoardDto(board, ConstField.LIKED);
