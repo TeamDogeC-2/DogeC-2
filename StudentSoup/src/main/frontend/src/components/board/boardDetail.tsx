@@ -10,9 +10,11 @@ import { ReactComponent as BoardWriteWhiteHeart } from '../../img/BoardWriteWhit
 import { ReactComponent as BoardWriteActiveHeart } from '../../img/BoardWriteActiveHeart.svg';
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const boardDetail = () => {
+  const state = useLocation<any>();
+  const getBoardId = state.state;
   const [boardTitle, setBoardTitle] = useState<string>('');
   const [boardImg, setBoardImg] = useState<any>([]);
   const [boardReviewCount, setBoardReviewCount] = useState<number>();
@@ -36,7 +38,7 @@ const boardDetail = () => {
   // const url = `/board/${boardId}/${saveMemberId}`; 최종 데이터
   useEffect(() => {
     axios
-      .post(`/board/192/${saveMemberId}`)
+      .post(`/board/${getBoardId}/${saveMemberId}`)
       .then(res => {
         setBoardReviewCount(res.data.reviewCount);
         setBoardTitle(res.data.title);
@@ -56,7 +58,7 @@ const boardDetail = () => {
   const history = useHistory();
   useEffect(() => {
     axios
-      .get(`/boardReplies/192/${saveMemberId}`)
+      .get(`/boardReplies/${getBoardId}/${saveMemberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -91,7 +93,7 @@ const boardDetail = () => {
     }
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: getBoardId,
         memberId: saveMemberId,
         content: replyTextValue,
         level: 0,
@@ -106,7 +108,6 @@ const boardDetail = () => {
       });
   };
 
-  console.log(replyTextValue);
   const handleReplySetContentValue = (e: any) => {
     setReplyTextValue(e.target.value);
   };
@@ -124,7 +125,7 @@ const boardDetail = () => {
   const handleBoardLikeCount = () => {
     // /board/{boardId}/{saveMemberId}/like 가 최종 데이터
     axios
-      .post(`/board/192/${saveMemberId}/like`)
+      .post(`/board/${getBoardId}/${saveMemberId}/like`)
       .then(res => {
         isClickLike(res.data.data.like);
         setLikeCount(res.data.data.likedCount);
@@ -140,7 +141,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
       axios
-        .delete(`/board/192/${saveMemberId}`)
+        .delete(`/board/${getBoardId}/${saveMemberId}`)
         .then(res => {
           alert('게시글이 삭제되었습니다.');
           history.push('/board');
@@ -154,7 +155,7 @@ const boardDetail = () => {
     // /board/{boardId}/{memberId} 가 최종 데이터
     if (confirm('정말로 게시글을 수정하시겠습니까?')) {
       axios
-        .get(`/board/192/${saveMemberId}`)
+        .get(`/board/${getBoardId}/${saveMemberId}`)
         .then(res => {
           history.push('/board/edit', [
             boardTitle,
@@ -298,16 +299,19 @@ const boardDetail = () => {
             </>
           ))}
         </div>
-        <div className="relative flex flex-col left-[30px]">
-          <BoardScrollUp
-            onClick={handleScrollUp}
-            className="sticky top-[85%] left-[75%] cursor-pointer"
-          />
-          <BoardScrollDown
-            onClick={handleScrollDown}
-            className="sticky top-[95%] left-[75%] cursor-pointer"
-          />
-        </div>
+        {boardReviewList.length < 3 ||
+          (boardBestReviewList < 3 && (
+            <div className="relative left-[30px] flex flex-col">
+              <BoardScrollUp
+                onClick={handleScrollUp}
+                className="sticky top-[88%] left-[75%] cursor-pointer"
+              />
+              <BoardScrollDown
+                onClick={handleScrollDown}
+                className="sticky top-[95%] left-[75%] cursor-pointer"
+              />
+            </div>
+          ))}
       </div>
     </>
   );
