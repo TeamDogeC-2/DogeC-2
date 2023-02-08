@@ -64,6 +64,12 @@ const MainSearch = () => {
     }
   };
 
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handlePushRestaurant();
+    }
+  };
+
   return (
     <div className="w-full flex flex-col mt-[290px] items-center">
       <div
@@ -83,6 +89,7 @@ const MainSearch = () => {
           <Search className="mx-[16px] my-[15px]" />
           <input
             onChange={handleChange}
+            onKeyDown={handleOnKeyPress}
             name="text"
             value={inputSchool}
             placeholder="지역 학교 명을 입력하세요."
