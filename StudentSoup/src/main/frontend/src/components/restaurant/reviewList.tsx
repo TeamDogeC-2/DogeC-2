@@ -13,6 +13,7 @@ import { ReactComponent as LeftIcon } from '../../img/icon_left.svg';
 import { ReactComponent as LeftFillNoneIcon } from '../../img/icon_left_fillnone.svg';
 import { ReactComponent as RightFillNoneIcon } from '../../img/icon_right_fillnone.svg';
 import cn from 'clsx';
+import Circle_human from '../../img/circle_human.png';
 
 const reviewWrite = () => {
   const [reviewList, setReviewList] = useState<any>([]);
@@ -74,6 +75,10 @@ const reviewWrite = () => {
     setClickPage(idx);
   };
 
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
   return (
     <>
       <div className="flex flex-row ml-[5px] mt-[5px]">
@@ -119,15 +124,12 @@ const reviewWrite = () => {
                   <div className="w-[743px] h-auto border-1">
                     <div className="flex flex-row">
                       <div className="flex flex-row" key={school.restaurantReviewId}>
-                        {school.memberProfileImageName ? (
-                          <img
-                            key={school.restaurantReviewId}
-                            src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
-                            className="ml-[32px] mt-[27px] w-[74px] h-[74px] rounded-full"
-                          />
-                        ) : (
-                          <div className="ml-[32px] mt-[27px] w-[74px] h-[74px] border-[5px] border-[#D9D9D9] bg-[#D9D9D9] rounded-full"></div>
-                        )}
+                        <img
+                          key={school.restaurantReviewId}
+                          src={`/image/${school.memberProfileImageName}`}
+                          onError={handleImgError}
+                          className="ml-[32px] mt-[27px] w-[74px] h-[74px] rounded-full"
+                        />
                         <div className="flex flex-col">
                           <div className="ml-[12px] mt-[37px] w-[800px] h-[16px] font-normal leading-[28px] text-[20px] flex items-center text-[#515151]">
                             {school.nickName}
@@ -218,15 +220,12 @@ const reviewWrite = () => {
                   className="ml-[20px] mt-[18px] w-[220px] h-[312px] border-[1px] border-[#D2D2D2] shadow-[1px_1px_4px_rgba(0,0,0,0.07)] rounded-[5px]"
                 >
                   <div className="flex flex-row">
-                    {school.memberProfileImageName ? (
-                      <img
-                        key={school.restaurantReviewId}
-                        src={`${process.env.REACT_APP_IMG_KEY}/${school.memberProfileImageName}`}
-                        className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C]"
-                      />
-                    ) : (
-                      <div className="w-[39px] h-[40px] ml-[13px] mt-[15px] border rounded-full border-[#9C9C9C] bg-[#9C9C9C]"></div>
-                    )}
+                    <img
+                      key={school.restaurantReviewId}
+                      src={`/image/${school.memberProfileImageName}`}
+                      onError={handleImgError}
+                      className="w-[39px] h-[40px] ml-[13px] mt-[15px] rounded-full border-[#9C9C9C]"
+                    />
                     <div className="">
                       <div className="ml-[5px] mt-[21px] w-auto h-[10px] font-[400] text-[12px] leading-[20px] flex items-center">
                         {school.nickName}
@@ -237,7 +236,7 @@ const reviewWrite = () => {
                   {school.imageFileNameList.length ? (
                     <>
                       <img
-                        src={`${process.env.REACT_APP_IMG_KEY}/${school.imageFileNameList[0]}`}
+                        src={`/image/${school.imageFileNameList[0]}`}
                         className="ml-[20px] mt-[13.12px] w-[180px] h-[120px] border border-[#DDDDDD] rounded-[10px]"
                       />
                       <div className="ml-[20px] mt-[11px] w-[184px] h-[62px] font-[400] text-[12px] leading-[16px] text-[#6B6B6B] text-clip overflow-hidden">

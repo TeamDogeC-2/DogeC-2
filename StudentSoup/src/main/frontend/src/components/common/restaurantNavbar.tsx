@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
-import Faq from '../../img/faq.jpg';
+import Circle_human from '../../img/circle_human.png';
 import Logout from '../../img/logout.jpg';
 
 const RestaurantNavbar = () => {
@@ -123,6 +123,10 @@ const RestaurantNavbar = () => {
     }
   };
 
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
@@ -234,18 +238,12 @@ const RestaurantNavbar = () => {
           )}
         </div>
         <div className="flex flex-col items-center cursor-pointer">
-          {IMAGE_FILE_ID === '' ? (
-            <img
-              src={`${process.env.REACT_APP_IMG_KEY}/${IMAGE_FILE_ID}`}
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-              onClick={handleMypage}
-            />
-          ) : (
-            <img
-              className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-              onClick={handleMypage}
-            />
-          )}
+          <img
+            src={`/image/${IMAGE_FILE_ID}`}
+            onError={handleImgError}
+            className='relative top-[34px] bg-cover w-[40px] h-[40px] rounded-full mb-[70px]'
+            onClick={handleMypage}
+          />
         </div>
       </div>
     </div>
