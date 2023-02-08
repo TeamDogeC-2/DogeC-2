@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import mainLogo from '../../img/mainLogo.svg';
 import Modal from '../home/modal';
+import Circle_human from '../../img/circle_human.png';
 
 const Navbar = () => {
   const history = useHistory();
@@ -30,6 +31,10 @@ const Navbar = () => {
     }
   };
 
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
   return (
     <div className="w-full h-[88px] items-center sticky flex justify-between bg-gradient-to-b from-[rgba(255,255,255,0.6)] to-[rgba(255,255,255,0)] border-b-[1px]">
       <img
@@ -45,18 +50,12 @@ const Navbar = () => {
           {isLogin ? (
             <div className="flex sticky">
               <div className="flex flex-col items-center">
-                {IMAGE_FILE_ID === '' ? (
-                  <img
-                    src={`/image/${IMAGE_FILE_ID}`}
-                    id="로그아웃"
-                    className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
-                  />
-                ) : (
-                  <img
-                    id="로그아웃"
-                    className='w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
-                  />
-                )}
+                <img
+                  src={`/image/${IMAGE_FILE_ID}`}
+                  onError={handleImgError}
+                  id="로그아웃"
+                  className='w-[50px] h-[50px] bg-[url("./img/circle_human.png")] rounded-full relative top-[7px] bg-cover mb-[10px] cursor-pointer'
+                />
               </div>
             </div>
           ) : (

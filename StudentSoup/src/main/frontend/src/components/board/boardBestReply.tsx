@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
+import Circle_human from '../../img/circle_human.png';
 import { useLocation } from 'react-router-dom';
 
 const boardBestReplyHeart = (data: any) => {
@@ -89,18 +90,18 @@ const boardBestReplyHeart = (data: any) => {
       });
   };
 
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
   return (
     <>
       <div key={data.boardReplyId} className="grid grid-cols-[74px_60px_720px_100px]">
-        {data.memberProfileImageName ? (
-          <img
-            src={`/image/${data.memberProfileImageName}`}
-            className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
-          />
-        ) : (
-          <div className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"></div>
-        )}
-
+        <img
+          src={`/image/${data.memberProfileImageName}`}
+          onError={handleImgError}
+          className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
+        />
         <div className="row-span-2 ml-[18px] mt-[20px] h-[23px] font-semibold text-[16px] leading-[22px] text-[#FF611D]">
           BEST
         </div>
