@@ -91,11 +91,6 @@ const MypageBoardReview = () => {
     setSorted(id);
   };
 
-  // 게시글 클릭 시, 이동 기능 추가
-  const handlePushBoard = (e: any) => {
-    const id = e.target.id;
-  };
-
   const handleClickBoard = (e: any) => {
     const id = e.target.id;
     setClickBoardOrReply(id);

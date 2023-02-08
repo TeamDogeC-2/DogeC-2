@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
+import { useLocation } from 'react-router-dom';
 
 const boardBestReplyHeart = (data: any) => {
+  const state = useLocation();
+  const getBoardId = state.state;
   const [replyLikeCount, setReplyLikeCount] = useState<number>();
   const [replyLike, isReplyLike] = useState<boolean>(data.like);
   const [like, isLike] = useState<boolean>(false);
@@ -73,7 +76,7 @@ const boardBestReplyHeart = (data: any) => {
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 192,
+        boardId: getBoardId,
         memberId: saveMemberId,
         content: contented,
       })

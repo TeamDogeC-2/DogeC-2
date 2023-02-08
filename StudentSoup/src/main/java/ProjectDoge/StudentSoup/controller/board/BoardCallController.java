@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,8 +54,8 @@ public class BoardCallController {
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
-    public BoardDto clickBoard(@PathVariable Long boardId, @PathVariable Long memberId){
-        return boardCallService.getBoardDetail(boardId, memberId);
+    public BoardDto clickBoard(@PathVariable Long boardId, @PathVariable Long memberId, HttpServletRequest request, HttpServletResponse response){
+        return boardCallService.getBoardDetail(boardId, memberId,request,response);
     }
 
     @GetMapping("/board/department/{schoolId}")

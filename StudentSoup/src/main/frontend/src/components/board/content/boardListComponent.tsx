@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
 import ReactPaginate from 'react-paginate';
+import { useHistory } from 'react-router-dom';
 
 export interface BoardListType {
   authentication: string;
@@ -25,6 +26,7 @@ interface PropsType {
 
 const BoardListComponent = (props: PropsType) => {
   const { list, boardCategory, page, setPage, totalPages } = props;
+  const history = useHistory();
 
   const handlePageChange = (event: any) => {
     setPage(event.selected);
@@ -58,7 +60,10 @@ const BoardListComponent = (props: PropsType) => {
                     key={index}
                     className=" py-[15px] px-[13px] border-b-[1px] border-solid border-[#BCBCBC]"
                   >
-                    <td className="text-start text-[#FF611D] py-[15px] px-[13px]">
+                    <td
+                      onClick={() => history.push('/board/detail', item.boardId)}
+                      className="text-start text-[#FF611D] py-[15px] px-[13px] cursor-pointer hover:underline underline-offset-[1px] decoration-[#000000]"
+                    >
                       [공지] <span className="text-black">{item.title}</span>
                     </td>
                     <td className="py-[15px] px-[13px]">{item.nickname}</td>
@@ -77,7 +82,10 @@ const BoardListComponent = (props: PropsType) => {
                     key={index}
                     className="bg-[#F3F3F3] py-[15px] px-[13px] border-b-[1px] border-solid border-[#BCBCBC]"
                   >
-                    <td className="text-start text-[#FF611D] py-[15px] px-[13px] border-l-[4px] border-solid border-[#FF611D]">
+                    <td
+                      onClick={() => history.push('/board/detail', item.boardId)}
+                      className="text-start text-[#FF611D] py-[15px] px-[13px] border-l-[4px] border-solid border-[#FF611D] cursor-pointer hover:underline underline-offset-[1px]"
+                    >
                       [공지] {item.title}
                     </td>
                     <td className="py-[15px] px-[13px]">{item.nickname}</td>
@@ -93,9 +101,12 @@ const BoardListComponent = (props: PropsType) => {
               return (
                 <tr
                   key={index}
-                  className=" py-[15px] px-[13px] border-b-[1px] border-solid border-[#BCBCBC]"
+                  className="py-[15px] px-[13px] border-b-[1px] border-solid border-[#BCBCBC]"
                 >
-                  <td className="text-start py-[15px] px-[13px]">
+                  <td
+                    onClick={() => history.push('/board/detail', item.boardId)}
+                    className="text-start py-[15px] px-[13px] cursor-pointer hover:underline underline-offset-[1px]"
+                  >
                     {item.authentication === 'Y' && <span className="text-[#FF611D]">[BEST]</span>}{' '}
                     [{item.tag}] {item.title}{' '}
                     <span className="text-[#FF611D]">{item.reviewCount}</span>
