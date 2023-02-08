@@ -87,7 +87,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                                 .and(searchColumnContainsContent(column, value))
                                 .and(searchColumnContainsNickname(column, value))
                 )
-                .orderBy(priorOrderAnnouncement(), priorTipBest(), checkSortedCondition(sorted))
+                .orderBy(priorOrderAnnouncement(), priorTipBest(), checkSortedCondition(sorted),board.writeDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
