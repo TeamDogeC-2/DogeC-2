@@ -177,13 +177,13 @@ const boardDetail = () => {
         <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
           {category}
         </div>
-        <div className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer">
-          <div
-            onClick={() => {
-              history.push('/board');
-            }}
-            className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]"
-          >
+        <div
+          onClick={() => {
+            history.push('/board');
+          }}
+          className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer"
+        >
+          <div className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]">
             목록
           </div>
         </div>
