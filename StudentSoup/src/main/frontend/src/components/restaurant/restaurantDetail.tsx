@@ -77,6 +77,11 @@ const restaurant = () => {
       level: 2,
     };
     const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(...MapLocation);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition
+    });
+    marker.setMap(map);
   });
   const handleHeartCount = () => {
     if (!saveMemberId) {
