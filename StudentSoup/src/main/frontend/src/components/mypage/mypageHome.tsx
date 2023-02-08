@@ -106,7 +106,7 @@ const MypageHome = (props: propTypes) => {
               />
               <img
                 ref={uploadImage}
-                src={`/image/${sessionStorage.getItem('fileName')}`}
+                src={`${process.env.REACT_APP_IMG_KEY}/${sessionStorage.getItem('fileName')}`}
                 className='w-[122px] h-[122px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
               />
               <X className="relative bottom-[87px] left-[109px] rotate-45" />
