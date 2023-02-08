@@ -3,10 +3,11 @@ import { ReactComponent as ReviewEdit } from '../../img/reviewedit.svg';
 import { ReactComponent as ReviewWriteCamera } from '../../img/reviewwriteCamera.svg';
 import { ReactComponent as ReviewWriteClose } from '../../img/ReviewWriteClose.svg';
 import ReviewWrite from './reviewList';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const review = (props: any) => {
+  const history = useHistory();
   const [imgs, setImgs] = useState<any>();
   const imageUploader = useRef<any>(null);
   const totalReviewCount = props.reviewCount;
@@ -63,7 +64,11 @@ const review = (props: any) => {
   };
   const reviewButtonClick = () => {
     if (!saveMemberId) {
-      alert('로그인후 이용 가능한 기능입니다.');
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        history.push('/login');
+      } else {
+        /* empty */
+      }
     } else isReviewClick(!reviewclick);
     if (reviewclick) {
       if (confirm('게시글 작성을 취소하시겠습니까? (작성중이던 글은 삭제됩니다.)')) {

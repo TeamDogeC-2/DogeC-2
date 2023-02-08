@@ -7,6 +7,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const boardEditWrite = () => {
   const state = useLocation<any>();
+  const getBoardId = state.state[4];
   const [titled, setTitled] = useState<string>(state.state[0]);
   const [contented, setContented] = useState<string>(state.state[1]);
   const [selectedCategory, setSelectedCategory] = useState<string>(state.state[2]);
@@ -51,7 +52,7 @@ const boardEditWrite = () => {
       // board/{boardId}/{memberId} 진짜 데이터
       axios
         .patch(
-          `/board/192/${saveMemberId}`,
+          `/board/${getBoardId}/${saveMemberId}`,
           {
             title: titled,
             departmentId: selectDepartmentId,
@@ -73,11 +74,6 @@ const boardEditWrite = () => {
         });
     }
   };
-
-  console.log(`제목${titled}`);
-  console.log(`학과키${selectDepartmentId}`);
-  console.log(`카테고리${selectedCategory}`);
-  console.log(`내용${contented}`);
 
   useEffect(() => {
     if (selectedCategory === 'FREE') {
