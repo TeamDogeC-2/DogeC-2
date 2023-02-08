@@ -1,12 +1,14 @@
 import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
 import { BoardListType } from './boardListComponent';
+import { useHistory } from 'react-router-dom';
 
 interface PropsType {
   hotList: BoardListType[];
 }
 
 const HotListComponent = (props: PropsType) => {
+  const history = useHistory();
   const { hotList } = props;
 
   return (
@@ -34,7 +36,10 @@ const HotListComponent = (props: PropsType) => {
                   key={index}
                   className="py-[15px] px-[13px] border-t-[1px] border-solid border-[#BCBCBC]"
                 >
-                  <td className="text-start py-[15px] px-[13px]">
+                  <td
+                    onClick={() => history.push('/board/detail', item.boardId)}
+                    className="text-start py-[15px] px-[13px] cursor-pointer hover:underline underline-offset-[1px]"
+                  >
                     [{item.tag}] {item.title}{' '}
                     <span className="text-orange">{item.reviewCount}</span>
                   </td>
