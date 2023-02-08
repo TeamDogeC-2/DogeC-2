@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { ReactComponent as BoardWriteReplyHeart } from '../../img/BoardWriteReplyHeart.svg';
 import { ReactComponent as BoardReplyIcon } from '../../img/boardReplyIcon.svg';
 import { ReactComponent as BardWriteReplyActiveHeart } from '../../img/BoardWriteReplyActiveHeart.svg';
+import { useLocation } from 'react-router-dom';
+
 import axios from 'axios';
 
 const boardReviewList = (data: any) => {
+  const state = useLocation();
+  const getBoardId = state.state;
   const [reply, setReply] = useState<number>(0);
   const [findId, setFindId] = useState<number>();
   const saveMemberId = sessionStorage.getItem('memberId');
@@ -32,7 +36,7 @@ const boardReviewList = (data: any) => {
     }
     axios
       .put('/boardReply', {
-        boardId: 192,
+        boardId: getBoardId,
         memberId: saveMemberId,
         content: nestedReply,
         level: 1,
@@ -107,7 +111,7 @@ const boardReviewList = (data: any) => {
     axios
       .patch(`/boardReply/${saveBoardId}`, {
         boardReplyId,
-        boardId: 192,
+        boardId: getBoardId,
         memberId: saveMemberId,
         content: contented,
       })
