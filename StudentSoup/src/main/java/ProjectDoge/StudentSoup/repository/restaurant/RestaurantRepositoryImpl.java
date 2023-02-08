@@ -118,11 +118,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
         return content;
     }
     @Override
-    public JPAQuery<Long> countBySchoolId(Long schoolId) {
+    public JPAQuery<Long> countBySchoolId(Long schoolId,String category) {
         return queryFactory
                 .select(restaurant.count())
                 .from(restaurant)
-                .where(restaurant.school.id.eq(schoolId));
+                .where(restaurant.school.id.eq(schoolId), checkSortedRestaurantCategory(category));
     }
 
     private BooleanExpression checkSortedRestaurantCategory(String category) {
