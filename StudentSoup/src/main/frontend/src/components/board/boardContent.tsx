@@ -25,31 +25,22 @@ const BoardContent = (props: PropsType) => {
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
   const [departmentId, setDepartmentId] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     handleSearchButton();
-  }, [departmentId]);
+  }, [sort, range, page, departmentId]);
 
-  useEffect(() => {
-    handleSearchButton(false);
-  }, [sort, range, page]);
-
-  /**
-   * 검색 Api
-   * @param goFirstPage 첫 번째 페이지로 이동할 것인지 여부
-   */
-  const handleSearchButton = (goFirstPage: boolean = true) => {
-    if (goFirstPage) setPage(0);
+  const handleSearchButton = () => {
     const request = {
       column,
       value: searchValue,
       category: boardCategory,
       sorted: sort,
-      page: goFirstPage ? 0 : page,
+      page: page - 1,
       size: boardCategory === 'ALL' ? 7 : 12,
       departmentId: range === RANGE.SUBJECT ? departmentId : undefined,
     };

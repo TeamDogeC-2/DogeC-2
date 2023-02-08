@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import HeartIcon from '../../../img/board/icon_heart.png';
-import ReactPaginate from 'react-paginate';
 import { useHistory } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 export interface BoardListType {
   authentication: string;
@@ -28,8 +28,8 @@ const BoardListComponent = (props: PropsType) => {
   const { list, boardCategory, page, setPage, totalPages } = props;
   const history = useHistory();
 
-  const handlePageChange = (event: any) => {
-    setPage(event.selected);
+  const handlePageChange = (page: any) => {
+    setPage(page);
   };
 
   return (
@@ -124,19 +124,21 @@ const BoardListComponent = (props: PropsType) => {
           </tbody>
         </table>
         <div>
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageChange}
+          <Pagination
+            innerClass="text-center my-[18px]"
+            activePage={page}
+            itemsCountPerPage={12}
+            totalItemsCount={12 * totalPages - 1}
             pageRangeDisplayed={5}
-            forcePage={page}
-            pageCount={totalPages}
-            previousLabel="<"
-            previousClassName="text-orange mx-[5px]"
-            nextClassName="text-orange mx-[5px]"
-            className="flex justify-center my-[18px]" // ul 태그 스타일
-            activeLinkClassName="border border-solid border-[#FF611C] text-orange" // 클릭된 a 태그 스타일
-            pageLinkClassName="inline-block text-[14px] text-center mx-[5px] w-[23px] h-[23px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]" // a 태그 스타일
+            firstPageText={'<'}
+            lastPageText={'>'}
+            onChange={handlePageChange}
+            linkClassFirst="text-orange mx-[5px] border-none"
+            linkClassLast="text-orange mx-[5px] border-none"
+            hideNavigation
+            itemClass="inline-block"
+            linkClass="inline-block text-[14px] text-center mx-[5px] w-[23px] h-[23px] border border-[#B4B4B4] rounded-full cursor-pointer font-normal text-[#B4B4B4]"
+            activeLinkClass="border border-solid border-[#FF611C] text-orange inline-block text-[14px] w-[23px] h-[23px] rounded-full"
           />
         </div>
       </div>
