@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const menuItem = (data: any) => {
+  const history = useHistory();
   const [clicklike, isClickLike] = useState<boolean>();
   const [like, isLike] = useState<boolean>(data.like);
   const [likeCount, setlikeCount] = useState<number>();
@@ -13,7 +14,11 @@ const menuItem = (data: any) => {
   const handleHeartCount = async (e: any) => {
     const saveMenuId = e.target.id;
     if (!saveMemberId) {
-      alert('로그인후 이용 가능한 기능입니다.');
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        history.push('/login');
+      } else {
+        /* empty */
+      }
     } else {
       await axios
         .post(`/restaurant/${restaurantNumber}/menu/like`, {

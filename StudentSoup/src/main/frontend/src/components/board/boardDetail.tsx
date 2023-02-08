@@ -162,6 +162,7 @@ const boardDetail = () => {
             boardContent,
             categoryList,
             res.data.departmentId,
+            state.state,
           ]);
         })
         .catch(err => {

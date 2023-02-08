@@ -13,10 +13,11 @@ import Reviewpage from './reviewInfo';
 import Picturepage from './pictureInfo';
 import cn from 'clsx';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 const kakao = (window as any).kakao;
 
 const restaurant = () => {
+  const history = useHistory();
   const saveMemberId = sessionStorage.getItem('memberId');
   const [restaurantDetail, setRestaurantDetail] = useState<any>([]);
   const state = useLocation<any>();
@@ -80,7 +81,11 @@ const restaurant = () => {
   });
   const handleHeartCount = () => {
     if (!saveMemberId) {
-      alert('로그인후 이용 가능한 기능입니다.');
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        history.push('/login');
+      } else {
+        /* empty */
+      }
     } else {
       void axios
         .post(`/restaurant/${saveMemberId}/like`, {
