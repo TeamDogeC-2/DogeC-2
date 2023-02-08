@@ -35,4 +35,12 @@ public class BoardFormDto {
         this.content = content;
         return this;
     }
+
+    public BoardFormDto createTestAllBoardFormDto(String title, BoardCategory category, String content){
+        this.departmentId = null;
+        this.title = title;
+        this.boardCategory = category;
+        this.content = content;
+        return this;
+    }
 }
