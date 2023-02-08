@@ -14,9 +14,14 @@ import cn from 'clsx';
 
 interface propTypes {
   onClickMenu: Function;
+  menu: string;
 }
 const MypageSidebar = (props: propTypes) => {
   const [id, setId] = useState<string>('home');
+
+  useEffect(() => {
+    setId(props.menu);
+  });
 
   const onClickMypageHome = () => {
     setId('home');
@@ -36,7 +41,7 @@ const MypageSidebar = (props: propTypes) => {
   };
 
   return (
-    <div className="flex-[3] w-[354px] h-[120vh] items-center justify-center flex-col shadow-2xl z-[2]">
+    <div className="flex-[3] w-[354px] h-[150vh] items-center justify-center flex-col shadow-2xl z-[2]">
       <ul className="text-[20px] leading-[28px]">
         <li className="mb-[42px]">
           <div className="flex items-center w-full h-[54px] font-bold pt-[35px]">

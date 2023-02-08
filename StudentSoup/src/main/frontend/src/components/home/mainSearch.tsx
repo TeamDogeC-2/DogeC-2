@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import cn from 'clsx';
+import mainLogo_white from '../../img/mainLogo_white.svg';
 import { ReactComponent as Search } from '../../img/search_icon.svg';
 import { useHistory } from 'react-router-dom';
 
@@ -9,9 +10,9 @@ const MainSearch = () => {
 
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
+  const [schoolValue, setSchoolValue] = useState<string>();
 
   const [inputSchool, setInputSchool] = useState<string>();
-  const [listSchool, setListSchool] = useState<string>('');
 
   const getSchool = () => {
     axios
@@ -36,23 +37,27 @@ const MainSearch = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
+    const reducc = searchSchool?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
   };
 
   const handleClick = (e: any) => {
-    setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const reducc = resultArray?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
+    setInputSchool(reducc.schoolName);
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
     if (inputSchool === '' || inputSchool === undefined) {
       alert('학교를 검색해주세요');
-    } else if (inputSchool === listSchool) {
+    } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
@@ -61,12 +66,22 @@ const MainSearch = () => {
 
   return (
     <div className="w-full flex flex-col mt-[290px] items-center">
+      <span className="relative bottom-[88px] text-[45px] fw-400 leading-[59px] text-white">
+        대학생을 위한
+      </span>
       <div
         className={cn(
-          'flex flex-col text-center relative bottom-[88px]',
-          'after:flex after:flex-col after:text-center after:relative after:bottom-[88px]',
+          'flex flex-col text-center relative bottom-[150px]',
+          'after:flex after:flex-col after:text-center after:relative after:bottom-[150px]',
         )}
       >
+        <div className='flex items-center justify-center mb-[20px]'>
+          <img
+            src={mainLogo_white}
+            alt=""
+            className="w-[200px] h-[56px] ml-[28px]"
+          />
+        </div>
         <span className="text-[45px] fw-400 leading-[59px] text-white">대학생을 위한</span>
         <span className="text-[65px] fw-400 leading-[93px] font-extrabold text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천

@@ -57,14 +57,14 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
 
     private BooleanExpression checkRestaurantNameEq(String column, String restaurantName) {
         if (column.equals("name") && restaurantName != null) {
-            return restaurant.name.eq(restaurantName);
+            return restaurant.name.contains(restaurantName);
         }
         return null;
     }
 
     private BooleanExpression checkRestaurantSchoolNameEq(String column, String schoolName) {
         if (column.equals("schoolName") && schoolName != null) {
-            return restaurant.school.schoolName.eq(schoolName);
+            return restaurant.school.schoolName.contains(schoolName);
         }
         return null;
     }

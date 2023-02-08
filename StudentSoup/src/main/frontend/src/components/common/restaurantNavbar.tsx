@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
 import Faq from '../../img/faq.jpg';
@@ -11,11 +11,21 @@ const RestaurantNavbar = () => {
   const history = useHistory();
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const userId = sessionStorage.getItem('id');
 
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
+  const [schoolValue, setSchoolValue] = useState<string>();
   const [inputSchool, setInputSchool] = useState<string>();
-  const [listSchool, setListSchool] = useState<string>('');
+
+  useEffect(() => {
+    if (userId === null) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, []);
 
   const getSchool = () => {
     axios
@@ -28,6 +38,10 @@ const RestaurantNavbar = () => {
       });
   };
 
+  useEffect(() => {
+    getSchool();
+  }, []);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputSchool(value);
@@ -36,24 +50,32 @@ const RestaurantNavbar = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
+    console.log(resultArray);
+    const reducc = searchSchool?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
   };
 
   const handleClick = (e: any) => {
     setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const reducc = resultArray?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
+    setInputSchool(reducc.schoolName);
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
     if (inputSchool === '' || inputSchool === undefined) {
       alert('학교를 검색해주세요');
-    } else if (inputSchool === listSchool) {
+    } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
+      setInputSchool('');
+      setSearchSchool([]);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
     }
@@ -65,15 +87,46 @@ const RestaurantNavbar = () => {
     }
   };
 
+  const handleLogin = (e: any) => {
+    const value = e.target.innerText;
+    if (value === 'LOGOUT') {
+      if (sessionStorage.getItem('saved') === String(true)) {
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('departmentId');
+        sessionStorage.removeItem('departmentName');
+        sessionStorage.removeItem('fileName');
+        sessionStorage.removeItem('memberId');
+        sessionStorage.removeItem('schoolId');
+        sessionStorage.removeItem('schoolName');
+        sessionStorage.removeItem('registrationDate');
+        history.push('/');
+      } else {
+        sessionStorage.clear();
+        history.push('/');
+      }
+    } else if (value === 'LOGIN') {
+      history.push('/login');
+    }
+  };
+
+  const handleMypage = () => {
+    if (userId === null) {
+      alert('로그인 후 이용가능합니다.');
+    } else {
+      history.push('/mypage');
+    }
+  };
+
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
-        <img src={Reddit} alt="" className="w-[162px] h-[72px] cursor-pointer"
+        <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
           onClick={() => {
             history.push('/');
           }}
         />
-        <div className="w-[466px] h-[44px] px-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
+        <div className="w-[466px] h-[44px] pl-[23px] flex items-center gap-x-3 border-none rounded-[5px] bg-[#E8E8E8]">
           <svg
             width="25"
             height="24"
@@ -96,44 +149,71 @@ const RestaurantNavbar = () => {
           ></input>
           <button
             onClick={handlePushRestaurant}
-            className="hidden"
+            className="flex items-center justify-center w-[80px] h-full bg-[#FF611D] text-white rounded-[5px]"
           >
             검색
           </button>
         </div>
+        {searchSchool?.map(school => (
+          <div
+            key={school.schoolId}
+            className="absolute top-[70px] left-[195px] w-[466px] h-[58px] rounded-[5px] bg-white"
+          >
+            <span
+              onClick={handleClick}
+              id={school.schoolId}
+              className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium"
+            >
+              {school.schoolName}
+            </span>
+          </div>
+        ))}
       </div>
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/board');
-            }}>
+            }}
+          >
             BOARD
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/restaurant');
-            }}>
+            }}
+          >
             RESTAURANT
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
-        <div className="flex justify-center items-center w-[110px] cursor-pointer">
+        <div
+          onClick={handleLogin}
+          className="flex justify-center items-center w-[110px] cursor-pointer"
+        >
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
+          {isLogin ? (
+            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
+              LOGOUT
+            </span>
+          ) : (
+            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
+              LOGIN
+            </span>
+          )}
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center cursor-pointer">
           <img
-            src={IMAGE_FILE_ID}
+            src={`/image/${IMAGE_FILE_ID}`}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
-            onClick={() => {
-              history.push('/mypage');
-            }}
+            onClick={handleMypage}
           />
         </div>
       </div>
