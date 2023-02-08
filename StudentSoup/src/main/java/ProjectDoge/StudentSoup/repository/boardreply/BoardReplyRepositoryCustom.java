@@ -16,7 +16,7 @@ public interface BoardReplyRepositoryCustom {
     List<BoardReply> findByBoardId(Long boardId);
     JPAQuery<Long> pagingCountByBoardId(Long boardId);
     List<BoardReply> findBestReplyByBoardId(Long boardId);
-    List<BoardReply> findBySeq(int seq);
+    List<BoardReply> findBySeq(Long boardId,int seq);
     Optional<Integer> findMaxSeqByBoardId(Long boardId);
     Optional<Integer> findMaxDepthByReplyId(Long boardId, int seq);
 }

@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.exception.boardreply.BoardReplyNotOwnException;
+import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyLikeRepository;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ public class BoardReplyDeleteService {
 
     private final BoardReplyRepository boardReplyRepository;
 
+    private final BoardReplyLikeRepository boardReplyLikeRepository;
+
     @Transactional
     public ConcurrentHashMap<String,Object> deleteBoardReply(Long boardReplyId, Long memberId){
         ConcurrentHashMap<String,Object> resultMap = new ConcurrentHashMap<>();
@@ -34,12 +37,13 @@ public class BoardReplyDeleteService {
 
     private void checkReplyLevel(BoardReply boardReply) {
         if(boardReply.getLevel() == 0){
-            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getSeq());
+            log.info("boardReplyLevel [{}]",boardReply.getLevel());
+            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getBoard().getId(),boardReply.getSeq());
             deleteReply(boardReply, boardReplyList);
 
         }
         else{
-            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getSeq());
+            List<BoardReply> boardReplyList = boardReplyRepository.findBySeq(boardReply.getBoard().getId(),boardReply.getSeq());
             deleteNestedReply(boardReply, boardReplyList);
         }
     }
@@ -50,11 +54,16 @@ public class BoardReplyDeleteService {
         }
         else{
             boardReply.setActive("N");
+            boardReply.setContent("삭제된 댓글 입니다.");
+            boardReply.deleteMember();
+            boardReplyLikeRepository.deleteAllInBatch(boardReply.getBoardReplyLikes());
         }
     }
 
     private void deleteNestedReply(BoardReply boardReply, List<BoardReply> boardReplyList) {
-        if(boardReplyList.size() == 2 && boardReplyList.get(0).getActive().equals("N")){
+        log.info("boardReply.size : [{}]",boardReplyList.size());
+        log.info("boardReply.(0).id [{}]",boardReplyList.get(0).getReplyId());
+        if(boardReplyList.size() <= 2 && boardReplyList.get(0).getActive().equals("N")){
             boardReplyRepository.delete(boardReply);
             boardReplyRepository.delete(boardReplyList.get(0));
         }

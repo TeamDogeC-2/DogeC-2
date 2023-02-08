@@ -4,9 +4,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["SDGothic", 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['SDGothic', 'Helvetica', 'Arial', 'sans-serif'],
       },
       textColor: {
+        orange: '#FF611D',
+      },
+      backgroundColor: {
         orange: '#FF611D',
       },
     },

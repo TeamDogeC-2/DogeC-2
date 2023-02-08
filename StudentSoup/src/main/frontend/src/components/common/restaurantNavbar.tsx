@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Reddit from '../../img/Reddit.svg';
+import mainLogo from '../../img/mainLogo.svg';
 import Board from '../../img/board.jpg';
 import Restaurant from '../../img/restaurant.jpg';
 import Faq from '../../img/faq.jpg';
@@ -16,8 +16,8 @@ const RestaurantNavbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
+  const [schoolValue, setSchoolValue] = useState<string>();
   const [inputSchool, setInputSchool] = useState<string>();
-  const [listSchool, setListSchool] = useState<string>('');
 
   useEffect(() => {
     if (userId === null) {
@@ -50,24 +50,29 @@ const RestaurantNavbar = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
+    console.log(resultArray);
+    const reducc = searchSchool?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
   };
 
   const handleClick = (e: any) => {
-    console.log(e);
     setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const reducc = resultArray?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
+    setInputSchool(reducc.schoolName);
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
     if (inputSchool === '' || inputSchool === undefined) {
       alert('학교를 검색해주세요');
-    } else if (inputSchool === listSchool) {
+    } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
       setInputSchool('');
       setSearchSchool([]);
@@ -116,10 +121,7 @@ const RestaurantNavbar = () => {
   return (
     <div className="w-full h-[80px] items-center sticky flex justify-between border-b-[1px] border-[#FF611D] z-[2] shadow-lg">
       <div className="flex items-center gap-x-[32px]">
-        <img
-          src={Reddit}
-          alt=""
-          className="w-[162px] h-[72px] cursor-pointer"
+        <img src={mainLogo} alt="" className="w-[103px] h-[30px] ml-[28px] cursor-pointer"
           onClick={() => {
             history.push('/');
           }}
@@ -209,7 +211,7 @@ const RestaurantNavbar = () => {
         </div>
         <div className="flex flex-col items-center cursor-pointer">
           <img
-            src={IMAGE_FILE_ID}
+            src={`/image/${IMAGE_FILE_ID}`}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
             onClick={handleMypage}
           />

@@ -15,6 +15,7 @@ public class MemberMyPageRestaurantReviewDto {
     private int starLiked;
     private String content;
     private String writeDate;
+    private int likedCount;
 
     public MemberMyPageRestaurantReviewDto(){
     }
@@ -26,6 +27,7 @@ public class MemberMyPageRestaurantReviewDto {
         this.starLiked = restaurantReview.getStarLiked();
         this.content = restaurantReview.getContent();
         this.writeDate = restaurantReview.getWriteDate().toLocalDate().toString().replaceAll("-", ".");
+        this.likedCount = restaurantReview.getLikedCount();
     }
 
     private String setImageFileName(List<ImageFile> imageFileList){

@@ -22,18 +22,28 @@ public class BoardReplyDto {
     private boolean like;
 
     public BoardReplyDto createBoardReplyDto(BoardReply boardReply, Boolean like) {
+        memberNullCheck(boardReply);
         this.boardReplyId = boardReply.getReplyId();
         this.content = boardReply.getContent();
         this.likeCount = boardReply.getLikedCount();
-        this.nickname = boardReply.getMember().getNickname();
         this.writeDate = boardReply.getWriteDate();
-        this.memberProfileImageName = setProfileImageFileName(boardReply.getMember());
         this.seq = boardReply.getSeq();
         this.depth = boardReply.getDepth();
         this.level = boardReply.getLevel();
         this.active = boardReply.getActive();
         this.like = like;
         return this;
+    }
+
+    private void memberNullCheck(BoardReply boardReply) {
+        if(boardReply.getMember()==null){
+            this.nickname = null;
+            this.memberProfileImageName = null;
+        }
+        else {
+            this.nickname = boardReply.getMember().getNickname();
+            this.memberProfileImageName = setProfileImageFileName(boardReply.getMember());
+        }
     }
 
     private String setProfileImageFileName(Member member){

@@ -80,7 +80,9 @@ public class Board {
     }
     public void setDepartment(Department department){
         this.department = department;
-        department.getBoards().add(this);
+
+        if(department != null && !department.getBoards().contains(this))
+            department.getBoards().add(this);
     }
 
     //== 생성 메서드 ==//
@@ -90,6 +92,7 @@ public class Board {
         this.setWriteDate(dateFormat(LocalDateTime.now()));
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         this.setContent(form.getContent());
+        this.setIp(form.getIp());
         this.setView(0);
         this.setLikedCount(0);
         this.setMember(member);
@@ -134,9 +137,11 @@ public class Board {
         return "Y";
     }
 
-    public Board editBoard(BoardFormDto boardFormDto){
+    public Board editBoard(BoardFormDto boardFormDto, Department department){
         this.setTitle(boardFormDto.getTitle());
         this.setContent(boardFormDto.getContent());
+        updateDepartment(department);
+        this.setBoardCategory(boardFormDto.getBoardCategory());
         this.setUpdateDate(dateFormat(LocalDateTime.now()));
         return this;
     }
@@ -176,5 +181,19 @@ public class Board {
 
         if(imageFile.getBoard() != this)
              imageFile.setBoard(this);
+    }
+
+    private void updateDepartment(Department department){
+        if(this.department == null && department != null){
+            this.department = department;
+            this.department.getBoards().add(this);
+        } else if(this.department != null && department != null){
+            this.department.getBoards().remove(this);
+            this.department = department;
+            this.department.getBoards().add(this);
+        } else if(this.department != null && department == null){
+            this.department.getBoards().remove(this);
+            this.department = department;
+        }
     }
 }
