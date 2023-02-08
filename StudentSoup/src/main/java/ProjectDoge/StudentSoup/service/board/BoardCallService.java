@@ -15,9 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,16 +33,50 @@ public class BoardCallService {
     private final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
 
+    @Transactional
     public BoardDto getBoardDetail(Long boardId, Long memberId) {
         log.info("게시글 클릭시 게시글 호출 로직이 실행되었습니다.");
         Board board = boardFindService.findOneForBoardDetail(boardId);
-        board.addViewCount();
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardId, memberId).orElse(null);
         if (boardLike == null) {
             return getNotLikeBoardDto(board);
         }
         return getLikeBoardDto(board);
     }
+    private void updateView(Board board, HttpServletRequest request, HttpServletResponse response){
+        Cookie[] cookies = request.getCookies();
+        boolean checkCookie = false;
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("alreadyViewCookie" + board.getId())) checkCookie = true;
+            }
+            if (!checkCookie) {
+                Cookie newCookie = createNewCookie(board);
+                response.addCookie(newCookie);
+            }
+        }
+        else {
+            Cookie newCookie = createNewCookie(board);
+            response.addCookie(newCookie);
+        }
+
+    }
+
+    private Cookie createNewCookie(Board board) {
+        Cookie newCookie = new Cookie("alreadyViewCookie" + board.getId(),String.valueOf(board.getId()));
+        newCookie.setComment("조회수 중복 증가 방지 쿠키");
+        newCookie.setMaxAge(getRemainSecondForTomorrow());
+        newCookie.setHttpOnly(true);
+        board.addViewCount();
+        return newCookie;
+    }
+
+    private int getRemainSecondForTomorrow() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1L).truncatedTo(ChronoUnit.DAYS);
+        return (int) now.until(tomorrow, ChronoUnit.SECONDS);
+    }
+
 
     private BoardDto getLikeBoardDto(Board board) {
         return new BoardDto(board, ConstField.LIKED);
