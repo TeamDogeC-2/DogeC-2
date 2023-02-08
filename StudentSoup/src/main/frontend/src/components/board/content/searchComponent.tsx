@@ -17,6 +17,8 @@ interface PropsType {
   departmentId: number | undefined;
   setDepartmentId: React.Dispatch<React.SetStateAction<number | undefined>>;
   handleSearchButton: () => void;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const keywordList = [
@@ -44,6 +46,8 @@ const SearchComponent = (props: PropsType) => {
     departmentId,
     setDepartmentId,
     handleSearchButton,
+    page,
+    setPage,
   } = props;
 
   const [showKeywords, setShowKeywords] = useState(false);
@@ -143,14 +147,16 @@ const SearchComponent = (props: PropsType) => {
             setSearchValue(e.target.value);
           }}
           onKeyDown={e => {
-            if (e.key === 'Enter') handleSearchButton();
+            if (e.key === 'Enter') {
+              setPage(1);
+            }
           }}
           placeholder="글 제목, 내용, 해시태그를 적어주세요"
           className="bg-white border-r border-y border-solid border-[#BCBCBC] rounded-r-[5px] mr-[5px] w-[280px] h-[46px] p-[13px] text-[16px] focus:outline-none"
         />
         <div
           onClick={() => {
-            handleSearchButton();
+            setPage(1);
           }}
           className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]"
         >

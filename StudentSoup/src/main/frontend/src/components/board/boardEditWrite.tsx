@@ -67,7 +67,7 @@ const boardEditWrite = () => {
         )
         .then(res => {
           alert('게시글이 수정완료 되었습니다.');
-          history.push('/board');
+          history.goBack();
         })
         .catch(err => {
           console.error(err);

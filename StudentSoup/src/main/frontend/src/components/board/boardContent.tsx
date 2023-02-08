@@ -25,40 +25,16 @@ const BoardContent = (props: PropsType) => {
   const [hotList, setHotList] = useState<BoardListType[]>([]);
 
   const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(0); // TODO
+  const [page, setPage] = useState(1);
   const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
   const [departmentId, setDepartmentId] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    handleSearchValueInit();
-    const request = {
-      column: 'title',
-      value: '',
-      category: boardCategory,
-      sorted: 0,
-      page: 0,
-      size: boardCategory === 'ALL' ? 7 : 12,
-    };
-    getBoardList(request, (res: DataResType) => {
-      setList(res.boards.content);
-      setPageInfo(res.boards.totalPages);
-      if (res.bestBoards) setTopList(res.bestBoards);
-      if (res.hotBoards) setHotList(res.hotBoards);
-    });
-  }, [boardCategory, range]);
+  const size = boardCategory === 'ALL' ? 7 : 12;
 
   useEffect(() => {
     handleSearchButton();
-  }, [sort, departmentId, page]);
-
-  const handleSearchValueInit = () => {
-    setSearchValue('');
-    setPage(0);
-    setColumn('title');
-    setSort(0);
-    setDepartmentId(undefined);
-  };
+  }, [sort, range, page, departmentId]);
 
   const handleSearchButton = () => {
     const request = {
@@ -66,8 +42,8 @@ const BoardContent = (props: PropsType) => {
       value: searchValue,
       category: boardCategory,
       sorted: sort,
-      page,
-      size: boardCategory === 'ALL' ? 7 : 12,
+      page: page - 1,
+      size,
       departmentId: range === RANGE.SUBJECT ? departmentId : undefined,
     };
     getBoardList(request, (res: DataResType) => {
@@ -92,6 +68,8 @@ const BoardContent = (props: PropsType) => {
         departmentId={departmentId}
         setDepartmentId={setDepartmentId}
         handleSearchButton={handleSearchButton}
+        page={page}
+        setPage={setPage}
       />
       {boardCategory === 'ALL' && (
         <div className="flex justify-between">
@@ -114,6 +92,7 @@ const BoardContent = (props: PropsType) => {
         boardCategory={boardCategory}
         page={page}
         setPage={setPage}
+        size={size}
       />
     </div>
   );

@@ -144,7 +144,7 @@ const boardDetail = () => {
         .delete(`/board/${getBoardId}/${saveMemberId}`)
         .then(res => {
           alert('게시글이 삭제되었습니다.');
-          history.push('/board');
+          history.goBack();
         })
         .catch(err => {
           console.error(err);
@@ -180,7 +180,7 @@ const boardDetail = () => {
         </div>
         <div
           onClick={() => {
-            history.push('/board');
+            history.goBack();
           }}
           className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer"
         >

@@ -194,7 +194,7 @@ const RestaurantNavbar = () => {
                 }
               }
               if (userId) {
-                history.push('/board');
+                history.push('/board/all');
               }
             }}
           >
@@ -241,7 +241,7 @@ const RestaurantNavbar = () => {
           <img
             src={`/image/${IMAGE_FILE_ID}`}
             onError={handleImgError}
-            className='relative top-[34px] bg-cover w-[40px] h-[40px] rounded-full mb-[70px]'
+            className="relative top-[34px] bg-cover w-[40px] h-[40px] rounded-full mb-[70px]"
             onClick={handleMypage}
           />
         </div>
