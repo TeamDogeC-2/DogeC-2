@@ -43,7 +43,7 @@ public class RestaurantCallService {
 
         List<Restaurant> sortedRestaurants = restaurantRepository.
                 findBySchoolIdAndCategoryAndSorted(schoolId, category, sorted, pageable);
-        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId);
+        JPAQuery<Long> queryCount = restaurantRepository.countBySchoolId(schoolId,category);
 
 
 
