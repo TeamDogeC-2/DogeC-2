@@ -158,18 +158,6 @@ function LoginForm() {
           </button>
         </div>
       </form>
-      <div className="mt-[58px] flex flex-col justify-center items-center">
-        <div className="flex justify-center items-center">
-          <span className="w-[54.5px] h-0 border bg-[#C6C6C6]"></span>
-          <label className="px-[34px] text-[16px] text-[#A0A0A0]">간편 로그인/가입</label>
-          <span className="w-[54.5px] h-0 border bg-[#C6C6C6]"></span>
-        </div>
-        <div className="mt-[37px] space-x-[31px]">
-          <button name="sns1" className="w-[62px] h-[62px] rounded-full bg-[#D9D9D9]"></button>
-          <button name="sns2" className="w-[62px] h-[62px] rounded-full bg-[#D9D9D9]"></button>
-          <button name="sns3" className="w-[62px] h-[62px] rounded-full bg-[#D9D9D9]"></button>
-        </div>
-      </div>
     </div>
   );
 }

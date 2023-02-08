@@ -66,6 +66,9 @@ const MainSearch = () => {
 
   return (
     <div className="w-full flex flex-col mt-[290px] items-center">
+      <span className="relative bottom-[88px] text-[45px] fw-400 leading-[59px] text-white">
+        대학생을 위한
+      </span>
       <div
         className={cn(
           'flex flex-col text-center relative bottom-[150px]',

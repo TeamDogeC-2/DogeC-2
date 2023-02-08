@@ -1,5 +1,6 @@
 import School from '../../img/school.png';
 import Major from '../../img/major.png';
+import { ReactComponent as X } from '../../img/x.svg';
 import Human from '../../img/circle_human.png';
 import { useState, useRef, useEffect } from 'react';
 import cn from 'clsx';
@@ -76,18 +77,35 @@ const MypageHome = (props: propTypes) => {
     location.reload();
   };
 
+  const handleModify = (e: any) => {
+    props.onClickMenu('modify');
+  };
+
   return (
     <div className="flex-[9] min-h-full z-[1] bg-[#1E1E1E]/5">
       <div className="w-full h-[259px] flex items-center justify-center bg-[#B0B0B0]"></div>
       <div className="flex flex-row w-full h-[100vh]">
         <div className="w-[451px] relative bottom-[140px]">
           <div className="flex flex-col items-center w-[319px] h-[425px] ml-[75px] mr-[57px] bg-white shadow-lg rounded-[5px] z-[2]">
-            <div className="mt-[35px]">
+            <div onClick={() => imageUploader.current.click()} className="mt-[35px]">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                ref={imageUploader}
+                className="hidden"
+              />
               <img
                 ref={uploadImage}
                 src={IMAGE_FILE_ID}
                 className='w-[122px] h-[122px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
               />
+              <X className='relative bottom-[87px] left-[109px] rotate-45'/>
+              <button
+                className="h-[25px] px-[5px] text-[#919191] border-[1px] border-[#919191] rounded-[11px] text-[15px] leading-[21px] relative bottom-[70px]"
+              >
+                기본 프로필로 지정
+              </button>
             </div>
             <div className="relative bottom-[60px]">
               <span className="text-[28px] leading-39px text-[#353535]">{savedName}</span>
@@ -107,15 +125,8 @@ const MypageHome = (props: propTypes) => {
               </div>
             </div>
             <div className="w-[262px] h-[44px]">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                ref={imageUploader}
-                className="hidden"
-              />
               <button
-                onClick={() => imageUploader.current.click()}
+                onClick={handleModify}
                 className="w-full h-full bg-[#FF611D] text-white rounded-[11px] text-[15px] leading-[21px] relative bottom-[10px]"
               >
                 내 프로필 편집
