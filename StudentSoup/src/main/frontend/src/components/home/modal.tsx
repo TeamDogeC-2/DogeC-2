@@ -1,11 +1,23 @@
+import axios from 'axios';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Modal = (props: any) => {
   const history = useHistory();
+
+  const logoutUrl = '/members/logout';
+
   const handleClick = (e: any) => {
     e.stopPropagation();
     if (e.target.innerHTML === '로그아웃') {
+      axios
+        .post(logoutUrl)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
       if (sessionStorage.getItem('saved') === String(true)) {
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('nickname');

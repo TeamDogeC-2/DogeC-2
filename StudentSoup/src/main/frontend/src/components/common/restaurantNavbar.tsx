@@ -14,8 +14,8 @@ const RestaurantNavbar = () => {
 
   const [searchSchool, setSearchSchool] = useState<any[]>();
   const [posts, setPosts] = useState<any[]>();
+  const [schoolValue, setSchoolValue] = useState<string>();
   const [inputSchool, setInputSchool] = useState<string>();
-  const [listSchool, setListSchool] = useState<string>('');
 
   const getSchool = () => {
     axios
@@ -28,6 +28,10 @@ const RestaurantNavbar = () => {
       });
   };
 
+  useEffect(() => {
+    getSchool();
+  }, []);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputSchool(value);
@@ -36,24 +40,31 @@ const RestaurantNavbar = () => {
       return;
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
+    console.log(resultArray);
+    const reducc = searchSchool?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
   };
 
   const handleClick = (e: any) => {
-    setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
-    const compareResult = posts?.filter(post => post.schoolName.includes(e.target.value));
+    const reducc = resultArray?.reduce(function (acc, cur) {
+      return [...acc, ...cur];
+    });
+    setSchoolValue(reducc.schoolName);
+    setInputSchool(reducc.schoolName);
     setSearchSchool(resultArray);
-    setListSchool(compareResult?.shift().schoolName);
   };
 
   const handlePushRestaurant = () => {
     if (inputSchool === '' || inputSchool === undefined) {
       alert('학교를 검색해주세요');
-    } else if (inputSchool === listSchool) {
+    } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
+      setInputSchool('');
+      setSearchSchool([]);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
     }
@@ -112,31 +123,45 @@ const RestaurantNavbar = () => {
             placeholder="학교 명을 입력하세요"
             className="w-full text-[#717171] bg-transparent outline-0"
           ></input>
-          <button
-            onClick={handlePushRestaurant}
-            className="hidden"
-          >
+          <button onClick={handlePushRestaurant} className="hidden">
             검색
           </button>
+        </div>
+        <div className="absolute top-[70px] left-[195px]">
+          {searchSchool?.map(school => (
+            <div key={school.schoolId} className="w-[466px] h-[58px] rounded-[5px] bg-white">
+              <span
+                onClick={handleClick}
+                id={school.schoolId}
+                className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+              >
+                {school.schoolName}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">
         <div className="flex justify-center items-center w-[100px] cursor-pointer">
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/board');
-            }}>
+            }}
+          >
             BOARD
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div className="flex justify-center items-center w-[150px] cursor-pointer">
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
+          <span
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
             onClick={() => {
               history.push('/restaurant');
-            }}>
+            }}
+          >
             RESTAURANT
           </span>
         </div>
@@ -150,7 +175,7 @@ const RestaurantNavbar = () => {
         </div>
         <div className="flex flex-col items-center">
           <img
-            src={IMAGE_FILE_ID}
+            src={`/image/${IMAGE_FILE_ID}`}
             className='relative top-[34px] bg-cover w-[40px] h-[40px] bg-[url("./img/circle_human.png")] rounded-full mb-[70px]'
             onClick={() => {
               history.push('/mypage');
