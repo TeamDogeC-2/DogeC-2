@@ -130,7 +130,7 @@ const boardReviewList = (data: any) => {
           <>
             {data.memberProfileImageName ? (
               <img
-                src={`/image/${data.memberProfileImageName}`}
+                src={`${process.env.REACT_APP_IMG_KEY}/${data.memberProfileImageName}`}
                 className="row-span-2 ml-[38px] mt-[20px] w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
               />
             ) : (
@@ -336,7 +336,7 @@ const boardReviewList = (data: any) => {
               <BoardReplyIcon className="row-span-2 ml-[38px]" />
               {data.memberProfileImageName ? (
                 <img
-                  src={`/image/${data.memberProfileImageName}`}
+                  src={`${process.env.REACT_APP_IMG_KEY}/${data.memberProfileImageName}`}
                   className="row-span-2 w-[40px] h-[40px] border-[1px] rounded-full bg-[#D9D9D9]"
                 />
               ) : (

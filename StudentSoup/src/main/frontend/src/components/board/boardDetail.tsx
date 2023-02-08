@@ -226,7 +226,7 @@ const boardDetail = () => {
               <>
                 <img
                   key={school}
-                  src={`/image/${school}`}
+                  src={`${process.env.REACT_APP_IMG_KEY}/${school}`}
                   className="ml-[4px] w-[180px] h-[180px] border-[1px] rounded-[5px] bg-[#A5A5A5]"
                 />
               </>
