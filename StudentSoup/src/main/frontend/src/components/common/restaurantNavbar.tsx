@@ -186,43 +186,41 @@ const RestaurantNavbar = () => {
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">
-        <div className="flex justify-center items-center w-[100px] cursor-pointer">
+        <div
+          className="flex justify-center items-center w-[100px] cursor-pointer"
+          onClick={() => {
+            if (userId === null) {
+              if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                history.push('/login');
+              } else {
+                return;
+              }
+            }
+            if (userId) {
+              history.push('/board/all');
+            }
+          }}>
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span
-            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
-            onClick={() => {
-              if (userId === null) {
-                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
-                  history.push('/login');
-                } else {
-                  return;
-                }
-              }
-              if (userId) {
-                history.push('/board/all');
-              }
-            }}
-          >
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
             BOARD
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
-        <div className="flex justify-center items-center w-[150px] cursor-pointer">
-          <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span
-            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
-            onClick={() => {
-              if (isLogin) {
-                history.push('/restaurant', mySchool);
+        <div
+          className="flex justify-center items-center w-[150px] cursor-pointer"
+          onClick={() => {
+            if (isLogin) {
+              history.push('/restaurant', mySchool);
+            } else {
+              if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+                history.push('/login');
               } else {
-                if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
-                  history.push('/login');
-                } else {
-                  /* empty */
-                }
+                /* empty */
               }
-            }}
-          >
+            }
+          }}>
+          <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
             RESTAURANT
           </span>
         </div>
