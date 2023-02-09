@@ -208,7 +208,7 @@ const boardDetail = () => {
           </div>
         </Link>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-[57px]">
         <div className="w-[938px] h-auto border-[1px] border-[#BCBCBC] bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] content-center">
           <div className="flex flex-row">
             <div className="ml-[41px] mt-[35px] w-[850px] h-auto text-[20px] font-medium flex items-center text-[#252525]">
