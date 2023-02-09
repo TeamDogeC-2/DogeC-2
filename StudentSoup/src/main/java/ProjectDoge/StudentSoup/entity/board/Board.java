@@ -56,9 +56,11 @@ public class Board {
 
     private int view;
 
-    private String writeDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime writeDate;
 
-    private String updateDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime updateDate;
 
     private int likedCount;
 
@@ -89,8 +91,8 @@ public class Board {
     public Board createBoard(BoardFormDto form, Member member, School school, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setContent(form.getContent());
         this.setIp(form.getIp());
         this.setView(0);
@@ -105,8 +107,8 @@ public class Board {
     public Board createTestBoard(BoardFormDto form, Member member, School school, Department department) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setContent(form.getContent());
         this.setView(0);
         this.setLikedCount(10);
@@ -120,8 +122,8 @@ public class Board {
     public Board createBoard(BoardFormDto form, Member member, School school) {
         this.setTitle(form.getTitle());
         this.setBoardCategory(form.getBoardCategory());
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setContent(form.getContent());
         this.setView(0);
         this.setLikedCount(0);
@@ -142,7 +144,7 @@ public class Board {
         this.setContent(boardFormDto.getContent());
         updateDepartment(department);
         this.setBoardCategory(boardFormDto.getBoardCategory());
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(LocalDateTime.now());
         return this;
     }
 
@@ -156,8 +158,8 @@ public class Board {
         this.setContent("내용");
         this.setIp("ip");
         this.setView(0);
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setLikedCount(0);
         return this;
     }

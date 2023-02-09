@@ -6,6 +6,9 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
 public class BoardMainDto {
@@ -24,7 +27,7 @@ public class BoardMainDto {
         this.boardId = board.getId();
         this.boardCategory = board.getBoardCategory().getBoardCategory();
         this.title = board.getTitle();
-        this.writeDate = board.getWriteDate();
+        this.writeDate = board.getWriteDate().toLocalDate().toString();
         this.likedCount = board.getLikedCount();
         this.view = board.getView();
         this.nickname = board.getMember().getNickname();
@@ -36,7 +39,7 @@ public class BoardMainDto {
             Long boardId,
             BoardCategory boardCategory,
             String title,
-            String writeDate,
+            LocalDateTime writeDate,
             String nickname,
             int view,
             int likedCount,
@@ -47,7 +50,7 @@ public class BoardMainDto {
         this.boardCategory = boardCategory.getBoardCategory();
         this.tag = replaceCategory(boardCategory.getBoardCategory());
         this.title = title;
-        this.writeDate = writeDate;
+        this.writeDate = writeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));;
         this.nickname = nickname;
         this.view = view;
         this.likedCount = likedCount;
