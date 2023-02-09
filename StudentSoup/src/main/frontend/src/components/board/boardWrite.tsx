@@ -4,6 +4,7 @@ import { ReactComponent as BoardImgCloseIcon } from '../../img/boardImgCloseIcon
 import React, { useEffect, useRef, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import { useHistory } from 'react-router-dom';
+import Footer from '../common/footer';
 
 const boardWrite = () => {
   const [departmentlist, setDepartMentList] = useState<any>([]);
@@ -284,6 +285,7 @@ const boardWrite = () => {
           <div className="ml-[200px] mt-[22px]">작성하기</div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
