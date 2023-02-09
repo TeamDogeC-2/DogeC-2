@@ -12,7 +12,6 @@ import { ReactComponent as BoardWriteActiveHeart } from '../../img/BoardWriteAct
 import { ReactComponent as BoardScrollUp } from '../../img/boardScrollUpIcon.svg';
 import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon.svg';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Footer from '../common/footer';
 
 const boardDetail = () => {
   const history = useHistory();
