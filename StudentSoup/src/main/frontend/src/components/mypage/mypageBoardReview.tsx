@@ -71,18 +71,22 @@ const MypageBoardReview = () => {
   const handleDelete = (e: any) => {
     const restaurantReviewId = e.target.id;
     const restaurantId = e.target.value;
-    axios
-      .delete(`/restaurantReview/${restaurantReviewId}`, {
-        data: { restaurantReviewId, restaurantId, memberId },
-      })
-      .then(function (response) {
-        console.log(response);
-        setDeleteCheck(true);
-        alert('삭제되었습니다.');
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (confirm('해당 리뷰를 삭제하시겠습니까?')) {
+      axios
+        .delete(`/restaurantReview/${restaurantReviewId}`, {
+          data: { restaurantReviewId, restaurantId, memberId },
+        })
+        .then(function (response) {
+          console.log(response);
+          setDeleteCheck(true);
+          alert('삭제되었습니다.');
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      /* empty */
+    }
     setDeleteCheck(false);
   };
 
@@ -210,7 +214,9 @@ const MypageBoardReview = () => {
               )}
             </div>
             <div className="w-full h-[3px] border-[#BCBCBC] bg-[#BCBCBC]"></div>
-            {isModal && <MypageReviewModal onClickToggleModal={onClickToggleModal} reviewId={reviewId} />}
+            {isModal && (
+              <MypageReviewModal onClickToggleModal={onClickToggleModal} reviewId={reviewId} />
+            )}
           </div>
         </div>
       </div>
