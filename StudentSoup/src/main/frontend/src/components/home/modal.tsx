@@ -58,14 +58,14 @@ const Modal = (props: any) => {
           <ul className="text-[14px] fw-400 leading-[18px]">
             <li
               onClick={handleClickMypage}
-              className="flex items-center justify-between cursor-pointer"
+              className="flex items-center justify-between cursor-pointer hover:underline underline-offset-[1px]"
             >
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">마이페이지</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>
             </li>
             <li
               onClick={handleClickBoard}
-              className="flex items-center justify-between cursor-pointer"
+              className="flex items-center justify-between cursor-pointer hover:underline underline-offset-[1px]"
             >
               <div className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">게시판</div>
               <p className="mt-[21px] mr-[19px] mb-[2px] ml-[19px]">&gt;</p>

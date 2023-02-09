@@ -17,15 +17,8 @@ const Footer = () => {
         <span>대표: 문종운</span>
         <span>소재지: 인천광역시 미추홀구 주안</span>
       </div>
-      <div className=""> 이메일 문의: answkdud1234@sfoo.com </div>
-      <div> 전화 문의: 031-123-4567 </div>
-      <div className="absolute bottom-[40px] right-[91px] space-x-[14px]">
-        <span className="font-bold">한국어</span>
-        <span>|</span>
-        <span>English</span>
-        <span>|</span>
-        <span>中國語</span>
-      </div>
+      <div className=""> 이메일 문의: dkflfkdtm2@gmail.com </div>
+      <div> 전화 문의: 010-6800-0708 </div>
     </div>
   );
 };
