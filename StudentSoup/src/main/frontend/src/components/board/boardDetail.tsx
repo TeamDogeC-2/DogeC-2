@@ -13,6 +13,7 @@ import { ReactComponent as BoardScrollDown } from '../../img/boardScroolDownIcon
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const boardDetail = () => {
+  const history = useHistory();
   const state = useLocation<any>();
   const getBoardId = state.state;
   const [boardTitle, setBoardTitle] = useState<string>('');
@@ -55,7 +56,6 @@ const boardDetail = () => {
         console.error(err);
       });
   }, []);
-  const history = useHistory();
   useEffect(() => {
     axios
       .get(`/boardReplies/${getBoardId}/${saveMemberId}`)
@@ -75,12 +75,24 @@ const boardDetail = () => {
       setCategory('취업/상담게시판');
     } else if (categoryList === 'TIP') {
       setCategory('팁게시판');
-    } else if (categoryList === 'NOTICE') {
+    } else if (categoryList === 'ANNOUNCEMENT') {
       setCategory('공지사항');
     } else if (categoryList === 'EMPLOYMENT') {
       setCategory('취업/상담게시판');
     }
   });
+
+  const handleBackCategory = () => {
+    if (categoryList === 'FREE') {
+      history.push('/board/free');
+    } else if (categoryList === 'CONSULTING' || categoryList === 'EMPLOYMENT') {
+      history.push('/board/consulting');
+    } else if (categoryList === 'TIP') {
+      history.push('/board/tip');
+    } else if (categoryList === 'ANNOUNCEMENT') {
+      history.push('/board/notice');
+    }
+  };
 
   const handleReply = (e: any) => {
     if (!replyTextValue) {
@@ -179,9 +191,7 @@ const boardDetail = () => {
           {category}
         </div>
         <div
-          onClick={() => {
-            history.goBack();
-          }}
+          onClick={handleBackCategory}
           className="ml-[398px] mt-[7px] w-[77px] h-[44px] border-[0.8px] border-[#929292] rounded-[22px] bg-[#FFFFFF] cursor-pointer"
         >
           <div className="ml-[22.06px] mt-[8.62px] font-normal text-[16px] flex items-center text-[#929292]">
