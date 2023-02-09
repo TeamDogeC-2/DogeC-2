@@ -59,33 +59,31 @@ const mypageNavbar = () => {
         className="w-[106px] h-[30px] ml-[28px] cursor-pointer"
       />
       <div className="flex items-center mr-[32px] m-5">
-        <div className="flex justify-center items-center w-[100px] cursor-pointer">
+        <div
+          className="flex justify-center items-center w-[100px] cursor-pointer"
+          onClick={() => {
+            history.push('/board/all');
+          }}>
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span
-            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
-            onClick={() => {
-              history.push('/board/all');
-            }}
-          >
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
             BOARD
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
-        <div className="flex justify-center items-center w-[150px] cursor-pointer">
+        <div
+          className="flex justify-center items-center w-[150px] cursor-pointer"
+          onClick={handlePushRestaurant}>
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
-          <span
-            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]"
-            onClick={handlePushRestaurant}
-          >
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
             RESTAURANT
           </span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
         <div
           onClick={handleClickLogout}
-          className="flex justify-center items-center w-[110px] cursor-pointer"
+          className="flex justify-center items-center w-[110px] z-10 cursor-pointer"
         >
-          <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px] " />
+          <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">LOGOUT</span>
         </div>
         <div className="flex flex-col items-center">
