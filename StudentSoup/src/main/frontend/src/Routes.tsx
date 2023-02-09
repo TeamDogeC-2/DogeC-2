@@ -7,7 +7,6 @@ import Err404 from './components/err404/err404';
 import Login from './components/login/login';
 import FindAccount from './components/login/findAccount';
 import MypageHome from './components/mypage/mypageHome';
-import MypageScheduler from './components/mypage/mypageScheduler';
 import MypageModify from './components/mypage/mypageModify';
 import Mypage from './components/mypage/mypage';
 import Restaurant from './components/restaurant/restaurant';
@@ -33,7 +32,6 @@ const Routes = () => {
       <Route exact path="/login/findAccount" component={FindAccount} />
       <Route exact path="/mypage" component={Mypage} />
       <Route exact path="/mypageHome" component={MypageHome} />
-      <Route exact path="/mypageScheduler" component={MypageScheduler} />
       <Route exact path="/mypagemodify" component={MypageModify} />
       <Route exact path="/restaurant" component={Restaurant} />
       <Route exact path="/restaurant/detail" component={RestaurantDetail} />

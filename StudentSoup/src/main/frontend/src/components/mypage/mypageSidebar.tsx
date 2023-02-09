@@ -1,8 +1,6 @@
 import Menu from '../../img/menu.jpg';
 import HomeFill from '../../img/home_fill.png';
 import Home from '../../img/home.png';
-import Scheduler from '../../img/scheduler.jpg';
-import SchedulerFill from '../../img/scheduler_fill.png';
 import Modify from '../../img/modify.png';
 import ModifyFill from '../../img/modify_fill.png';
 import CheckRight from '../../img/check_right.png';
@@ -26,10 +24,6 @@ const MypageSidebar = (props: propTypes) => {
   const onClickMypageHome = () => {
     setId('home');
     props.onClickMenu('home');
-  };
-  const onClickMypageScheduler = () => {
-    setId('scheduler');
-    props.onClickMenu('scheduler');
   };
   const onClickMypageModify = () => {
     setId('modify');
@@ -74,35 +68,6 @@ const MypageSidebar = (props: propTypes) => {
               className={cn('w-[4px] h-[54px]', {
                 ['bg-[#FF611D]']: id === 'home',
                 ['']: id !== 'home',
-              })}
-            ></div>
-          </div>
-        </li>
-        <li className="mb-[20px]">
-          <div
-            className={cn('flex items-center w-full h-[54px] mt-[26px] cursor-pointer', {
-              ['bg-[#F5F5F5]']: id === 'scheduler',
-              ['']: id !== 'scheduler',
-            })}
-            onClick={onClickMypageScheduler}
-          >
-            <img
-              src={id === 'scheduler' ? SchedulerFill : Scheduler}
-              alt=""
-              className="w-[15.5px] h-[16.4px] ml-[40px] mr-[13px]"
-            />
-            <span
-              className={cn('w-full font-medium', {
-                ['text-[#FF611D]']: id === 'scheduler',
-                ['']: id !== 'scheduler',
-              })}
-            >
-              시간표
-            </span>
-            <div
-              className={cn('w-[4px] h-[54px]', {
-                ['bg-[#FF611D]']: id === 'scheduler',
-                ['']: id !== 'scheduler',
               })}
             ></div>
           </div>
