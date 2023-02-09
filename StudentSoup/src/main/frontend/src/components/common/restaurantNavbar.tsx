@@ -93,8 +93,8 @@ const RestaurantNavbar = () => {
     }
   };
 
-  const handleLogin = (e: any) => {
-    const value = e.target.innerText;
+  const handleLogin = () => {
+    const value = document.getElementById('logValue')?.innerText;
     if (value === 'LOGOUT') {
       if (sessionStorage.getItem('saved') === String(true)) {
         sessionStorage.removeItem('email');
@@ -227,18 +227,12 @@ const RestaurantNavbar = () => {
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[19px]"></span>
         <div
           onClick={handleLogin}
-          className="flex justify-center items-center w-[110px] cursor-pointer"
+          className="flex justify-center items-center w-[110px] cursor-pointer z-10"
         >
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
-          {isLogin ? (
-            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
-              LOGOUT
-            </span>
-          ) : (
-            <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
-              LOGIN
-            </span>
-          )}
+          <span id='logValue' className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
+            {isLogin ? ('LOGOUT') : ('LOGIN')}
+          </span>
         </div>
         <div className="flex flex-col items-center cursor-pointer">
           <img
