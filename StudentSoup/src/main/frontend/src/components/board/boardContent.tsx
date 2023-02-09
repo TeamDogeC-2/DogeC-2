@@ -55,7 +55,7 @@ const BoardContent = (props: PropsType) => {
   };
 
   return (
-    <div className="py-[52px] px-[76px] max-w-[1100px]">
+    <div className="h-[120vh] py-[52px] px-[76px] max-w-[1100px]">
       <TitleComponent boardCategory={boardCategory} range={range} setRange={setRange} />
       <SearchComponent
         range={range}

@@ -1,3 +1,4 @@
+import Footer from '../common/footer';
 import MypageNavbar from '../common/mypageNavbar';
 import BoardContent from './boardContent';
 import BoardSidebar from './boardSidebar';
@@ -14,6 +15,7 @@ const BoardAll = () => {
           <BoardContent boardCategory="ALL" />
         </div>
       </div>
+      <Footer />
     </>
   );
 };

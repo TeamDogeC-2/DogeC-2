@@ -5,6 +5,7 @@ import MypageModify from './mypageModify';
 import MypageScheduler from './mypageScheduler';
 import MypageSidebar from './mypageSidebar';
 import MypageBoardReivew from './mypageBoardReview';
+import Footer from '../common/footer';
 
 const Mypage = () => {
   const [menu, setMenu] = useState<string>('home');
@@ -26,6 +27,7 @@ const Mypage = () => {
           <div>{menu === 'boardReview' && <MypageBoardReivew />}</div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

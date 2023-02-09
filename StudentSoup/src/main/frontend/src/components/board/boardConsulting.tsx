@@ -1,6 +1,7 @@
 import MypageNavbar from '../common/mypageNavbar';
 import BoardContent from './boardContent';
 import BoardSidebar from './boardSidebar';
+import Footer from '../common/footer';
 
 const BoardConsulting = () => {
   return (
@@ -14,6 +15,7 @@ const BoardConsulting = () => {
           <BoardContent boardCategory={'CONSULTING'} />
         </div>
       </div>
+      <Footer />
     </>
   );
 };
