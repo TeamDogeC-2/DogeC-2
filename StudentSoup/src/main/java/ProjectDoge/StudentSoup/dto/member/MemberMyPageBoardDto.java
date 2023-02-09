@@ -3,6 +3,9 @@ package ProjectDoge.StudentSoup.dto.member;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Data
 public class MemberMyPageBoardDto {
 
@@ -17,10 +20,10 @@ public class MemberMyPageBoardDto {
     }
 
     @QueryProjection
-    public MemberMyPageBoardDto(Long boardId, String title, String writeDate, int likedCount, int viewCount){
+    public MemberMyPageBoardDto(Long boardId, String title, LocalDateTime writeDate, int likedCount, int viewCount){
         this.boardId = boardId;
         this.title = title;
-        this.writeDate = writeDate;
+        this.writeDate = writeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));;
         this.likedCount = likedCount;
         this.viewCount = viewCount;
     }
