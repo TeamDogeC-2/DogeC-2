@@ -4,10 +4,14 @@ import RestaurantMain from './restaurantMain';
 
 const Restaurant = () => {
   return (
-    <div>
+    <div className='relative'>
       <RestaurantNavbar />
-      <RestaurantMain />
-      <Footer />
+      <div className='min-h-screen'>
+        <RestaurantMain />
+      </div>
+      <div className='static bottom-0 w-screen'>
+        <Footer />
+      </div>
     </div>
   );
 };
