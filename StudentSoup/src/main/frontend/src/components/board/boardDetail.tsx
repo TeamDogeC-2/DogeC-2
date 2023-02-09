@@ -309,6 +309,7 @@ const boardDetail = () => {
               <BoardReviewList {...data} data={data} />
             </>
           ))}
+          <div className="mb-[40px]"></div>
         </div>
         {boardReviewList.length < 3 ||
           (boardBestReviewList < 3 && (
