@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import BoardReviewList from './boardReviewList';
 import BoardBestReplyHeart from './boardBestReply';
-import Footer from '../common/footer';
 import axios from 'axios';
 import { ReactComponent as BoardWriteIcon } from '../../img/BoardWriteIcon.svg';
 import { ReactComponent as BoardWriteIconHeart } from '../../img/boardWriteIconHeart.svg';
@@ -187,9 +186,10 @@ const boardDetail = () => {
   return (
     <>
       <MypageNavbar />
+      <div className='min-h-screen'>
       <div className="w-full h-[103px] scroll-smooth"></div>
       <div className="flex flex-row justify-center">
-        <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
+        <div className="mt-[15px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
           {category}
         </div>
         <div
@@ -326,6 +326,7 @@ const boardDetail = () => {
               />
             </div>
           ))}
+      </div>
       </div>
       <Footer />
     </>
