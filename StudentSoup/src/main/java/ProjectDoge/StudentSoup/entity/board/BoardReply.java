@@ -32,9 +32,11 @@ public class BoardReply {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    private String writeDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime writeDate;
 
-    private String updateDate;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime updateDate;
 
     @Size(min = 2, max = 500)
     private String content;
@@ -79,8 +81,8 @@ public class BoardReply {
         this.setBoard(board);
         this.setMember(member);
         this.setContent(dto.getContent());
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setLikedCount(0);
         this.setSeq(dto.getSeq());
         this.setDepth(dto.getDepth());
@@ -93,8 +95,8 @@ public class BoardReply {
         this.setBoard(board);
         this.setMember(member);
         this.setContent(dto.getContent());
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setLikedCount(10);
         this.setSeq(dto.getSeq());
         this.setDepth(dto.getDepth());
@@ -104,8 +106,8 @@ public class BoardReply {
     }
 
     public BoardReply createBoardNestedReply() {
-        this.setWriteDate(dateFormat(LocalDateTime.now()));
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setWriteDate(LocalDateTime.now());
+        this.setUpdateDate(LocalDateTime.now());
         this.setLikedCount(0);
         this.setLevel(1);
         this.setActive("Y");
@@ -117,7 +119,7 @@ public class BoardReply {
     }
     public BoardReply editBoardReview(String content){
         this.setContent(content);
-        this.setUpdateDate(dateFormat(LocalDateTime.now()));
+        this.setUpdateDate(LocalDateTime.now());
         return this;
     }
 

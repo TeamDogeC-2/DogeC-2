@@ -84,7 +84,7 @@ const MypageBoard = () => {
             id={board.boardId}
             key={board.boardId}
             onClick={handlePushBoard}
-            className="text-[14px]"
+            className="text-[14px] hover:underline underline-offset-[3px] decoration-[#909090]"
           >
             <div
               id={board.boardId}

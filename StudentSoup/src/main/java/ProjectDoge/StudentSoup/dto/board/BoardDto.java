@@ -7,6 +7,8 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,8 +41,8 @@ public class BoardDto {
         this.fileNames = setBoardImageFileNames(board);
         this.nickname = board.getMember().getNickname();
         this.view = board.getView();
-        this.writeDate = board.getWriteDate();
-        this.updateDate = board.getUpdateDate();
+        this.writeDate = board.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.updateDate = board.getUpdateDate().toString();
         this.reviewCount = board.getBoardReplies().size();
         this.likedCount = board.getLikedCount();
         this.memberProfileImageName = setProfileImageFileName(board.getMember());

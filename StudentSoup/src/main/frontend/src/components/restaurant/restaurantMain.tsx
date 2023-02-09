@@ -134,7 +134,7 @@ const RestaurantMain = (_props: any) => {
   }, [sortRef]);
 
   return (
-    <div className="pt-[60px] bg-[#1E1E1E]/5">
+    <div className="pt-[60px] pb-[58px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto relative">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">
@@ -195,7 +195,7 @@ const RestaurantMain = (_props: any) => {
             </div>
           )}
         </div>
-        <div className="w-[1039px] pb-[47px] mb-[58px] mx-auto rounded-[10px] drop-shadow-md bg-white">
+        <div className="w-[1039px] pb-[47px] mx-auto rounded-[10px] drop-shadow-md bg-white">
           <div className="w-[810px] mx-auto py-[31px] flex flex-wrap gap-x-[20px] gap-y-[32px]">
             <button
               className={cn(

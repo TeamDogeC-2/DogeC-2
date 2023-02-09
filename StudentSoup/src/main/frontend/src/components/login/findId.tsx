@@ -54,7 +54,7 @@ const FindId = () => {
         {isSubmit ? (
           <div>
             <span className="text-[12px] fw-400 leading-[16px] text-[#FF611D] mt-[8px]">
-              이메일을 확인해주세요.
+              아이디를 메일로 전송하였습니다. 이메일을 확인해주세요.
             </span>
             <button
               type="submit"

@@ -14,6 +14,7 @@ import Picturepage from './pictureInfo';
 import cn from 'clsx';
 import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
+import Footer from '../common/footer';
 const kakao = (window as any).kakao;
 
 const restaurant = () => {
@@ -274,7 +275,7 @@ const restaurant = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-auto flex justify-center">
+      <div className="w-full h-auto flex mb-[54px] justify-center">
         <div className="ml-[298px] w-[744px] h-full bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px]">
           <div className="flex flex-row ml-[10px]">
             <div
@@ -339,6 +340,7 @@ const restaurant = () => {
           {clickPage === 3 && <Picturepage />}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

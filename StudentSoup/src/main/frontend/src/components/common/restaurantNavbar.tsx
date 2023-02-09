@@ -19,6 +19,7 @@ const RestaurantNavbar = () => {
   const [posts, setPosts] = useState<any[]>();
   const [schoolValue, setSchoolValue] = useState<string>();
   const [inputSchool, setInputSchool] = useState<string>();
+  const [pushEnter, isPushEnter] = useState<boolean>(false);
 
   useEffect(() => {
     if (userId === null) {
@@ -75,8 +76,7 @@ const RestaurantNavbar = () => {
       alert('학교를 검색해주세요');
     } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
-      setInputSchool('');
-      setSearchSchool([]);
+      isPushEnter(true);
     } else {
       alert('학교 정보가 올바르지 않습니다.');
     }
@@ -85,6 +85,11 @@ const RestaurantNavbar = () => {
   const handleOnKeyPress = (e: any) => {
     if (e.key === 'Enter') {
       handlePushRestaurant();
+      if (pushEnter) {
+        setSearchSchool([]);
+        setInputSchool('');
+        isPushEnter(false);
+      }
     }
   };
 

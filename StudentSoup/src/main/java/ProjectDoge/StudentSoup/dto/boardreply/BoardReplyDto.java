@@ -5,6 +5,8 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
 public class BoardReplyDto {
@@ -26,7 +28,7 @@ public class BoardReplyDto {
         this.boardReplyId = boardReply.getReplyId();
         this.content = boardReply.getContent();
         this.likeCount = boardReply.getLikedCount();
-        this.writeDate = boardReply.getWriteDate();
+        this.writeDate = boardReply.getWriteDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));;
         this.seq = boardReply.getSeq();
         this.depth = boardReply.getDepth();
         this.level = boardReply.getLevel();

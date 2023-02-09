@@ -5,8 +5,6 @@ import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
-import ProjectDoge.StudentSoup.entity.board.QBoardReply;
-import ProjectDoge.StudentSoup.entity.file.QImageFile;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -20,13 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
-import static ProjectDoge.StudentSoup.entity.board.QBoardReply.boardReply;
-import static ProjectDoge.StudentSoup.entity.file.QImageFile.imageFile;
 import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 import static ProjectDoge.StudentSoup.entity.school.QSchool.school;
 
@@ -87,7 +82,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                                 .and(searchColumnContainsContent(column, value))
                                 .and(searchColumnContainsNickname(column, value))
                 )
-                .orderBy(priorOrderAnnouncement(), priorTipBest(), checkSortedCondition(sorted))
+                .orderBy(priorOrderAnnouncement(), priorTipBest(), checkSortedCondition(sorted), board.writeDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -119,8 +114,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .from(board)
                 .where(board.school.id.eq(schoolId),
                         board.likedCount.goe(10),
-                        board.writeDate.between(searchDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-                                EndDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                        board.writeDate.between(searchDate, EndDate))
                 .offset(0)
                 .limit(5)
                 .fetch();
