@@ -148,7 +148,8 @@ const SearchComponent = (props: PropsType) => {
           }}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              setPage(1);
+              if (page !== 1) setPage(1);
+              else handleSearchButton();
             }
           }}
           placeholder="글 제목, 내용, 해시태그를 적어주세요"
@@ -156,7 +157,8 @@ const SearchComponent = (props: PropsType) => {
         />
         <div
           onClick={() => {
-            setPage(1);
+            if (page !== 1) setPage(1);
+            else handleSearchButton();
           }}
           className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]"
         >
