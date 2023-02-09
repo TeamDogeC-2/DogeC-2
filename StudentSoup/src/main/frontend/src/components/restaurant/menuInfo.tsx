@@ -118,7 +118,7 @@ const menuInfo = () => {
               {MenuList.map((school: any) => (
                 <>
                   {school.restaurantMenuCategory === '사이드메뉴' && (
-                    <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
+                    <div className="ml-[27px] mt-[18px] w-[315px] h-auto font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
                       {school.restaurantMenuName} ------- {school.cost}원
                     </div>
                   )}
@@ -132,7 +132,7 @@ const menuInfo = () => {
               {MenuList.map((school: any) => (
                 <>
                   {school.restaurantMenuCategory === '음료 및 주류' && (
-                    <div className="ml-[27px] mt-[18px] w-[315px] h-[16px] font-normal text-[20px] flex items-center text-[#808080]">
+                    <div className="ml-[27px] mt-[18px] w-[315px] h-auto font-normal text-[20px] leading-[28px] flex items-center text-[#808080]">
                       {school.restaurantMenuName} ------- {school.cost}원
                     </div>
                   )}

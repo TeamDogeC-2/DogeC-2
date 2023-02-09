@@ -40,7 +40,7 @@ const reviewMoreHeartInfo = (data: any) => {
         <svg
           onClick={handleHeartCount}
           id={data.restaurantReviewId}
-          className="relative left-[380px] top-[5px] w-[15px] h-[13px] cursor-pointer"
+          className="relative left-[360px] top-[5px] w-[15px] h-[13px] cursor-pointer"
           width="17"
           height="15"
           viewBox="0 0 17 15"
@@ -60,7 +60,7 @@ const reviewMoreHeartInfo = (data: any) => {
         <svg
           onClick={handleHeartCount}
           id={data.restaurantReviewId}
-          className="relative left-[380px] top-[5px] w-[15px] h-[13px] cursor-pointer"
+          className="relative left-[360px] top-[5px] w-[15px] h-[13px] cursor-pointer"
           width="17"
           height="15"
           viewBox="0 0 17 15"
@@ -78,7 +78,7 @@ const reviewMoreHeartInfo = (data: any) => {
         </svg>
       )}
 
-      <div className="relative left-[385px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
+      <div className="relative left-[365px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
         {clicklike ? likeCount : data.likedCount}
       </div>
     </div>
