@@ -18,6 +18,7 @@ const MypageHome = (props: propTypes) => {
   const imageUploader = useRef<any>(null);
 
   const memberId = sessionStorage.getItem('memberId');
+  const profileName = sessionStorage.getItem('fileName');
   console.log(memberId);
   const savedName = sessionStorage.getItem('nickname');
   const savedSchool = sessionStorage.getItem('schoolName');
@@ -29,6 +30,8 @@ const MypageHome = (props: propTypes) => {
   const [showContent, setShowContent] = useState(false);
   const contentRef: any = useRef(null);
 
+  const [imgNull, isImgNull] = useState<boolean>();
+
   const [id, setId] = useState<string>('home');
   const onClickMypageBoardReview = (e: React.MouseEvent<Element, MouseEvent>) => {
     setId('boardReview');
@@ -39,6 +42,14 @@ const MypageHome = (props: propTypes) => {
   const url = '/mypage';
 
   const formatDate = `${year}년 ${month}월 ${day}일`;
+
+  useEffect(() => {
+    if (profileName !== 'null') {
+      isImgNull(false);
+    } else {
+      isImgNull(true);
+    }
+  }, [imgNull]);
 
   const handleImageUpload = async (e: any) => {
     console.log(e.target.files);
@@ -61,6 +72,7 @@ const MypageHome = (props: propTypes) => {
         )
         .then(function (response) {
           sessionStorage.setItem('fileName', response.data.fileName);
+          isImgNull(false);
           alert('프로필 사진이 변경되었습니다.');
         })
         .catch(function (error) {
@@ -71,16 +83,21 @@ const MypageHome = (props: propTypes) => {
   };
 
   const handleDeleteProfileImage = () => {
-    axios
-      .delete('/members/delete/image', { params: { memberId } })
-      .then(function (response) {
-        sessionStorage.setItem('fileName', response.data.fileName);
-        alert('기본 이미지로 변경되었습니다.');
-        location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (imgNull) {
+      alert('이미 기본이미지 입니다.');
+    } else {
+      axios
+        .delete('/members/delete/image', { params: { memberId } })
+        .then(function (response) {
+          sessionStorage.setItem('fileName', response.data.fileName);
+          alert('기본 이미지로 변경되었습니다.');
+          isImgNull(true);
+          location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const handleModify = (e: any) => {
