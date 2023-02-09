@@ -136,7 +136,7 @@ const reviewWrite = () => {
                           </div>
                           <div className="flex flex-row">
                             <ReviewMoreStarView {...school} school={school} />
-                            <div className="ml-[9.4px] mt-[5px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
+                            <div className="w-[90px] h-[16px] ml-[9.4px] mt-[5px] font-normal text-[16px] leading-[21px] flex items-center text-[#A5A5A5]">
                               {school.writeDate}
                             </div>
                             <ReviewMoreHeartInfo {...school} school={school} />
