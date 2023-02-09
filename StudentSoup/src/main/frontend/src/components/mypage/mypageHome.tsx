@@ -105,7 +105,7 @@ const MypageHome = (props: propTypes) => {
   };
 
   return (
-    <div className="flex-[9] min-h-full z-[1] bg-[#1E1E1E]/5">
+    <div className="flex-[9] h-[150vh] min-h-full z-[1] bg-[#1E1E1E]/5">
       <div className="w-full h-[259px] flex items-center justify-center bg-[#B0B0B0]"></div>
       <div className="flex flex-row w-full h-[100vh]">
         <div className="w-[451px] relative bottom-[140px]">
