@@ -167,7 +167,7 @@ const MypageReviewModal = (props: any) => {
             </>
           ))}
         </div>
-        <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[16px] text-[#9F9F9F]">
+        <div className="ml-[27px] mt-[12px] h-[21px] font-normal text-[16px] leading-[21px] text-[#9F9F9F]">
           리뷰 수정 시에는 사진 첨부 및 삭제가 불가합니다.
         </div>
         <div className="flex flex-row pb-[25px]">
