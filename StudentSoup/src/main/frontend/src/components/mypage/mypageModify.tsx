@@ -2,6 +2,7 @@ import Upload from '../../img/upload.png';
 import cn from 'clsx';
 import { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
+import Circle_human from '../../img/circle_human.png';
 
 interface propTypes {
   onClickMenu: Function;
@@ -190,6 +191,10 @@ const MypageModify = (props: propTypes) => {
     setNewEmail(value);
   };
 
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
   return (
     <div className="flex flex-[9] w-full h-[150vh] z-[1] bg-zinc-100">
       {checkPwd ? (
@@ -199,7 +204,8 @@ const MypageModify = (props: propTypes) => {
             <div className="w-full h-[526px] flex flex-row border-[1px] border-[#B1B1B1] bg-white rounded-[10px] mt-[18px]">
               <div className="w-[200px] h-full flex flex-col">
                 <img
-                  src={IMAGE_FILE_ID}
+                  src={`/image/${IMAGE_FILE_ID}`}
+                  onError={handleImgError}
                   className='w-[92px] h-[92px] bg-[url("./img/circle_human.png")] bg-cover mt-[44px] ml-[51px] rounded-full'
                 />
               </div>
