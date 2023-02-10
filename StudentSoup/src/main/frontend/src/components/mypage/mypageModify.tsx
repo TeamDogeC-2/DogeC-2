@@ -38,6 +38,7 @@ const MypageModify = (props: propTypes) => {
 
   const [newEmail, setNewEmail] = useState<string>(email);
   const [changeNickname, setChangeNickname] = useState<string>(nickname);
+  const [changeCheck, setChangeCheck] = useState<boolean>(false);
 
   const handleSelect = (e: any) => {
     setSelectedId(e.target.value);
@@ -50,7 +51,7 @@ const MypageModify = (props: propTypes) => {
   };
 
   useEffect(() => {
-    if (newEmail && changeNickname && matchPassword && selectedId && selectDepartId) {
+    if (newEmail && changeCheck && matchPassword && selectedId && selectDepartId) {
       setCheckSubmit(true);
     } else {
       setCheckSubmit(false);
@@ -183,7 +184,13 @@ const MypageModify = (props: propTypes) => {
 
   const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    console.log(e.target.value.length);
     setChangeNickname(value);
+    if (e.target.value.length >= 2 && e.target.value.length <= 12) {
+      setChangeCheck(true);
+    } else {
+      setChangeCheck(false);
+    }
   };
 
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
