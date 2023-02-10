@@ -356,7 +356,7 @@ const MypageModify = (props: propTypes) => {
                           value={school.schoolId}
                           key={school.schoolId}
                           id={school.schoolId}
-                          className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                          className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                         >
                           {school.schoolName}
                         </option>
@@ -367,7 +367,7 @@ const MypageModify = (props: propTypes) => {
                     <span className="text-[16px] fw-400 leading-[22px] text-[#6B6B6B]">전공</span>
                     <select
                       onChange={handleSelectDepart}
-                      className="w-[246px] h-[38px] relative w-full text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
+                      className="w-[246px] h-[38px] relative text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
                     >
                       <option value="null">학과 선택</option>
                       {departArray?.map(depart => (
@@ -375,7 +375,7 @@ const MypageModify = (props: propTypes) => {
                           value={depart.departmentId}
                           key={depart.departmentId}
                           id={depart.departmentId}
-                          className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD] text-black"
+                          className="flex text-start text-[#939393] text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px] cursor-pointer hover:bg-[#DDDDDD]"
                         >
                           {depart.departmentName}
                         </option>

@@ -186,9 +186,10 @@ const boardDetail = () => {
   return (
     <>
       <MypageNavbar />
+      <div className='min-h-screen'>
       <div className="w-full h-[103px] scroll-smooth"></div>
       <div className="flex flex-row justify-center">
-        <div className="mt-[15px] w-[296px] h-[60px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
+        <div className="mt-[15px] w-[296px] h-[60px] font-bold leading-[29px] text-[24px] items-center text-[#262626]">
           {category}
         </div>
         <div
@@ -325,6 +326,7 @@ const boardDetail = () => {
               />
             </div>
           ))}
+      </div>
       </div>
       <Footer />
     </>

@@ -152,6 +152,7 @@ const boardWrite = () => {
   return (
     <>
       <MypageNavbar />
+      <div className='min-h-screen'>
       <div className="flex flex-row mt-[103px] justify-center">
         <div className="mr-[155px] w-[296px] h-[60px] font-bold text-[24px] leading-[29px] flex items-center">
           게시글 쓰기
@@ -284,6 +285,7 @@ const boardWrite = () => {
         >
           <div className="ml-[200px] mt-[22px]">작성하기</div>
         </div>
+      </div>
       </div>
       <Footer />
     </>
