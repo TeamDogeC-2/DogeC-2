@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/mypageNavbar';
 import BoardReviewList from './boardReviewList';
 import BoardBestReplyHeart from './boardBestReply';
+import Footer from '../common/footer';
 import axios from 'axios';
 import { ReactComponent as BoardWriteIcon } from '../../img/BoardWriteIcon.svg';
 import { ReactComponent as BoardWriteIconHeart } from '../../img/boardWriteIconHeart.svg';
