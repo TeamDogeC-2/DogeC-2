@@ -134,7 +134,7 @@ const RestaurantMain = (_props: any) => {
   }, [sortRef]);
 
   return (
-    <div className="pt-[60px] pb-[58px] bg-[#1E1E1E]/5">
+    <div className="min-h-screen pt-[60px] pb-[58px] bg-[#1E1E1E]/5">
       <div className="w-[1039px] mx-auto relative">
         <div className="mb-[31px] relative flex justify-between">
           <div className="font-semibold">

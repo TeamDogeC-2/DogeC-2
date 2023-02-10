@@ -117,7 +117,7 @@ const BoardListComponent = (props: PropsType) => {
                   <td className="py-[15px] px-[13px]">{item.writeDate}</td>
                   <td className="py-[15px] px-[13px]">{item.view}</td>
                   <td className="py-[15px] px-[13px]">
-                    <div className='flex gap-x-[5px] justify-center'>
+                    <div className="flex gap-x-[5px] justify-center">
                       <img src={HeartIcon} alt="heart" className="self-center" />
                       {item.likedCount}
                     </div>

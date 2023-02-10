@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import cn from 'clsx';
-import SearchIcon from '../../../img/search_icon.svg';
 import Arrow from '../../../img/board/icon_selectbox_arrow.png';
 import { RANGE } from './titleComponent';
 import useBoardData, { DepartmentType } from '../data/useBoardData';
@@ -14,8 +13,8 @@ interface PropsType {
   setSort: React.Dispatch<React.SetStateAction<number>>;
   column: string;
   setColumn: React.Dispatch<React.SetStateAction<string>>;
-  departmentId: number | undefined;
-  setDepartmentId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  department: any;
+  setDepartment: any;
   handleSearchButton: () => void;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -43,8 +42,8 @@ const SearchComponent = (props: PropsType) => {
     setSort,
     column,
     setColumn,
-    departmentId,
-    setDepartmentId,
+    department,
+    setDepartment,
     handleSearchButton,
     page,
     setPage,
@@ -148,7 +147,8 @@ const SearchComponent = (props: PropsType) => {
           }}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              setPage(1);
+              if (page !== 1) setPage(1);
+              else handleSearchButton();
             }
           }}
           placeholder="글 제목, 내용, 해시태그를 적어주세요"
@@ -156,7 +156,8 @@ const SearchComponent = (props: PropsType) => {
         />
         <div
           onClick={() => {
-            setPage(1);
+            if (page !== 1) setPage(1);
+            else handleSearchButton();
           }}
           className="cursor-pointer bg-orange text-white w-[68px] h-[46px] text-center rounded-[5px] leading-[46px]"
         >
@@ -221,11 +222,7 @@ const SearchComponent = (props: PropsType) => {
               }}
               className="cursor-pointer flex items-center justify-between bg-white text-[#A4A4A4] p-[10px] w-[165px] h-[46px] rounded-[5px] border border-solid border-[#BCBCBC]"
             >
-              {departmentId === undefined
-                ? '학과'
-                : _.find(subjectList, item => {
-                    return item.departmentId === departmentId;
-                  })?.departmentName}
+              {department.id === undefined ? '학과' : department.name}
               <span>
                 <img src={Arrow} alt="selectbox" />
               </span>
@@ -236,9 +233,8 @@ const SearchComponent = (props: PropsType) => {
                   return (
                     <div
                       onClick={() => {
-                        // setSubject(item.departmentName);
                         setShowSubjects(false);
-                        setDepartmentId(item.departmentId);
+                        setDepartment({ id: String(item.departmentId), name: item.departmentName });
                       }}
                       key={index}
                       className={cn(

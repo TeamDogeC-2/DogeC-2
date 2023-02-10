@@ -9,7 +9,8 @@ import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import useBoardData, { DataResType } from './data/useBoardData';
 import { useHistory } from 'react-router-dom';
-
+import { useRecoilState } from 'recoil';
+import { departmentState, rangeState } from './data/boardRecoil';
 interface PropsType {
   boardCategory: string;
 }
@@ -17,7 +18,6 @@ interface PropsType {
 const BoardContent = (props: PropsType) => {
   const history = useHistory();
   const { boardCategory } = props;
-  const [range, setRange] = useState(RANGE.SCHOOL);
   const { getBoardList } = useBoardData();
   const [list, setList] = useState<BoardListType[]>([]);
   const [pageInfo, setPageInfo] = useState<number>(0);
@@ -28,13 +28,15 @@ const BoardContent = (props: PropsType) => {
   const [page, setPage] = useState(1);
   const [column, setColumn] = useState('title');
   const [sort, setSort] = useState(0);
-  const [departmentId, setDepartmentId] = useState<number | undefined>(undefined);
+
+  const [department, setDepartment] = useRecoilState(departmentState);
+  const [range, setRange] = useRecoilState(rangeState);
 
   const size = boardCategory === 'ALL' ? 7 : 12;
 
   useEffect(() => {
     handleSearchButton();
-  }, [sort, range, page, departmentId]);
+  }, [sort, range, page, department]);
 
   const handleSearchButton = () => {
     const request = {
@@ -44,7 +46,7 @@ const BoardContent = (props: PropsType) => {
       sorted: sort,
       page: page - 1,
       size,
-      departmentId: range === RANGE.SUBJECT ? departmentId : undefined,
+      departmentId: range === RANGE.SUBJECT ? Number(department.id) : undefined,
     };
     getBoardList(request, (res: DataResType) => {
       setList(res.boards.content);
@@ -65,8 +67,8 @@ const BoardContent = (props: PropsType) => {
         setSort={setSort}
         column={column}
         setColumn={setColumn}
-        departmentId={departmentId}
-        setDepartmentId={setDepartmentId}
+        department={department}
+        setDepartment={setDepartment}
         handleSearchButton={handleSearchButton}
         page={page}
         setPage={setPage}

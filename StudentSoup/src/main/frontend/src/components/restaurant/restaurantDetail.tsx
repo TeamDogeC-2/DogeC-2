@@ -120,6 +120,7 @@ const restaurant = () => {
   return (
     <>
       <RestaurantNavbar />
+      <div className='min-h-screen'>
       <div className="h-auto flex m-[49px] justify-center">
         <div className="w-[281px] h-auto  bg-[#FFFFFF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] rounded-[5px] mr-[14px]">
           <div id="map" className="w-[238px] h-[239px] ml-[20px] mt-[20px]"></div>
@@ -339,6 +340,7 @@ const restaurant = () => {
           {clickPage === 2 && <Reviewpage {...restaurantDetail} />}
           {clickPage === 3 && <Picturepage />}
         </div>
+      </div>
       </div>
       <Footer />
     </>
