@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Footer from '../common/footer';
 import MypageNavbar from '../common/mypageNavbar';
 import BoardReviewList from './boardReviewList';
 import BoardBestReplyHeart from './boardBestReply';
