@@ -2,6 +2,7 @@ import Upload from '../../img/upload.png';
 import cn from 'clsx';
 import { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
+import Circle_human from '../../img/circle_human.png';
 
 interface propTypes {
   onClickMenu: Function;
@@ -37,6 +38,7 @@ const MypageModify = (props: propTypes) => {
 
   const [newEmail, setNewEmail] = useState<string>(email);
   const [changeNickname, setChangeNickname] = useState<string>(nickname);
+  const [changeCheck, setChangeCheck] = useState<boolean>(false);
 
   const handleSelect = (e: any) => {
     setSelectedId(e.target.value);
@@ -49,7 +51,7 @@ const MypageModify = (props: propTypes) => {
   };
 
   useEffect(() => {
-    if (newEmail && changeNickname && matchPassword && selectedId && selectDepartId) {
+    if (newEmail && changeCheck && matchPassword && selectedId && selectDepartId) {
       setCheckSubmit(true);
     } else {
       setCheckSubmit(false);
@@ -182,12 +184,22 @@ const MypageModify = (props: propTypes) => {
 
   const handleChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    console.log(e.target.value.length);
     setChangeNickname(value);
+    if (e.target.value.length >= 2 && e.target.value.length <= 12) {
+      setChangeCheck(true);
+    } else {
+      setChangeCheck(false);
+    }
   };
 
   const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNewEmail(value);
+  };
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
   };
 
   return (
@@ -199,7 +211,8 @@ const MypageModify = (props: propTypes) => {
             <div className="w-full h-[526px] flex flex-row border-[1px] border-[#B1B1B1] bg-white rounded-[10px] mt-[18px]">
               <div className="w-[200px] h-full flex flex-col">
                 <img
-                  src={IMAGE_FILE_ID}
+                  src={`/image/${IMAGE_FILE_ID}`}
+                  onError={handleImgError}
                   className='w-[92px] h-[92px] bg-[url("./img/circle_human.png")] bg-cover mt-[44px] ml-[51px] rounded-full'
                 />
               </div>

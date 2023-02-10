@@ -72,15 +72,13 @@ const MainSearch = () => {
 
   return (
     <div className="w-full flex flex-col mt-[290px] items-center">
+      <img src={mainLogo_white} alt="" className="object-right w-[200px] relative bottom-[150px] mx-auto mb-[20px]" />
       <div
         className={cn(
           'flex flex-col text-center relative bottom-[150px]',
           'after:flex after:flex-col after:text-center after:relative after:bottom-[150px]',
         )}
       >
-        <div className="flex items-center justify-center mb-[20px]">
-          <img src={mainLogo_white} alt="" className="w-[200px] h-[56px] ml-[28px]" />
-        </div>
         <span className="text-[45px] fw-400 leading-[59px] text-white">대학생을 위한</span>
         <span className="text-[65px] fw-400 leading-[93px] font-extrabold text-white drop-shadow-[0_3px_10px_rgba(0,0,0,0.25)]">
           대학 주변 맛집 추천
@@ -102,17 +100,22 @@ const MainSearch = () => {
             검색
           </button>
         </div>
-        {searchSchool?.map(school => (
-          <div key={school.schoolId} className="w-[654px] h-[58px] rounded-[5px] bg-white">
-            <span
-              onClick={handleClick}
-              id={school.schoolId}
-              className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium"
+        <div className="flex flex-col max-h-[200px] overflow-auto">
+          {searchSchool?.map(school => (
+            <div
+              key={school.schoolId}
+              className="w-[654px] h-[58px] rounded-[5px] bg-white border-b-[1px] pb-[10px]"
             >
-              {school.schoolName}
-            </span>
-          </div>
-        ))}
+              <span
+                onClick={handleClick}
+                id={school.schoolId}
+                className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium hover:underline underline-offset-[1px]"
+              >
+                {school.schoolName}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
