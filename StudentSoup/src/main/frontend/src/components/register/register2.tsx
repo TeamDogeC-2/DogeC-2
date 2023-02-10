@@ -15,6 +15,7 @@ const Register2 = () => {
   const [matchPassword, setMatchPassword] = useState<boolean>(false);
   const [checkButton, setCheckButton] = useState<boolean>(false);
   const [notSame, setNotSame] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const [password, setPassword] = useState<string>('');
   const [id, setId] = useState<string>('');
@@ -57,7 +58,7 @@ const Register2 = () => {
           history.push('/register/3');
         })
         .catch(function (error) {
-          console.log(error);
+          setErrorMessage(error.response.data.message);
           setNotSame(true);
         });
     }
@@ -143,7 +144,7 @@ const Register2 = () => {
             ></input>
             {notSame && (
               <span className="text-[12px] fw-400 leading-[16px] text-[#FF611D] mt-[8px]">
-                중복된 아이디입니다.
+                {errorMessage}
               </span>
             )}
           </div>

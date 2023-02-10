@@ -19,7 +19,6 @@ const RestaurantNavbar = () => {
   const [posts, setPosts] = useState<any[]>();
   const [schoolValue, setSchoolValue] = useState<string>();
   const [inputSchool, setInputSchool] = useState<string>();
-  const [pushEnter, isPushEnter] = useState<boolean>(false);
 
   useEffect(() => {
     if (userId === null) {
@@ -53,7 +52,6 @@ const RestaurantNavbar = () => {
     }
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.value));
     setSearchSchool(resultArray);
-    console.log(resultArray);
     const reducc = searchSchool?.reduce(function (acc, cur) {
       return [...acc, ...cur];
     });
@@ -61,14 +59,13 @@ const RestaurantNavbar = () => {
   };
 
   const handleClick = (e: any) => {
-    setInputSchool(e.target.innerText);
     const resultArray = posts?.filter(post => post.schoolName.includes(e.target.innerText));
+    setSearchSchool(resultArray);
     const reducc = resultArray?.reduce(function (acc, cur) {
       return [...acc, ...cur];
     });
     setSchoolValue(reducc.schoolName);
     setInputSchool(reducc.schoolName);
-    setSearchSchool(resultArray);
   };
 
   const handlePushRestaurant = () => {
@@ -76,7 +73,7 @@ const RestaurantNavbar = () => {
       alert('학교를 검색해주세요');
     } else if (inputSchool === schoolValue) {
       history.push('/restaurant', inputSchool);
-      isPushEnter(true);
+      location.reload();
     } else {
       alert('학교 정보가 올바르지 않습니다.');
     }
@@ -84,12 +81,8 @@ const RestaurantNavbar = () => {
 
   const handleOnKeyPress = (e: any) => {
     if (e.key === 'Enter') {
+      setInputSchool(inputSchool);
       handlePushRestaurant();
-      if (pushEnter) {
-        setSearchSchool([]);
-        setInputSchool('');
-        isPushEnter(false);
-      }
     }
   };
 
@@ -166,23 +159,30 @@ const RestaurantNavbar = () => {
           ></input>
           <button
             onClick={handlePushRestaurant}
+            onKeyDown={handleOnKeyPress}
             className="flex items-center justify-center w-[80px] h-full bg-[#FF611D] text-white rounded-[5px]"
           >
             검색
           </button>
         </div>
         <div className="absolute top-[70px] left-[160px]">
-          {searchSchool?.map(school => (
-            <div key={school.schoolId} className="w-[466px] h-[58px] rounded-[5px] bg-white">
-              <span
+          <div className="flex flex-col max-h-[220px] overflow-auto">
+            {searchSchool?.map(school => (
+              <div
+                key={school.schoolId}
                 onClick={handleClick}
-                id={school.schoolId}
-                className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+                id={school.schoolName}
+                className="w-[466px] h-[58px] rounded-[5px] bg-white border-b-[1px] pb-[10px] hover:underline underline-offset-[1px]"
               >
-                {school.schoolName}
-              </span>
-            </div>
-          ))}
+                <span
+                  id={school.schoolId}
+                  className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+                >
+                  {school.schoolName}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">
@@ -199,11 +199,10 @@ const RestaurantNavbar = () => {
             if (userId) {
               history.push('/board/all');
             }
-          }}>
+          }}
+        >
           <img src={Board} alt="" className="mr-[13.6px] w-[14.4px] h-[16px]" />
-          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
-            BOARD
-          </span>
+          <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">BOARD</span>
         </div>
         <span className="w-[1px] h-[30.5px] bg-[#B1B1B1] mr-[16px]"></span>
         <div
@@ -218,7 +217,8 @@ const RestaurantNavbar = () => {
                 /* empty */
               }
             }
-          }}>
+          }}
+        >
           <img src={Restaurant} alt="" className="mr-[10px] w-[16px] h-[16px]" />
           <span className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[16px]">
             RESTAURANT
@@ -230,8 +230,11 @@ const RestaurantNavbar = () => {
           className="flex justify-center items-center w-[110px] cursor-pointer z-10"
         >
           <img src={Logout} alt="" className="mr-[6px] w-[16px] h-[16px]" />
-          <span id='logValue' className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]">
-            {isLogin ? ('LOGOUT') : ('LOGIN')}
+          <span
+            id="logValue"
+            className="text-[16px] fw-400 leading-[19px] text-[#353535] mr-[30px]"
+          >
+            {isLogin ? 'LOGOUT' : 'LOGIN'}
           </span>
         </div>
         <div className="flex flex-col items-center cursor-pointer">

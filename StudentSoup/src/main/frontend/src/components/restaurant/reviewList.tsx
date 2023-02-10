@@ -130,7 +130,7 @@ const reviewWrite = () => {
                           onError={handleImgError}
                           className="ml-[32px] mt-[27px] w-[74px] h-[74px] rounded-full"
                         />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-[60%]">
                           <div className="ml-[12px] mt-[37px] w-[800px] h-[16px] font-normal leading-[28px] text-[20px] flex items-center text-[#515151]">
                             {school.nickName}
                           </div>
