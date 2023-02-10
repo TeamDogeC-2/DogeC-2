@@ -25,6 +25,7 @@ const Register3 = () => {
   const [checkNickname, setCheckNickname] = useState<boolean>(false);
   const [checkGender, setCheckGender] = useState<boolean>(false);
   const [checkSubmit, setCheckSubmit] = useState<boolean>(false);
+  const [checkLength, setCheckLength] = useState<boolean>(false);
 
   const [notSame, setNotSame] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -72,7 +73,7 @@ const Register3 = () => {
   }, [email]);
 
   useEffect(() => {
-    if (checkEmail && checkNickname && checkGender && selectedId && selectDepartId) {
+    if (checkEmail && checkNickname && checkLength && checkGender && selectedId && selectDepartId) {
       setCheckSubmit(true);
     } else {
       setCheckSubmit(false);
@@ -241,6 +242,11 @@ const Register3 = () => {
                 value={nickname}
                 onChange={e => {
                   setNickname(e.target.value);
+                  if (e.target.value.length >= 2 && e.target.value.length <= 12) {
+                    setCheckLength(true);
+                  } else {
+                    setCheckLength(false);
+                  }
                 }}
                 placeholder="닉네임 입력"
                 className="text-[16px] fw-400 leading-[21px] mt-[6px] py-[16px] pl-[23px] border-[1px] border-[#BCBCBC] rounded-[3px]"
