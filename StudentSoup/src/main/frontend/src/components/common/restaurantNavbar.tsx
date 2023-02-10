@@ -166,21 +166,23 @@ const RestaurantNavbar = () => {
           </button>
         </div>
         <div className="absolute top-[70px] left-[160px]">
-          {searchSchool?.map(school => (
-            <div
-              key={school.schoolId}
-              onClick={handleClick}
-              id={school.schoolName}
-              className="w-[466px] h-[58px] rounded-[5px] bg-white"
-            >
-              <span
-                id={school.schoolId}
-                className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+          <div className="flex flex-col max-h-[220px] overflow-auto">
+            {searchSchool?.map(school => (
+              <div
+                key={school.schoolId}
+                onClick={handleClick}
+                id={school.schoolName}
+                className="w-[466px] h-[58px] rounded-[5px] bg-white border-b-[1px] pb-[10px] hover:underline underline-offset-[1px]"
               >
-                {school.schoolName}
-              </span>
-            </div>
-          ))}
+                <span
+                  id={school.schoolId}
+                  className="flex text-[16px] pt-[20px] ml-[20px] items-center font-medium"
+                >
+                  {school.schoolName}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="flex items-center mr-[32px] m-5">

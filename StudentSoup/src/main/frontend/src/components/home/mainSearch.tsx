@@ -102,17 +102,19 @@ const MainSearch = () => {
             검색
           </button>
         </div>
-        {searchSchool?.map(school => (
-          <div key={school.schoolId} className="w-[654px] h-[58px] rounded-[5px] bg-white">
-            <span
-              onClick={handleClick}
-              id={school.schoolId}
-              className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium"
-            >
-              {school.schoolName}
-            </span>
-          </div>
-        ))}
+        <div className='flex flex-col max-h-[200px] overflow-auto'>
+          {searchSchool?.map(school => (
+            <div key={school.schoolId} className="w-[654px] h-[58px] rounded-[5px] bg-white border-b-[1px] pb-[10px]">
+              <span
+                onClick={handleClick}
+                id={school.schoolId}
+                className="flex text-[16px] mt-[15px] ml-[20px] items-center font-medium hover:underline underline-offset-[1px]"
+              >
+                {school.schoolName}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
