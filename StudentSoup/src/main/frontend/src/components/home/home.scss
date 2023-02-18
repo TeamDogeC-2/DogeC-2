@@ -61,6 +61,20 @@
     font-weight: 400;
     color: white;
   }
+  .school-list {
+    border-radius: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #a3a3a3;
+    padding: 0.7rem 0 0.7rem 1rem;
+    background-color: white;
+    font-size: 1.5rem;
+    font-weight: 400;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
