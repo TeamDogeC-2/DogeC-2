@@ -34,10 +34,20 @@ const Home = () => {
         <h2 className="link-texts">대학 주변 맛집 추천</h2>
         <div className="school_search_bar">
           <img src={Search_icon} />
-          <input onChange={saveSchoolName} placeholder="지역 학교 명을 입력하세요."></input>
+          <input
+            onChange={saveSchoolName}
+            value={schoolName}
+            placeholder="지역 학교 명을 입력하세요."
+          ></input>
           <button onClick={handleClickSearch}>검색</button>
           {schoolComponent.map((school: SchoolListType) => (
-            <div className="school-list" key={school.schoolId}>
+            <div
+              onClick={() => {
+                setSchoolName(school.schoolName);
+              }}
+              className="school-list"
+              key={school.schoolId}
+            >
               {school.schoolName}
             </div>
           ))}
