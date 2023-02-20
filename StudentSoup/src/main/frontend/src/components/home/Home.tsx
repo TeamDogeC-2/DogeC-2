@@ -1,20 +1,77 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-useless-return */
+import React, { useEffect, useState } from 'react';
 import MainNavbar from '../common/mainNavbar';
 import './home.scss';
 import MainLogo_white from '../../img/mainLogo_white.svg';
 import Search_icon from '../../img/search_icon.svg';
+import { SchoolList, type SchoolListType } from './data/SchoolList';
+
 const Home = () => {
+  const [schoolComponent, setSchoolComponent] = useState<any>([]);
+  const [schoolName, setSchoolName] = useState<string>('');
+
+  const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSchoolName(e.target.value);
+  };
+  const handleClickSearch = () => {
+    if (!schoolName) {
+      alert('학교를 검색해주세요.');
+      return;
+    } else if (
+      schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
+      undefined
+    ) {
+      alert('학교정보가 없습니다.');
+      return;
+    }
+    alert(`${schoolName}가(이) 검색되었습니다.`);
+  };
+
+  useEffect(() => {
+    SchoolList()
+      .then(res => {
+        setSchoolComponent(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
+  const filterSchoolName = schoolComponent.filter((item: { schoolName: string | string[] }) => {
+    return item.schoolName.includes(schoolName);
+  });
+
   return (
     <>
       <MainNavbar />
-      <div className="hero-text">
-        <img className="sfoo-image" src={MainLogo_white} />
+      <div className="home-hero-text">
+        <img className="home-sfoo-image" src={MainLogo_white} />
         <p>대학생들을 위한</p>
-        <h2 className="link-texts">대학 주변 맛집 추천</h2>
-        <div className="school_search_bar">
+        <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
+        <div className="home-school_search_bar">
           <img src={Search_icon} />
-          <input placeholder="지역 학교 명을 입력하세요."></input>
-          <button>검색</button>
+          <input
+            type="text"
+            onChange={saveSchoolName}
+            value={schoolName}
+            placeholder="지역 학교 명을 입력하세요."
+          ></input>
+          <button onClick={handleClickSearch}>검색</button>
+          {schoolName && (
+            <>
+              {filterSchoolName.map((school: SchoolListType) => (
+                <div
+                  onClick={() => {
+                    setSchoolName(school.schoolName);
+                  }}
+                  className="home-school-list"
+                  key={school.schoolId}
+                >
+                  {school.schoolName}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
