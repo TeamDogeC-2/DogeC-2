@@ -6,8 +6,8 @@ import './login.scss';
 const Login = () => {
   return (
     <>
+      <MainNavbar />
       <div className="background">
-        <MainNavbar />
         <div className="main">
           <h2>로그인</h2>
           <form>
@@ -18,7 +18,7 @@ const Login = () => {
                 <div className="unchecked-remember-id" />
                 <span>아이디 저장</span>
               </div>
-              <Link to="/">아이디/비밀번호 찾기</Link>
+              <Link to="/login/findAccount">아이디/비밀번호 찾기</Link>
             </div>
             <button className="login-button" type="submit">
               로그인
