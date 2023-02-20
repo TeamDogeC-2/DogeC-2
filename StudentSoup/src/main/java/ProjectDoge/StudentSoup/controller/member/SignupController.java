@@ -9,6 +9,7 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
+import ProjectDoge.StudentSoup.service.member.MemberEmailAuthenticationService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.member.MemberValidationService;
@@ -35,6 +36,8 @@ public class SignupController {
     private final MemberRegisterService memberRegisterService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
+
+    private final MemberEmailAuthenticationService memberEmailAuthenticationService;
 
     @PostMapping("/signUp/2")
     public MemberFormADto signUpCheck(@RequestBody MemberFormADto dto){
@@ -76,5 +79,11 @@ public class SignupController {
         ConcurrentHashMap<String, String> result = new ConcurrentHashMap<>();
         result.put("result", "ok");
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/signup/school/{schoolId}")
+    public ResponseEntity<ConcurrentHashMap<String,String>> findSchoolEmail(@PathVariable Long schoolId){
+        ConcurrentHashMap<String, String> schoolEmail = memberEmailAuthenticationService.findSchoolEmail(schoolId);
+        return ResponseEntity.ok(schoolEmail);
     }
 }
