@@ -58,16 +58,18 @@ public class SignupController {
     }
 
     @PostMapping("/signUp/3/{schoolId}")
-    public List<DepartmentSignUpDto> signUpDepartmentList(@PathVariable Long schoolId){
+    public ConcurrentHashMap<String,Object> signUpDepartmentList(@PathVariable Long schoolId){
         log.info("signUpDepartmentList 메소드가 실행되었습니다. schoolId : [{}]", schoolId);
-
+        ConcurrentHashMap<String, Object> resultMap = memberEmailAuthenticationService.findSchoolEmail(schoolId);
         List<Department> departments = departmentFindService.getAllDepartmentUsingSchool(schoolId);
         List<DepartmentSignUpDto> result = departments.stream()
                 .map(department -> new DepartmentSignUpDto(department))
                 .collect(Collectors.toList());
-
+        resultMap.put("departments",result);
         log.info("불러온 학과 목록 DTO : [{}]", result);
-        return result;
+
+
+        return resultMap;
     }
 
     @PostMapping("/signUp/3")
@@ -81,9 +83,4 @@ public class SignupController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/signup/school/{schoolId}")
-    public ResponseEntity<ConcurrentHashMap<String,String>> findSchoolEmail(@PathVariable Long schoolId){
-        ConcurrentHashMap<String, String> schoolEmail = memberEmailAuthenticationService.findSchoolEmail(schoolId);
-        return ResponseEntity.ok(schoolEmail);
-    }
 }
