@@ -23,7 +23,7 @@ public class MemberEmailAuthentication {
 
     private LocalDateTime createDate;
 
-    private String AuthenticationNumber;
+    private int AuthenticationNumber;
 
     public MemberEmailAuthentication(MemberEmailAuthenticationDto memberEmailAuthenticationDto) {
         this.email = memberEmailAuthenticationDto.getEmail();

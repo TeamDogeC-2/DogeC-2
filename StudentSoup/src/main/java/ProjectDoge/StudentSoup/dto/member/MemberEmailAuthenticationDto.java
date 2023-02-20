@@ -13,6 +13,6 @@ public class MemberEmailAuthenticationDto {
 
     private String email;
 
-    private String authenticationNumber;
+    private int authenticationNumber;
 
 }
