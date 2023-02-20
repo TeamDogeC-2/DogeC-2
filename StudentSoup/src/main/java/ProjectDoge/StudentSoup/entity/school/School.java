@@ -31,6 +31,9 @@ public class School {
     @Column(name = "COORDINATE")
     private String schoolCoordinate;
 
+    @Column(name = "SchoolEmail")
+    private String schoolEmail;
+
     @OneToMany(mappedBy = "school", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Member> members = new ArrayList<>();
 
@@ -47,6 +50,7 @@ public class School {
     public School createSchool(SchoolFormDto schoolFormDto){
         this.schoolName = schoolFormDto.getSchoolName();
         this.schoolCoordinate = schoolFormDto.getSchoolCoordinate();
+        this.schoolEmail = schoolFormDto.getSchoolEmail();
     return this;
     }
 
