@@ -1,5 +1,5 @@
 import './findID.scss';
-import { FindId } from './data/FindIDdata';
+import { FindId } from './data/FindAccountData';
 import { useState } from 'react';
 
 const FindID = () => {
