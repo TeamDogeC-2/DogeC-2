@@ -33,6 +33,18 @@ $nonClick-button-color: #b8b8b8;
       }
     }
   }
+  .find-id-text {
+    font-size: 12px;
+    color: $basic-color;
+    display: none;
+    margin-top: 10px;
+  }
+  .find-id-text.active {
+    display: flex;
+    font-size: 12px;
+    color: $basic-color;
+    margin-top: 10px;
+  }
 
   .find-id-email-form {
     width: calc(550px + 1.3vw);
@@ -47,7 +59,7 @@ $nonClick-button-color: #b8b8b8;
 
   .find-id-auth-button-div {
     width: calc(550px + 1.3vw);
-    margin-top: 76px;
+    margin-top: 50px;
 
     .find-id-auth-button {
       width: 100%;
@@ -55,6 +67,15 @@ $nonClick-button-color: #b8b8b8;
       font-size: 16px;
       color: white;
       background-color: $nonClick-button-color;
+      border: none;
+      cursor: pointer;
+    }
+    .find-id-auth-button.active {
+      width: 100%;
+      height: 54px;
+      font-size: 16px;
+      color: white;
+      background-color: $basic-color;
       border: none;
       cursor: pointer;
     }
