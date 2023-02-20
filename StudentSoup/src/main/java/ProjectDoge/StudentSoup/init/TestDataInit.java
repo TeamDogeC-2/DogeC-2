@@ -91,10 +91,12 @@ public class TestDataInit {
         SchoolFormDto school1 = new SchoolFormDto();
         school1.setSchoolName("인천대학교 송도캠퍼스");
         school1.setSchoolCoordinate("37.3768067201,126.6347662307");
+        school1.setSchoolEmail("inu.ac.kr");
 
         SchoolFormDto school2 = new SchoolFormDto();
         school2.setSchoolName("연세대학교 송도캠퍼스");
         school2.setSchoolCoordinate("37.3768067201,126.6347662307");
+        school2.setSchoolEmail("yonsei.ac.kr");
         schoolRegisterService.join(school1);
         schoolRegisterService.join(school2);
     }
