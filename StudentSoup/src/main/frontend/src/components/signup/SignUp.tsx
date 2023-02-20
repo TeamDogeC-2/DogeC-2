@@ -8,27 +8,21 @@ import process_3 from './../../img/signup_process_3.png';
 import process_check from './../../img/signup_process_check.png';
 import process_bar from './../../img/signup_process_bar.png';
 import unchecked from './../../img/signup_uncheck.png';
+import SignUpComponent from './SignUpComponent';
 
 const SignUp = () => {
   return (
     <>
       <MainNavbar />
       <div className="signup-background">
-        <div className="signup-main">
-          <div className="signup-header">
-            <h2>신규 회원가입</h2>
-            <div className="signup-progress">
-              <img src={process_1} alt="process-1" className="proceess-img" />
-              <img src={process_bar} alt="process-bar" className="proceess-bar" />
-              <img src={process_2} alt="process-2" className="proceess-img" />
-              <img src={process_bar} alt="process-bar" className="proceess-bar" />
-              <img src={process_3} alt="process-3" className="proceess-img" />
-              <p className="sentence-1">이용약관 동의</p>
-              <p className="sentence-2">회원가입</p>
-              <p className="sentence-3">개인정보 입력</p>
-            </div>
-          </div>
-
+        <SignUpComponent
+          process_1={process_1}
+          process_2={process_2}
+          process_3={process_3}
+          process_check={process_check}
+          process_bar_1={process_bar}
+          process_bar_2={process_bar}
+        >
           <h3>
             SFOO 서비스 이용약관에<br></br> 동의해 주세요.
           </h3>
@@ -69,7 +63,7 @@ const SignUp = () => {
           <div className="signup-button-box">
             <button>동의하고 가입하기</button>
           </div>
-        </div>
+        </SignUpComponent>
       </div>
     </>
   );
