@@ -56,9 +56,7 @@
           height: 45px;
         }
         .proceess-bar {
-          width: 100%;
-          min-width: 48px;
-          max-width: 110px;
+          width: 110px;
         }
         .sentence-1 {
           grid-column-start: 1;
@@ -149,7 +147,7 @@
 @media screen and (max-width: 1040px) {
   .signup-background {
     background: white;
-
+    height: 100vh;
     .signup-main {
       margin: 11.25rem 0px -4.063rem 0px;
       padding: 1vw 5vw 4.063rem 5vw;
@@ -159,10 +157,20 @@
       width: 100vw;
       height: 100%;
 
+      .signup-header .signup-progress {
+        width: 100%;
+        min-width: 200px;
+        max-width: none;
+        .proceess-bar {
+          width: 100%;
+          max-width: 110px;
+        }
+      }
+
       & > h3 {
         margin-top: 49px;
         width: 100%;
-        height: 73px;
+        height: 100%;
         @include font-container(1.625rem, 2.313rem);
         color: #161616;
       }
