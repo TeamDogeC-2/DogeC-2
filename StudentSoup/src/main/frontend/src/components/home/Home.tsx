@@ -24,33 +24,41 @@ const Home = () => {
         console.error(err);
       });
   }, []);
+  const filterSchoolName = schoolComponent.filter((item: { schoolName: string | string[] }) => {
+    return item.schoolName.includes(schoolName);
+  });
 
   return (
     <>
       <MainNavbar />
-      <div className="hero-text">
-        <img className="sfoo-image" src={MainLogo_white} />
+      <div className="home-hero-text">
+        <img className="home-sfoo-image" src={MainLogo_white} />
         <p>대학생들을 위한</p>
-        <h2 className="link-texts">대학 주변 맛집 추천</h2>
-        <div className="school_search_bar">
+        <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
+        <div className="home-school_search_bar">
           <img src={Search_icon} />
           <input
+            type="text"
             onChange={saveSchoolName}
             value={schoolName}
             placeholder="지역 학교 명을 입력하세요."
           ></input>
           <button onClick={handleClickSearch}>검색</button>
-          {schoolComponent.map((school: SchoolListType) => (
-            <div
-              onClick={() => {
-                setSchoolName(school.schoolName);
-              }}
-              className="school-list"
-              key={school.schoolId}
-            >
-              {school.schoolName}
-            </div>
-          ))}
+          {schoolName && (
+            <>
+              {filterSchoolName.map((school: SchoolListType) => (
+                <div
+                  onClick={() => {
+                    setSchoolName(school.schoolName);
+                  }}
+                  className="home-school-list"
+                  key={school.schoolId}
+                >
+                  {school.schoolName}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
