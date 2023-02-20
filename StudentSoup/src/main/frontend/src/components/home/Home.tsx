@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return */
 import React, { useEffect, useState } from 'react';
 import MainNavbar from '../common/mainNavbar';
 import './home.scss';
@@ -8,11 +9,22 @@ import { SchoolList, type SchoolListType } from './data/SchoolList';
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
   const [schoolName, setSchoolName] = useState<string>('');
+
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
   };
   const handleClickSearch = () => {
-    alert(schoolName);
+    if (!schoolName) {
+      alert('학교를 검색해주세요.');
+      return;
+    } else if (
+      schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
+      undefined
+    ) {
+      alert('학교정보가 없습니다.');
+      return;
+    }
+    alert(`${schoolName}가(이) 검색되었습니다.`);
   };
 
   useEffect(() => {
@@ -24,6 +36,7 @@ const Home = () => {
         console.error(err);
       });
   }, []);
+
   const filterSchoolName = schoolComponent.filter((item: { schoolName: string | string[] }) => {
     return item.schoolName.includes(schoolName);
   });
