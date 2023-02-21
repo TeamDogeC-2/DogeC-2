@@ -1,9 +1,7 @@
 package ProjectDoge.StudentSoup.controller.member;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
-import ProjectDoge.StudentSoup.dto.member.MemberDto;
-import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
-import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.dto.member.*;
 import ProjectDoge.StudentSoup.dto.school.SchoolSignUpDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
@@ -70,6 +68,13 @@ public class SignupController {
 
 
         return resultMap;
+    }
+
+    @PostMapping("/signUp/3/mail")
+    public ResponseEntity sendMail(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
+        EmailDto emailDto = memberEmailAuthenticationService.sendMail(memberEmailAuthenticationDto);
+        memberEmailAuthenticationService.mailSend(emailDto);
+        return ResponseEntity.ok("ok");
     }
 
     @PostMapping("/signUp/3")
