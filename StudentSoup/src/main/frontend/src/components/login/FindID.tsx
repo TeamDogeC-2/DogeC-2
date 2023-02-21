@@ -1,6 +1,25 @@
 import './findID.scss';
+import { FindId } from './data/FindAccountData';
+import { useState } from 'react';
 
 const FindID = () => {
+  const [email, setEmail] = useState<string>('');
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    FindId(email)
+      .then(res => {
+        console.log(res.data);
+        setIsSubmit(true);
+        console.log('성공');
+      })
+      .catch(err => {
+        alert(err.response.data.message);
+        setIsSubmit(false);
+        console.log('실패');
+      });
+  };
   return (
     <>
       <div className="find-id-background">
@@ -17,10 +36,29 @@ const FindID = () => {
         </div>
         <form>
           <div className="find-id-email-form">
-            <input placeholder="이메일 입력" required className="find-id-input-email" />
+            <input
+              placeholder="이메일 입력"
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
+              value={email}
+              required
+              className="find-id-input-email"
+            />
+          </div>
+          <div>
+            <span className={isSubmit ? 'find-id-text active' : 'find-id-text'}>
+              아이디를 메일로 전송하였습니다. 이메일을 확인해주세요.
+            </span>
           </div>
           <div className="find-id-auth-button-div">
-            <button className="find-id-auth-button">인증하기</button>
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className={email ? 'find-id-auth-button active' : 'find-id-auth-button'}
+            >
+              인증하기
+            </button>
           </div>
         </form>
       </div>

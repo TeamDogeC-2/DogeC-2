@@ -20,7 +20,7 @@
   height: 100%;
 
   .signup-main {
-    @include flex-container(column, center, start);
+    @include flex-container(column, center, flex-start);
     margin: 115px 0px;
     padding: 2.75rem 4.375rem 4.063rem 4.375rem;
     border-radius: 15px;
@@ -103,7 +103,7 @@
       padding-top: 11px;
       width: 100%;
       .terms-wrap {
-        @include flex-container(row, start, center);
+        @include flex-container(row, flex-start, center);
         margin-bottom: 22px;
         & > button {
           border: none;
