@@ -24,35 +24,68 @@
     justify-items: center;
     align-items: center;
     grid-template-rows: 1fr 0.5fr;
-    grid-template-columns: 1fr 0.5fr 1fr 0.5fr 1fr;
+    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr;
     grid-row-gap: 12px;
     width: 100%;
-    min-width: 200px;
-    max-width: 496px;
     height: 78px;
 
-    .proceess-img {
+    & > .process-1,
+    .process-2,
+    .process-3 {
       width: 45px;
       height: 45px;
     }
 
-    .proceess-bar {
-      width: 110px;
+    .process-1 {
+      // grid-column: 1 / 4;
+      grid-column-start: 2;
     }
 
-    .sentence-1 {
+    .process-bar-1 {
+      grid-column-start: span 3;
+      width: 100%;
+      min-width: 48px;
+      max-width: 110px;
+    }
+
+    .process-2 {
+      grid-column-start: 6;
+    }
+
+    .process-bar-2 {
+      grid-column-start: span 3;
+      width: 100%;
+      min-width: 48px;
+      max-width: 110px;
+    }
+
+    .process-3 {
+      grid-column-start: 10;
+    }
+
+    .activate-sentence-1 {
       @include font-container(1rem, 1.313rem, $basic-color);
-      grid-column-start: 1;
+      grid-column-start: span 3;
     }
 
     .sentence-2 {
       @include font-container(1rem, 1.313rem, $sub-font-color);
-      grid-column-start: 3;
+      grid-column-start: span 5;
+    }
+
+    .activate-sentence-2 {
+      @include font-container(1rem, 1.313rem, $basic-color);
+      grid-column-start: span 5;
     }
 
     .sentence-3 {
       @include font-container(1rem, 1.313rem, $sub-font-color);
-      grid-column-start: 5;
+      grid-column-start: span 3;
+    }
+
+    .activate-sentence-3 {
+      @include font-container(1rem, 1.313rem, $basic-color);
+      grid-column-start: span 3;
     }
   }
 }
@@ -61,13 +94,16 @@
   .signup-main {
     margin: 75px auto 0px auto;
     border-radius: none;
+    padding: 48px 55px 60px 55px;
     width: 100vw;
-    height: 100vh;
+    height: 819px;
     box-shadow: none;
 
     .signup-progress {
       .proceess-bar {
-        width: 48px;
+        width: 100%;
+        min-width: 48px;
+        max-width: 110px;
       }
     }
   }
