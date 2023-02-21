@@ -10,11 +10,11 @@
 }
 
 .signup-form {
-  @include flex-container(column, center, start);
+  @include flex-container(column, center, flex-start);
   width: 100%;
 
   label {
-    @include flex-container(column, center, start);
+    @include flex-container(column, center, flex-start);
     width: 100%;
 
     & > input {
