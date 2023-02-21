@@ -120,30 +120,6 @@ const RestaurantNavbar = () => {
                 </div>
               </Link>
             </li>
-            <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
-                <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">공지사항</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
-                <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">고객센터</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
-                <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">로그인</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
-                </div>
-              </Link>
-            </li>
           </ul>
         </nav>
       </MobileHeader>
