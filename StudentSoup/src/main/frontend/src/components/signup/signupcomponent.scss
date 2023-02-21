@@ -2,7 +2,7 @@
 @import './../../assets/scss/abstracts/_mixins';
 
 .signup-main {
-  @include flex-container(column, space-between, start);
+  @include flex-container(column, space-between, flex-start);
   margin: 120px auto 0px auto;
   padding: 44px 70px 65px 70px;
   border-radius: 15px;
