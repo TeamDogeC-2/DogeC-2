@@ -1,0 +1,56 @@
+@import './../../assets/scss/abstracts/_variables_color';
+@import './../../assets/scss/abstracts/_mixins';
+@import './../../assets/scss/components/_buttons';
+
+.signup-process-1-container {
+  & > h2 {
+    @include font-container(1.625rem, 2.313rem, $subject-font-color);
+    width: 100%;
+  }
+
+  label {
+    @include font-container(1rem, 1.313rem, $content-font-color);
+    width: 100%;
+
+    input {
+      margin-right: 8px;
+    }
+  }
+
+  .terms-conditions-container {
+    border-top: 1px solid #d9d9d9;
+    width: 100%;
+  }
+
+  .caution-sentence {
+    @include font-container(0.75rem, 1rem, $sub-font-color);
+    padding: 24px 25px 0px 25px;
+  }
+
+  .signup-button {
+    @include disabled-button($height: 54px);
+    @include font-container(1rem, 1.375rem, white);
+  }
+}
+
+.terms-wrap {
+  @include flex-container(row, start, center);
+  width: 100%;
+  height: 44px;
+
+  & > button {
+    border: none;
+    background: none;
+
+    & > img {
+      width: 11px;
+      height: 7px;
+    }
+  }
+
+  & > p {
+    @include font-container(1rem, 1.375rem, $content-font-color);
+    margin-left: 7px;
+    width: 100%;
+  }
+}
