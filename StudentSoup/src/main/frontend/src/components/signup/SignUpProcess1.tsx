@@ -1,10 +1,9 @@
 import React from 'react';
 import MainNavbar from '../common/mainNavbar';
 import SignUpComponent from './SignUpComponent';
-import process_1 from './../../img/signup_process_1.png';
+import process_activate_1 from './../../img/signup_process_activate_1.png';
 import process_2 from './../../img/signup_process_2.png';
 import process_3 from './../../img/signup_process_3.png';
-import process_check from './../../img/signup_process_check.png';
 import process_bar from './../../img/signup_process_bar.png';
 import unchecked from './../../img/signup_uncheck.png';
 import Background from '../common/Background';
@@ -17,12 +16,13 @@ const SignUpProcess1 = () => {
       <MainNavbar />
       <Background>
         <SignUpComponent
-          process_1={process_1}
+          process_1={process_activate_1}
           process_2={process_2}
           process_3={process_3}
-          process_check={process_check}
           process_bar_1={process_bar}
           process_bar_2={process_bar}
+          sentence_2="sentence-2"
+          sentence_3="sentence-3"
         >
           <h2>
             SFOO 서비스 이용약관에<br></br> 동의해 주세요.
