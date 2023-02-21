@@ -23,7 +23,7 @@ const Login = () => {
             <button className="login-button" type="submit">
               로그인
             </button>
-            <Link to="/" className="signup-link">
+            <Link to="/signUp" className="signup-link">
               <button className="signup-button">회원가입</button>
             </Link>
           </form>
