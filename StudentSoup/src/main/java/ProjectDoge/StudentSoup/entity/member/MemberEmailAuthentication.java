@@ -1,8 +1,11 @@
 package ProjectDoge.StudentSoup.entity.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberEmailAuthenticationDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aspectj.weaver.Member;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
@@ -25,8 +28,13 @@ public class MemberEmailAuthentication {
 
     private int AuthenticationNumber;
 
-    public MemberEmailAuthentication(MemberEmailAuthenticationDto memberEmailAuthenticationDto) {
-        this.email = memberEmailAuthenticationDto.getEmail();
-        this.AuthenticationNumber = memberEmailAuthenticationDto.getAuthenticationNumber();
+    public MemberEmailAuthentication createMemberEmailAuthentication(MemberEmailAuthenticationDto memberEmailAuthenticationDto) {
+        this.setEmail(memberEmailAuthenticationDto.getEmail());
+        this.setAuthenticationNumber(memberEmailAuthenticationDto.getAuthenticationNumber());
+        this.setCreateDate(LocalDateTime.now());
+
+        return this;
     }
+
+
 }
