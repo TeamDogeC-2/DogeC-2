@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-return */
 import React, { useEffect, useState } from 'react';
 import MainNavbar from '../common/mainNavbar';
 import './home.scss';
