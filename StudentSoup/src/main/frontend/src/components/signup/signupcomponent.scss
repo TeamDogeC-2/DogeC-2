@@ -60,9 +60,10 @@
 @media screen and (max-width: 1040px) {
   .signup-main {
     margin: 75px auto 0px auto;
-    padding: 105px 56px 132px 56px;
+    border-radius: none;
     width: 100vw;
     height: 100vh;
+    box-shadow: none;
 
     .signup-progress {
       .proceess-bar {
