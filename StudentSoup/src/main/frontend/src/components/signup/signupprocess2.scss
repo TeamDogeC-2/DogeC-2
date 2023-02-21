@@ -1,0 +1,54 @@
+@import './../../assets/scss/abstracts/_variables_color';
+@import './../../assets/scss/abstracts/_mixins';
+@import './../../assets/scss/components/_buttons';
+
+.signup-process-2-container {
+  & > h2 {
+    @include font-container(1.625rem, 2.313rem, $subject-font-color);
+    width: 100%;
+  }
+}
+
+.signup-form {
+  @include flex-container(column, center, start);
+  width: 100%;
+
+  label {
+    @include flex-container(column, center, start);
+    width: 100%;
+
+    & > input {
+      @include font-container(1rem, 1.375rem, $subject-font-color);
+      margin: 8px 0px;
+      padding: 0px 23px;
+      width: 100%;
+      height: 54px;
+      border: 1px solid $basic-border-color;
+      border-radius: 3px;
+    }
+
+    & > input[type='text'] {
+      margin-bottom: 31px;
+    }
+
+    & > input::placeholder {
+      @include font-container(1rem, 1.375rem, $sub-font-color);
+    }
+  }
+
+  .signup-checked-password {
+    & > span {
+      margin-right: 18px;
+      @include font-container(0.75rem, 1rem, $sub-font-color);
+
+      & > img {
+        margin-left: 6px;
+      }
+    }
+  }
+}
+
+.signup-button {
+  @include disabled-button($height: 54px);
+  @include font-container(1rem, 1.375rem, white);
+}
