@@ -75,7 +75,7 @@ public class SignupController {
         log.info("email = {}",email.get("email"));
         EmailDto emailDto = memberEmailAuthenticationService.join(email.get("email"));
         memberEmailAuthenticationService.mailSend(emailDto);
-        return ResponseEntity.ok(emailDto);
+        return ResponseEntity.ok("ok");
     }
     @PostMapping("/signUp/3/checkMail")
     public ResponseEntity checkAuthenticationNumber(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
