@@ -22,6 +22,15 @@ public class MemberEmailAuthenticationAdvice {
         return new ErrorResult("AuthenticationEmailNotSentException", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AuthenticationNumberNotSentException.class)
+    public ErrorResult AuthenticationNumberNotSentException(AuthenticationNumberNotSentException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("AuthenticationNumberNotSentException", e.getMessage());
+    }
+
+
+
 
 
 }
