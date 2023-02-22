@@ -19,6 +19,7 @@ public class MemberEmailAuthenticationRepositoryImpl implements MemberEmailAuthe
     public Optional<MemberEmailAuthentication> findByEmailAndAuthenticationNumber(MemberEmailAuthenticationDto memberEmailAuthenticationDto){
         MemberEmailAuthentication query = queryFactory.
                 select(memberEmailAuthentication)
+                .from(memberEmailAuthentication)
                 .where(memberEmailAuthentication.email.eq(memberEmailAuthenticationDto.getEmail()),
                         memberEmailAuthentication.authenticationNumber.eq(memberEmailAuthenticationDto.getAuthenticationNumber()))
                 .fetchOne();
