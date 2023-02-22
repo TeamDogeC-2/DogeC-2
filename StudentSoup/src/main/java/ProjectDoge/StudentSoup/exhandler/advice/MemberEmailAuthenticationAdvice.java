@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationEmailNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberWrongException;
+import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationTimeOverException;
 import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,14 @@ public class MemberEmailAuthenticationAdvice {
     @ExceptionHandler(AuthenticationNumberWrongException.class)
     public ErrorResult AuthenticationNumberWrongException(AuthenticationNumberWrongException e){
         log.error("[exceptionHandle] ex", e);
-        return new ErrorResult("AuthenticationNumberNotSentException", e.getMessage());
+        return new ErrorResult("AuthenticationNumberWrongException", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AuthenticationTimeOverException.class)
+    public ErrorResult AuthenticationTimeOverException(AuthenticationTimeOverException e){
+        log.error("[exceptionHandle] ex", e);
+        return new ErrorResult("AuthenticationTimeOverException", e.getMessage());
     }
 
 }
