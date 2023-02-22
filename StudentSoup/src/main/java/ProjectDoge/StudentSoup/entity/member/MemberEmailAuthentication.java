@@ -26,11 +26,11 @@ public class MemberEmailAuthentication {
 
     private LocalDateTime createDate;
 
-    private int authenticationNumber;
+    private Integer authenticationNumber;
 
-    public MemberEmailAuthentication createMemberEmailAuthentication(MemberEmailAuthenticationDto memberEmailAuthenticationDto) {
-        this.setEmail(memberEmailAuthenticationDto.getEmail());
-        this.setAuthenticationNumber(memberEmailAuthenticationDto.getAuthenticationNumber());
+    public MemberEmailAuthentication createMemberEmailAuthentication(String email,Integer authenticationNumber) {
+        this.setEmail(email);
+        this.setAuthenticationNumber(authenticationNumber);
         this.setCreateDate(LocalDateTime.now());
 
         return this;

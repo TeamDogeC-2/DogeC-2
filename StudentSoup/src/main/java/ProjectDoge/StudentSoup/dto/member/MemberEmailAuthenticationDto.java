@@ -12,6 +12,6 @@ public class MemberEmailAuthenticationDto {
 
     private String email;
 
-    private int authenticationNumber;
+    private Integer authenticationNumber;
 
 }
