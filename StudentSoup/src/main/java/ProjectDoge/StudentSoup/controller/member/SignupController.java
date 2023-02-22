@@ -71,11 +71,19 @@ public class SignupController {
     }
 
     @PostMapping("/signUp/3/mail")
-    public ResponseEntity sendMail(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
-        EmailDto emailDto = memberEmailAuthenticationService.sendMail(memberEmailAuthenticationDto);
+    public ResponseEntity sendMail(@RequestBody Map<String,String> email){
+        log.info("email = {}",email.get("email"));
+        EmailDto emailDto = memberEmailAuthenticationService.join(email.get("email"));
         memberEmailAuthenticationService.mailSend(emailDto);
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(emailDto);
     }
+    @PostMapping("/signUp/3/checkMail")
+    public ResponseEntity checkAuthenticationNumber(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
+        log.info("authenticationNumber = {} email = {}",memberEmailAuthenticationDto.getAuthenticationNumber(),memberEmailAuthenticationDto.getEmail());
+        ConcurrentHashMap<String, String> resultMap = memberEmailAuthenticationService.checkAuthenticationNumber(memberEmailAuthenticationDto);
+        return ResponseEntity.ok(resultMap);
+    }
+
 
     @PostMapping("/signUp/3")
     public ResponseEntity<ConcurrentHashMap<String, String>> signUp(@RequestBody MemberFormBDto dto){
