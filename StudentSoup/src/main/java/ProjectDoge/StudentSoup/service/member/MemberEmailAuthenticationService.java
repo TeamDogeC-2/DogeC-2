@@ -80,7 +80,7 @@ public class MemberEmailAuthenticationService {
     }
 
     private void checkAuthenticationTime(MemberEmailAuthentication memberEmailAuthentication) {
-        if(memberEmailAuthentication.getCreateDate().isAfter(LocalDateTime.now().plusMinutes(5))){
+        if(LocalDateTime.now().minusMinutes(5).isAfter(memberEmailAuthentication.getCreateDate())){
             throw new AuthenticationTimeOverException("인증 시간이 초과되었습니다.");
         }
     }
