@@ -26,7 +26,7 @@ public class MemberEmailAuthentication {
 
     private LocalDateTime createDate;
 
-    private int AuthenticationNumber;
+    private int authenticationNumber;
 
     public MemberEmailAuthentication createMemberEmailAuthentication(MemberEmailAuthenticationDto memberEmailAuthenticationDto) {
         this.setEmail(memberEmailAuthenticationDto.getEmail());
