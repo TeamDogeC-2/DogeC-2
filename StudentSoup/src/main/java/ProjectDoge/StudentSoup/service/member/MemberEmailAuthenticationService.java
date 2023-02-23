@@ -2,17 +2,18 @@ package ProjectDoge.StudentSoup.service.member;
 
 import ProjectDoge.StudentSoup.dto.member.EmailDto;
 import ProjectDoge.StudentSoup.dto.member.MemberEmailAuthenticationDto;
-import ProjectDoge.StudentSoup.entity.member.MemberEmailAuthentication;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationEmailNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberWrongException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationTimeOverException;
 import ProjectDoge.StudentSoup.repository.memberEmailAuthentication.MemberEmailAuthenticationRepository;
+import ProjectDoge.StudentSoup.service.redis.RedisUtil;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -37,6 +38,7 @@ public class MemberEmailAuthenticationService {
 
     private final MemberEmailAuthenticationRepository memberEmailAuthenticationRepository;
 
+    private final RedisUtil redisUtil;
 
     public ConcurrentHashMap<String,Object> findSchoolEmail(Long schoolId) {
         ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
@@ -45,43 +47,36 @@ public class MemberEmailAuthenticationService {
         return resultMap;
     }
     @Transactional
-    public EmailDto join(String email){
+    public void join(String email){
         log.info("메일전송 메소드가 실행되었습니다.");
         int index = email.indexOf("@");
         if(email.substring(0,index).trim().length() == 0){
             throw new AuthenticationEmailNotSentException("메일이 전송되지 않았습니다.");
         }
         int authenticationNumber = createAuthenticationNumber();
-        MemberEmailAuthentication memberEmailAuthentication = new MemberEmailAuthentication().createMemberEmailAuthentication(email,authenticationNumber);
-        log.info("email ={}",memberEmailAuthentication.getEmail());
-        memberEmailAuthenticationRepository.save(memberEmailAuthentication);
-        EmailDto mail = createMail(memberEmailAuthentication);
-        return mail;
+        mailSend(email,authenticationNumber);
+
+        return;
     }
+
+
 
     public ConcurrentHashMap<String,String> checkAuthenticationNumber(MemberEmailAuthenticationDto memberEmailAuthenticationDto){
         if(memberEmailAuthenticationDto.getAuthenticationNumber() == null){
             throw new AuthenticationNumberNotSentException("인증번호가 전송되지 않았습니다.");
         }
         ConcurrentHashMap<String,String> resultMap = new ConcurrentHashMap();
-        MemberEmailAuthentication memberEmailAuthentication = memberEmailAuthenticationRepository.findByEmailAndAuthenticationNumber(memberEmailAuthenticationDto).orElse(null);
-        checkAuthenticationNumber(memberEmailAuthentication);
-        checkAuthenticationTime(memberEmailAuthentication);
-        resultMap.put("email", memberEmailAuthentication.getEmail());
+        String authenticationNumber = redisUtil.getData(memberEmailAuthenticationDto.getEmail());
+        checkAuthenticationNumber(authenticationNumber, memberEmailAuthenticationDto.getAuthenticationNumber());
+        resultMap.put("email", memberEmailAuthenticationDto.getEmail());
         resultMap.put("result","ok");
-        memberEmailAuthenticationRepository.delete(memberEmailAuthentication);
+        redisUtil.deleteData(memberEmailAuthenticationDto.getEmail());
 
         return resultMap;
     }
-    private void checkAuthenticationNumber(MemberEmailAuthentication memberEmailAuthentication) {
-        if(memberEmailAuthentication == null){
+    private void checkAuthenticationNumber(String authNumber, int number) {
+        if(authNumber == null || !authNumber.equals(Integer.toString(number))){
             throw new AuthenticationNumberWrongException("잘못된 인증 번호입니다.");
-        }
-    }
-
-    private void checkAuthenticationTime(MemberEmailAuthentication memberEmailAuthentication) {
-        if(LocalDateTime.now().minusMinutes(5).isAfter(memberEmailAuthentication.getCreateDate())){
-            throw new AuthenticationTimeOverException("인증 시간이 초과되었습니다.");
         }
     }
 
@@ -89,23 +84,27 @@ public class MemberEmailAuthenticationService {
         return  (int)Math.floor(Math.random() * 89999 + 10000);
 
     }
-    private EmailDto createMail(MemberEmailAuthentication memberEmailAuthentication) {
+    private EmailDto createEmail(String email,int authenticationNumber) {
         EmailDto emailDto = new EmailDto();
-        emailDto.setEmail(memberEmailAuthentication.getEmail());
+        emailDto.setEmail(email);
         emailDto.setTitle("[studentSoup] 학교 인증 메일입니다.");
-        emailDto.setMessage("안녕하세요. studentSoup 입니다.  인증번호는 " + memberEmailAuthentication.getAuthenticationNumber()+ "입니다.");
+        emailDto.setMessage("안녕하세요. studentSoup 입니다.  인증번호는 " +authenticationNumber+ "입니다.");
         return emailDto;
     }
 
-    public void mailSend(EmailDto dto){
+    public void mailSend(String email,int authenticationNumber){
+
+        String title = "[studentSoup] 학교 인증 메일입니다.";
+        String content = "안녕하세요. studentSoup 입니다.  인증번호는 " +authenticationNumber+ "입니다.";
+
         log.info("회원 학교 인증 메일을 생성 시작하였습니다.");
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(dto.getEmail());
+        message.setTo(email);
         message.setFrom(adminEmail);
-        message.setSubject(dto.getTitle());
-        message.setText(dto.getMessage());
+        message.setSubject(title);
+        message.setText(content);
         mailSender.send(message);
+        redisUtil.setDataExpire(email,Integer.toString(authenticationNumber),60*5L);
         log.info("회원 학교 인증 메일이 전송되었습니다.");
     }
-
 }
