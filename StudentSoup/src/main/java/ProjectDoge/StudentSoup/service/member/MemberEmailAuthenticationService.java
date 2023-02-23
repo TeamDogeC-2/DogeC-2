@@ -6,22 +6,18 @@ import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationEmailNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberWrongException;
-import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationTimeOverException;
-import ProjectDoge.StudentSoup.repository.memberEmailAuthentication.MemberEmailAuthenticationRepository;
 import ProjectDoge.StudentSoup.service.redis.RedisUtil;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -35,8 +31,6 @@ public class MemberEmailAuthenticationService {
     private final SchoolFindService schoolFindService;
 
     private final MailSender mailSender;
-
-    private final MemberEmailAuthenticationRepository memberEmailAuthenticationRepository;
 
     private final RedisUtil redisUtil;
 
