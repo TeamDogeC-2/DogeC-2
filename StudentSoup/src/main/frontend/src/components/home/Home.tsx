@@ -4,6 +4,7 @@ import './home.scss';
 import MainLogo_white from '../../img/mainLogo_white.svg';
 import Search_icon from '../../img/search_icon.svg';
 import { SchoolList, type SchoolListType } from './data/SchoolList';
+import Swal from 'sweetalert2';
 
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
@@ -12,18 +13,35 @@ const Home = () => {
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
   const handleClickSearch = () => {
     if (!schoolName) {
-      alert('학교를 검색해주세요.');
+      Toast.fire({
+        icon: 'error',
+        title: '학교를 입력해주세요.',
+      });
       return;
     } else if (
       schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
       undefined
     ) {
-      alert('학교정보가 없습니다.');
+      Toast.fire({
+        toast: true,
+        icon: 'error',
+        title: '학교 정보가 없습니다.',
+      });
       return;
     }
-    alert(`${schoolName}가(이) 검색되었습니다.`);
+    Swal.fire({
+      title: `${schoolName}이 검색되었습니다.`,
+      icon: 'success',
+    });
   };
 
   useEffect(() => {
