@@ -73,8 +73,7 @@ public class SignupController {
     @PostMapping("/signUp/3/mail")
     public ResponseEntity sendMail(@RequestBody Map<String,String> email){
         log.info("email = {}",email.get("email"));
-        EmailDto emailDto = memberEmailAuthenticationService.join(email.get("email"));
-        memberEmailAuthenticationService.mailSend(emailDto);
+        memberEmailAuthenticationService.join(email.get("email"));
         return ResponseEntity.ok("ok");
     }
     @PostMapping("/signUp/3/checkMail")
