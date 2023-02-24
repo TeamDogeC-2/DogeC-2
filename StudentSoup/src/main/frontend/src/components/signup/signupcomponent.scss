@@ -91,10 +91,10 @@
 @media screen and (max-width: 1040px) {
   .signup-main {
     margin: 75px auto 0px auto;
-    border-radius: none;
+    border-radius: 0px;
     padding: 48px 55px 60px 55px;
     width: 100vw;
-    height: 819px;
+    height: calc(100vh - 75px);
     box-shadow: none;
 
     .signup-progress {
