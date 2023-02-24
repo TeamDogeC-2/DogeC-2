@@ -3,7 +3,6 @@ import { Desktop, Mobile } from '../../mediaQuery';
 import Background from '../common/Background';
 import MainNavbar from '../common/mainNavbar';
 import SignUpComponent from './SignUpComponent';
-import process_2 from './../../img/signup_process_2.png';
 import process_activate_2 from './../../img/signup_process_activate_2.png';
 import process_3 from './../../img/signup_process_3.png';
 import process_check from './../../img/signup_process_check.png';
