@@ -11,6 +11,12 @@
   .signup-main {
     height: 938px;
   }
+
+  @media screen and (max-width: 1040px) {
+    .signup-main {
+      height: calc(100vh - 75px);
+    }
+  }
 }
 
 .privacy-form {
