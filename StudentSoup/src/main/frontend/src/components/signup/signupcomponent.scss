@@ -43,9 +43,8 @@
 
     .process-bar-1 {
       grid-column-start: span 3;
-      width: 100%;
-      min-width: 48px;
-      max-width: 110px;
+      width: 80%;
+      height: 4px;
     }
 
     .process-2 {
@@ -54,9 +53,8 @@
 
     .process-bar-2 {
       grid-column-start: span 3;
-      width: 100%;
-      min-width: 48px;
-      max-width: 110px;
+      width: 80%;
+      height: 4px;
     }
 
     .process-3 {
@@ -100,10 +98,13 @@
     box-shadow: none;
 
     .signup-progress {
-      .proceess-bar {
-        width: 100%;
-        min-width: 48px;
-        max-width: 110px;
+      grid-template-columns: 1fr 1fr 1fr 0.5fr 1fr 1fr 1fr 0.5fr 1fr 1fr 1fr;
+
+      .process-bar-1 {
+        width: 60%;
+      }
+      .process-bar-2 {
+        width: 60%;
       }
     }
   }
