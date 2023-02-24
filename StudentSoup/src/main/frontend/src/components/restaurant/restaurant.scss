@@ -1,0 +1,56 @@
+$basic-color: #ff611d;
+$basic-border-color: #bcbcbc;
+$sub-color: #5a5a5a;
+
+.restaurant-main {
+  background-color: #fff;
+  margin: 0 auto;
+  padding-top: 4.8rem;
+  max-width: 76.8rem;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+  .restaurant-top {
+    display: flex;
+    flex-direction: column;
+
+    .restaurant-top-div {
+      display: inherit;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 34px 0 27px 0;
+
+      .restaurant-school-name {
+        font-size: 3.125rem;
+        color: $basic-color;
+        font-weight: 600;
+        margin: 0 3rem;
+      }
+
+      .restaurant-top-text {
+        font-size: 1.563rem;
+        color: $sub-color;
+      }
+    }
+    .restaurant-filter-button {
+        border: 1px solid $basic-color;
+        background-color: #fff;
+        color: $basic-color;
+        border-radius: 23.5px;
+        font-size: 20px;
+        width: 128px;
+        height: 45px;
+        margin: 10px 3rem 0 0;
+        cursor: pointer;
+    }
+
+    .restaurant-top-map {
+        width: 90%;
+        height: 30vh;
+        border-radius: 10px;
+        background-color: $basic-border-color;
+        margin: 0 auto;
+    }
+  }
+}
