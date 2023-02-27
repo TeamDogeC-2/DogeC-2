@@ -4,10 +4,11 @@ import MainNavbar from '../common/MainNavbar';
 import './login.scss';
 import useInput from '../../hooks/useInput';
 import { signIn } from '../../apis/auth/AuthAPI';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [userId, onChangeUserId, setUserId] = useInput('');
-  const [userPassword, onChangeUserPassword] = useInput('');
+  const [userPassword, onChangeUserPassword, setUserPassword] = useInput('');
   const [rememberId, setRememberId] = useState('unchecked-remember-id');
 
   const navigate = useNavigate();
@@ -25,18 +26,34 @@ const Login = () => {
   const onSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
-      onClickRememberId();
-      signIn(userId, userPassword).then(response => {
-        console.log(response);
-        // TODO: 로그인 정보 저장 코드 및 에러처리 구현하기
-        navigate('/');
-      });
-    },
 
+      signIn(userId, userPassword)
+        .then(response => {
+          const token = response.data.token;
+          localStorage.setItem('token', token);
+          console.log(response);
+          setUserId('');
+          setUserPassword('');
+          navigate('/');
+        })
+        .catch(error => {
+          const errorMessage = error.response.data.message;
+
+          Swal.fire({
+            title: '로그인에 실패하였습니다.',
+            text: errorMessage,
+            icon: 'error',
+          });
+          setUserPassword('');
+        });
+    },
     [userId, userPassword],
   );
 
   useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
     const rememberIdValue: string | null = localStorage.getItem('rememberId');
     if (rememberIdValue != null) {
       setRememberId('checked-remember-id');
