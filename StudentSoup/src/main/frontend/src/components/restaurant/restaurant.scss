@@ -19,13 +19,14 @@ $sub-color: #5a5a5a;
       display: inherit;
       flex-direction: row;
       justify-content: space-between;
-      margin: 34px 0 27px 0;
+      width: 90%;
+      margin: 3rem auto 1.5rem auto;
 
       .restaurant-school-name {
         font-size: 3.125rem;
         color: $basic-color;
         font-weight: 600;
-        margin: 0 3rem;
+        margin-right: 2rem;
       }
 
       .restaurant-top-text {
@@ -34,23 +35,73 @@ $sub-color: #5a5a5a;
       }
     }
     .restaurant-filter-button {
-        border: 1px solid $basic-color;
-        background-color: #fff;
-        color: $basic-color;
-        border-radius: 23.5px;
-        font-size: 20px;
-        width: 128px;
-        height: 45px;
-        margin: 10px 3rem 0 0;
-        cursor: pointer;
+      border: 1px solid $basic-color;
+      background-color: #fff;
+      color: $basic-color;
+      border-radius: 23.5px;
+      font-size: 20px;
+      width: 128px;
+      height: 45px;
+      margin-top: 10px;
+      cursor: pointer;
     }
 
     .restaurant-top-map {
-        width: 90%;
-        height: 30vh;
-        border-radius: 10px;
-        background-color: $basic-border-color;
-        margin: 0 auto;
+      width: 90%;
+      height: 30vh;
+      border-radius: 10px;
+      background-color: $basic-border-color;
+      margin: 0 auto;
+    }
+  }
+
+  .restaurant-bottom {
+    display: flex;
+    flex-direction: column;
+
+    .restaurant-bottom-div {
+      display: inherit;
+      flex-direction: row;
+      width: 90%;
+      margin: 3rem auto 1.5rem auto;
+      justify-content: space-between;
+
+      .restaurant-bottom-list {
+        list-style: none;
+        display: inherit;
+        flex-direction: row;
+        width: 100%;
+        li {
+          font-size: calc(15px + 0.3vw);
+          cursor: pointer;
+          width: calc(100px + 1vw);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 15px;
+        }
+        .restaurant-bottom-li {
+          color: $basic-border-color;
+        }
+        .restaurant-bottom-li.active {
+          color: $basic-color;
+          border-bottom: 3px solid $basic-color;
+          z-index: 99;
+        }
+      }
+    }
+    .underline {
+      background-color: #eeeeee;
+      position: relative;
+      bottom: 26px;
+      height: 3px;
+      border: none;
+    }
+
+    .restaurant-bottom-restaurant-list {
+        display: grid;
+        grid-column: 2;
+        column-gap: 46px;
     }
   }
 }
