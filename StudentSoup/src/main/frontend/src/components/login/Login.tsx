@@ -9,16 +9,16 @@ import Swal from 'sweetalert2';
 const Login = () => {
   const [userId, onChangeUserId, setUserId] = useInput('');
   const [userPassword, onChangeUserPassword, setUserPassword] = useInput('');
-  const [rememberId, setRememberId] = useState('unchecked-remember-id');
+  const [isRememberId, setIsRememberId] = useState(false);
 
   const navigate = useNavigate();
 
   const onClickRememberId = () => {
-    if (rememberId === 'unchecked-remember-id') {
-      setRememberId('checked-remember-id');
+    setIsRememberId(prevState => !prevState);
+
+    if (!isRememberId) {
       localStorage.setItem('rememberId', userId);
-    } else if (rememberId === 'checked-remember-id') {
-      setRememberId('unchecked-remember-id');
+    } else {
       localStorage.removeItem('rememberId');
     }
   };
@@ -27,7 +27,7 @@ const Login = () => {
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (rememberId === 'checked-remember-id') {
+      if (isRememberId) {
         localStorage.setItem('rememberId', userId);
       }
 
@@ -38,6 +38,10 @@ const Login = () => {
           console.log(response);
           setUserId('');
           setUserPassword('');
+          Swal.fire({
+            title: '로그인에 성공하였습니다.',
+            icon: 'success',
+          });
           navigate('/');
         })
         .catch(error => {
@@ -59,10 +63,10 @@ const Login = () => {
     }
 
     if (localStorage.getItem('rememberId') != null) {
-      setRememberId('checked-remember-id');
+      setIsRememberId(true);
       setUserId(localStorage.getItem('rememberId'));
     }
-  }, [sessionStorage.getItem('token'), localStorage.getItem('rememberId')]);
+  }, [sessionStorage.getItem('token')]);
 
   return (
     <>
@@ -87,7 +91,7 @@ const Login = () => {
             />
             <div className="login-keep-wrap">
               <div className="remember-wrap" onClick={onClickRememberId}>
-                <div className={rememberId} />
+                <div className={isRememberId ? 'checked-remember-id' : 'unchecked-remember-id'} />
                 <span>아이디 저장</span>
               </div>
               <Link to="/login/findAccount">아이디/비밀번호 찾기</Link>
