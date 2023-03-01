@@ -24,13 +24,17 @@ const Login = () => {
   };
 
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>): void => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
+      if (rememberId === 'checked-remember-id') {
+        localStorage.setItem('rememberId', userId);
+      }
 
       signIn(userId, userPassword)
         .then(response => {
           const token = response.data.token;
-          localStorage.setItem('token', token);
+          sessionStorage.setItem('token', token);
           console.log(response);
           setUserId('');
           setUserPassword('');
@@ -38,7 +42,6 @@ const Login = () => {
         })
         .catch(error => {
           const errorMessage = error.response.data.message;
-
           Swal.fire({
             title: '로그인에 실패하였습니다.',
             text: errorMessage,
@@ -51,15 +54,16 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       navigate('/');
     }
-    const rememberIdValue: string | null = localStorage.getItem('rememberId');
-    if (rememberIdValue != null) {
+
+    if (localStorage.getItem('rememberId') != null) {
       setRememberId('checked-remember-id');
       setUserId(localStorage.getItem('rememberId'));
     }
-  }, []);
+  }, [sessionStorage.getItem('token'), localStorage.getItem('rememberId')]);
+
   return (
     <>
       <MainNavbar />
