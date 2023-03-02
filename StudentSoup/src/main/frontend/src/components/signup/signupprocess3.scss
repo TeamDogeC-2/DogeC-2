@@ -1,0 +1,106 @@
+@import './../../assets/scss/abstracts/_variables_color';
+@import './../../assets/scss/abstracts/_mixins';
+@import './../../assets/scss/components/_buttons';
+
+.signup-process-3-container {
+  & > h2 {
+    @include font-container(1.625rem, 2.313rem, $subject-font-color);
+    width: 100%;
+  }
+
+  .signup-main {
+    height: 938px;
+  }
+
+  @media screen and (max-width: 1040px) {
+    .signup-main {
+      height: calc(100vh - 75px);
+    }
+  }
+}
+
+.privacy-form {
+  @include flex-container(column, center, flex-start);
+  width: 100%;
+  .radio-wrap {
+    margin-bottom: 28px;
+    width: 100%;
+
+    & > span {
+      margin-right: 7px;
+    }
+
+    & > label {
+      margin-left: 21px;
+
+      input {
+        margin-left: 7px;
+      }
+    }
+  }
+
+  & > label {
+    @include flex-container(column, center, flex-start);
+    margin-bottom: 5px;
+    width: 100%;
+  }
+}
+
+.privacy-input-wrap {
+  @include flex-container(row, center, center);
+  margin-top: 6px;
+  width: 100%;
+  height: 54px;
+
+  & > input {
+    @include font-container(1rem, 1.3125rem, $subject-font-color);
+    border: 1px solid $basic-border-color;
+    border-radius: 3px;
+    padding: 0px 19px;
+    width: 100%;
+    height: 100%;
+
+    &::placeholder {
+      @include font-container(1rem, 1.3125rem, $sub-font-color);
+    }
+  }
+  & > button {
+    @include disabled-button(106px, 100%);
+    @include font-container(0.75rem, 1.0625rem, white);
+  }
+}
+
+.privacy-form {
+  & > p {
+    @include font-container(0.75rem, 1rem, $basic-color);
+    margin-top: 6px;
+  }
+}
+
+.select-wrap {
+  @include flex-container(row, space-between, center);
+  margin-top: 17px;
+  width: 100%;
+
+  & > label {
+    @include flex-container(column, center, flex-start);
+    width: 47.5%;
+    & > select {
+      @include font-container(1rem, 1.3125rem, $sub-font-color);
+      margin: 6px 0px 23px 0px;
+
+      border: 1px solid $basic-border-color;
+      border-radius: 3px;
+      padding-left: 16px;
+      width: 100%;
+      height: 54px;
+    }
+  }
+}
+
+.signup-process-3-container {
+  .signup-button {
+    @include disabled-button($height: 54px);
+    @include font-container(1rem, 1.375rem, white);
+  }
+}

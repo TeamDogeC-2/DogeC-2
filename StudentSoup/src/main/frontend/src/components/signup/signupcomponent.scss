@@ -1,0 +1,111 @@
+@import './../../assets/scss/abstracts/_variables_color';
+@import './../../assets/scss/abstracts/_mixins';
+
+.signup-main {
+  @include flex-container(column, space-between, flex-start);
+  margin: 120px auto 0px auto;
+  padding: 44px 70px 65px 70px;
+  border-radius: 15px;
+  width: 100%;
+  min-width: 280px;
+  max-width: 635px;
+  height: 819px;
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  & > h1 {
+    @include font-container(2.5rem, 3.5rem, $subject-font-color);
+    width: 100%;
+    text-align: center;
+  }
+
+  .signup-progress {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: 1fr 0.5fr;
+    grid-template-columns: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr;
+    grid-row-gap: 12px;
+    width: 100%;
+    height: 78px;
+
+    & > .process-1,
+    .process-2,
+    .process-3 {
+      width: 45px;
+      height: 45px;
+    }
+
+    .process-1 {
+      // grid-column: 1 / 4;
+      grid-column-start: 2;
+    }
+
+    .process-bar-1 {
+      grid-column-start: span 3;
+      width: 80%;
+      height: 4px;
+    }
+
+    .process-2 {
+      grid-column-start: 6;
+    }
+
+    .process-bar-2 {
+      grid-column-start: span 3;
+      width: 80%;
+      height: 4px;
+    }
+
+    .process-3 {
+      grid-column-start: 10;
+    }
+
+    .activate-sentence-1 {
+      @include font-container(1rem, 1.313rem, $basic-color);
+      grid-column-start: span 3;
+    }
+
+    .sentence-2 {
+      @include font-container(1rem, 1.313rem, $sub-font-color);
+      grid-column-start: span 5;
+    }
+
+    .activate-sentence-2 {
+      @include font-container(1rem, 1.313rem, $basic-color);
+      grid-column-start: span 5;
+    }
+
+    .sentence-3 {
+      @include font-container(1rem, 1.313rem, $sub-font-color);
+      grid-column-start: span 3;
+    }
+
+    .activate-sentence-3 {
+      @include font-container(1rem, 1.313rem, $basic-color);
+      grid-column-start: span 3;
+    }
+  }
+}
+
+@media screen and (max-width: 1040px) {
+  .signup-main {
+    margin: 75px auto 0px auto;
+    border-radius: 0px;
+    padding: 48px 55px 60px 55px;
+    width: 100vw;
+    height: calc(100vh - 75px);
+    box-shadow: none;
+
+    .signup-progress {
+      grid-template-columns: 1fr 1fr 1fr 0.5fr 1fr 1fr 1fr 0.5fr 1fr 1fr 1fr;
+
+      .process-bar-1 {
+        width: 60%;
+      }
+      .process-bar-2 {
+        width: 60%;
+      }
+    }
+  }
+}
