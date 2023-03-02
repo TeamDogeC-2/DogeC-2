@@ -1,0 +1,204 @@
+$basic-color: #ff611d;
+$text-color: #000;
+
+.restaurant-navbar-items {
+  background-color: #ffffff;
+  display: flex;
+  position: fixed;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #ff661d;
+  width: 100%;
+  height: 75px;
+  padding-left: 30px;
+  z-index: 9999;
+
+  .restaurant-navbar-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .restaurant-navbar-input {
+    width: 385px;
+    height: 44px;
+    padding-left: 15px;
+    margin-left: 30px;
+    border: 1px solid $basic-color;
+    border-radius: 5px;
+
+    &:focus {
+      color: $text-color;
+      border: 1px solid $basic-color;
+      outline-color: $basic-color;
+    }
+  }
+
+  .restaurant-navbar-input::placeholder {
+    color: $basic-color;
+  }
+
+  .restaurant-nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    text-decoration: none;
+
+    .restaurant-nav-links {
+      color: #000;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 400;
+      white-space: nowrap;
+      width: 150px;
+      height: 75px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      i {
+        font-style: normal;
+        justify-content: center;
+      }
+      &:hover {
+        background-color: #ff661d;
+        color: white;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+  }
+}
+
+.mobile-restaurant-navbar-items {
+  background-color: #ffffff;
+  display: flex;
+  position: fixed;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #ff661d;
+  width: 100%;
+  height: 75px;
+  padding-left: 30px;
+  padding-right: 30px;
+  z-index: 9999;
+
+  .mobile-restaurant-nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    text-decoration: none;
+    justify-content: flex-start;
+
+    .mobile-restaurant-nav-menu-icon {
+      color: #000;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 400;
+      white-space: nowrap;
+      width: calc(30px + 1.3vw);
+      height: calc(26px + 1vh);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-style: normal;
+    }
+  }
+  .mobile-restaurant-nav-menu-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: white;
+    width: 94%;
+    height: auto;
+    position: absolute;
+    top: 10%;
+    right: -100%;
+    opacity: 0;
+    align-items: stretch;
+    padding: 25px;
+    list-style: none;
+    margin: 0;
+    transition: 0.5s ease-in-out;
+    border-radius: 15px;
+    font-style: normal;
+
+    .mobile-restaurant-navbar-input-div {
+      width: 100%;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .mobile-restaurant-navbar-input {
+        width: 90%;
+        height: 44px;
+        padding-left: 15px;
+        margin-bottom: 16px;
+        border: 1px solid $basic-color;
+        border-radius: 5px;
+
+        &:focus {
+          color: $text-color;
+          border: 1px solid $basic-color;
+          outline-color: $basic-color;
+        }
+      }
+
+      .mobile-restaurant-navbar-input::placeholder {
+        color: $basic-color;
+      }
+    }
+
+    .mobile-restaurant-nav-list {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  }
+
+  .mobile-restaurant-nav-menu-list.active {
+    right: 3%;
+    top: 130%;
+    opacity: 1;
+    z-index: 9999;
+    transition: 0.5s ease-in-out;
+    border: 1px solid #bcbcbc;
+
+    li{
+      margin-bottom: 10px;
+    }
+
+    .mobile-restaurant-nav-link {
+      text-decoration: none;
+    }
+
+    .mobile-restaurant-nav-list {
+      font-size: 1.875rem;
+      font-style: normal;
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+
+      i {
+        font-style: normal;
+        font-size: calc(24px + 1vw);
+        color: #000;
+      }
+
+      .mobile-restaurant-nav-icons {
+        height: calc(24px + 1vw);
+        color: #000;
+      }
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: #000;
+      }
+    }
+  }
+}
