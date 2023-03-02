@@ -162,6 +162,10 @@ $sub-color: #5a5a5a;
           justify-content: center;
           align-items: center;
           margin: 10px 60px 30px 0px;
+
+          img {
+            margin-right: 10px;
+          }
         }
       }
     }
@@ -197,7 +201,7 @@ $sub-color: #5a5a5a;
         font-size: 1.875rem;
         color: $basic-color;
         font-weight: 600;
-        margin-right: 2rem;
+        margin-right: 0.5rem;
       }
 
       .tablet-restaurant-top-text {
@@ -207,7 +211,7 @@ $sub-color: #5a5a5a;
     }
     .tablet-restaurant-filter-button {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       border: none;
       background-color: #fff;
@@ -346,6 +350,10 @@ $sub-color: #5a5a5a;
           justify-content: center;
           align-items: center;
           margin: 10px 60px 30px 0px;
+
+          img {
+            margin-right: 10px;
+          }
         }
       }
     }
@@ -378,20 +386,20 @@ $sub-color: #5a5a5a;
       }
 
       .mobile-restaurant-school-name {
-        font-size: 1.875rem;
+        font-size: 1.5rem;
         color: $basic-color;
         font-weight: 600;
-        margin-right: 2rem;
+        margin-right: 0.5rem;
       }
 
       .mobile-restaurant-top-text {
-        font-size: 0.938rem;
+        font-size: 0.75rem;
         color: $sub-color;
       }
     }
     .mobile-restaurant-filter-button {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       border: none;
       background-color: #fff;
@@ -453,6 +461,7 @@ $sub-color: #5a5a5a;
         .mobile-restaurant-bottom-li.active {
           color: $basic-color;
           border-bottom: 3px solid $basic-color;
+          margin-top: 2.2px;
           z-index: 99;
         }
       }
