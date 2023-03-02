@@ -15,6 +15,6 @@ export const DesktopHeader = ({ children }: { children: JSX.Element }): JSX.Elem
 };
 
 export const MobileHeader = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isMobileHeader = useMediaQuery({ maxWidth: 1040 });
+  const isMobileHeader = useMediaQuery({ minWidth: 769, maxWidth: 1040 });
   return isMobileHeader ? children : null;
 };
