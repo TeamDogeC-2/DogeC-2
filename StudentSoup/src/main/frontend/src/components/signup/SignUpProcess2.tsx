@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Desktop, Mobile } from '../../mediaQuery';
 import Background from '../common/Background';
 import MainNavbar from '../common/MainNavbar';
@@ -10,8 +10,18 @@ import process_bar from './../../img/signup_process_bar.png';
 import process_next_bar from './../../img/signup_process_next_bar.png';
 import unchecked from './../../img/signup_uncheck.png';
 import './signupprocess2.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SignUpProcess2 = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(state);
+    if (state !== true) {
+      navigate('/');
+    }
+  }, [state]);
+
   return (
     <div className="signup-process-2-container">
       <MainNavbar />
