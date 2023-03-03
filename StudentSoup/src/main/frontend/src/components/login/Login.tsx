@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import MainNavbar from '../common/mainNavbar';
+import MainNavbar from '../common/MainNavbar';
 import './login.scss';
 
 const Login = () => {

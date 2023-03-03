@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../common/Background';
-import MainNavbar from '../common/mainNavbar';
+import MainNavbar from '../common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_3 from './../../img/signup_process_activate_3.png';
 import process_check from './../../img/signup_process_check.png';

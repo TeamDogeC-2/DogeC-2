@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const mainNavbar = () => {
+const MainNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(true);
 
@@ -146,4 +146,4 @@ const mainNavbar = () => {
   );
 };
 
-export default mainNavbar;
+export default MainNavbar;
