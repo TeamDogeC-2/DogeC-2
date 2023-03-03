@@ -2,18 +2,30 @@ import './mainNavbar.scss';
 import { Link } from 'react-router-dom';
 import { DesktopHeader, MobileHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
+import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const mainNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
+  const [login, isLogin] = useState<boolean>(true);
+
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const searchRef = useRef<any>();
 
   const handleClickMenu = (e: any) => {
     e.stopPropagation();
     isClick(!click);
+  };
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
+  const handleLogout = (e: any) => {
+    console.log(e);
   };
 
   useEffect(() => {
@@ -46,9 +58,22 @@ const mainNavbar = () => {
               </Link>
             </li>
             <li className="nav-li">
-              <Link to="/login" className="nav-links">
-                <i>로그인</i>
-              </Link>
+              {login ? (
+                <div className="navbar-logout-div" onClick={handleLogout}>
+                  <i>
+                    <img
+                      src={`/image/${IMAGE_FILE_ID}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="navbar-logout"
+                    />
+                  </i>
+                </div>
+              ) : (
+                <Link to="/login" className="nav-links">
+                  <i>로그인</i>
+                </Link>
+              )}
             </li>
           </ul>
         </nav>
@@ -61,6 +86,14 @@ const mainNavbar = () => {
           <div className="mobile-nav-menu">
             {click ? (
               <FontAwesomeIcon icon={faXmark} className="mobile-nav-menu-icon" />
+            ) : login ? (
+              <img
+                src={`/image/${IMAGE_FILE_ID}`}
+                alt=""
+                onError={handleImgError}
+                onMouseDown={handleClickMenu}
+                className="mobile-nav-menu-profile"
+              />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
@@ -90,12 +123,21 @@ const mainNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="mobile-nav-link">
-                <div className="mobile-nav-list">
-                  <i className="mobile-nav-listItme">로그인</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
-                </div>
-              </Link>
+              {login ? (
+                <Link to="/notice" className="mobile-nav-link">
+                  <div className="mobile-nav-list">
+                    <i className="mobile-nav-listItme">로그아웃</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
+                  </div>
+                </Link>
+              ) : (
+                <Link to="/notice" className="mobile-nav-link">
+                  <div className="mobile-nav-list">
+                    <i className="mobile-nav-listItme">로그인</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
+                  </div>
+                </Link>
+              )}
             </li>
           </ul>
         </nav>

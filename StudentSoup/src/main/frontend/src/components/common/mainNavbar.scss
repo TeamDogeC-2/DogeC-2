@@ -29,16 +29,57 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
 
       i {
         font-style: normal;
         justify-content: center;
       }
+
+      img {
+        justify-content: center;
+        border-radius: 100%;
+      }
+
       &:hover {
         background-color: #ff661d;
         color: white;
         transition: all 0.3s ease-in-out;
       }
+    }
+
+    .navbar-logout-div {
+      color: #000;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 400;
+      white-space: nowrap;
+      width: 150px;
+      height: 75px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      i {
+        font-style: normal;
+        justify-content: center;
+      }
+
+      img {
+        justify-content: center;
+        border-radius: 100%;
+      }
+
+      &:hover {
+        background-color: #bcbcbc;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
+    .navbar-logout {
+      width: 50px;
+      height: 50px;
     }
   }
 }
@@ -78,6 +119,17 @@
       align-items: center;
       cursor: pointer;
       font-style: normal;
+    }
+
+    .mobile-nav-menu-profile {
+      color: #000;
+      white-space: nowrap;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
   }
   .mobile-nav-menu-list {
