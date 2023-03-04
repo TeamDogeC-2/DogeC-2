@@ -19,7 +19,7 @@ export const DesktopRestaurantHeader = ({ children }: { children: JSX.Element })
 };
 
 export const MobileHeader = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isMobileHeader = useMediaQuery({ maxWidth: 1040 });
+  const isMobileHeader = useMediaQuery({ minWidth: 769, maxWidth: 1040 });
   return isMobileHeader ? children : null;
 };
 export const MobileRestaurantHeader = ({ children }: { children: JSX.Element }): JSX.Element | null => {

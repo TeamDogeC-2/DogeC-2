@@ -5,10 +5,13 @@ import MainLogo_white from '../../img/mainLogo_white.svg';
 import Search_icon from '../../img/search_icon.svg';
 import { SchoolList, type SchoolListType } from './data/SchoolList';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
   const [schoolName, setSchoolName] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
@@ -42,6 +45,7 @@ const Home = () => {
       title: `${schoolName}이 검색되었습니다.`,
       icon: 'success',
     });
+    navigate('/restaurant', { state: schoolName });
   };
 
   useEffect(() => {
