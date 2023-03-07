@@ -67,6 +67,7 @@ const MainNavbar = () => {
                       onError={handleImgError}
                       className="navbar-logout"
                     />
+                    <p className="navbar-hover-text">로그아웃</p>
                   </i>
                 </div>
               ) : (
