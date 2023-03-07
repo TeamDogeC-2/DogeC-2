@@ -10,8 +10,7 @@ import Background from '../common/Background';
 import './signupprocess1.scss';
 import { DesktopHeader, MobileHeader } from '../../mediaQuery';
 import Checkbox from './Checkbox';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import SignUpProcess2 from './SignUpProcess2';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpProcess1 = () => {
   const checkboxDataLists = [
@@ -43,7 +42,7 @@ const SignUpProcess1 = () => {
 
   const onClickGoToSignupNextPage = () => {
     if (isAllChecked) {
-      navigate('/signup/process2', { state: isAllChecked });
+      navigate('/signup/process/2', { state: isAllChecked });
     }
   };
 
@@ -53,7 +52,6 @@ const SignUpProcess1 = () => {
     } else {
       setIsAllChecked(false);
     }
-    console.log(checkItems);
   }, [checkItems]);
 
   return (
