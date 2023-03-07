@@ -11,7 +11,7 @@ import {
   faXmark,
   faEllipsis,
   faBarsStaggered,
-  faHeart
+  faHeart,
 } from '@fortawesome/free-solid-svg-icons';
 
 const MypageNavbar = () => {
@@ -32,6 +32,7 @@ const MypageNavbar = () => {
   };
 
   const handleLogout = (e: any) => {
+    isLogin(false);
     console.log(e);
   };
 
@@ -82,6 +83,7 @@ const MypageNavbar = () => {
                       onError={handleImgError}
                       className="mypage-navbar-logout"
                     />
+                    <p className="mypage-navbar-hover-text">로그아웃</p>
                   </i>
                 </div>
               ) : (
@@ -122,6 +124,22 @@ const MypageNavbar = () => {
             className={click ? 'mobile-mypage-nav-menu-list active' : 'mobile-mypage-nav-menu-list'}
           >
             <li>
+              <Link to="/board" className="mobile-mypage-nav-link">
+                <div className="mobile-mypage-nav-list">
+                  <i className="mobile-mypage-nav-listItme">학교게시판</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
+                </div>
+              </Link>
+            </li>
+            <li>
+              <Link to="/restaurant" className="mobile-mypage-nav-link">
+                <div className="mobile-mypage-nav-list">
+                  <i className="mobile-mypage-nav-listItme">주변맛집</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
+                </div>
+              </Link>
+            </li>
+            <li>
               <Link to="/notice" className="mobile-mypage-nav-link">
                 <div className="mobile-mypage-nav-list">
                   <i className="mobile-mypage-nav-listItme">공지사항</i>
@@ -130,23 +148,23 @@ const MypageNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="mobile-mypage-nav-link">
+              <Link to="/faq" className="mobile-mypage-nav-link">
                 <div className="mobile-mypage-nav-list">
-                  <i className="mobile-mypage-nav-listItme">고객센터</i>
+                  <i className="mobile-mypage-nav-listItme">FAQ</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
                 </div>
               </Link>
             </li>
             <li>
               {login ? (
-                <Link to="/notice" className="mobile-mypage-nav-link">
+                <Link to="/" className="mobile-mypage-nav-link">
                   <div className="mobile-mypage-nav-list">
                     <i className="mobile-mypage-nav-listItme">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
                   </div>
                 </Link>
               ) : (
-                <Link to="/notice" className="mobile-mypage-nav-link">
+                <Link to="/login" className="mobile-mypage-nav-link">
                   <div className="mobile-mypage-nav-list">
                     <i className="mobile-mypage-nav-listItme">로그인</i>
                     <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
