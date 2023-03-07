@@ -36,7 +36,7 @@
     }
   }
 
-  .signup-checked-password {
+  .alert-text-wrap {
     & > span {
       margin-right: 18px;
       @include font-container(0.75rem, 1rem, $sub-font-color);
@@ -45,10 +45,28 @@
         margin-left: 6px;
       }
     }
+
+    .signup-concord {
+      color: $basic-color;
+      & > img {
+        filter: opacity(0.5) drop-shadow(0 0 0 $basic-color);
+      }
+    }
+  }
+}
+.signup-activate-button {
+  @include activate-button($height: 54px);
+  @include font-container(1rem, 1.375rem, white);
+
+  margin-top: 24px;
+  &:hover {
+    cursor: pointer;
   }
 }
 
-.signup-button {
+.signup-disabled-button {
   @include disabled-button($height: 54px);
   @include font-container(1rem, 1.375rem, white);
+
+  margin-top: 24px;
 }
