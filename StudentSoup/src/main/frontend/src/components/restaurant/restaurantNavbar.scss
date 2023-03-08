@@ -69,6 +69,70 @@ $text-color: #000;
       }
     }
   }
+
+  .restaurant-navbar-logout-div {
+    color: #000;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 400;
+    white-space: nowrap;
+    width: 150px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    i {
+      display: flex;
+      flex-direction: column;
+      font-style: normal;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      border-radius: 100%;
+      position: relative;
+      top: 0.725rem;
+    }
+
+    .restaurant-navbar-hover-text {
+      display: flex;
+      position: relative;
+      bottom: 1.5rem;
+      color: #fff;
+      font-size: 20px;
+      z-index: -1;
+    }
+
+    &:hover {
+      background-color: #bcbcbc;
+      transition: all 0.3s ease-in-out;
+
+      img {
+        border-radius: 100%;
+        position: relative;
+        top: 0.725rem;
+        filter: brightness(70%);
+      }
+
+      .restaurant-navbar-hover-text {
+        display: flex;
+        position: relative;
+        bottom: 1.5rem;
+        color: #000;
+        font-size: 20px;
+        z-index: 0;
+        transition: all 0.3s ease-in-out;
+      }
+    }
+
+    .restaurant-navbar-logout {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }
 
 .tablet-restaurant-navbar-items {
@@ -106,6 +170,17 @@ $text-color: #000;
       align-items: center;
       cursor: pointer;
       font-style: normal;
+    }
+
+    .tablet-restaurant-nav-menu-profile {
+      color: #000;
+      white-space: nowrap;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
   }
   .tablet-restaurant-nav-menu-list {
@@ -238,6 +313,17 @@ $text-color: #000;
       align-items: center;
       cursor: pointer;
       font-style: normal;
+    }
+
+    .mobile-restaurant-nav-menu-profile {
+      color: #000;
+      white-space: nowrap;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
   }
   .mobile-restaurant-nav-menu-list {

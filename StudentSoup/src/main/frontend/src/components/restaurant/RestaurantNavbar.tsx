@@ -8,18 +8,30 @@ import {
   MobileRestaurantHeader,
 } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
+import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const RestaurantNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
+  const [login, isLogin] = useState<boolean>(true);
+
+  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const searchRef = useRef<any>();
 
   const handleClickMenu = (e: any) => {
     e.stopPropagation();
     isClick(!click);
+  };
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
+
+  const handleLogout = (e: any) => {
+    console.log(e);
   };
 
   useEffect(() => {
@@ -59,9 +71,23 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li className="restaurant-nav-li">
-              <Link to="/login" className="restaurant-nav-links">
-                <i>로그인</i>
-              </Link>
+              {login ? (
+                <div className="restaurant-navbar-logout-div" onClick={handleLogout}>
+                  <i>
+                    <img
+                      src={`/image/${IMAGE_FILE_ID}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="restaurant-navbar-logout"
+                    />
+                    <p className="restaurant-navbar-hover-text">로그아웃</p>
+                  </i>
+                </div>
+              ) : (
+                <Link to="/login" className="restaurant-nav-links">
+                  <i>로그인</i>
+                </Link>
+              )}
             </li>
           </ul>
         </nav>
@@ -74,6 +100,14 @@ const RestaurantNavbar = () => {
           <div className="tablet-restaurant-nav-menu">
             {click ? (
               <FontAwesomeIcon icon={faXmark} className="tablet-restaurant-nav-menu-icon" />
+            ) : login ? (
+              <img
+                src={`/image/${IMAGE_FILE_ID}`}
+                alt=""
+                onError={handleImgError}
+                onMouseDown={handleClickMenu}
+                className="tablet-restaurant-nav-menu-profile"
+              />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
@@ -114,12 +148,21 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="tablet-restaurant-nav-link">
-                <div className="tablet-restaurant-nav-list">
-                  <i className="tablet-restaurant-nav-listItme">로그인</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
-                </div>
-              </Link>
+              {login ? (
+                <Link to="/notice" className="tablet-nav-link">
+                  <div className="tablet-restaurant-nav-list">
+                    <i className="tablet-restaurant-nav-listItme">로그아웃</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
+                  </div>
+                </Link>
+              ) : (
+                <Link to="/notice" className="tablet-restaurant-nav-link">
+                  <div className="tablet-restaurant-nav-list">
+                    <i className="tablet-restaurant-nav-listItme">로그인</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
+                  </div>
+                </Link>
+              )}
             </li>
           </ul>
         </nav>
@@ -132,6 +175,14 @@ const RestaurantNavbar = () => {
           <div className="mobile-restaurant-nav-menu">
             {click ? (
               <FontAwesomeIcon icon={faXmark} className="mobile-restaurant-nav-menu-icon" />
+            ) : login ? (
+              <img
+                src={`/image/${IMAGE_FILE_ID}`}
+                alt=""
+                onError={handleImgError}
+                onMouseDown={handleClickMenu}
+                className="mobile-restaurant-nav-menu-profile"
+              />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
@@ -172,12 +223,21 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
-                <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">로그인</i>
-                  <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
-                </div>
-              </Link>
+              {login ? (
+                <Link to="/notice" className="mobile-nav-link">
+                  <div className="mobile-restaurant-nav-list">
+                    <i className="mobile-restaurant-nav-listItme">로그아웃</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
+                  </div>
+                </Link>
+              ) : (
+                <Link to="/notice" className="mobile-restaurant-nav-link">
+                  <div className="mobile-restaurant-nav-list">
+                    <i className="mobile-restaurant-nav-listItme">로그인</i>
+                    <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
+                  </div>
+                </Link>
+              )}
             </li>
           </ul>
         </nav>
