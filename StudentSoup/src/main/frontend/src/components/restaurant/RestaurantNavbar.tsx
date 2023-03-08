@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   DesktopHeader,
   DesktopRestaurantHeader,
+  Mobile,
   MobileHeader,
   MobileRestaurantHeader,
 } from '../../mediaQuery';
@@ -66,6 +67,64 @@ const RestaurantNavbar = () => {
         </nav>
       </DesktopHeader>
       <MobileHeader>
+        <nav className="tablet-restaurant-navbar-items">
+          <Link to="/" className="restaurant-navbar-logo-links">
+            <img src={mainLogo} className="restaurant-navbar-logo" />
+          </Link>
+          <div className="tablet-restaurant-nav-menu">
+            {click ? (
+              <FontAwesomeIcon icon={faXmark} className="tablet-restaurant-nav-menu-icon" />
+            ) : (
+              <FontAwesomeIcon
+                icon={faBars}
+                className="tablet-restaurant-nav-menu-icon"
+                onMouseDown={handleClickMenu}
+              />
+            )}
+          </div>
+          <ul
+            ref={searchRef}
+            className={
+              click ? 'tablet-restaurant-nav-menu-list active' : 'tablet-restaurant-nav-menu-list'
+            }
+          >
+            <li className="tablet-restaurant-navbar-input-div">
+              <div className="tablet-restaurant-navbar-input-div">
+                <input
+                  type="text"
+                  placeholder="지역 또는 학교명을 입력하세요."
+                  className="tablet-restaurant-navbar-input"
+                />
+              </div>
+            </li>
+            <li>
+              <Link to="/notice" className="tablet-restaurant-nav-link">
+                <div className="tablet-restaurant-nav-list">
+                  <i className="tablet-restaurant-nav-listItme">공지사항</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
+                </div>
+              </Link>
+            </li>
+            <li>
+              <Link to="/notice" className="tablet-restaurant-nav-link">
+                <div className="tablet-restaurant-nav-list">
+                  <i className="tablet-restaurant-nav-listItme">고객센터</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
+                </div>
+              </Link>
+            </li>
+            <li>
+              <Link to="/notice" className="tablet-restaurant-nav-link">
+                <div className="tablet-restaurant-nav-list">
+                  <i className="tablet-restaurant-nav-listItme">로그인</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
+                </div>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </MobileHeader>
+      <Mobile>
         <nav className="mobile-restaurant-navbar-items">
           <Link to="/" className="restaurant-navbar-logo-links">
             <img src={mainLogo} className="restaurant-navbar-logo" />
@@ -122,7 +181,7 @@ const RestaurantNavbar = () => {
             </li>
           </ul>
         </nav>
-      </MobileHeader>
+      </Mobile>
     </>
   );
 };
