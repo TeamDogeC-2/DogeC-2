@@ -41,10 +41,6 @@ const Home = () => {
       });
       return;
     }
-    Swal.fire({
-      title: `${schoolName}이 검색되었습니다.`,
-      icon: 'success',
-    });
     navigate('/restaurant', { state: schoolName });
   };
 
