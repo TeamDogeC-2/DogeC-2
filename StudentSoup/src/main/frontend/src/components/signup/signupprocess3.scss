@@ -64,7 +64,26 @@
       @include font-container(1rem, 1.3125rem, $sub-font-color);
     }
   }
-  & > button {
+
+  .id-input {
+    border-right: none;
+    border-radius: 3px 0px 0px 3px;
+    width: 40%;
+  }
+
+  .email-input {
+    @include font-container(1rem, 1.3125rem, $place-holder-color);
+
+    border-radius: 0px 3px 3px 0px;
+    width: 40%;
+  }
+
+  .signup-email-activate-button {
+    @include activate-button(106px, 100%);
+    @include font-container(0.75rem, 1.0625rem, white);
+  }
+
+  .signup-email-disabled-button {
     @include disabled-button(106px, 100%);
     @include font-container(0.75rem, 1.0625rem, white);
   }
@@ -98,9 +117,19 @@
   }
 }
 
-.signup-process-3-container {
-  .signup-button {
-    @include disabled-button($height: 54px);
-    @include font-container(1rem, 1.375rem, white);
+.signup-activate-button {
+  @include activate-button($height: 54px);
+  @include font-container(1rem, 1.375rem, white);
+
+  margin-top: 31px;
+  &:hover {
+    cursor: pointer;
   }
+}
+
+.signup-disabled-button {
+  @include disabled-button($height: 54px);
+  @include font-container(1rem, 1.375rem, white);
+
+  margin-top: 31px;
 }
