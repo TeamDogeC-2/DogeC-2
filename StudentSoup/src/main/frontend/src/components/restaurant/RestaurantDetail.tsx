@@ -4,12 +4,17 @@ import RestaurantNavbar from './RestaurantNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import Circle_human from '../../img/circle_human.png';
 import empty_heart from '../../img/empty_heart.svg';
 import share from '../../img/share.svg';
 import review from '../../img/review.svg';
 
 const RestaurantDetail = () => {
   const [heart, isHeart] = useState<boolean>(false);
+  const [image, setImage] = useState<any>([]);
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
   return (
     <>
       <DesktopHeader>
@@ -47,7 +52,14 @@ const RestaurantDetail = () => {
               <button className="restaurant-detail-left-button">배달가능 업체</button>
             </div>
             <div className="restaurant-detail-right">
-              <div>right</div>
+              <div className="restaurant-detail-right-imgs">
+                <img
+                  src={`/image/${image[0]}`}
+                  alt=""
+                  onError={handleImgError}
+                  className="restaurant-detail-right-first-img"
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -70,17 +70,18 @@ $sub-color: #5a5a5a;
           color: $basic-color;
         }
 
-        p{
-            margin-top: 10px;
+        p {
+          margin-top: 10px;
+          font-size: 0.813rem;
         }
       }
-
       .restaurant-detail-vertical-underline {
         background-color: #eeeeee;
         position: relative;
         width: 1px;
         height: 100%;
         border: none;
+        margin-top: 10px;
       }
     }
 
@@ -100,5 +101,9 @@ $sub-color: #5a5a5a;
     height: auto;
     background-color: #ff6666;
     border-radius: 5px;
+
+    .restaurant-detail-right-imgs {
+      height: 23.125rem;
+    }
   }
 }
