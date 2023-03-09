@@ -8,6 +8,7 @@ import Restaurant from './components/restaurant/Restaurant';
 import SignUpProcess1 from './components/signup/SignUpProcess1';
 import SignUpProcess2 from './components/signup/SignUpProcess2';
 import SignUpProcess3 from './components/signup/SignUpProcess3';
+import RestaurantDetail from './components/restaurant/RestaurantDetail';
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/login/findAccount" element={<FindAccount />} />
       <Route path="/restaurant" element={<Restaurant />} />
+      <Route path="/restaurant/detail" element={<RestaurantDetail />} />
       <Route path="/signup/process1" element={<SignUpProcess1 />} />
       <Route path="/signup/process2" element={<SignUpProcess2 />} />
       <Route path="/signup/process3" element={<SignUpProcess3 />} />

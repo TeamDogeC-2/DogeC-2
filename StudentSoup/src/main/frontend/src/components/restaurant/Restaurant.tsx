@@ -5,7 +5,7 @@ import star from '../../img/star.svg';
 import filter from '../../img/filter.svg';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import MainNavbar from '../common/mainNavbar';
+import MainNavbar from '../common/MainNavbar';
 import './restaurant.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 
