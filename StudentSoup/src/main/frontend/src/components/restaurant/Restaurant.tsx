@@ -5,9 +5,9 @@ import star from '../../img/star.svg';
 import filter from '../../img/filter.svg';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import MainNavbar from '../common/mainNavbar';
 import './restaurant.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
+import RestaurantNavbar from './RestaurantNavbar';
 
 const Restaurant = () => {
   const [category, setCategory] = useState<string>('ALL');
@@ -62,7 +62,7 @@ const Restaurant = () => {
     <>
       <DesktopHeader>
         <div>
-          <MainNavbar />
+          <RestaurantNavbar />
           <div className="restaurant-main">
             <div className="restaurant-top">
               <div className="restaurant-top-div">
@@ -230,7 +230,7 @@ const Restaurant = () => {
       </DesktopHeader>
       <MobileHeader>
         <div>
-          <MainNavbar />
+          <RestaurantNavbar />
           <div className="tablet-restaurant-main">
             <div className="tablet-restaurant-top">
               <div className="tablet-restaurant-top-div">
@@ -401,7 +401,7 @@ const Restaurant = () => {
       </MobileHeader>
       <Mobile>
         <div>
-          <MainNavbar />
+          <RestaurantNavbar />
           <div className="mobile-restaurant-main">
             <div className="mobile-restaurant-top">
               <div className="mobile-restaurant-top-div">

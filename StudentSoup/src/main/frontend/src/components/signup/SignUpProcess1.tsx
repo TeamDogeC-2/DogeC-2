@@ -1,5 +1,5 @@
 import React from 'react';
-import MainNavbar from '../common/mainNavbar';
+import MainNavbar from '../common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_1 from './../../img/signup_process_activate_1.png';
 import process_2 from './../../img/signup_process_2.png';
