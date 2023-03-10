@@ -8,102 +8,191 @@ $sub-color: #5a5a5a;
   padding-top: 6rem;
   max-width: 76.8rem;
   position: relative;
-  flex-direction: row;
+  flex-direction: column;
 
-  .restaurant-detail-left {
-    width: 21.125rem;
-    height: auto;
-    background-color: #bcbcbc;
-    margin-right: 23px;
-    border-radius: 5px;
-    justify-content: center;
-    align-items: center;
+  .restaurant-detail-top {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    .restaurant-detail-map {
-      width: 80%;
-      height: 14.875rem;
-      background-color: #fff;
-      margin-top: 1.563rem;
-    }
-
-    .restaurant-detail-left-info {
-      width: 80%;
-      margin-top: 0.625rem;
-
-      .restaurant-detail-left-info-name {
-        font-size: 1.875rem;
-      }
-
-      p {
-        margin: 0.4rem 0;
-        font-size: 1rem;
-      }
-    }
-
-    .restaurant-detail-underline {
-      background-color: #eeeeee;
-      position: relative;
-      width: 80%;
-      height: 2px;
-      border: none;
-    }
-
-    .restaurant-detail-functions {
+    .restaurant-detail-left {
+      width: 21.125rem;
+      max-height: 37.688rem;
+      margin: auto;
+      background-color: #bcbcbc;
+      margin-right: 23px;
+      border-radius: 5px;
+      justify-content: center;
+      align-items: center;
       display: flex;
-      flex-direction: row;
-      width: 80%;
+      position: relative;
+      bottom: 52px;
+      flex-direction: column;
 
-      .restaurant-detail-function {
-        width: 33%;
-        height: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-top: 10px;
+      .restaurant-detail-map {
+        width: 80%;
+        height: 14.875rem;
+        background-color: #fff;
+        margin-top: 1.563rem;
+      }
 
-        .restaurant-detail-function-icon {
-          width: 1rem;
-          height: 1rem;
-          color: $basic-color;
+      .restaurant-detail-left-info {
+        width: 80%;
+        margin-top: 0.625rem;
+
+        .restaurant-detail-left-info-name {
+          font-size: 1.875rem;
         }
 
         p {
-          margin-top: 10px;
-          font-size: 0.813rem;
+          margin: 0.4rem 0;
+          font-size: 1rem;
         }
       }
-      .restaurant-detail-vertical-underline {
+
+      .restaurant-detail-underline {
         background-color: #eeeeee;
         position: relative;
-        width: 1px;
-        height: 100%;
+        width: 80%;
+        height: 2px;
         border: none;
-        margin-top: 10px;
+      }
+
+      .restaurant-detail-functions {
+        display: flex;
+        flex-direction: row;
+        width: 80%;
+
+        .restaurant-detail-function {
+          width: 33%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: 10px;
+
+          .restaurant-detail-function-icon {
+            width: 1rem;
+            height: 1rem;
+            color: $basic-color;
+          }
+
+          p {
+            margin-top: 10px;
+            font-size: 0.813rem;
+          }
+        }
+        .restaurant-detail-vertical-underline {
+          background-color: #eeeeee;
+          position: relative;
+          width: 1px;
+          border: none;
+          margin-top: 10px;
+        }
+      }
+
+      .restaurant-detail-left-button {
+        width: 80%;
+        height: 2.5rem;
+        background-color: #fff;
+        border: 1px solid $basic-color;
+        color: $basic-color;
+        font-size: 0.813rem;
+        border-radius: 5px;
+        margin: 18px 0;
       }
     }
-
-    .restaurant-detail-left-button {
-      width: 80%;
-      height: 2.5rem;
-      background-color: #fff;
-      border: 1px solid $basic-color;
-      color: $basic-color;
-      font-size: 0.813rem;
+    .restaurant-detail-right {
+      width: 59.25rem;
+      height: auto;
+      background-color: #ff6666;
       border-radius: 5px;
-      margin: 18px 0;
+
+      .restaurant-detail-right-imgs {
+        height: 23.125rem;
+        margin: 1.625rem;
+        display: flex;
+        flex-direction: row;
+
+        .restaurant-detail-right-first-img {
+          width: 21.25rem;
+        }
+
+        .restaurant-detail-right-other-imgs {
+          height: 23.125rem;
+
+          .restaurant-detail-right-other-img {
+            width: 50%;
+            height: 49.3%;
+            padding-left: 5px;
+          }
+        }
+      }
+
+      .restaurant-detail-right-info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 1.625rem;
+        margin-bottom: 2rem;
+
+        span {
+          margin-bottom: 1.5rem;
+          font-size: 1.563rem;
+          font-weight: 600;
+          color: $sub-color;
+        }
+
+        p {
+          display: flex;
+          align-items: center;
+          font-size: 1rem;
+          color: $sub-color;
+
+          img {
+            margin-right: 0.5rem;
+          }
+        }
+      }
     }
   }
-  .restaurant-detail-right {
-    width: 59.25rem;
-    height: auto;
-    background-color: #ff6666;
+  .restaurant-detail-bottom {
+    display: flex;
+    background-color: #fff;
+    margin-top: 1rem;
+    flex-direction: column;
     border-radius: 5px;
+    .restaurant-detail-bottom-list-div {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
 
-    .restaurant-detail-right-imgs {
-      height: 23.125rem;
+      .restaurant-detail-bottom-list {
+        display: flex;
+        list-style: none;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+
+        li {
+          font-size: calc(15px + 0.3vw);
+          cursor: pointer;
+          width: 33.3%;
+          display: flex;
+          justify-content: center;
+          padding-bottom: 15px;
+        }
+
+        .restaurant-detail-bottom-li {
+          color: $basic-border-color;
+        }
+
+        .restaurant-detail-bottom-li.active {
+          color: $basic-color;
+          border-bottom: 3px solid $basic-color;
+          z-index: 99;
+        }
+      }
     }
   }
 }
