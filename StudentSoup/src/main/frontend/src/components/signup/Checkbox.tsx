@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './checkbox.scss';
 
-const Checkbox = ({ id, name, onChange, subTitle, title, checkItems }: any) => {
-  const [isChecked, setIsChecked] = useState<boolean | undefined>(undefined);
+const Checkbox = ({ id, name, onChange, subTitle, title, checkItems, value }: any) => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const onCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.name, e.target.checked);
@@ -19,7 +19,14 @@ const Checkbox = ({ id, name, onChange, subTitle, title, checkItems }: any) => {
 
   return (
     <label className="terms-wrap">
-      <input type="checkbox" id={id} name={name} checked={isChecked} onChange={e => onCheck(e)} />
+      <input
+        type="checkbox"
+        id={id}
+        name={name}
+        checked={isChecked}
+        value={value}
+        onChange={e => onCheck(e)}
+      />
       <span>[{subTitle}]</span> {title}
     </label>
   );
