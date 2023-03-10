@@ -82,12 +82,6 @@ const SignUpProcess2 = () => {
         console.log('hi');
         signUp(userId, userPassword)
           .then(response => {
-            console.log(response);
-            Swal.fire({
-              icon: 'success',
-              title: '회원가입에 성공하였습니다.',
-              text: '다음 단계를 진행해주세요.',
-            });
             navigate('/signup/process/3', { state: { userId, userPassword } });
           })
           .catch(error => {
