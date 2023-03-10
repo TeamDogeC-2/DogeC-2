@@ -14,12 +14,30 @@ import { useNavigate } from 'react-router-dom';
 
 const SignUpProcess1 = () => {
   const checkboxDataLists = [
-    { id: 0, name: 'collect', subTitle: '필수', title: '개인정보 수집 및 이용 동의' },
-    { id: 1, name: 'terms', subTitle: '필수', title: '개인정보 보유기간 및 이용기간' },
-    { id: 2, name: 'marketing', subTitle: '선택', title: '광고성 정보 수신 및 마케팅 활용 동의' },
+    {
+      id: 0,
+      name: 'collect',
+      subTitle: '필수',
+      title: '개인정보 수집 및 이용 동의',
+      value: 'collect',
+    },
+    {
+      id: 1,
+      name: 'terms',
+      subTitle: '필수',
+      title: '개인정보 보유기간 및 이용기간',
+      value: 'terms',
+    },
+    {
+      id: 2,
+      name: 'marketing',
+      subTitle: '선택',
+      title: '광고성 정보 수신 및 마케팅 활용 동의',
+      value: 'marketing',
+    },
   ];
 
-  const [isAllChecked, setIsAllChecked] = useState<boolean | undefined>(undefined);
+  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [checkItems, setCheckItems] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -74,6 +92,7 @@ const SignUpProcess1 = () => {
             <input
               type="checkbox"
               id="terms-all-checkbox"
+              value="AllChecked"
               checked={isAllChecked}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChangeAllCheck(e.target.checked)
@@ -92,6 +111,7 @@ const SignUpProcess1 = () => {
                   subTitle={el.subTitle}
                   title={el.title}
                   checkItems={checkItems}
+                  value={el.value || ''}
                 />
               );
             })}
@@ -109,7 +129,7 @@ const SignUpProcess1 = () => {
             </MobileHeader>
           </div>
           <button
-            className={isAllChecked === true ? 'signup-activate-button' : 'signup-disabled-button'}
+            className={isAllChecked ? 'signup-activate-button' : 'signup-disabled-button'}
             onClick={onClickGoToSignupNextPage}
           >
             동의하고 가입하기
