@@ -9,6 +9,7 @@ import './signupprocess3.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export interface UniversityDataType {
   schoolId: number;
@@ -61,13 +62,26 @@ const SignUpProcess3 = () => {
   const onClickEmailCertification = () => {
     if (userEmail !== '' && majorData !== null) {
       axios
-        .post('/members/signUp/3/mail', { email: userEmail + '@' + majorData.domain })
+        // .post('/members/signUp/3/mail', { email: userEmail + '@' + majorData.domain })
+        .post('/members/signUp/3/mail', { email: 'suljiye37@naver.com' })
         .then(res => {
           console.log(res);
           setIsEmailSubmit(true);
         });
     }
     // console.log(userEmail);
+  };
+
+  const onClickAuthenticationNumber = () => {
+    axios
+      .post('/members/signUp/3/checkMail', {
+        email: 'suljiye37@naver.com',
+        authenticationNumber: userAuthenticationCode,
+      })
+      .then(res => {
+        console.log(res);
+        setIsEmailConfirmation(true);
+      });
   };
 
   const onSubmitSignup = (e: any) => {
@@ -77,7 +91,7 @@ const SignUpProcess3 = () => {
         .post('/members/signUp/3', {
           id: state.userId,
           pwd: state.userPassword,
-          nickName: userNickname,
+          nickname: userNickname,
           email: userEmail + '@' + majorData.domain,
           gender: userGender,
           schoolId: selectUniversity,
@@ -85,6 +99,11 @@ const SignUpProcess3 = () => {
         })
         .then(res => {
           console.log(res);
+          Swal.fire({
+            icon: 'success',
+            title: '회원가입에 성공하였습니다.',
+            text: '',
+          });
         });
     }
   };
@@ -113,7 +132,17 @@ const SignUpProcess3 = () => {
         <SignUpComponent
           process_1={process_check}
           process_2={process_check}
-          process_3={process_activate_3}
+          process_3={
+            userNickname !== '' &&
+            userNickname !== '' &&
+            userEmail !== '' &&
+            userAuthenticationCode !== '' &&
+            universityData.length !== 0 &&
+            majorData !== null &&
+            isEmailConfirmation
+              ? process_check
+              : process_activate_3
+          }
           process_bar_1={process_next_bar}
           process_bar_2={process_next_bar}
           sentence_2="activate-sentence-2"
@@ -201,7 +230,7 @@ const SignUpProcess3 = () => {
               <div className="privacy-input-wrap">
                 <input
                   className="id-input"
-                  type="email"
+                  type="text"
                   value={userEmail}
                   onChange={onChangeUserEmail}
                   placeholder="아이디"
@@ -236,7 +265,11 @@ const SignUpProcess3 = () => {
                       onChange={onChangeUserAuthenticationCode}
                       placeholder="인증코드 입력"
                     />
-                    <button className="signup-email-activate-button" type="button">
+                    <button
+                      className="signup-email-activate-button"
+                      type="button"
+                      onClick={onClickAuthenticationNumber}
+                    >
                       인증 확인
                     </button>
                   </div>
