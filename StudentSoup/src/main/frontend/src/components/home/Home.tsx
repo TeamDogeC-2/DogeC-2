@@ -16,6 +16,7 @@ const Home = () => {
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
   };
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom',
@@ -42,6 +43,12 @@ const Home = () => {
       return;
     }
     navigate('/restaurant', { state: schoolName });
+  };
+
+  const activeEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleClickSearch();
+    }
   };
 
   useEffect(() => {
@@ -72,6 +79,7 @@ const Home = () => {
             onChange={saveSchoolName}
             value={schoolName}
             placeholder="지역 학교 명을 입력하세요."
+            onKeyDown={e => activeEnter(e)}
           ></input>
           <button onClick={handleClickSearch}>검색</button>
           {schoolName && (
