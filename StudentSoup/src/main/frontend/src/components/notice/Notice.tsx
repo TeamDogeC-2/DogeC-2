@@ -98,12 +98,12 @@ const Notice = () => {
             onChange={handlePageChange}
             hideFirstLastPages={true}
           />
-          <div>
+          <div className="search-container">
             <select>
               <option>전체</option>
             </select>
             <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>
-            <button>검색</button>
+            <button className="notice-search-button">검색</button>
           </div>
         </div>
       </Background>
