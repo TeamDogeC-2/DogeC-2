@@ -2,19 +2,24 @@
 @import './../../assets/scss/abstracts/_mixins';
 
 .notice-container {
-  @include flex-container(column, flex-start, flex-start);
+  @include flex-container(column, flex-start, center);
   margin: 75px auto 0px auto;
   padding: 38px 64px 0 64px;
-  width: 1320px;
-  height: 944px;
+  width: 100%;
+  max-width: 1320px;
+  height: calc(100vh - 75px);
+  max-height: 100%;
   background-color: white;
 
   & > h1 {
     @include font-container(3.125rem, 4.375rem, $basic-color);
+
+    width: 100%;
+    text-align: left;
   }
   & > table {
     width: 100%;
-
+    height: 600px;
     th {
       @include font-container(1.25rem, 1.75rem, $subject-table-font-color);
       border-bottom: 1px solid $basic-border-color;
@@ -31,24 +36,93 @@
     }
     .subject {
       padding-left: 24px;
-      width: 88%;
+      width: 86%;
     }
 
     .date-created {
       padding-right: 24px;
-      width: 12%;
+      width: 14%;
     }
 
     .subject-post {
       padding-left: 24px;
-      width: 88%;
+      padding-left: 24px;
+      width: 86%;
       text-align: left;
     }
 
     .date-created-post {
       padding-right: 24px;
-      width: 12%;
+      width: 14%;
       text-align: center;
     }
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul.pagination li {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid $page-nation-border-color;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  margin: 15px 4px 0px 4px;
+}
+
+ul.pagination li:first-child {
+  border: none;
+  color: $basic-color;
+  & > a {
+    color: $basic-color;
+  }
+}
+
+ul.pagination li:last-child {
+  border: none;
+  & > a {
+    color: $basic-color;
+  }
+}
+
+ul.pagination li a {
+  text-decoration: none;
+  color: $page-nation-border-color;
+  font-size: 1rem;
+}
+
+ul.pagination li.active a {
+  color: $basic-color;
+}
+
+ul.pagination li.active {
+  border: 1px solid $basic-color;
+}
+
+ul.pagination li:hover,
+ul.pagination li.active {
+  border: 1px solid $basic-color;
+  & > a {
+    color: $basic-color;
+  }
+  cursor: pointer;
+}
+
+.page-selection {
+  width: 48px;
+  height: 30px;
+  color: #337ab7;
 }
