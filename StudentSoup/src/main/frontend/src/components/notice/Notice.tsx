@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Background from '../common/Background';
 import MainNavbar from '../common/MainNavbar';
+import Pagination from 'react-js-pagination';
 import './notice.scss';
 
 const Notice = () => {
+  const [page, setPage] = useState(1);
+  const handlePageChange = (page: any) => {
+    setPage(page);
+  };
+
   return (
     <>
       <MainNavbar />
@@ -81,11 +87,22 @@ const Notice = () => {
               </tr>
             </tbody>
           </table>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={10}
+            totalItemsCount={50}
+            pageRangeDisplayed={5}
+            firstPageText=""
+            prevPageText="<"
+            nextPageText=">"
+            onChange={handlePageChange}
+            hideFirstLastPages={true}
+          />
           <div>
             <select>
               <option>전체</option>
             </select>
-            <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>{' '}
+            <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>
             <button>검색</button>
           </div>
         </div>
