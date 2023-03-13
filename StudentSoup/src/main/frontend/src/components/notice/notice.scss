@@ -59,74 +59,6 @@
   }
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-ul.pagination li {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border: 1px solid $page-nation-border-color;
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1rem;
-  margin: 15px 4px 0px 4px;
-}
-
-ul.pagination li:first-child {
-  border: none;
-  color: $basic-color;
-  & > a {
-    color: $basic-color;
-  }
-}
-
-ul.pagination li:last-child {
-  border: none;
-  & > a {
-    color: $basic-color;
-  }
-}
-
-ul.pagination li a {
-  text-decoration: none;
-  color: $page-nation-border-color;
-  font-size: 1rem;
-}
-
-ul.pagination li.active a {
-  color: $basic-color;
-}
-
-ul.pagination li.active {
-  border: 1px solid $basic-color;
-}
-
-ul.pagination li:hover,
-ul.pagination li.active {
-  border: 1px solid $basic-color;
-  & > a {
-    color: $basic-color;
-  }
-  cursor: pointer;
-}
-
-.page-selection {
-  width: 48px;
-  height: 30px;
-  color: #337ab7;
-}
-
 .search-container {
   @include flex-container(row, center, center);
 
@@ -157,7 +89,7 @@ ul.pagination li.active {
       @include font-container(1rem, 1.375rem, $page-nation-font-color);
     }
   }
-  & > .notice-search-button {
+  & > .search-button {
     @include font-container(1rem, 1.375rem, white);
     @include activate-button(68px);
 
