@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Background from '../common/Background';
 import MainNavbar from '../common/MainNavbar';
 import Pagination from 'react-js-pagination';
 import './notice.scss';
+import axios from 'axios';
+import Paginate from '../common/Paginate';
+import PostSearch from '../common/PostSearch';
 
 const Notice = () => {
-  const [page, setPage] = useState(1);
-  const handlePageChange = (page: any) => {
-    setPage(page);
-  };
+  useEffect(() => {
+    axios
+      .post('/boards?category=ANNOUNCEMENT', {
+        schoolId: '1',
+        memberId: '3',
+        category: 'ANNOUNCEMENT',
+        sorted: 0,
+      })
+      .then(res => {
+        console.log(res);
+      });
+  }, []);
 
   return (
     <>
@@ -28,83 +39,10 @@ const Notice = () => {
                 <td className="subject-post">한 달에 10억원을 번 비결</td>
                 <td className="date-created-post">23.01.12 16:23</td>
               </tr>
-
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
-              <tr>
-                <td className="subject-post">한 달에 10억원을 번 비결</td>
-                <td className="date-created-post">23.01.12 16:23</td>
-              </tr>
             </tbody>
           </table>
-          <Pagination
-            activePage={page}
-            itemsCountPerPage={10}
-            totalItemsCount={50}
-            pageRangeDisplayed={5}
-            firstPageText=""
-            prevPageText="<"
-            nextPageText=">"
-            onChange={handlePageChange}
-            hideFirstLastPages={true}
-          />
-          <div className="search-container">
-            <select>
-              <option>전체</option>
-            </select>
-            <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>
-            <button className="notice-search-button">검색</button>
-          </div>
+          <Paginate />
+          <PostSearch />
         </div>
       </Background>
     </>
