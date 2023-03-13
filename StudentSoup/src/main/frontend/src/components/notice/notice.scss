@@ -1,0 +1,54 @@
+@import './../../assets/scss/abstracts/_variables_color';
+@import './../../assets/scss/abstracts/_mixins';
+
+.notice-container {
+  @include flex-container(column, flex-start, flex-start);
+  margin: 75px auto 0px auto;
+  padding: 38px 64px 0 64px;
+  width: 1320px;
+  height: 944px;
+  background-color: white;
+
+  & > h1 {
+    @include font-container(3.125rem, 4.375rem, $basic-color);
+  }
+  & > table {
+    width: 100%;
+
+    th {
+      @include font-container(1.25rem, 1.75rem, $subject-table-font-color);
+      border-bottom: 1px solid $basic-border-color;
+      padding: 19px 0;
+    }
+    td {
+      @include font-container(1rem, 1.375rem, $subject-table-font-color);
+      border-bottom: 1px solid $basic-border-color;
+      padding: 5px 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .subject {
+      padding-left: 24px;
+      width: 88%;
+    }
+
+    .date-created {
+      padding-right: 24px;
+      width: 12%;
+    }
+
+    .subject-post {
+      padding-left: 24px;
+      width: 88%;
+      text-align: left;
+    }
+
+    .date-created-post {
+      padding-right: 24px;
+      width: 12%;
+      text-align: center;
+    }
+  }
+}
