@@ -3,15 +3,19 @@
 @import './../../assets/scss/components/_buttons';
 
 .signup-process-1-container {
-  & > h2 {
+  h2 {
     @include font-container(1.625rem, 2.313rem, $subject-font-color);
+
+    margin-bottom: 2.875rem;
     width: 100%;
   }
 
   .terms-all-wrap {
-    @include font-container(1rem, 1px, $content-font-color);
+    @include flex-container(row, flex-start, center);
+    @include font-container(1rem, 1.3125rem, $content-font-color);
+
     width: 100%;
-    height: 21px;
+    height: 1.3125rem;
 
     & > input {
       appearance: none;
@@ -23,7 +27,7 @@
 
       &:checked {
         background-image: url('./../../img/signup_check_white.png');
-        background-size: 11px 7px;
+        background-size: 0.6875rem 0.4375rem;
         background-position: 50%;
         background-repeat: no-repeat;
         background-color: $basic-color;
@@ -33,26 +37,33 @@
 
   .terms-conditions-container {
     @include flex-container(column, center, flex-start);
+
+    margin-top: 3.0625rem;
     border-top: 1px solid #d9d9d9;
     width: 100%;
   }
 
   .caution-sentence {
     @include font-container(0.75rem, 1rem, $sub-font-color);
-    padding: 24px 25px 0px 25px;
+
+    padding: 1.5rem 1.5625rem 0 1.5625rem;
+    width: 100%;
   }
-}
 
-.signup-activate-button {
-  @include activate-button($height: 54px);
-  @include font-container(1rem, 1.375rem, white);
+  .signup-activate-button {
+    @include activate-button($height: 3.375rem);
+    @include font-container(1rem, 1.375rem, white);
 
-  &:hover {
-    cursor: pointer;
+    margin-bottom: 4.0625rem;
+    &:hover {
+      cursor: pointer;
+    }
   }
-}
 
-.signup-disabled-button {
-  @include disabled-button($height: 54px);
-  @include font-container(1rem, 1.375rem, white);
+  .signup-disabled-button {
+    @include disabled-button($height: 3.375rem);
+    @include font-container(1rem, 1.375rem, white);
+
+    margin-bottom: 4.0625rem;
+  }
 }
