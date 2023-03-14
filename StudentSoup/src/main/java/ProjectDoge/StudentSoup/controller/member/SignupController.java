@@ -7,17 +7,13 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
-import ProjectDoge.StudentSoup.service.member.MemberEmailAuthenticationService;
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
-import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
-import ProjectDoge.StudentSoup.service.member.MemberValidationService;
+import ProjectDoge.StudentSoup.service.member.*;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,12 +33,20 @@ public class SignupController {
 
     private final MemberEmailAuthenticationService memberEmailAuthenticationService;
 
+    private final MemberDuplicateCheckService memberDuplicateCheckService;
+
     @PostMapping("/signUp/2")
     public MemberFormADto signUpCheck(@RequestBody MemberFormADto dto){
         log.info("signUpCheck가 호출되었습니다. ID : [{}]", dto.getId());
         memberValidationService.validateDuplicateMemberId(dto.getId());
         return dto;
     }
+
+    @PostMapping("/signUp/2/id")
+    public String signUpCheck(@RequestBody Map<String,String> memberId){
+        return memberDuplicateCheckService.checkMemberId(memberId.get("memberId"));
+    }
+
 
     @GetMapping("/signUp/3")
     public List<SchoolSignUpDto> signUpSchoolList(){
@@ -54,6 +58,7 @@ public class SignupController {
         log.info("불러온 학교 목록 DTO : [{}]", result);
         return result;
     }
+
 
     @PostMapping("/signUp/3/{schoolId}")
     public ConcurrentHashMap<String,Object> signUpDepartmentList(@PathVariable Long schoolId){
