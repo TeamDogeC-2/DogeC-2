@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React from 'react';
 import Pagination from 'react-js-pagination';
 import './paginate.scss';
 
 export interface PaginateType {
   page: number;
   count: number;
-  setPage: Dispatch<SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   postPerPage: number;
 }
 
