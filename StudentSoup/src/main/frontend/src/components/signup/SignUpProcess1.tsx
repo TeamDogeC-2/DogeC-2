@@ -50,7 +50,7 @@ const SignUpProcess1 = () => {
     }
   };
 
-  const onChangeAllCheck = (isChecked: any) => {
+  const onChangeAllCheck = (isChecked: boolean) => {
     if (isChecked) {
       setCheckItems([...checkboxDataLists.map(el => el.name)]);
     } else {
@@ -58,7 +58,7 @@ const SignUpProcess1 = () => {
     }
   };
 
-  const onClickGoToSignupNextPage = () => {
+  const onClickNextPage = () => {
     if (isAllChecked) {
       navigate('/signup/process/2', { state: isAllChecked });
     }
@@ -130,7 +130,7 @@ const SignUpProcess1 = () => {
           </div>
           <button
             className={isAllChecked ? 'signup-activate-button' : 'signup-disabled-button'}
-            onClick={onClickGoToSignupNextPage}
+            onClick={onClickNextPage}
           >
             동의하고 가입하기
           </button>
