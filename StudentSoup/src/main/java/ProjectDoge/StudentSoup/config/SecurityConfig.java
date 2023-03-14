@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/members/login/**","/home","/members/**","/restaurant/**","/restaurantReview/**").permitAll()
+                .antMatchers("/members/login/**","/home","/members/**","/restaurant/**","/restaurantReview/**","/restaurants/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
