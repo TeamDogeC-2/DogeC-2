@@ -82,7 +82,8 @@ const SignUpProcess2 = () => {
         console.log('hi');
         signUp(userId, userPassword)
           .then(response => {
-            navigate('/signup/process/3', { state: { userId, userPassword } });
+            // navigate('/signup/process/3', { state: { response.data.id, response.data.pwd } });
+            console.log(response);
           })
           .catch(error => {
             console.log(error.response.data.message);
@@ -154,15 +155,19 @@ const SignUpProcess2 = () => {
             </h2>
           </Mobile>
           <form className="signup-form" onSubmit={onSubmitSignup}>
-            <label>
+            <label className="id-input-label">
               ID
-              <input
-                type="text"
-                value={userId}
-                placeholder="아이디 입력"
-                onChange={onChangeUserId}
-              />
+              <div>
+                <input
+                  type="text"
+                  value={userId}
+                  placeholder="아이디 입력"
+                  onChange={onChangeUserId}
+                />
+                <button type="button">중복</button>
+              </div>
             </label>
+
             <label>
               PW
               <input
