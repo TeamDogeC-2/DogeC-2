@@ -25,7 +25,7 @@ export const Notice = () => {
   const [items, setItems] = useState<NoticePostsDataType[]>([]);
   const [count, setCount] = useState(0);
   const [currentpage, setCurrentpage] = useState(1);
-  const [postPerPage] = useState(10);
+  const [postPerPage, setPostPerPage] = useState(0);
 
   const [indexOfLastPost, setIndexOfLastPost] = useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
@@ -44,6 +44,7 @@ export const Notice = () => {
         sorted: 0,
       });
       setItems(response.data.boards.content);
+      setPostPerPage(response.data.boards.pageable.pageSize);
     };
     fetchData();
   }, []);
@@ -64,7 +65,12 @@ export const Notice = () => {
           <div className="notice-table-wrap">
             <Table headings={['title', 'writeDate']} data={currentPosts} />
           </div>
-          <Paginate page={currentpage} count={count} setPage={handlePageChange} />
+          <Paginate
+            page={currentpage}
+            count={count}
+            setPage={handlePageChange}
+            postPerPage={postPerPage}
+          />
           <PostSearch />
         </div>
       </Background>
