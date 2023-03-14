@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import MainNavbar from '../common/mainNavbar';
+import MainNavbar from '../common/MainNavbar';
 import './home.scss';
 import MainLogo_white from '../../img/mainLogo_white.svg';
 import Search_icon from '../../img/search_icon.svg';
 import { SchoolList, type SchoolListType } from './data/SchoolList';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
   const [schoolName, setSchoolName] = useState<string>('');
 
+  const navigate = useNavigate();
+
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
   };
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom',
@@ -38,10 +42,13 @@ const Home = () => {
       });
       return;
     }
-    Swal.fire({
-      title: `${schoolName}이 검색되었습니다.`,
-      icon: 'success',
-    });
+    navigate('/restaurant', { state: schoolName });
+  };
+
+  const activeEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleClickSearch();
+    }
   };
 
   useEffect(() => {
@@ -72,6 +79,7 @@ const Home = () => {
             onChange={saveSchoolName}
             value={schoolName}
             placeholder="지역 학교 명을 입력하세요."
+            onKeyDown={e => activeEnter(e)}
           ></input>
           <button onClick={handleClickSearch}>검색</button>
           {schoolName && (

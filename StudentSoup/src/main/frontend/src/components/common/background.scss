@@ -1,0 +1,10 @@
+.background-wrap {
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 1040px) {
+  .background-wrap {
+    background-color: white;
+  }
+}
