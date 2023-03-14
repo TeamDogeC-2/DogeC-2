@@ -27,7 +27,8 @@ const Checkbox = ({ id, name, onChange, subTitle, title, checkItems, value }: an
         value={value}
         onChange={e => onCheck(e)}
       />
-      <span>[{subTitle}]</span> {title}
+      <span>[{subTitle}]</span>
+      <div>{title}</div>
     </label>
   );
 };
