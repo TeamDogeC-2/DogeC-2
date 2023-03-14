@@ -33,8 +33,6 @@ public class SignupController {
 
     private final MemberEmailAuthenticationService memberEmailAuthenticationService;
 
-    private final MemberDuplicateCheckService memberDuplicateCheckService;
-
     @PostMapping("/signUp/2")
     public MemberFormADto signUpCheck(@RequestBody MemberFormADto dto){
         log.info("signUpCheck가 호출되었습니다. ID : [{}]", dto.getId());
@@ -42,9 +40,9 @@ public class SignupController {
         return dto;
     }
 
-    @PostMapping("/signUp/2/id")
-    public String signUpCheck(@RequestBody Map<String,String> memberId){
-        return memberDuplicateCheckService.checkMemberId(memberId.get("memberId"));
+    @PostMapping("/signUp/2/checkId")
+    public String signUpIdCheck(@RequestBody Map<String,String> memberId){
+        return memberValidationService.validateDuplicateMemberId(memberId.get("memberId"));
     }
 
 
@@ -77,10 +75,17 @@ public class SignupController {
 
     @PostMapping("/signUp/3/mail")
     public ResponseEntity sendMail(@RequestBody Map<String,String> email){
+        memberValidationService.validateDuplicateMemberEmail(email.get("email"));
         log.info("email = {}",email.get("email"));
         memberEmailAuthenticationService.join(email.get("email"));
         return ResponseEntity.ok("ok");
     }
+
+    @PostMapping("signUp/3/checkNickname")
+    public String signUpNicknameCheck(@RequestBody Map<String,String> nickName){
+        return memberValidationService.validateDuplicateMemberNickname(nickName.get("nickName"));
+    }
+
     @PostMapping("/signUp/3/checkMail")
     public ResponseEntity checkAuthenticationNumber(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
         log.info("authenticationNumber = {} email = {}",memberEmailAuthenticationDto.getAuthenticationNumber(),memberEmailAuthenticationDto.getEmail());
