@@ -8,7 +8,7 @@ import process_bar from './../../img/signup_process_bar.png';
 import process_check from './../../img/signup_process_check.png';
 import Background from '../common/Background';
 import './signupprocess1.scss';
-import { DesktopHeader, MobileHeader } from '../../mediaQuery';
+import { Desktop, Mobile } from '../../mediaQuery';
 import Checkbox from './Checkbox';
 import { useNavigate } from 'react-router-dom';
 
@@ -98,7 +98,7 @@ const SignUpProcess1 = () => {
                 onChangeAllCheck(e.target.checked)
               }
             />
-            모든 이용약관에 동의 합니다.
+            <span>모든 이용약관에 동의 합니다.</span>
           </label>
           <div className="terms-conditions-container">
             {checkboxDataLists.map(el => {
@@ -115,18 +115,18 @@ const SignUpProcess1 = () => {
                 />
               );
             })}
-            <DesktopHeader>
+            <Desktop>
               <p className="caution-sentence">
                 고객님께서 동의를 거부할 수 있습니다. 단, 필수항목 동의 거부 시에는 회원가입이
                 제한됩니다.
               </p>
-            </DesktopHeader>
-            <MobileHeader>
+            </Desktop>
+            <Mobile>
               <p className="caution-sentence">
                 고객님께서 동의를 거부할 수 있습니다. <br />
                 단, 필수항목 동의 거부 시에는 회원가입이 제한됩니다.
               </p>
-            </MobileHeader>
+            </Mobile>
           </div>
           <button
             className={isAllChecked ? 'signup-activate-button' : 'signup-disabled-button'}
