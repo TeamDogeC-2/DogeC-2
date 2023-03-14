@@ -12,7 +12,7 @@ import unchecked from './../../img/signup_uncheck.png';
 import './signupprocess2.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
-import { signUp } from '../../apis/Auth/AuthAPI';
+import { signUp, signUpIdCheck } from '../../apis/Auth/AuthAPI';
 import Swal from 'sweetalert2';
 
 const SignUpProcess2 = () => {
@@ -38,6 +38,17 @@ const SignUpProcess2 = () => {
     },
     [userId],
   );
+
+  const onClickIdCheck = () => {
+    console.log(userId);
+    signUpIdCheck(userId)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
 
   const passwordTest = useCallback(() => {
     setIsPasswordUpperLowerCaseTest(REG_UPPER_LOWERCASE.test(userPassword));
@@ -73,6 +84,7 @@ const SignUpProcess2 = () => {
   const onSubmitSignup = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
       if (
         isPasswordUpperLowerCaseTest &&
         isPasswordNumberTest &&
@@ -164,11 +176,17 @@ const SignUpProcess2 = () => {
                   placeholder="아이디 입력"
                   onChange={onChangeUserId}
                 />
-                <button type="button">중복</button>
+                <button type="button" onClick={onClickIdCheck}>
+                  중복 확인
+                </button>
               </div>
             </label>
-
-            <label>
+            <div className="alert-text-wrap">
+              <span className={isPasswordValidation ? 'signup-concord' : undefined}>
+                아이디가 일치합니다.
+              </span>
+            </div>
+            <label className="password-input-label">
               PW
               <input
                 type="password"
