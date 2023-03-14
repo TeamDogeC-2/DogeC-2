@@ -17,83 +17,9 @@
     width: 100%;
     text-align: left;
   }
-  & > table {
-    width: 100%;
-    height: 600px;
-    th {
-      @include font-container(1.25rem, 1.75rem, $subject-table-font-color);
-      border-bottom: 1px solid $basic-border-color;
-      padding: 19px 0;
-    }
-    td {
-      @include font-container(1rem, 1.375rem, $subject-table-font-color);
-      border-bottom: 1px solid $basic-border-color;
-      padding: 5px 0;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    .subject {
-      padding-left: 24px;
-      width: 86%;
-    }
-
-    .date-created {
-      padding-right: 24px;
-      width: 14%;
-    }
-
-    .subject-post {
-      padding-left: 24px;
-      padding-left: 24px;
-      width: 86%;
-      text-align: left;
-    }
-
-    .date-created-post {
-      padding-right: 24px;
-      width: 14%;
-      text-align: center;
-    }
-  }
 }
 
-.search-container {
-  @include flex-container(row, center, center);
-
-  margin-top: 31px;
+.notice-table-wrap {
   width: 100%;
-  height: 39px;
-
-  & > select {
-    @include font-container(1rem, 1.375rem, $page-nation-font-color);
-
-    border: 1px solid $basic-border-color;
-    padding-left: 14px;
-    width: 98px;
-    height: 100%;
-  }
-
-  & > input {
-    @include font-container(1rem, 1.375rem, black);
-
-    border: 1px solid $basic-border-color;
-    border-left: none;
-    border-right: none;
-    padding-left: 24px;
-    width: 293px;
-    height: 100%;
-
-    &::placeholder {
-      @include font-container(1rem, 1.375rem, $page-nation-font-color);
-    }
-  }
-  & > .search-button {
-    @include font-container(1rem, 1.375rem, white);
-    @include activate-button(68px);
-
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
-    border-radius: 5px;
-  }
+  height: 600px;
 }
