@@ -11,6 +11,7 @@ import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class MemberRegisterService {
     private final MemberValidationService memberValidationService;
     private final SchoolFindService schoolFindService;
     private final DepartmentFindService departmentFindService;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder encoder;
 
     @Transactional
     public Long join(MemberFormBDto dto) {
@@ -39,7 +40,7 @@ public class MemberRegisterService {
         validateMember(dto);
 
         Member member = new Member().createMember(dto, school, department);
-        member.setPwd(passwordEncoder.encode(member.getPwd()));
+        member.setPwd(encoder.encode(member.getPwd()));
         memberRepository.save(member);
 
         log.info("회원이 생성되었습니다. [{}][{}] ", member.getId(), member.getNickname());
