@@ -7,10 +7,8 @@
   margin: 120px auto 0 auto;
   padding: 0 4.375rem;
   border-radius: 15px;
-  width: 100%;
-  min-width: 17.5rem;
-  max-width: 39.6875rem;
-  height: 51.1875rem;
+  width: 39.6875rem;
+  height: 100%;
   background-color: white;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
@@ -41,7 +39,6 @@
     }
 
     .process-1 {
-      // grid-column: 1 / 4;
       grid-column-start: 2;
     }
 
@@ -94,11 +91,11 @@
 
 @media screen and (max-width: 1040px) {
   .signup-main {
-    margin: 75px auto 0 auto;
+    margin: 0 auto;
     border-radius: 0;
-    padding: 3rem 3.4375rem 3.75rem 3.4375rem;
+    padding: 4.6875rem 2rem 0 2rem;
     width: 100vw;
-    height: calc(100vh - 4.6875rem);
+    height: auto;
     box-shadow: none;
 
     .signup-progress {
@@ -107,6 +104,7 @@
       .process-bar-1 {
         width: 60%;
       }
+
       .process-bar-2 {
         width: 60%;
       }
