@@ -13,16 +13,20 @@ import phone from '../../img/phone.svg';
 import clock from '../../img/clock.svg';
 import plus_circle from '../../img/plus_circle.svg';
 import restaurant_empty_heart from '../../img/restaurant_empty_heart.svg';
+import under_arrow from '../../img/under_arrow.svg';
+import up_arrow from '../../img/up_arrow.svg';
 
 const RestaurantDetail = () => {
-  const [category, setCategory] = useState<string>('menu');
+  const [clickMenu, setClickMenu] = useState<any>(1);
+  const [clickPage, setClickPage] = useState<any>(1);
+  const [clickMenu1, setClickMenu1] = useState<boolean>(true);
+  const [clickMenu2, setClickMenu2] = useState<boolean>(false);
+  const [clickMenu3, setClickMenu3] = useState<boolean>(false);
+  const [clickMenu4, setClickMenu4] = useState<boolean>(false);
   const [heart, isHeart] = useState<boolean>(false);
   const [image, setImage] = useState<any>([]);
   const handleImgError = (e: any) => {
     e.target.src = Circle_human;
-  };
-  const handleClickCategory = (e: any) => {
-    setCategory(e.target.id);
   };
   const imgArr = image.slice(1);
   return (
@@ -135,38 +139,246 @@ const RestaurantDetail = () => {
                   <li
                     id="menu"
                     className={
-                      category.toString() === 'menu'
+                      clickPage === 1
                         ? 'restaurant-detail-bottom-li active'
                         : 'restaurant-detail-bottom-li'
                     }
-                    onClick={handleClickCategory}
+                    onClick={() => setClickPage(1)}
                   >
                     메뉴
                   </li>
                   <li
                     id="review"
                     className={
-                      category.toString() === 'review'
+                      clickPage === 2
                         ? 'restaurant-detail-bottom-li active'
                         : 'restaurant-detail-bottom-li'
                     }
-                    onClick={handleClickCategory}
+                    onClick={() => setClickPage(2)}
                   >
                     리뷰
                   </li>
                   <li
                     id="photo"
                     className={
-                      category.toString() === 'photo'
+                      clickPage === 3
                         ? 'restaurant-detail-bottom-li active'
                         : 'restaurant-detail-bottom-li'
                     }
-                    onClick={handleClickCategory}
+                    onClick={() => setClickPage(3)}
                   >
                     사진
                   </li>
                 </ul>
               </div>
+              {clickPage === 1 && (
+                <div className="restaurant-detail-bottom-dropdown-menus">
+                  <div
+                    className="restaurant-detail-bottom-dropdown"
+                    onClick={() => {
+                      setClickMenu1(!clickMenu1);
+                    }}
+                  >
+                    <span>주 메뉴</span>
+                    {clickMenu1 ? (
+                      <img
+                        src={under_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    ) : (
+                      <img
+                        src={up_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    )}
+                  </div>
+                  {clickMenu1 && (
+                    <div className="restaurant-detail-bottom-menu-list">
+                      <div className="restaurant-detail-bottom-menu">
+                        <div className="restaurant-detail-bottom-menu-img-div">
+                          <img
+                            src={Circle_human}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                          <div className="restaurant-detail-bottom-menu-heart-div">
+                            <img
+                              src={empty_heart}
+                              alt=""
+                              className="restaurant-detail-bottom-menu-heart"
+                            />
+                            <p>0</p>
+                          </div>
+                        </div>
+                        <div className="restaurant-detail-bottom-menu-text-div">
+                          <div>
+                            <p className="restaurant-menu-name">등심돈카츠 정식</p>
+                            <span>
+                              등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
+                            </span>
+                          </div>
+                          <p className="restaurant-menu-price">8,900원</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className="restaurant-detail-bottom-next-dropdown"
+                    onClick={() => {
+                      setClickMenu2(!clickMenu2);
+                    }}
+                  >
+                    <span>사이드 메뉴</span>
+                    {clickMenu2 ? (
+                      <img
+                        src={under_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    ) : (
+                      <img
+                        src={up_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    )}
+                  </div>
+                  {clickMenu2 && (
+                    <div className="restaurant-detail-bottom-menu-list">
+                      <div className="restaurant-detail-bottom-menu">
+                        <div className="restaurant-detail-bottom-menu-img-div">
+                          <img
+                            src={Circle_human}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                          <div className="restaurant-detail-bottom-menu-heart-div">
+                            <img
+                              src={empty_heart}
+                              alt=""
+                              className="restaurant-detail-bottom-menu-heart"
+                            />
+                            <p>0</p>
+                          </div>
+                        </div>
+                        <div className="restaurant-detail-bottom-menu-text-div">
+                          <div>
+                            <p className="restaurant-menu-name">등심돈카츠 정식</p>
+                            <span>
+                              등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
+                            </span>
+                          </div>
+                          <p className="restaurant-menu-price">8,900원</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className="restaurant-detail-bottom-next-dropdown"
+                    onClick={() => {
+                      setClickMenu3(!clickMenu3);
+                    }}
+                  >
+                    <span>음료</span>
+                    {clickMenu3 ? (
+                      <img
+                        src={under_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    ) : (
+                      <img
+                        src={up_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    )}
+                  </div>
+                  {clickMenu3 && (
+                    <div className="restaurant-detail-bottom-menu-list">
+                      <div className="restaurant-detail-bottom-menu">
+                        <div className="restaurant-detail-bottom-menu-img-div">
+                          <img
+                            src={Circle_human}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                          <div className="restaurant-detail-bottom-menu-heart-div">
+                            <img
+                              src={empty_heart}
+                              alt=""
+                              className="restaurant-detail-bottom-menu-heart"
+                            />
+                            <p>0</p>
+                          </div>
+                        </div>
+                        <div className="restaurant-detail-bottom-menu-text-div">
+                          <div>
+                            <p className="restaurant-menu-name">등심돈카츠 정식</p>
+                            <span>
+                              등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
+                            </span>
+                          </div>
+                          <p className="restaurant-menu-price">8,900원</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className="restaurant-detail-bottom-next-dropdown"
+                    onClick={() => {
+                      setClickMenu4(!clickMenu4);
+                    }}
+                  >
+                    <span>기타</span>
+                    {clickMenu4 ? (
+                      <img
+                        src={under_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    ) : (
+                      <img
+                        src={up_arrow}
+                        alt=""
+                        className="restaurant-detail-bottom-dropdown-svg"
+                      />
+                    )}
+                  </div>
+                  {clickMenu4 && (
+                    <div className="restaurant-detail-bottom-menu-list">
+                      <div className="restaurant-detail-bottom-menu">
+                        <div className="restaurant-detail-bottom-menu-img-div">
+                          <img
+                            src={Circle_human}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                          <div className="restaurant-detail-bottom-menu-heart-div">
+                            <img
+                              src={empty_heart}
+                              alt=""
+                              className="restaurant-detail-bottom-menu-heart"
+                            />
+                            <p>0</p>
+                          </div>
+                        </div>
+                        <div className="restaurant-detail-bottom-menu-text-div">
+                          <div>
+                            <p className="restaurant-menu-name">등심돈카츠 정식</p>
+                            <span>
+                              등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
+                            </span>
+                          </div>
+                          <p className="restaurant-menu-price">8,900원</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
