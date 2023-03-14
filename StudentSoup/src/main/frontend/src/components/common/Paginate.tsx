@@ -2,23 +2,17 @@ import React, { useState } from 'react';
 import Pagination from 'react-js-pagination';
 import './paginate.scss';
 
-const Paginate = () => {
-  const [page, setPage] = useState(1);
-
-  const handlePageChange = (page: any) => {
-    setPage(page);
-  };
+const Paginate = ({ page, count, setPage }: any) => {
   return (
     <>
       <Pagination
         activePage={page}
         itemsCountPerPage={10}
-        totalItemsCount={50}
+        totalItemsCount={count}
         pageRangeDisplayed={5}
-        firstPageText=""
         prevPageText="<"
         nextPageText=">"
-        onChange={handlePageChange}
+        onChange={setPage}
         hideFirstLastPages={true}
       />
     </>
