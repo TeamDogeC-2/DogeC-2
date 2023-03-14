@@ -34,23 +34,27 @@ const Login = () => {
       signIn(userId, userPassword)
         .then(response => {
           const token = response.data.token;
-          sessionStorage.setItem('token', token);
+          localStorage.setItem('access-token', token);
           console.log(response);
           setUserId('');
           setUserPassword('');
+
           Swal.fire({
             title: '로그인에 성공하였습니다.',
             icon: 'success',
           });
+
           navigate('/');
         })
         .catch(error => {
           const errorMessage = error.response.data.message;
+
           Swal.fire({
             title: '로그인에 실패하였습니다.',
             text: errorMessage,
             icon: 'error',
           });
+
           setUserPassword('');
         });
     },
@@ -58,7 +62,7 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (sessionStorage.getItem('token')) {
+    if (localStorage.getItem('access-token')) {
       navigate('/');
     }
 
