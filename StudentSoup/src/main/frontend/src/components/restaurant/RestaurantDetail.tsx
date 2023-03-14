@@ -16,14 +16,10 @@ import restaurant_empty_heart from '../../img/restaurant_empty_heart.svg';
 import under_arrow from '../../img/under_arrow.svg';
 import up_arrow from '../../img/up_arrow.svg';
 import RestaurantMenu from './RestaurantMenu';
+import RestaurantReview from './RestaurantReview';
 
 const RestaurantDetail = () => {
-  const [clickMenu, setClickMenu] = useState<any>(1);
   const [clickPage, setClickPage] = useState<any>(1);
-  const [clickMenu1, setClickMenu1] = useState<boolean>(true);
-  const [clickMenu2, setClickMenu2] = useState<boolean>(false);
-  const [clickMenu3, setClickMenu3] = useState<boolean>(false);
-  const [clickMenu4, setClickMenu4] = useState<boolean>(false);
   const [heart, isHeart] = useState<boolean>(false);
   const [image, setImage] = useState<any>([]);
   const handleImgError = (e: any) => {
@@ -173,6 +169,7 @@ const RestaurantDetail = () => {
                 </ul>
               </div>
               {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 2 && <RestaurantReview />}
             </div>
           </div>
         </div>
