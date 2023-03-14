@@ -13,22 +13,53 @@
   @include flex-container(column, center, flex-start);
   width: 100%;
 
+  .id-input-label {
+    @include flex-container(column, center, flex-start);
+
+    margin-bottom: 31px;
+    width: 100%;
+
+    div {
+      @include flex-container(row, center, center);
+
+      width: 100%;
+    }
+
+    input {
+      @include font-container(1rem, 1.375rem, $subject-font-color);
+
+      margin: 8px 0px;
+      padding: 0px 23px;
+      width: 80%;
+      height: 54px;
+      border: 1px solid $basic-border-color;
+      border-radius: 3px;
+    }
+
+    button {
+      @include activate-button(20%, 54px);
+      @include font-container(1rem, 1.375rem, white);
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
   label {
     @include flex-container(column, center, flex-start);
+
     width: 100%;
 
     & > input {
       @include font-container(1rem, 1.375rem, $subject-font-color);
+
       margin: 8px 0px;
       padding: 0px 23px;
       width: 100%;
       height: 54px;
       border: 1px solid $basic-border-color;
       border-radius: 3px;
-    }
-
-    & > input[type='text'] {
-      margin-bottom: 31px;
     }
 
     & > input::placeholder {
