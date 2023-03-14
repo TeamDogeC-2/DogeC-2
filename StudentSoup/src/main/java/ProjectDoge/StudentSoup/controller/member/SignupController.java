@@ -40,7 +40,7 @@ public class SignupController {
         return dto;
     }
 
-    @PostMapping("/signUp/2/checkId")
+    @PostMapping("/signUp/2/Id")
     public String signUpIdCheck(@RequestBody Map<String,String> memberId){
         return memberValidationService.validateDuplicateMemberId(memberId.get("memberId"));
     }
@@ -81,7 +81,7 @@ public class SignupController {
         return ResponseEntity.ok("ok");
     }
 
-    @PostMapping("signUp/3/checkNickname")
+    @PostMapping("signUp/3/Nickname")
     public String signUpNicknameCheck(@RequestBody Map<String,String> nickName){
         return memberValidationService.validateDuplicateMemberNickname(nickName.get("nickName"));
     }
