@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import Pagination from 'react-js-pagination';
 import './paginate.scss';
 
-const Paginate = ({ page, count, setPage }: any) => {
+export interface PaginateType {
+  page: number;
+  count: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  postPerPage: number;
+}
+
+const Paginate = ({ page, count, setPage, postPerPage }: PaginateType) => {
   return (
     <>
       <Pagination
         activePage={page}
-        itemsCountPerPage={10}
+        itemsCountPerPage={postPerPage}
         totalItemsCount={count}
         pageRangeDisplayed={5}
         prevPageText="<"
