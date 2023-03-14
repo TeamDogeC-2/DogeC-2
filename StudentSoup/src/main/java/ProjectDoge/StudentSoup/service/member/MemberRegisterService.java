@@ -37,8 +37,6 @@ public class MemberRegisterService {
 
         log.info("회원의 학교는 : {}, 회원의 학과는 : {}", school.getSchoolName(), department.getDepartmentName());
 
-        validateMember(dto);
-
         Member member = new Member().createMember(dto, school, department);
         member.setPwd(encoder.encode(member.getPwd()));
         memberRepository.save(member);
@@ -47,28 +45,5 @@ public class MemberRegisterService {
 
         return member.getMemberId();
     }
-
-    private void validateMember(MemberFormBDto dto) {
-        validateDuplicateMember(dto);
-        validateNickname(dto.getNickname());
-    }
-
-    private void validateDuplicateMember(MemberFormBDto dto) {
-        memberValidationService.validateDuplicateMemberNickname(dto.getNickname());
-        memberValidationService.validateDuplicateMemberEmail(dto.getEmail());
-    }
-
-    private void validateNickname(String nickname){
-        if(nickname.length() < 2 || nickname.length() > 12){
-            log.info("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다. 전달받은 nickname : [{}]", nickname);
-            throw new MemberNicknameOutOfRangeException("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다.");
-        }
-
-        if(!nickname.matches("^[a-zA-Z0-9가-힣]*$")){
-            log.info("회원의 닉네임에 특수문자가 포함되어 있습니다. 전달받은 nickname : [{}]", nickname);
-            throw new MemberRegexException("회원의 닉네임에 특수문자가 포함되어 있습니다.");
-        }
-    }
-
 
 }
