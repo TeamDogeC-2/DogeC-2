@@ -15,3 +15,10 @@ export const signUp = async (id: string, password: string) => {
   });
   return res;
 };
+
+export const signUpIdCheck = async (memberId: string) => {
+  const res = await axios.post('/members/signUp/2/id', {
+    memberId,
+  });
+  return res;
+};
