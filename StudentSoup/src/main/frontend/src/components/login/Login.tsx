@@ -33,9 +33,8 @@ const Login = () => {
 
       signIn(userId, userPassword)
         .then(response => {
-          const token = response.data.token;
+          const token = response.data;
           localStorage.setItem('access-token', token);
-          console.log(response);
           setUserId('');
           setUserPassword('');
 
