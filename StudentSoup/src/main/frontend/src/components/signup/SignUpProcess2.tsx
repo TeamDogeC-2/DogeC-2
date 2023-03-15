@@ -20,6 +20,8 @@ const SignUpProcess2 = () => {
   const [userPassword, , setUserPassword] = useInput('');
   const [userPasswordValidation, , setUserPasswordValidation] = useInput('');
 
+  const [userIdText, setUserIdText] = useState('');
+  const [isCheckedId, setCheckedId] = useState(false);
   const [isPasswordValidation, setIsPasswordValidation] = useState(false);
   const [isPasswordUpperLowerCaseTest, setIsPasswordUpperLowerCaseTest] = useState(false);
   const [isPasswordNumberTest, setIsPasswordNumberTest] = useState(false);
@@ -28,6 +30,7 @@ const SignUpProcess2 = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  const REG_ID = /^[a-zA-Z]{1}/;
   const REG_UPPER_LOWERCASE = /[a-zA-Z]/;
   const REG_NUMBER = /[0-9]/;
   const REG_CHARACTER_LENGTH = /^[a-zA-Z0-9@$!%*#?&]{8,20}$/;
@@ -40,14 +43,28 @@ const SignUpProcess2 = () => {
   );
 
   const onClickIdCheck = () => {
-    console.log(userId);
-    signUpIdCheck(userId)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
+    if (userId !== '') {
+      if (REG_ID.test(userId)) {
+        signUpIdCheck(userId)
+          .then(response => {
+            console.log(response);
+            if (response.statusText === 'OK') {
+              setUserIdText('사용 가능한 아이디 입니다.');
+              setCheckedId(true);
+            }
+          })
+          .catch(error => {
+            setUserIdText(error.response.data.message);
+            setCheckedId(false);
+          });
+      } else {
+        setUserIdText('아이디는 영문자로 시작해야하며 영문자 또는 숫자로만 사용 가능합니다.');
+        setCheckedId(false);
+      }
+    } else {
+      setUserIdText('아이디를 입력해 주세요.');
+      setCheckedId(false);
+    }
   };
 
   const passwordTest = useCallback(() => {
@@ -91,10 +108,11 @@ const SignUpProcess2 = () => {
         isPasswordCharacterLength &&
         isPasswordValidation
       ) {
-        console.log('hi');
         signUp(userId, userPassword)
           .then(response => {
-            // navigate('/signup/process/3', { state: { response.data.id, response.data.pwd } });
+            const id = response.data.id;
+            const password = response.data.pwd;
+            navigate('/signup/process/3', { state: { id, password } });
             console.log(response);
           })
           .catch(error => {
@@ -121,6 +139,7 @@ const SignUpProcess2 = () => {
     if (!state) {
       navigate('/');
     }
+
     passwordTest();
     onChangeComparePassword();
   }, [
@@ -182,9 +201,7 @@ const SignUpProcess2 = () => {
               </div>
             </label>
             <div className="alert-text-wrap">
-              <span className={isPasswordValidation ? 'signup-concord' : undefined}>
-                아이디가 일치합니다.
-              </span>
+              <span className="signup-concord">{userIdText}</span>
             </div>
             <label className="password-input-label">
               PW
@@ -197,13 +214,13 @@ const SignUpProcess2 = () => {
             </label>
             <div className="alert-text-wrap">
               <span className={isPasswordUpperLowerCaseTest ? 'signup-concord' : undefined}>
-                대소문자<img src={unchecked} alt="checked"></img>
+                대소문자 <img src={unchecked} alt="checked" />
               </span>
               <span className={isPasswordNumberTest ? 'signup-concord' : undefined}>
-                숫자<img src={unchecked} alt="checked"></img>
+                &nbsp;숫자 <img src={unchecked} alt="checked" />
               </span>
               <span className={isPasswordCharacterLength ? 'signup-concord' : undefined}>
-                8-20자 이내<img src={unchecked} alt="checked"></img>
+                &nbsp;8-20자 이내 <img src={unchecked} alt="checked" />
               </span>
             </div>
             <label>
@@ -216,10 +233,11 @@ const SignUpProcess2 = () => {
             </label>
             <div className="alert-text-wrap">
               <span className={isPasswordValidation ? 'signup-concord' : undefined}>
-                비밀번호 일치<img src={unchecked} alt="checked"></img>
+                비밀번호 일치 <img src={unchecked} alt="checked" />
               </span>
             </div>
-            {isPasswordUpperLowerCaseTest &&
+            {isCheckedId &&
+            isPasswordUpperLowerCaseTest &&
             isPasswordNumberTest &&
             isPasswordCharacterLength &&
             isPasswordValidation ? (
