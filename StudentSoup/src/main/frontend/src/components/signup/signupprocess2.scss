@@ -46,10 +46,20 @@
         cursor: pointer;
       }
     }
+
+    @media screen and (max-width: 1040px) {
+      input {
+        width: calc(100% - 4.8125rem);
+      }
+
+      button {
+        @include activate-button(4.8125rem, 3.375rem);
+      }
+    }
   }
 
   .password-input-label {
-    margin-top: 15px;
+    margin-top: 0.9375rem;
   }
 
   label {
@@ -60,10 +70,10 @@
     & > input {
       @include font-container(1rem, 1.375rem, $subject-font-color);
 
-      margin: 8px 0px;
-      padding: 0px 23px;
+      margin: 0.5rem 0;
+      padding: 0 1.4375rem;
       width: 100%;
-      height: 54px;
+      height: 3.375rem;
       border: 1px solid $basic-border-color;
       border-radius: 3px;
     }
@@ -75,12 +85,7 @@
 
   .alert-text-wrap {
     & > span {
-      margin-right: 18px;
       @include font-container(0.75rem, 1rem, $sub-font-color);
-
-      & > img {
-        margin-left: 6px;
-      }
     }
 
     .signup-concord {
@@ -92,10 +97,10 @@
   }
 
   .signup-activate-button {
-    @include activate-button($height: 54px);
+    @include activate-button($height: 3.375rem);
     @include font-container(1rem, 1.375rem, white);
 
-    margin: 24px 0 54px 0;
+    margin: 1.5rem 0 3.375rem 0;
 
     &:hover {
       cursor: pointer;
@@ -103,9 +108,9 @@
   }
 
   .signup-disabled-button {
-    @include disabled-button($height: 54px);
+    @include disabled-button($height: 3.375rem);
     @include font-container(1rem, 1.375rem, white);
 
-    margin: 24px 0 54px 0;
+    margin: 1.5rem 0 3.375rem 0;
   }
 }
