@@ -186,6 +186,16 @@ const SignUpProcess3 = () => {
                   onChange={onChangeUserNickname}
                   placeholder="닉네임 입력"
                 />
+                <button
+                  className={
+                    userNickname !== ''
+                      ? 'signup-email-activate-button'
+                      : 'signup-email-disabled-button'
+                  }
+                  type="button"
+                >
+                  중복 확인
+                </button>
               </div>
             </label>
             <p>사용가능한 닉네임입니다.</p>
