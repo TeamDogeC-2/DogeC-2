@@ -17,7 +17,7 @@ export const signUp = async (id: string, password: string) => {
 };
 
 export const signUpIdCheck = async (memberId: string) => {
-  const res = await axios.post('/members/signUp/2/id', {
+  const res = await axios.post('/members/signUp/2/Id', {
     memberId,
   });
   return res;
