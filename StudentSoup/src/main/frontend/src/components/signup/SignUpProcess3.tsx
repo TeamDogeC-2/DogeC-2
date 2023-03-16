@@ -10,6 +10,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import {
+  getSignUpThird,
+  postSignUpSchoolId,
+  signUpComplete,
+  signUpEmailAuthenticate,
+  signUpEmailAuthenticateNumber,
+  signUpNicknameCheck,
+} from '../../apis/Auth/AuthAPI';
 
 export interface UniversityDataType {
   schoolId: number;
@@ -29,8 +37,11 @@ export interface MajorDataType {
 const SignUpProcess3 = () => {
   const [userGender, setUserGender] = useState('MAN');
   const [userNickname, onChangeUserNickname] = useInput('');
+  const [userNicknameText, setUserNicknameText] = useState('');
+  const [isCheckedNickname, setIsCheckedNickname] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [userAuthenticationCode, onChangeUserAuthenticationCode] = useInput('');
+  const [userAuthenticationCode, onChangeUserAuthenticationCode, setUserAuthenticationCode] =
+    useInput('');
   const [universityData, setUniversityData] = useState<UniversityDataType[]>([]);
   const [majorData, setMajorData] = useState<MajorDataType | null>(null);
   const [selectUniversity, setSelectUniversity] = useState('');
@@ -39,9 +50,6 @@ const SignUpProcess3 = () => {
   const [isEmailConfirmation, setIsEmailConfirmation] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-
-  const REG_EMAIL =
-    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
 
   const onChangeGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserGender(e.target.value);
@@ -59,40 +67,84 @@ const SignUpProcess3 = () => {
     setUserEmail(e.target.value);
   };
 
-  const onClickEmailCertification = () => {
-    if (userEmail !== '' && majorData !== null) {
-      axios
-        // .post('/members/signUp/3/mail', { email: userEmail + '@' + majorData.domain })
-        .post('/members/signUp/3/mail', { email: 'suljiye37@naver.com' })
-        .then(res => {
-          console.log(res);
-          setIsEmailSubmit(true);
-        });
-    }
-    // console.log(userEmail);
-  };
-
-  const onClickAuthenticationNumber = () => {
-    axios
-      .post('/members/signUp/3/checkMail', {
-        email: 'suljiye37@naver.com',
-        authenticationNumber: userAuthenticationCode,
+  const onClickNicknameCheck = () => {
+    signUpNicknameCheck(userNickname)
+      .then(response => {
+        if (response.statusText === 'OK') {
+          setUserNicknameText('사용 가능한 닉네임입니다.');
+          setIsCheckedNickname(true);
+        }
       })
-      .then(res => {
-        console.log(res);
-        setIsEmailConfirmation(true);
+      .catch(error => {
+        setUserNicknameText(error.response.data.message);
+        setIsCheckedNickname(false);
       });
   };
 
-  const onSubmitSignup = (e: any) => {
+  const onClickEmailCertification = () => {
+    if (userEmail !== '' && majorData !== null) {
+      signUpEmailAuthenticate(userEmail)
+        .then(response => {
+          setIsEmailSubmit(true);
+          setIsEmailConfirmation(false);
+          setUserAuthenticationCode('');
+        })
+        .catch(error => {
+          console.log(error.response.data.message);
+        });
+    }
+  };
+
+  const onClickAuthenticationNumber = () => {
+    signUpEmailAuthenticateNumber(userEmail, userAuthenticationCode)
+      .then(response => {
+        setIsEmailConfirmation(true);
+      })
+      .catch(error => {
+        console.log(error.response.data.message);
+      });
+  };
+
+  const onSubmitSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(state.id);
+
+    // if (
+    //   isCheckedNickname &&
+    //   selectUniversity !== '' &&
+    //   selectMajor !== '' &&
+    //   isEmailSubmit &&
+    //   isEmailConfirmation &&
+    //   majorData !== null
+    // ) {
+    //   signUpComplete(
+    //     state.userId,
+    //     state.userPassword,
+    //     userNickname,
+    //     `${userEmail}@${majorData.domain}`,
+    //     userGender,
+    //     selectUniversity,
+    //     selectMajor,
+    //   )
+    //     .then(response => {
+    //       console.log(response);
+    //       Swal.fire({
+    //         icon: 'success',
+    //         title: '회원가입에 성공하였습니다.',
+    //         text: '',
+    //       });
+    //     })
+    //     .catch(error => {
+    //       console.log(error.response.data.message);
+    //     });
+    // }
     if (majorData !== null) {
       axios
         .post('/members/signUp/3', {
           id: state.userId,
           pwd: state.userPassword,
           nickname: userNickname,
-          email: userEmail + '@' + majorData.domain,
+          email: 'suljiye37@naver.com',
           gender: userGender,
           schoolId: selectUniversity,
           departmentId: selectMajor,
@@ -112,16 +164,23 @@ const SignUpProcess3 = () => {
     if (!state) {
       navigate('/');
     }
-    axios.get('/members/signUp/3').then(res => {
-      setUniversityData(res.data);
-      console.log(res.data);
-    });
+    console.log(state.password);
+    getSignUpThird()
+      .then(response => {
+        setUniversityData(response.data);
+      })
+      .catch(error => {
+        console.log(error.response.data.message);
+      });
 
     if (selectUniversity !== '') {
-      axios.post('/members/signUp/3/' + selectUniversity).then(res => {
-        setMajorData(res.data);
-        console.log(res.data);
-      });
+      postSignUpSchoolId(selectUniversity)
+        .then(response => {
+          setMajorData(response.data);
+        })
+        .catch(error => {
+          console.log(error.response.data.message);
+        });
     }
   }, [state, selectUniversity, isEmailSubmit, selectMajor]);
 
@@ -193,12 +252,13 @@ const SignUpProcess3 = () => {
                       : 'signup-email-disabled-button'
                   }
                   type="button"
+                  onClick={userNickname !== '' ? onClickNicknameCheck : undefined}
                 >
                   중복 확인
                 </button>
               </div>
             </label>
-            <p>사용가능한 닉네임입니다.</p>
+            <p>{userNicknameText}</p>
             <div className="select-wrap">
               <label>
                 학교
@@ -274,11 +334,12 @@ const SignUpProcess3 = () => {
                       value={userAuthenticationCode}
                       onChange={onChangeUserAuthenticationCode}
                       placeholder="인증코드 입력"
+                      disabled={isEmailConfirmation}
                     />
                     <button
                       className="signup-email-activate-button"
                       type="button"
-                      onClick={onClickAuthenticationNumber}
+                      onClick={isEmailConfirmation ? undefined : onClickAuthenticationNumber}
                     >
                       인증 확인
                     </button>
@@ -287,7 +348,18 @@ const SignUpProcess3 = () => {
               </>
             )}
             {isEmailConfirmation ? <p>인증되었습니다.</p> : <p></p>}
-            <button className="signup-activate-button " type="submit">
+            <button
+              className={
+                isCheckedNickname &&
+                selectUniversity !== '' &&
+                selectMajor !== '' &&
+                isEmailSubmit &&
+                isEmailConfirmation
+                  ? 'signup-activate-button'
+                  : 'signup-disabled-button'
+              }
+              type="submit"
+            >
               완료
             </button>
           </form>
