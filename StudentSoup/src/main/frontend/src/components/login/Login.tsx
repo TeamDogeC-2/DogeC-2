@@ -13,14 +13,20 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const onClickRememberId = () => {
-    setIsRememberId(prevState => !prevState);
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+  });
 
-    if (!isRememberId) {
-      localStorage.setItem('rememberId', userId);
-    } else {
+  const onClickRememberId = () => {
+    if (isRememberId) {
       localStorage.removeItem('rememberId');
     }
+
+    setIsRememberId(prevState => !prevState);
   };
 
   const onSubmit = useCallback(
@@ -34,24 +40,18 @@ const Login = () => {
       signIn(userId, userPassword)
         .then(response => {
           const token = response.data;
-          localStorage.setItem('access-token', token);
+          sessionStorage.setItem('access-token', token);
           setUserId('');
           setUserPassword('');
-
-          Swal.fire({
-            title: '로그인에 성공하였습니다.',
-            icon: 'success',
-          });
 
           navigate('/');
         })
         .catch(error => {
           const errorMessage = error.response.data.message;
 
-          Swal.fire({
-            title: '로그인에 실패하였습니다.',
-            text: errorMessage,
+          Toast.fire({
             icon: 'error',
+            title: errorMessage,
           });
 
           setUserPassword('');
@@ -61,7 +61,7 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem('access-token')) {
+    if (sessionStorage.getItem('access-token')) {
       navigate('/');
     }
 
@@ -75,7 +75,7 @@ const Login = () => {
     <>
       <MainNavbar />
       <div className="background">
-        <div className="main">
+        <div className="login-main">
           <h2>로그인</h2>
           <form onSubmit={onSubmit}>
             <input
