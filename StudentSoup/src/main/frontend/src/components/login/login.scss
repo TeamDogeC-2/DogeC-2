@@ -1,80 +1,69 @@
-$basic-color: #ff611d;
-$basic-border-color: #bcbcbc;
-$sub-color: #3e3e3e;
-
-@mixin flex-container($direction, $justify, $align) {
-  display: flex;
-  flex-direction: $direction;
-  justify-content: $justify;
-  align-items: $align;
-}
-
-@mixin font-container($size, $height) {
-  font-family: 'AppleSDGothicNeoM00';
-  font-style: normal;
-  font-weight: 400;
-  font-size: $size;
-  line-height: $height;
-}
+@import './../../assets/scss/abstracts/_mixins';
+@import './../../assets/scss/abstracts/_variables_color';
 
 .background {
   @include flex-container(column, center, center);
+
   width: 100vw;
   height: 100vh;
 
-  .main {
+  .login-main {
     @include flex-container(column, center, center);
-    margin: 115px 0px;
+
+    margin: 7.1875rem 0;
     border-radius: 15px;
-    width: 635px;
-    height: 714px;
+    width: 39.6875rem;
+    height: 44.625rem;
     background-color: white;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     h2 {
-      margin-bottom: 45px;
-      @include font-container(2.5rem, 3.5rem);
-      color: #161616;
+      @include font-container(2.5rem, 3.5rem, $subject-font-color);
+
+      margin-bottom: 2.8125rem;
     }
 
     form {
       @include flex-container(column, center, center);
+
       width: 100%;
 
       .id,
       .password {
-        margin-bottom: 10px;
-        padding-left: 15px;
+        @include font-container(1rem, 1.3125rem, #888888);
+
+        margin-bottom: 0.625rem;
+        padding-left: 0.9375rem;
         border: 1px solid $basic-border-color;
         border-radius: 5px;
         width: 78.26%;
-        min-width: 250px;
-        height: 60px;
-        @include font-container(1rem, 1.3125rem);
-        color: #888888;
+        min-width: 15.625rem;
+        height: 3.75rem;
 
         &::placeholder {
-          color: #a0a0a0;
+          color: $place-holder-color;
         }
       }
 
       .login-keep-wrap {
         @include flex-container(row, space-between, center);
-        margin-bottom: 41px;
+        @include font-container(1rem, 1.3125rem, $sub-feature-color);
+
+        margin-bottom: 2.5625rem;
         width: 78.26%;
-        min-width: 250px;
-        @include font-container(1rem, 1.3125rem);
-        color: $sub-color;
+        min-width: 15.625rem;
 
         .remember-wrap {
           @include flex-container(row, space-between, center);
-          height: 28px;
+
+          height: 1.75rem;
 
           .checked-remember-id {
             border-radius: 15px;
-            width: 15px;
-            height: 15px;
+            width: 0.9375rem;
+            height: 0.9375rem;
             background-color: $basic-color;
+
             &:hover {
               cursor: pointer;
             }
@@ -83,9 +72,10 @@ $sub-color: #3e3e3e;
           .unchecked-remember-id {
             border: 1px solid $basic-border-color;
             border-radius: 15px;
-            width: 15px;
-            height: 15px;
+            width: 0.9375rem;
+            height: 0.9375rem;
             background-color: white;
+
             &:hover {
               cursor: pointer;
             }
@@ -98,23 +88,24 @@ $sub-color: #3e3e3e;
 
         a {
           text-decoration: none;
-          color: $sub-color;
+          color: $sub-feature-color;
         }
       }
 
       button {
-        margin-bottom: 10px;
+        @include font-container(1.25rem, 1.75rem, white);
+
+        margin-bottom: 0.625rem;
         border-radius: 5px;
         width: 78.26%;
-        min-width: 250px;
-        height: 54px;
-        @include font-container(1.25rem, 1.75rem);
+        min-width: 15.625rem;
+        height: 3.375rem;
       }
 
       .login-button {
-        background-color: $basic-color;
         border: 1px solid $basic-color;
         color: white;
+        background-color: $basic-color;
 
         &:hover {
           cursor: pointer;
@@ -123,6 +114,7 @@ $sub-color: #3e3e3e;
 
       .signup-link {
         @include flex-container(row, center, center);
+
         width: 100%;
         text-decoration: none;
 
@@ -130,6 +122,7 @@ $sub-color: #3e3e3e;
           background-color: white;
           border: 1px solid $basic-color;
           color: $basic-color;
+
           &:hover {
             cursor: pointer;
           }
@@ -137,10 +130,10 @@ $sub-color: #3e3e3e;
       }
     }
   }
-  @media screen and (max-width: 768px) {
-    .main {
-      margin: 0px;
-      border-radius: 0px;
+  @media screen and (max-width: 1040px) {
+    .login-main {
+      margin: 0;
+      border-radius: 0rem;
       width: 100vw;
       height: 100vh;
     }
