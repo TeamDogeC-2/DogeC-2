@@ -1,11 +1,20 @@
 package ProjectDoge.StudentSoup.utils;
 
+import ProjectDoge.StudentSoup.service.redis.RedisUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+@Configuration
+@RequiredArgsConstructor
 public class JwtUtil {
 
     public static String getUserName(String token,String secretKey){
@@ -15,15 +24,28 @@ public class JwtUtil {
     public static boolean isExpired(String token,String secretKey){
        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
-    public static String creatJwt(String userName,String secretKey,Long expiredMs){
+    public static Map<String,String> creatJwt(String userName,String secretKey,Long expiredMs,String refreshKey,Long refreshExpiredMs){
+        Map<String,String> token = new HashMap<>();
         Claims claims = Jwts.claims();
         claims.put("userName",userName);
 
-        return Jwts.builder()
+        String refreshToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+expiredMs))
-                .signWith(SignatureAlgorithm.HS256,secretKey)
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiredMs))
+                .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
+
+        String accessToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+        token.put("accessToken",accessToken);
+        token.put("refreshToken",refreshToken);
+
+
+        return token;
     }
 }
