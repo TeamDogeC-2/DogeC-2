@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.config;
 
 import ProjectDoge.StudentSoup.service.member.MemberLoginService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ public class SecurityConfig {
 
     private final MemberLoginService memberLoginService;
 
+    private final JwtExceptionFilter jwtExceptionFilter;
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -36,11 +39,8 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // 토큰이 없거나 위 변조된 경우
-                .exceptionHandling()
-                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
                 .addFilterBefore(new JwtFilter(memberLoginService,secret), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter,JwtFilter.class)
                 .build();
     }
 }
