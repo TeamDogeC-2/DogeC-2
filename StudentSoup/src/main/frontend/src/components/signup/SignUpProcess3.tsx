@@ -37,20 +37,16 @@ const SignUpProcess3 = () => {
   const [userGender, onChangeGender] = useInput('MAN');
   const [selectUniversity, onChangeUniversitySelect] = useInput('');
   const [selectMajor, onChangeMajor] = useInput('');
-
   const [userNickname, setUserNickname] = useState('');
   const [availableNickname, setAvailableNickname] = useState('');
   const [userNicknameText, setUserNicknameText] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [availableEmail, setAvailableEmail] = useState('');
   const [emailText, setEmailText] = useState('');
-
   const [userAuthenticationCode, onChangeUserAuthenticationCode, setUserAuthenticationCode] =
     useInput('');
-
   const [universityData, setUniversityData] = useState<UniversityDataType[]>([]);
   const [majorData, setMajorData] = useState<MajorDataType | null>(null);
-
   const [universityDomain, setUniversityDomain] = useState('');
 
   const [isCheckedNickname, setIsCheckedNickname] = useState(false);
@@ -100,7 +96,6 @@ const SignUpProcess3 = () => {
           setUserAuthenticationCode('');
         })
         .catch(error => {
-          console.log(error.response.data.message);
           setEmailText(error.response.data.message);
         });
     }
@@ -111,8 +106,8 @@ const SignUpProcess3 = () => {
       .then(response => {
         setIsEmailConfirmation(true);
       })
-      .catch(error => {
-        console.log(error.response.data.message);
+      .catch(() => {
+        setIsEmailConfirmation(false);
       });
   };
 
