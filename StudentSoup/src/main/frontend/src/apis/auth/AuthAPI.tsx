@@ -40,10 +40,10 @@ export const signUpNicknameCheck = async (nickname: string) => {
   return res;
 };
 
-export const signUpEmailAuthenticate = async (email: string, domain: string) => {
-  const res = await axios.post('/members/signUp/3/mail', {
-    email: email + '@' + domain,
-  });
+export const signUpEmailAuthenticate = async (email: string) => {
+  const res = await axios
+    // .post('/members/signUp/3/mail', { email: userEmail + '@' + majorData.domain })
+    .post('/members/signUp/3/mail', { email: 'suljiye37@naver.com' });
   return res;
 };
 
@@ -52,7 +52,7 @@ export const signUpEmailAuthenticateNumber = async (
   authenticationNumber: number,
 ) => {
   const res = await axios.post('/members/signUp/3/checkMail', {
-    email,
+    email: 'suljiye37@naver.com',
     authenticationNumber,
   });
   return res;
