@@ -8,7 +8,6 @@ import process_next_bar from './../../img/signup_process_next_bar.png';
 import './signupprocess3.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import {
   getSignUpThird,
@@ -35,42 +34,51 @@ export interface MajorDataType {
 }
 
 const SignUpProcess3 = () => {
-  const [userGender, setUserGender] = useState('MAN');
-  const [userNickname, onChangeUserNickname] = useInput('');
+  const [userGender, onChangeGender] = useInput('MAN');
+  const [selectUniversity, onChangeUniversitySelect] = useInput('');
+  const [selectMajor, onChangeMajor] = useInput('');
+
+  const [userNickname, setUserNickname] = useState('');
+  const [availableNickname, setAvailableNickname] = useState('');
   const [userNicknameText, setUserNicknameText] = useState('');
-  const [isCheckedNickname, setIsCheckedNickname] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [availableEmail, setAvailableEmail] = useState('');
+  const [emailText, setEmailText] = useState('');
+
   const [userAuthenticationCode, onChangeUserAuthenticationCode, setUserAuthenticationCode] =
     useInput('');
+
   const [universityData, setUniversityData] = useState<UniversityDataType[]>([]);
   const [majorData, setMajorData] = useState<MajorDataType | null>(null);
-  const [selectUniversity, setSelectUniversity] = useState('');
-  const [selectMajor, setSelectMajor] = useState('');
+
+  const [universityDomain, setUniversityDomain] = useState('');
+
+  const [isCheckedNickname, setIsCheckedNickname] = useState(false);
   const [isEmailSubmit, setIsEmailSubmit] = useState(false);
   const [isEmailConfirmation, setIsEmailConfirmation] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const onChangeGender = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserGender(e.target.value);
-  };
+  const onChangeUserNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserNickname(e.target.value);
+    setIsCheckedNickname(false);
 
-  const onChangeUniversitySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectUniversity(e.target.value);
-  };
-
-  const onChangeMajor = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectMajor(e.target.value);
+    if (isCheckedNickname) {
+      setUserNicknameText('닉네임 중복 여부를 확인해주세요.');
+    }
   };
 
   const onChangeUserEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
+    setIsEmailSubmit(false);
+    setIsEmailConfirmation(false);
   };
 
   const onClickNicknameCheck = () => {
     signUpNicknameCheck(userNickname)
       .then(response => {
         if (response.statusText === 'OK') {
+          setAvailableNickname(userNickname);
           setUserNicknameText('사용 가능한 닉네임입니다.');
           setIsCheckedNickname(true);
         }
@@ -87,10 +95,13 @@ const SignUpProcess3 = () => {
         .then(response => {
           setIsEmailSubmit(true);
           setIsEmailConfirmation(false);
+          setAvailableEmail(userEmail);
+          setEmailText('');
           setUserAuthenticationCode('');
         })
         .catch(error => {
           console.log(error.response.data.message);
+          setEmailText(error.response.data.message);
         });
     }
   };
@@ -107,54 +118,37 @@ const SignUpProcess3 = () => {
 
   const onSubmitSignup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(state.id);
 
-    // if (
-    //   isCheckedNickname &&
-    //   selectUniversity !== '' &&
-    //   selectMajor !== '' &&
-    //   isEmailSubmit &&
-    //   isEmailConfirmation &&
-    //   majorData !== null
-    // ) {
-    //   signUpComplete(
-    //     state.userId,
-    //     state.userPassword,
-    //     userNickname,
-    //     `${userEmail}@${majorData.domain}`,
-    //     userGender,
-    //     selectUniversity,
-    //     selectMajor,
-    //   )
-    //     .then(response => {
-    //       console.log(response);
-    //       Swal.fire({
-    //         icon: 'success',
-    //         title: '회원가입에 성공하였습니다.',
-    //         text: '',
-    //       });
-    //     })
-    //     .catch(error => {
-    //       console.log(error.response.data.message);
-    //     });
-    // }
-    if (majorData !== null) {
-      axios
-        .post('/members/signUp/3', {
-          id: state.userId,
-          pwd: state.userPassword,
-          nickname: userNickname,
-          email: 'suljiye37@naver.com',
-          gender: userGender,
-          schoolId: selectUniversity,
-          departmentId: selectMajor,
-        })
-        .then(res => {
-          console.log(res);
+    if (
+      isCheckedNickname &&
+      selectUniversity !== '학교 선택' &&
+      selectMajor !== '전공 선택' &&
+      isEmailSubmit &&
+      isEmailConfirmation &&
+      universityDomain !== ''
+    ) {
+      signUpComplete(
+        state.id,
+        state.password,
+        availableNickname,
+        `${availableEmail}@${universityDomain}`,
+        userGender,
+        selectUniversity,
+        selectMajor,
+      )
+        .then(response => {
           Swal.fire({
             icon: 'success',
             title: '회원가입에 성공하였습니다.',
-            text: '',
+          });
+
+          navigate('/login');
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: '회원가입에 실패하였습니다.',
+            text: error.response.data.message,
           });
         });
     }
@@ -164,7 +158,7 @@ const SignUpProcess3 = () => {
     if (!state) {
       navigate('/');
     }
-    console.log(state.password);
+
     getSignUpThird()
       .then(response => {
         setUniversityData(response.data);
@@ -177,6 +171,7 @@ const SignUpProcess3 = () => {
       postSignUpSchoolId(selectUniversity)
         .then(response => {
           setMajorData(response.data);
+          setUniversityDomain(response.data.domain);
         })
         .catch(error => {
           console.log(error.response.data.message);
@@ -192,7 +187,6 @@ const SignUpProcess3 = () => {
           process_1={process_check}
           process_2={process_check}
           process_3={
-            userNickname !== '' &&
             userNickname !== '' &&
             userEmail !== '' &&
             userAuthenticationCode !== '' &&
@@ -308,7 +302,7 @@ const SignUpProcess3 = () => {
                 <input
                   className="email-input"
                   type="email"
-                  value={majorData !== null ? '@' + majorData.domain : '@학교이메일.com'}
+                  value={majorData !== null ? '@' + universityDomain : '@학교이메일.com'}
                   disabled
                 />
                 <button
@@ -324,6 +318,7 @@ const SignUpProcess3 = () => {
                 </button>
               </div>
             </label>
+            <p>{emailText}</p>
             {isEmailSubmit && (
               <>
                 <p>인증코드가 발송되었습니다.</p>
