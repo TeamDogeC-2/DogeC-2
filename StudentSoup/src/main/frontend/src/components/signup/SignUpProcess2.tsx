@@ -113,7 +113,6 @@ const SignUpProcess2 = () => {
             const id = response.data.id;
             const password = response.data.pwd;
             navigate('/signup/process/3', { state: { id, password } });
-            console.log(response);
           })
           .catch(error => {
             console.log(error.response.data.message);
