@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.exception.jwt.ExpirationDateException;
 import ProjectDoge.StudentSoup.service.redis.RedisUtil;
 import ProjectDoge.StudentSoup.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GetRefreshTokenService {
+public class GetNewAccessTokenService {
 
     @Value("${jwt.refreshSecret}")
     private String refreshSecretKey;
