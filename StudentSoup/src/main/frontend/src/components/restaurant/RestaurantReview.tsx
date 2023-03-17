@@ -3,6 +3,7 @@ import review_white from '../../img/review_white.svg';
 import { useState } from 'react';
 import Circle_human from '../../img/circle_human.png';
 import empty_heart from '../../img/empty_heart.svg';
+import RestaurantReviewWrite from './RestaurantReviewWrite';
 
 const RestaurantReview = () => {
   const [filter, setFilter] = useState<any>(1);
@@ -24,6 +25,7 @@ const RestaurantReview = () => {
           <p>리뷰 작성</p>
         </button>
       </div>
+      {write && <RestaurantReviewWrite />}
       <div className="restaurant-detail-bottom-review-select-div">
         <div className="restaurant-detail-bottom-review-buttons">
           <button
