@@ -91,7 +91,7 @@ const SignUpProcess3 = () => {
 
   const onClickEmailCertification = () => {
     if (userEmail !== '' && majorData !== null) {
-      signUpEmailAuthenticate(userEmail)
+      signUpEmailAuthenticate(userEmail, universityDomain)
         .then(response => {
           setIsEmailSubmit(true);
           setIsEmailConfirmation(false);
@@ -107,7 +107,7 @@ const SignUpProcess3 = () => {
   };
 
   const onClickAuthenticationNumber = () => {
-    signUpEmailAuthenticateNumber(userEmail, userAuthenticationCode)
+    signUpEmailAuthenticateNumber(availableEmail, userAuthenticationCode)
       .then(response => {
         setIsEmailConfirmation(true);
       })
