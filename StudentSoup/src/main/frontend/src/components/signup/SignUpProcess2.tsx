@@ -12,8 +12,8 @@ import unchecked from './../../img/signup_uncheck.png';
 import './signupprocess2.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
-import { signUp, signUpIdCheck } from '../../apis/Auth/AuthAPI';
 import Swal from 'sweetalert2';
+import { signUpIdCheck, signUp } from '../../apis/auth/AuthAPI';
 
 const SignUpProcess2 = () => {
   const [userId, , setUserId] = useInput('');

@@ -10,13 +10,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from '../../hooks/useInput';
 import Swal from 'sweetalert2';
 import {
-  getSignUpThird,
-  postSignUpSchoolId,
-  signUpComplete,
+  signUpNicknameCheck,
   signUpEmailAuthenticate,
   signUpEmailAuthenticateNumber,
-  signUpNicknameCheck,
-} from '../../apis/Auth/AuthAPI';
+  signUpComplete,
+  getSignUpThird,
+  postSignUpSchoolId,
+} from '../../apis/auth/AuthAPI';
 
 export interface UniversityDataType {
   schoolId: number;
