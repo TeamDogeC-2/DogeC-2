@@ -41,15 +41,14 @@ public class MemberLoginService{
     private Long refreshExpireMs;
 
 
-    public String login(String id, String pwd) {
+    public Map<String,String> login(String id, String pwd) {
         log.info("로그인 서비스 로직 실행");
         Member member = validationIdPwd(id, pwd);
         MemberDto memberDto = new MemberDto();
         Map<String, String> tokenMap = JwtUtil.creatJwt(id, secretKey, expiredMs, refreshSecretKey, refreshExpireMs);
-        redisUtil.setDataExpire(tokenMap.get("accessToken"),tokenMap.get("refreshToken"),refreshExpireMs/1000);
         log.info("로그인이 완료되었습니다. 현재 로그인 된 회원의 아이디[{}], 닉네임[{}]", member.getId(), member.getNickname());
 
-        return tokenMap.get("accessToken");
+        return tokenMap;
     }
 
     private Member validationIdPwd(String id, String pwd){
