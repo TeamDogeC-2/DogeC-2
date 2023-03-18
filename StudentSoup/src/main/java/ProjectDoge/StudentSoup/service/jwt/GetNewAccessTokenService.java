@@ -30,9 +30,9 @@ public class GetNewAccessTokenService {
 
     private final JwtUtil jwtUtil;
 
-    public String findRefreshToken(String token){
-        String refreshToken = redisUtil.getData(token);
-        log.info("토큰 재생성 로직이 실행합니다");
+    public String findRefreshToken(String refreshToken){
+        log.info("refreshToken {}",refreshToken);
+
         if(refreshToken == null ){
             throw new ExpirationDateException("유효기간이 마감된 토큰입니다.");
         }
@@ -42,8 +42,6 @@ public class GetNewAccessTokenService {
         Claims claims = Jwts.claims();
         claims.put("userName",userId);
         String accessToken = JwtUtil.createAccessToken(secretKey, expireMs, claims);
-        redisUtil.setDataExpire(accessToken,refreshToken,redisExpireMs/1000);
-        redisUtil.deleteData(token);
         return accessToken;
 
         }
