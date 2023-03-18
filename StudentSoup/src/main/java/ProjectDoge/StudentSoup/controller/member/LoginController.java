@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,9 +26,9 @@ public class LoginController {
     private final MemberLoginService memberLoginService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody MemberLoginRequestDto dto, HttpServletRequest request){
+    public ResponseEntity<Map<String,String>> login(@RequestBody MemberLoginRequestDto dto, HttpServletRequest request){
 
-        String token = memberLoginService.login(dto.getId(), dto.getPwd());
+        Map<String,String> token = memberLoginService.login(dto.getId(), dto.getPwd());
         HttpSession session = request.getSession();
         return ResponseEntity.ok().body(token);
     }
