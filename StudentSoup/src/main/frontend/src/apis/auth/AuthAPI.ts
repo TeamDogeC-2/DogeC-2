@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios, { type AxiosResponse } from 'axios';
+import { type SignUpUserInfo } from '../../interfaces/AuthAPITypes';
 
-export const signIn = async (id: string, password: string) => {
+export const signIn = async (id: string, password: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/login', {
     id,
     pwd: password,
@@ -8,7 +9,7 @@ export const signIn = async (id: string, password: string) => {
   return res;
 };
 
-export const signUp = async (id: string, password: string) => {
+export const signUp = async (id: string, password: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/2', {
     id,
     pwd: password,
@@ -16,31 +17,34 @@ export const signUp = async (id: string, password: string) => {
   return res;
 };
 
-export const getSignUpThird = async () => {
+export const getSignUpThird = async (): Promise<AxiosResponse> => {
   const res = await axios.get('/members/signUp/3');
   return res;
 };
 
-export const postSignUpSchoolId = async (schoolId: string) => {
+export const postSignUpSchoolId = async (schoolId: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3/' + schoolId);
   return res;
 };
 
-export const signUpIdCheck = async (memberId: string) => {
+export const signUpIdCheck = async (memberId: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/2/Id', {
     memberId,
   });
   return res;
 };
 
-export const signUpNicknameCheck = async (nickname: string) => {
+export const signUpNicknameCheck = async (nickname: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3/Nickname', {
     nickName: nickname,
   });
   return res;
 };
 
-export const signUpEmailAuthenticate = async (email: string, domain: string) => {
+export const signUpEmailAuthenticate = async (
+  email: string,
+  domain: string,
+): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3/mail', {
     email: email + '@' + domain,
   });
@@ -50,7 +54,7 @@ export const signUpEmailAuthenticate = async (email: string, domain: string) => 
 export const signUpEmailAuthenticateNumber = async (
   email: string,
   authenticationNumber: number,
-) => {
+): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3/checkMail', {
     email,
     authenticationNumber,
@@ -58,23 +62,7 @@ export const signUpEmailAuthenticateNumber = async (
   return res;
 };
 
-export const signUpComplete = async (
-  id: string,
-  password: string,
-  nickname: string,
-  email: string,
-  gender: string,
-  schoolId: string,
-  departmentId: string,
-) => {
-  const res = await axios.post('/members/signUp/3', {
-    id,
-    pwd: password,
-    nickname,
-    email,
-    gender,
-    schoolId,
-    departmentId,
-  });
+export const signUpComplete = async (userData: SignUpUserInfo): Promise<AxiosResponse> => {
+  const res = await axios.post('/members/signUp/3', userData);
   return res;
 };

@@ -17,25 +17,11 @@ import {
   getSignUpThird,
   postSignUpSchoolId,
 } from '../../apis/auth/AuthAPI';
-
-export interface UniversityDataType {
-  schoolId: number;
-  schoolName: string;
-}
-export interface DepartmentType {
-  departmentId: number;
-  departmentName: string;
-}
-
-export interface MajorDataType {
-  departments: DepartmentType[];
-  domain: string;
-  message?: string;
-}
+import { type UniversityDataType, type MajorDataType } from '../../interfaces/SignupTypes';
 
 const SignUpProcess3 = () => {
   const [userGender, onChangeGender] = useInput('MAN');
-  const [selectUniversity, onChangeUniversitySelect] = useInput('');
+  const [selectUniversity, onChangeSelectUniversity] = useInput('');
   const [selectMajor, onChangeMajor] = useInput('');
   const [userNickname, setUserNickname] = useState('');
   const [availableNickname, setAvailableNickname] = useState('');
@@ -122,15 +108,17 @@ const SignUpProcess3 = () => {
       isEmailConfirmation &&
       universityDomain !== ''
     ) {
-      signUpComplete(
-        state.id,
-        state.password,
-        availableNickname,
-        `${availableEmail}@${universityDomain}`,
-        userGender,
-        selectUniversity,
-        selectMajor,
-      )
+      const userInformation = {
+        id: state.id,
+        pwd: state.password,
+        nickname: availableNickname,
+        email: `${availableEmail}@${universityDomain}`,
+        gender: userGender,
+        schoolId: selectUniversity,
+        departmentId: selectMajor,
+      };
+
+      signUpComplete(userInformation)
         .then(response => {
           Swal.fire({
             icon: 'success',
@@ -254,7 +242,7 @@ const SignUpProcess3 = () => {
                 <select
                   name="university"
                   defaultValue="학교 선택"
-                  onChange={e => onChangeUniversitySelect(e)}
+                  onChange={e => onChangeSelectUniversity(e)}
                 >
                   <option value="학교 선택" disabled={true}>
                     학교 선택
