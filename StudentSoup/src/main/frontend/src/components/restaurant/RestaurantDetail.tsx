@@ -17,6 +17,7 @@ import under_arrow from '../../img/under_arrow.svg';
 import up_arrow from '../../img/up_arrow.svg';
 import RestaurantMenu from './RestaurantMenu';
 import RestaurantReview from './RestaurantReview';
+import RestaurantPhoto from './RestaurantPhoto';
 
 const RestaurantDetail = () => {
   const [clickPage, setClickPage] = useState<any>(1);
@@ -170,6 +171,7 @@ const RestaurantDetail = () => {
               </div>
               {clickPage === 1 && <RestaurantMenu />}
               {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 3 && <RestaurantPhoto />}
             </div>
           </div>
         </div>
