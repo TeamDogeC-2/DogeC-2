@@ -16,7 +16,7 @@ public class MemberValidationService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void validateDuplicateMemberNickname(String nickname) {
+    public String validateDuplicateMemberNickname(String nickname) {
         log.info("회원 닉네임 중복 검증 메소드가 실행되었습니다.");
 
         Member findMember = memberRepository.findByNickname(nickname);
@@ -24,7 +24,9 @@ public class MemberValidationService {
             log.info("회원 닉네임이 중복 예외가 발생했습니다.");
             throw new MemberValidationException("중복된 닉네임입니다.");
         }
+        validateNickname(nickname);
         log.info("회원 닉네임 중복 검증이 완료되었습니다.");
+        return "OK";
     }
 
     public void validateDuplicateMemberEmail(String email) {
@@ -38,7 +40,7 @@ public class MemberValidationService {
         log.info("회원 이메일 중복 검증이 완료되었습니다.");
     }
 
-    public void validateDuplicateMemberId(String memberId) {
+    public String validateDuplicateMemberId(String memberId) {
         log.info("회원 아이디 중복 검증 메소드가 실행되었습니다.");
 
         if(memberId.length() < 5 || memberId.length() > 20){
@@ -59,6 +61,7 @@ public class MemberValidationService {
             throw new MemberValidationException("중복된 아이디 입니다.");
         }
         log.info("회원 중복 검증이 완료되었습니다.");
+        return "OK";
     }
 
     public void validationCoincideMemberIdPwd(Member member, String pwd) {
@@ -71,6 +74,18 @@ public class MemberValidationService {
 
     private boolean notSameMemberIdPwd(Member member, String pwd) {
         return !passwordEncoder.matches(pwd, member.getPwd());
+    }
+
+    private void validateNickname(String nickname){
+        if(nickname.length() < 2 || nickname.length() > 12){
+            log.info("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다. 전달받은 nickname : [{}]", nickname);
+            throw new MemberNicknameOutOfRangeException("회원의 닉네임이 2자 미만이거나 12자를 초과하였습니다.");
+        }
+
+        if(!nickname.matches("^[a-zA-Z0-9가-힣]*$")){
+            log.info("회원의 닉네임에 특수문자가 포함되어 있습니다. 전달받은 nickname : [{}]", nickname);
+            throw new MemberRegexException("회원의 닉네임에 특수문자가 포함되어 있습니다.");
+        }
     }
 
 }

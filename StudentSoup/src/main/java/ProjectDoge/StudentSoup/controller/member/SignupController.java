@@ -7,17 +7,13 @@ import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
-import ProjectDoge.StudentSoup.service.member.MemberEmailAuthenticationService;
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
-import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
-import ProjectDoge.StudentSoup.service.member.MemberValidationService;
+import ProjectDoge.StudentSoup.service.member.*;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,6 +40,12 @@ public class SignupController {
         return dto;
     }
 
+    @PostMapping("/signUp/2/Id")
+    public String signUpIdCheck(@RequestBody Map<String,String> memberId){
+        return memberValidationService.validateDuplicateMemberId(memberId.get("memberId"));
+    }
+
+
     @GetMapping("/signUp/3")
     public List<SchoolSignUpDto> signUpSchoolList(){
         log.info("signUpSchoolList 가 호출되었습니다.");
@@ -54,6 +56,7 @@ public class SignupController {
         log.info("불러온 학교 목록 DTO : [{}]", result);
         return result;
     }
+
 
     @PostMapping("/signUp/3/{schoolId}")
     public ConcurrentHashMap<String,Object> signUpDepartmentList(@PathVariable Long schoolId){
@@ -72,10 +75,17 @@ public class SignupController {
 
     @PostMapping("/signUp/3/mail")
     public ResponseEntity sendMail(@RequestBody Map<String,String> email){
+        memberValidationService.validateDuplicateMemberEmail(email.get("email"));
         log.info("email = {}",email.get("email"));
         memberEmailAuthenticationService.join(email.get("email"));
         return ResponseEntity.ok("ok");
     }
+
+    @PostMapping("signUp/3/Nickname")
+    public String signUpNicknameCheck(@RequestBody Map<String,String> nickName){
+        return memberValidationService.validateDuplicateMemberNickname(nickName.get("nickName"));
+    }
+
     @PostMapping("/signUp/3/checkMail")
     public ResponseEntity checkAuthenticationNumber(@RequestBody MemberEmailAuthenticationDto memberEmailAuthenticationDto){
         log.info("authenticationNumber = {} email = {}",memberEmailAuthenticationDto.getAuthenticationNumber(),memberEmailAuthenticationDto.getEmail());

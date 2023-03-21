@@ -1,21 +1,100 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MainNavbar from '../common/MainNavbar';
 import './login.scss';
+import useInput from '../../hooks/useInput';
+import { signIn } from '../../apis/auth/AuthAPI';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+  const [userId, onChangeUserId, setUserId] = useInput('');
+  const [userPassword, onChangeUserPassword, setUserPassword] = useInput('');
+  const [isRememberId, setIsRememberId] = useState(false);
+
+  const navigate = useNavigate();
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+  });
+
+  const onClickRememberId = () => {
+    if (isRememberId) {
+      localStorage.removeItem('rememberId');
+    }
+
+    setIsRememberId(prevState => !prevState);
+  };
+
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (isRememberId) {
+        localStorage.setItem('rememberId', userId);
+      }
+
+      signIn(userId, userPassword)
+        .then(response => {
+          const token = response.data;
+          sessionStorage.setItem('access-token', token);
+          setUserId('');
+          setUserPassword('');
+
+          navigate('/');
+        })
+        .catch(error => {
+          const errorMessage = error.response.data.message;
+
+          Toast.fire({
+            icon: 'error',
+            title: errorMessage,
+          });
+
+          setUserPassword('');
+        });
+    },
+    [userId, userPassword],
+  );
+
+  useEffect(() => {
+    if (sessionStorage.getItem('access-token')) {
+      navigate('/');
+    }
+
+    if (localStorage.getItem('rememberId') != null) {
+      setIsRememberId(true);
+      setUserId(localStorage.getItem('rememberId'));
+    }
+  }, [sessionStorage.getItem('token')]);
+
   return (
     <>
       <MainNavbar />
       <div className="background">
-        <div className="main">
+        <div className="login-main">
           <h2>로그인</h2>
-          <form>
-            <input type="text" className="id" placeholder="아이디 또는 이메일을 입력해주세요" />
-            <input type="password" className="password" placeholder="비밀번호를 입력해주세요" />
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              className="id"
+              value={userId}
+              onChange={onChangeUserId}
+              placeholder="아이디 또는 이메일을 입력해주세요"
+            />
+            <input
+              type="password"
+              className="password"
+              value={userPassword}
+              onChange={onChangeUserPassword}
+              placeholder="비밀번호를 입력해주세요"
+            />
             <div className="login-keep-wrap">
-              <div className="remember-wrap">
-                <div className="unchecked-remember-id" />
+              <div className="remember-wrap" onClick={onClickRememberId}>
+                <div className={isRememberId ? 'checked-remember-id' : 'unchecked-remember-id'} />
                 <span>아이디 저장</span>
               </div>
               <Link to="/login/findAccount">아이디/비밀번호 찾기</Link>
@@ -23,7 +102,7 @@ const Login = () => {
             <button className="login-button" type="submit">
               로그인
             </button>
-            <Link to="/signUp" className="signup-link">
+            <Link to="/signup/process/1" className="signup-link">
               <button className="signup-button">회원가입</button>
             </Link>
           </form>
