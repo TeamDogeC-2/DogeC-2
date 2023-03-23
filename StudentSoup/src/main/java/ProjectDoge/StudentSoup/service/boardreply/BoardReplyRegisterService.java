@@ -6,6 +6,7 @@ import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
+import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.board.BoardFindService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,15 @@ public class BoardReplyRegisterService {
     private final BoardReplyRepository boardReplyRepository;
     private final BoardReplyValidationService boardReplyValidationService;
 
+    private final MemberRepository memberRepository;
+
     @Transactional
-    public Long join(BoardReplyReqDto dto){
+    public Long join(BoardReplyReqDto dto,String memberId){
         log.info("게시글 댓글 등록 서비스가 실행됐습니다.");
         boardReplyValidationService.checkContent(dto.getContent());
         BoardReply boardReply;
         if(isReply(dto)){
-            boardReply = createBoardReply(dto);
+            boardReply = createBoardReply(dto,memberId);
         } else {
             boardReply = createNestedBoardReply(dto);
         }
@@ -42,10 +45,10 @@ public class BoardReplyRegisterService {
         return dto.getLevel() == 0;
     }
 
-    private BoardReply createBoardReply(BoardReplyReqDto dto){
+    private BoardReply createBoardReply(BoardReplyReqDto dto,String memberId){
         setCreateReplyDtoValue(dto);
         Board board = boardFindService.findOne(dto.getBoardId());
-        Member member = memberFindService.findOne(dto.getMemberId());
+        Member member = memberRepository.findById(memberId).orElse(null);
         return new BoardReply().createBoardReply(member, board, dto);
     }
 

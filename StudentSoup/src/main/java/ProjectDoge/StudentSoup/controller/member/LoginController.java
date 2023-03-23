@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,13 +26,11 @@ public class LoginController {
     private final MemberLoginService memberLoginService;
 
     @PostMapping("/login")
-    public MemberDto login(@RequestBody MemberLoginRequestDto dto, HttpServletRequest request){
+    public ResponseEntity<Map<String,String>> login(@RequestBody MemberLoginRequestDto dto, HttpServletRequest request){
 
-        MemberDto loginDto = memberLoginService.login(dto.getId(), dto.getPwd());
+        Map<String,String> token = memberLoginService.login(dto.getId(), dto.getPwd());
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginDto.getMemberClassification());
-        session.setMaxInactiveInterval(1800); // 세션의 생명주기 30분으로 고정
-        return loginDto;
+        return ResponseEntity.ok().body(token);
     }
 
     @PostMapping("/logout")
