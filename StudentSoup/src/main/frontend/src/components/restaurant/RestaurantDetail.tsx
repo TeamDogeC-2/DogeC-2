@@ -1,4 +1,4 @@
-import { DesktopHeader } from '../../mediaQuery';
+import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import './restaurantDetail.scss';
 import RestaurantNavbar from './RestaurantNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -176,6 +176,308 @@ const RestaurantDetail = () => {
           </div>
         </div>
       </DesktopHeader>
+      <MobileHeader>
+        <div>
+          <RestaurantNavbar />
+          <div className="restaurant-tablet-detail-main">
+            <div className="restaurant-tablet-detail-top">
+              <div className="restaurant-tablet-detail-left">
+                <div className="restaurant-tablet-detail-map">kakaoMap</div>
+                <div className="restaurant-tablet-detail-left-info">
+                  <span className="restaurant-tablet-detail-left-info-name">금돈</span>
+                  <p>제물포역 | 돈가스, 함박스테이크</p>
+                  <p>4.6</p>
+                </div>
+                <div className="restaurant-tablet-detail-underline"></div>
+                <div className="restaurant-tablet-detail-functions">
+                  <div className="restaurant-tablet-detail-function">
+                    {heart ? (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        className="restaurant-tablet-detail-function-icon"
+                      />
+                    ) : (
+                      <img src={empty_heart} alt="" />
+                    )}
+                    <p>좋아요</p>
+                  </div>
+                  <div className="restaurant-tablet-detail-vertical-underline"></div>
+                  <div className="restaurant-tablet-detail-function">
+                    <img src={share} alt="" />
+                    <p>공유</p>
+                  </div>
+                  <div className="restaurant-tablet-detail-vertical-underline"></div>
+                  <div className="restaurant-tablet-detail-function">
+                    <img src={review} alt="" />
+                    <p>리뷰</p>
+                  </div>
+                </div>
+                <button className="restaurant-tablet-detail-left-button">배달가능 업체</button>
+              </div>
+              <div className="restaurant-tablet-detail-right">
+                <div className="restaurant-tablet-detail-right-imgs">
+                  <div className="restaurant-tablet-detail-right-first-img">
+                    <img src={`/image/${image[0]}`} alt="" onError={handleImgError} />
+                  </div>
+                  <div className="restaurant-tablet-detail-right-other-imgs">
+                    {/* {imgArr.map((school: any) => (
+                    <img
+                      key={school}
+                      src={`/image/${school}`}
+                      className="restaurant-tablet-detail-right-other-img"
+                    />
+                  ))} */}
+                    <div className="restaurant-tablet-detail-right-other-top-imgs">
+                      <img
+                        src={`/image/${image[0]}`}
+                        alt=""
+                        onError={handleImgError}
+                        className="restaurant-tablet-detail-right-other-img"
+                      />
+                      <img
+                        src={`/image/${image[0]}`}
+                        alt=""
+                        onError={handleImgError}
+                        className="restaurant-tablet-detail-right-other-img"
+                      />
+                    </div>
+                    <div className="restaurant-tablet-detail-right-other-bottom-imgs">
+                      <img
+                        src={`/image/${image[0]}`}
+                        alt=""
+                        onError={handleImgError}
+                        className="restaurant-tablet-detail-right-other-img"
+                      />
+                      <img
+                        src={`/image/${image[0]}`}
+                        alt=""
+                        onError={handleImgError}
+                        className="restaurant-tablet-detail-right-other-img"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="restaurant-tablet-detail-right-info">
+                  <span>매장정보</span>
+                  <p>
+                    <img src={pin} alt="" />
+                    인천 미추홀구 숙골로
+                  </p>
+                  <p>
+                    <img src={phone} alt="" />
+                    0507
+                  </p>
+                  <p>
+                    <img src={clock} alt="" />
+                    영업시간
+                  </p>
+                  <p>
+                    <img src={plus_circle} alt="" />
+                    주차,포장
+                  </p>
+                  <p>
+                    <img src={restaurant_empty_heart} alt="" />
+                    좋아요 수
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="restaurant-tablet-detail-bottom">
+              <div className="restaurant-tablet-detail-bottom-list-div">
+                <ul className="restaurant-tablet-detail-bottom-list">
+                  <li
+                    id="menu"
+                    className={
+                      clickPage === 1
+                        ? 'restaurant-tablet-detail-bottom-li active'
+                        : 'restaurant-tablet-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(1)}
+                  >
+                    메뉴
+                  </li>
+                  <li
+                    id="review"
+                    className={
+                      clickPage === 2
+                        ? 'restaurant-tablet-detail-bottom-li active'
+                        : 'restaurant-tablet-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(2)}
+                  >
+                    리뷰
+                  </li>
+                  <li
+                    id="photo"
+                    className={
+                      clickPage === 3
+                        ? 'restaurant-tablet-detail-bottom-li active'
+                        : 'restaurant-tablet-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(3)}
+                  >
+                    사진
+                  </li>
+                </ul>
+              </div>
+              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 3 && <RestaurantPhoto />}
+            </div>
+          </div>
+        </div>
+      </MobileHeader>
+      <Mobile>
+        <div>
+          <RestaurantNavbar />
+          <div className="restaurant-mobile-detail-main">
+            <div className="restaurant-mobile-detail-top">
+              <div className="restaurant-mobile-detail-top-img-div">
+                <div className="restaurant-mobile-detail-top-first-img">
+                  <img src={`/image/${image[0]}`} alt="" onError={handleImgError} />
+                </div>
+                <div className="restaurant-mobile-detail-top-other-imgs">
+                  {/* {imgArr.map((school: any) => (
+                    <img
+                      key={school}
+                      src={`/image/${school}`}
+                      className="restaurant-tablet-detail-top-other-img"
+                    />
+                  ))} */}
+                  <div className="restaurant-mobile-detail-top-other-top-imgs">
+                    <img
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="restaurant-mobile-detail-top-other-img"
+                    />
+                    <img
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="restaurant-mobile-detail-top-other-img"
+                    />
+                  </div>
+                  <div className="restaurant-mobile-detail-top-other-bottom-imgs">
+                    <img
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="restaurant-mobile-detail-top-other-img"
+                    />
+                    <img
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      onError={handleImgError}
+                      className="restaurant-mobile-detail-top-other-img"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="restaurant-mobile-detail-top-info-div">
+                <div className="restaurant-mobile-detail-top-info-right">
+                  <div className="restaurant-mobile-detail-left-info">
+                    <span className="restaurant-mobile-detail-left-info-name">금돈</span>
+                    <p>제물포역 | 돈가스, 함박스테이크</p>
+                    <p>4.6</p>
+                  </div>
+                  <div className="restaurant-mobile-detail-underline"></div>
+                  <div className="restaurant-mobile-detail-functions">
+                    <div className="restaurant-mobile-detail-function">
+                      {heart ? (
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className="restaurant-mobile-detail-function-icon"
+                        />
+                      ) : (
+                        <img src={empty_heart} alt="" />
+                      )}
+                      <p>좋아요</p>
+                    </div>
+                    <div className="restaurant-mobile-detail-vertical-underline"></div>
+                    <div className="restaurant-mobile-detail-function">
+                      <img src={share} alt="" />
+                      <p>공유</p>
+                    </div>
+                    <div className="restaurant-mobile-detail-vertical-underline"></div>
+                    <div className="restaurant-mobile-detail-function">
+                      <img src={review} alt="" />
+                      <p>리뷰</p>
+                    </div>
+                  </div>
+                  <button className="restaurant-mobile-detail-left-button">배달가능 업체</button>
+                </div>
+                <div className="restaurant-mobile-detail-map">kakaoMap</div>
+                <div className="restaurant-mobile-detail-bottom-info">
+                  <span>매장정보</span>
+                  <p>
+                    <img src={pin} alt="" />
+                    인천 미추홀구 숙골로
+                  </p>
+                  <p>
+                    <img src={phone} alt="" />
+                    0507
+                  </p>
+                  <p>
+                    <img src={clock} alt="" />
+                    영업시간
+                  </p>
+                  <p>
+                    <img src={plus_circle} alt="" />
+                    주차,포장
+                  </p>
+                  <p>
+                    <img src={restaurant_empty_heart} alt="" />
+                    좋아요 수
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="restaurant-mobile-detail-bottom">
+              <div className="restaurant-mobile-detail-bottom-list-div">
+                <ul className="restaurant-mobile-detail-bottom-list">
+                  <li
+                    id="menu"
+                    className={
+                      clickPage === 1
+                        ? 'restaurant-mobile-detail-bottom-li active'
+                        : 'restaurant-mobile-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(1)}
+                  >
+                    메뉴
+                  </li>
+                  <li
+                    id="review"
+                    className={
+                      clickPage === 2
+                        ? 'restaurant-mobile-detail-bottom-li active'
+                        : 'restaurant-mobile-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(2)}
+                  >
+                    리뷰
+                  </li>
+                  <li
+                    id="photo"
+                    className={
+                      clickPage === 3
+                        ? 'restaurant-mobile-detail-bottom-li active'
+                        : 'restaurant-mobile-detail-bottom-li'
+                    }
+                    onClick={() => setClickPage(3)}
+                  >
+                    사진
+                  </li>
+                </ul>
+              </div>
+              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 3 && <RestaurantPhoto />}
+            </div>
+          </div>
+        </div>
+      </Mobile>
     </>
   );
 };
