@@ -95,7 +95,6 @@ const RestaurantReview = () => {
               <span>총 ??명이 리뷰를 작성했어요</span>
             </div>
           </div>
-          {write && <RestaurantReviewWrite />}
           <div className="restaurant-mobile-detail-bottom-review-select-div">
             <div className="restaurant-mobile-detail-bottom-review-buttons">
               <div>
@@ -128,6 +127,7 @@ const RestaurantReview = () => {
                 <p>리뷰 작성</p>
               </button>
             </div>
+            {write && <RestaurantReviewWrite />}
             <p>※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될 수 있습니다.</p>
           </div>
           <div className="restaurant-mobile-detail-bottom-review-list-div">
