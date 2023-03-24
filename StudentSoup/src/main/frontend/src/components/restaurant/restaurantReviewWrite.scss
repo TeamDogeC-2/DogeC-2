@@ -166,40 +166,14 @@ $sub-color: #5a5a5a;
   }
 }
 
-.restaurant-tablet-detail-review-write-div {
+.restaurant-mobile-detail-review-write-div {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 0.5rem;
 
-  .restaurant-tablet-detail-review-write-top {
-    width: 92%;
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem 0;
-
-    .restaurant-tablet-detail-review-write-text {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        margin-right: 0.25rem;
-      }
-
-      p {
-        color: $basic-color;
-        font-size: 1rem;
-      }
-    }
-
-    .restaurant-tablet-detail-review-write-caution {
-      font-size: 0.875rem;
-      color: #9f9f9f;
-    }
-  }
-
-  .restaurant-tablet-detail-review-write-middle {
+  .restaurant-mobile-detail-review-write-middle {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -223,13 +197,13 @@ $sub-color: #5a5a5a;
     }
   }
 
-  .restaurant-tablet-detail-review-write-middle-textarea-div {
+  .restaurant-mobile-detail-review-write-middle-textarea-div {
     width: 92%;
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
 
-    .restaurant-tablet-detail-review-write-middle-textarea {
+    .restaurant-mobile-detail-review-write-middle-textarea {
       height: 13.75rem;
       padding: 1rem;
       background-color: #d9d9d9;
@@ -239,7 +213,7 @@ $sub-color: #5a5a5a;
       resize: none;
     }
 
-    .restaurant-tablet-detail-review-write-middle-text-count {
+    .restaurant-mobile-detail-review-write-middle-text-count {
       font-size: 1rem;
       display: flex;
       justify-content: flex-end;
@@ -250,16 +224,14 @@ $sub-color: #5a5a5a;
     }
   }
 
-  .restaurant-tablet-detail-review-write-middle-img-div {
+  .restaurant-mobile-detail-review-write-middle-img-div {
     width: 92%;
     display: flex;
     align-items: center;
     flex-direction: row;
 
-    .restaurant-tablet-detail-review-write-middle-add-img {
+    .restaurant-mobile-detail-review-write-middle-add-img {
       width: 20%;
-      height: auto;
-      padding: 3.6% 0;
       display: flex;
       border: 1px dotted $basic-border-color;
       border-radius: 5px;
@@ -267,37 +239,39 @@ $sub-color: #5a5a5a;
       align-items: center;
     }
 
-    .restaurant-tablet-detail-review-write-middle-img-input-div {
+    .restaurant-mobile-detail-review-write-middle-img-input-div {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 2rem;
+      position: relative;
+      top: 1rem;
 
-      .restaurant-tablet-detail-review-write-middle-img-input {
+      .restaurant-mobile-detail-review-write-middle-img-input {
         visibility: hidden;
       }
     }
 
-    .restaurant-tablet-detail-review-write-middle-add-img-item-div {
+    .restaurant-mobile-detail-review-write-middle-add-img-item-div {
       width: 20%;
       height: auto;
-      padding: 1.8% 0;
       border-radius: 5px;
       margin-left: 1rem;
       border: 1px dotted $basic-border-color;
 
-      .restaurant-tablet-detail-review-write-middle-add-img-item {
+      .restaurant-mobile-detail-review-write-middle-add-img-item {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        margin: 0 0.5rem;
 
         img {
+          width: 100%;
           position: relative;
           top: 0.5rem;
         }
 
-        .restaurant-tablet-detail-review-write-middle-delete-button {
+        .restaurant-mobile-detail-review-write-middle-delete-button {
           width: 1.25rem;
           height: 1.25rem;
           background-color: $basic-color;
@@ -305,20 +279,20 @@ $sub-color: #5a5a5a;
           border-radius: 50%;
           padding: 0.1rem;
           position: relative;
-          top: 3.5rem;
+          top: 2rem;
           cursor: pointer;
         }
       }
     }
   }
 
-  .restaurant-tablet-detail-review-write-bottom-text {
+  .restaurant-mobile-detail-review-write-bottom-text {
     font-size: 1rem;
     color: #9f9f9f;
     margin-top: 2.5rem;
   }
 
-  .restaurant-tablet-detail-review-write-bottom-submit-button {
+  .restaurant-mobile-detail-review-write-bottom-submit-button {
     width: 92%;
     background-color: $basic-color;
     color: #fff;
