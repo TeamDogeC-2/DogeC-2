@@ -3,7 +3,7 @@ import './restaurantDetail.scss';
 import RestaurantNavbar from './RestaurantNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Circle_human from '../../img/circle_human.png';
 import empty_heart from '../../img/empty_heart.svg';
 import share from '../../img/share.svg';
@@ -18,6 +18,7 @@ import up_arrow from '../../img/up_arrow.svg';
 import RestaurantMenu from './RestaurantMenu';
 import RestaurantReview from './RestaurantReview';
 import RestaurantPhoto from './RestaurantPhoto';
+import { useLocation } from 'react-router-dom';
 
 const RestaurantDetail = () => {
   const [clickPage, setClickPage] = useState<any>(1);
@@ -27,6 +28,9 @@ const RestaurantDetail = () => {
     e.target.src = Circle_human;
   };
   const imgArr = image.slice(1);
+  const state = useLocation();
+  const restaurantNumber = state.state[0];
+  const schoolName = state.state[1];
   return (
     <>
       <DesktopHeader>
