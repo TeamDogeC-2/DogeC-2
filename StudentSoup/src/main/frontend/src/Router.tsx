@@ -24,7 +24,6 @@ const Router = () => {
       <Route path="/signup/process1" element={<SignUpProcess1 />} />
       <Route path="/signup/process2" element={<SignUpProcess2 />} />
       <Route path="/signup/process3" element={<SignUpProcess3 />} />
-      <Route path="/notice" element={<Notice />} />
     </Routes>
   );
 };
