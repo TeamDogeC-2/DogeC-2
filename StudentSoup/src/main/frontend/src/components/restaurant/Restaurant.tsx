@@ -9,6 +9,11 @@ import './restaurant.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
 
+interface State {
+  value1: string;
+  value2: string;
+}
+
 const Restaurant = () => {
   const [category, setCategory] = useState<string>('ALL');
   const [size, setSize] = useState<number>(6);
@@ -21,13 +26,14 @@ const Restaurant = () => {
   const url = '/restaurants';
   const state = useLocation();
   const navigate = useNavigate();
+  const schoolName = state.state;
 
   const postRestaurant = () => {
     axios
       .post(
         url,
         {
-          schoolName: state.state,
+          schoolName,
         },
         {
           params: {
@@ -58,6 +64,13 @@ const Restaurant = () => {
   const handleClickCategory = (e: any) => {
     setCategory(e.target.id);
   };
+
+  const handleDetailPage = (e: any) => {
+    const value = e.target.id;
+    const throwState: State = { value1: value, value2: schoolName };
+
+    navigate('/restaurant/detail', { state: throwState });
+  };
   return (
     <>
       <DesktopHeader>
@@ -67,7 +80,7 @@ const Restaurant = () => {
             <div className="restaurant-top">
               <div className="restaurant-top-div">
                 <div>
-                  <span className="restaurant-school-name">청운대학교</span>
+                  <span className="restaurant-school-name">{state.state}</span>
                   <span className="restaurant-top-text">근처 인기 맛집</span>
                 </div>
                 <button className="restaurant-filter-button">정렬</button>
@@ -197,6 +210,7 @@ const Restaurant = () => {
                       src={`/image/${restaurant.fileName}`}
                       id={restaurant.restaurantId}
                       className="restaurant-bottom-restaurant-img"
+                      onClick={handleDetailPage}
                     />
                     <div className="restaurant-bottom-restaurant-text">
                       {restaurant.name}
