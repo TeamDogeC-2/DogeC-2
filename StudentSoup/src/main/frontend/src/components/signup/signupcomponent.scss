@@ -2,19 +2,21 @@
 @import './../../assets/scss/abstracts/_mixins';
 
 .signup-main {
-  @include flex-container(column, space-between, flex-start);
-  margin: 120px auto 0px auto;
-  padding: 44px 70px 65px 70px;
+  @include flex-container(column, flex-start, flex-start);
+
+  margin: 120px auto 0 auto;
+  padding: 0 4.375rem;
   border-radius: 15px;
   width: 100%;
-  min-width: 280px;
-  max-width: 635px;
-  height: 819px;
+  max-width: 39.6875rem;
+  height: 100%;
   background-color: white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
   & > h1 {
     @include font-container(2.5rem, 3.5rem, $subject-font-color);
+
+    margin: 2.9375rem 0;
     width: 100%;
     text-align: center;
   }
@@ -25,26 +27,26 @@
     align-items: center;
     grid-template-rows: 1fr 0.5fr;
     grid-template-columns: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr;
-    grid-row-gap: 12px;
+    grid-row-gap: 0.75rem;
+    margin-bottom: 3.0625rem;
     width: 100%;
-    height: 78px;
+    height: 4.875rem;
 
     & > .process-1,
     .process-2,
     .process-3 {
-      width: 45px;
-      height: 45px;
+      width: 2.8125rem;
+      height: 2.8125rem;
     }
 
     .process-1 {
-      // grid-column: 1 / 4;
       grid-column-start: 2;
     }
 
     .process-bar-1 {
       grid-column-start: span 3;
       width: 80%;
-      height: 4px;
+      height: 0.25rem;
     }
 
     .process-2 {
@@ -54,7 +56,7 @@
     .process-bar-2 {
       grid-column-start: span 3;
       width: 80%;
-      height: 4px;
+      height: 0.25rem;
     }
 
     .process-3 {
@@ -90,11 +92,11 @@
 
 @media screen and (max-width: 1040px) {
   .signup-main {
-    margin: 75px auto 0px auto;
-    border-radius: 0px;
-    padding: 48px 55px 60px 55px;
+    margin: 0 auto;
+    border-radius: 0;
+    padding: 4.6875rem 2rem 0 2rem;
     width: 100vw;
-    height: calc(100vh - 75px);
+    height: auto;
     box-shadow: none;
 
     .signup-progress {
@@ -103,6 +105,7 @@
       .process-bar-1 {
         width: 60%;
       }
+
       .process-bar-2 {
         width: 60%;
       }
