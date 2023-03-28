@@ -1,0 +1,134 @@
+$basic-color: #ff611d;
+$basic-border-color: #bcbcbc;
+$sub-color: #5a5a5a;
+
+.board-main {
+  background-color: #fff;
+  margin: 0 auto;
+  padding-top: 4.8rem;
+  max-width: 76.8rem;
+  height: 100vh;
+
+  .board-top-div {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2.3125rem;
+
+    .board-top-text-div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0 4.0625rem;
+
+      .board-school-name {
+        font-size: 3.125rem;
+        font-weight: 500;
+        line-height: 4.375rem;
+        color: $basic-color;
+      }
+
+      .board-select-category {
+        width: 13.9375rem;
+        height: 2.875rem;
+        position: relative;
+        top: 0.8rem;
+        border: 1px solid $basic-border-color;
+        color: $basic-border-color;
+        padding: 0 0.5rem;
+        border-radius: 5px;
+      }
+    }
+
+    .board-lists-div {
+      display: flex;
+      justify-content: center;
+
+      .board-lists {
+        list-style: none;
+        display: inherit;
+        flex-direction: row;
+        width: 90%;
+        padding-top: 2.1875rem;
+        justify-content: center;
+
+        li {
+          font-size: 1.25rem;
+          cursor: pointer;
+          width: 25%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-bottom: 0.9375rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .board-li.active {
+          color: $basic-color;
+          border-bottom: 3px solid $basic-color;
+          z-index: 99;
+        }
+
+        .board-li {
+          color: $basic-border-color;
+        }
+      }
+    }
+  }
+
+  .board-bottom-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .board-table-div {
+      width: 90%;
+      display: flex;
+
+      .board-table {
+        width: 100%;
+
+        th {
+          border: none;
+          font-size: 1rem;
+          color: $sub-color;
+          font-weight: 500;
+          padding-bottom: 0.8rem;
+          border-bottom: 1px solid $basic-border-color;
+        }
+
+        td {
+          border-bottom: 1px solid $basic-border-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        tr {
+          display: flex;
+          align-items: center;
+        }
+
+        tbody {
+          width: 100%;
+        }
+
+        .board-title {
+          width: 60%;
+        }
+        .board-writer {
+          width: 10%;
+        }
+        .board-write-date {
+          width: 10%;
+        }
+        .board-view-count {
+          width: 10%;
+        }
+        .board-like-count {
+          width: 10%;
+        }
+      }
+    }
+  }
+}
