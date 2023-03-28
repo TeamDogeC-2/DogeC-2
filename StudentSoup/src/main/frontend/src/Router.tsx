@@ -10,6 +10,7 @@ import SignUpProcess2 from './components/signup/SignUpProcess2';
 import SignUpProcess3 from './components/signup/SignUpProcess3';
 import RestaurantDetail from './components/restaurant/RestaurantDetail';
 import Notice from './components/notice/Notice';
+import Board from './components/board/Board';
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
       <Route path="/signup/process1" element={<SignUpProcess1 />} />
       <Route path="/signup/process2" element={<SignUpProcess2 />} />
       <Route path="/signup/process3" element={<SignUpProcess3 />} />
+      <Route path="/board" element={<Board />} />
     </Routes>
   );
 };
