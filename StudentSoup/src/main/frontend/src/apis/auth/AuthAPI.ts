@@ -17,6 +17,11 @@ export const signUp = async (id: string, password: string): Promise<AxiosRespons
   return res;
 };
 
+export const authRefreshToken = async (refreshToken: string) => {
+  const response = await axios.post('/jwt', { refreshtoken: refreshToken });
+  return response;
+};
+
 export const getSignUpThird = async (): Promise<AxiosResponse> => {
   const res = await axios.get('/members/signUp/3');
   return res;
