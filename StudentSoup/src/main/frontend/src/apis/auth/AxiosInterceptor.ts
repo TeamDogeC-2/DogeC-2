@@ -17,7 +17,7 @@ instance.interceptors.response.use(
 
         try {
           const response = await authRefreshToken(refreshToken);
-          const newAccessToken = response.data.accessToken;
+          const newAccessToken = JSON.stringify(response.data.accessToken);
           localStorage.setItem('access-token', newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
