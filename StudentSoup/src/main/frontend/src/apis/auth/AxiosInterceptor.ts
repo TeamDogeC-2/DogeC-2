@@ -12,7 +12,7 @@ axiosInstance.interceptors.request.use(
   config => {
     const accessToken: string | null = JSON.parse(localStorage.getItem('access-token') ?? 'null');
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer ${JSON.parse(accessToken)}`;
     }
 
     return config;
