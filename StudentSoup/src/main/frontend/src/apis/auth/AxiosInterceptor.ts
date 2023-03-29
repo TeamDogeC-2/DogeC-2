@@ -1,9 +1,28 @@
 import axios from 'axios';
 import { authRefreshToken } from './AuthAPI';
 
-const instance = axios.create();
+const axiosInstance = axios.create({
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.request.use(
+  config => {
+    const accessToken = localStorage.getItem('access-token');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  async error => {
+    return await Promise.reject(error);
+  },
+);
+
+axiosInstance.interceptors.response.use(
   response => {
     return response;
   },
@@ -21,7 +40,7 @@ instance.interceptors.response.use(
           localStorage.setItem('access-token', newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-          return await instance(originalRequest);
+          return await axiosInstance(originalRequest);
         } catch (err) {
           console.error('Unable to refresh token');
         }
@@ -32,4 +51,4 @@ instance.interceptors.response.use(
   },
 );
 
-export default instance;
+export default axiosInstance;
