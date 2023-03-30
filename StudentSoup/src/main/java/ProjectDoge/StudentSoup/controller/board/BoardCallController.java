@@ -55,9 +55,9 @@ public class BoardCallController {
         return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable, boardSearchDto);
     }
 
-    @PostMapping("/board/Announcement")
-    public Page<BoardMainDto> getAnnouncement(@PageableDefault(size =12) Pageable pageable){
-        return boardCallService.getAnnouncement(pageable);
+    @PostMapping("/board/{category}")
+    public Page<BoardMainDto> getCustomerService(@PageableDefault(size =12) Pageable pageable,String category,@RequestParam(required = false) String title){
+        return boardCallService.getCustomerService(pageable,category,title);
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
