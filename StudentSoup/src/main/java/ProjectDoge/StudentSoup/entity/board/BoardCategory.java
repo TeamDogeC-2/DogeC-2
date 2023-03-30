@@ -11,7 +11,9 @@ public enum BoardCategory {
     EMPLOYMENT("취업게시판"),
     CONSULTING("상담게시판"),
     TIP("팁게시판"),
-    ANNOUNCEMENT("공지사항");
+    ANNOUNCEMENT("공지사항"),
+
+    CUSTOMERSERVICE("고객센터");
 
     private final String boardCategory;
 }
