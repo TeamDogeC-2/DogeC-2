@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/jwt","/members/login/**","/home","/members/**","/restaurant/**",
-                        "/restaurantReview/**","/restaurants/**","/board/Announcement").permitAll()
+                        "/restaurantReview/**","/restaurants/**","/board/ANNOUNCEMENT","/board/CUSTOMERSERVICE").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
