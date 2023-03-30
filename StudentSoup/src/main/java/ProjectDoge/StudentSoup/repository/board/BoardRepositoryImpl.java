@@ -8,6 +8,7 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -120,7 +121,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
     }
     @Override
-    public Page<BoardMainDto> findAnnouncement(Pageable pageable){
+    public Page<BoardMainDto> findAnnouncementAndCustomerService(Pageable pageable,String category,String title){
         List<BoardMainDto> query =  queryFactory
                 .select(new QBoardMainDto(board.id,
                         board.boardCategory,
@@ -132,8 +133,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.boardReplies.size(),
                         board.authentication))
                 .from(board)
-                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
-                .orderBy(board.writeDate.desc())
+                .where(board.boardCategory.eq(BoardCategory.valueOf(category)),
+                checkTtitle(title))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -145,6 +146,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 
         return PageableExecutionUtils.getPage(query, pageable, count::fetchOne);
+    }
+
+    private BooleanExpression checkTtitle(String title) {
+        if(title != null){
+            return board.title.contains(title);
+        }
+        return null;
     }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {

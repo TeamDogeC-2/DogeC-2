@@ -26,5 +26,5 @@ public interface BoardRepositoryCustom {
 
     Optional<Board> findByIdForBoardDetail(Long boardId);
 
-    Page<BoardMainDto> findAnnouncement(Pageable pageable);
+    Page<BoardMainDto> findAnnouncementAndCustomerService(Pageable pageable,String category,String title);
 }
