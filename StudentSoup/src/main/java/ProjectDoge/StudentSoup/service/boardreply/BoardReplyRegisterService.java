@@ -3,8 +3,10 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyReqDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.member.Member;
+import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.exception.admin.MemberClassificationNotAdminException;
 import ProjectDoge.StudentSoup.repository.boardreply.BoardReplyRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
@@ -56,7 +58,7 @@ public class BoardReplyRegisterService {
     }
 
     private void checkCustomerServiceRole(Board board, Member member) {
-        if(board.getBoardCategory().equals("CUSTOMERSERVICE") && !member.getMemberClassification().equals("ADMIN")){
+        if(board.getBoardCategory().equals(BoardCategory.CUSTOMERSERVICE) && !member.getMemberClassification().equals(MemberClassification.ADMIN)){
             throw new MemberClassificationNotAdminException("로그인 한 회원은 운영자가 아닙니다.");
         }
     }
