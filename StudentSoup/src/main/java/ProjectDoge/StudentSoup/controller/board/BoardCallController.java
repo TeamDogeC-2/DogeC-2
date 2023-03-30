@@ -56,7 +56,7 @@ public class BoardCallController {
     }
 
     @PostMapping("/board/{category}")
-    public Page<BoardMainDto> getCustomerService(@PageableDefault(size =12) Pageable pageable,String category,@RequestParam(required = false) String title){
+    public Page<BoardMainDto> getCustomerService(@PageableDefault(size =12) Pageable pageable,@PathVariable String category,@RequestParam(required = false) String title){
         return boardCallService.getCustomerService(pageable,category,title);
     }
 
