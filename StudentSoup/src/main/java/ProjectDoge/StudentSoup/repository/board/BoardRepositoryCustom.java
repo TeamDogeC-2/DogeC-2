@@ -25,4 +25,6 @@ public interface BoardRepositoryCustom {
     Long countByMemberId(Long memberId);
 
     Optional<Board> findByIdForBoardDetail(Long boardId);
+
+    Page<BoardMainDto> findAnnouncement(Pageable pageable);
 }

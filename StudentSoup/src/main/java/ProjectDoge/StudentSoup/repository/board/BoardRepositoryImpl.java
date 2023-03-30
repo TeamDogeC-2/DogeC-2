@@ -119,6 +119,33 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .limit(5)
                 .fetch();
     }
+    @Override
+    public Page<BoardMainDto> findAnnouncement(Pageable pageable){
+        List<BoardMainDto> query =  queryFactory
+                .select(new QBoardMainDto(board.id,
+                        board.boardCategory,
+                        board.title,
+                        board.writeDate,
+                        board.member.nickname,
+                        board.view,
+                        board.likedCount,
+                        board.boardReplies.size(),
+                        board.authentication))
+                .from(board)
+                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT))
+                .orderBy(board.writeDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> count = queryFactory
+                .select(board.count())
+                .from(board)
+                .where(board.boardCategory.eq(BoardCategory.ANNOUNCEMENT));
+
+
+        return PageableExecutionUtils.getPage(query, pageable, count::fetchOne);
+    }
 
     private BooleanExpression searchColumnContainsTitle(String column, String value) {
         if (column != null && column.equals("title")) {
