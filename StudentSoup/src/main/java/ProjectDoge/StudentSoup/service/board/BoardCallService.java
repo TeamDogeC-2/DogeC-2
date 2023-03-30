@@ -44,6 +44,10 @@ public class BoardCallService {
         }
         return getLikeBoardDto(board);
     }
+
+    public Page<BoardMainDto> getAnnouncement(Pageable pageable){
+        return boardRepository.findAnnouncement(pageable);
+    }
     private void updateView(Board board, HttpServletRequest request, HttpServletResponse response){
         Cookie[] cookies = request.getCookies();
         boolean checkCookie = false;
