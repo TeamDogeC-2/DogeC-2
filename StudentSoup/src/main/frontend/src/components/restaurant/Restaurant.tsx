@@ -381,6 +381,7 @@ const Restaurant = () => {
                     <img
                       src={`/image/${restaurant.fileName}`}
                       id={restaurant.restaurantId}
+                      onClick={handleDetailPage}
                       className="tablet-restaurant-bottom-restaurant-img"
                     />
                     <div className="tablet-restaurant-bottom-restaurant-text">
@@ -552,6 +553,7 @@ const Restaurant = () => {
                     <img
                       src={`/image/${restaurant.fileName}`}
                       id={restaurant.restaurantId}
+                      onClick={handleDetailPage}
                       className="mobile-restaurant-bottom-restaurant-img"
                     />
                     <div className="mobile-restaurant-bottom-restaurant-text">

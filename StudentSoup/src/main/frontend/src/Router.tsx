@@ -12,6 +12,7 @@ import MypageMain from './components/mypage/MypageMain';
 import RestaurantDetail from './components/restaurant/RestaurantDetail';
 import Notice from './components/notice/Notice';
 import Scheduler from './components/mypage/MypageScheduler';
+import Board from './components/board/Board';
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
       <Route path="/signup/process/1" element={<SignUpProcess1 />} />
       <Route path="/signup/process/2" element={<SignUpProcess2 />} />
       <Route path="/signup/process/3" element={<SignUpProcess3 />} />
+      <Route path="/board" element={<Board />} />
       <Route path="/mypage" element={<MypageMain />} />
       <Route path="/scheduler" element={<Scheduler />} />
     </Routes>

@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.controller.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardCallDto;
 import ProjectDoge.StudentSoup.dto.board.BoardDto;
+import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.board.BoardSearchDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
 import ProjectDoge.StudentSoup.exception.page.PagingLimitEqualsZeroException;
@@ -9,6 +10,7 @@ import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +53,11 @@ public class BoardCallController {
                 boardSearchDto.getValue());
         checkPagingSize(pageable.getPageSize());
         return boardCallService.getBoardSortedCall(boardCallDto, category, sorted, pageable, boardSearchDto);
+    }
+
+    @PostMapping("/board/{category}")
+    public Page<BoardMainDto> getCustomerService(@PageableDefault(size =12) Pageable pageable,@PathVariable String category,@RequestParam(required = false) String title){
+        return boardCallService.getCustomerService(pageable,category,title);
     }
 
     @PostMapping("/board/{boardId}/{memberId}")
