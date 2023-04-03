@@ -39,8 +39,10 @@ const Login = () => {
 
       signIn(userId, userPassword)
         .then(response => {
-          const token = response.data;
-          sessionStorage.setItem('access-token', token);
+          const accessToken = JSON.stringify(response.data.accessToken);
+          const refreshToken = JSON.stringify(response.data.refreshToken);
+          localStorage.setItem('access-token', accessToken);
+          localStorage.setItem('refresh-token', refreshToken);
           setUserId('');
           setUserPassword('');
 
@@ -61,7 +63,7 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (sessionStorage.getItem('access-token')) {
+    if (localStorage.getItem('access-token')) {
       navigate('/');
     }
 
@@ -69,7 +71,7 @@ const Login = () => {
       setIsRememberId(true);
       setUserId(localStorage.getItem('rememberId'));
     }
-  }, [sessionStorage.getItem('token')]);
+  }, [localStorage.getItem('rememberId'), localStorage.getItem('token')]);
 
   return (
     <>
@@ -91,6 +93,7 @@ const Login = () => {
               value={userPassword}
               onChange={onChangeUserPassword}
               placeholder="비밀번호를 입력해주세요"
+              autoComplete="current-password"
             />
             <div className="login-keep-wrap">
               <div className="remember-wrap" onClick={onClickRememberId}>
