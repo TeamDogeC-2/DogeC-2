@@ -28,7 +28,7 @@ public class ScheduleUpdateService {
     }
     @Transactional
     public Long setUpdateSchedule(ScheduleDto scheduleDto,Long memberId) {
-        memberIdNullcheck(memberId);
+        memberIdNullCheck(memberId);
         List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
         checkDuplicateSubject(scheduleDto);
@@ -39,7 +39,7 @@ public class ScheduleUpdateService {
         return schedule.getScheduleId();
     }
 
-    private void memberIdNullcheck(Long memberId) {
+    private void memberIdNullCheck(Long memberId) {
         if(memberId == null){
             throw new MemberIdNotSentException("회원 아이디가 전송되지 않았습니다.");
         }
