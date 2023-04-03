@@ -16,7 +16,7 @@ import {
 
 const MypageNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
-  const [login, isLogin] = useState<boolean>(true);
+  const [login, isLogin] = useState<boolean>(false);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 

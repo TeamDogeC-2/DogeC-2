@@ -9,7 +9,7 @@ import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons
 
 const MainNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
-  const [login, isLogin] = useState<boolean>(true);
+  const [login, isLogin] = useState<boolean>(false);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
