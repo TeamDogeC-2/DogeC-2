@@ -4,6 +4,7 @@ import ProjectDoge.StudentSoup.dto.schedule.ScheduleDto;
 import ProjectDoge.StudentSoup.repository.schedule.ScheduleRepository;
 import ProjectDoge.StudentSoup.service.schedule.ScheduleCallService;
 import ProjectDoge.StudentSoup.service.schedule.ScheduleRegisterService;
+import ProjectDoge.StudentSoup.service.schedule.ScheduleUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,26 @@ public class ScheduleController {
     private final ScheduleRepository scheduleRepository;
 
     private final ScheduleCallService scheduleCallService;
+
+    private final ScheduleUpdateService scheduleUpdateService;
+
     @PostMapping("schedule/{memberId}")
     public List<ScheduleDto> callSchedule(@PathVariable Long memberId){
         List<ScheduleDto> schedules = scheduleCallService.getSchedule(memberId);
         return schedules;
     }
+    @GetMapping("schedule/{scheduleId}")
+    public ScheduleDto getUpdateSchedule(@PathVariable Long scheduleId){
+        ScheduleDto updateBoard = scheduleUpdateService.getUpdateBoard(scheduleId);
+        return updateBoard;
+    }
+
+    @PatchMapping("schedule/{memberId}")
+    public Long SetUpdateSchedule(@PathVariable Long memberId, ScheduleDto scheduleDto){
+        return scheduleUpdateService.setUpdateSchedule(scheduleDto,memberId);
+
+    }
+
 
     @PutMapping("schedule/{memberId}")
     public Long createSchedule(ScheduleDto scheduleDto, @PathVariable Long memberId){
