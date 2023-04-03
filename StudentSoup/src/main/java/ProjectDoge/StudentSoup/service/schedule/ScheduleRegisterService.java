@@ -25,7 +25,7 @@ public class ScheduleRegisterService {
     @Transactional
     public Long join(ScheduleDto scheduleDto,Long memberId){
         Member member = memberFindService.findOne(memberId);
-        List<Schedule> schedules = scheduleRepository.findByMemberId(memberId, scheduleDto.getDayOfWeek());
+        List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
         checkDuplicateSubject(scheduleDto);
         Schedule schedule = new Schedule().createSchedule(scheduleDto, member);
