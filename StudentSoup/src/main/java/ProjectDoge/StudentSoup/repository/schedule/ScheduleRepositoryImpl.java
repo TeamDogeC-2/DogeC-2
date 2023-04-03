@@ -16,13 +16,21 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Schedule> findByMemberId(Long memberId,String dayOfWeek){
+    public List<Schedule> findByMemberIdAndDayOfWeek(Long memberId,String dayOfWeek){
         return queryFactory.select(schedule)
                 .from(schedule)
                 .where(schedule.member.memberId.eq(memberId)
                         ,schedule.DayOfWeek.eq(dayOfWeek))
                 .fetch();
 
+    }
+
+    @Override
+    public List<Schedule> findByMemberId(Long memberId){
+        return queryFactory.select(schedule)
+                .from(schedule)
+                .where(schedule.member.memberId.eq(memberId))
+                .fetch();
     }
 
     @Override

@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface ScheduleRepositoryCustom {
 
-    List<Schedule> findByMemberId(Long memberId,String dayOfWeek);
+    List<Schedule> findByMemberIdAndDayOfWeek(Long memberId,String dayOfWeek);
 
     Optional<Schedule> findBySubject(String subject);
+
+    List<Schedule> findByMemberId(Long memberId);
 }
