@@ -1,9 +1,12 @@
 package ProjectDoge.StudentSoup.controller.schedule;
 
 import ProjectDoge.StudentSoup.dto.schedule.ScheduleDto;
+import ProjectDoge.StudentSoup.repository.schedule.ScheduleRepository;
 import ProjectDoge.StudentSoup.service.schedule.ScheduleRegisterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +18,15 @@ public class ScheduleRegisterController {
 
     private final ScheduleRegisterService scheduleRegisterService;
 
+    private final ScheduleRepository scheduleRepository;
     @PutMapping("schedule/{memberId}")
     public Long createSchedule(ScheduleDto scheduleDto, @PathVariable Long memberId){
         return scheduleRegisterService.join(scheduleDto, memberId);
     }
 
+    @DeleteMapping("schedule/{scheduleId}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long scheduleId){
+        scheduleRepository.deleteById(scheduleId);
+    return ResponseEntity.ok("ok");
+    }
 }
