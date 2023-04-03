@@ -14,14 +14,14 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class ScheduleRegisterController {
+public class ScheduleController {
 
     private final ScheduleRegisterService scheduleRegisterService;
 
     private final ScheduleRepository scheduleRepository;
 
     private final ScheduleCallService scheduleCallService;
-    @PostMapping("Schedule/{memberId}")
+    @PostMapping("schedule/{memberId}")
     public List<ScheduleDto> callSchedule(@PathVariable Long memberId){
         List<ScheduleDto> schedules = scheduleCallService.getSchedule(memberId);
         return schedules;
