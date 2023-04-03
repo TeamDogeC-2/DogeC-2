@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Setter
@@ -18,15 +19,16 @@ public class Schedule {
     @Column(name = "SCHEDULE_ID")
     private Long scheduleId;
 
+    @NotEmpty
     private String DayOfWeek;
 
-
+    @NotEmpty
     private int startTime;
-
+    @NotEmpty
     private int endTime;
-
+    @NotEmpty
     private String color;
-
+    @NotEmpty
     private String subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
