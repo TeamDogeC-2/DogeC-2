@@ -5,6 +5,7 @@ import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.schedule.ScheduleDto;
 import ProjectDoge.StudentSoup.entity.schedule.Schedule;
 import ProjectDoge.StudentSoup.exception.Schedule.ScheduleDuplicateException;
+import ProjectDoge.StudentSoup.exception.member.MemberIdNotSentException;
 import ProjectDoge.StudentSoup.repository.schedule.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class ScheduleUpdateService {
     }
     @Transactional
     public Long setUpdateSchedule(ScheduleDto scheduleDto,Long memberId) {
+        memberIdNullcheck(memberId);
         List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
         checkDuplicateSubject(scheduleDto);
@@ -35,6 +37,12 @@ public class ScheduleUpdateService {
         scheduleRepository.save(schedule);
 
         return schedule.getScheduleId();
+    }
+
+    private void memberIdNullcheck(Long memberId) {
+        if(memberId == null){
+            throw new MemberIdNotSentException("회원 아이디가 전송되지 않았습니다.");
+        }
     }
 
     private void checkDuplicateSubject(ScheduleDto scheduleDto) {
