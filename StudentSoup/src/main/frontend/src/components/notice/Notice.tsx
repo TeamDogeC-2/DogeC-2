@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Background from '../common/Background';
 import MainNavbar from '../common/MainNavbar';
-import Pagination from 'react-js-pagination';
 import './notice.scss';
 import axios from 'axios';
 import Paginate from '../common/Paginate';
 import PostSearch from '../common/PostSearch';
 import Table from '../common/Table';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
 export interface NoticePostsDataType {
   authentication: string;
@@ -38,13 +36,12 @@ export const Notice = () => {
 
   useEffect(() => {
     const axiosData = async () => {
-      const response = await axios.post('/board/ANNOUNCEMENT', {
-        category: 'ANNOUNCEMENT',
-      });
+      const response = await axios.post('/board/ANNOUNCEMENT');
 
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
     };
+
     axiosData();
   }, []);
 
@@ -62,7 +59,16 @@ export const Notice = () => {
         <div className="notice-container">
           <h1>공지사항</h1>
           <div className="notice-table-wrap">
-            <Table headings={['title', 'writeDate']} data={currentPosts} />
+            {items.length !== 0 ? (
+              <Table headings={['title', 'writeDate']} data={currentPosts} />
+            ) : (
+              <div>
+                <h3>검색결과가 없습니다.</h3>
+                <span>
+                  검색어의 철자가 정확한지 확인해주세요. <br /> 비슷한 다른 검색어를 입력해보세요.
+                </span>
+              </div>
+            )}
           </div>
           <Paginate
             page={currentpage}
@@ -70,7 +76,7 @@ export const Notice = () => {
             setPage={handlePageChange}
             postPerPage={postPerPage}
           />
-          <PostSearch />
+          <PostSearch items={items} setItems={setItems} setPostPerPage={setPostPerPage} />
         </div>
       </Background>
     </>
