@@ -7,6 +7,7 @@ import axios from 'axios';
 import Paginate from '../common/Paginate';
 import PostSearch from '../common/PostSearch';
 import Table from '../common/Table';
+import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
 export interface NoticePostsDataType {
   authentication: string;
@@ -18,7 +19,7 @@ export interface NoticePostsDataType {
   tag: string;
   title: string;
   view: number;
-  writeDate: string;
+  writeDate: string | Date;
 }
 
 export const Notice = () => {
@@ -36,17 +37,15 @@ export const Notice = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.post('/boards?category=ANNOUNCEMENT', {
-        schoolId: '1',
-        memberId: '3',
+    const axiosData = async () => {
+      const response = await axios.post('/board/ANNOUNCEMENT', {
         category: 'ANNOUNCEMENT',
-        sorted: 0,
       });
-      setItems(response.data.boards.content);
-      setPostPerPage(response.data.boards.pageable.pageSize);
+
+      setItems(response.data.content);
+      setPostPerPage(response.data.pageable.pageSize);
     };
-    fetchData();
+    axiosData();
   }, []);
 
   useEffect(() => {
