@@ -316,6 +316,10 @@ public class TestDataInit {
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목" + i, BoardCategory.EMPLOYMENT, "테스트 내용" + i);
             boardResisterService.join(member1.getMemberId(), boardFormDto);
         }
+        for(int i = 30; i< 40; i++){
+            BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목" + i,BoardCategory.CUSTOMERSERVICE,"테스트 내용"+i);
+            boardResisterService.join(member1.getMemberId(),boardFormDto);
+        }
 
         for(int i = 100; i < 110; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createTestAllBoardFormDto("테스트 제목" + i, BoardCategory.ANNOUNCEMENT, "테스트 내용" + i);
@@ -362,10 +366,10 @@ public class TestDataInit {
             }
         }
 
-        BoardReply reply1 = boardReplyFindService.findOne(282L);
+        BoardReply reply1 = boardReplyFindService.findOne(292L);
         reply1.setLikedCount(10);
 
-        BoardReply reply2 = boardReplyFindService.findOne(285L);
+        BoardReply reply2 = boardReplyFindService.findOne(295L);
         reply2.setLikedCount(10);
 
         boardReplyRepository.save(reply1);
