@@ -31,12 +31,36 @@ const Table = ({ headings, data }: TableProps) => {
         {data.map((item: any) => (
           <tr key={item.boardId}>
             {headings.map((heading: string) => {
-              console.log(item);
-              return (
-                <td key={heading} className={`${heading.toLowerCase().replace(' ', '-')}-data`}>
-                  {item[heading]}
-                </td>
-              );
+              if (heading === 'writeDate') {
+                const date = new Date(item[heading]);
+
+                const dateFormat2: string =
+                  String(date.getFullYear()).slice(2, 4) +
+                  '.' +
+                  String(
+                    date.getMonth() + 1 < 9
+                      ? '0' + String(date.getMonth() + 1)
+                      : date.getMonth() + 1,
+                  ) +
+                  '.' +
+                  String(date.getDate() < 9 ? '0' + String(date.getDate()) : date.getDate()) +
+                  ' ' +
+                  String(date.getHours()) +
+                  ':' +
+                  String(date.getMinutes());
+
+                return (
+                  <td key={heading} className={`${heading.toLowerCase().replace(' ', '-')}-data`}>
+                    {dateFormat2}
+                  </td>
+                );
+              } else {
+                return (
+                  <td key={heading} className={`${heading.toLowerCase().replace(' ', '-')}-data`}>
+                    {item[heading]}
+                  </td>
+                );
+              }
             })}
           </tr>
         ))}
