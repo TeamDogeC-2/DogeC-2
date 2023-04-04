@@ -2,24 +2,23 @@
 @import './../../assets/scss/abstracts/_mixins';
 
 table {
+  border-collapse: collapse;
   width: 100%;
-
-  th {
-    @include font-container(1.25rem, 1.75rem, $subject-table-font-color);
-    border-bottom: 1px solid $basic-border-color;
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+  height: auto;
 
   tr {
-    height: 43px;
+    height: 2.6875rem;
+    border-bottom: 1px solid $basic-border-color;
+
+    th {
+      @include font-container(1.25rem, 1.75rem, $subject-table-font-color);
+    }
 
     td {
       @include font-container(1rem, 1.375rem, $subject-table-font-color);
 
-      border-bottom: 1px solid $basic-border-color;
-      padding: 5px 0;
-      height: 43px;
+      padding: 0.3125rem 0;
+      height: 2.6875rem;
 
       &:hover {
         cursor: pointer;
@@ -27,25 +26,49 @@ table {
     }
   }
 
-  // .subject {
-  //   padding-left: 24px;
-  //   width: 86%;
-  // }
+  .title-heading {
+    padding-left: 1.5rem;
+    width: 86%;
+  }
 
-  // .date-created {
-  //   padding-right: 24px;
-  //   width: 14%;
-  // }
+  .writedate-heading {
+    padding-right: 1.5rem;
+    width: 14%;
+  }
 
-  // .subject-post {
-  //   padding-left: 24px;
-  //   width: 86%;
-  //   text-align: left;
-  // }
+  .title-data {
+    padding-left: 1.5rem;
+    width: 86%;
+    text-align: left;
+  }
 
-  // .date-created-post {
-  //   padding-right: 24px;
-  //   width: 14%;
-  //   text-align: center;
-  // }
+  .writedate-data {
+    padding-right: 1.5rem;
+    width: 14%;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 768px) {
+    .title-heading {
+      padding-left: 1rem;
+      width: 70%;
+    }
+
+    .writedate-heading {
+      padding-right: 1rem;
+      width: 30%;
+    }
+
+    .title-data {
+      padding-left: 1rem;
+      width: 70%;
+      text-align: left;
+    }
+
+    .writedate-data {
+      padding-right: 1rem;
+      width: 30%;
+      text-align: center;
+    }
+  }
 }
