@@ -5,7 +5,10 @@ import review_white from '../../img/review_white.svg';
 import heart_white from '../../img/heart_white.svg';
 import Circle_human from '../../img/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsis, faHeart, faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
+import BoardBestReview from './BoardBestReview';
+import BoardReview from './BoardReview';
+import BoardReply from './BoardReply';
 
 const BoardDetail = () => {
   return (
@@ -48,7 +51,7 @@ const BoardDetail = () => {
           </div>
         </div>
         <div className="board-detail-bottom-div">
-          <div className="board-detail-bottom-review">
+          <div className="board-detail-bottom-review-text">
             <div className="board-detail-bottom-review-count">
               <p>댓글 수</p>
             </div>
@@ -63,30 +66,9 @@ const BoardDetail = () => {
               <button>작성</button>
             </div>
           </div>
-          <div className="board-detail-bottom-best-review-div">
-            <div className="board-detail-bottom-best-review">
-              <div className="board-detail-bottom-best-review-left">
-                <img src={Circle_human} alt="" />
-                <div className="board-detail-bottom-best-review-best-div">
-                  <span className='board-detail-bottom-best-text'>BEST</span>
-                  <div className="board-detail-bottom-best-review-name-div">
-                    <span>
-                      유저네임 <p>작성날짜</p>
-                    </span>
-                    <p>댓글내용</p>
-                  </div>
-                </div>
-              </div>
-              <div className="board-detail-bottom-best-review-right">
-                <FontAwesomeIcon icon={faEllipsis} className="board-detail-function-icon" />
-                <div className="board-detail-bottom-best-review-right-heart">
-                  <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-                  <p>14</p>
-                </div>
-              </div>
-            </div>
-            <div className="board-detail-underline" />
-          </div>
+          <BoardBestReview />
+          <BoardReview />
+          <BoardReply />
         </div>
       </div>
     </div>

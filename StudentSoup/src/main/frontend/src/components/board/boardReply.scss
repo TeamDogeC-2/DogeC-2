@@ -1,0 +1,105 @@
+$basic-color: #ff611d;
+$basic-border-color: #bcbcbc;
+$text-color: #252525;
+$text-sub-color: #a8a8a8;
+
+.board-detail-bottom-reply-div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  .board-detail-bottom-reply {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 2.85rem 0.5rem 2.85rem;
+
+    .board-detail-bottom-reply-left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .board-detail-reply-icon {
+        transform: rotate(90deg);
+        margin-right: 1rem;
+      }
+
+      img {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .board-detail-bottom-reply-top-div {
+        display: flex;
+        flex-direction: row;
+
+        .board-detail-bottom-text {
+          font-size: 1rem;
+          margin-left: 1rem;
+          color: $basic-color;
+        }
+
+        .board-detail-bottom-reply-name-div {
+          display: flex;
+          flex-direction: column;
+          margin-left: 1rem;
+
+          span {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            p {
+              font-size: 0.75rem;
+              color: #919191;
+              margin-left: 0.5rem;
+            }
+          }
+
+          .board-detail-bottom-reply-content {
+            font-size: 1rem;
+            color: $text-color;
+            margin-top: 0.5rem;
+            margin-left: 0.55rem;
+          }
+        }
+      }
+    }
+
+    .board-detail-bottom-reply-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .board-detail-reply-function-icon {
+        color: $text-sub-color;
+        margin-bottom: 1rem;
+      }
+
+      .board-detail-bottom-reply-right-heart {
+        display: flex;
+        flex-direction: row;
+        margin-top: 1rem;
+
+        .board-detail-reply-function-heart-icon {
+          color: $basic-color;
+          margin-right: 0.125rem;
+        }
+
+        p {
+          color: $basic-color;
+        }
+      }
+    }
+  }
+
+  .board-detail-underline {
+    background-color: $basic-border-color;
+    height: 1px;
+    margin: 0 2.875rem;
+  }
+}
