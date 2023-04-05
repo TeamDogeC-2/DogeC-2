@@ -40,6 +40,6 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         body.put("path",request.getServletPath());
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getOutputStream(),body);
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
