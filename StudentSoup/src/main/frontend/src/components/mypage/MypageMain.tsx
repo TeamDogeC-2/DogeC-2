@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MypageNavbar from '../common/MypageNavbar';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageMain.scss';
@@ -10,13 +10,18 @@ import MypageModify from './MypageModify';
 import Swal from 'sweetalert2';
 import { ReactComponent as SchoolIcon } from '../../img/SchoolIcon.svg';
 import { ReactComponent as SchoolSkillIcon } from '../../img/SchoolSkillIcon.svg';
+import { MypageUserInfo, type UserInfoType } from './data/MypageUserInfo';
 
 const MypageMain = () => {
+  let year = '';
+  let month = '';
+  let day = '';
   const [selectPage, setSelectPage] = useState<string>('preview');
   const handleSelectPage = (pagename: string) => {
     setSelectPage(pagename);
   };
 
+  const [userInfo, setUserInfo] = useState<UserInfoType>();
   const handleEditProfile = async () => {
     const result = await Swal.fire({
       html: `
@@ -62,6 +67,21 @@ const MypageMain = () => {
       });
     }
   };
+
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        setUserInfo(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
+  if (userInfo?.registrationDate) {
+    [year, month, day] = userInfo.registrationDate.split('-');
+  }
+  const formatDate = `${year}년 ${month}월 ${day}일`;
   return (
     <>
       <MypageNavbar />
@@ -74,14 +94,14 @@ const MypageMain = () => {
                 <img src={MemberImg} className="mypagemain-img" />
                 <div className="hover-text">이미지 수정</div>
               </div>
-              <div className="mypagemain-username">어떻게이름이열두글자임미</div>
+              <div className="mypagemain-username">{userInfo?.nickname}</div>
               <div className="mypagemain-schoolname">
                 <SchoolIcon />
-                <span className="mypagemain-schooltext">청운대학교 인천캠퍼스</span>
+                <span className="mypagemain-schooltext">{userInfo?.schoolName}</span>
               </div>
               <div className="mypagemain-schoolskill">
                 <SchoolSkillIcon />
-                <span className="mypagemain-schooltext">컴퓨터공학과</span>
+                <span className="mypagemain-schooltext">{userInfo?.departmentName}</span>
               </div>
               <button
                 onClick={selectPage === 'modify' ? undefined : handleEditProfile}
@@ -90,7 +110,7 @@ const MypageMain = () => {
               >
                 {selectPage === 'modify' ? '내 정보' : '내 프로필 편집'}
               </button>
-              <p className="mypagemain-date">가입일 : 2020년 2월28일</p>
+              <p className="mypagemain-date">가입일 : {formatDate}</p>
             </div>
             {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
             {selectPage === 'boardreply' && <MypageContents />}
@@ -108,14 +128,14 @@ const MypageMain = () => {
                 <img src={MemberImg} className="tablet-mypagemain-img" />
                 <div className="tablet-hover-text">이미지 수정</div>
               </div>
-              <div className="tablet-mypagemain-username">어떻게이름이열두글자임미</div>
+              <div className="tablet-mypagemain-username">{userInfo?.nickname}</div>
               <div className="tablet-mypagemain-schoolname">
                 <SchoolIcon />
-                <span className="tablet-mypagemain-schooltext">청운대학교 인천캠퍼스</span>
+                <span className="tablet-mypagemain-schooltext">{userInfo?.schoolName}</span>
               </div>
               <div className="tablet-mypagemain-schoolskill">
                 <SchoolSkillIcon />
-                <span className="tablet-mypagemain-schooltext">컴퓨터공학과</span>
+                <span className="tablet-mypagemain-schooltext">{userInfo?.departmentName}</span>
               </div>
               <button
                 onClick={selectPage === 'modify' ? undefined : handleEditProfile}
@@ -124,7 +144,7 @@ const MypageMain = () => {
               >
                 {selectPage === 'modify' ? '내 정보' : '내 프로필 편집'}
               </button>
-              <p className="tablet-mypagemain-date">가입일 : 2020년 2월28일</p>
+              <p className="tablet-mypagemain-date">가입일 : {formatDate}</p>
             </div>
             {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
             {selectPage === 'boardreply' && <MypageContents />}
@@ -142,14 +162,14 @@ const MypageMain = () => {
                 <img src={MemberImg} className="mobile-mypagemain-img" />
                 <div className="mobile-hover-text">이미지 수정</div>
               </div>
-              <div className="mobile-mypagemain-username">어떻게이름이열두글자임미</div>
+              <div className="mobile-mypagemain-username">{userInfo?.nickname}</div>
               <div className="mobile-mypagemain-schoolname">
                 <SchoolIcon />
-                <span className="mobile-mypagemain-schooltext">청운대학교 인천캠퍼스</span>
+                <span className="mobile-mypagemain-schooltext">{userInfo?.schoolName}</span>
               </div>
               <div className="mobile-mypagemain-schoolskill">
                 <SchoolSkillIcon />
-                <span className="mobile-mypagemain-schooltext">컴퓨터공학과</span>
+                <span className="mobile-mypagemain-schooltext">{userInfo?.departmentName}</span>
               </div>
               <button
                 onClick={selectPage === 'modify' ? undefined : handleEditProfile}
@@ -158,7 +178,7 @@ const MypageMain = () => {
               >
                 {selectPage === 'modify' ? '내 정보' : '내 프로필 편집'}
               </button>
-              <p className="mobile-mypagemain-date">가입일 : 2020년 2월28일</p>
+              <p className="mobile-mypagemain-date">가입일 : {formatDate}</p>
             </div>
             {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
             {selectPage === 'boardreply' && <MypageContents />}
