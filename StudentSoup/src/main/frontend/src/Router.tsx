@@ -13,6 +13,7 @@ import RestaurantDetail from './components/restaurant/RestaurantDetail';
 import Notice from './components/notice/Notice';
 import Scheduler from './components/mypage/MypageScheduler';
 import Board from './components/board/Board';
+import BoardWrite from './components/board/BoardWrite';
 
 const Router = () => {
   return (
@@ -30,6 +31,7 @@ const Router = () => {
       <Route path="/board" element={<Board />} />
       <Route path="/mypage" element={<MypageMain />} />
       <Route path="/scheduler" element={<Scheduler />} />
+      <Route path="/board/write" element={<BoardWrite />} />
     </Routes>
   );
 };
