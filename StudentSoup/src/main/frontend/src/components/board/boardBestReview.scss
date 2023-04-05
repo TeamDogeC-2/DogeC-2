@@ -95,3 +95,102 @@ $text-sub-color: #a8a8a8;
     height: 1px;
   }
 }
+
+.board-detail-mobile-bottom-best-review-div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 2.875rem;
+
+  .board-detail-mobile-bottom-best-review {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    .board-detail-mobile-bottom-best-review-left {
+      display: flex;
+      flex-direction: row;
+
+      img {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .board-detail-mobile-bottom-best-review-best-div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .board-detail-mobile-bottom-best-review-best-name-info {
+          display: flex;
+          flex-direction: column;
+
+          .board-detail-mobile-bottom-best-review-name-div {
+            display: flex;
+            flex-direction: row;
+
+            .board-detail-mobile-bottom-best-text {
+              font-size: 1rem;
+              margin-left: 1rem;
+              color: $basic-color;
+            }
+
+            span {
+              font-size: 1rem;
+              font-weight: 500;
+              margin-left: 0.5rem;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+              p {
+                font-size: 0.75rem;
+                color: #919191;
+                margin-left: 0.5rem;
+              }
+            }
+          }
+
+          .board-detail-mobile-bottom-best-review-content {
+            font-size: 1rem;
+            color: $text-color;
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+          }
+        }
+
+        .board-detail-mobile-bottom-best-review-right {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .board-detail-mobile-function-icon {
+            color: $text-sub-color;
+            margin-bottom: 1rem;
+            cursor: pointer;
+          }
+
+          .board-detail-mobile-bottom-best-review-right-heart {
+            display: flex;
+            flex-direction: row;
+            margin-top: 1rem;
+
+            .board-detail-mobile-function-heart-icon {
+              color: $basic-color;
+              margin-right: 0.125rem;
+            }
+
+            p {
+              color: $basic-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .board-detail-mobile-underline {
+    background-color: $basic-border-color;
+    height: 1px;
+  }
+}
