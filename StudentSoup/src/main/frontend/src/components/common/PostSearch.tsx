@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { postBoardNoticeSearch } from '../../apis/auth/BoardAPI';
+import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
 
-const PostSearch = ({ items, setItems, setPostPerPage }: any) => {
+const PostSearch = ({ items, setItems, setPostPerPage }: PostSearchPropsType) => {
   const [select, setSelect] = useState('');
   const [search, setSearch] = useState('');
 
@@ -17,12 +19,10 @@ const PostSearch = ({ items, setItems, setPostPerPage }: any) => {
   };
 
   const onClickSearch = async () => {
-    const response = await axios.post('/board/ANNOUNCEMENT?title=' + search).then(response => {
+    postBoardNoticeSearch(search).then(response => {
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
     });
-
-    return response;
   };
 
   return (
