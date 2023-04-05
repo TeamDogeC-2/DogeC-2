@@ -4,7 +4,6 @@
 
 .notice-container {
   @include flex-container(column, flex-start, center);
-  margin: 4.6875rem auto 0 auto;
   padding: 2.375rem 4rem 3.125rem 4rem;
   width: 100%;
   max-width: 1320px;
@@ -44,7 +43,7 @@
 
 @media screen and (max-width: 1040px) {
   .notice-container {
-    padding: 2.375rem 1.25rem 3.125rem 1.25rem;
+    padding: 7.0625rem 1.25rem 3.125rem 1.25rem;
 
     .notice-table-wrap {
       width: 100%;
