@@ -2,23 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Background from '../common/Background';
 import MainNavbar from '../common/MainNavbar';
 import './notice.scss';
-import axios from 'axios';
 import Paginate from '../common/Paginate';
 import PostSearch from '../common/PostSearch';
 import Table from '../common/Table';
-
-export interface NoticePostsDataType {
-  authentication: string;
-  boardCategory: string;
-  boardId: number;
-  likedCount: number;
-  nickname: string;
-  reviewCount: string;
-  tag: string;
-  title: string;
-  view: number;
-  writeDate: string | Date;
-}
+import { postBoardNotice } from '../../apis/auth/BoardAPI';
+import { type NoticePostsDataType } from '../../interfaces/BoardTypes';
 
 export const Notice = () => {
   const [items, setItems] = useState<NoticePostsDataType[]>([]);
@@ -35,14 +23,10 @@ export const Notice = () => {
   };
 
   useEffect(() => {
-    const axiosData = async () => {
-      const response = await axios.post('/board/ANNOUNCEMENT');
-
+    postBoardNotice().then(response => {
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
-    };
-
-    axiosData();
+    });
   }, []);
 
   useEffect(() => {
@@ -54,8 +38,8 @@ export const Notice = () => {
 
   return (
     <>
-      <MainNavbar />
       <Background>
+        <MainNavbar />
         <div className="notice-container">
           <h1>공지사항</h1>
           <div className="notice-table-wrap">
