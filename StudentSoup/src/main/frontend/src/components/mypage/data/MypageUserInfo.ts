@@ -5,6 +5,7 @@ export interface UserInfoType {
   schoolId: number;
   schoolName: string;
   departmentId: number;
+  departmentName: string;
   fileName: string;
   id: string;
   nickname: string;
