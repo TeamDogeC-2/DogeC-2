@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { ReactComponent as SchoolIcon } from '../../img/SchoolIcon.svg';
 import { ReactComponent as SchoolSkillIcon } from '../../img/SchoolSkillIcon.svg';
 import { MypageUserInfo, type UserInfoType } from './data/MypageUserInfo';
+import { ImageUpload, ImageDelete } from './data/MypageImgControl';
 
 const MypageMain = () => {
   let year = '';
@@ -22,6 +23,7 @@ const MypageMain = () => {
   };
 
   const [userInfo, setUserInfo] = useState<UserInfoType>();
+  const [userImg, setUserImg] = useState<string>('');
   const handleEditProfile = async () => {
     const result = await Swal.fire({
       html: `
@@ -72,6 +74,7 @@ const MypageMain = () => {
     MypageUserInfo()
       .then(res => {
         setUserInfo(res.data);
+        setUserImg(res.data.fileName);
       })
       .catch(err => {
         console.error(err);
@@ -82,6 +85,63 @@ const MypageMain = () => {
     [year, month, day] = userInfo.registrationDate.split('-');
   }
   const formatDate = `${year}년 ${month}월 ${day}일`;
+
+  const handleImageOptions = async () => {
+    const showOptions = async (): Promise<void> => {
+      const result = await Swal.fire({
+        title: '프로필을 변경하시겠습니까?',
+        showDenyButton: true,
+        confirmButtonText: '변경',
+        denyButtonText: '삭제',
+      });
+
+      if (result.isConfirmed) {
+        const imageUploadInput = document.getElementById('image-upload');
+        if (imageUploadInput) {
+          imageUploadInput.click();
+        }
+        Swal.close();
+      } else if (result.isDenied) {
+        if (!userImg) {
+          await Swal.fire({
+            icon: 'error',
+            title: '이미 기본프로필 사진입니다.',
+          });
+          return await showOptions();
+        } else {
+          const deleteResult = await Swal.fire({
+            title: '정말로 삭제하시겠습니까?',
+            showDenyButton: true,
+            confirmButtonText: '삭제',
+            denyButtonText: '취소',
+          });
+          if (deleteResult.isConfirmed && userInfo?.memberId) {
+            ImageDelete(userInfo.memberId)
+              .then(res => {
+                setUserImg(res.data.fileName);
+              })
+              .catch(err => {
+                console.error(err);
+              });
+            location.reload();
+          }
+        }
+      }
+    };
+    await showOptions();
+  };
+  const handleImageUpload = async (e: any) => {
+    const [file] = e.target.files;
+    if (file && userInfo?.memberId) {
+      ImageUpload(userInfo.memberId, file)
+        .then(res => {
+          setUserImg(res.data.fileName);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
   return (
     <>
       <MypageNavbar />
@@ -90,9 +150,17 @@ const MypageMain = () => {
           <div className="mypagemain-banner"></div>
           <div className="mypagemain-usercontainer">
             <div className="mypagemain-userinfo">
-              <div className="mypagemain-imgbox">
-                <img src={MemberImg} className="mypagemain-img" />
-                <div className="hover-text">이미지 수정</div>
+              <div onClick={handleImageOptions} className="mypagemain-imgbox">
+                <img src={userImg ? `/image/${userImg}` : MemberImg} className="mypagemain-img" />
+                <div className="hover-text">
+                  <div>프로필 수정</div>
+                  <input
+                    type="file"
+                    id="image-upload"
+                    style={{ display: 'none' }}
+                    onChange={handleImageUpload}
+                  />
+                </div>
               </div>
               <div className="mypagemain-username">{userInfo?.nickname}</div>
               <div className="mypagemain-schoolname">
@@ -124,9 +192,20 @@ const MypageMain = () => {
           <div className="tablet-mypagemain-banner"></div>
           <div className="tablet-mypagemain-usercontainer">
             <div className="tablet-mypagemain-userinfo">
-              <div className="tablet-mypagemain-imgbox">
-                <img src={MemberImg} className="tablet-mypagemain-img" />
-                <div className="tablet-hover-text">이미지 수정</div>
+              <div onClick={handleImageOptions} className="tablet-mypagemain-imgbox">
+                <img
+                  src={userImg ? `/image/${userImg}` : MemberImg}
+                  className="tablet-mypagemain-img"
+                />
+                <div className="tablet-hover-text">
+                  <div>프로필 수정</div>
+                  <input
+                    type="file"
+                    id="image-upload"
+                    style={{ display: 'none' }}
+                    onChange={handleImageUpload}
+                  />
+                </div>
               </div>
               <div className="tablet-mypagemain-username">{userInfo?.nickname}</div>
               <div className="tablet-mypagemain-schoolname">
@@ -158,9 +237,20 @@ const MypageMain = () => {
           <div className="mobile-mypagemain-banner"></div>
           <div className="mobile-mypagemain-usercontainer">
             <div className="mobile-mypagemain-userinfo">
-              <div className="mobile-mypagemain-imgbox">
-                <img src={MemberImg} className="mobile-mypagemain-img" />
-                <div className="mobile-hover-text">이미지 수정</div>
+              <div onClick={handleImageOptions} className="mobile-mypagemain-imgbox">
+                <img
+                  src={userImg ? `/image/${userImg}` : MemberImg}
+                  className="mobile-mypagemain-img"
+                />
+                <div className="mobile-hover-text">
+                  <div>프로필 수정</div>
+                  <input
+                    type="file"
+                    id="image-upload"
+                    style={{ display: 'none' }}
+                    onChange={handleImageUpload}
+                  />
+                </div>
               </div>
               <div className="mobile-mypagemain-username">{userInfo?.nickname}</div>
               <div className="mobile-mypagemain-schoolname">
