@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const accessToken = localStorage.getItem('access-token');
+    const accessToken: string | null = JSON.parse(localStorage.getItem('access-token') ?? 'null');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    const refreshToken = localStorage.getItem('refresh-token');
+    const refreshToken: string | null = JSON.parse(localStorage.getItem('refresh-token') ?? 'null');
 
     if (error.response.status === 401 && !originalRequest._retry) {
       if (refreshToken) {
