@@ -13,6 +13,7 @@ import RestaurantDetail from './components/restaurant/RestaurantDetail';
 import Notice from './components/notice/Notice';
 import Scheduler from './components/mypage/MypageScheduler';
 import Board from './components/board/Board';
+import BoardDetail from './components/board/BoardDetail';
 import BoardWrite from './components/board/BoardWrite';
 
 const Router = () => {
@@ -29,9 +30,10 @@ const Router = () => {
       <Route path="/signup/process/2" element={<SignUpProcess2 />} />
       <Route path="/signup/process/3" element={<SignUpProcess3 />} />
       <Route path="/board" element={<Board />} />
+      <Route path="/board/detail" element={<BoardDetail />} />
+      <Route path="/board/write" element={<BoardWrite />} />
       <Route path="/mypage" element={<MypageMain />} />
       <Route path="/scheduler" element={<Scheduler />} />
-      <Route path="/board/write" element={<BoardWrite />} />
     </Routes>
   );
 };
