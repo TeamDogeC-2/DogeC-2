@@ -36,7 +36,7 @@ public class MemberUpdateController {
         return ResponseEntity.ok(resultMap);
     }
 
-    @PostMapping("/edit/{memberId}")
+    @PostMapping("/edit/{memberId}/{category}")
     public MemberDto editMember(@PathVariable("memberId") Long memberId,
                                 @RequestBody MemberUpdateDto dto){
         Long updatedMemberId = memberUpdateService.updateMember(dto);
