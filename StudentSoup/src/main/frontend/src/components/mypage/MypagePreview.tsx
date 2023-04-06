@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import { ReactComponent as ReviewStarIcon } from '../../img/mypageReviewStar.svg';
+import { PreViewBoard, type PreViewBoardResponse } from './data/MypageContents';
 interface propTypes {
   handleSelectPage: (pagename: string) => void;
+  memberId: number | undefined;
 }
 const MypagePreview = (props: propTypes) => {
+  const [preViewBoardList, setPreViewBoardList] = useState<PreViewBoardResponse>();
   const onClickViewButton = () => {
     props.handleSelectPage('boardreply');
   };
   const onClickReviewButton = () => {
     props.handleSelectPage('review');
   };
+
+  useEffect(() => {
+    if (props?.memberId) {
+      PreViewBoard(props.memberId)
+        .then(res => {
+          setPreViewBoardList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   return (
     <>
       <DesktopHeader>
@@ -72,16 +88,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
+                {preViewBoardList?.content?.map(board => (
+                  <tr key={board.boardId}>
+                    <td>{board.title}</td>
+                    <td>{board.writeDate}</td>
+                    <td>{board.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
