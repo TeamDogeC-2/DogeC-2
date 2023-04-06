@@ -36,10 +36,10 @@ public class MemberUpdateController {
         return ResponseEntity.ok(resultMap);
     }
 
-    @PostMapping("/edit/{memberId}")
-    public MemberDto editMember(@PathVariable("memberId") Long memberId,
+    @PostMapping("/edit/{memberId}/{category}")
+    public MemberDto editMember(@PathVariable("memberId") Long memberId,@PathVariable String category,
                                 @RequestBody MemberUpdateDto dto){
-        Long updatedMemberId = memberUpdateService.updateMember(dto);
+        Long updatedMemberId = memberUpdateService.updateMember(dto,category);
         Member member = memberFindService.findOne(updatedMemberId);
         MemberDto memberDto = new MemberDto().getMemberDto(member);
         return memberDto;
