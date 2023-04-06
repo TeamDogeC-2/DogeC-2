@@ -183,7 +183,9 @@ const MypageMain = () => {
             {selectPage === 'preview' && userInfo?.memberId && (
               <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
             )}
-            {selectPage === 'boardreply' && <MypageContents />}
+            {selectPage === 'boardreply' && userInfo?.memberId && (
+              <MypageContents memberId={userInfo.memberId} />
+            )}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
           </div>
@@ -230,7 +232,9 @@ const MypageMain = () => {
             {selectPage === 'preview' && userInfo?.memberId && (
               <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
             )}
-            {selectPage === 'boardreply' && <MypageContents />}
+            {selectPage === 'boardreply' && userInfo?.memberId && (
+              <MypageContents memberId={userInfo.memberId} />
+            )}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
           </div>
@@ -277,7 +281,9 @@ const MypageMain = () => {
             {selectPage === 'preview' && userInfo?.memberId && (
               <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
             )}
-            {selectPage === 'boardreply' && <MypageContents />}
+            {selectPage === 'boardreply' && userInfo?.memberId && (
+              <MypageContents memberId={userInfo.memberId} />
+            )}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
           </div>
