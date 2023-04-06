@@ -4,9 +4,12 @@ import { ReactComponent as MypageReviewStar } from '../../img/mypageallReviewSta
 import { ReactComponent as MypageReviewHeart } from '../../img/mypageallReviewHeart.svg';
 import Paginate from '../common/Paginate';
 import EditReviewModal from './components/EditReviewModal';
+import { PreViewReview, type PreviewReviewResponse } from './data/MypageContents';
 import './mypageReview.scss';
-
-const MypageReview = () => {
+interface propTypes {
+  memberId: number | undefined;
+}
+const MypageReview = (props: propTypes) => {
   const [currentpage, setCurrentpage] = useState(1);
   const [count, setCount] = useState(3);
   const [postPerPage, setPostPerPage] = useState(0);
