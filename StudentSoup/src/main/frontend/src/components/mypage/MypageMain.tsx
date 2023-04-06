@@ -180,7 +180,9 @@ const MypageMain = () => {
               </button>
               <p className="mypagemain-date">가입일 : {formatDate}</p>
             </div>
-            {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
+            {selectPage === 'preview' && userInfo?.memberId && (
+              <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
+            )}
             {selectPage === 'boardreply' && <MypageContents />}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
@@ -225,7 +227,9 @@ const MypageMain = () => {
               </button>
               <p className="tablet-mypagemain-date">가입일 : {formatDate}</p>
             </div>
-            {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
+            {selectPage === 'preview' && userInfo?.memberId && (
+              <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
+            )}
             {selectPage === 'boardreply' && <MypageContents />}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
@@ -270,7 +274,9 @@ const MypageMain = () => {
               </button>
               <p className="mobile-mypagemain-date">가입일 : {formatDate}</p>
             </div>
-            {selectPage === 'preview' && <MypagePreview handleSelectPage={handleSelectPage} />}
+            {selectPage === 'preview' && userInfo?.memberId && (
+              <MypagePreview handleSelectPage={handleSelectPage} memberId={userInfo.memberId} />
+            )}
             {selectPage === 'boardreply' && <MypageContents />}
             {selectPage === 'review' && <MypagReview />}
             {selectPage === 'modify' && <MypageModify />}
