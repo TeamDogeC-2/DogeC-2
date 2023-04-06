@@ -10,6 +10,7 @@ import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+const kakao = (window as any).kakao;
 
 interface State {
   value1: string;
@@ -89,6 +90,22 @@ const Restaurant = () => {
     postRestaurant();
   }, [size, sort, category]);
 
+  const MapLocation = [longitude, latitude];
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(...MapLocation),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(...MapLocation);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+    marker.setMap(map);
+  });
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -161,7 +178,7 @@ const Restaurant = () => {
                   )}
                 </div>
               </div>
-              <div className="restaurant-top-map">kakaoMap</div>
+              <div id="map" className="restaurant-top-map"></div>
             </div>
             <div className="restaurant-bottom">
               <div className="restaurant-bottom-div">
