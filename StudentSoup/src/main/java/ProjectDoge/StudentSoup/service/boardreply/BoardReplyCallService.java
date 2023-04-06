@@ -51,10 +51,15 @@ public class BoardReplyCallService {
 
     private BoardReplyDto getBoardReplyLike(Long memberId, BoardReply boardReply) {
         for (BoardReplyLike boardReplyLike : boardReply.getBoardReplyLikes()) {
-            if (boardReplyLike.getMember().getMemberId().equals(memberId))
-                return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.LIKED);
+            if (boardReplyLike.getMember().getMemberId().equals(memberId)) {
+                BoardReplyDto boardReplyDto = new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.LIKED);
+                setWriteDate(boardReplyDto);
+                return boardReplyDto;
+            }
         }
-        return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.NOT_LIKED);
+        BoardReplyDto boardReplyDto = new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.NOT_LIKED);
+        setWriteDate(boardReplyDto);
+        return boardReplyDto;
     }
     private void setWriteDate(BoardReplyDto boardReplyDto) {
         LocalDateTime writeDateTime = LocalDateTime.parse(boardReplyDto.getWriteDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
