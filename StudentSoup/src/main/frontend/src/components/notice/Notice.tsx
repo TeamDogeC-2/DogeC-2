@@ -18,7 +18,7 @@ export const Notice = () => {
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState<NoticePostsDataType[]>([]);
 
-  const handlePageChange = (e: any) => {
+  const handlePageChange = (e: React.SetStateAction<number>) => {
     setCurrentpage(e);
   };
 
