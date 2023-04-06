@@ -12,6 +12,7 @@ const MypageReview = () => {
   const [postPerPage, setPostPerPage] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalFadingOut, setIsModalFadingOut] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('all');
   const handlePageChange = (e: any) => {
     setCurrentpage(e);
   };
@@ -24,10 +25,23 @@ const MypageReview = () => {
       return () => clearTimeout(timer);
     }
   }, [isModalFadingOut]);
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(event.target.value);
+  };
   return (
     <>
       <DesktopHeader>
         <div className="mypagereview-maincontainer">
+          <div className="mypagereview-reviewselect">
+            <h2 className="mypagereview-reviewname">리뷰</h2>
+            <select className="mypagereview-select" value={selectedOption} onChange={handleChange}>
+              <option value="all">전체</option>
+              <option value="today">오늘</option>
+              <option value="month">한달</option>
+              <option value="halfYear">6개월</option>
+              <option value="year">1년</option>
+            </select>
+          </div>
           <div className="mypagereview-startline"></div>
           <div className="mypagereview-container">
             <div className="mypagereview-grid-name">음식점 이름</div>
@@ -116,6 +130,20 @@ const MypageReview = () => {
       </DesktopHeader>
       <MobileHeader>
         <div className="tablet-mypagereview-maincontainer">
+          <div className="tablet-mypagereview-reviewselect">
+            <h2 className="tablet-mypagereview-reviewname">리뷰</h2>
+            <select
+              className="tablet-mypagereview-select"
+              value={selectedOption}
+              onChange={handleChange}
+            >
+              <option value="all">전체</option>
+              <option value="today">오늘</option>
+              <option value="month">한달</option>
+              <option value="halfYear">6개월</option>
+              <option value="year">1년</option>
+            </select>
+          </div>
           <div className="tablet-mypagereview-startline"></div>
           <div className="tablet-mypagereview-container">
             <div className="tablet-mypagereview-grid-name">음식점 이름</div>
@@ -134,7 +162,10 @@ const MypageReview = () => {
             <div className="tablet-mypagereview-grid-contents">
               맛은 어쩌구저쩌구 청결은 어저구저쩌구 다시또 갈만 한건지 아닌건지 모르겟어
             </div>
-            <button className="mypagereview-grid-edit" onClick={() => setIsModalVisible(true)}>
+            <button
+              className="tablet-mypagereview-grid-edit"
+              onClick={() => setIsModalVisible(true)}
+            >
               수정하기
             </button>
             {isModalVisible && (
@@ -204,6 +235,20 @@ const MypageReview = () => {
       </MobileHeader>
       <Mobile>
         <div className="mobile-mypagereview-maincontainer">
+          {/* <div className="mobile-mypagereview-reviewselect">
+            <h2 className="mobile-mypagereview-reviewname">리뷰</h2>
+            <select
+              className="mobile-mypagereview-select"
+              value={selectedOption}
+              onChange={handleChange}
+            >
+              <option value="all">전체</option>
+              <option value="today">오늘</option>
+              <option value="month">한달</option>
+              <option value="halfYear">6개월</option>
+              <option value="year">1년</option>
+            </select>
+          </div> */}
           <div className="mobile-mypagereview-startline"></div>
           <div className="mobile-mypagereview-container">
             <div className="mobile-mypagereview-grid-name">음식점 이름</div>
@@ -222,7 +267,10 @@ const MypageReview = () => {
             <div className="mobile-mypagereview-grid-contents">
               맛은 어쩌구저쩌구 청결은 어저구저쩌구 다시또 갈만 한건지 아닌건지 모르겟어
             </div>
-            <button className="mypagereview-grid-edit" onClick={() => setIsModalVisible(true)}>
+            <button
+              className="mobile-mypagereview-grid-edit"
+              onClick={() => setIsModalVisible(true)}
+            >
               수정하기
             </button>
             {isModalVisible && (
