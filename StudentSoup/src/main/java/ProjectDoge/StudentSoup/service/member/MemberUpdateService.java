@@ -60,11 +60,11 @@ public class MemberUpdateService {
 
     private void checkSchoolChange(Member member, MemberUpdateDto dto) {
         if(!member.getSchool().getId().equals(dto.getSchoolId())){
-            changSchool(member, dto);
+            changeSchool(member, dto);
         }
     }
 
-    private void changSchool(Member member, MemberUpdateDto dto) {
+    private void changeSchool(Member member, MemberUpdateDto dto) {
         School school = schoolFindService.findOne(dto.getSchoolId());
         Department department = departmentFindService.findOne(dto.getDepartmentId());
         member.setSchool(school);
