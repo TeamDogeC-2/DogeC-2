@@ -1,0 +1,11 @@
+.rating-stars {
+  .rating-star {
+    &.filled path {
+      fill: #ff611d;
+    }
+
+    &.empty path {
+      fill: #ccc;
+    }
+  }
+}
