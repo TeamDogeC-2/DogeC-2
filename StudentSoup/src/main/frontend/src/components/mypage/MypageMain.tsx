@@ -186,7 +186,9 @@ const MypageMain = () => {
             {selectPage === 'boardreply' && userInfo?.memberId && (
               <MypageContents memberId={userInfo.memberId} />
             )}
-            {selectPage === 'review' && <MypagReview />}
+            {selectPage === 'review' && userInfo?.memberId && (
+              <MypagReview memberId={userInfo.memberId} />
+            )}
             {selectPage === 'modify' && <MypageModify />}
           </div>
         </div>
@@ -235,7 +237,9 @@ const MypageMain = () => {
             {selectPage === 'boardreply' && userInfo?.memberId && (
               <MypageContents memberId={userInfo.memberId} />
             )}
-            {selectPage === 'review' && <MypagReview />}
+            {selectPage === 'review' && userInfo?.memberId && (
+              <MypagReview memberId={userInfo.memberId} />
+            )}
             {selectPage === 'modify' && <MypageModify />}
           </div>
         </div>
@@ -284,7 +288,9 @@ const MypageMain = () => {
             {selectPage === 'boardreply' && userInfo?.memberId && (
               <MypageContents memberId={userInfo.memberId} />
             )}
-            {selectPage === 'review' && <MypagReview />}
+            {selectPage === 'review' && userInfo?.memberId && (
+              <MypagReview memberId={userInfo.memberId} />
+            )}
             {selectPage === 'modify' && <MypageModify />}
           </div>
         </div>
