@@ -1,6 +1,7 @@
 $basic-color: #ff611d;
 $basic-border-color: #bcbcbc;
 $sub-color: #5a5a5a;
+$text-color: #000;
 
 .restaurant-main {
   background-color: #fff;
@@ -34,16 +35,81 @@ $sub-color: #5a5a5a;
         color: $sub-color;
       }
     }
-    .restaurant-filter-button {
-      border: 1px solid $basic-color;
-      background-color: #fff;
-      color: $basic-color;
-      border-radius: 23.5px;
-      font-size: 20px;
-      width: 128px;
-      height: 45px;
-      margin-top: 10px;
-      cursor: pointer;
+
+    .restaurant-filter-div {
+      display: flex;
+      flex-direction: column;
+
+      .restaurant-filter-button {
+        border: 1px solid $basic-color;
+        background-color: #fff;
+        color: $basic-color;
+        border-radius: 23.5px;
+        font-size: 20px;
+        width: 8rem;
+        height: 45px;
+        margin-top: 10px;
+        cursor: pointer;
+
+        .restaurant-filter-icon {
+          margin-right: 10px;
+        }
+      }
+
+      .restaurant-menu-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background: white;
+        width: 8rem;
+        height: auto;
+        position: absolute;
+        right: -100%;
+        opacity: 0;
+        align-items: stretch;
+        padding: 0.625rem;
+        list-style: none;
+        margin: 0;
+        transition: 0.5s ease-in-out;
+        border-radius: 15px;
+        font-style: normal;
+        box-shadow: 0 1px 2px 0 $sub-color;
+
+        .restaurant-filter-div {
+          width: 100%;
+          height: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 23.5px;
+          cursor: pointer;
+
+          .restaurant-filter {
+            color: $text-color;
+          }
+        }
+
+        .restaurant-filter-div.active {
+          background-color: $basic-color;
+
+          .restaurant-filter {
+            color: #fff;
+          }
+        }
+      }
+
+      .restaurant-menu-list.active {
+        right: 5%;
+        margin-top: 4rem;
+        opacity: 1;
+        z-index: 9990;
+        transition: 0.5s ease-in-out;
+        border: 1px solid #bcbcbc;
+
+        li {
+          margin-bottom: 10px;
+        }
+      }
     }
 
     .restaurant-top-map {
