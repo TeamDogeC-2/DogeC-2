@@ -28,11 +28,10 @@ public class MemberUpdateService {
 
 
     @Transactional
-    public Long updateMember(MemberUpdateDto dto){
+    public Long updateMember(MemberUpdateDto dto,String category){
         log.info("운영 페이지 회원 업데이트 메소드가 실행되었습니다.");
         Member member = memberFindService.findOne(dto.getMemberId());
         validationChangedNicknameEmail(dto, member);
-        updateMemberField(dto, member);
         log.info("운영 페이지 회원 업데이트가 완료되었습니다.");
         return member.getMemberId();
     }
@@ -40,11 +39,17 @@ public class MemberUpdateService {
         log.info("회원 업데이트 중 닉네임과 이메일 검증을 시작합니다.");
         if(!member.getNickname().equals(dto.getNickname())) {
             memberValidationService.validateDuplicateMemberNickname(dto.getNickname());
+            member.setNickname(dto.getNickname());
         }
-        if(!member.getEmail().equals(dto.getEmail())) {
+        else if(!member.getEmail().equals(dto.getEmail())) {
             memberValidationService.validateDuplicateMemberEmail(dto.getEmail());
+            log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
+            member.setEmail(dto.getEmail());
         }
-        log.info("회원 업데이트 중 닉네임 이메일 검증이 완료되었습니다.");
+        else if(!member.getPwd().equals(passwordEncoder.encode(dto.getPwd()))){
+            member.setPwd(passwordEncoder.encode(dto.getPwd()));
+        }
+        updateMemberField(dto, member);
     }
     private void updateMemberField(MemberUpdateDto dto, Member member) {
         log.info("회원 정보 업데이트를 시작하였습니다.");
@@ -56,11 +61,11 @@ public class MemberUpdateService {
                 school.getSchoolName(),
                 department.getDepartmentName());
 
-        member.setSchool(school);
-        member.setDepartment(department);
-        member.setPwd(passwordEncoder.encode(dto.getPwd()));
-        member.setEmail(dto.getEmail());
-        member.setNickname(dto.getNickname());
+//        member.setSchool(school);
+//        member.setDepartment(department);
+//        member.setPwd(passwordEncoder.encode(dto.getPwd()));
+//        member.setEmail(dto.getEmail());
+//        member.setNickname(dto.getNickname());
         memberRepository.save(member);
     }
 
