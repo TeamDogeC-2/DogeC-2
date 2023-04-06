@@ -111,3 +111,14 @@ export const PreViewReview = async (
 
   return response.data;
 };
+
+// 게시글/댓글 작성 수
+export interface DetailCountResponse {
+  boardReplyWriteCount: number;
+  boardWriteCount: number;
+}
+
+export const DetailCount = async (memberId: number): Promise<DetailCountResponse> => {
+  const response = await axiosInstance.post('/mypage/detail', { memberId });
+  return response.data;
+};
