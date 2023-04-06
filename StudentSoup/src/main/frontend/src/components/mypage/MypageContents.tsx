@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
 import Paginate from '../common/Paginate';
-
-const MypageContents = () => {
+import { DetailCount, type DetailCountResponse } from './data/MypageContents';
+interface propTypes {
+  memberId: number | undefined;
+}
+const MypageContents = (props: propTypes) => {
   const [content, setContent] = useState<string>('board');
   const [count, setCount] = useState(3);
   const [currentpage, setCurrentpage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(0);
+  const [contentCount, setContentCount] = useState<DetailCountResponse>();
   const handlePageChange = (e: any) => {
     setCurrentpage(e);
   };
+  useEffect(() => {
+    if (props?.memberId) {
+      DetailCount(props.memberId).then(res => {
+        setContentCount(res);
+      });
+    }
+  });
   return (
     <>
       <DesktopHeader>
@@ -27,7 +38,7 @@ const MypageContents = () => {
                   : 'mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -39,7 +50,7 @@ const MypageContents = () => {
                   : 'mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
           {content === 'board' ? (
@@ -158,7 +169,7 @@ const MypageContents = () => {
                   : 'tablet-mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -170,7 +181,7 @@ const MypageContents = () => {
                   : 'tablet-mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
           {content === 'board' ? (
@@ -289,7 +300,7 @@ const MypageContents = () => {
                   : 'mobile-mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -301,7 +312,7 @@ const MypageContents = () => {
                   : 'mobile-mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
           {content === 'board' ? (
