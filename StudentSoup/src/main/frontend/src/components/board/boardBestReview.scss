@@ -6,7 +6,7 @@ $text-sub-color: #a8a8a8;
 .board-detail-bottom-best-review-div {
   display: flex;
   flex-direction: column;
-  margin: 1rem 2.875rem;
+  margin: 1rem 2.875rem 0 2.875rem;
 
   .board-detail-bottom-best-review {
     display: flex;
@@ -63,6 +63,7 @@ $text-sub-color: #a8a8a8;
       cursor: pointer;
     }
   }
+  
   .board-detail-bottom-best-review-best-div {
     display: flex;
     justify-content: flex-end;
@@ -92,7 +93,7 @@ $text-sub-color: #a8a8a8;
 .board-detail-mobile-bottom-best-review-div {
   display: flex;
   flex-direction: column;
-  margin: 1rem 2.875rem;
+  margin: 1rem 2.875rem 0 2.875rem;
 
   .board-detail-mobile-bottom-best-review {
     display: flex;
