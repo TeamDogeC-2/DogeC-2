@@ -70,3 +70,44 @@ export const PreViewReply = async (
 
   return response.data;
 };
+
+// 리뷰 프리뷰
+
+interface Review {
+  restaurantReviewId: number;
+  content: string;
+  starLiked: number;
+  likedCount: number;
+  writeDate: string;
+  imageName: string;
+  restaurantId: number;
+}
+
+export interface PreviewReviewResponse {
+  content: Review[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export const PreViewReview = async (
+  memberId: number,
+  filter: string = '',
+  page: number = 0,
+  size: number = 3,
+): Promise<PreviewReviewResponse> => {
+  const response = await axiosInstance.post(
+    '/mypage/restaurantReview',
+    {
+      memberId,
+    },
+    { params: { filter, page, size } },
+  );
+
+  return response.data;
+};
