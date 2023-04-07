@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import lombok.RequiredArgsConstructor;
@@ -105,6 +106,16 @@ public class LocalFileService implements FileService {
 
     @Override
     public void deleteFile(ImageFile image) {
+        Path filePath = Paths.get(getFullPath(image.getFileName()));
+        try {
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("입력 에러 발생이 됐습니다.", e);
+        }
+    }
+
+    @Override
+    public void deleteFile(TemporaryImageFile image) {
         Path filePath = Paths.get(getFullPath(image.getFileName()));
         try {
             Files.deleteIfExists(filePath);

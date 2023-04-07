@@ -27,19 +27,20 @@ public class BoardTemporaryFileResisterService {
 
     @Transactional
     public  String join(Long memberId,List<MultipartFile> multipartFileList){
-        deleteImage(memberId);
         Member member = memberFindService.findOne(memberId);
+        deleteImage(memberId);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFileList);
         uploadTemporaryImage(member,uploadFileDtoList);
 
         return "ok";
     }
 
-    private void deleteImage(Long memberId) {
+    public String deleteImage(Long memberId) {
         List<TemporaryImageFile> imageList = temporaryFileRepository.findByMemberId(memberId);
         if(!imageList.isEmpty()){
             temporaryFileRepository.deleteAllInBatch(imageList);
         }
+        return "ok";
     }
 
     private void uploadTemporaryImage(Member member, List<UploadFileDto> uploadFileDtoList) {
