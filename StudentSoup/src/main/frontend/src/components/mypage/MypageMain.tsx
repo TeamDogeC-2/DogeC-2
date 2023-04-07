@@ -12,6 +12,7 @@ import { ReactComponent as SchoolIcon } from '../../img/SchoolIcon.svg';
 import { ReactComponent as SchoolSkillIcon } from '../../img/SchoolSkillIcon.svg';
 import { MypageUserInfo, type UserInfoType } from './data/MypageUserInfo';
 import { ImageUpload, ImageDelete } from './data/MypageImgControl';
+import { MypageEditProfile } from './data/MypageUserInfo';
 
 const MypageMain = () => {
   let year = '';
@@ -56,17 +57,20 @@ const MypageMain = () => {
     if (result.dismiss) {
       return;
     }
-
-    if (result.value === 'test123!') {
-      setSelectPage('modify');
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: '비밀번호가 일치하지 않습니다.',
-        text: '다시 시도해주세요.',
-      }).then(() => {
-        handleEditProfile();
-      });
+    if (userInfo?.memberId && result?.value) {
+      MypageEditProfile(userInfo?.memberId, userInfo?.id, result.value)
+        .then(() => {
+          setSelectPage('modify');
+        })
+        .catch(() => {
+          Swal.fire({
+            icon: 'error',
+            title: '비밀번호가 일치하지 않습니다.',
+            text: '다시 시도해주세요.',
+          }).then(() => {
+            handleEditProfile();
+          });
+        });
     }
   };
 
