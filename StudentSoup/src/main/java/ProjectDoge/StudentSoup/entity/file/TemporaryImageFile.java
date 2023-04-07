@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.entity.file;
 
+import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Data;
@@ -27,4 +28,14 @@ public class TemporaryImageFile {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    public void setBoard(Member member){
+        this.member = member;
+    }
+    public TemporaryImageFile createFile(UploadFileDto dto) {
+        this.setFileName(dto.getStoreFileName());
+        this.setFileOriginalName(dto.getOriginalFileName());
+        this.setFileUrl(dto.getFileUrl());
+
+        return this;
+    }
 }
