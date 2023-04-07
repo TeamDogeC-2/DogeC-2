@@ -36,10 +36,10 @@ const Table = ({ headings, data }: TableProps) => {
     return (
       <>
         <div className="write-data-wrap">
-          <span>작성자: {item.authentication}</span>
-          <span>조회수: {item.view}</span>
+          <span>{item.authentication}</span>
+          <span>조회수 {item.view}</span>
         </div>
-        <span>작성일: {postDate}</span>
+        <span>{postDate}</span>
       </>
     );
   };
