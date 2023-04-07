@@ -16,3 +16,14 @@ export interface UserInfoType {
 export const MypageUserInfo = async () => {
   return await axiosInstance.post('/member/info');
 };
+
+// 마이페이지 회원 정보 수정시 아이디 비밀번호 검증
+
+export const MypageEditProfile = async (memberId: number, id: string, pwd: string) => {
+  const response = await axiosInstance.post(`/members/edit/${memberId}/validation`, {
+    memberId,
+    id,
+    pwd,
+  });
+  return response.data;
+};
