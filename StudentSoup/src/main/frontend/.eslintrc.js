@@ -34,5 +34,6 @@ module.exports = {
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/consistent-type-assertions': 'off',
   },
 };
