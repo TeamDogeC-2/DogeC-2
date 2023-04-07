@@ -43,7 +43,7 @@ const MypageReview = (props: propTypes) => {
   };
   useEffect(() => {
     if (props?.memberId) {
-      PreViewReview(props.memberId, '', reviewcurrentPage - 1, 3)
+      PreViewReview(props.memberId, selectedOption, reviewcurrentPage - 1, 3)
         .then(res => {
           setReviewList(res);
         })
@@ -51,7 +51,7 @@ const MypageReview = (props: propTypes) => {
           console.error(err);
         });
     }
-  }, [reviewcurrentPage]);
+  }, [reviewcurrentPage, selectedOption]);
 
   return (
     <>
@@ -60,7 +60,7 @@ const MypageReview = (props: propTypes) => {
           <div className="mypagereview-reviewselect">
             <h2 className="mypagereview-reviewname">리뷰</h2>
             <select className="mypagereview-select" value={selectedOption} onChange={handleChange}>
-              <option value="all">전체</option>
+              <option value="">전체</option>
               <option value="today">오늘</option>
               <option value="month">한달</option>
               <option value="halfYear">6개월</option>
