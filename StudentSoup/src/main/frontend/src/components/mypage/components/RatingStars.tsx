@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as ReviewStarIcon } from '../../../img/mypageReviewStar.svg';
 import './ratingStars.scss';
 
@@ -7,6 +7,8 @@ interface RatingStarsProps {
   width?: string;
   height?: string;
   color?: string;
+  onClick?: (rating: number) => void;
+  hoverable?: boolean;
 }
 
 const RatingStars: React.FC<RatingStarsProps> = ({
@@ -14,17 +16,29 @@ const RatingStars: React.FC<RatingStarsProps> = ({
   width = '11px',
   height = '11px',
   color = '#ff611d',
+  onClick,
+  hoverable = false,
 }) => {
-  const filledStars = Array.from({ length: rating }, (_, index) => index + 1);
-  const emptyStars = Array.from({ length: 5 - rating }, (_, index) => index + rating + 1);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
 
   return (
-    <div className="rating-stars" style={{ '--filled-color': color } as React.CSSProperties}>
-      {filledStars.map(index => (
-        <ReviewStarIcon key={index} className="rating-star filled" style={{ width, height }} />
-      ))}
-      {emptyStars.map(index => (
-        <ReviewStarIcon key={index} className="rating-star empty" style={{ width, height }} />
+    <div
+      className={`rating-stars ${hoverable ? 'hoverable' : ''}`}
+      style={{ '--filled-color': color } as React.CSSProperties}
+    >
+      {Array.from({ length: 5 }, (_, index) => (
+        <ReviewStarIcon
+          key={index}
+          className={`rating-star ${
+            index < (hoverable && hoveredIndex !== -1 ? hoveredIndex + 1 : rating)
+              ? 'filled'
+              : 'empty'
+          }`}
+          style={{ width, height }}
+          onClick={() => onClick?.(index + 1)}
+          onMouseEnter={() => hoverable && setHoveredIndex(index)}
+          onMouseLeave={() => hoverable && setHoveredIndex(-1)}
+        />
       ))}
     </div>
   );
