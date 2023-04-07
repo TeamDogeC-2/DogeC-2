@@ -120,7 +120,7 @@ public class Member {
         this.getTemporaryImageFiles().add(imageFile);
 
         if(imageFile.getMember() != this)
-            imageFile.setBoard(this);
+            imageFile.setMember(this);
     }
 
     public void setDepartment(School school, Department department){

@@ -28,7 +28,7 @@ public class TemporaryImageFile {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void setBoard(Member member){
+    public void setMember(Member member){
         this.member = member;
     }
     public TemporaryImageFile createFile(UploadFileDto dto) {
