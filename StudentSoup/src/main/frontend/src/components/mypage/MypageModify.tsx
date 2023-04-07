@@ -3,12 +3,59 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
-import MemberSmallImg from '../../img/circle_human.png';
-import MemberBigImg from '../../img/circle_big_human.png';
-import review_white from '../../img/review_white.svg';
+import { EditNickname } from './data/MypageUserInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
-const MypageModify = () => {
+interface propTypes {
+  memberId: number | undefined;
+  schoolId: number | undefined;
+  departmentId: number | undefined;
+  id: string;
+  nickname: string;
+  email: string;
+  departmentName: string;
+  schoolName: string;
+}
+const MypageModify = (props: propTypes) => {
+  const handleNicknameEdit = async () => {
+    const { value: newNickname } = await Swal.fire({
+      title: '닉네임 수정',
+      input: 'text',
+      inputLabel: '새로운 닉네임을 입력하세요',
+      inputPlaceholder: '새로운 닉네임',
+      showCancelButton: true,
+      confirmButtonText: '수정',
+      cancelButtonText: '취소',
+      inputValidator: (value: string): string | null => {
+        if (!value) {
+          return '닉네임을 입력해주세요';
+        }
+        if (value.length > 12) {
+          return '닉네임의 최대 길이는 12글자입니다';
+        }
+        return null;
+      },
+    });
+
+    if (newNickname && props?.memberId && props.schoolId && props.departmentId) {
+      EditNickname(
+        props.memberId,
+        props.schoolId,
+        props.departmentId,
+        props.id,
+        'test123!',
+        props.nickname,
+        props.email,
+      )
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      console.log('새로운 닉네임:', newNickname);
+    }
+  };
   return (
     <>
       <MypageNavbar />
@@ -16,13 +63,18 @@ const MypageModify = () => {
         <div className="mypagemodify-container">
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">프로필 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mypagemodify-editicon"
+              onClick={handleNicknameEdit}
+            />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
               <tr>
                 <td>닉네임</td>
-                <th>닉네임의최대길이는열두글자</th>
+                <th>{props.nickname}</th>
               </tr>
             </thead>
           </table>
@@ -34,7 +86,7 @@ const MypageModify = () => {
             <thead>
               <tr>
                 <td>아이디</td>
-                <th>dummyTest1</th>
+                <th>{props.id}</th>
               </tr>
               <tr>
                 <td>비밀번호</td>
@@ -50,15 +102,15 @@ const MypageModify = () => {
             <thead>
               <tr>
                 <td>학교</td>
-                <th>청운대학교</th>
+                <th>{props.schoolName}</th>
               </tr>
               <tr>
                 <td>전공</td>
-                <th>컴퓨터공학과</th>
+                <th>{props.departmentName}</th>
               </tr>
               <tr>
                 <td>이메일</td>
-                <th>dummyTest1@defult.com</th>
+                <th>{props.email}</th>
               </tr>
             </thead>
           </table>
