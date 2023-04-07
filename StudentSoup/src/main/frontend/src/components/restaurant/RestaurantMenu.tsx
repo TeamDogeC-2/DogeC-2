@@ -1,16 +1,78 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './restaurantMenu.scss';
 import under_arrow from '../../img/under_arrow.svg';
 import up_arrow from '../../img/up_arrow.svg';
 import Circle_human from '../../img/circle_human.png';
 import empty_heart from '../../img/empty_heart.svg';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const RestaurantMenu = () => {
   const [clickMenu1, setClickMenu1] = useState<boolean>(true);
   const [clickMenu2, setClickMenu2] = useState<boolean>(false);
   const [clickMenu3, setClickMenu3] = useState<boolean>(false);
   const [clickMenu4, setClickMenu4] = useState<boolean>(false);
+
+  const state = useLocation();
+  const restaurantId = state.state.value1;
+  const saveMemberId = sessionStorage.getItem('memberId');
+  const [size, setSize] = useState<number>(4);
+  const [last, isLast] = useState<boolean>();
+  const [totalsize, setTotalSize] = useState<any>();
+  const [totalPage, setTotalPage] = useState<any>();
+  const [menuList, setMenuList] = useState<any>();
+  const [mainmenuList, setMainMenuList] = useState<any>();
+  const url = `/restaurant/${restaurantId}/menus`;
+
+  useEffect(() => {
+    axios
+      .post(
+        url,
+        {
+          restaurantId,
+          memberId: saveMemberId,
+        },
+        {
+          params: {
+            size,
+          },
+        },
+      )
+      .then(res => {
+        isLast(res.data.last);
+        setTotalPage(res.data.totalPages);
+        setTotalSize(res.data.totalElements);
+        setMenuList(res.data.content);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, [size]);
+
+  useEffect(() => {
+    setMainMenuList(
+      menuList.filter(
+        (item: { restaurantMenuCategory: string }) => item.restaurantMenuCategory === '주메뉴',
+      ),
+    );
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setSize(size + 12);
+    }
+  };
 
   return (
     <>
@@ -31,24 +93,39 @@ const RestaurantMenu = () => {
           </div>
           {clickMenu1 && (
             <div className="restaurant-detail-bottom-menu-list">
-              <div className="restaurant-detail-bottom-menu">
-                <div className="restaurant-detail-bottom-menu-img-div">
-                  <img src={Circle_human} alt="" className="restaurant-detail-bottom-menu-img" />
-                  <div className="restaurant-detail-bottom-menu-heart-div">
-                    <img src={empty_heart} alt="" className="restaurant-detail-bottom-menu-heart" />
-                    <p>0</p>
+              {mainmenuList?.map((menu: any) => (
+                <div
+                  key={menu.restaurantMenuId}
+                  id={menu.restaurantMenuId}
+                  className="restaurant-detail-bottom-menu"
+                >
+                  <div className="restaurant-detail-bottom-menu-img-div">
+                    <img
+                      src={`/image/${menu.fileName}`}
+                      key={menu.fileName}
+                      alt=""
+                      className="restaurant-detail-bottom-menu-img"
+                    />
+                    <div className="restaurant-detail-bottom-menu-heart-div">
+                      <img
+                        src={empty_heart}
+                        alt=""
+                        className="restaurant-detail-bottom-menu-heart"
+                      />
+                      <p>0</p>
+                    </div>
+                  </div>
+                  <div className="restaurant-detail-bottom-menu-text-div">
+                    <div>
+                      <p className="restaurant-menu-name">{menu.restaurantMenuName}</p>
+                      <span>
+                        등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
+                      </span>
+                    </div>
+                    <p className="restaurant-menu-price">{menu.cost}원</p>
                   </div>
                 </div>
-                <div className="restaurant-detail-bottom-menu-text-div">
-                  <div>
-                    <p className="restaurant-menu-name">등심돈카츠 정식</p>
-                    <span>
-                      등심돈카츠(200g)+밥+장국+샐러드+김치+단무지+돈카츠소스+샐러드참깨소스
-                    </span>
-                  </div>
-                  <p className="restaurant-menu-price">8,900원</p>
-                </div>
-              </div>
+              ))}
             </div>
           )}
           <div
