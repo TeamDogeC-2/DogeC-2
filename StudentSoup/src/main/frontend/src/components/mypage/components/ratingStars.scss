@@ -1,7 +1,7 @@
 .rating-stars {
   .rating-star {
     &.filled path {
-      fill: #ff611d;
+      fill: var(--filled-color, #ff611d);
     }
 
     &.empty path {
