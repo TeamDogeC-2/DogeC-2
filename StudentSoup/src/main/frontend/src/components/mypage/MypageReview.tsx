@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import { ReactComponent as MypageReviewStar } from '../../img/mypageallReviewStar.svg';
 import EditReviewModal from './components/EditReviewModal';
-import { PreViewReview, type PreviewReviewResponse } from './data/MypageContents';
+import { PreViewReview, type PreviewReviewResponse, ReviewEdit } from './data/MypageContents';
 import RatingStars from './components/RatingStars';
 import MyPagination from './components/MyPagination';
 import './mypageReview.scss';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 interface propTypes {
   memberId: number | undefined;
 }
@@ -16,10 +18,11 @@ const MypageReview = (props: propTypes) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalFadingOut, setIsModalFadingOut] = useState(false);
   const [selectedOption, setSelectedOption] = useState('all');
-  const [reivewList, setReviewList] = useState<PreviewReviewResponse>();
+  const [reviewList, setReviewList] = useState<PreviewReviewResponse>();
   const [selectedReview, setSelectedReview] = useState({ starLiked: 0, content: '' });
   const [reviewcurrentPage, setReviewCurrentpage] = useState(1);
   const [reviewpostPerPage, setReviewPostPerPage] = useState(6);
+  const [reviewKey, setReviewKey] = useState<number>();
   const handlePageChange = (e: any) => {
     setCurrentpage(e);
   };
@@ -49,6 +52,7 @@ const MypageReview = (props: propTypes) => {
         });
     }
   }, [reviewcurrentPage]);
+
   return (
     <>
       <DesktopHeader>
@@ -64,8 +68,8 @@ const MypageReview = (props: propTypes) => {
             </select>
           </div>
           <div className="mypagereview-startline"></div>
-          {reivewList?.content?.map(review => (
-            <>
+          {reviewList?.content?.map(review => (
+            <React.Fragment key={review.restaurantReviewId}>
               <div className="mypagereview-container">
                 <div className="mypagereview-grid-name">음식점 이름</div>
                 {review.imageName !== null ? (
@@ -83,22 +87,24 @@ const MypageReview = (props: propTypes) => {
                 <div className="mypagereview-grid-date">{review.writeDate}</div>
                 <div className="mypagereview-grid-contents">{review.content}</div>
                 <button
+                  key={review.restaurantReviewId}
                   className="mypagereview-grid-edit"
                   onClick={() => {
                     setSelectedReview({ starLiked: review.starLiked, content: review.content });
                     setIsModalVisible(true);
+                    setReviewKey(review.restaurantReviewId);
                   }}
                 >
                   수정하기
                 </button>
               </div>
               <div className="mypagereview-bottomline"></div>
-            </>
+            </React.Fragment>
           ))}
-          {reivewList?.totalElements !== undefined && (
+          {reviewList?.totalElements !== undefined && (
             <MyPagination
               currentPage={reviewcurrentPage}
-              itemsCount={reivewList.totalElements}
+              itemsCount={reviewList.totalElements}
               itemsPerPage={reviewpostPerPage}
               onChange={handleReplyPageChange}
             />
@@ -115,8 +121,17 @@ const MypageReview = (props: propTypes) => {
               />
               <EditReviewModal
                 onSubmit={(rating, content) => {
-                  // 수정 완료시 처리할 로직 구현
-                  setIsModalFadingOut(true);
+                  if (props?.memberId && reviewKey) {
+                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                      .then(() => {
+                        setIsModalFadingOut(true);
+                        Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());
+                      })
+                      .catch(error => {
+                        console.log(error);
+                        Swal.fire('오류가 발생했습니다. 다시 시도해주세요.', '', 'error');
+                      });
+                  }
                 }}
                 onCancel={() => setIsModalFadingOut(true)}
                 currentRating={selectedReview.starLiked} // 별점 api
@@ -143,9 +158,9 @@ const MypageReview = (props: propTypes) => {
             </select>
           </div>
           <div className="tablet-mypagereview-startline"></div>
-          {reivewList?.content?.map(review => (
-            <>
-              <div className="tablet-mypagereview-container">
+          {reviewList?.content?.map(review => (
+            <React.Fragment key={review.restaurantReviewId}>
+              <div key={review.restaurantReviewId} className="tablet-mypagereview-container">
                 <div className="tablet-mypagereview-grid-name">음식점 이름</div>
                 {review.imageName !== null ? (
                   <img
@@ -165,22 +180,24 @@ const MypageReview = (props: propTypes) => {
                 <div className="tablet-mypagereview-grid-date">{review.writeDate}</div>
                 <div className="tablet-mypagereview-grid-contents">{review.content}</div>
                 <button
+                  key={review.restaurantReviewId}
                   className="tablet-mypagereview-grid-edit"
                   onClick={() => {
                     setSelectedReview({ starLiked: review.starLiked, content: review.content });
                     setIsModalVisible(true);
+                    setReviewKey(review.restaurantReviewId);
                   }}
                 >
                   수정하기
                 </button>
               </div>
               <div className="tablet-mypagereview-bottomline"></div>
-            </>
+            </React.Fragment>
           ))}
-          {reivewList?.totalElements !== undefined && (
+          {reviewList?.totalElements !== undefined && (
             <MyPagination
               currentPage={reviewcurrentPage}
-              itemsCount={reivewList.totalElements}
+              itemsCount={reviewList.totalElements}
               itemsPerPage={reviewpostPerPage}
               onChange={handleReplyPageChange}
             />
@@ -197,8 +214,17 @@ const MypageReview = (props: propTypes) => {
               />
               <EditReviewModal
                 onSubmit={(rating, content) => {
-                  // 수정 완료시 처리할 로직 구현
-                  setIsModalFadingOut(true);
+                  if (props?.memberId && reviewKey) {
+                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                      .then(() => {
+                        setIsModalFadingOut(true);
+                        Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());
+                      })
+                      .catch(error => {
+                        console.log(error);
+                        Swal.fire('오류가 발생했습니다. 다시 시도해주세요.', '', 'error');
+                      });
+                  }
                 }}
                 onCancel={() => setIsModalFadingOut(true)}
                 currentRating={selectedReview.starLiked} // 별점 api
@@ -225,9 +251,9 @@ const MypageReview = (props: propTypes) => {
             </select>
           </div>
           <div className="mobile-mypagereview-startline"></div>
-          {reivewList?.content?.map(review => (
-            <>
-              <div className="mobile-mypagereview-container">
+          {reviewList?.content?.map(review => (
+            <React.Fragment key={review.restaurantReviewId}>
+              <div key={review.restaurantReviewId} className="mobile-mypagereview-container">
                 <div className="mobile-mypagereview-grid-name">음식점 이름</div>
                 {review.imageName !== null ? (
                   <img
@@ -247,18 +273,28 @@ const MypageReview = (props: propTypes) => {
                 <div className="mobile-mypagereview-grid-date">{review.writeDate}</div>
                 <div className="mobile-mypagereview-grid-contents">{review.content}</div>
                 <button
+                  key={review.restaurantReviewId}
                   className="mobile-mypagereview-grid-edit"
                   onClick={() => {
                     setSelectedReview({ starLiked: review.starLiked, content: review.content });
                     setIsModalVisible(true);
+                    setReviewKey(review.restaurantReviewId);
                   }}
                 >
                   수정하기
                 </button>
               </div>
               <div className="mobile-mypagereview-bottomline"></div>
-            </>
+            </React.Fragment>
           ))}
+          {reviewList?.totalElements !== undefined && (
+            <MyPagination
+              currentPage={reviewcurrentPage}
+              itemsCount={reviewList.totalElements}
+              itemsPerPage={reviewpostPerPage}
+              onChange={handleReplyPageChange}
+            />
+          )}
           {isModalVisible && (
             <div
               className={`mypagereview-modal-container ${
@@ -271,8 +307,17 @@ const MypageReview = (props: propTypes) => {
               />
               <EditReviewModal
                 onSubmit={(rating, content) => {
-                  // 수정 완료시 처리할 로직 구현
-                  setIsModalFadingOut(true);
+                  if (props?.memberId && reviewKey) {
+                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                      .then(() => {
+                        setIsModalFadingOut(true);
+                        Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());
+                      })
+                      .catch(error => {
+                        console.log(error);
+                        Swal.fire('오류가 발생했습니다. 다시 시도해주세요.', '', 'error');
+                      });
+                  }
                 }}
                 onCancel={() => setIsModalFadingOut(true)}
                 currentRating={selectedReview.starLiked} // 별점 api
