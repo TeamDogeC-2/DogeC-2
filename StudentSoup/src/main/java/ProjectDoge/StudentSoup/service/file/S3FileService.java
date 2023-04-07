@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
 import ProjectDoge.StudentSoup.exception.file.FileExtNotMatchException;
 import ProjectDoge.StudentSoup.exception.file.ImageConvertException;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
@@ -139,6 +140,14 @@ public class S3FileService implements FileService {
 
     @Override
     public void deleteFile(ImageFile image) {
+        if (!amazonS3.doesObjectExist(bucket, image.getFileName()))
+            throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
+        amazonS3.deleteObject(bucket, image.getFileName());
+
+    }
+
+    @Override
+    public void deleteFile(TemporaryImageFile image) {
         if (!amazonS3.doesObjectExist(bucket, image.getFileName()))
             throw new AmazonS3Exception("Object " + image.getFileName() + " Not Exist!");
         amazonS3.deleteObject(bucket, image.getFileName());

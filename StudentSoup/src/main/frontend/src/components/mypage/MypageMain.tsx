@@ -193,7 +193,18 @@ const MypageMain = () => {
             {selectPage === 'review' && userInfo?.memberId && (
               <MypagReview memberId={userInfo.memberId} />
             )}
-            {selectPage === 'modify' && <MypageModify />}
+            {selectPage === 'modify' && userInfo && (
+              <MypageModify
+                memberId={userInfo.memberId}
+                schoolId={userInfo.schoolId}
+                departmentId={userInfo.departmentId}
+                id={userInfo.id}
+                nickname={userInfo.nickname}
+                email={userInfo.email}
+                departmentName={userInfo.departmentName}
+                schoolName={userInfo.schoolName}
+              />
+            )}
           </div>
         </div>
       </DesktopHeader>
@@ -244,7 +255,18 @@ const MypageMain = () => {
             {selectPage === 'review' && userInfo?.memberId && (
               <MypagReview memberId={userInfo.memberId} />
             )}
-            {selectPage === 'modify' && <MypageModify />}
+            {selectPage === 'modify' && userInfo && (
+              <MypageModify
+                memberId={userInfo.memberId}
+                schoolId={userInfo.schoolId}
+                departmentId={userInfo.departmentId}
+                id={userInfo.id}
+                nickname={userInfo.nickname}
+                email={userInfo.email}
+                departmentName={userInfo.departmentName}
+                schoolName={userInfo.schoolName}
+              />
+            )}
           </div>
         </div>
       </MobileHeader>
@@ -295,7 +317,18 @@ const MypageMain = () => {
             {selectPage === 'review' && userInfo?.memberId && (
               <MypagReview memberId={userInfo.memberId} />
             )}
-            {selectPage === 'modify' && <MypageModify />}
+            {selectPage === 'modify' && userInfo && (
+              <MypageModify
+                memberId={userInfo.memberId}
+                schoolId={userInfo.schoolId}
+                departmentId={userInfo.departmentId}
+                id={userInfo.id}
+                nickname={userInfo.nickname}
+                email={userInfo.email}
+                departmentName={userInfo.departmentName}
+                schoolName={userInfo.schoolName}
+              />
+            )}
           </div>
         </div>
       </Mobile>

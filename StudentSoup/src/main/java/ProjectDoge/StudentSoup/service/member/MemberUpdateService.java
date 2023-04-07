@@ -48,7 +48,7 @@ public class MemberUpdateService {
             member.setEmail(dto.getEmail());
             checkSchoolChange(member,dto);
         }
-        else if(!member.getPwd().equals(passwordEncoder.encode(dto.getPwd()))){
+        else if(dto.getPwd()!=null && !member.getPwd().equals(passwordEncoder.encode(dto.getPwd()))){
             member.setPwd(passwordEncoder.encode(dto.getPwd()));
         }
         else if(!member.getDepartment().getId().equals(dto.getDepartmentId())){
