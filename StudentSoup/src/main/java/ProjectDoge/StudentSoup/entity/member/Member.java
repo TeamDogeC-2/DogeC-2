@@ -115,6 +115,14 @@ public class Member {
         this.school = school;
         school.getMembers().add(this);
     }
+
+    public void addImageFile(TemporaryImageFile imageFile){
+        this.getTemporaryImageFiles().add(imageFile);
+
+        if(imageFile.getMember() != this)
+            imageFile.setBoard(this);
+    }
+
     public void setDepartment(School school, Department department){
         List<Department> departmentList = school.getDepartments();
         for(Department findDepartment : departmentList){
