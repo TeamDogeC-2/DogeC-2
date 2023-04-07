@@ -10,6 +10,7 @@ import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useMediaQuery } from 'react-responsive';
 const kakao = (window as any).kakao;
 
 interface State {
@@ -57,6 +58,16 @@ const Restaurant = () => {
     { title: '거리순', value: 4 },
   ];
 
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 1041px)',
+  });
+  const isTablet = useMediaQuery({
+    query: '(min-width: 769px)',
+  });
+  const isMobile = useMediaQuery({
+    query: '(max-width: 768px)',
+  });
+
   const postRestaurant = () => {
     axios
       .post(
@@ -88,7 +99,7 @@ const Restaurant = () => {
 
   useEffect(() => {
     postRestaurant();
-  }, [size, sort, category]);
+  }, [isDesktop, isTablet, isMobile, size, sort, category]);
 
   const MapLocation = [longitude, latitude];
 
@@ -254,7 +265,7 @@ const Restaurant = () => {
                   정렬
                 </div>
               </div>
-              <div className="tablet-restaurant-top-map">kakaoMap</div>
+              <div id="map" className="tablet-restaurant-top-map"></div>
             </div>
             <div className="tablet-restaurant-bottom">
               <div className="tablet-restaurant-bottom-div">
@@ -330,7 +341,7 @@ const Restaurant = () => {
                   정렬
                 </div>
               </div>
-              <div className="mobile-restaurant-top-map">kakaoMap</div>
+              <div id="map" className="mobile-restaurant-top-map"></div>
             </div>
             <div className="mobile-restaurant-bottom">
               <div className="mobile-restaurant-bottom-div">
