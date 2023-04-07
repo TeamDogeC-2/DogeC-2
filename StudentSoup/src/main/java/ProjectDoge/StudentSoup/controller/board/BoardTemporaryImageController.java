@@ -18,12 +18,12 @@ public class BoardTemporaryImageController {
 
     private final BoardTemporaryFileService boardTemporaryFileResisterService;
 
-    @PostMapping("boards/image/{memberId}")
+    @PostMapping("board/image/{memberId}")
     public String registerImage(List<MultipartFile> multipartFileList, @PathVariable Long memberId){
        return boardTemporaryFileResisterService.join(memberId,multipartFileList);
     }
 
-    @DeleteMapping("boards/image/{memberId}")
+    @DeleteMapping("board/image/{memberId}")
     public String deleteImage(@PathVariable Long memberId){
        return boardTemporaryFileResisterService.deleteImage(memberId);
     }
