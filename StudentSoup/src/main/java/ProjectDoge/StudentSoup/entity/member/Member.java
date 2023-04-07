@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.entity.member;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
 import ProjectDoge.StudentSoup.entity.schedule.Schedule;
 import ProjectDoge.StudentSoup.entity.school.Department;
@@ -102,6 +103,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<BoardReply> boardReplies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<TemporaryImageFile> temporaryImageFiles = new ArrayList<>();
 
     //== 연관관계 메서드 ==//
     public void setSchool(School school){
