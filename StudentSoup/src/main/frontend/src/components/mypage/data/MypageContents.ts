@@ -122,3 +122,23 @@ export const DetailCount = async (memberId: number): Promise<DetailCountResponse
   const response = await axiosInstance.post('/mypage/detail', { memberId });
   return response.data;
 };
+
+// 리뷰 수정 업데이트
+
+export const ReviewEdit = async (
+  memberId: number,
+  restaurantReviewId: number,
+  content: string,
+  starLiked: number,
+) => {
+  const response = await axiosInstance.patch(
+    `/restaurantReview/${memberId}/${restaurantReviewId}`,
+    { content, starLiked },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return response.data;
+};
