@@ -36,8 +36,10 @@ public class BoardTemporaryFileResisterService {
     }
 
     private void uploadTemporaryImage(Member member, List<UploadFileDto> uploadFileDtoList) {
+        log.info("임시 사진 저장 서비스가 시작되었습니다.");
         for (UploadFileDto uploadFileDto : uploadFileDtoList) {
             TemporaryImageFile file = new TemporaryImageFile().createFile(uploadFileDto);
+            log.info("name = {} origin = {} url = {}",file.getFileName(),file.getFileOriginalName(),file.getFileUrl());
             member.addImageFile(temporaryFileRepository.save(file));
         }
     }
