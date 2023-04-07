@@ -25,7 +25,7 @@ const Table = ({ headings, data }: TableProps) => {
       ' ' +
       String(date.getHours()) +
       ':' +
-      String(date.getMinutes() < 9 ? '0' + String(date.getMinutes()) : date.getMinutes());
+      String(date.getMinutes() <= 9 ? '0' + String(date.getMinutes()) : date.getMinutes());
 
     return dotDateFormat;
   };
