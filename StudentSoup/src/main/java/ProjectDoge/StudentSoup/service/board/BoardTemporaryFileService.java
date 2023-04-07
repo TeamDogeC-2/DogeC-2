@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BoardTemporaryFileResisterService {
+public class BoardTemporaryFileService {
 
     private final FileService fileService;
 
@@ -37,8 +37,9 @@ public class BoardTemporaryFileResisterService {
 
     public String deleteImage(Long memberId) {
         List<TemporaryImageFile> imageList = temporaryFileRepository.findByMemberId(memberId);
-        if(!imageList.isEmpty()){
-            temporaryFileRepository.deleteAllInBatch(imageList);
+        for (TemporaryImageFile temporaryImageFile : imageList) {
+            fileService.deleteFile(temporaryImageFile);
+            temporaryFileRepository.delete(temporaryImageFile);
         }
         return "ok";
     }
