@@ -1,6 +1,5 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { postBoardCustomerService } from '../../apis/auth/BoardAPI';
+import { postBoardCategory } from '../../apis/auth/BoardAPI';
 import { type BoardDataType } from '../../interfaces/BoardTypes';
 import NoticeAndService from '../common/NoticeAndService';
 
@@ -21,7 +20,7 @@ const CustomerService = () => {
   };
 
   useEffect(() => {
-    postBoardCustomerService().then(response => {
+    postBoardCategory('CUSTOMERSERVICE').then(response => {
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
     });
