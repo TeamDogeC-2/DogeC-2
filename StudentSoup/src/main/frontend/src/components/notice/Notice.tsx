@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { postBoardNotice } from '../../apis/auth/BoardAPI';
+import { postBoardCategory } from '../../apis/auth/BoardAPI';
 import { type BoardDataType } from '../../interfaces/BoardTypes';
 import NoticeAndService from '../common/NoticeAndService';
 
@@ -20,7 +20,7 @@ export const Notice = () => {
   };
 
   useEffect(() => {
-    postBoardNotice().then(response => {
+    postBoardCategory('ANNOUNCEMENT').then(response => {
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
     });
