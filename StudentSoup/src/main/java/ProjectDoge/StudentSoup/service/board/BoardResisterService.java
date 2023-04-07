@@ -6,11 +6,13 @@ import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.repository.file.FileRepository;
+import ProjectDoge.StudentSoup.repository.file.TemporaryFileRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.member.MemberFindService;
@@ -35,6 +37,7 @@ public class BoardResisterService {
     private final DepartmentFindService departmentFindService;
     private final BoardValidationService boardValidationService;
 
+    private final TemporaryFileRepository temporaryFileRepository;
     @Transactional
     public Long join(Long memberId, BoardFormDto boardFormDto, List<MultipartFile> multipartFiles){
         log.info("게시글 생성 메소드가 실행되었습니다.");
@@ -44,9 +47,11 @@ public class BoardResisterService {
         Board board = createBoard(boardFormDto.getDepartmentId(), boardFormDto, member);
         uploadBoardImage(uploadFileDtoList, board);
         boardRepository.save(board);
+        deleteTemporaryImage(memberId);
         log.info("게시글이 저장되었습니다.[{}]", board.getId());
         return board.getId();
     }
+
 
     private Board createBoard(Long departmentId, BoardFormDto boardFormDto, Member member) {
         if (departmentId == null || departmentId == 0) {
@@ -74,6 +79,13 @@ public class BoardResisterService {
         if (!member.getMemberClassification().equals(MemberClassification.ADMIN))
             categoryDtoList.remove(categoryDtoList.size() - 1);
         return categoryDtoList;
+    }
+
+    private void deleteTemporaryImage(Long memberId) {
+        List<TemporaryImageFile> imageList = temporaryFileRepository.findByMemberId(memberId);
+        if(!imageList.isEmpty()){
+            temporaryFileRepository.deleteAllInBatch(imageList);
+        }
     }
 
     @Transactional
