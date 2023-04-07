@@ -1,21 +1,11 @@
 import axios from 'axios';
 
-export const postBoardNotice = async () => {
-  const response = await axios.post('/board/ANNOUNCEMENT');
+export const postBoardCategory = async (category: string) => {
+  const response = await axios.post(`/board/${category}`);
   return response;
 };
 
-export const postBoardNoticeSearch = async (search: string) => {
-  const response = await axios.post('/board/ANNOUNCEMENT?title=' + search);
-  return response;
-};
-
-export const postBoardCustomerService = async () => {
-  const response = await axios.post('/board/CUSTOMERSERVICE');
-  return response;
-};
-
-export const postBoardServiceSearch = async (search: string) => {
-  const response = await axios.post('/board/CUSTOMERSERVICE?title=' + search);
+export const postBoardCategorySearch = async (category: string, search: string) => {
+  const response = await axios.post(`/board/${category}?title=${search}`);
   return response;
 };
