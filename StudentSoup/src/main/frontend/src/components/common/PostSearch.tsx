@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { postBoardNoticeSearch, postBoardServiceSearch } from '../../apis/auth/BoardAPI';
+import { postBoardCategorySearch } from '../../apis/auth/BoardAPI';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
 
@@ -20,12 +20,12 @@ const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType
 
   const onClickSearch = async () => {
     if (pageTitle === '공지사항') {
-      postBoardNoticeSearch(search).then(response => {
+      postBoardCategorySearch('ANNOUNCEMENT', search).then(response => {
         setItems(response.data.content);
         setPostPerPage(response.data.pageable.pageSize);
       });
     } else if (pageTitle === '고객센터') {
-      postBoardServiceSearch(search).then(response => {
+      postBoardCategorySearch('CUSTOMERSERVICE', search).then(response => {
         setItems(response.data.content);
         setPostPerPage(response.data.pageable.pageSize);
       });
@@ -37,6 +37,7 @@ const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType
       onClickSearch();
     }
   };
+
   return (
     <>
       <div className="search-container">
