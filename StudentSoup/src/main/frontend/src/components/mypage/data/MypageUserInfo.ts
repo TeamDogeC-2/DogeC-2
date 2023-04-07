@@ -27,3 +27,26 @@ export const MypageEditProfile = async (memberId: number, id: string, pwd: strin
   });
   return response.data;
 };
+
+// 회원 닉네임 수정
+
+export const EditNickname = async (
+  memberId: number,
+  schoolId: number,
+  departmentId: number,
+  id: string,
+  pwd: string | null,
+  nickname: string,
+  email: string,
+) => {
+  const response = await axiosInstance.post(`/members/edit/${memberId}`, {
+    memberId,
+    schoolId,
+    departmentId,
+    id,
+    pwd: null,
+    nickname,
+    email,
+  });
+  return response.data;
+};
