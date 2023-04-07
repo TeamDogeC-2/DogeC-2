@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,4 +21,7 @@ public interface FileService {
     String getFullPath(String fileName);
 
     void deleteFile(ImageFile image);
+
+    void deleteFile(TemporaryImageFile image);
+
 }
