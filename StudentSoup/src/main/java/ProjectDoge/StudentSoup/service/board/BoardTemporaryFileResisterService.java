@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.controller.board;
+package ProjectDoge.StudentSoup.service.board;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +27,19 @@ public class BoardTemporaryFileResisterService {
 
     @Transactional
     public  String join(Long memberId,List<MultipartFile> multipartFileList){
+        deleteImage(memberId);
         Member member = memberFindService.findOne(memberId);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(multipartFileList);
         uploadTemporaryImage(member,uploadFileDtoList);
 
         return "ok";
+    }
+
+    private void deleteImage(Long memberId) {
+        List<TemporaryImageFile> imageList = temporaryFileRepository.findByMemberId(memberId);
+        if(!imageList.isEmpty()){
+            temporaryFileRepository.deleteAllInBatch(imageList);
+        }
     }
 
     private void uploadTemporaryImage(Member member, List<UploadFileDto> uploadFileDtoList) {
