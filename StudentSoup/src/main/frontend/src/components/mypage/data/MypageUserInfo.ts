@@ -35,16 +35,15 @@ export const EditNickname = async (
   schoolId: number,
   departmentId: number,
   id: string,
-  pwd: string | null,
   nickname: string,
   email: string,
+  pwd?: string,
 ) => {
   const response = await axiosInstance.post(`/members/edit/${memberId}`, {
     memberId,
     schoolId,
     departmentId,
     id,
-    pwd: null,
     nickname,
     email,
   });
