@@ -48,7 +48,7 @@ const MypageModify = (props: propTypes) => {
         newNickname,
         props.email,
       )
-        .then(res => {
+        .then(() => {
           setEditNickName(newNickname);
           props.onNicknameChange(newNickname);
           Swal.fire({
@@ -77,14 +77,22 @@ const MypageModify = (props: propTypes) => {
     const result = await Swal.fire({
       title: '비밀번호 수정',
       html:
+        '<form>' +
+        '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
+        '<label for="username" style="width: 30%;">아이디:</label>' +
+        '<input id="username" type="text" class="swal2-input" value="' +
+        props.id +
+        '" style="width: 70%;" readonly autocomplete="username">' +
+        '</div>' +
         '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
         '<label for="password" style="width: 30%;">비밀번호:</label>' +
-        '<input id="password" type="password" class="swal2-input" placeholder="새로운 비밀번호" style="width: 70%;">' +
+        '<input id="password" type="password" class="swal2-input" placeholder="새로운 비밀번호" style="width: 70%;" autocomplete="new-password">' +
         '</div>' +
         '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
         '<label for="password-confirm" style="width: 30%;">비밀번호 확인:</label>' +
-        '<input id="password-confirm" type="password" class="swal2-input" placeholder="새 비밀번호 확인" style="width: 70%;">' +
-        '</div>',
+        '<input id="password-confirm" type="password" class="swal2-input" placeholder="새 비밀번호 확인" style="width: 70%;" autocomplete="new-password">' +
+        '</div>' +
+        '</form>',
       preConfirm: (): any => {
         const password = (Swal.getPopup()?.querySelector('#password') as HTMLInputElement)?.value;
         const passwordConfirm = (
@@ -118,6 +126,14 @@ const MypageModify = (props: propTypes) => {
         const passwordConfirmInput = Swal.getPopup()?.querySelector(
           '#password-confirm',
         ) as HTMLInputElement;
+        const form = Swal.getPopup()?.querySelector('form');
+
+        if (form) {
+          form.addEventListener('submit', event => {
+            event.preventDefault();
+            Swal.clickConfirm();
+          });
+        }
         passwordInput.focus();
         passwordInput.addEventListener('keydown', (event: KeyboardEvent) => {
           if (event.key === 'Enter') {
