@@ -28,7 +28,7 @@ const MypageModify = (props: propTypes) => {
       showCancelButton: true,
       confirmButtonText: '수정',
       cancelButtonText: '취소',
-      inputValidator: (value: string): string | null => {
+      inputValidator: (value: string) => {
         if (!value) {
           return '닉네임을 입력해주세요';
         }
@@ -51,9 +51,25 @@ const MypageModify = (props: propTypes) => {
         .then(res => {
           setEditNickName(newNickname);
           props.onNicknameChange(newNickname);
+          Swal.fire({
+            icon: 'success',
+            title: '닉네임 수정 완료',
+            text: '닉네임이 성공적으로 수정되었습니다.',
+            timer: 3000,
+            showConfirmButton: true,
+            confirmButtonText: '확인',
+            showCancelButton: false,
+            timerProgressBar: true,
+          });
         })
         .catch(err => {
-          console.error(err);
+          Swal.fire({
+            icon: 'error',
+            title: '오류 발생',
+            text: err.response.data.message,
+          }).then(() => {
+            handleNicknameEdit();
+          });
         });
     }
   };
