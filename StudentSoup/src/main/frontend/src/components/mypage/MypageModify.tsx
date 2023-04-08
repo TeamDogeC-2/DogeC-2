@@ -43,8 +43,7 @@ const MypageModify = (props: propTypes) => {
         props.schoolId,
         props.departmentId,
         props.id,
-        'test123!',
-        props.nickname,
+        newNickname,
         props.email,
       )
         .then(res => {
