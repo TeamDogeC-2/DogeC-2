@@ -15,8 +15,10 @@ interface propTypes {
   email: string;
   departmentName: string;
   schoolName: string;
+  onNicknameChange: (newNickname: string) => void;
 }
 const MypageModify = (props: propTypes) => {
+  const [editNickName, setEditNickName] = useState<string>(props.nickname);
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -47,12 +49,12 @@ const MypageModify = (props: propTypes) => {
         props.email,
       )
         .then(res => {
-          console.log(res.data);
+          setEditNickName(newNickname);
+          props.onNicknameChange(newNickname);
         })
         .catch(err => {
           console.error(err);
         });
-      console.log('새로운 닉네임:', newNickname);
     }
   };
   return (
@@ -73,7 +75,7 @@ const MypageModify = (props: propTypes) => {
             <thead>
               <tr>
                 <td>닉네임</td>
-                <th>{props.nickname}</th>
+                <th>{editNickName}</th>
               </tr>
             </thead>
           </table>
