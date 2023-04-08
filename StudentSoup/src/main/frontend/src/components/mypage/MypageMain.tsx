@@ -235,7 +235,7 @@ const MypageMain = () => {
                   />
                 </div>
               </div>
-              <div className="tablet-mypagemain-username">{userInfo?.nickname}</div>
+              <div className="tablet-mypagemain-username">{nickname}</div>
               <div className="tablet-mypagemain-schoolname">
                 <SchoolIcon />
                 <span className="tablet-mypagemain-schooltext">{userInfo?.schoolName}</span>
@@ -298,7 +298,7 @@ const MypageMain = () => {
                   />
                 </div>
               </div>
-              <div className="mobile-mypagemain-username">{userInfo?.nickname}</div>
+              <div className="mobile-mypagemain-username">{nickname}</div>
               <div className="mobile-mypagemain-schoolname">
                 <SchoolIcon />
                 <span className="mobile-mypagemain-schooltext">{userInfo?.schoolName}</span>
