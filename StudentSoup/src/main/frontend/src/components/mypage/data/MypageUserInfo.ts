@@ -46,6 +46,7 @@ export const EditNickname = async (
     id,
     nickname,
     email,
+    pwd,
   });
   return response.data;
 };
