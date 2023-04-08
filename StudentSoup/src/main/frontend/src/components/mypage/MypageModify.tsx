@@ -39,7 +39,7 @@ const MypageModify = (props: propTypes) => {
       },
     });
 
-    if (newNickname && props?.memberId && props.schoolId && props.departmentId) {
+    if (newNickname && props?.memberId && props?.schoolId && props?.departmentId) {
       EditNickname(
         props.memberId,
         props.schoolId,
@@ -73,6 +73,98 @@ const MypageModify = (props: propTypes) => {
         });
     }
   };
+  const handlePasswordEdit = async () => {
+    const result = await Swal.fire({
+      title: '비밀번호 수정',
+      html:
+        '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
+        '<label for="password" style="width: 30%;">비밀번호:</label>' +
+        '<input id="password" type="password" class="swal2-input" placeholder="새로운 비밀번호" style="width: 70%;">' +
+        '</div>' +
+        '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
+        '<label for="password-confirm" style="width: 30%;">비밀번호 확인:</label>' +
+        '<input id="password-confirm" type="password" class="swal2-input" placeholder="새 비밀번호 확인" style="width: 70%;">' +
+        '</div>',
+      preConfirm: (): any => {
+        const password = (Swal.getPopup()?.querySelector('#password') as HTMLInputElement)?.value;
+        const passwordConfirm = (
+          Swal.getPopup()?.querySelector('#password-confirm') as HTMLInputElement
+        )?.value;
+
+        if (!password) {
+          Swal.showValidationMessage('비밀번호를 입력해주세요');
+          return false;
+        }
+
+        if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}/.test(password)) {
+          Swal.showValidationMessage(
+            '비밀번호는 대문자 1개 이상, 숫자를 포함하여 8~20글자 이내로 입력해주세요.',
+          );
+          return false;
+        }
+
+        if (password !== passwordConfirm) {
+          Swal.showValidationMessage('비밀번호가 일치하지 않습니다.');
+          return false;
+        }
+
+        return { password, passwordConfirm };
+      },
+      confirmButtonText: '수정',
+      cancelButtonText: '취소',
+      showCancelButton: true,
+      didOpen: () => {
+        const passwordInput = Swal.getPopup()?.querySelector('#password') as HTMLInputElement;
+        const passwordConfirmInput = Swal.getPopup()?.querySelector(
+          '#password-confirm',
+        ) as HTMLInputElement;
+        passwordInput.focus();
+        passwordInput.addEventListener('keydown', (event: KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+        passwordConfirmInput.addEventListener('keydown', (event: KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+      },
+    });
+
+    if (result.isConfirmed) {
+      const { password, passwordConfirm } = result.value as {
+        password: string;
+        passwordConfirm: string;
+      };
+      if (editNickName && props?.memberId && props?.schoolId && props?.departmentId) {
+        EditNickname(
+          props.memberId,
+          props.schoolId,
+          props.departmentId,
+          props.id,
+          editNickName,
+          props.email,
+          password,
+        )
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '비밀번호 수정 완료',
+              text: '비밀번호가 성공적으로 수정되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
+    }
+  };
   return (
     <>
       <MypageNavbar />
@@ -97,7 +189,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">계정 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mypagemodify-editicon"
+              onClick={handlePasswordEdit}
+            />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
