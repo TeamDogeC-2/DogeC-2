@@ -25,6 +25,7 @@ const MypageMain = () => {
 
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [userImg, setUserImg] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
   const handleEditProfile = async () => {
     const result = await Swal.fire({
       html: `
@@ -79,6 +80,7 @@ const MypageMain = () => {
       .then(res => {
         setUserInfo(res.data);
         setUserImg(res.data.fileName);
+        setNickname(res.data.nickname);
       })
       .catch(err => {
         console.error(err);
@@ -146,6 +148,10 @@ const MypageMain = () => {
         });
     }
   };
+  const handleNicknameChange = (newNickname: string) => {
+    setNickname(newNickname);
+  };
+
   return (
     <>
       <MypageNavbar />
@@ -166,7 +172,7 @@ const MypageMain = () => {
                   />
                 </div>
               </div>
-              <div className="mypagemain-username">{userInfo?.nickname}</div>
+              <div className="mypagemain-username">{nickname}</div>
               <div className="mypagemain-schoolname">
                 <SchoolIcon />
                 <span className="mypagemain-schooltext">{userInfo?.schoolName}</span>
@@ -203,6 +209,7 @@ const MypageMain = () => {
                 email={userInfo.email}
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
+                onNicknameChange={handleNicknameChange}
               />
             )}
           </div>
@@ -265,6 +272,7 @@ const MypageMain = () => {
                 email={userInfo.email}
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
+                onNicknameChange={handleNicknameChange}
               />
             )}
           </div>
@@ -327,6 +335,7 @@ const MypageMain = () => {
                 email={userInfo.email}
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
+                onNicknameChange={handleNicknameChange}
               />
             )}
           </div>
