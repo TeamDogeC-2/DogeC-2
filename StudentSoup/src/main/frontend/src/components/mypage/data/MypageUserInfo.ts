@@ -50,3 +50,20 @@ export const EditNickname = async (
   });
   return response.data;
 };
+
+// 회원 이메일 인증번호 전송
+
+export const SendEmail = async (email: string) => {
+  const response = await axiosInstance.post('/members/signUp/3/mail', {
+    email,
+  });
+  return response.data;
+};
+
+export const CheckEmail = async (email: string, authenticationNumber: number) => {
+  const response = await axiosInstance.post('/members/sighUp/3/checkMail', {
+    email,
+    authenticationNumber,
+  });
+  return response.data;
+};
