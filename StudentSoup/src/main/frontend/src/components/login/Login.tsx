@@ -17,7 +17,7 @@ const Login = () => {
     toast: true,
     position: 'bottom',
     showConfirmButton: false,
-    timer: 5000,
+    timer: 4000,
     timerProgressBar: true,
   });
 
@@ -39,13 +39,13 @@ const Login = () => {
 
       signIn(userId, userPassword)
         .then(response => {
-          const accessToken = JSON.stringify(response.data.accessToken);
-          const refreshToken = JSON.stringify(response.data.refreshToken);
-          localStorage.setItem('access-token', accessToken);
-          localStorage.setItem('refresh-token', refreshToken);
           setUserId('');
           setUserPassword('');
 
+          Toast.fire({
+            icon: 'success',
+            title: '로그인을 성공하였습니다.',
+          });
           navigate('/');
         })
         .catch(error => {
