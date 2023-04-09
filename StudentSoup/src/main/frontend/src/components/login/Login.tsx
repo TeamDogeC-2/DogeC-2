@@ -64,6 +64,11 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('access-token')) {
+      Toast.fire({
+        icon: 'error',
+        title: '이미 로그인이 되어있습니다.',
+      });
+
       navigate('/');
     }
 
