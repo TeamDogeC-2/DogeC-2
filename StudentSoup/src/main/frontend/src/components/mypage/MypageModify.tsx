@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import React, { useState, useEffect } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
 import { EditNickname } from './data/MypageUserInfo';
+import { getSignUpThird, postSignUpSchoolId } from '../../apis/auth/AuthAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 interface propTypes {
   memberId: number | undefined;
-  schoolId: number | undefined;
+  schoolId: number;
   departmentId: number | undefined;
   id: string;
   nickname: string;
@@ -17,8 +19,21 @@ interface propTypes {
   schoolName: string;
   onNicknameChange: (newNickname: string) => void;
 }
+interface SchoolDataResponse {
+  schoolId: number | undefined;
+  schoolName: string | undefined;
+}
+interface MajorDataResponse {
+  departmentId: number | undefined;
+  domain: string | undefined;
+  departmentName: string | undefined;
+}
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
+  const [selectEmail, setSelectEmail] = useState<number>(props.schoolId);
+  const [schoolData, setSchoolData] = useState<SchoolDataResponse[]>();
+  const [majorData, setMajorData] = useState<MajorDataResponse[]>();
+  const [emailDomain, setEmailDomain] = useState('');
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -181,6 +196,106 @@ const MypageModify = (props: propTypes) => {
       }
     }
   };
+  useEffect(() => {
+    getSignUpThird().then(res => {
+      setSchoolData(res.data);
+    });
+    postSignUpSchoolId(selectEmail).then(res => {
+      setMajorData(res.data.departments);
+      setEmailDomain(res.data.domain);
+    });
+  }, []);
+  const handleSchoolAndMajorEdit = async () => {
+    const schoolOptions = schoolData
+      ?.map(
+        (school: SchoolDataResponse) =>
+          `<option value="${school.schoolId}" ${
+            school.schoolId === props.schoolId ? 'selected' : ''
+          }>${school.schoolName}</option>`,
+      )
+      .join('');
+    const majorOptions = majorData
+      ?.map(
+        (major: MajorDataResponse) =>
+          `<option value="${major.departmentId}" ${
+            major.departmentId === props.departmentId ? 'selected' : ''
+          }>${major.departmentName}</option>`,
+      )
+      .join('');
+    const handleSchoolSelect = (event: any): void => {
+      if (event.target.value) {
+        const selectedSchoolId = parseInt(event.target.value);
+        postSignUpSchoolId(selectedSchoolId).then(res => {
+          setMajorData(res.data.departments);
+          setEmailDomain(res.data.domain);
+        });
+      }
+    };
+    const result = await Swal.fire({
+      title: '학교 및 전공 수정',
+      html: `<div style="display: flex; flex-direction: column;">
+        <label for="school-select">학교 선택</label>
+        <select id="school-select" class="swal2-select">
+          ${schoolOptions}
+        </select>
+        <label for="major-select">전공 선택</label>
+        <select id="major-select" class="swal2-select">
+          ${majorOptions}
+        </select>
+        <label for="email">이메일</label>
+        <div style="display: flex;">
+          <input id="email" type="text" class="swal2-input" style="flex-grow: 1;" value="${
+            props.email.split('@')[0]
+          }">
+          <span>@</span>
+          <input id="email-domain" type="text" class="swal2-input" style="flex-grow: 1;" value="${emailDomain}" readonly>
+        </div>
+        <button id="verify-email" class="swal2-confirm swal2-styled">인증하기</button>
+        <label for="verification-code" style="display: none;">인증 코드</label>
+        <input id="verification-code" type="text" class="swal2-input" style="display: none;" placeholder="인증 코드 입력">
+      </div>`,
+      preConfirm: (): any => {},
+      confirmButtonText: '수정',
+      cancelButtonText: '취소',
+      showCancelButton: true,
+      didOpen: () => {
+        const schoolSelect = document.getElementById('school-select') as HTMLSelectElement;
+        schoolSelect.addEventListener('change', (event: any) => {
+          const selectedSchoolId = parseInt(event.target.value);
+          postSignUpSchoolId(selectedSchoolId).then(res => {
+            const newMajorData = res.data.departments;
+            setMajorData(newMajorData);
+            setEmailDomain(res.data.domain);
+            const emailDomainInput = document.getElementById('email-domain') as HTMLInputElement;
+            emailDomainInput.value = res.data.domain;
+            const majorSelect = document.getElementById('major-select') as HTMLSelectElement;
+            majorSelect.innerHTML = newMajorData
+              .map(
+                (major: MajorDataResponse) =>
+                  `<option value="${major.departmentId}">${major.departmentName}</option>`,
+              )
+              .join('');
+          });
+        });
+
+        const verifyEmailButton = Swal.getPopup()?.querySelector(
+          '#verify-email',
+        ) as HTMLButtonElement;
+        verifyEmailButton.addEventListener('click', () => {
+          const verificationCodeLabel = Swal.getPopup()?.querySelector(
+            'label[for="verification-code"]',
+          ) as HTMLElement;
+          const verificationCodeInput = Swal.getPopup()?.querySelector(
+            '#verification-code',
+          ) as HTMLInputElement;
+
+          verificationCodeLabel.style.display = 'block';
+          verificationCodeInput.style.display = 'block';
+          verifyEmailButton.disabled = true;
+        });
+      },
+    });
+  };
   return (
     <>
       <MypageNavbar />
@@ -226,7 +341,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mypagemodify-editicon"
+              onClick={handleSchoolAndMajorEdit}
+            />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
