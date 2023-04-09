@@ -199,15 +199,15 @@ const MypageModify = (props: propTypes) => {
       }
     }
   };
-  useEffect(() => {
-    getSignUpThird().then(res => {
-      setSchoolData(res.data);
-    });
-    postSignUpSchoolId(selectedSchoolId).then(res => {
-      setMajorData(res.data.departments);
-      setEmailDomain(res.data.domain);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getSignUpThird().then(res => {
+  //     setSchoolData(res.data);
+  //   });
+  //   postSignUpSchoolId(selectedSchoolId).then(res => {
+  //     setMajorData(res.data.departments);
+  //     setEmailDomain(res.data.domain);
+  //   });
+  // }, []);
 
   return (
     <>
