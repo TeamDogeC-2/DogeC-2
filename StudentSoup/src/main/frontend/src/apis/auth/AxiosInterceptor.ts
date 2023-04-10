@@ -2,17 +2,27 @@ import axios from 'axios';
 import { authRefreshToken } from './AuthAPI';
 
 const axiosInstance = axios.create({
-  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 5000,
 });
 
 axiosInstance.interceptors.request.use(
   config => {
-    const accessToken: string | null = JSON.parse(localStorage.getItem('access-token') ?? 'null');
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    if (localStorage.getItem('access-token') !== null) {
+      const accessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
+      const refreshToken = localStorage.getItem('refresh-token');
+
+      if (Date.now() > accessToken.expire && refreshToken) {
+        authRefreshToken(refreshToken).then(response => {
+          const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
+
+          config.headers.Authorization = `Bearer ${newAccessToken.value}`;
+        });
+      } else {
+        config.headers.Authorization = `Bearer ${accessToken.value}`;
+      }
     }
 
     return config;
@@ -28,22 +38,19 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    const refreshToken: string | null = JSON.parse(localStorage.getItem('refresh-token') ?? 'null');
+    const refreshToken = localStorage.getItem('refresh-token');
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 403) {
       if (refreshToken) {
         originalRequest._retry = true;
 
-        try {
-          const response = await authRefreshToken(refreshToken);
-          const newAccessToken = JSON.stringify(response.data.accessToken);
-          localStorage.setItem('access-token', newAccessToken);
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        await authRefreshToken(refreshToken).then(res => {
+          const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
 
-          return await axiosInstance(originalRequest);
-        } catch (err) {
-          console.error('Unable to refresh token');
-        }
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken.value}`;
+        });
+
+        return await axiosInstance(originalRequest);
       }
     }
 
