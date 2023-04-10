@@ -216,8 +216,10 @@ const RestaurantNavbar = () => {
                 </li>
               </>
             ) : (
-              <li className="restaurant-nav-li" onClick={handleLogout}>
-                <i>로그인</i>
+              <li className="restaurant-nav-li">
+                <Link to="/login" className="restaurant-nav-links">
+                  <i>로그인</i>
+                </Link>
               </li>
             )}
           </ul>
