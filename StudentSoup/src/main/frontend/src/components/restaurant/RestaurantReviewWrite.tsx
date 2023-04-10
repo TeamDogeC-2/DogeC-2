@@ -12,10 +12,6 @@ const RestaurantReviewWrite = () => {
       <Desktop>
         <div className="restaurant-detail-review-write-div">
           <div className="restaurant-detail-review-write-top">
-            <div className="restaurant-detail-review-write-text">
-              <img src={review_basic_color} alt="" />
-              <p>리뷰 작성하기</p>
-            </div>
             <div className="restaurant-detail-review-write-caution">
               ※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될 수 있습니다.
             </div>
@@ -109,7 +105,9 @@ const RestaurantReviewWrite = () => {
           <span className="restaurant-mobile-detail-review-write-bottom-text">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </span>
-          <button className="restaurant-mobile-detail-review-write-bottom-submit-button">등록하기</button>
+          <button className="restaurant-mobile-detail-review-write-bottom-submit-button">
+            등록하기
+          </button>
         </div>
       </Mobile>
     </>
