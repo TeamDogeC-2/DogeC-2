@@ -1,3 +1,4 @@
+import axios from 'axios';
 import axiosInstance from '../../../apis/auth/AxiosInterceptor';
 
 export interface UserInfoType {
@@ -51,17 +52,33 @@ export const EditNickname = async (
   return response.data;
 };
 
-// 회원 이메일 인증번호 전송
+// 학교키값, 학교이름 렌더링
+export const GetSchoolList = async () => {
+  const response = await axiosInstance.get('/members/signUp/3');
+  return response.data;
+};
 
-export const SendEmail = async (email: string) => {
+// 학과 렌더링
+export const GetMajorList = async (schoolId: number) => {
+  const response = await axiosInstance.post(`/members/signUp/3/${schoolId}`, {
+    schoolId,
+  });
+  return response.data;
+};
+
+// 이메일 인증번호 전송
+
+export const SendMail = async (email: string) => {
   const response = await axiosInstance.post('/members/signUp/3/mail', {
     email,
   });
   return response.data;
 };
 
-export const CheckEmail = async (email: string, authenticationNumber: number) => {
-  const response = await axiosInstance.post('/members/sighUp/3/checkMail', {
+// 이메일 인증번호 확인
+
+export const CheckMail = async (email: string, authenticationNumber: number) => {
+  const response = await axiosInstance.post('/members/sighUp/3/checkMaild', {
     email,
     authenticationNumber,
   });
