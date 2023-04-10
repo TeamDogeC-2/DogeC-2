@@ -21,23 +21,61 @@ $text-color: #000;
     align-items: center;
   }
 
-  .restaurant-navbar-input {
+  .restaurant-navbar-input-div {
+    position: relative;
     width: 385px;
     height: 44px;
-    padding-left: 15px;
-    margin-left: 30px;
-    border: 1px solid $basic-color;
-    border-radius: 5px;
 
-    &:focus {
-      color: $text-color;
+    .restaurant-navbar-input {
+      width: 385px;
+      height: 44px;
+      padding-left: 15px;
+      padding-right: 45px;
+      margin-left: 30px;
       border: 1px solid $basic-color;
-      outline-color: $basic-color;
+      border-radius: 5px;
+
+      &:focus {
+        color: $text-color;
+        border: 1px solid $basic-color;
+        outline-color: $basic-color;
+      }
+    }
+
+    .restaurant-navbar-input::placeholder {
+      color: $basic-color;
+    }
+
+    .restaurant-navbar-img {
+      position: absolute;
+      top: 10px;
+      right: -20px;
+      width: 22px;
+      height: 22px;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
-  .restaurant-navbar-input::placeholder {
-    color: $basic-color;
+  .search-school-list {
+    position: absolute;
+    z-index: 10;
+    top: 44px;
+    left: 30px;
+    border: 1px solid #ff611d;
+    border-radius: 4px;
+    padding: 0.7rem 0 0.7rem 1rem;
+    width: 100%;
+    background-color: white;
+    font-size: 14px;
+    font-weight: 400;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   .restaurant-nav-menu {
@@ -203,6 +241,8 @@ $text-color: #000;
     font-style: normal;
 
     .tablet-restaurant-navbar-input-div {
+      position: relative;
+      padding: 0 6px;
       width: 100%;
       height: auto;
       display: flex;
@@ -210,9 +250,10 @@ $text-color: #000;
       justify-content: center;
 
       .tablet-restaurant-navbar-input {
-        width: 90%;
+        width: 100%;
         height: 44px;
         padding-left: 15px;
+        padding-right: 40px;
         margin-bottom: 16px;
         border: 1px solid $basic-color;
         border-radius: 5px;
@@ -226,6 +267,37 @@ $text-color: #000;
 
       .tablet-restaurant-navbar-input::placeholder {
         color: $basic-color;
+      }
+
+      .tablet-restaurant-navbar-img {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        width: 22px;
+        height: 22px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .tablet-search-school-list {
+      position: absolute;
+      z-index: 10;
+      top: 44px;
+      left: 7px;
+      border: 1px solid #ff611d;
+      border-radius: 4px;
+      padding: 0.7rem 0 0.7rem 1rem;
+      width: 98.4%;
+      background-color: white;
+      font-size: 14px;
+      font-weight: 400;
+
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
       }
     }
 
@@ -243,7 +315,7 @@ $text-color: #000;
     transition: 0.5s ease-in-out;
     border: 1px solid #bcbcbc;
 
-    li{
+    li {
       margin-bottom: 10px;
     }
 
@@ -346,6 +418,8 @@ $text-color: #000;
     font-style: normal;
 
     .mobile-restaurant-navbar-input-div {
+      position: relative;
+      padding: 0 6px;
       width: 100%;
       height: auto;
       display: flex;
@@ -353,9 +427,10 @@ $text-color: #000;
       justify-content: center;
 
       .mobile-restaurant-navbar-input {
-        width: 90%;
+        width: 100%;
         height: 44px;
         padding-left: 15px;
+        padding-right: 40px;
         margin-bottom: 16px;
         border: 1px solid $basic-color;
         border-radius: 5px;
@@ -366,12 +441,41 @@ $text-color: #000;
           outline-color: $basic-color;
         }
       }
-
       .mobile-restaurant-navbar-input::placeholder {
         color: $basic-color;
       }
+
+      .mobile-restaurant-navbar-img {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        width: 22px;
+        height: 22px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
 
+    .mobile-search-school-list {
+      position: absolute;
+      z-index: 10;
+      top: 44px;
+      left: 7px;
+      border: 1px solid #ff611d;
+      border-radius: 4px;
+      padding: 0.7rem 0 0.7rem 1rem;
+      width: 97%;
+      background-color: white;
+      font-size: 14px;
+      font-weight: 400;
+
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
     .mobile-restaurant-nav-list {
       color: #ffffff;
       text-decoration: underline;
@@ -386,7 +490,7 @@ $text-color: #000;
     transition: 0.5s ease-in-out;
     border: 1px solid #bcbcbc;
 
-    li{
+    li {
       margin-bottom: 10px;
     }
 

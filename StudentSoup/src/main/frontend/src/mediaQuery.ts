@@ -13,7 +13,11 @@ export const DesktopHeader = ({ children }: { children: JSX.Element }): JSX.Elem
   const isDesktopHeader = useMediaQuery({ minWidth: 1041 });
   return isDesktopHeader ? children : null;
 };
-export const DesktopRestaurantHeader = ({ children }: { children: JSX.Element }): JSX.Element | null => {
+export const DesktopRestaurantHeader = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element | null => {
   const isDesktopRestaurantHeader = useMediaQuery({ minWidth: 1451 });
   return isDesktopRestaurantHeader ? children : null;
 };
@@ -22,7 +26,11 @@ export const MobileHeader = ({ children }: { children: JSX.Element }): JSX.Eleme
   const isMobileHeader = useMediaQuery({ minWidth: 769, maxWidth: 1040 });
   return isMobileHeader ? children : null;
 };
-export const MobileRestaurantHeader = ({ children }: { children: JSX.Element }): JSX.Element | null => {
-  const isMobileRestaurantHeader = useMediaQuery({ maxWidth: 1450 });
+export const MobileRestaurantHeader = ({
+  children,
+}: {
+  children: JSX.Element;
+}): JSX.Element | null => {
+  const isMobileRestaurantHeader = useMediaQuery({ minWidth: 769, maxWidth: 1450 });
   return isMobileRestaurantHeader ? children : null;
 };
