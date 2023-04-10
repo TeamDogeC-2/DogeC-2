@@ -43,8 +43,15 @@ public class BoardReplyCallService {
     private List<BoardReplyDto> checkBoardReplyLike(Long memberId,
                                                     List<BoardReply> boardReplyList) {
         List<BoardReplyDto> boardReplyDtoList = new ArrayList<>();
+        int index = -1;
         for (BoardReply boardReply : boardReplyList) {
-            boardReplyDtoList.add(getBoardReplyLike(memberId, boardReply));
+            if(boardReply.getLevel()==0) {
+                index +=1;
+                boardReplyDtoList.add(getBoardReplyLike(memberId, boardReply));
+            }
+            else{
+                boardReplyDtoList.get(index).getBoardNestedReplyDtoList().add(getBoardReplyLike(memberId,boardReply));
+            }
         }
         return boardReplyDtoList;
     }
