@@ -1,63 +1,177 @@
 import './restaurantNavbar.scss';
-import { Link } from 'react-router-dom';
-import {
-  DesktopHeader,
-  DesktopRestaurantHeader,
-  Mobile,
-  MobileHeader,
-  MobileRestaurantHeader,
-} from '../../mediaQuery';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { DesktopRestaurantHeader, Mobile, MobileRestaurantHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
+import SearchIcon from './../../img/restaurant_search.svg';
+import { SchoolList, type SchoolListType } from '../home/data/SchoolList';
 
 const RestaurantNavbar = () => {
-  const [click, isClick] = useState<boolean>(false);
-  const [login, isLogin] = useState<boolean>(false);
+  const [schoolComponent, setSchoolComponent] = useState<any>([]);
+  const [schoolName, setSchoolName] = useState<string>('');
+  const [isUseSearch, setIsUseSearch] = useState<boolean>(true);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
+  const { state } = useLocation();
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
-  const searchRef = useRef<any>();
+  const searchRef = useRef<HTMLUListElement | null>(null);
+  const navigate = useNavigate();
 
-  const handleClickMenu = (e: any) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
+  const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSchoolName(e.target.value);
+    setIsUseSearch(true);
+  };
+
+  const handleClickSearch = useCallback(() => {
+    if (!schoolName) {
+      Toast.fire({
+        icon: 'error',
+        title: '학교를 입력해주세요.',
+      });
+      return;
+    } else if (
+      schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
+      undefined
+    ) {
+      Toast.fire({
+        toast: true,
+        icon: 'error',
+        title: '학교 정보가 없습니다.',
+      });
+      return;
+    }
+
+    setIsUseSearch(false);
+    setIsMenuOpen(false);
+    setSchoolName('');
+    navigate(`/restaurant/${schoolName}`, { state: schoolName });
+  }, [schoolName, schoolComponent]);
+
+  const activeEnter = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleClickSearch();
+    }
+  };
+
+  const filterSchoolName = schoolComponent.filter((item: { schoolName: string | string[] }) => {
+    return item.schoolName.includes(schoolName);
+  });
+
+  const handleClickMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
-    isClick(!click);
+
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleImgError = (e: any) => {
-    e.target.src = Circle_human;
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = Circle_human;
   };
 
-  const handleLogout = (e: any) => {
-    console.log(e);
+  const handleLogout = () => {
+    setIsMenuOpen(false);
+
+    Swal.fire({
+      title: '로그아웃 시도',
+      text: '로그아웃을 하시겠습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('refresh-token');
+
+        setIsLogin(false);
+
+        Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+      }
+    });
+  };
+
+  const onCheckClickOutside = (e: MouseEvent) => {
+    if (isMenuOpen && searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      setIsMenuOpen(!isMenuOpen);
+    }
+  };
+
+  const loginCheck = () => {
+    return localStorage.getItem('access-token') ? setIsLogin(true) : setIsLogin(false);
   };
 
   useEffect(() => {
-    const onCheckClickOutside = (e: MouseEvent) => {
-      if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        isClick(!click);
-      }
-    };
+    loginCheck();
+    SchoolList()
+      .then(res => {
+        setSchoolComponent(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
     document.addEventListener('mousedown', onCheckClickOutside);
+
     return () => {
       document.removeEventListener('mousedown', onCheckClickOutside);
     };
-  }, [click]);
+  }, [isMenuOpen]);
+
   return (
     <>
-      <DesktopHeader>
+      <DesktopRestaurantHeader>
         <nav className="restaurant-navbar-items">
           <div className="restaurant-navbar-left">
             <Link to="/" className="restaurant-navbar-logo-links">
               <img src={mainLogo} className="restaurant-navbar-logo" />
             </Link>
-            <input
-              type="text"
-              placeholder="지역 또는 학교명을 입력하세요."
-              className="restaurant-navbar-input"
-            />
+            <div className="restaurant-navbar-input-div">
+              <input
+                type="search"
+                onChange={saveSchoolName}
+                value={schoolName}
+                placeholder="지역 또는 학교명을 입력하세요."
+                className="restaurant-navbar-input"
+                onKeyDown={e => activeEnter(e)}
+              />
+              <img
+                src={SearchIcon}
+                className="restaurant-navbar-img"
+                alt="검색이미지"
+                onClick={handleClickSearch}
+              />
+              {schoolName && isUseSearch && (
+                <>
+                  {filterSchoolName.map((school: SchoolListType) => (
+                    <div
+                      onClick={() => {
+                        setSchoolName(school.schoolName);
+                      }}
+                      className="search-school-list"
+                      key={school.schoolId}
+                    >
+                      {school.schoolName}
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
           </div>
           <ul className="restaurant-nav-menu">
             <li className="restaurant-nav-li">
@@ -66,41 +180,58 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li className="restaurant-nav-li">
-              <Link to="/help" className="restaurant-nav-links">
+              <Link to="/customerservice" className="restaurant-nav-links">
                 <i>고객센터</i>
               </Link>
             </li>
-            <li className="restaurant-nav-li">
-              {login ? (
-                <div className="restaurant-navbar-logout-div" onClick={handleLogout}>
-                  <i>
-                    <img
-                      src={`/image/${IMAGE_FILE_ID}`}
-                      alt=""
-                      onError={handleImgError}
-                      className="restaurant-navbar-logout"
-                    />
-                    <p className="restaurant-navbar-hover-text">로그아웃</p>
-                  </i>
-                </div>
-              ) : (
-                <Link to="/login" className="restaurant-nav-links">
-                  <i>로그인</i>
-                </Link>
-              )}
-            </li>
+            {isLogin ? (
+              <>
+                <li className="restaurant-nav-li">
+                  <Link to="/restaurant" className="restaurant-nav-links">
+                    <i>주변 맛집</i>
+                  </Link>
+                </li>
+                <li className="restaurant-nav-li">
+                  <Link to="/board" className="restaurant-nav-links">
+                    <i>학교 게시판</i>
+                  </Link>
+                </li>
+                <li className="restaurant-nav-li">
+                  <Link to="/mypage" className="restaurant-nav-links">
+                    <i>마이페이지</i>
+                  </Link>
+                </li>
+                <li className="restaurant-nav-li">
+                  <div className="restaurant-navbar-logout-div" onClick={handleLogout}>
+                    <i>
+                      <img
+                        src={`/image/${IMAGE_FILE_ID}`}
+                        alt=""
+                        onError={handleImgError}
+                        className="restaurant-navbar-logout"
+                      />
+                      <p className="restaurant-navbar-hover-text">로그아웃</p>
+                    </i>
+                  </div>
+                </li>
+              </>
+            ) : (
+              <li className="restaurant-nav-li" onClick={handleLogout}>
+                <i>로그인</i>
+              </li>
+            )}
           </ul>
         </nav>
-      </DesktopHeader>
-      <MobileHeader>
+      </DesktopRestaurantHeader>
+      <MobileRestaurantHeader>
         <nav className="tablet-restaurant-navbar-items">
           <Link to="/" className="restaurant-navbar-logo-links">
             <img src={mainLogo} className="restaurant-navbar-logo" />
           </Link>
           <div className="tablet-restaurant-nav-menu">
-            {click ? (
+            {isMenuOpen ? (
               <FontAwesomeIcon icon={faXmark} className="tablet-restaurant-nav-menu-icon" />
-            ) : login ? (
+            ) : isLogin ? (
               <img
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
@@ -119,16 +250,42 @@ const RestaurantNavbar = () => {
           <ul
             ref={searchRef}
             className={
-              click ? 'tablet-restaurant-nav-menu-list active' : 'tablet-restaurant-nav-menu-list'
+              isMenuOpen
+                ? 'tablet-restaurant-nav-menu-list active'
+                : 'tablet-restaurant-nav-menu-list'
             }
           >
             <li className="tablet-restaurant-navbar-input-div">
               <div className="tablet-restaurant-navbar-input-div">
                 <input
-                  type="text"
+                  type="search"
+                  onChange={saveSchoolName}
+                  value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="tablet-restaurant-navbar-input"
+                  onKeyDown={e => activeEnter(e)}
                 />
+                <img
+                  src={SearchIcon}
+                  className="tablet-restaurant-navbar-img"
+                  alt="검색이미지"
+                  onClick={handleClickSearch}
+                />
+                {schoolName && isUseSearch && (
+                  <>
+                    {filterSchoolName.map((school: SchoolListType) => (
+                      <div
+                        onClick={() => {
+                          setSchoolName(school.schoolName);
+                        }}
+                        className="tablet-search-school-list"
+                        key={school.schoolId}
+                      >
+                        {school.schoolName}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </li>
             <li>
@@ -140,42 +297,77 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="tablet-restaurant-nav-link">
+              <Link to="/customerservice" className="tablet-restaurant-nav-link">
                 <div className="tablet-restaurant-nav-list">
                   <i className="tablet-restaurant-nav-listItme">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                 </div>
               </Link>
             </li>
-            <li>
-              {login ? (
-                <Link to="/notice" className="tablet-nav-link">
-                  <div className="tablet-restaurant-nav-list">
+            {isLogin ? (
+              <>
+                <li>
+                  <Link to="/restaurant" className="tablet-restaurant-nav-link">
+                    <div className="tablet-restaurant-nav-list">
+                      <i className="tablet-restaurant-nav-listItme">주변 맛집</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="tablet-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/board" className="tablet-restaurant-nav-links">
+                    <div className="tablet-restaurant-nav-list">
+                      <i className="tablet-restaurant-nav-listItme">학교 게시판</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="tablet-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/mypage" className="tablet-restaurant-nav-links">
+                    <div className="tablet-restaurant-nav-list">
+                      <i className="tablet-restaurant-nav-listItme">마이페이지</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="tablet-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <div className="tablet-restaurant-nav-list" onClick={handleLogout}>
                     <i className="tablet-restaurant-nav-listItme">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                   </div>
-                </Link>
-              ) : (
-                <Link to="/notice" className="tablet-restaurant-nav-link">
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link to="/login" className="tablet-restaurant-nav-link">
                   <div className="tablet-restaurant-nav-list">
                     <i className="tablet-restaurant-nav-listItme">로그인</i>
                     <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                   </div>
                 </Link>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </nav>
-      </MobileHeader>
+      </MobileRestaurantHeader>
       <Mobile>
         <nav className="mobile-restaurant-navbar-items">
           <Link to="/" className="restaurant-navbar-logo-links">
             <img src={mainLogo} className="restaurant-navbar-logo" />
           </Link>
           <div className="mobile-restaurant-nav-menu">
-            {click ? (
+            {isMenuOpen ? (
               <FontAwesomeIcon icon={faXmark} className="mobile-restaurant-nav-menu-icon" />
-            ) : login ? (
+            ) : isLogin ? (
               <img
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
@@ -194,16 +386,42 @@ const RestaurantNavbar = () => {
           <ul
             ref={searchRef}
             className={
-              click ? 'mobile-restaurant-nav-menu-list active' : 'mobile-restaurant-nav-menu-list'
+              isMenuOpen
+                ? 'mobile-restaurant-nav-menu-list active'
+                : 'mobile-restaurant-nav-menu-list'
             }
           >
             <li className="mobile-restaurant-navbar-input-div">
               <div className="mobile-restaurant-navbar-input-div">
                 <input
-                  type="text"
+                  type="search"
+                  onChange={saveSchoolName}
+                  value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="mobile-restaurant-navbar-input"
+                  onKeyDown={e => activeEnter(e)}
                 />
+                <img
+                  src={SearchIcon}
+                  className="mobile-restaurant-navbar-img"
+                  alt="검색이미지"
+                  onClick={handleClickSearch}
+                />
+                {schoolName && isUseSearch && (
+                  <>
+                    {filterSchoolName.map((school: SchoolListType) => (
+                      <div
+                        onClick={() => {
+                          setSchoolName(school.schoolName);
+                        }}
+                        className="mobile-search-school-list"
+                        key={school.schoolId}
+                      >
+                        {school.schoolName}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </li>
             <li>
@@ -215,30 +433,70 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
+              <Link to="/customerservice" className="mobile-restaurant-nav-link">
                 <div className="mobile-restaurant-nav-list">
                   <i className="mobile-restaurant-nav-listItme">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
                 </div>
               </Link>
             </li>
-            <li>
-              {login ? (
-                <Link to="/notice" className="mobile-nav-link">
-                  <div className="mobile-restaurant-nav-list">
+            {isLogin ? (
+              <>
+                <li>
+                  <Link to="/restaurant" className="mobile-restaurant-nav-link">
+                    <div className="mobile-restaurant-nav-list">
+                      <i className="mobile-restaurant-nav-listItme">주변 맛집</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="mobile-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/board" className="mobile-restaurant-nav-link">
+                    <div className="mobile-restaurant-nav-list">
+                      <i className="mobile-restaurant-nav-listItme">학교 게시판</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="mobile-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/mypage" className="mobile-restaurant-nav-link">
+                    <div className="mobile-restaurant-nav-list">
+                      <i className="mobile-restaurant-nav-listItme">마이페이지</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="mobile-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <div className="mobile-restaurant-nav-list" onClick={handleLogout}>
                     <i className="mobile-restaurant-nav-listItme">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
                   </div>
-                </Link>
-              ) : (
-                <Link to="/notice" className="mobile-restaurant-nav-link">
-                  <div className="mobile-restaurant-nav-list">
-                    <i className="mobile-restaurant-nav-listItme">로그인</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
-                  </div>
-                </Link>
-              )}
-            </li>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login" className="mobile-restaurant-nav-link">
+                    <div className="mobile-restaurant-nav-list">
+                      <i className="mobile-restaurant-nav-listItme">로그인</i>
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        className="mobile-restaurant-nav-icons"
+                      />
+                    </div>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </Mobile>
