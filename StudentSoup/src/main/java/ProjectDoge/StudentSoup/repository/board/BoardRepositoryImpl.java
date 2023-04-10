@@ -137,6 +137,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 checkTtitle(title))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(board.writeDate.desc())
                 .fetch();
 
         JPAQuery<Long> count = queryFactory
