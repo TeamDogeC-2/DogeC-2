@@ -11,7 +11,7 @@ import SearchIcon from './../../img/restaurant_search.svg';
 import { SchoolList, type SchoolListType } from '../home/data/SchoolList';
 
 const RestaurantNavbar = () => {
-  const [schoolComponent, setSchoolComponent] = useState<any>([]);
+  const [schoolComponent, setSchoolComponent] = useState<SchoolListType[]>([]);
   const [schoolName, setSchoolName] = useState<string>('');
   const [isUseSearch, setIsUseSearch] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -117,6 +117,7 @@ const RestaurantNavbar = () => {
   };
 
   useEffect(() => {
+    console.log(schoolComponent);
     loginCheck();
     SchoolList()
       .then(res => {
