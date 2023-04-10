@@ -3,7 +3,7 @@ import { postBoardCategory } from '../../apis/auth/BoardAPI';
 import { type BoardDataType } from '../../interfaces/BoardTypes';
 import NoticeAndService from '../common/NoticeAndService';
 
-export const Notice = () => {
+const CustomerService = () => {
   const [items, setItems] = useState<BoardDataType[]>([]);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,14 +13,14 @@ export const Notice = () => {
   const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
   const [currentPosts, setCurrentPosts] = useState<BoardDataType[]>([]);
 
-  const noticeHeader: string[] = ['title', 'writeDate'];
+  const serviceHeader: string[] = ['title', 'authentication', 'writeDate', 'view'];
 
   const handlePageChange = (e: React.SetStateAction<number>) => {
     setCurrentPage(e);
   };
 
   useEffect(() => {
-    postBoardCategory('ANNOUNCEMENT').then(response => {
+    postBoardCategory('CUSTOMERSERVICE').then(response => {
       setItems(response.data.content);
       setPostPerPage(response.data.pageable.pageSize);
     });
@@ -43,10 +43,10 @@ export const Notice = () => {
       handlePageChange={handlePageChange}
       postPerPage={postPerPage}
       setPostPerPage={setPostPerPage}
-      pageTitle="공지사항"
-      tableHeader={noticeHeader}
+      pageTitle="고객센터"
+      tableHeader={serviceHeader}
     />
   );
 };
 
-export default Notice;
+export default CustomerService;
