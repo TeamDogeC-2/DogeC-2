@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +24,8 @@ public class BoardReplyDto {
     private int level;
     private String active;
     private boolean like;
+
+    private List<BoardReplyDto> boardNestedReplyDtoList = new ArrayList<>();
 
     public BoardReplyDto createBoardReplyDto(BoardReply boardReply, Boolean like) {
         memberNullCheck(boardReply);

@@ -24,6 +24,7 @@ const Home = () => {
     timer: 3000,
     timerProgressBar: true,
   });
+
   const handleClickSearch = () => {
     if (!schoolName) {
       Toast.fire({
@@ -42,7 +43,7 @@ const Home = () => {
       });
       return;
     }
-    navigate('/restaurant', { state: schoolName });
+    navigate(`/restaurant/${schoolName}`, { state: schoolName });
   };
 
   const activeEnter = (e: React.KeyboardEvent) => {

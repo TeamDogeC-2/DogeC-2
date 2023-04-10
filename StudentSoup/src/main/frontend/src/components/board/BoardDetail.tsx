@@ -107,7 +107,7 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-like-button-div">
                   <button className="board-detail-mobile-like-button">
                     <img src={heart_white} alt="" />
-                    <div className='board-detail-mobile-like-div'>
+                    <div className="board-detail-mobile-like-div">
                       <p>좋아요</p>
                       <p>20</p>
                     </div>
