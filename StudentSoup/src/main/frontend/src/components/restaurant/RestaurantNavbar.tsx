@@ -33,7 +33,10 @@ const RestaurantNavbar = () => {
 
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
-    setIsUseSearch(true);
+    if (schoolName !== '') {
+      setIsUseSearch(true);
+    }
+    console.log(schoolName);
   };
 
   const handleClickSearch = useCallback(() => {
@@ -145,11 +148,11 @@ const RestaurantNavbar = () => {
             <div className="restaurant-navbar-input-div">
               <input
                 type="search"
-                onChange={saveSchoolName}
                 value={schoolName}
+                onChange={saveSchoolName}
                 placeholder="지역 또는 학교명을 입력하세요."
                 className="restaurant-navbar-input"
-                onKeyDown={e => activeEnter(e)}
+                onKeyUp={e => activeEnter(e)}
               />
               <img
                 src={SearchIcon}
@@ -266,7 +269,7 @@ const RestaurantNavbar = () => {
                   value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="tablet-restaurant-navbar-input"
-                  onKeyDown={e => activeEnter(e)}
+                  onKeyUp={e => activeEnter(e)}
                 />
                 <img
                   src={SearchIcon}
@@ -402,7 +405,7 @@ const RestaurantNavbar = () => {
                   value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="mobile-restaurant-navbar-input"
-                  onKeyDown={e => activeEnter(e)}
+                  onKeyUp={e => activeEnter(e)}
                 />
                 <img
                   src={SearchIcon}
