@@ -77,7 +77,7 @@ export const SendMail = async (email: string) => {
 // 이메일 인증번호 확인
 
 export const CheckMail = async (email: string, authenticationNumber: number) => {
-  const response = await axiosInstance.post('/members/sighUp/3/checkMaild', {
+  const response = await axiosInstance.post('/members/signUp/3/checkMail', {
     email,
     authenticationNumber,
   });
