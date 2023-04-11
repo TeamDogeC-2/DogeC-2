@@ -77,13 +77,19 @@ const RestaurantDetail = () => {
       })
       .catch(err => {
         console.log(err);
-        console.log(state);
         if (!restaurantId || !schoolName) {
           alert('학교가 등록되지 않았거나 없는 음식점입니다.');
           navigate(-1);
         }
       });
   }, [isDesktop, isTablet, isMobile]);
+
+  const restaurantReivewInfo = {
+    name: restaurantDetail.name,
+    reviewCount: restaurantDetail.reviewCount,
+    starLiked: restaurantDetail.starLiked,
+    restaurantId,
+  };
 
   const MapLocation = [longitude, latitude];
 
@@ -136,7 +142,7 @@ const RestaurantDetail = () => {
                   <span className="restaurant-detail-left-info-name">{restaurantDetail.name}</span>
                   <p>{restaurantDetail.tag}</p>
                   <p>
-                    <img src={restaurant_detail_star} alt="" /> 4.6
+                    <img src={restaurant_detail_star} alt="" /> {restaurantDetail.starLiked}
                   </p>
                 </div>
                 <div className="restaurant-detail-underline"></div>
@@ -233,7 +239,7 @@ const RestaurantDetail = () => {
                 </ul>
               </div>
               {clickPage === 1 && <RestaurantMenu />}
-              {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
           </div>
@@ -252,7 +258,7 @@ const RestaurantDetail = () => {
                   </span>
                   <p>{restaurantDetail.tag}</p>
                   <p>
-                    <img src={restaurant_detail_star} alt="" /> 4.6
+                    <img src={restaurant_detail_star} alt="" /> {restaurantDetail.starLiked}
                   </p>
                 </div>
                 <div className="restaurant-tablet-detail-underline"></div>
@@ -377,7 +383,7 @@ const RestaurantDetail = () => {
                 </ul>
               </div>
               {clickPage === 1 && <RestaurantMenu />}
-              {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
           </div>
@@ -438,7 +444,7 @@ const RestaurantDetail = () => {
                     </span>
                     <p>{restaurantDetail.tag}</p>
                     <p>
-                      <img src={restaurant_detail_star} alt="" /> 4.6
+                      <img src={restaurant_detail_star} alt="" /> {restaurantDetail.starLiked}
                     </p>
                   </div>
                   <div className="restaurant-mobile-detail-underline"></div>
@@ -540,7 +546,7 @@ const RestaurantDetail = () => {
                 </ul>
               </div>
               {clickPage === 1 && <RestaurantMenu />}
-              {clickPage === 2 && <RestaurantReview />}
+              {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
           </div>
