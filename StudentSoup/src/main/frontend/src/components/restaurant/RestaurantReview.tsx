@@ -1,14 +1,60 @@
 import './restaurantReview.scss';
 import review_white from '../../img/review_white.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Circle_human from '../../img/circle_human.png';
 import empty_heart from '../../img/empty_heart.svg';
 import RestaurantReviewWrite from './RestaurantReviewWrite';
 import { Desktop, Mobile } from '../../mediaQuery';
+import axios from 'axios';
 
-const RestaurantReview = () => {
-  const [filter, setFilter] = useState<any>(1);
+interface Props {
+  name: string;
+  reviewCount: number;
+  starLiked: number;
+  restaurantId: number;
+}
+
+const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props) => {
   const [write, isWrite] = useState<boolean>(false);
+
+  const [reviewList, setReviewList] = useState<any>([]);
+  const [clickPage, setClickPage] = useState<number>(1);
+  const [totalPage, setTotalPage] = useState<number>();
+  const [lastPage, isLastPage] = useState<boolean>();
+  const [page, setPage] = useState<number>(0);
+  const [sort, setSort] = useState<string>('liked');
+  const memberId = sessionStorage.getItem('memberId');
+  const url = `/restaurantReview/${restaurantId}`;
+
+  useEffect(() => {
+    axios
+      .post(
+        url,
+        {
+          restaurantId,
+          memberId,
+        },
+        {
+          params: {
+            page,
+            sorted: sort,
+          },
+        },
+      )
+      .then(res => {
+        setReviewList(res.data.content);
+        setTotalPage(res.data.totalPages);
+        isLastPage(res.data.last);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, [clickPage, sort]);
+
+  const handleImgError = (e: any) => {
+    e.target.src = Circle_human;
+  };
 
   return (
     <>
@@ -16,9 +62,9 @@ const RestaurantReview = () => {
         <div className="restaurant-detail-bottom-review-div">
           <div className="restaurant-detail-bottom-review-info">
             <div className="restaurant-detail-bottom-review-info-left">
-              <p>금돈</p>
-              <div>별점 들어갈 곳</div>
-              <span>총 ??명이 리뷰를 작성했어요</span>
+              <p>{name}</p>
+              <div>{starLiked}</div>
+              <span>총 {reviewCount}명이 리뷰를 작성했어요</span>
             </div>
             <button
               className="restaurant-detail-bottom-review-write-button"
@@ -33,66 +79,81 @@ const RestaurantReview = () => {
             <div className="restaurant-detail-bottom-review-buttons">
               <button
                 className={
-                  filter === 1
+                  sort === 'newest'
                     ? 'restaurant-detail-bottom-review-button active'
                     : 'restaurant-detail-bottom-review-button'
                 }
-                onClick={() => setFilter(1)}
+                onClick={() => setSort('newest')}
               >
                 최신순
               </button>
               <button
                 className={
-                  filter === 2
+                  sort === 'liked'
                     ? 'restaurant-detail-bottom-review-button active'
                     : 'restaurant-detail-bottom-review-button'
                 }
-                onClick={() => setFilter(2)}
+                onClick={() => setSort('liked')}
               >
                 추천순
               </button>
             </div>
-            <p>※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될 수 있습니다.</p>
           </div>
-          <div className="restaurant-detail-bottom-review-list-div">
-            <img
-              src={Circle_human}
-              alt=""
-              className="restaurant-detail-bottom-review-list-profile"
-            />
-            <div className="restaurant-detail-bottom-review-list-item">
-              <div className="restaurant-detail-bottom-review-list-item-top">
-                <span className="restaurant-detail-bottom-review-list-item-username">유저이름</span>
-                <div className="restaurant-detail-bottom-review-list-item-heart">
-                  <img src={empty_heart} alt="" />
-                  52
+          {reviewList.map((review: any, idx: any) => (
+            <>
+              <div className="restaurant-detail-bottom-review-list-div">
+                <img
+                  key={review.restaurantReviewId}
+                  src={`/image/${review.memberProfileImageName}`}
+                  alt=""
+                  onError={handleImgError}
+                  className="restaurant-detail-bottom-review-list-profile"
+                />
+                <div className="restaurant-detail-bottom-review-list-item">
+                  <div className="restaurant-detail-bottom-review-list-item-top">
+                    <span className="restaurant-detail-bottom-review-list-item-username">
+                      {review.nickName}
+                    </span>
+                    <div className="restaurant-detail-bottom-review-list-item-heart">
+                      <img src={empty_heart} alt="" />
+                      {review.likedCount}
+                    </div>
+                  </div>
+                  <div className="restaurant-detail-bottom-review-list-item-middle">
+                    <div>별점 들어갈 곳</div>
+                    <span>{review.writeDate}</span>
+                  </div>
+                  {review.imageFileNameList.length ? (
+                    <>
+                      <div className="restaurant-detail-bottom-review-list-item-img-div">
+                        <img src={`/image/${review.imageFileNameList[0]}`} alt="" />
+                      </div>
+                      <div className="restaurant-detail-bottom-review-list-content">
+                        {review.content}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="restaurant-detail-bottom-review-list-content">
+                        {review.content}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
-              <div className="restaurant-detail-bottom-review-list-item-middle">
-                <div>별점 들어갈 곳</div>
-                <span>23.03.14</span>
-              </div>
-              <div className="restaurant-detail-bottom-review-list-item-img-div">
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-              </div>
-              <div className="restaurant-detail-bottom-review-list-content">
-                진짜진짜로 맛있어요 ㅠㅠ 치즈카츠의 치즈는 진짜 모짜렐라치즈 맛으로 고소하면서 쫙좍
-                늘어나고 가츠동에 밥 양념이 기가막혀요 그냥, 하 양도 많아서 완전 든든해요!! 가성비
-                굿!!
-              </div>
-            </div>
-          </div>
+            </>
+          ))}
         </div>
       </Desktop>
       <Mobile>
         <div className="restaurant-mobile-detail-bottom-review-div">
           <div className="restaurant-mobile-detail-bottom-review-info">
             <div className="restaurant-mobile-detail-bottom-review-info-left">
-              <div>별점 들어갈 곳</div>
-              <span>총 ??명이 리뷰를 작성했어요</span>
+              <div className="restaurant-mobile-detail-bottom-review-info-left-div">
+                <p>{name}</p>
+                <div>{starLiked}</div>
+              </div>
+              <span>총 {reviewCount}명이 리뷰를 작성했어요</span>
             </div>
           </div>
           <div className="restaurant-mobile-detail-bottom-review-select-div">
@@ -100,21 +161,21 @@ const RestaurantReview = () => {
               <div>
                 <button
                   className={
-                    filter === 1
+                    sort === 'newest'
                       ? 'restaurant-mobile-detail-bottom-review-button active'
                       : 'restaurant-mobile-detail-bottom-review-button'
                   }
-                  onClick={() => setFilter(1)}
+                  onClick={() => setSort('newest')}
                 >
                   최신순
                 </button>
                 <button
                   className={
-                    filter === 2
+                    sort === 'liked'
                       ? 'restaurant-mobile-detail-bottom-review-button active'
                       : 'restaurant-mobile-detail-bottom-review-button'
                   }
-                  onClick={() => setFilter(2)}
+                  onClick={() => setSort('liked')}
                 >
                   추천순
                 </button>
@@ -128,41 +189,51 @@ const RestaurantReview = () => {
               </button>
             </div>
             {write && <RestaurantReviewWrite />}
-            <p>※홍보 및 비방 등 부적절한 평가는 평점 산정에서 제외될 수 있습니다.</p>
           </div>
-          <div className="restaurant-mobile-detail-bottom-review-list-div">
-            <img
-              src={Circle_human}
-              alt=""
-              className="restaurant-mobile-detail-bottom-review-list-profile"
-            />
-            <div className="restaurant-mobile-detail-bottom-review-list-item">
-              <div className="restaurant-mobile-detail-bottom-review-list-item-top">
-                <span className="restaurant-mobile-detail-bottom-review-list-item-username">
-                  유저이름
-                </span>
-                <div className="restaurant-mobile-detail-bottom-review-list-item-heart">
-                  <img src={empty_heart} alt="" />
-                  52
+          {reviewList.map((review: any, idx: any) => (
+            <>
+              <div className="restaurant-mobile-detail-bottom-review-list-div">
+                <img
+                  key={review.restaurantReviewId}
+                  src={`/image/${review.memberProfileImageName}`}
+                  alt=""
+                  onError={handleImgError}
+                  className="restaurant-mobile-detail-bottom-review-list-profile"
+                />
+                <div className="restaurant-mobile-detail-bottom-review-list-item">
+                  <div className="restaurant-mobile-detail-bottom-review-list-item-top">
+                    <span className="restaurant-mobile-detail-bottom-review-list-item-username">
+                      {review.nickName}
+                    </span>
+                    <div className="restaurant-mobile-detail-bottom-review-list-item-heart">
+                      <img src={empty_heart} alt="" />
+                      {review.likedCount}
+                    </div>
+                  </div>
+                  <div className="restaurant-mobile-detail-bottom-review-list-item-middle">
+                    <div>별점 들어갈 곳</div>
+                    <span>{review.writeDate}</span>
+                  </div>
+                  {review.imageFileNameList.length ? (
+                    <>
+                      <div className="restaurant-mobile-detail-bottom-review-list-item-img-div">
+                        <img src={`/image/${review.imageFileNameList[0]}`} alt="" />
+                      </div>
+                      <div className="restaurant-mobile-detail-bottom-review-list-content">
+                        {review.content}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="restaurant-mobile-detail-bottom-review-list-content">
+                        {review.content}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
-              <div className="restaurant-mobile-detail-bottom-review-list-item-middle">
-                <div>별점 들어갈 곳</div>
-                <span>23.03.14</span>
-              </div>
-              <div className="restaurant-mobile-detail-bottom-review-list-item-img-div">
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-                <img src={Circle_human} alt="" />
-              </div>
-              <div className="restaurant-mobile-detail-bottom-review-list-content">
-                진짜진짜로 맛있어요 ㅠㅠ 치즈카츠의 치즈는 진짜 모짜렐라치즈 맛으로 고소하면서 쫙좍
-                늘어나고 가츠동에 밥 양념이 기가막혀요 그냥, 하 양도 많아서 완전 든든해요!! 가성비
-                굿!!
-              </div>
-            </div>
-          </div>
+            </>
+          ))}
         </div>
       </Mobile>
     </>
