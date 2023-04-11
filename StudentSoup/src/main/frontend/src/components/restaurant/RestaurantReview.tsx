@@ -45,7 +45,6 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
         setReviewList(res.data.content);
         setTotalPage(res.data.totalPages);
         isLastPage(res.data.last);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);

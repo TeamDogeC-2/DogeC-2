@@ -18,7 +18,6 @@ const RestaurantPhoto = () => {
       .then(res => {
         setImage(res.data.content);
         setTotalSize(res.data.totalElements);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
