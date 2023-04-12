@@ -142,3 +142,22 @@ export const ReviewEdit = async (
   );
   return response.data;
 };
+
+// 시간표 등록
+export const AddSchedule = async (
+  memberId: number,
+  DayOfWeek: string,
+  startTime: number,
+  endTime: number,
+  color: string,
+  subject: string,
+) => {
+  const response = await axiosInstance.put(`/schedule/${memberId}`, {
+    DayOfWeek,
+    startTime,
+    endTime,
+    color,
+    subject,
+  });
+  return response.data;
+};
