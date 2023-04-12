@@ -174,7 +174,7 @@ const MypageScheduler: React.FC = () => {
     const newItem = { dayOfWeek, startTime, endTime };
     const isOverlapping = scheduleItems.some(item => {
       if (isEditMode && selectedScheduleId === item.scheduleId) {
-        return;
+        return false;
       }
       const isSameDay = item.dayOfWeek === newItem.dayOfWeek;
       const isOverlap =
@@ -183,6 +183,7 @@ const MypageScheduler: React.FC = () => {
       return isSameDay && isOverlap;
     });
     if (isOverlapping) {
+      console.log('중복된 시간표가 있습니다.');
       alert('중복된 시간표가 있습니다.');
       return;
     }
