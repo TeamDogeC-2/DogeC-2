@@ -5,7 +5,6 @@ import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
 import { EditNickname } from './data/MypageUserInfo';
-import { signUpEmailAuthenticateNumber } from '../../apis/auth/AuthAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 interface propTypes {
