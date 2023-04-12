@@ -137,7 +137,9 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                   {review.imageFileNameList.length ? (
                     <>
                       <div className="restaurant-detail-bottom-review-list-item-img-div">
-                        <img src={`/image/${review.imageFileNameList[0]}`} alt="" />
+                        {review.imageFileNameList.map((img: any) => (
+                          <img key={img} src={`/image/${img}`} alt="" />
+                        ))}
                       </div>
                       <div className="restaurant-detail-bottom-review-list-content">
                         {review.content}
@@ -233,7 +235,9 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                   {review.imageFileNameList.length ? (
                     <>
                       <div className="restaurant-mobile-detail-bottom-review-list-item-img-div">
-                        <img src={`/image/${review.imageFileNameList[0]}`} alt="" />
+                        {review.imageFileNameList.map((img: any) => (
+                          <img key={img} src={`/image/${img}`} alt="" />
+                        ))}
                       </div>
                       <div className="restaurant-mobile-detail-bottom-review-list-content">
                         {review.content}
