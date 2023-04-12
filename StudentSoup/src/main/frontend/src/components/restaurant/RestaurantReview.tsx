@@ -7,6 +7,7 @@ import RestaurantReviewWrite from './RestaurantReviewWrite';
 import { Desktop, Mobile } from '../../mediaQuery';
 import axios from 'axios';
 import RatingStars from '../mypage/components/RatingStars';
+import ReviewPaginate from '../common/ReviewPaginate';
 
 interface Props {
   name: string;
@@ -18,10 +19,10 @@ interface Props {
 const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props) => {
   const [write, isWrite] = useState<boolean>(false);
 
+  const [currentpage, setCurrentpage] = useState(1);
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [postPerPage, setPostPerPage] = useState(3);
   const [reviewList, setReviewList] = useState<any>([]);
-  const [clickPage, setClickPage] = useState<number>(1);
-  const [totalPage, setTotalPage] = useState<number>();
-  const [lastPage, isLastPage] = useState<boolean>();
   const [page, setPage] = useState<number>(0);
   const [sort, setSort] = useState<string>('newest');
   const memberId = sessionStorage.getItem('memberId');
@@ -44,13 +45,13 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
       )
       .then(res => {
         setReviewList(res.data.content);
-        setTotalPage(res.data.totalPages);
-        isLastPage(res.data.last);
+        setTotalElements(res.data.totalElements);
+        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
       });
-  }, [clickPage, sort]);
+  }, [currentpage, sort]);
 
   const handleImgError = (e: any) => {
     e.target.src = Circle_human;
@@ -60,6 +61,11 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
     name,
     restaurantId,
     isWrite,
+  };
+
+  const handlePageChange = (e: any) => {
+    setCurrentpage(e);
+    setPage(e - 1);
   };
 
   return (
@@ -156,6 +162,16 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
               </div>
             </>
           ))}
+          <div className="restaurant-detail-bottom-paginate">
+            <ReviewPaginate
+              page={currentpage}
+              count={totalElements}
+              setPage={handlePageChange}
+              postPerPage={postPerPage}
+              hideFirstLastPages={true}
+              hideDisabled={true}
+            />
+          </div>
         </div>
       </Desktop>
       <Mobile>
@@ -254,6 +270,16 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
               </div>
             </>
           ))}
+          <div className="restaurant-mobile-detail-bottom-paginate">
+            <ReviewPaginate
+              page={currentpage}
+              count={totalElements}
+              setPage={handlePageChange}
+              postPerPage={postPerPage}
+              hideFirstLastPages={true}
+              hideDisabled={true}
+            />
+          </div>
         </div>
       </Mobile>
     </>
