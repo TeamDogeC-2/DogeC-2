@@ -158,7 +158,6 @@ const MypageModify = (props: propTypes) => {
 
         passwordInput.focus();
 
-        // Add event listener to password input
         passwordInput.addEventListener('input', (event: Event) => {
           const target = event.target as HTMLInputElement;
           updatePasswordCriteriaColors(target.value);
