@@ -115,6 +115,7 @@ const MypageScheduler: React.FC = () => {
             setScheduleItems(prevItems =>
               prevItems.filter(prevItem => prevItem.scheduleId !== item.scheduleId),
             );
+            setIsEditMode(false);
           })
           .catch(err => {
             console.log(err);
@@ -201,6 +202,7 @@ const MypageScheduler: React.FC = () => {
     }
     setSelectedScheduleId(null);
     setIsModalOpen(false);
+    setIsEditMode(false);
   };
   const editItem = selectedScheduleId
     ? scheduleItems.find(item => item.scheduleId === selectedScheduleId)
