@@ -13,9 +13,10 @@ import axios from 'axios';
 interface Props {
   restaurantId: number;
   name: string;
+  isWrite: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
+const RestaurantReviewWrite = ({ restaurantId, name, isWrite }: Props) => {
   const [rating, setRating] = useState<number>(0);
   const [imgs, setImgs] = useState<any>();
   const imageUploader = useRef<any>(null);
@@ -131,6 +132,7 @@ const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
       setShowImages([]);
       setTextValue('');
     }
+    isWrite(false);
   };
 
   const onCickImageUpload = () => {
@@ -252,7 +254,7 @@ const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
               maxLength={399}
             ></textarea>
             <div className="restaurant-mobile-detail-review-write-middle-text-count">
-              0/400 (최소 5글자)
+              {count}/400 (최소 5글자)
             </div>
           </div>
           <div className="restaurant-mobile-detail-review-write-middle-img-div">
@@ -260,7 +262,7 @@ const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
               <div className="restaurant-mobile-detail-review-write-middle-img-input-div">
                 <img src={camera} alt="" />
                 <span>사진 첨부</span>
-                <p>0/4</p>
+                <p>{showImages.length}/4</p>
                 <input
                   type="file"
                   multiple
@@ -270,22 +272,43 @@ const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
                 />
               </div>
             </div>
-            <div className="restaurant-mobile-detail-review-write-middle-add-img-item-div">
-              <div className="restaurant-mobile-detail-review-write-middle-add-img-item">
-                <img src={Circle_human} alt="" />
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  className="restaurant-mobile-detail-review-write-middle-delete-button"
-                />
-              </div>
-            </div>
+            {showImages.map((image, id) => (
+              <>
+                <div
+                  key={id}
+                  className="restaurant-mobile-detail-review-write-middle-add-img-item-div"
+                >
+                  <div className="restaurant-mobile-detail-review-write-middle-add-img-item">
+                    <img src={image} alt={`${image}-${id}`} />
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      onClick={() => {
+                        handleDeleteImage(id);
+                      }}
+                      className="restaurant-mobile-detail-review-write-middle-delete-button"
+                    />
+                  </div>
+                </div>
+              </>
+            ))}
           </div>
           <span className="restaurant-mobile-detail-review-write-bottom-text">
             사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
           </span>
-          <button className="restaurant-mobile-detail-review-write-bottom-submit-button">
-            등록하기
-          </button>
+          <div className="restaurant-mobile-detail-review-write-bottom-buttons-div">
+            <button
+              onClick={cancelReviewValue}
+              className="restaurant-mobile-detail-review-write-bottom-cancel-button"
+            >
+              취소하기
+            </button>
+            <button
+              onClick={handleReviewValue}
+              className="restaurant-mobile-detail-review-write-bottom-submit-button"
+            >
+              등록하기
+            </button>
+          </div>
         </div>
       </Mobile>
     </>

@@ -58,6 +58,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
   const reviewInfo = {
     name,
     restaurantId,
+    isWrite,
   };
 
   return (
