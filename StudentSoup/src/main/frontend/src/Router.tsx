@@ -15,6 +15,7 @@ import Scheduler from './components/mypage/MypageScheduler';
 import Board from './components/board/Board';
 import BoardDetail from './components/board/BoardDetail';
 import BoardWrite from './components/board/BoardWrite';
+import CustomerService from './components/customerservice/CustomerService';
 
 const Router = () => {
   return (
@@ -23,7 +24,7 @@ const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login/findAccount" element={<FindAccount />} />
-      <Route path="/restaurant" element={<Restaurant />} />
+      <Route path="/restaurant/:school" element={<Restaurant />} />
       <Route path="/restaurant/detail" element={<RestaurantDetail />} />
       <Route path="/notice" element={<Notice />} />
       <Route path="/signup/process/1" element={<SignUpProcess1 />} />
@@ -34,6 +35,8 @@ const Router = () => {
       <Route path="/board/write" element={<BoardWrite />} />
       <Route path="/mypage" element={<MypageMain />} />
       <Route path="/scheduler" element={<Scheduler />} />
+      <Route path="/board/write" element={<BoardWrite />} />
+      <Route path="/customerservice" element={<CustomerService />} />
     </Routes>
   );
 };

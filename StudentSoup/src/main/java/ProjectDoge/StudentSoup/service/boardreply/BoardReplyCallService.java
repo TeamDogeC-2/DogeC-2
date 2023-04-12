@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.service.boardreply;
 
 
 import ProjectDoge.StudentSoup.commonmodule.ConstField;
+import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.boardreply.BoardReplyDto;
 import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
@@ -11,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,17 +43,38 @@ public class BoardReplyCallService {
     private List<BoardReplyDto> checkBoardReplyLike(Long memberId,
                                                     List<BoardReply> boardReplyList) {
         List<BoardReplyDto> boardReplyDtoList = new ArrayList<>();
+        int index = -1;
         for (BoardReply boardReply : boardReplyList) {
-            boardReplyDtoList.add(getBoardReplyLike(memberId, boardReply));
+            if(boardReply.getLevel()==0) {
+                index +=1;
+                boardReplyDtoList.add(getBoardReplyLike(memberId, boardReply));
+            }
+            else{
+                boardReplyDtoList.get(index).getBoardNestedReplyDtoList().add(getBoardReplyLike(memberId,boardReply));
+            }
         }
         return boardReplyDtoList;
     }
 
     private BoardReplyDto getBoardReplyLike(Long memberId, BoardReply boardReply) {
         for (BoardReplyLike boardReplyLike : boardReply.getBoardReplyLikes()) {
-            if (boardReplyLike.getMember().getMemberId().equals(memberId))
-                return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.LIKED);
+            if (boardReplyLike.getMember().getMemberId().equals(memberId)) {
+                BoardReplyDto boardReplyDto = new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.LIKED);
+                setWriteDate(boardReplyDto);
+                return boardReplyDto;
+            }
         }
-        return new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.NOT_LIKED);
+        BoardReplyDto boardReplyDto = new BoardReplyDto().createBoardReplyDto(boardReply, ConstField.NOT_LIKED);
+        setWriteDate(boardReplyDto);
+        return boardReplyDto;
+    }
+    private void setWriteDate(BoardReplyDto boardReplyDto) {
+        LocalDateTime writeDateTime = LocalDateTime.parse(boardReplyDto.getWriteDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        LocalDate writeDate = writeDateTime.toLocalDate();
+        if (writeDate.equals(LocalDate.parse(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))) {
+            boardReplyDto.setWriteDate(String.valueOf(writeDateTime.toLocalTime()));
+        } else {
+            boardReplyDto.setWriteDate(String.valueOf(writeDate).substring(5));
+        }
     }
 }

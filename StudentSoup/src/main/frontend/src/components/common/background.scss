@@ -1,12 +1,12 @@
 .background-wrap {
   width: 100%;
   height: auto;
+  min-height: calc(100vh - 4.6875rem);
 }
 
 @media screen and (max-width: 1040px) {
   .background-wrap {
     height: auto;
-    min-height: 100vh;
     background-color: white;
   }
 }
