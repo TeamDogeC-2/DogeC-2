@@ -55,6 +55,11 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
     e.target.src = Circle_human;
   };
 
+  const reviewInfo = {
+    name,
+    restaurantId,
+  };
+
   return (
     <>
       <Desktop>
@@ -73,7 +78,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
               <p>리뷰 작성</p>
             </button>
           </div>
-          {write && <RestaurantReviewWrite />}
+          {write && <RestaurantReviewWrite {...reviewInfo} />}
           <div className="restaurant-detail-bottom-review-select-div">
             <div className="restaurant-detail-bottom-review-buttons">
               <button
@@ -187,7 +192,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                 <p>리뷰 작성</p>
               </button>
             </div>
-            {write && <RestaurantReviewWrite />}
+            {write && <RestaurantReviewWrite {...reviewInfo} />}
           </div>
           {reviewList.map((review: any, idx: any) => (
             <>
