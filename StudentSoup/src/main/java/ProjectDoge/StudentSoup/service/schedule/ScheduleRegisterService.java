@@ -29,7 +29,6 @@ public class ScheduleRegisterService {
         Member member = memberFindService.findOne(memberId);
         List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
-        checkDuplicateSubject(scheduleDto);
         Schedule schedule = new Schedule().createSchedule(scheduleDto, member);
         scheduleRepository.save(schedule);
         return schedule.getScheduleId();
@@ -38,13 +37,6 @@ public class ScheduleRegisterService {
     private void memberIdNullCheck(Long memberId) {
         if(memberId == null){
             throw new MemberIdNotSentException("회원 아이디가 전송되지 않았습니다.");
-        }
-    }
-
-    private void checkDuplicateSubject(ScheduleDto scheduleDto) {
-        Schedule schedule = scheduleRepository.findBySubject(scheduleDto.getSubject()).orElse(null);
-        if(schedule != null){
-            throw new ScheduleDuplicateException("중복된 강의가 있습니다.");
         }
     }
 
