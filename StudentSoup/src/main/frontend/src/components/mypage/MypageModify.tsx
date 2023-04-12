@@ -4,8 +4,14 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
-import { EditNickname, SendEmail, CheckEmail } from './data/MypageUserInfo';
-import { getSignUpThird, postSignUpSchoolId } from '../../apis/auth/AuthAPI';
+import {
+  EditNickname,
+  GetSchoolList,
+  GetMajorList,
+  SendMail,
+  CheckMail,
+} from './data/MypageUserInfo';
+import { signUpEmailAuthenticateNumber } from '../../apis/auth/AuthAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 interface propTypes {
@@ -20,23 +26,17 @@ interface propTypes {
   onNicknameChange: (newNickname: string) => void;
 }
 interface SchoolDataResponse {
-  schoolId: number | undefined;
-  schoolName: string | undefined;
+  schoolId: number;
+  schoolName: string;
 }
 interface MajorDataResponse {
-  departmentId: number | undefined;
-  domain: string | undefined;
-  departmentName: string | undefined;
+  departmentId: number;
+  domain: string;
+  departmentName: string;
 }
+
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
-  const [selectedSchoolId, setSelectedSchoolId] = useState<number>(props.schoolId);
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number>(props.departmentId);
-  const [emailId, setEmailId] = useState<string>(props.email.split('@')[0]);
-  const [emailVerified, setEmailVerified] = useState<boolean>(true);
-  const [schoolData, setSchoolData] = useState<SchoolDataResponse[]>();
-  const [majorData, setMajorData] = useState<MajorDataResponse[]>();
-  const [emailDomain, setEmailDomain] = useState('');
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -106,6 +106,7 @@ const MypageModify = (props: propTypes) => {
         '<label for="password" style="width: 30%;">비밀번호:</label>' +
         '<input id="password" type="password" class="swal2-input" placeholder="새로운 비밀번호" style="width: 70%;" autocomplete="new-password">' +
         '</div>' +
+        '<small style="color: #b4b4b4; margin-left: 2rem;">대소문자 , 숫자 , 8~20자 이내</small>' +
         '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
         '<label for="password-confirm" style="width: 30%;">비밀번호 확인:</label>' +
         '<input id="password-confirm" type="password" class="swal2-input" placeholder="새 비밀번호 확인" style="width: 70%;" autocomplete="new-password">' +
