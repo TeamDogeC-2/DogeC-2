@@ -71,8 +71,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
             onSubmit(dayOfWeek, startTime, endTime, color, subject, editItem.scheduleId);
           })
           .catch(err => {
-            console.log(err);
-            console.log('시간표 수정에서 오류');
+            alert(err.response.data.message);
           });
       } else {
         const newScheduleId = await AddSchedule(
@@ -97,9 +96,8 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
             });
             onSubmit(dayOfWeek, startTime, endTime, color, subject, res);
           })
-          .catch(() => {
-            // 임시 오류발생 추후 오류코드 업데이트후 업데이트 해야됨
-            alert('중복시간표가 있습니다.');
+          .catch(err => {
+            alert(err.response.data.message);
           });
       }
     }
