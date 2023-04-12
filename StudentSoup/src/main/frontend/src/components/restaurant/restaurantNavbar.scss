@@ -101,6 +101,7 @@ $text-color: #000;
         justify-content: center;
       }
       &:hover {
+        cursor: pointer;
         background-color: #ff661d;
         color: white;
         transition: all 0.3s ease-in-out;
