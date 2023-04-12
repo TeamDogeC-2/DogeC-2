@@ -45,7 +45,7 @@ $sub-color: #5a5a5a;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      
+
       img {
         margin-right: 0.5rem;
       }
@@ -136,7 +136,8 @@ $sub-color: #5a5a5a;
 
       .restaurant-detail-bottom-review-list-item-middle {
         display: flex;
-        margin: 0.875rem 0;
+        margin: 0.5rem 0;
+        align-items: center;
 
         div {
           margin-right: 0.75rem;
@@ -192,8 +193,6 @@ $sub-color: #5a5a5a;
         margin: 0 0.5rem;
       }
     }
-
-    
   }
 
   .restaurant-mobile-detail-bottom-review-select-div {
@@ -245,12 +244,12 @@ $sub-color: #5a5a5a;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        
+
         img {
           margin-right: 0.5rem;
         }
 
-        p{
+        p {
           color: #fff;
           margin-top: 0.75rem;
         }
@@ -306,7 +305,8 @@ $sub-color: #5a5a5a;
 
       .restaurant-mobile-detail-bottom-review-list-item-middle {
         display: flex;
-        margin: 0.875rem 0;
+        margin: 0.25rem 0;
+        align-items: center;
 
         div {
           margin-right: 0.75rem;
@@ -315,8 +315,8 @@ $sub-color: #5a5a5a;
 
       .restaurant-mobile-detail-bottom-review-list-item-img-div {
         img {
-          width: 48%;
-          height: 45%;
+          width: 6.25rem;
+          height: 6.25rem;
           margin-right: 0.125rem;
           margin-bottom: 0.5rem;
         }

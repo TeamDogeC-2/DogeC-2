@@ -6,6 +6,7 @@ import empty_heart from '../../img/empty_heart.svg';
 import RestaurantReviewWrite from './RestaurantReviewWrite';
 import { Desktop, Mobile } from '../../mediaQuery';
 import axios from 'axios';
+import RatingStars from '../mypage/components/RatingStars';
 
 interface Props {
   name: string;
@@ -125,7 +126,12 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                     </div>
                   </div>
                   <div className="restaurant-detail-bottom-review-list-item-middle">
-                    <div>별점 들어갈 곳</div>
+                    <RatingStars
+                      rating={review.starLiked}
+                      width="21px"
+                      height="19px"
+                      color="#ffb21d"
+                    />
                     <span>{review.writeDate}</span>
                   </div>
                   {review.imageFileNameList.length ? (
@@ -216,7 +222,12 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                     </div>
                   </div>
                   <div className="restaurant-mobile-detail-bottom-review-list-item-middle">
-                    <div>별점 들어갈 곳</div>
+                    <RatingStars
+                      rating={review.starLiked}
+                      width="21px"
+                      height="19px"
+                      color="#ffb21d"
+                    />
                     <span>{review.writeDate}</span>
                   </div>
                   {review.imageFileNameList.length ? (
