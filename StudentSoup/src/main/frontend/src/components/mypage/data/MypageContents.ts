@@ -159,7 +159,7 @@ export const AddSchedule = async (
     color,
     subject,
   });
-  return response.data.scheduleId; // 스케줄 아이디만 반환
+  return response.data;
 };
 
 // 시간표 조회
