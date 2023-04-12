@@ -4,7 +4,7 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import MypagePlus from '../../img/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
-import { ViewSchedule } from './data/MypageContents';
+import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
 import { MypageUserInfo } from './data/MypageUserInfo';
 import Swal from 'sweetalert2';
 
@@ -100,8 +100,22 @@ const MypageScheduler: React.FC = () => {
         setIsModalOpen(true);
         openEditModal(item);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // 삭제 버튼이 클릭되면 삭제 관련 API를 호출하여 삭제합니다.
-        // 예: deleteScheduleItem(item.scheduleId);
+        DeleteSchedule(item.scheduleId)
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '시간표 삭제 완료',
+              text: '시간표가 성공적으로 삭제되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     };
     return (
