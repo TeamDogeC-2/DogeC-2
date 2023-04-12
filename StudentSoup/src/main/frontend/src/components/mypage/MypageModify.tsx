@@ -8,7 +8,6 @@ import { EditNickname } from './data/MypageUserInfo';
 import { signUpEmailAuthenticateNumber } from '../../apis/auth/AuthAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import SchoolAndMajorModal from './components/SchoolAndMajorModal';
 interface propTypes {
   memberId: number;
   schoolId: number;
@@ -23,15 +22,7 @@ interface propTypes {
 
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
-  const [isSchoolAndMajorModalOpen, setIsSchoolAndMajorModalOpen] = useState(false);
 
-  const handleSchoolAndMajorEdit = () => {
-    setIsSchoolAndMajorModalOpen(true);
-  };
-
-  const closeSchoolAndMajorModal = () => {
-    setIsSchoolAndMajorModalOpen(false);
-  };
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -267,12 +258,7 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon
-              icon={faEdit}
-              size="lg"
-              className="mypagemodify-editicon"
-              onClick={handleSchoolAndMajorEdit}
-            />
+            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
@@ -290,11 +276,6 @@ const MypageModify = (props: propTypes) => {
               </tr>
             </thead>
           </table>
-          <SchoolAndMajorModal
-            isOpen={isSchoolAndMajorModalOpen}
-            onClose={closeSchoolAndMajorModal}
-            // 필요한 props를 전달하세요.
-          />
         </div>
       </DesktopHeader>
       <MobileHeader>
