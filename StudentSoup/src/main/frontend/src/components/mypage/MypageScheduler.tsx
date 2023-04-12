@@ -92,11 +92,11 @@ const MypageScheduler: React.FC = () => {
         showCancelButton: true,
         confirmButtonText: '수정',
         cancelButtonText: '삭제',
-        reverseButtons: true,
+        cancelButtonColor: '#d33',
+        reverseButtons: false,
       });
 
       if (result.isConfirmed) {
-        // 수정 버튼이 클릭되면 기존 AddScheduleModal을 사용하여 수정 가능한 창을 띄웁니다.
         setIsModalOpen(true);
         openEditModal(item);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
