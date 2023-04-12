@@ -72,17 +72,18 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
           })
           .catch(err => {
             console.log(err);
+            console.log('시간표 수정에서 오류');
           });
       } else {
-        try {
-          const newScheduleId = await AddSchedule(
-            memberId,
-            dayOfWeek,
-            startTime,
-            endTime,
-            color,
-            subject,
-          ).then(res => {
+        const newScheduleId = await AddSchedule(
+          memberId,
+          dayOfWeek,
+          startTime,
+          endTime,
+          color,
+          subject,
+        )
+          .then(res => {
             setScheduleId(res);
             Swal.fire({
               icon: 'success',
@@ -95,10 +96,11 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
               timerProgressBar: true,
             });
             onSubmit(dayOfWeek, startTime, endTime, color, subject, res);
+          })
+          .catch(() => {
+            // 임시 오류발생 추후 오류코드 업데이트후 업데이트 해야됨
+            alert('중복시간표가 있습니다.');
           });
-        } catch (error) {
-          console.error(error);
-        }
       }
     }
   };
@@ -153,7 +155,13 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
           className="add-schedule-modal-select"
           id="start-time"
           value={startTime}
-          onChange={e => setStartTime(parseInt(e.target.value))}
+          onChange={e => {
+            const selectedStartTime = parseInt(e.target.value);
+            setStartTime(selectedStartTime);
+            if (endTime < selectedStartTime) {
+              setEndTime(selectedStartTime);
+            }
+          }}
         >
           {[...Array(15)].map((_, i) => (
             <option key={`start-time-${i}`} value={i + 1}>
@@ -168,11 +176,17 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
           className="add-schedule-modal-select"
           id="end-time"
           value={endTime}
-          onChange={e => setEndTime(parseInt(e.target.value))}
+          onChange={e => {
+            const selectedEndTime = parseInt(e.target.value);
+            setEndTime(selectedEndTime);
+            if (selectedEndTime < startTime) {
+              setStartTime(selectedEndTime);
+            }
+          }}
         >
-          {[...Array(15)].map((_, i) => (
-            <option key={`end-time-${i}`} value={i + 1}>
-              {i + 1}
+          {[...Array(16 - startTime)].map((_, i) => (
+            <option key={`end-time-${i}`} value={i + startTime}>
+              {i + startTime}
             </option>
           ))}
         </select>
