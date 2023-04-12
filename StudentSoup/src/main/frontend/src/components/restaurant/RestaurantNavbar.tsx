@@ -20,7 +20,7 @@ const RestaurantNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string | null>('');
 
   const searchRef = useRef<HTMLUListElement | null>(null);
   const navigate = useNavigate();
@@ -137,9 +137,14 @@ const RestaurantNavbar = () => {
       .catch(err => {
         console.error(err);
       });
-    postUserInfo().then(res => {
-      setUserSchoolName(res.data.schoolName);
-    });
+    postUserInfo()
+      .then(res => {
+        setUserSchoolName(res.data.schoolName);
+        SET_IMAGE_FILE_ID(res.data.fileName);
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     document.addEventListener('mousedown', onCheckClickOutside);
 
