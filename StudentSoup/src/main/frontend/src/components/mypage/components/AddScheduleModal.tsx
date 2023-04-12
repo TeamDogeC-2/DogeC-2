@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { AddSchedule } from '../data/MypageContents';
+import { AddSchedule, EditSchedule } from '../data/MypageContents';
 import './addScheduleModal.scss';
 import { MypageUserInfo, type UserInfoType } from '../data/MypageUserInfo';
 import { type ScheduleItem } from '../MypageScheduler';
+import Swal from 'sweetalert2';
 
 interface Props {
   onSubmit: (
@@ -49,7 +50,23 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
     }
     if (memberId) {
       if (editItem) {
-        onSubmit(dayOfWeek, startTime, endTime, color, subject, editItem.scheduleId);
+        EditSchedule(memberId, editItem.scheduleId, dayOfWeek, startTime, endTime, color, subject)
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '시간표 수정 완료',
+              text: '시간표가 성공적으로 수정되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+            onSubmit(dayOfWeek, startTime, endTime, color, subject, editItem.scheduleId);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } else {
         try {
           const newScheduleId = await AddSchedule(
