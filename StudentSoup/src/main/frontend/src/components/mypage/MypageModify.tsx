@@ -4,16 +4,11 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
-import {
-  EditNickname,
-  GetSchoolList,
-  GetMajorList,
-  SendMail,
-  CheckMail,
-} from './data/MypageUserInfo';
+import { EditNickname } from './data/MypageUserInfo';
 import { signUpEmailAuthenticateNumber } from '../../apis/auth/AuthAPI';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import SchoolAndMajorModal from './components/SchoolAndMajorModal';
 interface propTypes {
   memberId: number;
   schoolId: number;
@@ -25,18 +20,18 @@ interface propTypes {
   schoolName: string;
   onNicknameChange: (newNickname: string) => void;
 }
-interface SchoolDataResponse {
-  schoolId: number;
-  schoolName: string;
-}
-interface MajorDataResponse {
-  departmentId: number;
-  domain: string;
-  departmentName: string;
-}
 
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
+  const [isSchoolAndMajorModalOpen, setIsSchoolAndMajorModalOpen] = useState(false);
+
+  const handleSchoolAndMajorEdit = () => {
+    setIsSchoolAndMajorModalOpen(true);
+  };
+
+  const closeSchoolAndMajorModal = () => {
+    setIsSchoolAndMajorModalOpen(false);
+  };
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -272,7 +267,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mypagemodify-editicon"
+              onClick={handleSchoolAndMajorEdit}
+            />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
@@ -290,6 +290,11 @@ const MypageModify = (props: propTypes) => {
               </tr>
             </thead>
           </table>
+          <SchoolAndMajorModal
+            isOpen={isSchoolAndMajorModalOpen}
+            onClose={closeSchoolAndMajorModal}
+            // 필요한 props를 전달하세요.
+          />
         </div>
       </DesktopHeader>
       <MobileHeader>
