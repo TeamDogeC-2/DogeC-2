@@ -112,6 +112,9 @@ const MypageScheduler: React.FC = () => {
               showCancelButton: false,
               timerProgressBar: true,
             });
+            setScheduleItems(prevItems =>
+              prevItems.filter(prevItem => prevItem.scheduleId !== item.scheduleId),
+            );
           })
           .catch(err => {
             console.log(err);
@@ -156,6 +159,8 @@ const MypageScheduler: React.FC = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    setSelectedScheduleId(null);
+    setIsEditMode(false);
   };
 
   const handleModalSubmit = (
@@ -167,20 +172,25 @@ const MypageScheduler: React.FC = () => {
     scheduleId: number,
   ) => {
     const newItem = { dayOfWeek, startTime, endTime };
-    const isOverlapping =
-      !isEditMode &&
-      scheduleItems.some(item => {
-        const isSameDay = item.dayOfWeek === newItem.dayOfWeek;
-        const isOverlap =
-          (item.startTime <= newItem.startTime && item.endTime >= newItem.startTime) ||
-          (newItem.startTime <= item.startTime && newItem.endTime >= item.startTime);
-        return isSameDay && isOverlap;
-      });
+    const isOverlapping = scheduleItems.some(item => {
+      if (isEditMode && selectedScheduleId === item.scheduleId) {
+        return false;
+      }
+      const isSameDay = item.dayOfWeek === newItem.dayOfWeek;
+      const isOverlap =
+        (item.startTime <= newItem.startTime && item.endTime >= newItem.startTime) ||
+        (newItem.startTime <= item.startTime && newItem.endTime >= item.startTime);
+      return isSameDay && isOverlap;
+    });
+
+    if (isOverlapping) {
+      alert('중복된 시간표가 있습니다.');
+      return;
+    }
 
     if (selectedScheduleId) {
-      // 수정 모드일 경우 기존 아이템을 업데이트합니다.
-      setScheduleItems(
-        scheduleItems.map(item =>
+      setScheduleItems(prevItems =>
+        prevItems.map(item =>
           item.scheduleId === selectedScheduleId
             ? { dayOfWeek, startTime, endTime, color, subject, scheduleId: selectedScheduleId }
             : item,
@@ -190,23 +200,14 @@ const MypageScheduler: React.FC = () => {
       // 새로운 아이템을 추가합니다.
       addScheduleItem(scheduleId, dayOfWeek, startTime, endTime, color, subject);
     }
-    if (isOverlapping) {
-      alert('중복된 시간표가 있습니다.');
-      return;
-    }
 
     setSelectedScheduleId(null);
     setIsModalOpen(false);
   };
-
-  const handleModalBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      setIsModalOpen(false);
-    }
-  };
   const editItem = selectedScheduleId
     ? scheduleItems.find(item => item.scheduleId === selectedScheduleId)
     : undefined;
+  console.log(`수정모드 : ${isEditMode}`);
   return (
     <>
       <MypageNavbar />
@@ -265,7 +266,7 @@ const MypageScheduler: React.FC = () => {
               </tbody>
             </table>
             {isModalOpen && (
-              <div className="mypagescheduler-modal-container" onClick={handleModalBackdropClick}>
+              <div className="mypagescheduler-modal-container">
                 <div className="mypagescheduler-modal-content">
                   <div className="mypagescheduler-modal-body">
                     <AddScheduleModal
@@ -336,10 +337,7 @@ const MypageScheduler: React.FC = () => {
               </tbody>
             </table>
             {isModalOpen && (
-              <div
-                className="tablet-mypagescheduler-modal-container"
-                onClick={handleModalBackdropClick}
-              >
+              <div className="tablet-mypagescheduler-modal-container">
                 <div className="tablet-mypagescheduler-modal-content">
                   <div className="tablet-mypagescheduler-modal-body">
                     <AddScheduleModal
@@ -407,10 +405,7 @@ const MypageScheduler: React.FC = () => {
               </tbody>
             </table>
             {isModalOpen && (
-              <div
-                className="mobile-mypagescheduler-modal-container"
-                onClick={handleModalBackdropClick}
-              >
+              <div className="mobile-mypagescheduler-modal-container">
                 <div className="mobile-mypagescheduler-modal-content">
                   <div className="mobile-mypagescheduler-modal-body">
                     <AddScheduleModal
