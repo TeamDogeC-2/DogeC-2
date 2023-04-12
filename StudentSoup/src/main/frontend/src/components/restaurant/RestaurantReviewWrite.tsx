@@ -252,13 +252,21 @@ const RestaurantReviewWrite = ({ restaurantId, name, isWrite }: Props) => {
               className="restaurant-mobile-detail-review-write-middle-textarea"
               placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현과 주문하신 메뉴 및 매장 서비스에 대해서 작성해주세요 :)"
               maxLength={399}
+              value={textValue}
+              onChange={e => {
+                handleSetValue(e);
+              }}
             ></textarea>
             <div className="restaurant-mobile-detail-review-write-middle-text-count">
               {count}/400 (최소 5글자)
             </div>
           </div>
           <div className="restaurant-mobile-detail-review-write-middle-img-div">
-            <div className="restaurant-mobile-detail-review-write-middle-add-img">
+            <div
+              onChange={handleAddImages}
+              onClick={onCickImageUpload}
+              className="restaurant-mobile-detail-review-write-middle-add-img"
+            >
               <div className="restaurant-mobile-detail-review-write-middle-img-input-div">
                 <img src={camera} alt="" />
                 <span>사진 첨부</span>
