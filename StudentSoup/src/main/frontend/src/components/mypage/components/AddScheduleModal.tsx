@@ -15,6 +15,7 @@ interface Props {
     scheduleId: number,
   ) => void;
   onCancel: () => void;
+
   existingItems: Array<{ dayOfWeek: string; startTime: number; endTime: number }>;
   editItem?: ScheduleItem;
 }
@@ -26,6 +27,9 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
   const [endTime, setEndTime] = useState<number>(1);
   const [color, setColor] = useState<string>('#000000');
   const [subject, setSubject] = useState<string>('');
+  const [scheduleId, setScheduleId] = useState<number>();
+  const [initialEditItem, setInitialEditItem] = useState<ScheduleItem | undefined>(editItem);
+
   useEffect(() => {
     MypageUserInfo()
       .then(res => {
@@ -35,12 +39,14 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
         console.error(err);
       });
     if (editItem) {
+      setScheduleId(editItem.scheduleId);
       setDayOfWeek(editItem.dayOfWeek);
       setStartTime(editItem.startTime);
       setEndTime(editItem.endTime);
       setColor(editItem.color);
       setSubject(editItem.subject);
     }
+    setInitialEditItem(editItem);
   }, [editItem]);
 
   const handleSubmit = async () => {
@@ -77,6 +83,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
             color,
             subject,
           ).then(res => {
+            setScheduleId(res);
             Swal.fire({
               icon: 'success',
               title: '시간표 등록 완료',
@@ -95,7 +102,34 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
       }
     }
   };
-  console.log(memberId, dayOfWeek, startTime, endTime, color, subject);
+  const handleCancel = () => {
+    if (initialEditItem) {
+      setScheduleId(initialEditItem.scheduleId);
+      setDayOfWeek(initialEditItem.dayOfWeek);
+      setStartTime(initialEditItem.startTime);
+      setEndTime(initialEditItem.endTime);
+      setColor(initialEditItem.color);
+      setSubject(initialEditItem.subject);
+    } else {
+      setScheduleId(undefined);
+      setDayOfWeek('Mon');
+      setStartTime(1);
+      setEndTime(1);
+      setColor('#000000');
+      setSubject('');
+    }
+    onCancel();
+  };
+  // console.log(`
+  // 시간표아이디 :${scheduleId}
+  // 맴버아이디 : ${memberId}
+  // 날짜 : ${dayOfWeek}
+  // 시작시간 : ${startTime}
+  // 종료시간 : ${endTime}
+  // 색깔 : ${color}
+  // 과목이름 : ${subject}
+  // `);
+
   return (
     <div className="add-schedule-modal">
       <div className="add-schedule-modal-field">
@@ -157,7 +191,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
         />
       </div>
       <div className="add-schedule-modal-footer">
-        <button className="add-schedule-modal-cancel-button" onClick={onCancel}>
+        <button className="add-schedule-modal-cancel-button" onClick={handleCancel}>
           취소
         </button>
         <button className="add-schedule-modal-save-button" onClick={handleSubmit}>
