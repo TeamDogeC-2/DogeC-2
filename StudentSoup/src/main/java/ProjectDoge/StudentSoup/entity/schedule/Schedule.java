@@ -21,7 +21,7 @@ public class Schedule {
     private Long scheduleId;
 
     @NotEmpty
-    private String DayOfWeek;
+    private String dayOfWeek;
     @NotNull
     private int startTime;
     @NotNull
@@ -35,7 +35,7 @@ public class Schedule {
     private Member member;
 
     public Schedule createSchedule(ScheduleDto scheduleDto, Member member) {
-        this.DayOfWeek = scheduleDto.getDayOfWeek();
+        this.dayOfWeek = scheduleDto.getDayOfWeek();
         this.startTime = scheduleDto.getStartTime();
         this.endTime = scheduleDto.getEndTime();
         this.color = scheduleDto.getColor();

@@ -37,14 +37,15 @@ public class ScheduleController {
     }
 
     @PatchMapping("schedule/{memberId}")
-    public Long SetUpdateSchedule(@PathVariable Long memberId, ScheduleDto scheduleDto){
+    public Long SetUpdateSchedule(@PathVariable Long memberId,@RequestBody ScheduleDto scheduleDto){
         return scheduleUpdateService.setUpdateSchedule(scheduleDto,memberId);
 
     }
 
 
     @PutMapping("schedule/{memberId}")
-    public Long createSchedule(ScheduleDto scheduleDto, @PathVariable Long memberId){
+    public Long createSchedule(@RequestBody ScheduleDto scheduleDto, @PathVariable Long memberId){
+        log.info("{},{},{},{},{}",scheduleDto.getSubject(),scheduleDto.getDayOfWeek(),scheduleDto.getColor(),scheduleDto.getStartTime(),scheduleDto);
         return scheduleRegisterService.join(scheduleDto, memberId);
     }
 

@@ -29,7 +29,6 @@ public class ScheduleRegisterService {
         Member member = memberFindService.findOne(memberId);
         List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
-        checkDuplicateSubject(scheduleDto);
         Schedule schedule = new Schedule().createSchedule(scheduleDto, member);
         scheduleRepository.save(schedule);
         return schedule.getScheduleId();
@@ -41,17 +40,10 @@ public class ScheduleRegisterService {
         }
     }
 
-    private void checkDuplicateSubject(ScheduleDto scheduleDto) {
-        Schedule schedule = scheduleRepository.findBySubject(scheduleDto.getSubject()).orElse(null);
-        if(schedule != null){
-            throw new ScheduleDuplicateException("중복된 강의가 있습니다.");
-        }
-    }
-
     private void checkDuplicateTime(List<Schedule> schedules, ScheduleDto scheduleDto) {
         for (Schedule schedule : schedules) {
-            if(scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <=schedule.getEndTime()
-            || scheduleDto.getEndTime() >= schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
+            if(scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <schedule.getEndTime()
+            || scheduleDto.getEndTime() > schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
                 throw new ScheduleDuplicateException("중복된 시간이 있습니다.");
             }
         }

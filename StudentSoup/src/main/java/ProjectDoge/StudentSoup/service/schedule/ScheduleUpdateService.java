@@ -31,7 +31,6 @@ public class ScheduleUpdateService {
         memberIdNullCheck(memberId);
         List<Schedule> schedules = scheduleRepository.findByMemberIdAndDayOfWeek(memberId, scheduleDto.getDayOfWeek());
         checkDuplicateTime(schedules,scheduleDto);
-        checkDuplicateSubject(scheduleDto);
         Schedule schedule = scheduleRepository.findById(scheduleDto.getScheduleId()).orElse(null);
         updateSchedule(schedule,scheduleDto);
         scheduleRepository.save(schedule);
@@ -45,17 +44,11 @@ public class ScheduleUpdateService {
         }
     }
 
-    private void checkDuplicateSubject(ScheduleDto scheduleDto) {
-        Schedule schedule = scheduleRepository.findBySubject(scheduleDto.getSubject()).orElse(null);
-        if(schedule != null && schedule.getScheduleId() != scheduleDto.getScheduleId()){
-            throw new ScheduleDuplicateException("중복된 강의가 있습니다.");
-        }
-    }
-
     private void checkDuplicateTime(List<Schedule> schedules, ScheduleDto scheduleDto) {
         for (Schedule schedule : schedules) {
-            if(schedule.getScheduleId() != scheduleDto.getScheduleId() && scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <=schedule.getEndTime()
-                    || schedule.getScheduleId() != scheduleDto.getScheduleId() && scheduleDto.getEndTime() >= schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
+            log.info("Dto={}, entity={}",scheduleDto.getScheduleId(),schedule.getScheduleId());
+            if(!schedule.getScheduleId().equals(scheduleDto.getScheduleId()) && scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <schedule.getEndTime()
+                    || !schedule.getScheduleId().equals(scheduleDto.getScheduleId()) && scheduleDto.getEndTime() > schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
                 throw new ScheduleDuplicateException("중복된 시간이 있습니다.");
             }
         }

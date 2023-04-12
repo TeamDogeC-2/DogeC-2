@@ -12,7 +12,7 @@ public class ScheduleDto {
 
     private Long scheduleId;
 
-    private String DayOfWeek;
+    private String dayOfWeek;
 
     private int startTime;
 
@@ -24,7 +24,7 @@ public class ScheduleDto {
 
     public ScheduleDto createScheduleDto(Schedule schedule) {
         this.scheduleId = schedule.getScheduleId();
-        this.DayOfWeek = schedule.getDayOfWeek();
+        this.dayOfWeek = schedule.getDayOfWeek();
         this.startTime = schedule.getStartTime();
         this.endTime = schedule.getEndTime();
         this.color = schedule.getColor();
