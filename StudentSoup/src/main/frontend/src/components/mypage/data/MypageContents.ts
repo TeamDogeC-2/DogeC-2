@@ -146,18 +146,24 @@ export const ReviewEdit = async (
 // 시간표 등록
 export const AddSchedule = async (
   memberId: number,
-  DayOfWeek: string,
+  dayOfWeek: string,
   startTime: number,
   endTime: number,
   color: string,
   subject: string,
 ) => {
   const response = await axiosInstance.put(`/schedule/${memberId}`, {
-    DayOfWeek,
+    dayOfWeek,
     startTime,
     endTime,
     color,
     subject,
   });
+  return response.data.scheduleId; // 스케줄 아이디만 반환
+};
+
+// 시간표 조회
+export const ViewSchedule = async (memberId: number) => {
+  const response = await axiosInstance.post(`/schedule/${memberId}`);
   return response.data;
 };
