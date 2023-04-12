@@ -169,7 +169,22 @@ export const ViewSchedule = async (memberId: number) => {
 };
 
 // 시간표 수정
-export const EditSchedule = async (scheduleId: number) => {
-  const response = await axiosInstance.patch(`/schedule/${scheduleId}`);
+export const EditSchedule = async (
+  memberId: number,
+  scheduleId: number,
+  dayOfWeek: string,
+  startTime: number,
+  endTime: number,
+  color: string,
+  subject: string,
+) => {
+  const response = await axiosInstance.patch(`/schedule/${memberId}`, {
+    scheduleId,
+    dayOfWeek,
+    startTime,
+    endTime,
+    color,
+    subject,
+  });
   return response.data;
 };
