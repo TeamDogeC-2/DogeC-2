@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Setter
@@ -21,10 +22,9 @@ public class Schedule {
 
     @NotEmpty
     private String DayOfWeek;
-
-    @NotEmpty
+    @NotNull
     private int startTime;
-    @NotEmpty
+    @NotNull
     private int endTime;
     @NotEmpty
     private String color;
@@ -35,7 +35,7 @@ public class Schedule {
     private Member member;
 
     public Schedule createSchedule(ScheduleDto scheduleDto, Member member) {
-        DayOfWeek = scheduleDto.getDayOfWeek();
+        this.DayOfWeek = scheduleDto.getDayOfWeek();
         this.startTime = scheduleDto.getStartTime();
         this.endTime = scheduleDto.getEndTime();
         this.color = scheduleDto.getColor();
