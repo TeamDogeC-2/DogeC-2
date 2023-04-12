@@ -20,7 +20,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
         return queryFactory.select(schedule)
                 .from(schedule)
                 .where(schedule.member.memberId.eq(memberId)
-                        ,schedule.DayOfWeek.eq(dayOfWeek))
+                        ,schedule.dayOfWeek.eq(dayOfWeek))
                 .fetch();
 
     }
