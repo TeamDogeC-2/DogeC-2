@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { AddSchedule } from '../data/MypageContents';
 import './addScheduleModal.scss';
 import { MypageUserInfo, type UserInfoType } from '../data/MypageUserInfo';
+import { type ScheduleItem } from '../MypageScheduler';
 
 interface Props {
   onSubmit: (
-    day: string,
+    dayOfWeek: string,
     startTime: number,
     endTime: number,
     color: string,
     subject: string,
+    scheduleId: number,
   ) => void;
   onCancel: () => void;
-  existingItems: Array<{ day: string; startTime: number; endTime: number }>;
+  existingItems: Array<{ dayOfWeek: string; startTime: number; endTime: number }>;
+  editItem?: ScheduleItem;
 }
 
-const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }) => {
+const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, editItem }) => {
   const [memberId, setMemberId] = useState<number>();
-  const [day, setDay] = useState<string>('Mon');
+  const [dayOfWeek, setDayOfWeek] = useState<string>('Mon');
   const [startTime, setStartTime] = useState<number>(1);
   const [endTime, setEndTime] = useState<number>(1);
   const [color, setColor] = useState<string>('#000000');
@@ -30,34 +33,51 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }
       .catch(err => {
         console.error(err);
       });
-  }, []);
+    if (editItem) {
+      setDayOfWeek(editItem.dayOfWeek);
+      setStartTime(editItem.startTime);
+      setEndTime(editItem.endTime);
+      setColor(editItem.color);
+      setSubject(editItem.subject);
+    }
+  }, [editItem]);
+
   const handleSubmit = async () => {
     if (subject === '' || subject === undefined) {
       alert('과목이름을 입력해주세요');
       return;
     }
-    // if (memberId) {
-    //   try {
-    //     await AddSchedule(memberId, day, startTime, endTime, color, subject).then(() =>
-    //       alert('성공'),
-    //     );
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
-
-    onSubmit(day, startTime, endTime, color, subject);
+    if (memberId) {
+      if (editItem) {
+        onSubmit(dayOfWeek, startTime, endTime, color, subject, editItem.scheduleId);
+      } else {
+        try {
+          const newScheduleId = await AddSchedule(
+            memberId,
+            dayOfWeek,
+            startTime,
+            endTime,
+            color,
+            subject,
+          );
+          alert('성공');
+          onSubmit(dayOfWeek, startTime, endTime, color, subject, newScheduleId);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
   };
-  console.log(memberId, day, startTime, endTime, color, subject);
+  console.log(memberId, dayOfWeek, startTime, endTime, color, subject);
   return (
     <div className="add-schedule-modal">
       <div className="add-schedule-modal-field">
         <div className="add-schedule-modal-label">요일:</div>
         <select
           className="add-schedule-modal-select"
-          id="day"
-          value={day}
-          onChange={e => setDay(e.target.value)}
+          id="dayOfWeek"
+          value={dayOfWeek}
+          onChange={e => setDayOfWeek(e.target.value)}
         >
           <option value="Mon">월요일</option>
           <option value="Tue">화요일</option>
