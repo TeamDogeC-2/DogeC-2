@@ -3,7 +3,6 @@ import './mypageScheduler.scss';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import MypagePlus from '../../img/mypagePlus.svg';
-import MypageDelete from '../../img/mypageDelete.svg';
 import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule } from './data/MypageContents';
 import { MypageUserInfo } from './data/MypageUserInfo';
@@ -205,7 +204,6 @@ const MypageScheduler: React.FC = () => {
               <span>SCHEDULER</span>
             </h2>
             <div className="mypagescheduler-iconcontainer">
-              <img className="mypagescheduler-deleteicon" src={MypageDelete}></img>
               <img
                 onClick={handleAddButtonClick}
                 className="mypagescheduler-plusicon"
@@ -277,7 +275,6 @@ const MypageScheduler: React.FC = () => {
               <span>SCHEDULER</span>
             </h2>
             <div className="tablet-mypagescheduler-iconcontainer">
-              <img className="tablet-mypagescheduler-deleteicon" src={MypageDelete}></img>
               <img
                 onClick={handleAddButtonClick}
                 className="tablet-mypagescheduler-plusicon"
@@ -349,7 +346,6 @@ const MypageScheduler: React.FC = () => {
           <div className="mobile-mypagescheduler-titlecontainer">
             <h2 className="mobile-mypagescheduler-mainname">SCHOOL SCHEDULER</h2>
             <div className="mobile-mypagescheduler-iconcontainer">
-              <img className="mobile-mypagescheduler-deleteicon" src={MypageDelete}></img>
               <img
                 onClick={handleAddButtonClick}
                 className="mobile-mypagescheduler-plusicon"
