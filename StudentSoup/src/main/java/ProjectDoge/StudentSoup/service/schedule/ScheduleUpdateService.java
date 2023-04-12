@@ -46,8 +46,9 @@ public class ScheduleUpdateService {
 
     private void checkDuplicateTime(List<Schedule> schedules, ScheduleDto scheduleDto) {
         for (Schedule schedule : schedules) {
-            if(schedule.getScheduleId() != scheduleDto.getScheduleId() && schedule.getScheduleId() != scheduleDto.getScheduleId() && scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <=schedule.getEndTime()
-                    || schedule.getScheduleId() != scheduleDto.getScheduleId() && scheduleDto.getEndTime() >= schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
+            log.info("Dto={}, entity={}",scheduleDto.getScheduleId(),schedule.getScheduleId());
+            if(!schedule.getScheduleId().equals(scheduleDto.getScheduleId()) && scheduleDto.getStartTime() >= schedule.getStartTime() && scheduleDto.getStartTime() <schedule.getEndTime()
+                    || !schedule.getScheduleId().equals(scheduleDto.getScheduleId()) && scheduleDto.getEndTime() > schedule.getStartTime() && scheduleDto.getEndTime() <= schedule.getEndTime()){
                 throw new ScheduleDuplicateException("중복된 시간이 있습니다.");
             }
         }
