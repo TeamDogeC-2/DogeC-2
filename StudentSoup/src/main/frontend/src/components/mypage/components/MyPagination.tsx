@@ -24,6 +24,7 @@ const MyPagination: React.FC<MyPaginationProps> = ({
       pageRangeDisplayed={5}
       onChange={onChange}
       hideFirstLastPages={true}
+      hideDisabled={true}
       itemClass="page-item"
       linkClass="page-link"
     />
