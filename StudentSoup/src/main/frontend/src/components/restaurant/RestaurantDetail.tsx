@@ -20,19 +20,19 @@ import RestaurantPhoto from './RestaurantPhoto';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
+import { RestaurantUserInfo } from './data/RestaurantUserInfo';
 const kakao = (window as any).kakao;
 
 const RestaurantDetail = () => {
   const [clickPage, setClickPage] = useState<any>(1);
   const [heart, isHeart] = useState<boolean>(false);
   const [image, setImage] = useState<any>([]);
-  const [isDelivery, setIsDelivery] = useState<string>('');
   const [restaurantDetail, setRestaurantDetail] = useState<any>([]);
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
-  const saveMemberId = sessionStorage.getItem('memberId');
+  const [memberId, setMemberId] = useState<string>();
   const navigate = useNavigate();
 
   const handleImgError = (e: any) => {
@@ -65,10 +65,9 @@ const RestaurantDetail = () => {
     axios
       .post(url, {
         restaurantId,
-        memberId: saveMemberId,
+        memberId,
       })
       .then(res => {
-        setIsDelivery(res.data.restaurant.isDelivery);
         setImage(res.data.restaurant.fileName);
         setRestaurantDetail(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
@@ -83,6 +82,17 @@ const RestaurantDetail = () => {
         }
       });
   }, [isDesktop, isTablet, isMobile]);
+
+  useEffect(() => {
+    RestaurantUserInfo()
+      .then(res => {
+        setMemberId(res.data.memberId);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
 
   const restaurantReivewInfo = {
     name: restaurantDetail.name,
@@ -108,7 +118,7 @@ const RestaurantDetail = () => {
   });
 
   const handleHeartCount = () => {
-    if (!saveMemberId) {
+    if (!memberId) {
       if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
         navigate('/login');
       } else {
@@ -116,9 +126,9 @@ const RestaurantDetail = () => {
       }
     } else {
       void axios
-        .post(`/restaurant/${saveMemberId}/like`, {
+        .post(`/restaurant/${memberId}/like`, {
           restaurantId,
-          memberId: saveMemberId,
+          memberId,
         })
         .then(res => {
           setlikedCount(res.data.data.likedCount);
