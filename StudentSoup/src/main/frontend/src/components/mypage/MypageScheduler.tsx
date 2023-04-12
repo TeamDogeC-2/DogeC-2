@@ -144,7 +144,7 @@ const MypageScheduler: React.FC = () => {
 
     if (!isItemStartingBefore) {
       return (
-        <td key={`${dayOfWeek}-${time}`} style={{ height: '100%' }}>
+        <td key={`${dayOfWeek}-${time}`} style={{ height: '100%', cursor: 'default' }}>
           <div style={{ width: '100%', height: '100%' }}></div>
         </td>
       );
@@ -163,7 +163,7 @@ const MypageScheduler: React.FC = () => {
     setIsEditMode(false);
   };
 
-  const handleModalSubmit = (
+  const handleModalSubmit = async (
     dayOfWeek: string,
     startTime: number,
     endTime: number,
@@ -174,7 +174,7 @@ const MypageScheduler: React.FC = () => {
     const newItem = { dayOfWeek, startTime, endTime };
     const isOverlapping = scheduleItems.some(item => {
       if (isEditMode && selectedScheduleId === item.scheduleId) {
-        return false;
+        return;
       }
       const isSameDay = item.dayOfWeek === newItem.dayOfWeek;
       const isOverlap =
@@ -182,12 +182,10 @@ const MypageScheduler: React.FC = () => {
         (newItem.startTime <= item.startTime && newItem.endTime >= item.startTime);
       return isSameDay && isOverlap;
     });
-
     if (isOverlapping) {
       alert('중복된 시간표가 있습니다.');
       return;
     }
-
     if (selectedScheduleId) {
       setScheduleItems(prevItems =>
         prevItems.map(item =>
@@ -200,7 +198,6 @@ const MypageScheduler: React.FC = () => {
       // 새로운 아이템을 추가합니다.
       addScheduleItem(scheduleId, dayOfWeek, startTime, endTime, color, subject);
     }
-
     setSelectedScheduleId(null);
     setIsModalOpen(false);
   };
