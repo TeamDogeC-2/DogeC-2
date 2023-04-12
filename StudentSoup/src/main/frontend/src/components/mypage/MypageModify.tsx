@@ -6,6 +6,7 @@ import './mypageModify.scss';
 import { EditNickname } from './data/MypageUserInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import SchoolAndMajorModal from './components/SchoolAndMajorModal';
 interface propTypes {
   memberId: number;
   schoolId: number;
@@ -20,7 +21,12 @@ interface propTypes {
 
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
-
+  const [showModal, setShowModal] = useState(false);
+  const handleSchoolAndMajorEdit = (school: string, major: string, email: string) => {
+    // 여기서 API 호출을 통해 서버에 변경된 값을 전달하고 상태를 업데이트하세요.
+    // API 호출이 완료되면, 모달을 닫습니다.
+    setShowModal(false);
+  };
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
       title: '닉네임 수정',
@@ -255,7 +261,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mypagemodify-boardmain">
             <h2 className="mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mypagemodify-editicon"
+              onClick={() => setShowModal(true)}
+            />
           </div>
           <table className="mypagemodify-boardtable">
             <thead>
@@ -273,6 +284,14 @@ const MypageModify = (props: propTypes) => {
               </tr>
             </thead>
           </table>
+          <SchoolAndMajorModal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onSubmit={handleSchoolAndMajorEdit}
+            schoolName={props.schoolName}
+            departmentName={props.departmentName}
+            email={props.email}
+          />
         </div>
       </DesktopHeader>
       <MobileHeader>
