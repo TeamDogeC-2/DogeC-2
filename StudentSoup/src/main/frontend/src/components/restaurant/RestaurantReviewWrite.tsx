@@ -7,22 +7,35 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
 import RatingStars from '../mypage/components/RatingStars';
 import { useRef, useState, useEffect } from 'react';
+import { RestaurantUserInfo, type UserInfoType } from './data/RestaurantUserInfo';
 import axios from 'axios';
 
-const RestaurantReviewWrite = () => {
+interface Props {
+  restaurantId: number;
+  name: string;
+}
+
+const RestaurantReviewWrite = ({ restaurantId, name }: Props) => {
   const [rating, setRating] = useState<number>(0);
   const [imgs, setImgs] = useState<any>();
   const imageUploader = useRef<any>(null);
 
+  const [nickName, setNickName] = useState<string>('');
+  const [memberId, setMemberId] = useState<string>('');
   const [showImages, setShowImages] = useState([]);
   const [textValue, setTextValue] = useState<any>('');
   const [count, setCount] = useState<number>(0);
   const [maxCount, setMaxCount] = useState<number>(400);
 
-  const url = '/member/info';
-
   useEffect(() => {
-    axios.post(url);
+    RestaurantUserInfo()
+      .then(res => {
+        setMemberId(res.data.memberId);
+        setNickName(res.data.nickname);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }, []);
 
   const handleSetValue = (e: any) => {
@@ -60,6 +73,57 @@ const RestaurantReviewWrite = () => {
     }
 
     setShowImages(imageUrlLists);
+  };
+
+  const handleReviewValue = async (e: any) => {
+    if (count < 4) {
+      alert('5자 이상 입력해야 합니다.');
+    } else if (rating === 0) {
+      alert('별점은 최소 1점부터 가능합니다.');
+    } else if (!imgs) {
+      await axios.put(
+        `/restaurantReview/${restaurantId}`,
+        {
+          restaurantName: name,
+          memberId,
+          nickName,
+          content: textValue,
+          starLiked: rating,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      alert('리뷰 작성이 완료되었습니다.');
+      setShowImages([]);
+      setRating(0);
+      setTextValue('');
+      location.reload();
+    } else {
+      await axios.put(
+        `/restaurantReview/${restaurantId}`,
+        {
+          restaurantName: name,
+          memberId,
+          nickName,
+          content: textValue,
+          starLiked: rating,
+          multipartFileList: [...imgs],
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      alert('리뷰 작성이 완료되었습니다.');
+      setShowImages([]);
+      setRating(0);
+      setTextValue('');
+      location.reload();
+    }
   };
 
   const cancelReviewValue = (e: any) => {
@@ -158,7 +222,10 @@ const RestaurantReviewWrite = () => {
             >
               취소하기
             </button>
-            <button className="restaurant-detail-review-write-bottom-submit-button">
+            <button
+              onClick={handleReviewValue}
+              className="restaurant-detail-review-write-bottom-submit-button"
+            >
               등록하기
             </button>
           </div>
