@@ -76,9 +76,19 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
             endTime,
             color,
             subject,
-          );
-          alert('성공');
-          onSubmit(dayOfWeek, startTime, endTime, color, subject, newScheduleId);
+          ).then(res => {
+            Swal.fire({
+              icon: 'success',
+              title: '시간표 등록 완료',
+              text: '시간표가 성공적으로 등록되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+            onSubmit(dayOfWeek, startTime, endTime, color, subject, res);
+          });
         } catch (error) {
           console.error(error);
         }
