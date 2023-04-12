@@ -91,6 +91,21 @@ const MypageModify = (props: propTypes) => {
         });
     }
   };
+
+  const updatePasswordCriteriaColors = (password: string) => {
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const isValidLength = password.length >= 8 && password.length <= 20;
+
+    const lowerUpperColor = hasLowercase && hasUppercase ? '#ff611d' : '#b4b4b4';
+    const numberColor = hasNumber ? '#ff611d' : '#b4b4b4';
+    const lengthColor = isValidLength ? '#ff611d' : '#b4b4b4';
+
+    (Swal.getPopup()?.querySelector('#lower-upper') as HTMLElement).style.color = lowerUpperColor;
+    (Swal.getPopup()?.querySelector('#number') as HTMLElement).style.color = numberColor;
+    (Swal.getPopup()?.querySelector('#length') as HTMLElement).style.color = lengthColor;
+  };
   const handlePasswordEdit = async () => {
     const result = await Swal.fire({
       title: '비밀번호 수정',
@@ -106,7 +121,9 @@ const MypageModify = (props: propTypes) => {
         '<label for="password" style="width: 30%;">비밀번호:</label>' +
         '<input id="password" type="password" class="swal2-input" placeholder="새로운 비밀번호" style="width: 70%;" autocomplete="new-password">' +
         '</div>' +
-        '<small style="color: #b4b4b4; margin-left: 2rem;">대소문자 , 숫자 , 8~20자 이내</small>' +
+        '<small id="lower-upper" style="color: #b4b4b4; margin-left: 2.2rem;">대소문자</small>' +
+        '<small id="number" style="color: #b4b4b4; margin-left: 1rem;">숫자</small>' +
+        '<small id="length" style="color: #b4b4b4; margin-left: 1rem;">8~20자 이내</small>' +
         '<div style="display: flex; flex-direction: row; align-items: center; font-size:1rem">' +
         '<label for="password-confirm" style="width: 30%;">비밀번호 확인:</label>' +
         '<input id="password-confirm" type="password" class="swal2-input" placeholder="새 비밀번호 확인" style="width: 70%;" autocomplete="new-password">' +
@@ -125,7 +142,7 @@ const MypageModify = (props: propTypes) => {
 
         if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}/.test(password)) {
           Swal.showValidationMessage(
-            '비밀번호는 대문자 1개 이상, 숫자를 포함하여 8~20글자 이내로 입력해주세요.',
+            '비밀번호는 대소문자 1개 이상, 숫자를 포함하여 8~20글자 이내로 입력해주세요.',
           );
           return false;
         }
@@ -153,12 +170,21 @@ const MypageModify = (props: propTypes) => {
             Swal.clickConfirm();
           });
         }
+
         passwordInput.focus();
+
+        // Add event listener to password input
+        passwordInput.addEventListener('input', (event: Event) => {
+          const target = event.target as HTMLInputElement;
+          updatePasswordCriteriaColors(target.value);
+        });
+
         passwordInput.addEventListener('keydown', (event: KeyboardEvent) => {
           if (event.key === 'Enter') {
             Swal.clickConfirm();
           }
         });
+
         passwordConfirmInput.addEventListener('keydown', (event: KeyboardEvent) => {
           if (event.key === 'Enter') {
             Swal.clickConfirm();
