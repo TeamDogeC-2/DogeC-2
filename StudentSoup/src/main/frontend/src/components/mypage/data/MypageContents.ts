@@ -167,3 +167,9 @@ export const ViewSchedule = async (memberId: number) => {
   const response = await axiosInstance.post(`/schedule/${memberId}`);
   return response.data;
 };
+
+// 시간표 수정
+export const EditSchedule = async (scheduleId: number) => {
+  const response = await axiosInstance.patch(`/schedule/${scheduleId}`);
+  return response.data;
+};
