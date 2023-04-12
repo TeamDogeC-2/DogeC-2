@@ -188,3 +188,10 @@ export const EditSchedule = async (
   });
   return response.data;
 };
+
+// 시간표 삭제
+
+export const DeleteSchedule = async (scheduleId: number) => {
+  const response = await axiosInstance.delete(`/schedule/${scheduleId}`);
+  return response.data;
+};
