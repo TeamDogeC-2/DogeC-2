@@ -23,7 +23,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
   const [totalPage, setTotalPage] = useState<number>();
   const [lastPage, isLastPage] = useState<boolean>();
   const [page, setPage] = useState<number>(0);
-  const [sort, setSort] = useState<string>('liked');
+  const [sort, setSort] = useState<string>('newest');
   const memberId = sessionStorage.getItem('memberId');
   const url = `/restaurantReview/${restaurantId}`;
 
