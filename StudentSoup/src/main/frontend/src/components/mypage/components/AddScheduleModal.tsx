@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AddSchedule } from '../data/MypageContents';
 import './addScheduleModal.scss';
+import { MypageUserInfo, type UserInfoType } from '../data/MypageUserInfo';
 
 interface Props {
   onSubmit: (
@@ -14,21 +16,39 @@ interface Props {
 }
 
 const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }) => {
+  const [memberId, setMemberId] = useState<number>();
   const [day, setDay] = useState<string>('Mon');
   const [startTime, setStartTime] = useState<number>(1);
   const [endTime, setEndTime] = useState<number>(1);
   const [color, setColor] = useState<string>('#000000');
   const [subject, setSubject] = useState<string>('');
-
-  const handleSubmit = () => {
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        setMemberId(res.data.memberId);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+  const handleSubmit = async () => {
     if (subject === '' || subject === undefined) {
       alert('과목이름을 입력해주세요');
       return;
     }
+    // if (memberId) {
+    //   try {
+    //     await AddSchedule(memberId, day, startTime, endTime, color, subject).then(() =>
+    //       alert('성공'),
+    //     );
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
 
     onSubmit(day, startTime, endTime, color, subject);
   };
-
+  console.log(memberId, day, startTime, endTime, color, subject);
   return (
     <div className="add-schedule-modal">
       <div className="add-schedule-modal-field">
