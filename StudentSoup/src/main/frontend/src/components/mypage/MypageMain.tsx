@@ -26,6 +26,9 @@ const MypageMain = () => {
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [userImg, setUserImg] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
+  const [propsmajorName, setPropsMajorName] = useState<string>('');
+  const [propsSchoolName, setPropsSchoolName] = useState<string>('');
+  const [propsEmail, setPropsEmail] = useState<string>('');
   const handleEditProfile = async () => {
     const result = await Swal.fire({
       html: `
@@ -81,6 +84,9 @@ const MypageMain = () => {
         setUserInfo(res.data);
         setUserImg(res.data.fileName);
         setNickname(res.data.nickname);
+        setPropsEmail(res.data.email);
+        setPropsMajorName(res.data.departmentName);
+        setPropsSchoolName(res.data.schoolName);
       })
       .catch(err => {
         console.error(err);
@@ -152,6 +158,19 @@ const MypageMain = () => {
     setNickname(newNickname);
   };
 
+  const handleSchoolAndMajorChange = (school: string, major: string, email: string) => {
+    setPropsMajorName(major);
+    setPropsEmail(email);
+    setPropsSchoolName(school);
+  };
+  const updateUserInfo = (updatedUserInfo: Partial<UserInfoType>) => {
+    setUserInfo(userInfo => {
+      if (!userInfo) return userInfo;
+
+      return { ...userInfo, ...updatedUserInfo };
+    });
+  };
+  console.log(userInfo);
   return (
     <>
       <MypageNavbar />
@@ -175,11 +194,11 @@ const MypageMain = () => {
               <div className="mypagemain-username">{nickname}</div>
               <div className="mypagemain-schoolname">
                 <SchoolIcon />
-                <span className="mypagemain-schooltext">{userInfo?.schoolName}</span>
+                <span className="mypagemain-schooltext">{propsSchoolName}</span>
               </div>
               <div className="mypagemain-schoolskill">
                 <SchoolSkillIcon />
-                <span className="mypagemain-schooltext">{userInfo?.departmentName}</span>
+                <span className="mypagemain-schooltext">{propsmajorName}</span>
               </div>
               <button
                 onClick={selectPage === 'modify' ? undefined : handleEditProfile}
@@ -210,6 +229,8 @@ const MypageMain = () => {
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
                 onNicknameChange={handleNicknameChange}
+                onSchoolAndMajorChange={handleSchoolAndMajorChange}
+                onUpdateUserInfo={updateUserInfo}
               />
             )}
           </div>
@@ -273,6 +294,8 @@ const MypageMain = () => {
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
                 onNicknameChange={handleNicknameChange}
+                onSchoolAndMajorChange={handleSchoolAndMajorChange}
+                onUpdateUserInfo={updateUserInfo}
               />
             )}
           </div>
@@ -336,6 +359,8 @@ const MypageMain = () => {
                 departmentName={userInfo.departmentName}
                 schoolName={userInfo.schoolName}
                 onNicknameChange={handleNicknameChange}
+                onSchoolAndMajorChange={handleSchoolAndMajorChange}
+                onUpdateUserInfo={updateUserInfo}
               />
             )}
           </div>
