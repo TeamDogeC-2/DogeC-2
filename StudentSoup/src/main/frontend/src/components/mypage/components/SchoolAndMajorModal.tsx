@@ -282,7 +282,17 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
         </div>
         <div className="modal-footer">
           <button
-            className="modal-footer-editbutton"
+            className={`modal-footer-editbutton ${
+              !(schoolId !== selectSchoolId && verificationStatus === 'success') &&
+              !(
+                schoolId === selectSchoolId &&
+                departmentId !== selectedMajorId &&
+                email.split('@')[0] === emailPrefix
+              ) &&
+              !(verificationStatus === 'success')
+                ? 'disabled'
+                : ''
+            }`}
             onClick={handleEditButtonClick}
             disabled={
               !(schoolId !== selectSchoolId && verificationStatus === 'success') &&
@@ -293,16 +303,6 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
               ) &&
               !(verificationStatus === 'success')
             }
-            style={{
-              backgroundColor:
-                (schoolId !== selectSchoolId && verificationStatus === 'success') ||
-                (schoolId === selectSchoolId &&
-                  departmentId !== selectedMajorId &&
-                  email.split('@')[0] === emailPrefix) ||
-                verificationStatus === 'success'
-                  ? '#ff611d'
-                  : '#ccc',
-            }}
           >
             수정
           </button>

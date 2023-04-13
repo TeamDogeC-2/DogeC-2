@@ -170,8 +170,19 @@
     margin-right: 1rem;
     font-size: 1em;
     cursor: pointer;
+
     &:hover {
       filter: brightness(90%);
+    }
+
+    &.disabled {
+      cursor: default;
+      background-color: #ccc;
+
+      &:hover {
+        filter: unset;
+        background-color: #ccc;
+      }
     }
   }
   .modal-footer-closebutton {
