@@ -81,7 +81,7 @@ const RestaurantDetail = () => {
           navigate(-1);
         }
       });
-  }, [isDesktop, isTablet, isMobile, clickHeart]);
+  }, [isDesktop, isTablet, isMobile, heart, memberId]);
 
   useEffect(() => {
     RestaurantUserInfo()
@@ -92,6 +92,8 @@ const RestaurantDetail = () => {
         console.error(err);
       });
   }, []);
+
+  const likeUrl = `/restaurant/${memberId}/like`;
 
   const restaurantReivewInfo = {
     name: restaurantDetail.name,
@@ -130,10 +132,11 @@ const RestaurantDetail = () => {
           memberId,
         })
         .then(res => {
-          isClickHeart(res.data.data.like);
           setlikedCount(res.data.data.likedCount);
-          isHeart(res.data.data.like);
+          isClickHeart(res.data.data.like);
+          isHeart(!heart);
         });
+      isClickHeart(!clickHeart);
     }
   };
 
