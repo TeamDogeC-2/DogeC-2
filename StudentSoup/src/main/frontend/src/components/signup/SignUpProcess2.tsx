@@ -47,7 +47,6 @@ const SignUpProcess2 = () => {
       if (REG_ID.test(userId)) {
         signUpIdCheck(userId)
           .then(response => {
-            console.log(response);
             if (response.statusText === 'OK') {
               setUserIdText('사용 가능한 아이디 입니다.');
               setCheckedId(true);
@@ -103,6 +102,7 @@ const SignUpProcess2 = () => {
       e.preventDefault();
 
       if (
+        isCheckedId &&
         isPasswordUpperLowerCaseTest &&
         isPasswordNumberTest &&
         isPasswordCharacterLength &&
@@ -158,6 +158,7 @@ const SignUpProcess2 = () => {
         <SignUpComponent
           process_1={process_check}
           process_2={
+            isCheckedId &&
             isPasswordUpperLowerCaseTest &&
             isPasswordNumberTest &&
             isPasswordCharacterLength &&
