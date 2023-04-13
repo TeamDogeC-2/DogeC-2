@@ -108,7 +108,7 @@ $sub-color: #5a5a5a;
           border-bottom: 1px solid $basic-border-color;
           width: 100%;
           height: 100%;
-          min-height: 44px;
+          min-height: 2.75rem;
 
           &:hover {
             cursor: pointer;
@@ -162,7 +162,7 @@ $sub-color: #5a5a5a;
             & > .best-cell {
               @include font-container(1.125rem, 1rem, $basic-color);
 
-              padding: 0 1rem 0 1.3125rem;
+              padding: 0 0.5rem 0 1.3125rem;
             }
           }
         }
@@ -182,7 +182,7 @@ $sub-color: #5a5a5a;
 
 @media screen and (max-width: 1040px) {
   .board-school-name {
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 500;
     line-height: 4.375rem;
     color: $basic-color;
@@ -209,7 +209,7 @@ $sub-color: #5a5a5a;
     }
 
     .post-information {
-      min-width: 260px;
+      min-width: 16.25rem;
     }
 
     th.board-writer {
@@ -258,7 +258,7 @@ $sub-color: #5a5a5a;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin: 0 35px;
+        margin: 0 2.1875rem;
 
         .board-school-name {
           display: flex;
@@ -358,8 +358,14 @@ $sub-color: #5a5a5a;
             @include flex-container(row, flex-start, center);
 
             width: 100%;
-            height: 33px;
+            height: 2.0625rem;
             border-top: 1px solid $basic-border-color;
+
+            .best-cell {
+              @include font-container(1rem, 1rem, $basic-color);
+
+              font-weight: 500;
+            }
 
             .authentication-post {
               font-weight: 600;
@@ -385,7 +391,7 @@ $sub-color: #5a5a5a;
               p {
                 font-size: 0.75rem;
                 color: $basic-border-color;
-                padding-right: 10px;
+                padding-right: 0.625rem;
               }
             }
 
