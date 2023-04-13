@@ -288,9 +288,14 @@ const MypageModify = (props: propTypes) => {
             show={showModal}
             onClose={() => setShowModal(false)}
             onSubmit={handleSchoolAndMajorEdit}
-            schoolName={props.schoolName}
-            departmentName={props.departmentName}
+            memberId={props.memberId}
+            schoolId={props.schoolId}
+            departmentId={props.departmentId}
+            id={props.id}
+            nickname={props.nickname}
             email={props.email}
+            departmentName={props.departmentName}
+            schoolName={props.schoolName}
           />
         </div>
       </DesktopHeader>
