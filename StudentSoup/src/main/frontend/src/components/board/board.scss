@@ -1,3 +1,6 @@
+@import './../../assets/scss/abstracts/_mixins';
+@import './../../assets/scss/abstracts/_variables_color';
+
 $basic-color: #ff611d;
 $basic-border-color: #bcbcbc;
 $sub-color: #5a5a5a;
@@ -6,8 +9,10 @@ $sub-color: #5a5a5a;
   background-color: #fff;
   margin: 0 auto;
   padding-top: 4.8rem;
+  padding-bottom: 3.1875rem;
   max-width: 76.8rem;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
 
   .board-top-div {
     display: flex;
@@ -89,44 +94,74 @@ $sub-color: #5a5a5a;
         width: 100%;
 
         th {
-          border: none;
-          font-size: 1rem;
+          font-size: 1.25rem;
           color: $sub-color;
           font-weight: 500;
           padding-bottom: 0.8rem;
-          border-bottom: 1px solid $basic-border-color;
-        }
-
-        td {
-          border-bottom: 1px solid $basic-border-color;
-          display: flex;
-          justify-content: center;
-          align-items: center;
         }
 
         tr {
           display: flex;
+          justify-content: space-between;
           align-items: center;
+
+          border-bottom: 1px solid $basic-border-color;
+          width: 100%;
+          height: 100%;
+          min-height: 44px;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        td {
+          display: inline-block;
+          text-align: center;
         }
 
         tbody {
           width: 100%;
         }
 
-        .board-title {
-          width: 60%;
+        th.board-title {
+          width: 100%;
         }
+
+        .post-information {
+          @include flex-container(row, center, center);
+
+          width: auto;
+          height: 100%;
+        }
+
         .board-writer {
-          width: 10%;
+          width: 6.75rem;
         }
         .board-write-date {
-          width: 10%;
+          width: 7rem;
         }
         .board-view-count {
-          width: 10%;
+          width: 5.4375rem;
         }
         .board-like-count {
-          width: 10%;
+          width: 5.4375rem;
+        }
+
+        .board-title {
+          .best-cell {
+            @include font-container(1.125rem, 1rem, $basic-color);
+
+            border-left: 4px solid $basic-color;
+            vertical-align: middle;
+            padding: 0 1rem 0 1.3125rem;
+            height: 44px;
+            min-height: 2.75rem;
+          }
+        }
+
+        .board-wrap {
+          padding-left: 1.375rem;
         }
       }
     }
