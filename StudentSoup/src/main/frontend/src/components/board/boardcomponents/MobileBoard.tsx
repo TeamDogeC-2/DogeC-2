@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFire } from '@fortawesome/free-solid-svg-icons';
 
 const MobileBoard = (props: any) => {
   const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts } = props;
@@ -10,6 +12,7 @@ const MobileBoard = (props: any) => {
               <>
                 <div key={post.boardId} className="board-table-div best-post">
                   <div className="board-underline">
+                    <span className="best-cell">BEST</span>
                     <span>[{post.tag}]</span>
                     <span
                       className={post.authentication === 'Y' ? 'authentication-post' : undefined}
@@ -40,7 +43,10 @@ const MobileBoard = (props: any) => {
               <>
                 <div key={post.boardId} className="board-table-div best-post">
                   <div className="board-underline">
-                    <span>[{post.tag}]</span>
+                    <span className="best-cell">
+                      HOT <FontAwesomeIcon icon={faFire} />
+                    </span>
+                    <span>[{post.tag}] </span>
                     <span
                       className={post.authentication === 'Y' ? 'authentication-post' : undefined}
                     >
