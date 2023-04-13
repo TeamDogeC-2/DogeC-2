@@ -42,12 +42,18 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   }
   const [schools, setSchools] = useState<School[]>([]);
   const [majors, setMajors] = useState<Major[]>([]);
-  const [emailId, setEmailId] = useState<string>(email.split('@')[1]);
+  const [emailDomain, setEmailDomain] = useState<string>(email.split('@')[1]);
   const [emailPrefix, setEmailPrefix] = useState<string>(email.split('@')[0]);
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [showVerificationInput, setShowVerificationInput] = useState<boolean>(false);
   const [selectSchoolId, setSelectSchoolId] = useState<number>(schoolId);
   const [selectedMajorId, setSelectedMajorId] = useState<number>(departmentId);
+  const [verificationStarted, setVerificationStarted] = useState<boolean>(false);
+  const [showVerificationMessage, setShowVerificationMessage] = useState<boolean>(false);
+  const [verificationStatus, setVerificationStatus] = useState<
+    'none' | 'pending' | 'success' | 'error'
+  >('none');
+  const [verificationMessage, setVerificationMessage] = useState<string>('');
   useEffect(() => {
     GetSchoolList().then(res => {
       setSchools(res);
@@ -57,13 +63,18 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     });
   }, []);
 
-  const handleEditButtonClick = () => {};
   const handleSchoolChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSchoolId = parseInt(event.target.value);
     setSelectSchoolId(selectedSchoolId);
     GetMajorList(selectedSchoolId).then(res => {
       setMajors(res.departments);
-      setEmailId(res.domain);
+      setEmailDomain(res.domain);
+
+      if (res.departments.length > 0) {
+        setSelectedMajorId(res.departments[0].departmentId);
+      } else {
+        setSelectedMajorId(-1);
+      }
     });
   };
   const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -71,6 +82,8 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   };
   const handleVerifyButtonClick = () => {
     setShowVerificationInput(true);
+    setVerificationStarted(true);
+    setShowVerificationMessage(true);
   };
 
   const handleVerificationCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,9 +96,22 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   초기 전공 아이디 : ${departmentId}
   선택된 전공 아이디 : ${selectedMajorId}
   초기 이메일 아이디 : ${email}
-  선택된 이메일 아이디 : ${emailPrefix}@${emailId}
+  선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
   `);
 
+  const handleVerification = () => {
+    // 예시로 더미 인증 코드 사용
+    const dummyVerificationCode = '123456';
+
+    if (verificationCode === dummyVerificationCode) {
+      setVerificationStatus('success');
+      setVerificationMessage('인증이 완료되었습니다.');
+    } else {
+      setVerificationStatus('error');
+      setVerificationMessage('인증 코드 오류');
+    }
+  };
+  const handleEditButtonClick = () => {};
   return (
     <div className={`modalContainer ${show ? 'active' : ''}`}>
       <div className="modalOverlay"></div>
@@ -101,8 +127,9 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             <select
               className="modal-selectbar"
               id="school"
-              defaultValue={schoolId}
+              defaultValue={selectSchoolId}
               onChange={handleSchoolChange}
+              disabled={showVerificationInput}
             >
               {schools.map(school => (
                 <option key={school.schoolId} value={school.schoolId}>
@@ -118,8 +145,9 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             <select
               className="modal-selectbar"
               id="major"
-              defaultValue={departmentId}
+              defaultValue={selectedMajorId}
               onChange={handleMajorChange}
+              disabled={showVerificationInput}
             >
               {majors.map(major => (
                 <option key={major.departmentId} value={major.departmentId}>
@@ -138,12 +166,20 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
               type="text"
               value={emailPrefix}
               onChange={e => setEmailPrefix(e.target.value)}
+              disabled={showVerificationInput}
             />
-            <input id="email-domain" type="text" value={`@${emailId}`} disabled />
-            <button className="modal-verifybutton" onClick={handleVerifyButtonClick}>
+            <input id="email-domain" type="text" value={`@${emailDomain}`} disabled />
+            <button
+              className={`modal-verifybutton ${verificationStarted ? 'disabled' : ''}`}
+              onClick={handleVerifyButtonClick}
+              disabled={verificationStarted}
+            >
               인증하기
             </button>
           </div>
+          {showVerificationMessage && (
+            <p className="modal-verificationmessage">이메일 인증 번호가 전송되었습니다.</p>
+          )}
           {showVerificationInput && (
             <div className="modal-contents">
               <label className="modal-labelname" htmlFor="verification-code">
@@ -156,7 +192,23 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
                 value={verificationCode}
                 onChange={handleVerificationCodeChange}
               />
-              <button className="modal-verifybutton">인증</button>
+              <button
+                className="modal-verifybutton"
+                onClick={handleVerification}
+                disabled={verificationStatus === 'success'}
+              >
+                인증
+              </button>
+            </div>
+          )}
+          {verificationMessage && (
+            <div
+              className="verification-message"
+              style={{
+                color: verificationStatus === 'error' ? '#ff611d' : 'green',
+              }}
+            >
+              {verificationMessage}
             </div>
           )}
         </div>
