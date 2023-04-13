@@ -119,7 +119,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
               value={emailPrefix}
               onChange={e => setEmailPrefix(e.target.value)}
             />
-            <span>@{emailId}</span>
+            <input id="email-domain" type="text" value={`@${emailId}`} disabled />
             <button className="modal-verifybutton" onClick={handleVerifyButtonClick}>
               인증하기
             </button>
