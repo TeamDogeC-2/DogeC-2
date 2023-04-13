@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFire } from '@fortawesome/free-solid-svg-icons';
 
 const PCBoard = (props: any) => {
   const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts } = props;
@@ -43,7 +45,11 @@ const PCBoard = (props: any) => {
               return (
                 <tr key={post.boardId} className="best-post">
                   <td className="board-title">
-                    <span className="best-cell">HOT</span>[{post.tag}]&nbsp;
+                    <span className="best-cell">
+                      HOT &nbsp;
+                      <FontAwesomeIcon icon={faFire} />
+                    </span>
+                    [{post.tag}]&nbsp;
                     <span
                       className={post.authentication === 'Y' ? 'authentication-post' : undefined}
                     >
