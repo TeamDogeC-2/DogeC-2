@@ -28,7 +28,7 @@ export const MypageEditProfile = async (memberId: number, id: string, pwd: strin
   return response.data;
 };
 
-// 회원 닉네임 수정
+// 회원 닉네임 및 비밀번호 학교 및 전공 이메일 수정 통합
 
 export const EditNickname = async (
   memberId: number,
