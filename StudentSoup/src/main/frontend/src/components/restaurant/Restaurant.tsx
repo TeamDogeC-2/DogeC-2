@@ -156,7 +156,7 @@ const Restaurant = () => {
                   <span className="restaurant-school-name">{state.state}</span>
                   <span className="restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <div className="restaurant-filter-div">
+                <div className="restaurant-filter-divs">
                   <button
                     className="restaurant-filter-button"
                     onClick={() => {
@@ -256,13 +256,43 @@ const Restaurant = () => {
           <div className="tablet-restaurant-main">
             <div className="tablet-restaurant-top">
               <div className="tablet-restaurant-top-div">
-                <div className="tablet-restaurant-top-text-div">
-                  <span className="tablet-restaurant-school-name">청운대학교</span>
+                <div>
+                  <span className="tablet-restaurant-school-name">{state.state}</span>
                   <span className="tablet-restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <div className="tablet-restaurant-filter-button">
-                  <img src={filter} alt="" className="tablet-restaurant-filter-icon" />
-                  정렬
+                <div className="tablet-restaurant-filter-divs">
+                  <button
+                    onClick={() => {
+                      setShowSorts(prev => !prev);
+                    }}
+                    className="tablet-restaurant-filter-button"
+                  >
+                    <img src={filter} alt="" className="tablet-restaurant-filter-icon" />
+                    정렬
+                  </button>
+                  {showSorts && (
+                    <ul
+                      ref={searchRef}
+                      className={
+                        click ? 'tablet-restaurant-menu-list active' : 'tablet-restaurant-menu-list'
+                      }
+                    >
+                      {sortList.map(sortList => (
+                        <li
+                          key={sortList.value}
+                          id={sortList.title}
+                          className={
+                            sort.toString() === `${sortList.value}`
+                              ? 'tablet-restaurant-filter-div active'
+                              : 'tablet-restaurant-filter-div'
+                          }
+                          onClick={() => setSort(sortList.value)}
+                        >
+                          <div className="tablet-restaurant-filter">{sortList.title}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
               <div id="map" className="tablet-restaurant-top-map"></div>
@@ -332,13 +362,43 @@ const Restaurant = () => {
           <div className="mobile-restaurant-main">
             <div className="mobile-restaurant-top">
               <div className="mobile-restaurant-top-div">
-                <div className="mobile-restaurant-top-text-div">
-                  <span className="mobile-restaurant-school-name">청운대학교</span>
+                <div>
+                  <span className="mobile-restaurant-school-name">{state.state}</span>
                   <span className="mobile-restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <div className="mobile-restaurant-filter-button">
-                  <img src={filter} alt="" className="mobile-restaurant-filter-icon" />
-                  정렬
+                <div className="mobile-restaurant-filter-divs">
+                  <button
+                    onClick={() => {
+                      setShowSorts(prev => !prev);
+                    }}
+                    className="mobile-restaurant-filter-button"
+                  >
+                    <img src={filter} alt="" className="mobile-restaurant-filter-icon" />
+                    정렬
+                  </button>
+                  {showSorts && (
+                    <ul
+                      ref={searchRef}
+                      className={
+                        click ? 'mobile-restaurant-menu-list active' : 'mobile-restaurant-menu-list'
+                      }
+                    >
+                      {sortList.map(sortList => (
+                        <li
+                          key={sortList.value}
+                          id={sortList.title}
+                          className={
+                            sort.toString() === `${sortList.value}`
+                              ? 'mobile-restaurant-filter-div active'
+                              : 'mobile-restaurant-filter-div'
+                          }
+                          onClick={() => setSort(sortList.value)}
+                        >
+                          <div className="mobile-restaurant-filter">{sortList.title}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
               <div id="map" className="mobile-restaurant-top-map"></div>
