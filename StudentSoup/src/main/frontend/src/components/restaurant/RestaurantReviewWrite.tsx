@@ -301,7 +301,7 @@ const RestaurantReviewWrite = ({ restaurantId, name, isWrite }: Props) => {
             ))}
           </div>
           <span className="restaurant-mobile-detail-review-write-bottom-text">
-            사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.
+            사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 4장까지 첨부 가능합니다.
           </span>
           <div className="restaurant-mobile-detail-review-write-bottom-buttons-div">
             <button

@@ -255,11 +255,14 @@ $sub-color: #5a5a5a;
 
     .restaurant-mobile-detail-review-write-middle-add-img {
       width: 20%;
+      height: auto;
+      padding: 0.1% 0;
       display: flex;
       border: 1px dotted $basic-border-color;
       border-radius: 5px;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
 
     .restaurant-mobile-detail-review-write-middle-img-input-div {
@@ -268,6 +271,7 @@ $sub-color: #5a5a5a;
       align-items: center;
       position: relative;
       top: 1rem;
+      width: 90%;
 
       .restaurant-mobile-detail-review-write-middle-img-input {
         visibility: hidden;
@@ -290,8 +294,10 @@ $sub-color: #5a5a5a;
 
         img {
           width: 100%;
+          height: 5rem;
           position: relative;
           top: 0.5rem;
+          object-fit: fill;
         }
 
         .restaurant-mobile-detail-review-write-middle-delete-button {
