@@ -93,8 +93,6 @@ const RestaurantDetail = () => {
       });
   }, []);
 
-  const likeUrl = `/restaurant/${memberId}/like`;
-
   const restaurantReivewInfo = {
     name: restaurantDetail.name,
     reviewCount: restaurantDetail.reviewCount,
