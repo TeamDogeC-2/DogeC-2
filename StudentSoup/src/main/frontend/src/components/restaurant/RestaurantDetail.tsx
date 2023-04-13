@@ -25,7 +25,7 @@ const kakao = (window as any).kakao;
 
 const RestaurantDetail = () => {
   const [clickPage, setClickPage] = useState<any>(1);
-  const [heart, isHeart] = useState<boolean>(false);
+  const [heart, isHeart] = useState<boolean>();
   const [image, setImage] = useState<any>([]);
   const [restaurantDetail, setRestaurantDetail] = useState<any>([]);
   const [latitude, setLatitude] = useState<any>();
@@ -81,13 +81,12 @@ const RestaurantDetail = () => {
           navigate(-1);
         }
       });
-  }, [isDesktop, isTablet, isMobile]);
+  }, [isDesktop, isTablet, isMobile, clickHeart]);
 
   useEffect(() => {
     RestaurantUserInfo()
       .then(res => {
         setMemberId(res.data.memberId);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -131,11 +130,10 @@ const RestaurantDetail = () => {
           memberId,
         })
         .then(res => {
-          setlikedCount(res.data.data.likedCount);
           isClickHeart(res.data.data.like);
+          setlikedCount(res.data.data.likedCount);
+          isHeart(res.data.data.like);
         });
-      isHeart(!heart);
-      isClickHeart(!clickHeart);
     }
   };
 
