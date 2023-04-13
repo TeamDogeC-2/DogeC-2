@@ -21,7 +21,7 @@ export const postBoards = async (
   column: string = '',
   value: string = '',
   category: string,
-  sorted: number,
+  sorted: number = 0,
   page: number,
   size: number = 12,
 ) => {
