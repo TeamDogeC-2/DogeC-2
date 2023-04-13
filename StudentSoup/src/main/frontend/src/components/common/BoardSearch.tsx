@@ -1,33 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './boardsearch.scss';
+import { postBoards } from '../../apis/auth/BoardAPI';
+import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
-const BoardSearch = () => (
-  <>
-    <Desktop>
-      <div className='board-container-div'>
-        <div className="board-container">
-          <select>
-            <option>전체</option>
-          </select>
-          <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>
-          <button className="board-button">검색</button>
+const BoardSearch = ({ handleSearchButton, selected, setSelected, searched, setSearched }: any) => {
+  const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelected(() => e.target.value);
+  };
+
+  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    setSearched(e.target.value.toLowerCase());
+  };
+
+  const onClickSearch = async () => {
+    handleSearchButton(selected, searched);
+  };
+
+  const handleOnKeyDownEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onClickSearch();
+    }
+  };
+
+  return (
+    <>
+      <Desktop>
+        <div className="board-container-div">
+          <div className="board-container">
+            <select defaultValue={selected} onChange={selectBoxChange}>
+              <option value="">전체</option>
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+              <option value="nickname">닉네임</option>
+            </select>
+            <input
+              type="search"
+              placeholder="글 제목, 내용을 적어주세요"
+              value={searched}
+              onChange={onChangeSearch}
+              onKeyDown={handleOnKeyDownEnter}
+            />
+            <button className="board-button" onClick={onClickSearch}>
+              검색
+            </button>
+          </div>
+          <button className="board-write-button">글쓰기</button>
         </div>
-        <button className="board-write-button">글쓰기</button>
-      </div>
-    </Desktop>
-    <Mobile>
-      <div className='board-mobile-div'>
-        <div className="board-mobile-container">
-          <select>
-            <option>전체</option>
-          </select>
-          <input type="text" placeholder="글 제목, 내용, 해시태그를 적어주세요"></input>
-          <button className="board-mobile-button">검색</button>
+      </Desktop>
+      <Mobile>
+        <div className="board-mobile-div">
+          <div className="board-mobile-container">
+            <select defaultValue={selected} onChange={selectBoxChange}>
+              <option value="all">전체</option>
+              <option value="title">제목</option>
+              <option value="nickname">닉네임</option>
+            </select>
+            <input
+              type="search"
+              placeholder="글 제목, 내용을 적어주세요"
+              value={searched}
+              onChange={onChangeSearch}
+              onKeyDown={handleOnKeyDownEnter}
+            />
+            <button className="board-mobile-button" onClick={onClickSearch}>
+              검색
+            </button>
+          </div>
         </div>
-      </div>
-    </Mobile>
-  </>
-);
+      </Mobile>
+    </>
+  );
+};
 
 export default BoardSearch;
