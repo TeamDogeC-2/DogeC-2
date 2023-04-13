@@ -170,7 +170,6 @@ const MypageMain = () => {
       return { ...userInfo, ...updatedUserInfo };
     });
   };
-  console.log(userInfo);
   return (
     <>
       <MypageNavbar />

@@ -123,15 +123,6 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     setVerificationCode(event.target.value);
   };
 
-  console.log(`
-      초기 학교 아이디 : ${schoolId}
-      선택된 학교아이디 : ${selectSchoolId}
-      초기 전공 아이디 : ${departmentId}
-      선택된 전공 아이디 : ${selectedMajorId}
-      초기 이메일 아이디 : ${email}
-      선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
-      `);
-
   const handleVerification = () => {
     // CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
     //   .then(() => {
@@ -174,18 +165,6 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
       .catch(err => {
         console.error(err);
       });
-    console.log(
-      `
-        내가 필요한 정보 
-        회원 기본키 ${memberId}
-        학교 기본키 ${selectSchoolId}
-        학과 기본키 ${selectedMajorId}
-        아이디 ${id}
-        비밀번호 null
-        닉네임 ${nickname}
-        이메일 ${emailPrefix}@${emailDomain}
-        `,
-    );
   };
   return (
     <div className={`modalContainer ${show ? 'active' : ''}`}>
