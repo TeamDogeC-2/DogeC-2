@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './schoolAndMajorModal.scss';
-import { GetSchoolList, GetMajorList } from '../data/MypageUserInfo';
+import { GetSchoolList, GetMajorList, SendMail, CheckMail } from '../data/MypageUserInfo';
 
 interface SchoolAndMajorModalProps {
   show: boolean;
@@ -49,6 +49,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   const [selectSchoolId, setSelectSchoolId] = useState<number>(schoolId);
   const [selectedMajorId, setSelectedMajorId] = useState<number>(departmentId);
   const [verificationStarted, setVerificationStarted] = useState<boolean>(false);
+  const [sendingEmail, setSendingEmail] = useState<boolean>(false);
   const [showVerificationMessage, setShowVerificationMessage] = useState<boolean>(false);
   const [verificationStatus, setVerificationStatus] = useState<
     'none' | 'pending' | 'success' | 'error'
@@ -81,9 +82,29 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     setSelectedMajorId(parseInt(event.target.value));
   };
   const handleVerifyButtonClick = () => {
-    setShowVerificationInput(true);
+    setSendingEmail(true);
     setVerificationStarted(true);
-    setShowVerificationMessage(true);
+    // SendMail(`${emailPrefix}@${emailDomain}`)
+    //   .then(() => {
+    //     setShowVerificationInput(true);
+    //     setVerificationStarted(true);
+    //     setShowVerificationMessage(true);
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
+    SendMail('spsp8426@naver.com') // 임시 테스트 저장이메일
+      .then(() => {
+        setSendingEmail(false);
+
+        setShowVerificationInput(true);
+        setShowVerificationMessage(true);
+      })
+      .catch(err => {
+        console.error(err);
+        setSendingEmail(false);
+        setVerificationStarted(false);
+      });
   };
 
   const handleVerificationCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,16 +121,24 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   `);
 
   const handleVerification = () => {
-    // 예시로 더미 인증 코드 사용
-    const dummyVerificationCode = '123456';
-
-    if (verificationCode === dummyVerificationCode) {
-      setVerificationStatus('success');
-      setVerificationMessage('인증이 완료되었습니다.');
-    } else {
-      setVerificationStatus('error');
-      setVerificationMessage('인증 코드 오류');
-    }
+    // CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
+    //   .then(() => {
+    //     setVerificationStatus('success');
+    //     setVerificationMessage('인증이 완료되었습니다.');
+    //   })
+    //   .catch(() => {
+    //     setVerificationStatus('error');
+    //     setVerificationMessage('인증 코드 오류');
+    //   });
+    CheckMail('spsp8426@naver.com', parseInt(verificationCode)) // 임시 테스트 저장이메일
+      .then(() => {
+        setVerificationStatus('success');
+        setVerificationMessage('인증이 완료되었습니다.');
+      })
+      .catch(() => {
+        setVerificationStatus('error');
+        setVerificationMessage('인증 코드 오류');
+      });
   };
   const handleEditButtonClick = () => {};
   return (
@@ -187,6 +216,11 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
           </div>
           {showVerificationMessage && (
             <p className="modal-verificationmessage">이메일 인증 번호가 전송되었습니다.</p>
+          )}
+          {sendingEmail && (
+            <div className="modal-email-sending-message">
+              이메일 인증 코드를 보내는 중입니다. 잠시만 기다려 주세요...
+            </div>
           )}
           {showVerificationInput && (
             <div className="modal-contents">
