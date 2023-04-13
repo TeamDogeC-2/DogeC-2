@@ -331,7 +331,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="tablet-mypagemodify-boardmain">
             <h2 className="tablet-mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="tablet-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="tablet-mypagemodify-editicon"
+              onClick={() => setShowModal(true)}
+            />
           </div>
           <table className="tablet-mypagemodify-boardtable">
             <thead>
@@ -349,6 +354,19 @@ const MypageModify = (props: propTypes) => {
               </tr>
             </thead>
           </table>
+          <SchoolAndMajorModal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onSubmit={handleSchoolAndMajorEdit}
+            memberId={props.memberId}
+            schoolId={props.schoolId}
+            departmentId={props.departmentId}
+            id={props.id}
+            nickname={props.nickname}
+            email={props.email}
+            departmentName={props.departmentName}
+            schoolName={props.schoolName}
+          />
         </div>
       </MobileHeader>
       <Mobile>
@@ -383,7 +401,12 @@ const MypageModify = (props: propTypes) => {
           </table>
           <div className="mobile-mypagemodify-boardmain">
             <h2 className="mobile-mypagemodify-boardmainname">학교 및 전공</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mobile-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mobile-mypagemodify-editicon"
+              onClick={() => setShowModal(true)}
+            />
           </div>
           <table className="mobile-mypagemodify-boardtable">
             <thead>
@@ -401,6 +424,19 @@ const MypageModify = (props: propTypes) => {
               </tr>
             </thead>
           </table>
+          <SchoolAndMajorModal
+            show={showModal}
+            onClose={() => setShowModal(false)}
+            onSubmit={handleSchoolAndMajorEdit}
+            memberId={props.memberId}
+            schoolId={props.schoolId}
+            departmentId={props.departmentId}
+            id={props.id}
+            nickname={props.nickname}
+            email={props.email}
+            departmentName={props.departmentName}
+            schoolName={props.schoolName}
+          />
         </div>
       </Mobile>
     </>
