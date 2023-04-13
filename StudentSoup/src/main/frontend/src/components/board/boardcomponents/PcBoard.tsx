@@ -3,7 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
 
 const PCBoard = (props: any) => {
-  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts } = props;
+  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, setSorted } = props;
+
+  const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const target = e.target as HTMLDivElement;
+    setSorted(target.getAttribute('data-value'));
+  };
+
   return (
     <table className="board-table">
       <thead>
@@ -11,9 +17,15 @@ const PCBoard = (props: any) => {
           <th className="board-title">제목</th>
           <th className="post-information">
             <div className="board-writer">작성자</div>
-            <div className="board-write-date">작성일</div>
-            <div className="board-view-count">조회수</div>
-            <div className="board-like-count">좋아요</div>
+            <div className="board-write-date" data-value="2" onClick={handleClickSorted}>
+              작성일
+            </div>
+            <div className="board-view-count" data-value="3" onClick={handleClickSorted}>
+              조회수
+            </div>
+            <div className="board-like-count" data-value="1" onClick={handleClickSorted}>
+              좋아요
+            </div>
           </th>
         </tr>
       </thead>
