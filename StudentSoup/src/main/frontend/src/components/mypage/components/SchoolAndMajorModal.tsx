@@ -65,7 +65,8 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     GetSchoolList().then(res => {
       setSchools(res);
     });
-    GetMajorList(schoolId).then(res => {
+
+    GetMajorList(selectSchoolId).then(res => {
       setMajors(res.departments);
     });
   }, []);
@@ -117,13 +118,13 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   };
 
   //   console.log(`
-  //   초기 학교 아이디 : ${schoolId}
-  //   선택된 학교아이디 : ${selectSchoolId}
-  //   초기 전공 아이디 : ${departmentId}
-  //   선택된 전공 아이디 : ${selectedMajorId}
-  //   초기 이메일 아이디 : ${email}
-  //   선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
-  //   `);
+  //     초기 학교 아이디 : ${schoolId}
+  //     선택된 학교아이디 : ${selectSchoolId}
+  //     초기 전공 아이디 : ${departmentId}
+  //     선택된 전공 아이디 : ${selectedMajorId}
+  //     초기 이메일 아이디 : ${email}
+  //     선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
+  //     `);
 
   const handleVerification = () => {
     // CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
@@ -155,7 +156,11 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
       `${emailPrefix}@${emailDomain}`,
     )
       .then(() => {
-        console.log('성공');
+        onSubmit(
+          schools.find(school => school.schoolId === selectSchoolId)?.schoolName ?? '',
+          majors.find(major => major.departmentId === selectedMajorId)?.departmentName ?? '',
+          `${emailPrefix}@${emailDomain}`,
+        );
         onClose();
       })
       .catch(err => {
@@ -189,7 +194,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             <select
               className="modal-selectbar"
               id="school"
-              defaultValue={selectSchoolId}
+              value={selectSchoolId}
               onChange={handleSchoolChange}
               disabled={showVerificationInput}
             >
@@ -207,7 +212,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             <select
               className="modal-selectbar"
               id="major"
-              defaultValue={selectedMajorId}
+              value={selectedMajorId}
               onChange={handleMajorChange}
               disabled={showVerificationInput}
             >
