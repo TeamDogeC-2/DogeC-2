@@ -136,6 +136,17 @@
   font-size: 1rem;
   margin-right: 1rem;
 }
+.modal-verifybutton.disabled {
+  background-color: #ccc;
+}
+.modal-verificationmessage {
+  color: #ff611d;
+  font-size: 15px;
+  margin-top: 8px;
+}
+.modal-verifybutton:disabled {
+  background-color: #ccc;
+}
 .modal-footer {
   display: flex;
   flex-direction: row;
@@ -173,6 +184,7 @@
     }
   }
 }
+
 @media screen and (max-width: 768px) {
   .modal {
     width: 90%;
