@@ -13,6 +13,7 @@ import { ReactComponent as SchoolSkillIcon } from '../../img/SchoolSkillIcon.svg
 import { MypageUserInfo, type UserInfoType } from './data/MypageUserInfo';
 import { ImageUpload, ImageDelete } from './data/MypageImgControl';
 import { MypageEditProfile } from './data/MypageUserInfo';
+import Sidebar from './components/Sidebar';
 
 const MypageMain = () => {
   let year = '';
@@ -173,6 +174,7 @@ const MypageMain = () => {
   return (
     <>
       <MypageNavbar />
+      <Sidebar handleSelectPage={page => setSelectPage(page)} />
       <DesktopHeader>
         <div className="mypagemain-container">
           <div className="mypagemain-banner"></div>
