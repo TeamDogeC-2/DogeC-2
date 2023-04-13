@@ -135,7 +135,6 @@
   color: #fff;
   font-size: 1rem;
   margin-right: 1rem;
-  margin-left: 10px;
 }
 .modal-footer {
   display: flex;
@@ -172,5 +171,10 @@
     &:hover {
       filter: brightness(80%);
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .modal {
+    width: 90%;
   }
 }
