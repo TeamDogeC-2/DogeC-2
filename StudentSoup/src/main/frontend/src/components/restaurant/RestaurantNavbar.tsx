@@ -1,5 +1,5 @@
 import './restaurantNavbar.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DesktopRestaurantHeader, Mobile, MobileRestaurantHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
@@ -9,16 +9,18 @@ import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons
 import Swal from 'sweetalert2';
 import SearchIcon from './../../img/restaurant_search.svg';
 import { SchoolList, type SchoolListType } from '../home/data/SchoolList';
+import { postUserInfo } from '../../apis/auth/BoardAPI';
+import { postLogout } from '../../apis/auth/AuthAPI';
 
 const RestaurantNavbar = () => {
   const [schoolComponent, setSchoolComponent] = useState<SchoolListType[]>([]);
   const [schoolName, setSchoolName] = useState<string>('');
+  const [userSchoolName, setUserSchoolName] = useState<string>('');
   const [isUseSearch, setIsUseSearch] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
-  const { state } = useLocation();
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string | null>('');
 
   const searchRef = useRef<HTMLUListElement | null>(null);
   const navigate = useNavigate();
@@ -33,7 +35,13 @@ const RestaurantNavbar = () => {
 
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
-    setIsUseSearch(true);
+    if (schoolName !== '') {
+      setIsUseSearch(true);
+    }
+  };
+
+  const handleClickNearbyRestaurants = () => {
+    navigate(`/restaurant/${userSchoolName}`, { state: userSchoolName });
   };
 
   const handleClickSearch = useCallback(() => {
@@ -42,7 +50,6 @@ const RestaurantNavbar = () => {
         icon: 'error',
         title: '학교를 입력해주세요.',
       });
-      return;
     } else if (
       schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
       undefined
@@ -52,7 +59,6 @@ const RestaurantNavbar = () => {
         icon: 'error',
         title: '학교 정보가 없습니다.',
       });
-      return;
     }
 
     setIsUseSearch(false);
@@ -96,12 +102,18 @@ const RestaurantNavbar = () => {
       cancelButtonText: '취소',
     }).then(result => {
       if (result.isConfirmed) {
-        localStorage.removeItem('access-token');
-        localStorage.removeItem('refresh-token');
+        postLogout()
+          .then(res => {
+            localStorage.removeItem('access-token');
+            localStorage.removeItem('refresh-token');
+            setIsLogin(false);
 
-        setIsLogin(false);
-
-        Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+            Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+            navigate('/');
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     });
   };
@@ -117,7 +129,6 @@ const RestaurantNavbar = () => {
   };
 
   useEffect(() => {
-    console.log(schoolComponent);
     loginCheck();
     SchoolList()
       .then(res => {
@@ -125,6 +136,14 @@ const RestaurantNavbar = () => {
       })
       .catch(err => {
         console.error(err);
+      });
+    postUserInfo()
+      .then(res => {
+        setUserSchoolName(res.data.schoolName);
+        SET_IMAGE_FILE_ID(res.data.fileName);
+      })
+      .catch(err => {
+        console.log(err);
       });
 
     document.addEventListener('mousedown', onCheckClickOutside);
@@ -145,11 +164,11 @@ const RestaurantNavbar = () => {
             <div className="restaurant-navbar-input-div">
               <input
                 type="search"
-                onChange={saveSchoolName}
                 value={schoolName}
+                onChange={saveSchoolName}
                 placeholder="지역 또는 학교명을 입력하세요."
                 className="restaurant-navbar-input"
-                onKeyDown={e => activeEnter(e)}
+                onKeyUp={e => activeEnter(e)}
               />
               <img
                 src={SearchIcon}
@@ -188,9 +207,9 @@ const RestaurantNavbar = () => {
             {isLogin ? (
               <>
                 <li className="restaurant-nav-li">
-                  <Link to="/restaurant" className="restaurant-nav-links">
+                  <div className="restaurant-nav-links" onClick={handleClickNearbyRestaurants}>
                     <i>주변 맛집</i>
-                  </Link>
+                  </div>
                 </li>
                 <li className="restaurant-nav-li">
                   <Link to="/board" className="restaurant-nav-links">
@@ -266,7 +285,7 @@ const RestaurantNavbar = () => {
                   value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="tablet-restaurant-navbar-input"
-                  onKeyDown={e => activeEnter(e)}
+                  onKeyUp={e => activeEnter(e)}
                 />
                 <img
                   src={SearchIcon}
@@ -294,7 +313,7 @@ const RestaurantNavbar = () => {
             <li>
               <Link to="/notice" className="tablet-restaurant-nav-link">
                 <div className="tablet-restaurant-nav-list">
-                  <i className="tablet-restaurant-nav-listItme">공지사항</i>
+                  <i className="tablet-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                 </div>
               </Link>
@@ -302,7 +321,7 @@ const RestaurantNavbar = () => {
             <li>
               <Link to="/customerservice" className="tablet-restaurant-nav-link">
                 <div className="tablet-restaurant-nav-list">
-                  <i className="tablet-restaurant-nav-listItme">고객센터</i>
+                  <i className="tablet-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                 </div>
               </Link>
@@ -310,20 +329,23 @@ const RestaurantNavbar = () => {
             {isLogin ? (
               <>
                 <li>
-                  <Link to="/restaurant" className="tablet-restaurant-nav-link">
+                  <div
+                    className="tablet-restaurant-nav-link"
+                    onClick={handleClickNearbyRestaurants}
+                  >
                     <div className="tablet-restaurant-nav-list">
-                      <i className="tablet-restaurant-nav-listItme">주변 맛집</i>
+                      <i className="tablet-restaurant-nav-list-item">주변 맛집</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="tablet-restaurant-nav-icons"
                       />
                     </div>
-                  </Link>
+                  </div>
                 </li>
                 <li>
                   <Link to="/board" className="tablet-restaurant-nav-links">
                     <div className="tablet-restaurant-nav-list">
-                      <i className="tablet-restaurant-nav-listItme">학교 게시판</i>
+                      <i className="tablet-restaurant-nav-list-item">학교 게시판</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="tablet-restaurant-nav-icons"
@@ -334,7 +356,7 @@ const RestaurantNavbar = () => {
                 <li>
                   <Link to="/mypage" className="tablet-restaurant-nav-links">
                     <div className="tablet-restaurant-nav-list">
-                      <i className="tablet-restaurant-nav-listItme">마이페이지</i>
+                      <i className="tablet-restaurant-nav-list-item">마이페이지</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="tablet-restaurant-nav-icons"
@@ -344,7 +366,7 @@ const RestaurantNavbar = () => {
                 </li>
                 <li>
                   <div className="tablet-restaurant-nav-list" onClick={handleLogout}>
-                    <i className="tablet-restaurant-nav-listItme">로그아웃</i>
+                    <i className="tablet-restaurant-nav-list-item">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                   </div>
                 </li>
@@ -353,7 +375,7 @@ const RestaurantNavbar = () => {
               <li>
                 <Link to="/login" className="tablet-restaurant-nav-link">
                   <div className="tablet-restaurant-nav-list">
-                    <i className="tablet-restaurant-nav-listItme">로그인</i>
+                    <i className="tablet-restaurant-nav-list-item">로그인</i>
                     <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
                   </div>
                 </Link>
@@ -402,7 +424,7 @@ const RestaurantNavbar = () => {
                   value={schoolName}
                   placeholder="지역 또는 학교명을 입력하세요."
                   className="mobile-restaurant-navbar-input"
-                  onKeyDown={e => activeEnter(e)}
+                  onKeyUp={e => activeEnter(e)}
                 />
                 <img
                   src={SearchIcon}
@@ -430,7 +452,7 @@ const RestaurantNavbar = () => {
             <li>
               <Link to="/notice" className="mobile-restaurant-nav-link">
                 <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">공지사항</i>
+                  <i className="mobile-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
                 </div>
               </Link>
@@ -438,7 +460,7 @@ const RestaurantNavbar = () => {
             <li>
               <Link to="/customerservice" className="mobile-restaurant-nav-link">
                 <div className="mobile-restaurant-nav-list">
-                  <i className="mobile-restaurant-nav-listItme">고객센터</i>
+                  <i className="mobile-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
                 </div>
               </Link>
@@ -446,20 +468,23 @@ const RestaurantNavbar = () => {
             {isLogin ? (
               <>
                 <li>
-                  <Link to="/restaurant" className="mobile-restaurant-nav-link">
+                  <div
+                    className="mobile-restaurant-nav-link"
+                    onClick={handleClickNearbyRestaurants}
+                  >
                     <div className="mobile-restaurant-nav-list">
-                      <i className="mobile-restaurant-nav-listItme">주변 맛집</i>
+                      <i className="mobile-restaurant-nav-list-item">주변 맛집</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="mobile-restaurant-nav-icons"
                       />
                     </div>
-                  </Link>
+                  </div>
                 </li>
                 <li>
                   <Link to="/board" className="mobile-restaurant-nav-link">
                     <div className="mobile-restaurant-nav-list">
-                      <i className="mobile-restaurant-nav-listItme">학교 게시판</i>
+                      <i className="mobile-restaurant-nav-list-item">학교 게시판</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="mobile-restaurant-nav-icons"
@@ -470,7 +495,7 @@ const RestaurantNavbar = () => {
                 <li>
                   <Link to="/mypage" className="mobile-restaurant-nav-link">
                     <div className="mobile-restaurant-nav-list">
-                      <i className="mobile-restaurant-nav-listItme">마이페이지</i>
+                      <i className="mobile-restaurant-nav-list-item">마이페이지</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="mobile-restaurant-nav-icons"
@@ -480,7 +505,7 @@ const RestaurantNavbar = () => {
                 </li>
                 <li>
                   <div className="mobile-restaurant-nav-list" onClick={handleLogout}>
-                    <i className="mobile-restaurant-nav-listItme">로그아웃</i>
+                    <i className="mobile-restaurant-nav-list-item">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
                   </div>
                 </li>
@@ -490,7 +515,7 @@ const RestaurantNavbar = () => {
                 <li>
                   <Link to="/login" className="mobile-restaurant-nav-link">
                     <div className="mobile-restaurant-nav-list">
-                      <i className="mobile-restaurant-nav-listItme">로그인</i>
+                      <i className="mobile-restaurant-nav-list-item">로그인</i>
                       <FontAwesomeIcon
                         icon={faAngleRight}
                         className="mobile-restaurant-nav-icons"

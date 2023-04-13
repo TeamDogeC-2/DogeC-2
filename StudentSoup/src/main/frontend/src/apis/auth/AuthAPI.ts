@@ -93,3 +93,8 @@ export const signUpComplete = async (userData: SignUpUserInfo): Promise<AxiosRes
   const res = await axios.post('/members/signUp/3', userData);
   return res;
 };
+
+export const postLogout = async (): Promise<AxiosResponse> => {
+  const res = await axios.post('/members/logout');
+  return res;
+};
