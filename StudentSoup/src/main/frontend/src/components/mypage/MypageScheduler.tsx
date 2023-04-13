@@ -6,6 +6,7 @@ import MypagePlus from '../../img/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
 import { MypageUserInfo } from './data/MypageUserInfo';
+import Sidebar from './components/Sidebar';
 import Swal from 'sweetalert2';
 
 export interface ScheduleItem {
@@ -211,6 +212,7 @@ const MypageScheduler: React.FC = () => {
   return (
     <>
       <MypageNavbar />
+      <Sidebar />
       <DesktopHeader>
         <div className="mypagescheduler-maincontainer">
           <div className="mypagescheduler-titlecontainer">
