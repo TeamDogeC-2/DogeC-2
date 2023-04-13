@@ -11,7 +11,13 @@ import {
 interface SchoolAndMajorModalProps {
   show: boolean;
   onClose: () => void;
-  onSubmit: (school: string, major: string, email: string) => void;
+  onSubmit: (
+    newSchoolId: number,
+    newMajorId: number,
+    school: string,
+    major: string,
+    email: string,
+  ) => void;
   memberId: number;
   schoolId: number;
   departmentId: number;
@@ -117,14 +123,14 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     setVerificationCode(event.target.value);
   };
 
-  //   console.log(`
-  //     초기 학교 아이디 : ${schoolId}
-  //     선택된 학교아이디 : ${selectSchoolId}
-  //     초기 전공 아이디 : ${departmentId}
-  //     선택된 전공 아이디 : ${selectedMajorId}
-  //     초기 이메일 아이디 : ${email}
-  //     선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
-  //     `);
+  console.log(`
+      초기 학교 아이디 : ${schoolId}
+      선택된 학교아이디 : ${selectSchoolId}
+      초기 전공 아이디 : ${departmentId}
+      선택된 전공 아이디 : ${selectedMajorId}
+      초기 이메일 아이디 : ${email}
+      선택된 이메일 아이디 : ${emailPrefix}@${emailDomain}
+      `);
 
   const handleVerification = () => {
     // CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
@@ -157,6 +163,8 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     )
       .then(() => {
         onSubmit(
+          selectSchoolId,
+          selectedMajorId,
           schools.find(school => school.schoolId === selectSchoolId)?.schoolName ?? '',
           majors.find(major => major.departmentId === selectedMajorId)?.departmentName ?? '',
           `${emailPrefix}@${emailDomain}`,
