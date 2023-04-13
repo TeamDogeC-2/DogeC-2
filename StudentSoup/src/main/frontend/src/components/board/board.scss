@@ -118,6 +118,7 @@ $sub-color: #5a5a5a;
         td {
           display: inline-block;
           text-align: center;
+          height: 100%;
         }
 
         tbody {
@@ -135,6 +136,10 @@ $sub-color: #5a5a5a;
           height: 100%;
         }
 
+        td.board-title {
+          text-align: left;
+          width: 100%;
+        }
         .board-writer {
           width: 6.75rem;
         }
@@ -148,299 +153,253 @@ $sub-color: #5a5a5a;
           width: 5.4375rem;
         }
 
-        .board-title {
-          .best-cell {
-            @include font-container(1.125rem, 1rem, $basic-color);
+        .best-post {
+          border-left: 4px solid $basic-color;
 
-            border-left: 4px solid $basic-color;
-            vertical-align: middle;
-            padding: 0 1rem 0 1.3125rem;
-            height: 44px;
-            min-height: 2.75rem;
+          .board-title {
+            height: 100%;
+
+            & > .best-cell {
+              @include font-container(1.125rem, 1rem, $basic-color);
+
+              padding: 0 1rem 0 1.3125rem;
+            }
           }
         }
 
         .board-wrap {
           padding-left: 1.375rem;
         }
-      }
-    }
-  }
-}
 
-.board-tablet-main {
-  background-color: #fff;
-  margin: 0 auto;
-  padding-top: 4.8rem;
-  max-width: 76.8rem;
-  height: 100vh;
-
-  .board-tablet-top-div {
-    display: flex;
-    flex-direction: column;
-    padding-top: 2.3125rem;
-
-    .board-tablet-top-text-div {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin: 0 4.0625rem;
-
-      .board-tablet-school-name {
-        font-size: 3.125rem;
-        font-weight: 500;
-        line-height: 4.375rem;
-        color: $basic-color;
-      }
-
-      .board-tablet-select-category {
-        width: 13.9375rem;
-        height: 2.875rem;
-        position: relative;
-        top: 0.8rem;
-        border: 1px solid $basic-border-color;
-        color: $basic-border-color;
-        padding: 0 0.5rem;
-        border-radius: 5px;
-      }
-    }
-
-    .board-tablet-lists-div {
-      display: flex;
-      justify-content: center;
-
-      .board-tablet-lists {
-        list-style: none;
-        display: inherit;
-        flex-direction: row;
-        width: 90%;
-        padding-top: 2.1875rem;
-        justify-content: center;
-
-        li {
-          font-size: 1.25rem;
-          cursor: pointer;
-          width: 25%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding-bottom: 0.9375rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .board-tablet-li.active {
-          color: $basic-color;
-          border-bottom: 3px solid $basic-color;
-          z-index: 99;
-        }
-
-        .board-tablet-li {
-          color: $basic-border-color;
-        }
-      }
-    }
-  }
-
-  .board-tablet-bottom-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .board-tablet-table-div {
-      width: 90%;
-      display: flex;
-
-      .board-tablet-table {
-        width: 100%;
-
-        th {
-          border: none;
-          font-size: 0.75rem;
-          color: $sub-color;
-          font-weight: 500;
-          padding-bottom: 0.8rem;
-          border-bottom: 1px solid $basic-border-color;
-        }
-
-        td {
-          border-bottom: 1px solid $basic-border-color;
-          display: flex;
-          font-size: 0.9rem;
-          justify-content: center;
-          align-items: center;
-        }
-
-        tr {
-          display: flex;
-          align-items: center;
-        }
-
-        tbody {
-          width: 100%;
-        }
-
-        .board-tablet-title {
-          width: 52%;
-        }
-        .board-tablet-writer {
-          width: 12%;
-        }
-        .board-tablet-write-date {
-          width: 12%;
-        }
-        .board-tablet-view-count {
-          width: 12%;
-        }
-        .board-tablet-like-count {
-          width: 12%;
+        .authentication-post {
+          font-weight: 600;
+          color: $sub-font-color;
         }
       }
     }
   }
 }
 
-.board-mobile-main {
-  background-color: #fff;
-  margin: 0 auto;
-  padding-top: 4.8rem;
-  max-width: 76.8rem;
-  height: 100vh;
-
-  .board-mobile-top-div {
-    display: flex;
-    flex-direction: column;
-    padding-top: 2.3125rem;
-
-    .board-mobile-top-text-div {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin: 0 35px;
-
-      .board-mobile-school-name {
-        display: flex;
-
-        span {
-          font-size: 1.25rem;
-          font-weight: 500;
-          color: $basic-color;
-        }
-      }
-
-      .board-mobile-select-div {
-        display: flex;
-        flex-direction: row;
-
-        .board-mobile-select-category {
-          width: 10rem;
-          height: 2rem;
-          margin-top: 0.8rem;
-          border: 1px solid $basic-border-color;
-          color: $basic-border-color;
-          padding: 0 0.5rem;
-          border-radius: 5px;
-        }
-      }
-    }
-
-    .board-mobile-lists-div {
-      display: flex;
-      justify-content: center;
-
-      .board-mobile-lists {
-        list-style: none;
-        display: inherit;
-        flex-direction: row;
-        width: 90%;
-        padding-top: 2.1875rem;
-        justify-content: center;
-
-        li {
-          font-size: 0.75rem;
-          cursor: pointer;
-          width: 25%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding-bottom: 0.9375rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .board-mobile-li.active {
-          color: $basic-color;
-          border-bottom: 3px solid $basic-color;
-          z-index: 99;
-        }
-
-        .board-mobile-li {
-          color: $basic-border-color;
-        }
-      }
+@media screen and (max-width: 1040px) {
+  .board-school-name {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 4.375rem;
+    color: $basic-color;
+    & > span {
+      font-size: 2.125rem;
     }
   }
 
-  .board-mobile-bottom-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .board-mobile-write-button-div {
-      display: flex;
-      width: 90%;
-      justify-content: flex-end;
-
-      .board-mobile-write-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        border: none;
-        background-color: $basic-color;
-        width: 3rem;
-        height: 3rem;
-        cursor: pointer;
-      }
+  .board-lists {
+    li {
+      font-size: 1.25rem;
     }
-    .board-mobile-table-div {
-      width: 90%;
+  }
+
+  .board-table {
+    th {
+      font-size: 0.75rem;
+      color: $sub-color;
+      font-weight: 500;
+    }
+
+    td {
+      font-size: 0.9rem;
+    }
+
+    .post-information {
+      min-width: 260px;
+    }
+
+    th.board-writer {
+      width: 6.125rem;
+      color: red;
+    }
+    th.board-write-date {
+      width: 6.25rem;
+    }
+    th.board-view-count {
+      width: 4.375rem;
+    }
+    th.board-like-count {
+      width: 4.375rem;
+    }
+
+    .board-writer {
+      width: 6.125rem;
+    }
+    .board-write-date {
+      width: 6.25rem;
+    }
+    .board-view-count {
+      width: 4.375rem;
+    }
+    .board-like-count {
+      width: 4.375rem;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .board-main {
+    background-color: #fff;
+    margin: 0 auto;
+    padding-top: 4.8rem;
+    height: auto;
+    min-height: 100vh;
+
+    .board-top-div {
       display: flex;
       flex-direction: column;
+      padding-top: 2.3125rem;
 
-      .board-underline {
-        background-color: $basic-border-color;
-        position: relative;
-        height: 1px;
-        border: none;
-      }
-
-      span {
-        padding: 0.5rem;
-      }
-
-      .board-mobile-info {
+      .board-top-text-div {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
-        padding: 0 0.5rem;
+        margin: 0 35px;
 
-        .board-mobile-info-left {
+        .board-school-name {
+          display: flex;
+
+          span {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: $basic-color;
+          }
+        }
+
+        .board-select-div {
           display: flex;
           flex-direction: row;
 
-          p {
-            font-size: 0.75rem;
+          .board-select-category {
+            width: 10rem;
+            height: 2rem;
+            margin-top: 0.8rem;
+            border: 1px solid $basic-border-color;
             color: $basic-border-color;
+            padding: 0 0.5rem;
+            border-radius: 5px;
           }
         }
+      }
 
-        .board-mobile-info-right {
-          p {
+      .board-lists-div {
+        display: flex;
+        justify-content: center;
+
+        .board-lists {
+          list-style: none;
+          display: inherit;
+          flex-direction: row;
+          width: 90%;
+          padding-top: 2.1875rem;
+          justify-content: center;
+
+          li {
             font-size: 0.75rem;
+            cursor: pointer;
+            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 0.9375rem;
+            margin-bottom: 0.5rem;
+          }
+
+          .board-li.active {
+            color: $basic-color;
+            border-bottom: 3px solid $basic-color;
+            z-index: 99;
+          }
+
+          .board-li {
             color: $basic-border-color;
           }
         }
+      }
+    }
+
+    .board-bottom-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .board-write-button-div {
+        display: flex;
+        width: 90%;
+        justify-content: flex-end;
+
+        .board-write-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          border: none;
+          background-color: $basic-color;
+          width: 3rem;
+          height: 3rem;
+          cursor: pointer;
+        }
+      }
+      .mobile-board-wrap {
+        @include flex-container(column, center, center);
+        width: 100%;
+        border-bottom: 1px solid $basic-border-color;
+
+        .board-table-div {
+          @include flex-container(column, center, center);
+          width: 95%;
+
+          .board-underline {
+            @include flex-container(row, flex-start, center);
+
+            width: 100%;
+            height: 33px;
+            border-top: 1px solid $basic-border-color;
+
+            .authentication-post {
+              font-weight: 600;
+              color: $sub-font-color;
+            }
+          }
+
+          span {
+            padding-left: 0.25rem;
+          }
+
+          .board-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 0.5rem;
+            width: 100%;
+
+            .board-info-left {
+              display: flex;
+              flex-direction: row;
+
+              p {
+                font-size: 0.75rem;
+                color: $basic-border-color;
+                padding-right: 10px;
+              }
+            }
+
+            .board-info-right {
+              p {
+                font-size: 0.75rem;
+                color: $basic-border-color;
+              }
+            }
+          }
+        }
+      }
+      .best-post {
+        border-left: 4px solid $basic-color;
       }
     }
   }
