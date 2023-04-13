@@ -297,9 +297,12 @@ const RestaurantDetail = () => {
               </div>
               <div className="restaurant-tablet-detail-right">
                 <div className="restaurant-tablet-detail-right-imgs">
-                  <div className="restaurant-tablet-detail-right-first-img">
-                    <img src={`/image/${image[0]}`} alt="" onError={handleImgError} />
-                  </div>
+                  <img
+                    src={`/image/${image[0]}`}
+                    alt=""
+                    onError={handleImgError}
+                    className="restaurant-tablet-detail-right-first-img"
+                  />
                   <div className="restaurant-tablet-detail-right-other-imgs">
                     {/* {imgArr.map((school: any) => (
                     <img
