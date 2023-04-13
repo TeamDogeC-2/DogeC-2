@@ -23,8 +23,10 @@ const Board = () => {
 
   const [currentPosts, setCurrentPosts] = useState<any[]>([]);
 
-  const [selected, setSelected] = useState('');
-  const [searched, setSearched] = useState('');
+  const [selected, setSelected] = useState<string>('');
+  const [searched, setSearched] = useState<string>('');
+
+  const [sorted, setSorted] = useState<number>(0);
 
   const handleClickCategory = (e: any) => {
     setCategory(() => e.target.id);
@@ -37,7 +39,7 @@ const Board = () => {
     setCurrentPage(e);
   };
 
-  const handleSearchButton = (selected: string, searched: string) => {
+  const handleSearchButton = (selected: string, searched: string, sorted: number = 0) => {
     postBoards(
       userInfo.schoolId,
       userInfo.memberId,
@@ -45,7 +47,7 @@ const Board = () => {
       selected,
       searched,
       category,
-      0,
+      sorted,
       currentPage - 1,
     ).then(res => {
       if (category === 'ALL') {
@@ -101,9 +103,9 @@ const Board = () => {
   }, []);
 
   useEffect(() => {
-    !!userInfo && handleSearchButton(selected, searched);
+    !!userInfo && handleSearchButton(selected, searched, sorted);
     return console.log(userInfo);
-  }, [currentPage, category, schoolName]);
+  }, [currentPage, category, schoolName, sorted]);
 
   return (
     <>
@@ -168,6 +170,7 @@ const Board = () => {
                 bestBoardItems={bestBoardItems}
                 hotBoardItems={hotBoardItems}
                 currentPosts={currentPosts}
+                setSorted={setSorted}
               />
             </Desktop>
             <Mobile>
