@@ -3,7 +3,7 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
-import { EditNickname } from './data/MypageUserInfo';
+import { EditNickname, type UserInfoType } from './data/MypageUserInfo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import SchoolAndMajorModal from './components/SchoolAndMajorModal';
@@ -17,6 +17,8 @@ interface propTypes {
   departmentName: string;
   schoolName: string;
   onNicknameChange: (newNickname: string) => void;
+  onSchoolAndMajorChange: (school: string, major: string, email: string) => void;
+  onUpdateUserInfo: (updatedUserInfo: Partial<UserInfoType>) => void;
 }
 
 const MypageModify = (props: propTypes) => {
@@ -25,11 +27,25 @@ const MypageModify = (props: propTypes) => {
   const [propsmajorName, setPropsMajorName] = useState<string>(props.departmentName);
   const [propsSchoolName, setPropsSchoolName] = useState<string>(props.schoolName);
   const [propsEmail, setPropsEmail] = useState<string>(props.email);
-  const handleSchoolAndMajorEdit = (school: string, major: string, email: string) => {
+  const handleSchoolAndMajorEdit = (
+    newSchoolId: number,
+    newMajorId: number,
+    school: string,
+    major: string,
+    email: string,
+  ) => {
     setPropsSchoolName(school);
     setPropsMajorName(major);
     setPropsEmail(email);
     setShowModal(false);
+    props.onSchoolAndMajorChange(school, major, email);
+    props.onUpdateUserInfo({
+      schoolId: newSchoolId,
+      departmentId: newMajorId,
+      schoolName: school,
+      departmentName: major,
+      email,
+    });
   };
   const handleNicknameEdit = async () => {
     const { value: newNickname } = await Swal.fire({
@@ -72,6 +88,9 @@ const MypageModify = (props: propTypes) => {
             confirmButtonText: '확인',
             showCancelButton: false,
             timerProgressBar: true,
+          });
+          props.onUpdateUserInfo({
+            nickname: newNickname,
           });
         })
         .catch(err => {
