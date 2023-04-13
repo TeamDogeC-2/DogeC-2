@@ -326,25 +326,35 @@ const MypageModify = (props: propTypes) => {
         <div className="tablet-mypagemodify-container">
           <div className="tablet-mypagemodify-boardmain">
             <h2 className="tablet-mypagemodify-boardmainname">프로필 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="tablet-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="tablet-mypagemodify-editicon"
+              onClick={handleNicknameEdit}
+            />
           </div>
           <table className="tablet-mypagemodify-boardtable">
             <thead>
               <tr>
                 <td>닉네임</td>
-                <th>닉네임의최대길이는열두글자</th>
+                <th>{editNickName}</th>
               </tr>
             </thead>
           </table>
           <div className="tablet-mypagemodify-boardmain">
             <h2 className="tablet-mypagemodify-boardmainname">계정 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="tablet-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="tablet-mypagemodify-editicon"
+              onClick={handlePasswordEdit}
+            />
           </div>
           <table className="tablet-mypagemodify-boardtable">
             <thead>
               <tr>
                 <td>아이디</td>
-                <th>dummyTest1</th>
+                <th>{props.id}</th>
               </tr>
               <tr>
                 <td>비밀번호</td>
@@ -365,15 +375,15 @@ const MypageModify = (props: propTypes) => {
             <thead>
               <tr>
                 <td>학교</td>
-                <th>청운대학교</th>
+                <th>{propsSchoolName}</th>
               </tr>
               <tr>
                 <td>전공</td>
-                <th>컴퓨터공학과</th>
+                <th>{propsmajorName}</th>
               </tr>
               <tr>
                 <td>이메일</td>
-                <th>dummyTest1@defult.com</th>
+                <th>{propsEmail}</th>
               </tr>
             </thead>
           </table>
@@ -396,25 +406,35 @@ const MypageModify = (props: propTypes) => {
         <div className="mobile-mypagemodify-container">
           <div className="mobile-mypagemodify-boardmain">
             <h2 className="mobile-mypagemodify-boardmainname">프로필 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mobile-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mobile-mypagemodify-editicon"
+              onClick={handleNicknameEdit}
+            />
           </div>
           <table className="mobile-mypagemodify-boardtable">
             <thead>
               <tr>
                 <td>닉네임</td>
-                <th>닉네임의최대길이는열두글자</th>
+                <th>{editNickName}</th>
               </tr>
             </thead>
           </table>
           <div className="mobile-mypagemodify-boardmain">
             <h2 className="mobile-mypagemodify-boardmainname">계정 정보</h2>
-            <FontAwesomeIcon icon={faEdit} size="lg" className="mobile-mypagemodify-editicon" />
+            <FontAwesomeIcon
+              icon={faEdit}
+              size="lg"
+              className="mobile-mypagemodify-editicon"
+              onClick={handlePasswordEdit}
+            />
           </div>
           <table className="mobile-mypagemodify-boardtable">
             <thead>
               <tr>
                 <td>아이디</td>
-                <th>dummyTest1</th>
+                <th>{props.id}</th>
               </tr>
               <tr>
                 <td>비밀번호</td>
@@ -435,15 +455,15 @@ const MypageModify = (props: propTypes) => {
             <thead>
               <tr>
                 <td>학교</td>
-                <th>청운대학교</th>
+                <th>{propsSchoolName}</th>
               </tr>
               <tr>
                 <td>전공</td>
-                <th>컴퓨터공학과</th>
+                <th>{propsmajorName}</th>
               </tr>
               <tr>
                 <td>이메일</td>
-                <th>dummyTest1@defult.com</th>
+                <th>{propsEmail}</th>
               </tr>
             </thead>
           </table>
