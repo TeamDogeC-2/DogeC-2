@@ -46,7 +46,8 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   const [emailPrefix, setEmailPrefix] = useState<string>(email.split('@')[0]);
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [showVerificationInput, setShowVerificationInput] = useState<boolean>(false);
-
+  const [selectSchoolId, setSelectSchoolId] = useState<number>(schoolId);
+  const [selectedMajorId, setSelectedMajorId] = useState<number>(departmentId);
   useEffect(() => {
     GetSchoolList().then(res => {
       setSchools(res);
@@ -56,12 +57,17 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
     });
   }, []);
 
+  const handleEditButtonClick = () => {};
   const handleSchoolChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSchoolId = parseInt(event.target.value);
+    setSelectSchoolId(selectedSchoolId);
     GetMajorList(selectedSchoolId).then(res => {
       setMajors(res.departments);
       setEmailId(res.domain);
     });
+  };
+  const handleMajorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMajorId(parseInt(event.target.value));
   };
   const handleVerifyButtonClick = () => {
     setShowVerificationInput(true);
@@ -70,7 +76,16 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   const handleVerificationCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVerificationCode(event.target.value);
   };
-  console.log(emailPrefix);
+
+  console.log(`
+  초기 학교 아이디 : ${schoolId}
+  선택된 학교아이디 : ${selectSchoolId}
+  초기 전공 아이디 : ${departmentId}
+  선택된 전공 아이디 : ${selectedMajorId}
+  초기 이메일 아이디 : ${email}
+  선택된 이메일 아이디 : ${emailPrefix}@${emailId}
+  `);
+
   return (
     <div className={`modalContainer ${show ? 'active' : ''}`}>
       <div className="modalOverlay"></div>
@@ -100,7 +115,12 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             <label htmlFor="major" className="modal-labelname">
               전공:
             </label>
-            <select className="modal-selectbar" id="major" defaultValue={departmentId}>
+            <select
+              className="modal-selectbar"
+              id="major"
+              defaultValue={departmentId}
+              onChange={handleMajorChange}
+            >
               {majors.map(major => (
                 <option key={major.departmentId} value={major.departmentId}>
                   {major.departmentName}
@@ -141,7 +161,9 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
           )}
         </div>
         <div className="modal-footer">
-          <button className="modal-footer-editbutton">수정</button>
+          <button className="modal-footer-editbutton" onClick={handleEditButtonClick}>
+            수정
+          </button>
           <button className="modal-footer-closebutton" onClick={onClose}>
             취소
           </button>
