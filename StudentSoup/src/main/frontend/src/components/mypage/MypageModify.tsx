@@ -22,9 +22,13 @@ interface propTypes {
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
   const [showModal, setShowModal] = useState(false);
+  const [propsmajorName, setPropsMajorName] = useState<string>(props.departmentName);
+  const [propsSchoolName, setPropsSchoolName] = useState<string>(props.schoolName);
+  const [propsEmail, setPropsEmail] = useState<string>(props.email);
   const handleSchoolAndMajorEdit = (school: string, major: string, email: string) => {
-    // 여기서 API 호출을 통해 서버에 변경된 값을 전달하고 상태를 업데이트하세요.
-    // API 호출이 완료되면, 모달을 닫습니다.
+    setPropsSchoolName(school);
+    setPropsMajorName(major);
+    setPropsEmail(email);
     setShowModal(false);
   };
   const handleNicknameEdit = async () => {
@@ -272,15 +276,15 @@ const MypageModify = (props: propTypes) => {
             <thead>
               <tr>
                 <td>학교</td>
-                <th>{props.schoolName}</th>
+                <th>{propsSchoolName}</th>
               </tr>
               <tr>
                 <td>전공</td>
-                <th>{props.departmentName}</th>
+                <th>{propsmajorName}</th>
               </tr>
               <tr>
                 <td>이메일</td>
-                <th>{props.email}</th>
+                <th>{propsEmail}</th>
               </tr>
             </thead>
           </table>
