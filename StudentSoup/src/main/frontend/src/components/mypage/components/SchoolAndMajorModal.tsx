@@ -170,9 +170,17 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
             />
             <input id="email-domain" type="text" value={`@${emailDomain}`} disabled />
             <button
-              className={`modal-verifybutton ${verificationStarted ? 'disabled' : ''}`}
+              className={`modal-verifybutton ${
+                verificationStarted ||
+                (schoolId === selectSchoolId && email.split('@')[0] === emailPrefix)
+                  ? 'disabled'
+                  : ''
+              }`}
               onClick={handleVerifyButtonClick}
-              disabled={verificationStarted}
+              disabled={
+                verificationStarted ||
+                (schoolId === selectSchoolId && email.split('@')[0] === emailPrefix)
+              }
             >
               인증하기
             </button>
@@ -191,6 +199,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
                 type="text"
                 value={verificationCode}
                 onChange={handleVerificationCodeChange}
+                disabled={verificationStatus === 'success'}
               />
               <button
                 className="modal-verifybutton"
@@ -213,7 +222,29 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
           )}
         </div>
         <div className="modal-footer">
-          <button className="modal-footer-editbutton" onClick={handleEditButtonClick}>
+          <button
+            className="modal-footer-editbutton"
+            onClick={handleEditButtonClick}
+            disabled={
+              !(schoolId !== selectSchoolId && verificationStatus === 'success') &&
+              !(
+                schoolId === selectSchoolId &&
+                departmentId !== selectedMajorId &&
+                email.split('@')[0] === emailPrefix
+              ) &&
+              !(verificationStatus === 'success')
+            }
+            style={{
+              backgroundColor:
+                (schoolId !== selectSchoolId && verificationStatus === 'success') ||
+                (schoolId === selectSchoolId &&
+                  departmentId !== selectedMajorId &&
+                  email.split('@')[0] === emailPrefix) ||
+                verificationStatus === 'success'
+                  ? '#ff611d'
+                  : '#ccc',
+            }}
+          >
             수정
           </button>
           <button className="modal-footer-closebutton" onClick={onClose}>
