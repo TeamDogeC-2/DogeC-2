@@ -19,7 +19,6 @@ const MypageNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [menuIcon, setMenuIcon] = useState(faBars);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
@@ -75,7 +74,7 @@ const MypageNavbar = () => {
         <nav className="mypage-navbar-items">
           <div className="mypage-navbar-menuhome">
             <FontAwesomeIcon
-              icon={sidebarOpen ? faXmark : faBars}
+              icon={faBars}
               size="2xl"
               className="mypage-navbar-menu-icon"
               onClick={e => toggleSidebar(e)}
@@ -128,7 +127,7 @@ const MypageNavbar = () => {
       <MobileHeader>
         <nav className="tablet-mypage-navbar-items">
           <FontAwesomeIcon
-            icon={sidebarOpen ? faXmark : faBars}
+            icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
             onClick={e => toggleSidebar(e)}
@@ -214,7 +213,7 @@ const MypageNavbar = () => {
       <Mobile>
         <nav className="mobile-mypage-navbar-items">
           <FontAwesomeIcon
-            icon={sidebarOpen ? faXmark : faBars}
+            icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
             onClick={e => toggleSidebar(e)}
