@@ -5,8 +5,6 @@ import MypageNavbar from '../common/MypageNavbar';
 import MypagePlus from '../../img/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
-import { MypageUserInfo } from './data/MypageUserInfo';
-import Sidebar from './components/Sidebar';
 import Swal from 'sweetalert2';
 
 export interface ScheduleItem {
@@ -24,6 +22,7 @@ const MypageScheduler: React.FC = () => {
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
   const [memberId, setMemberId] = useState<number>();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
   useEffect(() => {
     ViewSchedule(7).then(res => {
       setScheduleItems(res);
@@ -209,10 +208,10 @@ const MypageScheduler: React.FC = () => {
     ? scheduleItems.find(item => item.scheduleId === selectedScheduleId)
     : undefined;
   console.log(`수정모드 : ${isEditMode}`);
+
   return (
     <>
       <MypageNavbar />
-      <Sidebar />
       <DesktopHeader>
         <div className="mypagescheduler-maincontainer">
           <div className="mypagescheduler-titlecontainer">
