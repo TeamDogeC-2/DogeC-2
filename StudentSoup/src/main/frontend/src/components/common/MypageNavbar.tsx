@@ -19,10 +19,12 @@ const MypageNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [menuIcon, setMenuIcon] = useState(faBars);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const searchRef = useRef<any>();
+  const sidebarRef = useRef(document.createElement('div'));
 
   const handleClickMenu = (e: any) => {
     e.stopPropagation();
@@ -43,27 +45,40 @@ const MypageNavbar = () => {
       if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
         isClick(!click);
       }
+      if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+        setSidebarOpen(!sidebarOpen);
+      }
     };
-    document.addEventListener('mousedown', onCheckClickOutside);
+    document.addEventListener('click', onCheckClickOutside);
     return () => {
-      document.removeEventListener('mousedown', onCheckClickOutside);
+      document.removeEventListener('click', onCheckClickOutside);
     };
-  }, [click]);
-
-  const toggleSidebar = () => {
+  }, [click, sidebarOpen]);
+  useEffect(() => {
+    if (click && sidebarOpen) {
+      setSidebarOpen(false);
+    } else if (!click && sidebarOpen) {
+      isClick(false);
+    }
+  }, [click, sidebarOpen]);
+  const toggleSidebar = (e: any) => {
+    e.stopPropagation();
     setSidebarOpen(!sidebarOpen);
+    if (click) {
+      isClick(false);
+    }
   };
   return (
     <>
-      <MypageSidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
+      <MypageSidebar ref={sidebarRef} isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       <DesktopHeader>
         <nav className="mypage-navbar-items">
           <div className="mypage-navbar-menuhome">
             <FontAwesomeIcon
-              icon={faBars}
+              icon={sidebarOpen ? faXmark : faBars}
               size="2xl"
               className="mypage-navbar-menu-icon"
-              onClick={toggleSidebar}
+              onClick={e => toggleSidebar(e)}
             />
             <Link to="/" className="mypage-navbar-logo-links">
               <img src={mainLogo} className="mypage-navbar-logo" />
@@ -113,10 +128,10 @@ const MypageNavbar = () => {
       <MobileHeader>
         <nav className="tablet-mypage-navbar-items">
           <FontAwesomeIcon
-            icon={faBars}
+            icon={sidebarOpen ? faXmark : faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={toggleSidebar}
+            onClick={e => toggleSidebar(e)}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
@@ -129,14 +144,14 @@ const MypageNavbar = () => {
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
                 onError={handleImgError}
-                onMouseDown={handleClickMenu}
+                onClick={e => handleClickMenu(e)}
                 className="tablet-mypage-nav-menu-profile"
               />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
                 className="tablet-mypage-nav-menu-icon"
-                onMouseDown={handleClickMenu}
+                onClick={e => handleClickMenu(e)}
               />
             )}
           </div>
@@ -199,10 +214,10 @@ const MypageNavbar = () => {
       <Mobile>
         <nav className="mobile-mypage-navbar-items">
           <FontAwesomeIcon
-            icon={faBars}
+            icon={sidebarOpen ? faXmark : faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={toggleSidebar}
+            onClick={e => toggleSidebar(e)}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
@@ -215,14 +230,14 @@ const MypageNavbar = () => {
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
                 onError={handleImgError}
-                onMouseDown={handleClickMenu}
+                onClick={e => handleClickMenu(e)}
                 className="mobile-mypage-nav-menu-profile"
               />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
                 className="mobile-mypage-nav-menu-icon"
-                onMouseDown={handleClickMenu}
+                onClick={e => handleClickMenu(e)}
               />
             )}
           </div>
