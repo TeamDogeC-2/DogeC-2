@@ -13,6 +13,15 @@ $basic-color: #ff611d;
   height: 75px;
   padding-left: 30px;
   z-index: 9999;
+  .mypage-navbar-menuhome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mypage-navbar-menu-icon {
+    margin-right: 1rem;
+    cursor: pointer;
+  }
 
   .mypage-nav-menu {
     display: flex;
@@ -263,7 +272,6 @@ $basic-color: #ff611d;
     }
   }
 }
-
 
 .mobile-mypage-navbar-items {
   background-color: #ffffff;

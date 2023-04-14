@@ -13,10 +13,12 @@ import {
   faBarsStaggered,
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
+import MypageSidebar from './MypageSidebar';
 
 const MypageNavbar = () => {
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
@@ -47,13 +49,26 @@ const MypageNavbar = () => {
       document.removeEventListener('mousedown', onCheckClickOutside);
     };
   }, [click]);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   return (
     <>
+      <MypageSidebar isOpen={sidebarOpen} onToggle={toggleSidebar} />
       <DesktopHeader>
         <nav className="mypage-navbar-items">
-          <Link to="/" className="mypage-navbar-logo-links">
-            <img src={mainLogo} className="mypage-navbar-logo" />
-          </Link>
+          <div className="mypage-navbar-menuhome">
+            <FontAwesomeIcon
+              icon={faBars}
+              size="2xl"
+              className="mypage-navbar-menu-icon"
+              onClick={toggleSidebar}
+            />
+            <Link to="/" className="mypage-navbar-logo-links">
+              <img src={mainLogo} className="mypage-navbar-logo" />
+            </Link>
+          </div>
           <ul className="mypage-nav-menu">
             <li className="mypage-nav-li">
               <Link to="/board" className="mypage-nav-links">
@@ -97,6 +112,12 @@ const MypageNavbar = () => {
       </DesktopHeader>
       <MobileHeader>
         <nav className="tablet-mypage-navbar-items">
+          <FontAwesomeIcon
+            icon={faBars}
+            size="2xl"
+            className="mypage-navbar-menu-icon"
+            onClick={toggleSidebar}
+          />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
           </Link>
@@ -177,6 +198,12 @@ const MypageNavbar = () => {
       </MobileHeader>
       <Mobile>
         <nav className="mobile-mypage-navbar-items">
+          <FontAwesomeIcon
+            icon={faBars}
+            size="2xl"
+            className="mypage-navbar-menu-icon"
+            onClick={toggleSidebar}
+          />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
           </Link>
