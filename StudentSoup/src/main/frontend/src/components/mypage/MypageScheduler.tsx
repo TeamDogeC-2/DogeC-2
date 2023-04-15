@@ -6,6 +6,7 @@ import MypagePlus from '../../img/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
 import Swal from 'sweetalert2';
+import { useLocation } from 'react-router';
 
 export interface ScheduleItem {
   scheduleId: number;
@@ -17,19 +18,18 @@ export interface ScheduleItem {
 }
 
 const MypageScheduler: React.FC = () => {
+  const { state } = useLocation();
   const [scheduleItems, setScheduleItems] = useState<ScheduleItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
-  const [memberId, setMemberId] = useState<number>();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [selectPage, setSelectPage] = useState<string>('scheduler');
 
   useEffect(() => {
-    ViewSchedule(7).then(res => {
+    ViewSchedule(state).then(res => {
       setScheduleItems(res);
     });
   }, []);
-  console.log(scheduleItems);
   const addScheduleItem = (
     scheduleId: number,
     dayOfWeek: string,
@@ -86,8 +86,6 @@ const MypageScheduler: React.FC = () => {
     const rowSpan = Math.max(1, endTime - startTime + 1);
     style.height = `${rowSpan * 100}%`;
     const handleItemClick = async (item: ScheduleItem) => {
-      console.log(item.scheduleId);
-
       const result = await Swal.fire({
         title: item.subject,
         showCancelButton: true,
@@ -185,7 +183,6 @@ const MypageScheduler: React.FC = () => {
       return isSameDay && isOverlap;
     });
     if (isOverlapping) {
-      console.log('중복된 시간표가 있습니다.');
       alert('중복된 시간표가 있습니다.');
       return;
     }
@@ -208,7 +205,7 @@ const MypageScheduler: React.FC = () => {
   const editItem = selectedScheduleId
     ? scheduleItems.find(item => item.scheduleId === selectedScheduleId)
     : undefined;
-  console.log(`수정모드 : ${isEditMode}`);
+
   const updateSelectPage = (page: string) => {
     setSelectPage(page);
   };

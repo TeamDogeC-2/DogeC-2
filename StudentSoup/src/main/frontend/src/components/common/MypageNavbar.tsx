@@ -23,12 +23,13 @@ import {
 interface MypageNavbarProps {
   selectPage: string;
   updateSelectPage: (page: string) => void;
+  memberId?: string | null;
 }
-const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
+const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarProps) => {
   const navigate = useNavigate();
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, isSidebarOpen] = useState(false);
 
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
@@ -39,7 +40,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
     e.stopPropagation();
     isClick(!click);
     if (sidebarOpen) {
-      setSidebarOpen(!sidebarOpen);
+      isSidebarOpen(!sidebarOpen);
     }
   };
 
@@ -57,7 +58,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
   };
   const onCheckSidebarClickOutSide = (e: MouseEvent) => {
     if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-      setSidebarOpen(!sidebarOpen);
+      isSidebarOpen(!sidebarOpen);
     }
   };
   useEffect(() => {
@@ -70,7 +71,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
   }, [click, sidebarOpen]);
   const toggleSidebar = (e: any) => {
     e.stopPropagation();
-    setSidebarOpen(!sidebarOpen);
+    isSidebarOpen(!sidebarOpen);
     if (click) {
       isClick(!click);
     }
@@ -78,12 +79,11 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
   const handleItemClick = (page: string) => {
     updateSelectPage(page);
     if (page === 'scheduler' && selectPage !== 'scheduler') {
-      navigate('/mypage/scheduler');
+      navigate('/mypage/scheduler', { state: memberId });
     } else if (selectPage === 'scheduler') {
       navigate('/mypage');
     }
   };
-
   return (
     <>
       <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
