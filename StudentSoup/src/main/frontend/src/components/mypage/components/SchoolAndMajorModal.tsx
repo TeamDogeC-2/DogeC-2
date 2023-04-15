@@ -98,16 +98,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   const handleVerifyButtonClick = () => {
     setSendingEmail(true);
     setVerificationStarted(true);
-    // SendMail(`${emailPrefix}@${emailDomain}`)
-    //   .then(() => {
-    //     setShowVerificationInput(true);
-    //     setVerificationStarted(true);
-    //     setShowVerificationMessage(true);
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
-    SendMail('spsp8426@naver.com') // 임시 테스트 저장이메일
+    SendMail(`${emailPrefix}@${emailDomain}`)
       .then(() => {
         setSendingEmail(false);
         setShowVerificationInput(true);
@@ -125,16 +116,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   };
 
   const handleVerification = () => {
-    // CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
-    //   .then(() => {
-    //     setVerificationStatus('success');
-    //     setVerificationMessage('인증이 완료되었습니다.');
-    //   })
-    //   .catch(() => {
-    //     setVerificationStatus('error');
-    //     setVerificationMessage('인증 코드 오류');
-    //   });
-    CheckMail('spsp8426@naver.com', parseInt(verificationCode)) // 임시 테스트 저장이메일
+    CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
       .then(() => {
         setVerificationStatus('success');
         setVerificationMessage('인증이 완료되었습니다.');
