@@ -445,3 +445,14 @@ $basic-color: #ff611d;
     }
   }
 }
+
+@media screen and (max-width: 1040px) {
+  .sidebar {
+    width: 40%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 50%;
+  }
+}
