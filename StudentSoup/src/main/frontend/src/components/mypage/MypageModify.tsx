@@ -27,6 +27,7 @@ const MypageModify = (props: propTypes) => {
   const [propsmajorName, setPropsMajorName] = useState<string>(props.departmentName);
   const [propsSchoolName, setPropsSchoolName] = useState<string>(props.schoolName);
   const [propsEmail, setPropsEmail] = useState<string>(props.email);
+  const [selectPage, setSelectPage] = useState<string>('modify');
   const handleSchoolAndMajorEdit = (
     newSchoolId: number,
     newMajorId: number,
@@ -241,7 +242,7 @@ const MypageModify = (props: propTypes) => {
 
   return (
     <>
-      <MypageNavbar />
+      <MypageNavbar selectPage={selectPage} updateSelectPage={setSelectPage} />
       <DesktopHeader>
         <div className="mypagemodify-container">
           <div className="mypagemodify-boardmain">

@@ -22,7 +22,6 @@ const MypageMain = () => {
   const handleSelectPage = (pagename: string) => {
     setSelectPage(pagename);
   };
-
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [userImg, setUserImg] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
@@ -170,10 +169,12 @@ const MypageMain = () => {
       return { ...userInfo, ...updatedUserInfo };
     });
   };
-  console.log(selectPage);
+  const updateSelectPage = (page: string) => {
+    setSelectPage(page);
+  };
   return (
     <>
-      <MypageNavbar />
+      <MypageNavbar selectPage={selectPage} updateSelectPage={updateSelectPage} />
       <DesktopHeader>
         <div className="mypagemain-container">
           <div className="mypagemain-banner"></div>
