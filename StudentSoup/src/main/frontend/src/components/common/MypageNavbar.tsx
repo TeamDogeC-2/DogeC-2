@@ -188,7 +188,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
             icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={toggleSidebar}
+            onMouseDown={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
@@ -274,7 +274,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
             icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={toggleSidebar}
+            onMouseDown={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
