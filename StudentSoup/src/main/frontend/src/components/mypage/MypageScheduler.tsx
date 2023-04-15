@@ -22,6 +22,7 @@ const MypageScheduler: React.FC = () => {
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
   const [memberId, setMemberId] = useState<number>();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [selectPage, setSelectPage] = useState<string>('scheduler');
 
   useEffect(() => {
     ViewSchedule(7).then(res => {
@@ -208,10 +209,13 @@ const MypageScheduler: React.FC = () => {
     ? scheduleItems.find(item => item.scheduleId === selectedScheduleId)
     : undefined;
   console.log(`수정모드 : ${isEditMode}`);
+  const updateSelectPage = (page: string) => {
+    setSelectPage(page);
+  };
 
   return (
     <>
-      <MypageNavbar />
+      <MypageNavbar selectPage="scheduler" updateSelectPage={updateSelectPage} />
       <DesktopHeader>
         <div className="mypagescheduler-maincontainer">
           <div className="mypagescheduler-titlecontainer">
