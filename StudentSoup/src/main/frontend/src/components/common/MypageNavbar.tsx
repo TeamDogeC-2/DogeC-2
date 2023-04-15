@@ -1,10 +1,11 @@
 import './mypageNavbar.scss';
-import { Link } from 'react-router-dom';
+import { Link, type NavigateFunction, useNavigate } from 'react-router-dom';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import {
   faAngleRight,
   faBars,
@@ -12,10 +13,19 @@ import {
   faEllipsis,
   faBarsStaggered,
   faHeart,
+  faChevronDown,
+  faChevronRight,
+  faComments,
+  faStar,
+  faCalendar,
+  faHouse,
 } from '@fortawesome/free-solid-svg-icons';
-import MypageSidebar from './MypageSidebar';
-
-const MypageNavbar = () => {
+interface MypageNavbarProps {
+  selectPage: string;
+  updateSelectPage: (page: string) => void;
+}
+const MypageNavbar = ({ selectPage, updateSelectPage }: MypageNavbarProps) => {
+  const navigate = useNavigate();
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -23,11 +33,14 @@ const MypageNavbar = () => {
   const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const searchRef = useRef<any>();
-  const sidebarRef = useRef(document.createElement('div'));
+  const sidebarRef = useRef<any>();
 
   const handleClickMenu = (e: any) => {
     e.stopPropagation();
     isClick(!click);
+    if (sidebarOpen) {
+      setSidebarOpen(!sidebarOpen);
+    }
   };
 
   const handleImgError = (e: any) => {
@@ -36,40 +49,85 @@ const MypageNavbar = () => {
 
   const handleLogout = (e: any) => {
     isLogin(false);
-    console.log(e);
   };
-
-  useEffect(() => {
-    const onCheckClickOutside = (e: MouseEvent) => {
-      if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        isClick(!click);
-      }
-      if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-        setSidebarOpen(!sidebarOpen);
-      }
-    };
-    document.addEventListener('click', onCheckClickOutside);
-    return () => {
-      document.removeEventListener('click', onCheckClickOutside);
-    };
-  }, [click, sidebarOpen]);
-  useEffect(() => {
-    if (click && sidebarOpen) {
-      setSidebarOpen(false);
-    } else if (!click && sidebarOpen) {
-      isClick(false);
+  const onCheckClickOutside = (e: MouseEvent) => {
+    if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      isClick(!click);
     }
+  };
+  const onCheckSidebarClickOutSide = (e: MouseEvent) => {
+    if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+      setSidebarOpen(!sidebarOpen);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', onCheckSidebarClickOutSide);
+    document.addEventListener('mousedown', onCheckClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', onCheckSidebarClickOutSide);
+      document.removeEventListener('mousedown', onCheckClickOutside);
+    };
   }, [click, sidebarOpen]);
   const toggleSidebar = (e: any) => {
     e.stopPropagation();
     setSidebarOpen(!sidebarOpen);
     if (click) {
-      isClick(false);
+      isClick(!click);
     }
   };
+  const handleItemClick = (page: string) => {
+    updateSelectPage(page);
+    if (page === 'scheduler' && selectPage !== 'scheduler') {
+      navigate('/mypage/scheduler');
+    } else if (selectPage === 'scheduler') {
+      navigate('/mypage');
+    }
+  };
+
   return (
     <>
-      <MypageSidebar ref={sidebarRef} isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
+      <div ref={sidebarRef} className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <ul>
+          <li
+            className={selectPage === 'preview' ? 'selected' : ''}
+            onClick={() => handleItemClick('preview')}
+          >
+            <div className="sidebar-contents">
+              <div>
+                <FontAwesomeIcon icon={faHouse} /> 홈
+              </div>
+              {selectPage !== 'scheduler' ? (
+                <FontAwesomeIcon icon={faChevronDown} />
+              ) : (
+                <FontAwesomeIcon icon={faChevronRight} />
+              )}
+            </div>
+          </li>
+          {selectPage !== 'scheduler' && (
+            <>
+              <li
+                className={selectPage === 'boardreply' ? 'selected' : ''}
+                onClick={() => handleItemClick('boardreply')}
+              >
+                <FontAwesomeIcon icon={faComments} /> 나의 게시판/댓글
+              </li>
+              <li
+                className={selectPage === 'review' ? 'selected' : ''}
+                onClick={() => handleItemClick('review')}
+              >
+                <FontAwesomeIcon icon={faStar} /> 나의 리뷰
+              </li>
+            </>
+          )}
+          <li
+            className={selectPage === 'scheduler' ? 'selected' : ''}
+            onClick={() => handleItemClick('scheduler')}
+          >
+            <FontAwesomeIcon icon={faCalendar} /> 시간표
+          </li>
+        </ul>
+      </div>
       <DesktopHeader>
         <nav className="mypage-navbar-items">
           <div className="mypage-navbar-menuhome">
@@ -77,7 +135,7 @@ const MypageNavbar = () => {
               icon={faBars}
               size="2xl"
               className="mypage-navbar-menu-icon"
-              onClick={e => toggleSidebar(e)}
+              onMouseDown={toggleSidebar}
             />
             <Link to="/" className="mypage-navbar-logo-links">
               <img src={mainLogo} className="mypage-navbar-logo" />
@@ -130,7 +188,7 @@ const MypageNavbar = () => {
             icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={e => toggleSidebar(e)}
+            onClick={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
@@ -143,14 +201,14 @@ const MypageNavbar = () => {
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
                 onError={handleImgError}
-                onClick={e => handleClickMenu(e)}
+                onClick={handleClickMenu}
                 className="tablet-mypage-nav-menu-profile"
               />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
                 className="tablet-mypage-nav-menu-icon"
-                onClick={e => handleClickMenu(e)}
+                onClick={handleClickMenu}
               />
             )}
           </div>
@@ -216,7 +274,7 @@ const MypageNavbar = () => {
             icon={faBars}
             size="2xl"
             className="mypage-navbar-menu-icon"
-            onClick={e => toggleSidebar(e)}
+            onClick={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
@@ -229,14 +287,14 @@ const MypageNavbar = () => {
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
                 onError={handleImgError}
-                onClick={e => handleClickMenu(e)}
+                onMouseDown={handleClickMenu}
                 className="mobile-mypage-nav-menu-profile"
               />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
                 className="mobile-mypage-nav-menu-icon"
-                onClick={e => handleClickMenu(e)}
+                onMouseDown={handleClickMenu}
               />
             )}
           </div>
