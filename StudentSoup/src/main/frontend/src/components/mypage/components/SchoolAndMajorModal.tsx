@@ -222,7 +222,13 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
               onChange={e => setEmailPrefix(e.target.value)}
               disabled={showVerificationInput}
             />
-            <input id="email-domain" type="text" value={`@${emailDomain}`} disabled />
+            <input
+              className="modal-emaildomain"
+              id="email-domain"
+              type="text"
+              value={`@${emailDomain}`}
+              disabled
+            />
             <button
               className={`modal-verifybutton ${
                 verificationStarted ||

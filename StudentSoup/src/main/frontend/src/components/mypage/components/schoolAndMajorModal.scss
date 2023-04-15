@@ -204,5 +204,28 @@
 @media screen and (max-width: 768px) {
   .modal {
     width: 90%;
+    padding-bottom: 10rem;
+  }
+  .modal-contents {
+    width: 90%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-labelname {
+    width: 20%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  .modal-emaildomain {
+    width: auto;
+    height: 3rem;
+  }
+  .modal-selectbar {
+    width: 100%;
+  }
+  .modal-labelname {
+    width: 100%;
+    text-align: center;
   }
 }
