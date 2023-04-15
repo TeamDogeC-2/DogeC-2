@@ -79,7 +79,13 @@
   height: 2px;
   background-color: #bcbcbc;
 }
-
+.mypagereview-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 11rem;
+  margin-bottom: 11rem;
+}
 //테블릿
 
 .tablet-mypagereview-maincontainer {
@@ -170,7 +176,10 @@
   height: 2px;
   background-color: #bcbcbc;
 }
-
+.tablet-mypagereview-pagination {
+  width: 100%;
+  margin-bottom: 7rem;
+}
 //모바일
 
 .mobile-mypagereview-maincontainer {
@@ -264,6 +273,9 @@
   width: 100%;
   height: 2px;
   background-color: #bcbcbc;
+}
+.mobile-mypagereview-pagination {
+  margin-bottom: 5rem;
 }
 
 //default

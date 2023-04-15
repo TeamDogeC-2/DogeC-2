@@ -31,7 +31,7 @@ const MypageReview = (props: propTypes) => {
       const timer = setTimeout(() => {
         setIsModalVisible(false);
         setIsModalFadingOut(false);
-      }, 300); // 300ms는 애니메이션 시간과 같아야 함
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [isModalFadingOut]);
@@ -101,14 +101,6 @@ const MypageReview = (props: propTypes) => {
               <div className="mypagereview-bottomline"></div>
             </React.Fragment>
           ))}
-          {reviewList?.totalElements !== undefined && (
-            <MyPagination
-              currentPage={reviewcurrentPage}
-              itemsCount={reviewList.totalElements}
-              itemsPerPage={reviewpostPerPage}
-              onChange={handleReplyPageChange}
-            />
-          )}
           {isModalVisible && (
             <div
               className={`mypagereview-modal-container ${
@@ -139,6 +131,16 @@ const MypageReview = (props: propTypes) => {
               />
             </div>
           )}
+          <div className="mypagereview-pagination">
+            {reviewList?.totalElements !== undefined && (
+              <MyPagination
+                currentPage={reviewcurrentPage}
+                itemsCount={reviewList.totalElements}
+                itemsPerPage={reviewpostPerPage}
+                onChange={handleReplyPageChange}
+              />
+            )}
+          </div>
         </div>
       </DesktopHeader>
       <MobileHeader>
@@ -194,14 +196,16 @@ const MypageReview = (props: propTypes) => {
               <div className="tablet-mypagereview-bottomline"></div>
             </React.Fragment>
           ))}
-          {reviewList?.totalElements !== undefined && (
-            <MyPagination
-              currentPage={reviewcurrentPage}
-              itemsCount={reviewList.totalElements}
-              itemsPerPage={reviewpostPerPage}
-              onChange={handleReplyPageChange}
-            />
-          )}
+          <div className="tablet-mypagereview-pagination">
+            {reviewList?.totalElements !== undefined && (
+              <MyPagination
+                currentPage={reviewcurrentPage}
+                itemsCount={reviewList.totalElements}
+                itemsPerPage={reviewpostPerPage}
+                onChange={handleReplyPageChange}
+              />
+            )}
+          </div>
           {isModalVisible && (
             <div
               className={`mypagereview-modal-container ${
@@ -287,14 +291,16 @@ const MypageReview = (props: propTypes) => {
               <div className="mobile-mypagereview-bottomline"></div>
             </React.Fragment>
           ))}
-          {reviewList?.totalElements !== undefined && (
-            <MyPagination
-              currentPage={reviewcurrentPage}
-              itemsCount={reviewList.totalElements}
-              itemsPerPage={reviewpostPerPage}
-              onChange={handleReplyPageChange}
-            />
-          )}
+          <div className="mobile-mypagereview-pagination">
+            {reviewList?.totalElements !== undefined && (
+              <MyPagination
+                currentPage={reviewcurrentPage}
+                itemsCount={reviewList.totalElements}
+                itemsPerPage={reviewpostPerPage}
+                onChange={handleReplyPageChange}
+              />
+            )}
+          </div>
           {isModalVisible && (
             <div
               className={`mypagereview-modal-container ${
