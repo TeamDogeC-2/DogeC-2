@@ -13,8 +13,6 @@ interface propTypes {
 }
 const MypageReview = (props: propTypes) => {
   const [currentpage, setCurrentpage] = useState(1);
-  const [count, setCount] = useState(3);
-  const [postPerPage, setPostPerPage] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalFadingOut, setIsModalFadingOut] = useState(false);
   const [selectedOption, setSelectedOption] = useState('all');

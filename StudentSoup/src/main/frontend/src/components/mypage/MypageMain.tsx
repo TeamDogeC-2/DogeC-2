@@ -28,6 +28,7 @@ const MypageMain = () => {
   const [propsmajorName, setPropsMajorName] = useState<string>('');
   const [propsSchoolName, setPropsSchoolName] = useState<string>('');
   const [propsEmail, setPropsEmail] = useState<string>('');
+  const [memberId, setMemberId] = useState<string>('');
   const handleEditProfile = async () => {
     const result = await Swal.fire({
       html: `
@@ -86,6 +87,7 @@ const MypageMain = () => {
         setPropsEmail(res.data.email);
         setPropsMajorName(res.data.departmentName);
         setPropsSchoolName(res.data.schoolName);
+        setMemberId(res.data.memberId);
       })
       .catch(err => {
         console.error(err);
@@ -174,7 +176,11 @@ const MypageMain = () => {
   };
   return (
     <>
-      <MypageNavbar selectPage={selectPage} updateSelectPage={updateSelectPage} />
+      <MypageNavbar
+        selectPage={selectPage}
+        updateSelectPage={updateSelectPage}
+        memberId={memberId}
+      />
       <DesktopHeader>
         <div className="mypagemain-container">
           <div className="mypagemain-banner"></div>

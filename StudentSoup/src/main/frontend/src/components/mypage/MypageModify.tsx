@@ -23,7 +23,7 @@ interface propTypes {
 
 const MypageModify = (props: propTypes) => {
   const [editNickName, setEditNickName] = useState<string>(props.nickname);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, isShowModal] = useState(false);
   const [propsmajorName, setPropsMajorName] = useState<string>(props.departmentName);
   const [propsSchoolName, setPropsSchoolName] = useState<string>(props.schoolName);
   const [propsEmail, setPropsEmail] = useState<string>(props.email);
@@ -37,7 +37,7 @@ const MypageModify = (props: propTypes) => {
     setPropsSchoolName(school);
     setPropsMajorName(major);
     setPropsEmail(email);
-    setShowModal(false);
+    isShowModal(false);
     props.onSchoolAndMajorChange(school, major, email);
     props.onUpdateUserInfo({
       schoolId: newSchoolId,
@@ -287,7 +287,7 @@ const MypageModify = (props: propTypes) => {
               icon={faEdit}
               size="lg"
               className="mypagemodify-editicon"
-              onClick={() => setShowModal(true)}
+              onClick={() => isShowModal(true)}
             />
           </div>
           <table className="mypagemodify-boardtable">
@@ -308,7 +308,7 @@ const MypageModify = (props: propTypes) => {
           </table>
           <SchoolAndMajorModal
             show={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={() => isShowModal(false)}
             onSubmit={handleSchoolAndMajorEdit}
             memberId={props.memberId}
             schoolId={props.schoolId}
@@ -367,7 +367,7 @@ const MypageModify = (props: propTypes) => {
               icon={faEdit}
               size="lg"
               className="tablet-mypagemodify-editicon"
-              onClick={() => setShowModal(true)}
+              onClick={() => isShowModal(true)}
             />
           </div>
           <table className="tablet-mypagemodify-boardtable">
@@ -388,7 +388,7 @@ const MypageModify = (props: propTypes) => {
           </table>
           <SchoolAndMajorModal
             show={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={() => isShowModal(false)}
             onSubmit={handleSchoolAndMajorEdit}
             memberId={props.memberId}
             schoolId={props.schoolId}
@@ -447,7 +447,7 @@ const MypageModify = (props: propTypes) => {
               icon={faEdit}
               size="lg"
               className="mobile-mypagemodify-editicon"
-              onClick={() => setShowModal(true)}
+              onClick={() => isShowModal(true)}
             />
           </div>
           <table className="mobile-mypagemodify-boardtable">
@@ -468,7 +468,7 @@ const MypageModify = (props: propTypes) => {
           </table>
           <SchoolAndMajorModal
             show={showModal}
-            onClose={() => setShowModal(false)}
+            onClose={() => isShowModal(false)}
             onSubmit={handleSchoolAndMajorEdit}
             memberId={props.memberId}
             schoolId={props.schoolId}
