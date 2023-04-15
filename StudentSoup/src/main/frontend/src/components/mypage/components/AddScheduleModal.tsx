@@ -120,15 +120,6 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
     }
     onCancel();
   };
-  // console.log(`
-  // 시간표아이디 :${scheduleId}
-  // 맴버아이디 : ${memberId}
-  // 날짜 : ${dayOfWeek}
-  // 시작시간 : ${startTime}
-  // 종료시간 : ${endTime}
-  // 색깔 : ${color}
-  // 과목이름 : ${subject}
-  // `);
 
   return (
     <div className="add-schedule-modal">
