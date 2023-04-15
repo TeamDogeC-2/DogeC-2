@@ -7,6 +7,7 @@ import {
   CheckMail,
   EditNickname,
 } from '../data/MypageUserInfo';
+import Swal from 'sweetalert2';
 
 interface SchoolAndMajorModalProps {
   show: boolean;
@@ -161,6 +162,16 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
           `${emailPrefix}@${emailDomain}`,
         );
         onClose();
+        Swal.fire({
+          icon: 'success',
+          title: '정보수정 완료',
+          text: '내정보가 성공적으로 수정되었습니다.',
+          timer: 3000,
+          showConfirmButton: true,
+          confirmButtonText: '확인',
+          showCancelButton: false,
+          timerProgressBar: true,
+        });
       })
       .catch(err => {
         console.error(err);
