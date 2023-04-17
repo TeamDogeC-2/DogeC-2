@@ -26,8 +26,16 @@ interface MypageNavbarProps {
   selectPage: string;
   updateSelectPage: (page: string) => void;
   memberId?: string | null;
+  userImg: string;
+  setUserImg: (img: string) => void;
 }
-const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarProps) => {
+const MypageNavbar = ({
+  selectPage,
+  updateSelectPage,
+  memberId,
+  userImg,
+  setUserImg,
+}: MypageNavbarProps) => {
   const navigate = useNavigate();
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
@@ -52,10 +60,6 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
     timer: 3000,
     timerProgressBar: true,
   });
-
-  const handleImgError = (e: any) => {
-    e.target.src = Circle_human;
-  };
 
   const handleLogout = () => {
     Swal.fire({
@@ -114,11 +118,15 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
     }
   };
   useEffect(() => {
+    setUserImg(userImg);
+  }, [userImg]);
+  useEffect(() => {
     MypageUserInfo()
       .then(res => {
         if (res.data.memberId) {
           isLogin(true);
         }
+        setUserImg(res.data.fileName);
       })
       .catch(() => {
         Toast.fire({
@@ -128,6 +136,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
         navigate('/login');
       });
   }, []);
+
   return (
     <>
       <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
@@ -209,9 +218,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
                 <div className="mypage-navbar-logout-div" onClick={handleLogout}>
                   <i>
                     <img
-                      src={`/image/${IMAGE_FILE_ID}`}
-                      alt=""
-                      onError={handleImgError}
+                      src={userImg ? `/image/${userImg}` : Circle_human}
                       className="mypage-navbar-logout"
                     />
                     <p className="mypage-navbar-hover-text">로그아웃</p>
@@ -242,9 +249,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
               <FontAwesomeIcon icon={faXmark} className="tablet-mypage-nav-menu-icon" />
             ) : login ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={userImg ? `/image/${userImg}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="tablet-mypage-nav-menu-profile"
               />
@@ -328,9 +333,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
               <FontAwesomeIcon icon={faXmark} className="mobile-mypage-nav-menu-icon" />
             ) : login ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={userImg ? `/image/${userImg}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-mypage-nav-menu-profile"
               />
