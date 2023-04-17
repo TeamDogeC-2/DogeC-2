@@ -6,11 +6,37 @@ const MobileBoard = (props: any) => {
   const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts } = props;
   return (
     <div className="mobile-board-wrap">
+      {currentPosts
+        .filter((post: any) => post.authentication === 'Y')
+        .map((post: any) => {
+          return (
+            <>
+              <div key={post.boardId} className="board-table-div authentication-post">
+                <div className="board-underline">
+                  <span>[{post.tag}]</span>
+                  <span>{post.title}</span>
+                </div>
+                <div className="board-info">
+                  <div className="board-info-left">
+                    <p>{post.nickname}</p>
+                    <p>조회수</p>
+                    <p>{post.view}</p>
+                    <p>좋아요수</p>
+                    <p>{post.likedCount}</p>
+                  </div>
+                  <div className="board-info-right">
+                    <p>{post.writeDate}</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })}
       {currentPage === 1 && category === 'ALL'
         ? bestBoardItems.map((post: any) => {
             return (
               <>
-                <div key={post.boardId} className="board-table-div best-post">
+                <div key={post.boardId} className="board-table-div">
                   <div className="board-underline">
                     <span className="best-cell">BEST</span>
                     <span>[{post.tag}]</span>
@@ -41,7 +67,7 @@ const MobileBoard = (props: any) => {
         ? hotBoardItems.map((post: any) => {
             return (
               <>
-                <div key={post.boardId} className="board-table-div best-post">
+                <div key={post.boardId} className="board-table-div">
                   <div className="board-underline">
                     <span className="best-cell">
                       HOT <FontAwesomeIcon icon={faFire} />
@@ -71,32 +97,36 @@ const MobileBoard = (props: any) => {
           })
         : null}
       {!!currentPosts &&
-        currentPosts.map((post: any) => {
-          return (
-            <>
-              <div key={post.boardId} className="board-table-div">
-                <div className="board-underline">
-                  <span>[{post.tag}]</span>
-                  <span className={post.authentication === 'Y' ? 'authentication-post' : undefined}>
-                    {post.title}
-                  </span>
-                </div>
-                <div className="board-info">
-                  <div className="board-info-left">
-                    <p>{post.nickname}</p>
-                    <p>조회수</p>
-                    <p>{post.view}</p>
-                    <p>좋아요수</p>
-                    <p>{post.likedCount}</p>
+        currentPosts
+          .filter((post: any) => post.authentication === 'N')
+          .map((post: any) => {
+            return (
+              <>
+                <div key={post.boardId} className="board-table-div">
+                  <div className="board-underline">
+                    <span>[{post.tag}]</span>
+                    <span
+                      className={post.authentication === 'Y' ? 'authentication-post' : undefined}
+                    >
+                      {post.title}
+                    </span>
                   </div>
-                  <div className="board-info-right">
-                    <p>{post.writeDate}</p>
+                  <div className="board-info">
+                    <div className="board-info-left">
+                      <p>{post.nickname}</p>
+                      <p>조회수</p>
+                      <p>{post.view}</p>
+                      <p>좋아요수</p>
+                      <p>{post.likedCount}</p>
+                    </div>
+                    <div className="board-info-right">
+                      <p>{post.writeDate}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          );
-        })}
+              </>
+            );
+          })}
     </div>
   );
 };
