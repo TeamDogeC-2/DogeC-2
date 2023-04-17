@@ -5,6 +5,8 @@ import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MypageUserInfo } from '../mypage/data/MypageUserInfo';
+import Swal from 'sweetalert2';
 
 import {
   faAngleRight,
@@ -43,13 +45,40 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
       isSidebarOpen(!sidebarOpen);
     }
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
   const handleImgError = (e: any) => {
     e.target.src = Circle_human;
   };
 
-  const handleLogout = (e: any) => {
-    isLogin(false);
+  const handleLogout = () => {
+    Swal.fire({
+      title: '로그아웃 시도',
+      text: '로그아웃을 하시겠습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('refresh-token');
+
+        isLogin(false);
+
+        Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+        navigate('/');
+      }
+    });
   };
   const onCheckClickOutside = (e: MouseEvent) => {
     if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -84,6 +113,21 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
       navigate('/mypage');
     }
   };
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        if (res.data.memberId) {
+          isLogin(true);
+        }
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: 'error',
+          title: '로그인이 필요한 서비스입니다.',
+        });
+        navigate('/login');
+      });
+  }, []);
   return (
     <>
       <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
