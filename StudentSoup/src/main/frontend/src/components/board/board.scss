@@ -154,8 +154,6 @@ $sub-color: #5a5a5a;
         }
 
         .best-post {
-          border-left: 4px solid $basic-color;
-
           .board-title {
             height: 100%;
 
@@ -171,9 +169,14 @@ $sub-color: #5a5a5a;
           padding-left: 1.375rem;
         }
 
+        .authentication-wrap {
+          border-left: 4px solid $basic-color;
+          padding-left: 1.125rem;
+          background-color: #f3f3f3;
+        }
+
         .authentication-post {
           font-weight: 600;
-          color: $sub-font-color;
         }
       }
     }
@@ -404,8 +407,9 @@ $sub-color: #5a5a5a;
           }
         }
       }
-      .best-post {
+      .authentication-post {
         border-left: 4px solid $basic-color;
+        background-color: #f3f3f3;
       }
     }
   }
