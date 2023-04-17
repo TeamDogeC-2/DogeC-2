@@ -21,15 +21,20 @@
   border-collapse: collapse;
   margin-bottom: 4rem;
 }
+
 .mypagemodify-boardtable td {
   font-size: 1.2rem;
   font-weight: 400;
   width: 50%;
   text-align: left;
-  padding-left: 2rem;
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 0 1rem 2rem;
 }
 
 .mypagemodify-boardtable th {
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 2rem 1rem 0;
+  font-size: 1.3rem;
   font-weight: 600;
   width: 50%;
   text-align: right;
@@ -61,6 +66,8 @@
   margin-bottom: 4rem;
 }
 .tablet-mypagemodify-boardtable td {
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 0 1rem 2rem;
   font-size: 1.2rem;
   font-weight: 400;
   width: 50%;
@@ -69,6 +76,9 @@
 }
 
 .tablet-mypagemodify-boardtable th {
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 2rem 1rem 0;
+  font-size: 1.3rem;
   font-weight: 600;
   width: 50%;
   text-align: right;
@@ -100,15 +110,18 @@
   margin-bottom: 4rem;
 }
 .mobile-mypagemodify-boardtable td {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
   width: 50%;
   text-align: left;
-  padding-left: 2rem;
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 0 1rem 2rem;
 }
 
 .mobile-mypagemodify-boardtable th {
   font-size: 1rem;
+  border-bottom: 2px solid #b4b4b4;
+  padding: 1rem 2rem 1rem 0;
   font-weight: 600;
   width: 50%;
   text-align: right;

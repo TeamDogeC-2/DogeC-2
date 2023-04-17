@@ -1,16 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
 import Paginate from '../common/Paginate';
-
-const MypageContents = () => {
+import MyPagination from './components/MyPagination';
+import {
+  DetailCount,
+  type DetailCountResponse,
+  PreViewBoard,
+  type PreViewBoardResponse,
+  PreViewReply,
+  type PreViewReplyResponse,
+} from './data/MypageContents';
+interface propTypes {
+  memberId: number | undefined;
+}
+const MypageContents = (props: propTypes) => {
   const [content, setContent] = useState<string>('board');
-  const [count, setCount] = useState(3);
-  const [currentpage, setCurrentpage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(0);
-  const handlePageChange = (e: any) => {
+  const [currentPage, setCurrentpage] = useState(1);
+  const [postPerPage, setPostPerPage] = useState(6);
+  const [replycurrentPage, setReplyCurrentpage] = useState(1);
+  const [replypostPerPage, setReplyPostPerPage] = useState(6);
+  const [contentCount, setContentCount] = useState<DetailCountResponse>();
+  const [boardList, setBoardList] = useState<PreViewBoardResponse>();
+  const [replyList, setReplyList] = useState<PreViewReplyResponse>();
+  const handleBoardPageChange = (e: any) => {
     setCurrentpage(e);
   };
+  const handleReplyPageChange = (e: any) => {
+    setReplyCurrentpage(e);
+  };
+  useEffect(() => {
+    if (props?.memberId) {
+      DetailCount(props.memberId)
+        .then(res => {
+          setContentCount(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      PreViewBoard(props.memberId, currentPage - 1, postPerPage)
+        .then(res => {
+          setBoardList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      PreViewReply(props.memberId, replycurrentPage - 1, replypostPerPage)
+        .then(res => {
+          setReplyList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }, [currentPage, replycurrentPage]);
+
   return (
     <>
       <DesktopHeader>
@@ -27,7 +71,7 @@ const MypageContents = () => {
                   : 'mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -39,109 +83,76 @@ const MypageContents = () => {
                   : 'mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
-          {content === 'board' ? (
-            <table className="mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>제목</th>
-                  <th>작성일</th>
-                  <th>조회수</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>24</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <table className="mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>내용</th>
-                  <th>작성일</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>댓글내용 한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
+          {content === 'board' && (
+            <>
+              <table className="mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {boardList?.content?.map(board => (
+                    <tr key={board.boardId}>
+                      <td>{board.title}</td>
+                      <td>{board.writeDate}</td>
+                      <td>{board.viewCount}</td>
+                      <td>{board.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mypagecontents-pagenation">
+                {boardList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={currentPage}
+                    itemsCount={boardList.totalElements}
+                    itemsPerPage={postPerPage}
+                    onChange={handleBoardPageChange}
+                  />
+                )}
+              </div>
+            </>
           )}
-          <div className="mypagecontents-pagenation">
-            <Paginate
-              page={currentpage}
-              count={count}
-              setPage={handlePageChange}
-              postPerPage={postPerPage}
-            />
-          </div>
+
+          {content === 'reply' && (
+            <>
+              <table className="mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>내용</th>
+                    <th>작성일</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {replyList?.content?.map(reply => (
+                    <tr key={reply.boardId}>
+                      <td>{reply.content}</td>
+                      <td>{reply.writeDate}</td>
+                      <td>{reply.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mypagecontents-pagenation">
+                {replyList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={replycurrentPage}
+                    itemsCount={replyList.totalElements}
+                    itemsPerPage={replypostPerPage}
+                    onChange={handleReplyPageChange}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </DesktopHeader>
       <MobileHeader>
@@ -158,7 +169,7 @@ const MypageContents = () => {
                   : 'tablet-mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -170,109 +181,76 @@ const MypageContents = () => {
                   : 'tablet-mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
-          {content === 'board' ? (
-            <table className="tablet-mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>제목</th>
-                  <th>작성일</th>
-                  <th>조회수</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>24</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <table className="tablet-mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>내용</th>
-                  <th>작성일</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>댓글내용 한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
+          {content === 'board' && (
+            <>
+              <table className="tablet-mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {boardList?.content?.map(board => (
+                    <tr key={board.boardId}>
+                      <td>{board.title}</td>
+                      <td>{board.writeDate}</td>
+                      <td>{board.viewCount}</td>
+                      <td>{board.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="tablet-mypagecontents-pagenation">
+                {boardList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={currentPage}
+                    itemsCount={boardList.totalElements}
+                    itemsPerPage={postPerPage}
+                    onChange={handleBoardPageChange}
+                  />
+                )}
+              </div>
+            </>
           )}
-          <div className="tablet-mypagecontents-pagenation">
-            <Paginate
-              page={currentpage}
-              count={count}
-              setPage={handlePageChange}
-              postPerPage={postPerPage}
-            />
-          </div>
+
+          {content === 'reply' && (
+            <>
+              <table className="tablet-mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>내용</th>
+                    <th>작성일</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {replyList?.content?.map(reply => (
+                    <tr key={reply.boardId}>
+                      <td>{reply.content}</td>
+                      <td>{reply.writeDate}</td>
+                      <td>{reply.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="tablet-mypagecontents-pagenation">
+                {replyList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={replycurrentPage}
+                    itemsCount={replyList.totalElements}
+                    itemsPerPage={replypostPerPage}
+                    onChange={handleReplyPageChange}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </MobileHeader>
       <Mobile>
@@ -289,7 +267,7 @@ const MypageContents = () => {
                   : 'mobile-mypagecontents-borderbuttonboard'
               }
             >
-              게시글 (0)
+              게시글 ({contentCount?.boardWriteCount})
             </div>
             <div
               onClick={() => {
@@ -301,109 +279,76 @@ const MypageContents = () => {
                   : 'mobile-mypagecontents-borderbuttonreply'
               }
             >
-              댓글 (0)
+              댓글 ({contentCount?.boardReplyWriteCount})
             </div>
           </div>
-          {content === 'board' ? (
-            <table className="mobile-mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>제목</th>
-                  <th>작성일</th>
-                  <th>조회수</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>24</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>25</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <table className="mobile-mypagecontents-boardtable">
-              <thead>
-                <tr>
-                  <th>내용</th>
-                  <th>작성일</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>댓글내용 한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>댓글내용 한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
-              </tbody>
-            </table>
+          {content === 'board' && (
+            <>
+              <table className="mobile-mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {boardList?.content?.map(board => (
+                    <tr key={board.boardId}>
+                      <td>{board.title}</td>
+                      <td>{board.writeDate}</td>
+                      <td>{board.viewCount}</td>
+                      <td>{board.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mobile-mypagecontents-pagenation">
+                {boardList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={currentPage}
+                    itemsCount={boardList.totalElements}
+                    itemsPerPage={postPerPage}
+                    onChange={handleBoardPageChange}
+                  />
+                )}
+              </div>
+            </>
           )}
-          <div className="mobile-mypagecontents-pagenation">
-            <Paginate
-              page={currentpage}
-              count={count}
-              setPage={handlePageChange}
-              postPerPage={postPerPage}
-            />
-          </div>
+
+          {content === 'reply' && (
+            <>
+              <table className="mobile-mypagecontents-boardtable">
+                <thead>
+                  <tr>
+                    <th>내용</th>
+                    <th>작성일</th>
+                    <th>좋아요</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {replyList?.content?.map(reply => (
+                    <tr key={reply.boardId}>
+                      <td>{reply.content}</td>
+                      <td>{reply.writeDate}</td>
+                      <td>{reply.likedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mobile-mypagecontents-pagenation">
+                {replyList?.totalElements !== undefined && (
+                  <MyPagination
+                    currentPage={replycurrentPage}
+                    itemsCount={replyList.totalElements}
+                    itemsPerPage={replypostPerPage}
+                    onChange={handleReplyPageChange}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </Mobile>
     </>

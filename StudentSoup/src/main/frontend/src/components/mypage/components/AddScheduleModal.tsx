@@ -1,32 +1,124 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AddSchedule, EditSchedule } from '../data/MypageContents';
 import './addScheduleModal.scss';
+import { MypageUserInfo, type UserInfoType } from '../data/MypageUserInfo';
+import { type ScheduleItem } from '../MypageScheduler';
+import Swal from 'sweetalert2';
 
 interface Props {
   onSubmit: (
-    day: string,
+    dayOfWeek: string,
     startTime: number,
     endTime: number,
     color: string,
     subject: string,
+    scheduleId: number,
   ) => void;
   onCancel: () => void;
-  existingItems: Array<{ day: string; startTime: number; endTime: number }>;
+
+  existingItems: Array<{ dayOfWeek: string; startTime: number; endTime: number }>;
+  editItem?: ScheduleItem;
 }
 
-const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }) => {
-  const [day, setDay] = useState<string>('Mon');
+const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, editItem }) => {
+  const [memberId, setMemberId] = useState<number>();
+  const [dayOfWeek, setDayOfWeek] = useState<string>('Mon');
   const [startTime, setStartTime] = useState<number>(1);
   const [endTime, setEndTime] = useState<number>(1);
   const [color, setColor] = useState<string>('#000000');
   const [subject, setSubject] = useState<string>('');
+  const [scheduleId, setScheduleId] = useState<number>();
+  const [initialEditItem, setInitialEditItem] = useState<ScheduleItem | undefined>(editItem);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        setMemberId(res.data.memberId);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    if (editItem) {
+      setScheduleId(editItem.scheduleId);
+      setDayOfWeek(editItem.dayOfWeek);
+      setStartTime(editItem.startTime);
+      setEndTime(editItem.endTime);
+      setColor(editItem.color);
+      setSubject(editItem.subject);
+    }
+    setInitialEditItem(editItem);
+  }, [editItem]);
+
+  const handleSubmit = async () => {
     if (subject === '' || subject === undefined) {
       alert('과목이름을 입력해주세요');
       return;
     }
-
-    onSubmit(day, startTime, endTime, color, subject);
+    if (memberId) {
+      if (editItem) {
+        EditSchedule(memberId, editItem.scheduleId, dayOfWeek, startTime, endTime, color, subject)
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '시간표 수정 완료',
+              text: '시간표가 성공적으로 수정되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+            onSubmit(dayOfWeek, startTime, endTime, color, subject, editItem.scheduleId);
+          })
+          .catch(err => {
+            alert(err.response.data.message);
+          });
+      } else {
+        const newScheduleId = await AddSchedule(
+          memberId,
+          dayOfWeek,
+          startTime,
+          endTime,
+          color,
+          subject,
+        )
+          .then(res => {
+            setScheduleId(res);
+            Swal.fire({
+              icon: 'success',
+              title: '시간표 등록 완료',
+              text: '시간표가 성공적으로 등록되었습니다.',
+              timer: 3000,
+              showConfirmButton: true,
+              confirmButtonText: '확인',
+              showCancelButton: false,
+              timerProgressBar: true,
+            });
+            onSubmit(dayOfWeek, startTime, endTime, color, subject, res);
+          })
+          .catch(err => {
+            alert(err.response.data.message);
+          });
+      }
+    }
+  };
+  const handleCancel = () => {
+    if (initialEditItem) {
+      setScheduleId(initialEditItem.scheduleId);
+      setDayOfWeek(initialEditItem.dayOfWeek);
+      setStartTime(initialEditItem.startTime);
+      setEndTime(initialEditItem.endTime);
+      setColor(initialEditItem.color);
+      setSubject(initialEditItem.subject);
+    } else {
+      setScheduleId(undefined);
+      setDayOfWeek('Mon');
+      setStartTime(1);
+      setEndTime(1);
+      setColor('#000000');
+      setSubject('');
+    }
+    onCancel();
   };
 
   return (
@@ -35,9 +127,9 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }
         <div className="add-schedule-modal-label">요일:</div>
         <select
           className="add-schedule-modal-select"
-          id="day"
-          value={day}
-          onChange={e => setDay(e.target.value)}
+          id="dayOfWeek"
+          value={dayOfWeek}
+          onChange={e => setDayOfWeek(e.target.value)}
         >
           <option value="Mon">월요일</option>
           <option value="Tue">화요일</option>
@@ -52,7 +144,13 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }
           className="add-schedule-modal-select"
           id="start-time"
           value={startTime}
-          onChange={e => setStartTime(parseInt(e.target.value))}
+          onChange={e => {
+            const selectedStartTime = parseInt(e.target.value);
+            setStartTime(selectedStartTime);
+            if (endTime < selectedStartTime) {
+              setEndTime(selectedStartTime);
+            }
+          }}
         >
           {[...Array(15)].map((_, i) => (
             <option key={`start-time-${i}`} value={i + 1}>
@@ -67,11 +165,17 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }
           className="add-schedule-modal-select"
           id="end-time"
           value={endTime}
-          onChange={e => setEndTime(parseInt(e.target.value))}
+          onChange={e => {
+            const selectedEndTime = parseInt(e.target.value);
+            setEndTime(selectedEndTime);
+            if (selectedEndTime < startTime) {
+              setStartTime(selectedEndTime);
+            }
+          }}
         >
-          {[...Array(15)].map((_, i) => (
-            <option key={`end-time-${i}`} value={i + 1}>
-              {i + 1}
+          {[...Array(16 - startTime)].map((_, i) => (
+            <option key={`end-time-${i}`} value={i + startTime}>
+              {i + startTime}
             </option>
           ))}
         </select>
@@ -90,7 +194,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems }
         />
       </div>
       <div className="add-schedule-modal-footer">
-        <button className="add-schedule-modal-cancel-button" onClick={onCancel}>
+        <button className="add-schedule-modal-cancel-button" onClick={handleCancel}>
           취소
         </button>
         <button className="add-schedule-modal-save-button" onClick={handleSubmit}>

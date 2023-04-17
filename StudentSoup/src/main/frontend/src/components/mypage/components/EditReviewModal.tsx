@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ReactComponent as MypageEditStar } from '../../../img/mypageeditstar.svg';
 import './editReviewModal.scss';
+import RatingStars from './RatingStars';
 
 interface EditReviewModalProps {
   onSubmit: (rating: number, content: string) => void;
@@ -26,11 +27,14 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({
     <div className="edit-review-modal">
       <h3>맛있게 드셨나요?</h3>
       <div className="edit-review-modal-star">
-        <MypageEditStar />
-        <MypageEditStar />
-        <MypageEditStar />
-        <MypageEditStar />
-        <MypageEditStar />
+        <RatingStars
+          rating={rating}
+          width="40px"
+          height="37px"
+          color="#ffb21d"
+          onClick={newRating => setRating(newRating)}
+          hoverable
+        />
       </div>
       <p className="edit-review-modal-helpcontext">
         고객님의 리뷰가 다른 고객들에게 도움이 될 수 있어요!
@@ -49,7 +53,7 @@ const EditReviewModal: React.FC<EditReviewModalProps> = ({
           취소하기
         </button>
         <button className="edit-review-modal-complete" onClick={handleSubmit}>
-          등록하기
+          수정하기
         </button>
       </div>
     </div>

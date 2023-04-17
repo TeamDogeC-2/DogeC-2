@@ -1,16 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
-import { ReactComponent as ReviewStarIcon } from '../../img/mypageReviewStar.svg';
+import RatingStars from './components/RatingStars';
+import {
+  PreViewBoard,
+  type PreViewBoardResponse,
+  PreViewReply,
+  type PreViewReplyResponse,
+  PreViewReview,
+  type PreviewReviewResponse,
+} from './data/MypageContents';
 interface propTypes {
   handleSelectPage: (pagename: string) => void;
+  memberId: number | undefined;
 }
 const MypagePreview = (props: propTypes) => {
+  const [preViewBoardList, setPreViewBoardList] = useState<PreViewBoardResponse>();
+  const [preViewReplyList, setPreViewReplyList] = useState<PreViewReplyResponse>();
+  const [preViewReviewList, setPreViewReviewList] = useState<PreviewReviewResponse>();
   const onClickViewButton = () => {
     props.handleSelectPage('boardreply');
   };
   const onClickReviewButton = () => {
     props.handleSelectPage('review');
   };
+
+  useEffect(() => {
+    if (props?.memberId) {
+      PreViewBoard(props.memberId)
+        .then(res => {
+          setPreViewBoardList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      PreViewReply(props.memberId)
+        .then(res => {
+          setPreViewReplyList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      PreViewReview(props.memberId)
+        .then(res => {
+          setPreViewReviewList(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   return (
     <>
       <DesktopHeader>
@@ -26,33 +65,20 @@ const MypagePreview = (props: propTypes) => {
               <thead>
                 <tr>
                   <th>제목</th>
-                  <th>조회수</th>
+                  <th>좋아요</th>
                   <th>평점</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>소래포구 화동옥 맛집</td>
-                  <td>15</td>
-                  <td className="mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
-                <tr>
-                  <td>인하대 매운찜닭 맛집</td>
-                  <td>7</td>
-                  <td className="mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
+                {preViewReviewList?.content?.map(review => (
+                  <tr key={review.restaurantId}>
+                    <td>{review.content}</td>
+                    <td>{review.likedCount}</td>
+                    <td>
+                      <RatingStars rating={review.starLiked} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -72,16 +98,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
+                {preViewBoardList?.content?.map(board => (
+                  <tr key={board.boardId}>
+                    <td>{board.title}</td>
+                    <td>{board.writeDate}</td>
+                    <td>{board.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -101,16 +124,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>저도 그렇게 생각해요!</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>저는 그렇게 생각 안해요!</td>
-                  <td>2023.01.12</td>
-                  <td>7</td>
-                </tr>
+                {preViewReplyList?.content?.map(reply => (
+                  <tr key={reply.boardId}>
+                    <td>{reply.content}</td>
+                    <td>{reply.writeDate}</td>
+                    <td>{reply.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -129,33 +149,20 @@ const MypagePreview = (props: propTypes) => {
               <thead>
                 <tr>
                   <th>제목</th>
-                  <th>조회수</th>
+                  <th>좋아요</th>
                   <th>평점</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>소래포구 화동옥 맛집</td>
-                  <td>15</td>
-                  <td className="tablet-mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
-                <tr>
-                  <td>인하대 매운찜닭 맛집</td>
-                  <td>7</td>
-                  <td className="tablet-mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
+                {preViewReviewList?.content?.map(review => (
+                  <tr key={review.restaurantId}>
+                    <td>{review.content}</td>
+                    <td>{review.likedCount}</td>
+                    <td>
+                      <RatingStars rating={review.starLiked} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -175,16 +182,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
+                {preViewBoardList?.content?.map(board => (
+                  <tr key={board.boardId}>
+                    <td>{board.title}</td>
+                    <td>{board.writeDate}</td>
+                    <td>{board.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -204,16 +208,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>저도 그렇게 생각해요!</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>저는 그렇게 생각 안해요!</td>
-                  <td>2023.01.12</td>
-                  <td>7</td>
-                </tr>
+                {preViewReplyList?.content?.map(reply => (
+                  <tr key={reply.boardId}>
+                    <td>{reply.content}</td>
+                    <td>{reply.writeDate}</td>
+                    <td>{reply.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -232,33 +233,20 @@ const MypagePreview = (props: propTypes) => {
               <thead>
                 <tr>
                   <th>제목</th>
-                  <th>조회수</th>
+                  <th>좋아요</th>
                   <th>평점</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>소래포구 화동옥 맛집</td>
-                  <td>15</td>
-                  <td className="mobile-mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
-                <tr>
-                  <td>인하대 매운찜닭 맛집</td>
-                  <td>7</td>
-                  <td className="mobile-mypagemain-reviewstar">
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                    <ReviewStarIcon />
-                  </td>
-                </tr>
+                {preViewReviewList?.content?.map(review => (
+                  <tr key={review.restaurantId}>
+                    <td>{review.content}</td>
+                    <td>{review.likedCount}</td>
+                    <td>
+                      <RatingStars rating={review.starLiked} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -278,16 +266,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>한달에 10억원을번 비결</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>한달에 천원을 번 비결</td>
-                  <td>2023.01.12</td>
-                  <td>5</td>
-                </tr>
+                {preViewBoardList?.content?.map(board => (
+                  <tr key={board.boardId}>
+                    <td>{board.title}</td>
+                    <td>{board.writeDate}</td>
+                    <td>{board.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -307,16 +292,13 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>저도 그렇게 생각해요!</td>
-                  <td>16:23</td>
-                  <td>5</td>
-                </tr>
-                <tr>
-                  <td>저는 그렇게 생각 안해요!</td>
-                  <td>2023.01.12</td>
-                  <td>7</td>
-                </tr>
+                {preViewReplyList?.content?.map(reply => (
+                  <tr key={reply.boardId}>
+                    <td>{reply.content}</td>
+                    <td>{reply.writeDate}</td>
+                    <td>{reply.likedCount}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
