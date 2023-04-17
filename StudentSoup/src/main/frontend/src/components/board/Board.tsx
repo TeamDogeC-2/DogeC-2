@@ -4,14 +4,13 @@ import './board.scss';
 import BoardSearch from '../common/BoardSearch';
 import Paginate from '../common/Paginate';
 import { Desktop, Mobile } from '../../mediaQuery';
-import review_white from '../../img/review_white.svg';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
-import { postBoards, postUserInfo } from '../../apis/auth/BoardAPI';
+import { postBoards } from '../../apis/auth/BoardAPI';
 import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Board = () => {
-  const [userInfo, setUserInfo] = useState<any>({});
   const [category, setCategory] = useState<string>('ALL');
   const [schoolName, setSchoolName] = useState<string>('');
 
@@ -20,13 +19,22 @@ const Board = () => {
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(0);
-
   const [currentPosts, setCurrentPosts] = useState<any[]>([]);
-
   const [selected, setSelected] = useState<string>('');
   const [searched, setSearched] = useState<string>('');
-
   const [sorted, setSorted] = useState<number>(0);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userInformation = { ...location.state };
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+  });
 
   const handleClickCategory = (e: any) => {
     setCategory(() => e.target.id);
@@ -41,9 +49,9 @@ const Board = () => {
 
   const handleSearchButton = (selected: string, searched: string, sorted: number = 0) => {
     postBoards(
-      userInfo.schoolId,
-      userInfo.memberId,
-      userInfo.departmentId,
+      userInformation.schoolId,
+      userInformation.memberId,
+      userInformation.departmentId,
       selected,
       searched,
       category,
@@ -66,45 +74,19 @@ const Board = () => {
   };
 
   useEffect(() => {
-    postUserInfo()
-      .then(res => {
-        const {
-          departmentId,
-          departmentName,
-          email,
-          fileName,
-          id,
-          memberClassification,
-          memberId,
-          nickname,
-          registrationDate,
-          schoolId,
-          schoolName,
-        } = res.data;
-
-        setUserInfo({
-          departmentId,
-          departmentName,
-          email,
-          fileName,
-          id,
-          memberClassification,
-          memberId,
-          nickname,
-          registrationDate,
-          schoolId,
-          schoolName,
-        });
-        setSchoolName(res.data.schoolName);
-      })
-      .catch(err => {
-        console.log(err);
+    if (localStorage.getItem('access-token') === null) {
+      navigate('/');
+      Toast.fire({
+        icon: 'error',
+        title: '로그인이 필요한 서비스입니다.',
       });
+    }
+
+    setSchoolName(userInformation.schoolName);
   }, []);
 
   useEffect(() => {
-    !!userInfo && handleSearchButton(selected, searched, sorted);
-    return console.log(userInfo);
+    handleSearchButton(selected, searched, sorted);
   }, [currentPage, category, schoolName, sorted]);
 
   return (
