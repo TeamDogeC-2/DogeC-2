@@ -62,6 +62,7 @@ const MypageNavbar = ({
   });
 
   const handleLogout = () => {
+    isClick(false);
     Swal.fire({
       title: '로그아웃 시도',
       text: '로그아웃을 하시겠습니까?',
@@ -299,12 +300,12 @@ const MypageNavbar = ({
             </li>
             <li>
               {login ? (
-                <Link to="/" className="tablet-mypage-nav-link">
+                <div onClick={handleLogout} className="tablet-mypage-nav-link">
                   <div className="tablet-mypage-nav-list">
                     <i className="tablet-mypage-nav-listItme">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
                   </div>
-                </Link>
+                </div>
               ) : (
                 <Link to="/login" className="tablet-mypage-nav-link">
                   <div className="tablet-mypage-nav-list">
@@ -383,12 +384,12 @@ const MypageNavbar = ({
             </li>
             <li>
               {login ? (
-                <Link to="/" className="mobile-mypage-nav-link">
+                <div onClick={handleLogout} className="mobile-mypage-nav-link">
                   <div className="mobile-mypage-nav-list">
                     <i className="mobile-mypage-nav-listItme">로그아웃</i>
                     <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
                   </div>
-                </Link>
+                </div>
               ) : (
                 <Link to="/login" className="mobile-mypage-nav-link">
                   <div className="mobile-mypage-nav-list">
