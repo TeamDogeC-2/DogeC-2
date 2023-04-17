@@ -30,6 +30,24 @@ const PCBoard = (props: any) => {
         </tr>
       </thead>
       <tbody>
+        {currentPosts
+          .filter((post: any) => post.authentication === 'Y')
+          .map((post: any) => {
+            return (
+              <tr key={post.boardId} className="authentication-wrap">
+                <td className="board-title ">
+                  [{post.tag}]&nbsp;
+                  <span className="authentication-post">{post.title}</span>
+                </td>
+                <td className="post-information">
+                  <div className="board-writer">{post.nickname}</div>
+                  <div className="board-write-date">{post.writeDate}</div>
+                  <div className="board-view-count">{post.view}</div>
+                  <div className="board-like-count">{post.likedCount}</div>
+                </td>
+              </tr>
+            );
+          })}
         {currentPage === 1 && category === 'ALL'
           ? bestBoardItems.map((post: any) => {
               return (
@@ -79,29 +97,24 @@ const PCBoard = (props: any) => {
             })
           : null}
         {!!currentPosts &&
-          currentPosts.map((post: any) => {
-            return (
-              <tr key={post.boardId} className="board-wrap">
-                {post.comments >= 5 && (
-                  <td className="best-cell">
-                    <span>best</span>
+          currentPosts
+            .filter((post: any) => post.authentication === 'N')
+            .map((post: any) => {
+              return (
+                <tr key={post.boardId} className="board-wrap">
+                  <td className="board-title">
+                    [{post.tag}]&nbsp;
+                    <span>{post.title}</span>
                   </td>
-                )}
-                <td className="board-title">
-                  [{post.tag}]&nbsp;
-                  <span className={post.authentication === 'Y' ? 'authentication-post' : undefined}>
-                    {post.title}
-                  </span>
-                </td>
-                <td className="post-information">
-                  <div className="board-writer">{post.nickname}</div>
-                  <div className="board-write-date">{post.writeDate}</div>
-                  <div className="board-view-count">{post.view}</div>
-                  <div className="board-like-count">{post.likedCount}</div>
-                </td>
-              </tr>
-            );
-          })}
+                  <td className="post-information">
+                    <div className="board-writer">{post.nickname}</div>
+                    <div className="board-write-date">{post.writeDate}</div>
+                    <div className="board-view-count">{post.view}</div>
+                    <div className="board-like-count">{post.likedCount}</div>
+                  </td>
+                </tr>
+              );
+            })}
       </tbody>
     </table>
   );
