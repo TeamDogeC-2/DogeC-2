@@ -3,11 +3,15 @@ import view_count from '../../img/view_count.svg';
 import heart from '../../img/heart.svg';
 import star from '../../img/star.svg';
 import filter from '../../img/filter.svg';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import './restaurant.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useMediaQuery } from 'react-responsive';
+const kakao = (window as any).kakao;
 
 interface State {
   value1: string;
@@ -19,14 +23,50 @@ const Restaurant = () => {
   const [size, setSize] = useState<number>(6);
   const [sort, setSort] = useState<number>(0);
 
+  const [login, isLogin] = useState<boolean>(false);
+  const [click, isClick] = useState<boolean>(true);
   const [total, isTotal] = useState<number>();
   const [set, isSet] = useState<any[]>();
+  const [showSorts, setShowSorts] = useState<boolean>(false);
   const [latitude, setLatitude] = useState<any>();
   const [longitude, setLongitude] = useState<any>();
   const url = '/restaurants';
   const state = useLocation();
   const navigate = useNavigate();
+  const searchRef = useRef<any>();
   const schoolName = state.state;
+
+  const foodCategories = [
+    { category: '전체', eng: 'ALL' },
+    { category: '한식', eng: 'KOREAN' },
+    { category: '양식', eng: 'WESTERN' },
+    { category: '패스트푸드', eng: 'FASTFOOD' },
+    { category: '아시아음식', eng: 'ASIAN' },
+    { category: '일식', eng: 'JAPAN' },
+    { category: '중식', eng: 'CHINESE' },
+    { category: '분식', eng: 'SNACK' },
+    { category: '카페', eng: 'CAFE' },
+    { category: '뷔페', eng: 'BUFFET' },
+    { category: '기타', eng: 'OTHERS' },
+  ];
+
+  const sortList = [
+    { title: '등록순', value: 0 },
+    { title: '별점순', value: 1 },
+    { title: '좋아요순', value: 2 },
+    { title: '리뷰순', value: 3 },
+    { title: '거리순', value: 4 },
+  ];
+
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 1041px)',
+  });
+  const isTablet = useMediaQuery({
+    query: '(min-width: 769px)',
+  });
+  const isMobile = useMediaQuery({
+    query: '(max-width: 768px)',
+  });
 
   const postRestaurant = () => {
     axios
@@ -59,7 +99,40 @@ const Restaurant = () => {
 
   useEffect(() => {
     postRestaurant();
-  }, [sort, category]);
+  }, [isDesktop, isTablet, isMobile, size, sort, category]);
+
+  const MapLocation = [longitude, latitude];
+
+  useEffect(() => {
+    const container = document.getElementById('map');
+    const options = {
+      center: new kakao.maps.LatLng(...MapLocation),
+      level: 3,
+    };
+    const map = new kakao.maps.Map(container, options);
+    const markerPosition = new kakao.maps.LatLng(...MapLocation);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+    });
+    marker.setMap(map);
+  });
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setSize(size + 6);
+    }
+  };
 
   const handleClickCategory = (e: any) => {
     setCategory(e.target.id);
@@ -83,123 +156,58 @@ const Restaurant = () => {
                   <span className="restaurant-school-name">{state.state}</span>
                   <span className="restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <button className="restaurant-filter-button">정렬</button>
+                <div className="restaurant-filter-divs">
+                  <button
+                    className="restaurant-filter-button"
+                    onClick={() => {
+                      setShowSorts(prev => !prev);
+                    }}
+                  >
+                    <img src={filter} alt="" className="restaurant-filter-icon" />
+                    정렬
+                  </button>
+                  {showSorts && (
+                    <ul
+                      ref={searchRef}
+                      className={click ? 'restaurant-menu-list active' : 'restaurant-menu-list'}
+                    >
+                      {sortList.map(sortList => (
+                        <li
+                          key={sortList.value}
+                          id={sortList.title}
+                          className={
+                            sort.toString() === `${sortList.value}`
+                              ? 'restaurant-filter-div active'
+                              : 'restaurant-filter-div'
+                          }
+                          onClick={() => setSort(sortList.value)}
+                        >
+                          <div className="restaurant-filter">{sortList.title}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
-              <div className="restaurant-top-map">kakaoMap</div>
+              <div id="map" className="restaurant-top-map"></div>
             </div>
             <div className="restaurant-bottom">
               <div className="restaurant-bottom-div">
                 <ul className="restaurant-bottom-list">
-                  <li
-                    id="ALL"
-                    className={
-                      category.toString() === 'ALL'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    전체보기
-                  </li>
-                  <li
-                    id="KOREAN"
-                    className={
-                      category.toString() === 'KOREAN'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    한식
-                  </li>
-                  <li
-                    id="CHINESE"
-                    className={
-                      category.toString() === 'CHINESE'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    중식
-                  </li>
-                  <li
-                    id="WESTERN"
-                    className={
-                      category.toString() === 'WESTERN'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    양식
-                  </li>
-                  <li
-                    id="ASIAN"
-                    className={
-                      category.toString() === 'ASIAN'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    아시아음식
-                  </li>
-                  <li
-                    id="CAFE"
-                    className={
-                      category.toString() === 'CAFE'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    카페
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    브런치
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    주점
-                  </li>
-                  <li
-                    id="FASTFOOD"
-                    className={
-                      category.toString() === 'FASTFOOD'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    패스트푸드
-                  </li>
-                  <li
-                    id="OTHERS"
-                    className={
-                      category.toString() === 'OTHERS'
-                        ? 'restaurant-bottom-li active'
-                        : 'restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    기타
-                  </li>
+                  {foodCategories.map(food => (
+                    <li
+                      key={food.eng}
+                      id={food.eng}
+                      className={
+                        category.toString() === `${food.eng}`
+                          ? 'restaurant-bottom-li active'
+                          : 'restaurant-bottom-li'
+                      }
+                      onClick={handleClickCategory}
+                    >
+                      {food.category}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <hr className="underline" />
@@ -248,130 +256,64 @@ const Restaurant = () => {
           <div className="tablet-restaurant-main">
             <div className="tablet-restaurant-top">
               <div className="tablet-restaurant-top-div">
-                <div className="tablet-restaurant-top-text-div">
-                  <span className="tablet-restaurant-school-name">청운대학교</span>
+                <div>
+                  <span className="tablet-restaurant-school-name">{state.state}</span>
                   <span className="tablet-restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <div className="tablet-restaurant-filter-button">
-                  <img src={filter} alt="" className="tablet-restaurant-filter-icon" />
-                  정렬
+                <div className="tablet-restaurant-filter-divs">
+                  <button
+                    onClick={() => {
+                      setShowSorts(prev => !prev);
+                    }}
+                    className="tablet-restaurant-filter-button"
+                  >
+                    <img src={filter} alt="" className="tablet-restaurant-filter-icon" />
+                    정렬
+                  </button>
+                  {showSorts && (
+                    <ul
+                      ref={searchRef}
+                      className={
+                        click ? 'tablet-restaurant-menu-list active' : 'tablet-restaurant-menu-list'
+                      }
+                    >
+                      {sortList.map(sortList => (
+                        <li
+                          key={sortList.value}
+                          id={sortList.title}
+                          className={
+                            sort.toString() === `${sortList.value}`
+                              ? 'tablet-restaurant-filter-div active'
+                              : 'tablet-restaurant-filter-div'
+                          }
+                          onClick={() => setSort(sortList.value)}
+                        >
+                          <div className="tablet-restaurant-filter">{sortList.title}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
-              <div className="tablet-restaurant-top-map">kakaoMap</div>
+              <div id="map" className="tablet-restaurant-top-map"></div>
             </div>
             <div className="tablet-restaurant-bottom">
               <div className="tablet-restaurant-bottom-div">
                 <ul className="tablet-restaurant-bottom-list">
-                  <li
-                    id="ALL"
-                    className={
-                      category.toString() === 'ALL'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    전체보기
-                  </li>
-                  <li
-                    id="KOREAN"
-                    className={
-                      category.toString() === 'KOREAN'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    한식
-                  </li>
-                  <li
-                    id="CHINESE"
-                    className={
-                      category.toString() === 'CHINESE'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    중식
-                  </li>
-                  <li
-                    id="WESTERN"
-                    className={
-                      category.toString() === 'WESTERN'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    양식
-                  </li>
-                  <li
-                    id="ASIAN"
-                    className={
-                      category.toString() === 'ASIAN'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    아시아음식
-                  </li>
-                  <li
-                    id="CAFE"
-                    className={
-                      category.toString() === 'CAFE'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    카페
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    브런치
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    주점
-                  </li>
-                  <li
-                    id="FASTFOOD"
-                    className={
-                      category.toString() === 'FASTFOOD'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    패스트푸드
-                  </li>
-                  <li
-                    id="OTHERS"
-                    className={
-                      category.toString() === 'OTHERS'
-                        ? 'tablet-restaurant-bottom-li active'
-                        : 'tablet-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    기타
-                  </li>
+                  {foodCategories.map(food => (
+                    <li
+                      key={food.eng}
+                      id={food.eng}
+                      className={
+                        category.toString() === `${food.eng}`
+                          ? 'tablet-restaurant-bottom-li active'
+                          : 'tablet-restaurant-bottom-li'
+                      }
+                      onClick={handleClickCategory}
+                    >
+                      {food.category}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <hr className="underline" />
@@ -420,130 +362,64 @@ const Restaurant = () => {
           <div className="mobile-restaurant-main">
             <div className="mobile-restaurant-top">
               <div className="mobile-restaurant-top-div">
-                <div className="mobile-restaurant-top-text-div">
-                  <span className="mobile-restaurant-school-name">청운대학교</span>
+                <div>
+                  <span className="mobile-restaurant-school-name">{state.state}</span>
                   <span className="mobile-restaurant-top-text">근처 인기 맛집</span>
                 </div>
-                <div className="mobile-restaurant-filter-button">
-                  <img src={filter} alt="" className="mobile-restaurant-filter-icon" />
-                  정렬
+                <div className="mobile-restaurant-filter-divs">
+                  <button
+                    onClick={() => {
+                      setShowSorts(prev => !prev);
+                    }}
+                    className="mobile-restaurant-filter-button"
+                  >
+                    <img src={filter} alt="" className="mobile-restaurant-filter-icon" />
+                    정렬
+                  </button>
+                  {showSorts && (
+                    <ul
+                      ref={searchRef}
+                      className={
+                        click ? 'mobile-restaurant-menu-list active' : 'mobile-restaurant-menu-list'
+                      }
+                    >
+                      {sortList.map(sortList => (
+                        <li
+                          key={sortList.value}
+                          id={sortList.title}
+                          className={
+                            sort.toString() === `${sortList.value}`
+                              ? 'mobile-restaurant-filter-div active'
+                              : 'mobile-restaurant-filter-div'
+                          }
+                          onClick={() => setSort(sortList.value)}
+                        >
+                          <div className="mobile-restaurant-filter">{sortList.title}</div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
-              <div className="mobile-restaurant-top-map">kakaoMap</div>
+              <div id="map" className="mobile-restaurant-top-map"></div>
             </div>
             <div className="mobile-restaurant-bottom">
               <div className="mobile-restaurant-bottom-div">
                 <ul className="mobile-restaurant-bottom-list">
-                  <li
-                    id="ALL"
-                    className={
-                      category.toString() === 'ALL'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    전체보기
-                  </li>
-                  <li
-                    id="KOREAN"
-                    className={
-                      category.toString() === 'KOREAN'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    한식
-                  </li>
-                  <li
-                    id="CHINESE"
-                    className={
-                      category.toString() === 'CHINESE'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    중식
-                  </li>
-                  <li
-                    id="WESTERN"
-                    className={
-                      category.toString() === 'WESTERN'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    양식
-                  </li>
-                  <li
-                    id="ASIAN"
-                    className={
-                      category.toString() === 'ASIAN'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    아시아음식
-                  </li>
-                  <li
-                    id="CAFE"
-                    className={
-                      category.toString() === 'CAFE'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    카페
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    브런치
-                  </li>
-                  <li
-                    id="SNACK"
-                    className={
-                      category.toString() === 'SNACK'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    주점
-                  </li>
-                  <li
-                    id="FASTFOOD"
-                    className={
-                      category.toString() === 'FASTFOOD'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    패스트푸드
-                  </li>
-                  <li
-                    id="OTHERS"
-                    className={
-                      category.toString() === 'OTHERS'
-                        ? 'mobile-restaurant-bottom-li active'
-                        : 'mobile-restaurant-bottom-li'
-                    }
-                    onClick={handleClickCategory}
-                  >
-                    기타
-                  </li>
+                  {foodCategories.map(food => (
+                    <li
+                      key={food.eng}
+                      id={food.eng}
+                      className={
+                        category.toString() === `${food.eng}`
+                          ? 'mobile-restaurant-bottom-li active'
+                          : 'mobile-restaurant-bottom-li'
+                      }
+                      onClick={handleClickCategory}
+                    >
+                      {food.category}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <hr className="underline" />

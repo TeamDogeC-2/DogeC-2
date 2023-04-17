@@ -41,9 +41,10 @@ $sub-color: #5a5a5a;
 
   .restaurant-detail-bottom-menu-list {
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
     .restaurant-detail-bottom-menu {
-      width: 33%;
       height: 7.625rem;
       margin: 1rem 2rem;
       display: flex;
@@ -143,9 +144,10 @@ $sub-color: #5a5a5a;
 
   .restaurant-tablet-detail-bottom-menu-list {
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
     .restaurant-tablet-detail-bottom-menu {
-      width: 33%;
       height: 7.625rem;
       margin: 1rem 2rem;
       display: flex;

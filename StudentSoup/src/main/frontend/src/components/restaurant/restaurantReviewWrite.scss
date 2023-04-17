@@ -11,7 +11,7 @@ $sub-color: #5a5a5a;
   .restaurant-detail-review-write-top {
     width: 92%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin: 1rem 0;
 
     .restaurant-detail-review-write-text {
@@ -101,6 +101,7 @@ $sub-color: #5a5a5a;
       border-radius: 5px;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
 
     .restaurant-detail-review-write-middle-img-input-div {
@@ -117,10 +118,7 @@ $sub-color: #5a5a5a;
     .restaurant-detail-review-write-middle-add-img-item-div {
       width: 20%;
       height: auto;
-      padding: 2.3% 0;
-      border-radius: 5px;
       margin-left: 1rem;
-      border: 1px dotted $basic-border-color;
 
       .restaurant-detail-review-write-middle-add-img-item {
         display: flex;
@@ -130,7 +128,13 @@ $sub-color: #5a5a5a;
 
         img {
           position: relative;
-          top: 0.5rem;
+          top: 0.75rem;
+          width: 100%;
+          height: 12rem;
+          object-fit: fill;
+          padding: 5px;
+          border-radius: 5px;
+          border: 1px dotted $basic-border-color;
         }
 
         .restaurant-detail-review-write-middle-delete-button {
@@ -141,7 +145,7 @@ $sub-color: #5a5a5a;
           border-radius: 50%;
           padding: 0.1rem;
           position: relative;
-          top: 3.5rem;
+          top: 1.25rem;
           cursor: pointer;
         }
       }
@@ -154,15 +158,34 @@ $sub-color: #5a5a5a;
     margin-top: 2.5rem;
   }
 
-  .restaurant-detail-review-write-bottom-submit-button {
-    width: 92%;
-    background-color: $basic-color;
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    height: 3.375rem;
-    margin-top: 1.5rem;
-    cursor: pointer;
+  .restaurant-detail-review-write-bottom-buttons-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .restaurant-detail-review-write-bottom-cancel-button {
+      width: 46%;
+      background-color: #fff;
+      color: $basic-color;
+      border-radius: 5px;
+      border: 1px solid $basic-color;
+      height: 3.375rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+
+    .restaurant-detail-review-write-bottom-submit-button {
+      width: 46%;
+      background-color: $basic-color;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      height: 3.375rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
   }
 }
 
@@ -232,11 +255,14 @@ $sub-color: #5a5a5a;
 
     .restaurant-mobile-detail-review-write-middle-add-img {
       width: 20%;
+      height: auto;
+      padding: 0.1% 0;
       display: flex;
       border: 1px dotted $basic-border-color;
       border-radius: 5px;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
 
     .restaurant-mobile-detail-review-write-middle-img-input-div {
@@ -245,6 +271,7 @@ $sub-color: #5a5a5a;
       align-items: center;
       position: relative;
       top: 1rem;
+      width: 90%;
 
       .restaurant-mobile-detail-review-write-middle-img-input {
         visibility: hidden;
@@ -267,8 +294,10 @@ $sub-color: #5a5a5a;
 
         img {
           width: 100%;
+          height: 5rem;
           position: relative;
           top: 0.5rem;
+          object-fit: fill;
         }
 
         .restaurant-mobile-detail-review-write-middle-delete-button {
@@ -292,14 +321,33 @@ $sub-color: #5a5a5a;
     margin-top: 2.5rem;
   }
 
-  .restaurant-mobile-detail-review-write-bottom-submit-button {
-    width: 92%;
-    background-color: $basic-color;
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    height: 3.375rem;
-    margin-top: 1.5rem;
-    cursor: pointer;
+  .restaurant-mobile-detail-review-write-bottom-buttons-div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .restaurant-mobile-detail-review-write-bottom-cancel-button {
+      width: 46%;
+      background-color: #fff;
+      color: $basic-color;
+      border-radius: 5px;
+      border: 1px solid $basic-color;
+      height: 2.75rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+
+    .restaurant-mobile-detail-review-write-bottom-submit-button {
+      width: 46%;
+      background-color: $basic-color;
+      color: #fff;
+      border-radius: 5px;
+      border: none;
+      height: 2.75rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
   }
 }

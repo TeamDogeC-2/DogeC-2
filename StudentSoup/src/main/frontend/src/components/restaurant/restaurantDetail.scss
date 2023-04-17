@@ -19,15 +19,13 @@ $sub-color: #5a5a5a;
       width: 21.125rem;
       max-height: 37.688rem;
       min-width: 16.375rem;
-      margin: auto;
+      margin-bottom: auto;
       background-color: #bcbcbc;
       margin-right: 23px;
       border-radius: 5px;
       justify-content: center;
       align-items: center;
       display: flex;
-      position: relative;
-      bottom: 3.5rem;
       flex-direction: column;
 
       .restaurant-detail-map {
@@ -46,8 +44,15 @@ $sub-color: #5a5a5a;
         }
 
         p {
+          display: flex;
+          align-items: center;
           margin: 0.4rem 0;
           font-size: 1rem;
+
+          img {
+            margin-right: 0.5rem;
+            margin-bottom: 0.3rem;
+          }
         }
       }
 
@@ -64,7 +69,7 @@ $sub-color: #5a5a5a;
         flex-direction: row;
         width: 80%;
 
-        .restaurant-detail-function {
+        .restaurant-detail-heart {
           width: 33%;
           height: auto;
           display: flex;
@@ -72,8 +77,9 @@ $sub-color: #5a5a5a;
           align-items: center;
           flex-direction: column;
           margin-top: 10px;
+          cursor: pointer;
 
-          .restaurant-detail-function-icon {
+          .restaurant-detail-heart-icon {
             width: 1rem;
             height: 1rem;
             color: $basic-color;
@@ -84,6 +90,51 @@ $sub-color: #5a5a5a;
             font-size: 0.813rem;
           }
         }
+
+        .restaurant-detail-share {
+          width: 33%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: 10px;
+          cursor: pointer;
+
+          .restaurant-detail-share-icon {
+            width: 1rem;
+            height: 1rem;
+            color: $basic-color;
+          }
+
+          p {
+            margin-top: 10px;
+            font-size: 0.813rem;
+          }
+        }
+
+        .restaurant-detail-review-function {
+          width: 33%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: 10px;
+          cursor: pointer;
+
+          .restaurant-detail-reivew-function-icon {
+            width: 1rem;
+            height: 1rem;
+            color: $basic-color;
+          }
+
+          p {
+            margin-top: 10px;
+            font-size: 0.813rem;
+          }
+        }
+
         .restaurant-detail-vertical-underline {
           background-color: #eeeeee;
           position: relative;
@@ -107,7 +158,7 @@ $sub-color: #5a5a5a;
     .restaurant-detail-right {
       width: 59.25rem;
       height: auto;
-      background-color: #ff6666;
+      background-color: #fff;
       border-radius: 5px;
 
       .restaurant-detail-right-imgs {
@@ -137,6 +188,21 @@ $sub-color: #5a5a5a;
         margin-left: 1.625rem;
         margin-bottom: 1rem;
 
+        .restaurant-detail-school-name-info {
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          color: $sub-color;
+          margin: 0 0.25rem;
+        }
+
+        .restaurant-detail-distance-info {
+          display: flex;
+          align-items: center;
+          color: $basic-color;
+          margin-left: 0.25rem;
+        }
+
         span {
           margin-bottom: 1.5rem;
           font-size: 1.563rem;
@@ -144,7 +210,7 @@ $sub-color: #5a5a5a;
           color: $sub-color;
           margin-bottom: 0.5rem;
         }
-        
+
         p {
           display: flex;
           align-items: center;
@@ -219,7 +285,7 @@ $sub-color: #5a5a5a;
       width: 21.125rem;
       height: auto;
       min-width: 16.375rem;
-      margin: auto;
+      margin-bottom: auto;
       background-color: #bcbcbc;
       margin-right: 23px;
       border-radius: 5px;
@@ -245,8 +311,15 @@ $sub-color: #5a5a5a;
         }
 
         p {
+          display: flex;
+          align-items: center;
           margin: 0.4rem 0;
           font-size: 1rem;
+
+          img {
+            margin-right: 0.5rem;
+            margin-bottom: 0.3rem;
+          }
         }
       }
 
@@ -263,7 +336,29 @@ $sub-color: #5a5a5a;
         flex-direction: row;
         width: 80%;
 
-        .restaurant-tablet-detail-function {
+        .restaurant-tablet-detail-heart {
+          width: 33%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: 10px;
+          cursor: pointer;
+
+          .restaurant-tablet-detail-heart-icon {
+            width: 1rem;
+            height: 1rem;
+            color: $basic-color;
+          }
+
+          p {
+            margin-top: 10px;
+            font-size: 0.813rem;
+          }
+        }
+
+        .restaurant-tablet-detail-share {
           width: 33%;
           height: auto;
           display: flex;
@@ -272,7 +367,28 @@ $sub-color: #5a5a5a;
           flex-direction: column;
           margin-top: 10px;
 
-          .restaurant-tablet-detail-function-icon {
+          .restaurant-tablet-detail-share-icon {
+            width: 1rem;
+            height: 1rem;
+            color: $basic-color;
+          }
+
+          p {
+            margin-top: 10px;
+            font-size: 0.813rem;
+          }
+        }
+
+        .restaurant-tablet-detail-review {
+          width: 33%;
+          height: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: 10px;
+
+          .restaurant-tablet-detail-review-icon {
             width: 1rem;
             height: 1rem;
             color: $basic-color;
@@ -306,9 +422,9 @@ $sub-color: #5a5a5a;
     .restaurant-tablet-detail-right {
       width: 59.25rem;
       height: 0;
-      min-height: 31.125rem;
+      min-height: 31.5rem;
       padding-bottom: 55%;
-      background-color: #ff6666;
+      background-color: #fff;
       border-radius: 5px;
       display: flex;
       flex-direction: column;
@@ -351,6 +467,21 @@ $sub-color: #5a5a5a;
         margin-left: 1.625rem;
         position: relative;
         bottom: 0.5rem;
+
+        .restaurant-tablet-detail-school-name-info {
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          color: $sub-color;
+          margin: 0 0.25rem;
+        }
+
+        .restaurant-tablet-detail-distance-info {
+          display: flex;
+          align-items: center;
+          color: $basic-color;
+          margin-left: 0.25rem;
+        }
 
         span {
           font-size: 1.563rem;
@@ -490,8 +621,15 @@ $sub-color: #5a5a5a;
           }
 
           p {
+            display: flex;
+            align-items: center;
             margin: 0.4rem 0;
             font-size: 1rem;
+
+            img {
+              margin-right: 0.5rem;
+              margin-bottom: 0.3rem;
+            }
           }
         }
 
@@ -508,7 +646,7 @@ $sub-color: #5a5a5a;
           flex-direction: row;
           width: 100%;
 
-          .restaurant-mobile-detail-function {
+          .restaurant-mobile-detail-heart {
             width: 33%;
             height: auto;
             display: flex;
@@ -516,8 +654,9 @@ $sub-color: #5a5a5a;
             align-items: center;
             flex-direction: column;
             margin-top: 10px;
+            cursor: pointer;
 
-            .restaurant-mobile-detail-function-icon {
+            .restaurant-mobile-detail-heart-icon {
               width: 1rem;
               height: 1rem;
               color: $basic-color;
@@ -528,6 +667,48 @@ $sub-color: #5a5a5a;
               font-size: 0.813rem;
             }
           }
+          .restaurant-mobile-detail-share {
+            width: 33%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 10px;
+
+            .restaurant-mobile-detail-share-icon {
+              width: 1rem;
+              height: 1rem;
+              color: $basic-color;
+            }
+
+            p {
+              margin-top: 10px;
+              font-size: 0.813rem;
+            }
+          }
+
+          .restaurant-mobile-detail-review {
+            width: 33%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 10px;
+
+            .restaurant-mobile-detail-review-icon {
+              width: 1rem;
+              height: 1rem;
+              color: $basic-color;
+            }
+
+            p {
+              margin-top: 10px;
+              font-size: 0.813rem;
+            }
+          }
+
           .restaurant-mobile-detail-vertical-underline {
             background-color: #eeeeee;
             position: relative;
@@ -561,6 +742,21 @@ $sub-color: #5a5a5a;
       width: 80%;
       display: flex;
       flex-direction: column;
+
+      .restaurant-mobile-detail-school-name-info {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        color: $sub-color;
+        margin: 0 0.25rem;
+      }
+
+      .restaurant-mobile-detail-distance-info {
+        display: flex;
+        align-items: center;
+        color: $basic-color;
+        margin-left: 0.25rem;
+      }
 
       span {
         margin-bottom: 1.5rem;
