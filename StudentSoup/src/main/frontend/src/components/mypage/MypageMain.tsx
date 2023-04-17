@@ -180,6 +180,8 @@ const MypageMain = () => {
         selectPage={selectPage}
         updateSelectPage={updateSelectPage}
         memberId={memberId}
+        userImg={userImg}
+        setUserImg={setUserImg}
       />
       <DesktopHeader>
         <div className="mypagemain-container">
