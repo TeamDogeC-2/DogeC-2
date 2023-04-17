@@ -201,14 +201,14 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
                 src={`/image/${IMAGE_FILE_ID}`}
                 alt=""
                 onError={handleImgError}
-                onClick={handleClickMenu}
+                onMouseDown={handleClickMenu}
                 className="tablet-mypage-nav-menu-profile"
               />
             ) : (
               <FontAwesomeIcon
                 icon={faBars}
                 className="tablet-mypage-nav-menu-icon"
-                onClick={handleClickMenu}
+                onMouseDown={handleClickMenu}
               />
             )}
           </div>
