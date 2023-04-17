@@ -485,7 +485,7 @@ const RestaurantDetail = () => {
                   </div>
                   <button className="restaurant-mobile-detail-left-button">배달가능 업체</button>
                 </div>
-                <div id="map" className="restaurant-mobile-detail-map"></div>
+                <div id="map" className="restaurant-mobile-detail-map" />
                 <div className="restaurant-mobile-detail-bottom-info">
                   <span>매장정보</span>
                   <p>
