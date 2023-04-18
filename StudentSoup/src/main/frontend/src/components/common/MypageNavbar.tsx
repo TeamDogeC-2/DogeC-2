@@ -41,8 +41,6 @@ const MypageNavbar = ({
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, isSidebarOpen] = useState(false);
 
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
-
   const searchRef = useRef<any>();
   const sidebarRef = useRef<any>();
 
