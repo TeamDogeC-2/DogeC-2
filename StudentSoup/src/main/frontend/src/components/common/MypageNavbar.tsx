@@ -245,25 +245,22 @@ const MypageNavbar = ({
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
           </Link>
-          <div className="tablet-mypage-nav-menu">
+          <div ref={searchRef} className="tablet-mypage-nav-menu">
             {click ? (
-              <FontAwesomeIcon icon={faXmark} className="tablet-mypage-nav-menu-icon" />
-            ) : login ? (
+              <FontAwesomeIcon
+                onMouseDown={handleClickMenu}
+                icon={faXmark}
+                className="tablet-mypage-nav-menu-icon"
+              />
+            ) : (
               <img
                 src={userImg ? `/image/${userImg}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="tablet-mypage-nav-menu-profile"
               />
-            ) : (
-              <FontAwesomeIcon
-                icon={faBars}
-                className="tablet-mypage-nav-menu-icon"
-                onMouseDown={handleClickMenu}
-              />
             )}
           </div>
           <ul
-            ref={searchRef}
             className={click ? 'tablet-mypage-nav-menu-list active' : 'tablet-mypage-nav-menu-list'}
           >
             <li>
@@ -329,25 +326,22 @@ const MypageNavbar = ({
           <Link to="/" className="mypage-navbar-logo-links">
             <img src={mainLogo} className="mypage-navbar-logo" />
           </Link>
-          <div className="mobile-mypage-nav-menu">
+          <div ref={searchRef} className="mobile-mypage-nav-menu">
             {click ? (
-              <FontAwesomeIcon icon={faXmark} className="mobile-mypage-nav-menu-icon" />
-            ) : login ? (
+              <FontAwesomeIcon
+                onMouseDown={handleClickMenu}
+                icon={faXmark}
+                className="mobile-mypage-nav-menu-icon"
+              />
+            ) : (
               <img
                 src={userImg ? `/image/${userImg}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-mypage-nav-menu-profile"
               />
-            ) : (
-              <FontAwesomeIcon
-                icon={faBars}
-                className="mobile-mypage-nav-menu-icon"
-                onMouseDown={handleClickMenu}
-              />
             )}
           </div>
           <ul
-            ref={searchRef}
             className={click ? 'mobile-mypage-nav-menu-list active' : 'mobile-mypage-nav-menu-list'}
           >
             <li>
@@ -383,21 +377,12 @@ const MypageNavbar = ({
               </Link>
             </li>
             <li>
-              {login ? (
-                <div onClick={handleLogout} className="mobile-mypage-nav-link">
-                  <div className="mobile-mypage-nav-list">
-                    <i className="mobile-mypage-nav-listItme">로그아웃</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
-                  </div>
+              <div onClick={handleLogout} className="mobile-mypage-nav-link">
+                <div className="mobile-mypage-nav-list">
+                  <i className="mobile-mypage-nav-listItme">로그아웃</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
                 </div>
-              ) : (
-                <Link to="/login" className="mobile-mypage-nav-link">
-                  <div className="mobile-mypage-nav-list">
-                    <i className="mobile-mypage-nav-listItme">로그인</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
-                  </div>
-                </Link>
-              )}
+              </div>
             </li>
           </ul>
         </nav>
