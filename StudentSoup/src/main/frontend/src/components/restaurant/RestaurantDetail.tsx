@@ -32,7 +32,7 @@ const RestaurantDetail = () => {
   const [longitude, setLongitude] = useState<any>();
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
-  const [memberId, setMemberId] = useState<string>();
+  const [memberId, setMemberId] = useState<number>();
   const navigate = useNavigate();
 
   const handleImgError = (e: any) => {
@@ -247,7 +247,7 @@ const RestaurantDetail = () => {
                   ))}
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
@@ -394,7 +394,7 @@ const RestaurantDetail = () => {
                   ))}
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
@@ -557,7 +557,7 @@ const RestaurantDetail = () => {
                   </li>
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
