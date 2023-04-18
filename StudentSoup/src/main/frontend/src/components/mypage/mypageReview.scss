@@ -59,10 +59,12 @@
   text-align: center;
 }
 .mypagereview-grid-contents {
-  margin-top: -3rem;
+  margin-top: -4rem;
   color: #7b7b7b;
   font-weight: 400;
   font-size: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .mypagereview-grid-edit {
   margin: auto;
@@ -160,6 +162,9 @@
   color: #7b7b7b;
   font-weight: 400;
   font-size: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .tablet-mypagereview-grid-edit {
   margin: auto;
@@ -258,6 +263,9 @@
   color: #7b7b7b;
   font-weight: 400;
   font-size: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .mobile-mypagereview-grid-edit {
   margin: auto;
