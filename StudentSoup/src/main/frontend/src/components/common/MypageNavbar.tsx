@@ -125,7 +125,6 @@ const MypageNavbar = ({
         if (res.data.memberId) {
           isLogin(true);
         }
-        setUserImg(res.data.fileName);
       })
       .catch(() => {
         Toast.fire({
