@@ -8,15 +8,17 @@ import { Desktop, Mobile } from '../../mediaQuery';
 import axios from 'axios';
 import RatingStars from '../mypage/components/RatingStars';
 import ReviewPaginate from '../common/ReviewPaginate';
+import RestaurantReviewHeartInfo from './RestaurantReviewHeartInfo';
 
 interface Props {
   name: string;
   reviewCount: number;
   starLiked: number;
   restaurantId: number;
+  memberId: number | undefined;
 }
 
-const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props) => {
+const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId }: Props) => {
   const [write, isWrite] = useState<boolean>(false);
 
   const [currentpage, setCurrentpage] = useState(1);
@@ -25,7 +27,6 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
   const [reviewList, setReviewList] = useState<any>([]);
   const [page, setPage] = useState<number>(0);
   const [sort, setSort] = useState<string>('newest');
-  const memberId = sessionStorage.getItem('memberId');
   const url = `/restaurantReview/${restaurantId}`;
 
   useEffect(() => {
@@ -46,7 +47,6 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
       .then(res => {
         setReviewList(res.data.content);
         setTotalElements(res.data.totalElements);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -61,6 +61,10 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
     name,
     restaurantId,
     isWrite,
+  };
+
+  const reviewHeart = {
+    memberId,
   };
 
   const handlePageChange = (e: any) => {
@@ -126,10 +130,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                     <span className="restaurant-detail-bottom-review-list-item-username">
                       {review.nickName}
                     </span>
-                    <div className="restaurant-detail-bottom-review-list-item-heart">
-                      <img src={empty_heart} alt="" />
-                      {review.likedCount}
-                    </div>
+                    <RestaurantReviewHeartInfo {...reviewHeart} review={review} />
                   </div>
                   <div className="restaurant-detail-bottom-review-list-item-middle">
                     <RatingStars
@@ -234,10 +235,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId }: Props)
                     <span className="restaurant-mobile-detail-bottom-review-list-item-username">
                       {review.nickName}
                     </span>
-                    <div className="restaurant-mobile-detail-bottom-review-list-item-heart">
-                      <img src={empty_heart} alt="" />
-                      {review.likedCount}
-                    </div>
+                    <RestaurantReviewHeartInfo {...reviewHeart} review={review} />
                   </div>
                   <div className="restaurant-mobile-detail-bottom-review-list-item-middle">
                     <RatingStars
