@@ -15,6 +15,7 @@ const MobileBoard = (props: any) => {
               <div className="board-underline">
                 <span>[{post.tag}]</span>
                 <span>{post.title}</span>
+                <span className="board-review-count">{post.reviewCount}</span>
               </div>
               <div className="board-info">
                 <div className="board-info-left">
@@ -38,9 +39,8 @@ const MobileBoard = (props: any) => {
                 <div className="board-underline">
                   <span className="best-cell">BEST</span>
                   <span>[{post.tag}]</span>
-                  <span className={post.authentication === 'Y' ? 'authentication-post' : undefined}>
-                    {post.title}
-                  </span>
+                  <span>{post.title}</span>
+                  <span className="board-review-count">{post.reviewCount}</span>
                 </div>
                 <div className="board-info">
                   <div className="board-info-left">
@@ -67,9 +67,8 @@ const MobileBoard = (props: any) => {
                     HOT <FontAwesomeIcon icon={faFire} />
                   </span>
                   <span>[{post.tag}] </span>
-                  <span className={post.authentication === 'Y' ? 'authentication-post' : undefined}>
-                    {post.title}
-                  </span>
+                  <span>{post.title}</span>
+                  <span className="board-review-count">{post.reviewCount}</span>
                 </div>
                 <div className="board-info">
                   <div className="board-info-left">
@@ -96,6 +95,7 @@ const MobileBoard = (props: any) => {
                 <div className="board-underline">
                   <span>[{post.tag}]</span>
                   <span>{post.title}</span>
+                  <span className="board-review-count">{post.reviewCount}</span>
                 </div>
                 <div className="board-info">
                   <div className="board-info-left">
