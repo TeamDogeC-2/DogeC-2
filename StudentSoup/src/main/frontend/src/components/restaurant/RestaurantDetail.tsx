@@ -98,6 +98,7 @@ const RestaurantDetail = () => {
     reviewCount: restaurantDetail.reviewCount,
     starLiked: restaurantDetail.starLiked,
     restaurantId,
+    memberId,
   };
 
   const MapLocation = [longitude, latitude];
