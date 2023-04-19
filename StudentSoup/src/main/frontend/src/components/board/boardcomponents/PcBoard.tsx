@@ -35,9 +35,10 @@ const PCBoard = (props: any) => {
           .map((post: any) => {
             return (
               <tr key={post.boardId} className="authentication-wrap">
-                <td className="board-title ">
+                <td className="board-title">
                   [{post.tag}]&nbsp;
                   <span className="authentication-post">{post.title}</span>
+                  <span className="board-review-count">{post.reviewCount}</span>
                 </td>
                 <td className="post-information">
                   <div className="board-writer">{post.nickname}</div>
@@ -54,11 +55,8 @@ const PCBoard = (props: any) => {
                 <tr key={post.boardId} className="best-post">
                   <td className="board-title">
                     <span className="best-cell">BEST</span>[{post.tag}]&nbsp;
-                    <span
-                      className={post.authentication === 'Y' ? 'authentication-post' : undefined}
-                    >
-                      {post.title}
-                    </span>
+                    <span>{post.title}</span>
+                    <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">
                     <div className="board-writer">{post.nickname}</div>
@@ -80,11 +78,8 @@ const PCBoard = (props: any) => {
                       <FontAwesomeIcon icon={faFire} />
                     </span>
                     [{post.tag}]&nbsp;
-                    <span
-                      className={post.authentication === 'Y' ? 'authentication-post' : undefined}
-                    >
-                      {post.title}
-                    </span>
+                    <span>{post.title}</span>
+                    <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">
                     <div className="board-writer">{post.nickname}</div>
@@ -105,6 +100,7 @@ const PCBoard = (props: any) => {
                   <td className="board-title">
                     [{post.tag}]&nbsp;
                     <span>{post.title}</span>
+                    <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">
                     <div className="board-writer">{post.nickname}</div>
