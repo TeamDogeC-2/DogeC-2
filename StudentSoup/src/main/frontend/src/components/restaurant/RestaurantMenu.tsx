@@ -53,7 +53,6 @@ const RestaurantMenu = ({ memberId }: Props) => {
   const restaurantHeart = {
     memberId,
     restaurantId,
-    menuList,
   };
 
   return (
@@ -171,7 +170,11 @@ const RestaurantMenu = ({ memberId }: Props) => {
               {menuList?.map((menu: any) => (
                 <>
                   {menu.restaurantMenuCategory === '음료 및 주류' && (
-                    <div className="restaurant-detail-bottom-menu">
+                    <div
+                      key={menu.restaurantMenuId}
+                      id={menu.restaurantMenuId}
+                      className="restaurant-detail-bottom-menu"
+                    >
                       <div className="restaurant-detail-bottom-menu-img-div">
                         <img
                           src={`/image/${menu.fileName}`}
@@ -268,7 +271,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
             <div className="restaurant-tablet-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
                 <>
-                  {menu.restaurantMenuCategory === '주메뉴' && (
+                  {menu.restaurantMenuCategory === '사이드메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
                       id={menu.restaurantMenuId}
