@@ -9,6 +9,8 @@ import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
 const Board = () => {
   const [category, setCategory] = useState<string>('ALL');
@@ -16,14 +18,16 @@ const Board = () => {
 
   const [bestBoardItems, setBestBoardItems] = useState<any[]>([]);
   const [hotBoardItems, setHotBoardItems] = useState<any[]>([]);
-  const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage, setPostPerPage] = useState(0);
+  const [count, setCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postPerPage, setPostPerPage] = useState<number>(0);
   const [currentPosts, setCurrentPosts] = useState<any[]>([]);
   const [selected, setSelected] = useState<string>('');
   const [searched, setSearched] = useState<string>('');
   const [sorted, setSorted] = useState<number>(0);
+  const [departmentOption, setDepartmentOption] = useState<any[]>();
 
+  const [departmentId, setDepartmentId] = useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
   const userInformation = { ...location.state };
@@ -36,6 +40,12 @@ const Board = () => {
     timerProgressBar: true,
   });
 
+  const handleChangeOption = (e: any) => {
+    const selectDepartment = parseInt(e.target.value);
+    setDepartmentId(selectDepartment);
+    console.log(selectDepartment);
+  };
+
   const handleClickCategory = (e: any) => {
     setCategory(() => e.target.id);
     setCurrentPage(1);
@@ -47,17 +57,23 @@ const Board = () => {
     setCurrentPage(e);
   };
 
-  const handleSearchButton = (selected: string, searched: string, sorted: number = 0) => {
+  const handleSearchButton = (
+    departmentId: number,
+    selected: string,
+    searched: string,
+    sorted: number = 0,
+  ) => {
     postBoards(
       userInformation.schoolId,
       userInformation.memberId,
-      userInformation.departmentId,
+      departmentId,
       selected,
       searched,
       category,
       sorted,
       currentPage - 1,
     ).then(res => {
+      console.log(res);
       if (category === 'ALL') {
         setBestBoardItems(res.data.bestBoards);
         setHotBoardItems(res.data.hotBoards);
@@ -80,14 +96,19 @@ const Board = () => {
         icon: 'error',
         title: '로그인이 필요한 서비스입니다.',
       });
-    }
+    } else {
+      setSchoolName(userInformation.schoolName);
+      setDepartmentId(userInformation.departmentId);
 
-    setSchoolName(userInformation.schoolName);
+      axiosInstance.get(`/board/department/${userInformation.schoolId}`).then(res => {
+        setDepartmentOption(res.data);
+      });
+    }
   }, []);
 
   useEffect(() => {
-    handleSearchButton(selected, searched, sorted);
-  }, [currentPage, category, schoolName, sorted]);
+    handleSearchButton(departmentId, selected, searched, sorted);
+  }, [currentPage, category, schoolName, departmentId, sorted]);
 
   return (
     <>
@@ -101,12 +122,21 @@ const Board = () => {
             <div className='className="board-mobile-select-div"'>
               <select
                 name="boardCategory"
-                defaultValue="학과게시판 선택"
+                defaultValue="전체 게시판"
                 className="board-select-category"
+                onChange={handleChangeOption}
               >
-                <option value="학과게시판 선택" disabled>
-                  학과게시판 선택
-                </option>
+                <option value="전체 게시판">전체게시판</option>
+                {!!departmentOption &&
+                  departmentOption.map((department: any) => {
+                    return (
+                      <>
+                        <option key={department.departmentId} value={department.departmentId}>
+                          {department.departmentName}
+                        </option>
+                      </>
+                    );
+                  })}
               </select>
             </div>
           </div>
