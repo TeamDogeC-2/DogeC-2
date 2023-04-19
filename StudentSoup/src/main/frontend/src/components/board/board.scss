@@ -140,6 +140,10 @@ $sub-color: #5a5a5a;
           text-align: left;
           width: 100%;
         }
+        .board-review-count {
+          margin-left: 0.5rem;
+          color: $basic-color;
+        }
         .board-writer {
           width: 6.75rem;
         }
@@ -410,6 +414,10 @@ $sub-color: #5a5a5a;
       .authentication-post {
         border-left: 4px solid $basic-color;
         background-color: #f3f3f3;
+      }
+      .board-review-count {
+        margin-left: 0.5rem;
+        color: $basic-color;
       }
     }
   }
