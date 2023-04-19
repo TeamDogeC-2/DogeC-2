@@ -3,7 +3,7 @@ import empty_heart from '../../img/empty_heart.svg';
 import heart from '../../img/heart.svg';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 interface Props {
@@ -18,6 +18,11 @@ const RestaurantReviewHeartInfo = ({ memberId, review }: Props) => {
   const [likeCount, setlikeCount] = useState<number>(review.likedCount);
 
   console.log(review);
+
+  useEffect(() => {
+    isLike(review.like);
+    setlikeCount(review.likedCount);
+  }, [review]);
 
   const handleHeartClick = async (e: any) => {
     e.stopPropagation();
@@ -42,12 +47,6 @@ const RestaurantReviewHeartInfo = ({ memberId, review }: Props) => {
         });
       isClickLike(!clicklike);
       isLike(!like);
-      if (like) {
-        Swal.fire('좋아요 취소', '좋아요를 취소하셨습니다.', 'warning');
-      } else {
-        Swal.fire('좋아요 성공', '좋아요를 누르셨습니다.', 'success');
-      }
-      location.reload();
     }
   };
   return (
@@ -57,7 +56,7 @@ const RestaurantReviewHeartInfo = ({ memberId, review }: Props) => {
         onClick={handleHeartClick}
         className="restaurant-detail-bottom-review-list-item-heart"
       >
-        {review.like ? (
+        {like ? (
           <svg
             id={review.restaurantReviewId}
             onClick={handleHeartClick}
