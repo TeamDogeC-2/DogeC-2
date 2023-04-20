@@ -33,6 +33,7 @@ const Restaurant = () => {
   const url = '/restaurants';
   const state = useLocation();
   const navigate = useNavigate();
+  const sortRef: any = useRef(null);
   const searchRef = useRef<any>();
   const schoolName = state.state;
 
@@ -144,6 +145,16 @@ const Restaurant = () => {
 
     navigate('/restaurant/detail', { state: throwState });
   };
+
+  useEffect(() => {
+    const handleOutside = (e: any) => {
+      if (sortRef.current && !sortRef.current.contains(e.target)) setShowSorts(false);
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+    };
+  }, [sortRef]);
   return (
     <>
       <DesktopHeader>
@@ -167,10 +178,7 @@ const Restaurant = () => {
                     정렬
                   </button>
                   {showSorts && (
-                    <ul
-                      ref={searchRef}
-                      className={click ? 'restaurant-menu-list active' : 'restaurant-menu-list'}
-                    >
+                    <ul className={click ? 'restaurant-menu-list active' : 'restaurant-menu-list'}>
                       {sortList.map(sortList => (
                         <li
                           key={sortList.value}
@@ -180,9 +188,12 @@ const Restaurant = () => {
                               ? 'restaurant-filter-div active'
                               : 'restaurant-filter-div'
                           }
-                          onClick={() => setSort(sortList.value)}
+                          onClick={() => {
+                            setSort(sortList.value);
+                            setShowSorts(false);
+                          }}
                         >
-                          <div className="restaurant-filter">{sortList.title}</div>
+                          {sortList.title}
                         </li>
                       ))}
                     </ul>
@@ -286,9 +297,12 @@ const Restaurant = () => {
                               ? 'tablet-restaurant-filter-div active'
                               : 'tablet-restaurant-filter-div'
                           }
-                          onClick={() => setSort(sortList.value)}
+                          onClick={() => {
+                            setSort(sortList.value);
+                            setShowSorts(false);
+                          }}
                         >
-                          <div className="tablet-restaurant-filter">{sortList.title}</div>
+                          {sortList.title}
                         </li>
                       ))}
                     </ul>
@@ -392,9 +406,12 @@ const Restaurant = () => {
                               ? 'mobile-restaurant-filter-div active'
                               : 'mobile-restaurant-filter-div'
                           }
-                          onClick={() => setSort(sortList.value)}
+                          onClick={() => {
+                            setSort(sortList.value);
+                            setShowSorts(false);
+                          }}
                         >
-                          <div className="mobile-restaurant-filter">{sortList.title}</div>
+                          {sortList.title}
                         </li>
                       ))}
                     </ul>
