@@ -17,7 +17,7 @@ export const postUserInfo = async (): Promise<AxiosResponse> => {
 export const postBoards = async (
   schoolId: number,
   memberId: number,
-  departmentId: number,
+  departmentId: number | null,
   column: string = '',
   value: string = '',
   category: string,
