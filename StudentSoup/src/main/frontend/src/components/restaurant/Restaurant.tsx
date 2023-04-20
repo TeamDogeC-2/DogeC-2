@@ -297,9 +297,12 @@ const Restaurant = () => {
                               ? 'tablet-restaurant-filter-div active'
                               : 'tablet-restaurant-filter-div'
                           }
-                          onClick={() => setSort(sortList.value)}
+                          onClick={() => {
+                            setSort(sortList.value);
+                            setShowSorts(false);
+                          }}
                         >
-                          <div className="tablet-restaurant-filter">{sortList.title}</div>
+                          {sortList.title}
                         </li>
                       ))}
                     </ul>
@@ -403,9 +406,12 @@ const Restaurant = () => {
                               ? 'mobile-restaurant-filter-div active'
                               : 'mobile-restaurant-filter-div'
                           }
-                          onClick={() => setSort(sortList.value)}
+                          onClick={() => {
+                            setSort(sortList.value);
+                            setShowSorts(false);
+                          }}
                         >
-                          <div className="mobile-restaurant-filter">{sortList.title}</div>
+                          {sortList.title}
                         </li>
                       ))}
                     </ul>
