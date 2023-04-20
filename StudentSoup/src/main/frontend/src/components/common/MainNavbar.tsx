@@ -1,5 +1,5 @@
 import './mainNavbar.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
@@ -7,23 +7,23 @@ import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
+import { postUserInfo } from '../../apis/auth/BoardAPI';
 
 const MainNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [userInformation, setUserInformation] = useState<any>({});
 
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string>('');
 
   const searchRef = useRef<HTMLUListElement | null>(null);
+
+  const navigate = useNavigate();
 
   const handleClickMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
 
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = Circle_human;
   };
 
   const handleLogout = () => {
@@ -45,7 +45,7 @@ const MainNavbar = () => {
         localStorage.removeItem('refresh-token');
 
         setIsLogin(false);
-
+        navigate('/');
         Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
       }
     });
@@ -60,6 +60,19 @@ const MainNavbar = () => {
   const loginCheck = () => {
     return localStorage.getItem('access-token') ? setIsLogin(true) : setIsLogin(false);
   };
+
+  useEffect(() => {
+    if (isLogin) {
+      postUserInfo()
+        .then(response => {
+          setUserInformation({ ...response.data });
+          SET_IMAGE_FILE_ID(response.data.fileName);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     loginCheck();
@@ -93,12 +106,16 @@ const MainNavbar = () => {
             {isLogin ? (
               <>
                 <li className="nav-li">
-                  <Link to="/restaurant" className="nav-links">
+                  <Link
+                    to={`/restaurant/${userInformation.schoolName}`}
+                    className="nav-links"
+                    state={userInformation.schoolName}
+                  >
                     <i>주변 맛집</i>
                   </Link>
                 </li>
                 <li className="nav-li">
-                  <Link to="/board" className="nav-links">
+                  <Link to="/board" className="nav-links" state={userInformation}>
                     <i>학교 게시판</i>
                   </Link>
                 </li>
@@ -111,9 +128,7 @@ const MainNavbar = () => {
                   <div className="navbar-logout-div" onClick={handleLogout}>
                     <i>
                       <img
-                        src={`/image/${IMAGE_FILE_ID}`}
-                        alt=""
-                        onError={handleImgError}
+                        src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                         className="navbar-logout"
                       />
                       <p className="navbar-hover-text">로그아웃</p>
@@ -143,9 +158,7 @@ const MainNavbar = () => {
               <FontAwesomeIcon icon={faXmark} className="mobile-nav-menu-icon" />
             ) : isLogin ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-nav-menu-profile"
               />
@@ -180,7 +193,11 @@ const MainNavbar = () => {
             {isLogin ? (
               <>
                 <li>
-                  <Link to="/restaurant" className="mobile-nav-link">
+                  <Link
+                    to={`/restaurant/${userInformation.schoolName}`}
+                    className="mobile-nav-link"
+                    state={userInformation.schoolName}
+                  >
                     <div className="mobile-nav-list">
                       <i className="mobile-nav-listItme">주변 맛집</i>
                       <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -188,7 +205,7 @@ const MainNavbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/board" className="mobile-nav-link">
+                  <Link to="/board" className="mobile-nav-link" state={userInformation}>
                     <div className="mobile-nav-list">
                       <i className="mobile-nav-listItme">학교 게시판</i>
                       <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -264,7 +281,11 @@ const MainNavbar = () => {
             {isLogin ? (
               <>
                 <li>
-                  <Link to="/restaurant" className="mobile-nav-link">
+                  <Link
+                    to={`/restaurant/${userInformation.schoolName}`}
+                    className="mobile-nav-link"
+                    state={userInformation.schoolName}
+                  >
                     <div className="mobile-nav-list">
                       <i className="mobile-nav-listItme">주변 맛집</i>
                       <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -272,7 +293,7 @@ const MainNavbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/board" className="mobile-nav-link">
+                  <Link to="/board" className="mobile-nav-link" state={userInformation}>
                     <div className="mobile-nav-list">
                       <i className="mobile-nav-listItme">학교 게시판</i>
                       <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />

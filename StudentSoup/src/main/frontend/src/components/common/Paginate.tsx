@@ -21,6 +21,7 @@ const Paginate = ({ page, count, setPage, postPerPage }: PaginateType) => {
         nextPageText=">"
         onChange={setPage}
         hideFirstLastPages={true}
+        hideDisabled={true}
       />
     </>
   );
