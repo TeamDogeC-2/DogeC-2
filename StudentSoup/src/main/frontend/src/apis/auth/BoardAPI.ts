@@ -3,9 +3,11 @@ import axiosInstance from './AxiosInterceptor';
 
 export const postBoardCategory = async (
   category: string,
+  page: number,
+  size: number = 12,
   search: string = '',
 ): Promise<AxiosResponse> => {
-  const response = await axios.post(`/board/${category}?title=${search}`);
+  const response = await axios.post(`/board/${category}?title=${search}`, { page, size });
   return response;
 };
 
