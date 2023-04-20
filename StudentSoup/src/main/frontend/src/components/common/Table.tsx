@@ -51,7 +51,6 @@ const Table = ({ headings, data }: TableProps) => {
           <thead>
             <tr>
               {headings.map((heading: string) => {
-                console.log(heading);
                 return (
                   <th
                     key={heading}
