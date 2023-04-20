@@ -19,8 +19,9 @@ const RestaurantNavbar = () => {
   const [isUseSearch, setIsUseSearch] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [userInformation, setUserInformation] = useState<any>({});
 
-  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string | null>('');
+  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string>('');
 
   const searchRef = useRef<HTMLUListElement | null>(null);
   const navigate = useNavigate();
@@ -45,26 +46,34 @@ const RestaurantNavbar = () => {
   };
 
   const handleClickSearch = useCallback(() => {
-    if (!schoolName) {
-      Toast.fire({
-        icon: 'error',
-        title: '학교를 입력해주세요.',
-      });
-    } else if (
-      schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
-      undefined
-    ) {
+    if (schoolName !== '') {
+      if (!schoolName) {
+        Toast.fire({
+          icon: 'error',
+          title: '학교를 입력해주세요.',
+        });
+      } else if (
+        schoolComponent.find((item: { schoolName: string }) => item.schoolName === schoolName) ===
+        undefined
+      ) {
+        Toast.fire({
+          toast: true,
+          icon: 'error',
+          title: '학교 정보가 없습니다.',
+        });
+      }
+
+      setIsUseSearch(false);
+      setIsMenuOpen(false);
+      setSchoolName('');
+      navigate(`/restaurant/${schoolName}`, { state: schoolName });
+    } else {
       Toast.fire({
         toast: true,
         icon: 'error',
-        title: '학교 정보가 없습니다.',
+        title: '지역 또는 학교 정보를 입력해주세요.',
       });
     }
-
-    setIsUseSearch(false);
-    setIsMenuOpen(false);
-    setSchoolName('');
-    navigate(`/restaurant/${schoolName}`, { state: schoolName });
   }, [schoolName, schoolComponent]);
 
   const activeEnter = (e: React.KeyboardEvent) => {
@@ -81,10 +90,6 @@ const RestaurantNavbar = () => {
     e.stopPropagation();
 
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = Circle_human;
   };
 
   const handleLogout = () => {
@@ -137,14 +142,6 @@ const RestaurantNavbar = () => {
       .catch(err => {
         console.error(err);
       });
-    postUserInfo()
-      .then(res => {
-        setUserSchoolName(res.data.schoolName);
-        SET_IMAGE_FILE_ID(res.data.fileName);
-      })
-      .catch(err => {
-        console.log(err);
-      });
 
     document.addEventListener('mousedown', onCheckClickOutside);
 
@@ -152,6 +149,20 @@ const RestaurantNavbar = () => {
       document.removeEventListener('mousedown', onCheckClickOutside);
     };
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (isLogin) {
+      postUserInfo()
+        .then(response => {
+          setUserSchoolName(response.data.schoolName);
+          SET_IMAGE_FILE_ID(response.data.fileName);
+          setUserInformation({ ...response.data });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }, [isLogin]);
 
   return (
     <>
@@ -212,7 +223,7 @@ const RestaurantNavbar = () => {
                   </div>
                 </li>
                 <li className="restaurant-nav-li">
-                  <Link to="/board" className="restaurant-nav-links">
+                  <Link to="/board" className="restaurant-nav-links" state={userInformation}>
                     <i>학교 게시판</i>
                   </Link>
                 </li>
@@ -225,9 +236,7 @@ const RestaurantNavbar = () => {
                   <div className="restaurant-navbar-logout-div" onClick={handleLogout}>
                     <i>
                       <img
-                        src={`/image/${IMAGE_FILE_ID}`}
-                        alt=""
-                        onError={handleImgError}
+                        src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                         className="restaurant-navbar-logout"
                       />
                       <p className="restaurant-navbar-hover-text">로그아웃</p>
@@ -255,9 +264,7 @@ const RestaurantNavbar = () => {
               <FontAwesomeIcon icon={faXmark} className="tablet-restaurant-nav-menu-icon" />
             ) : isLogin ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="tablet-restaurant-nav-menu-profile"
               />
@@ -343,7 +350,7 @@ const RestaurantNavbar = () => {
                   </div>
                 </li>
                 <li>
-                  <Link to="/board" className="tablet-restaurant-nav-links">
+                  <Link to="/board" className="tablet-restaurant-nav-links" state={userInformation}>
                     <div className="tablet-restaurant-nav-list">
                       <i className="tablet-restaurant-nav-list-item">학교 게시판</i>
                       <FontAwesomeIcon
@@ -394,9 +401,7 @@ const RestaurantNavbar = () => {
               <FontAwesomeIcon icon={faXmark} className="mobile-restaurant-nav-menu-icon" />
             ) : isLogin ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-restaurant-nav-menu-profile"
               />
@@ -482,7 +487,7 @@ const RestaurantNavbar = () => {
                   </div>
                 </li>
                 <li>
-                  <Link to="/board" className="mobile-restaurant-nav-link">
+                  <Link to="/board" className="mobile-restaurant-nav-link" state={userInformation}>
                     <div className="mobile-restaurant-nav-list">
                       <i className="mobile-restaurant-nav-list-item">학교 게시판</i>
                       <FontAwesomeIcon
