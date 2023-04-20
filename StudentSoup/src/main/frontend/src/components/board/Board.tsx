@@ -27,7 +27,7 @@ const Board = () => {
   const [sorted, setSorted] = useState<number>(0);
   const [departmentOption, setDepartmentOption] = useState<any[]>();
 
-  const [departmentId, setDepartmentId] = useState<number>(0);
+  const [departmentId, setDepartmentId] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const userInformation = { ...location.state };
@@ -58,7 +58,7 @@ const Board = () => {
   };
 
   const handleSearchButton = (
-    departmentId: number,
+    departmentId: number | null,
     selected: string,
     searched: string,
     sorted: number = 0,
@@ -122,19 +122,17 @@ const Board = () => {
             <div className='className="board-mobile-select-div"'>
               <select
                 name="boardCategory"
-                defaultValue="전체 게시판"
+                defaultValue=""
                 className="board-select-category"
                 onChange={handleChangeOption}
               >
-                <option value="전체 게시판">전체게시판</option>
+                <option value="">전체게시판</option>
                 {!!departmentOption &&
                   departmentOption.map((department: any) => {
                     return (
-                      <>
-                        <option key={department.departmentId} value={department.departmentId}>
-                          {department.departmentName}
-                        </option>
-                      </>
+                      <option key={department.departmentId} value={department.departmentId}>
+                        {department.departmentName}
+                      </option>
                     );
                   })}
               </select>
