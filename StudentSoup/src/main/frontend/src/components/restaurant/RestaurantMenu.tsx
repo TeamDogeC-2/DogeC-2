@@ -3,23 +3,23 @@ import './restaurantMenu.scss';
 import under_arrow from '../../img/under_arrow.svg';
 import up_arrow from '../../img/up_arrow.svg';
 import Circle_human from '../../img/circle_human.png';
-import empty_heart from '../../img/empty_heart.svg';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import RestaurantHeartInfo from './RestaurantHeartInfo';
 
-const RestaurantMenu = () => {
+interface Props {
+  memberId: number | undefined;
+}
+
+const RestaurantMenu = ({ memberId }: Props) => {
   const [clickMenu1, setClickMenu1] = useState<boolean>(true);
   const [clickMenu2, setClickMenu2] = useState<boolean>(false);
   const [clickMenu3, setClickMenu3] = useState<boolean>(false);
-  const [clickMenu4, setClickMenu4] = useState<boolean>(false);
 
   const state = useLocation();
   const restaurantId = state.state.value1;
-  const saveMemberId = sessionStorage.getItem('memberId');
   const [size, setSize] = useState<number>(4);
-  const [last, isLast] = useState<boolean>();
-  const [totalPage, setTotalPage] = useState<any>();
   const [menuList, setMenuList] = useState<any>();
   const url = `/restaurant/${restaurantId}/menus`;
 
@@ -29,7 +29,7 @@ const RestaurantMenu = () => {
         url,
         {
           restaurantId,
-          memberId: saveMemberId,
+          memberId,
         },
         {
           params: {
@@ -38,8 +38,6 @@ const RestaurantMenu = () => {
         },
       )
       .then(res => {
-        isLast(res.data.last);
-        setTotalPage(res.data.totalPages);
         setMenuList(res.data.content);
         setSize(res.data.totalElements);
       })
@@ -50,6 +48,11 @@ const RestaurantMenu = () => {
 
   const handleImgError = (e: any) => {
     e.target.src = Circle_human;
+  };
+
+  const restaurantHeart = {
+    memberId,
+    restaurantId,
   };
 
   return (
@@ -79,7 +82,10 @@ const RestaurantMenu = () => {
                       id={menu.restaurantMenuId}
                       className="restaurant-detail-bottom-menu"
                     >
-                      <div className="restaurant-detail-bottom-menu-img-div">
+                      <div
+                        className="restaurant-detail-bottom-menu-img-div"
+                        id={menu.restaurantMenuId}
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -87,14 +93,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
                         <div>
@@ -139,14 +138,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
                         <div>
@@ -178,7 +170,11 @@ const RestaurantMenu = () => {
               {menuList?.map((menu: any) => (
                 <>
                   {menu.restaurantMenuCategory === '음료 및 주류' && (
-                    <div className="restaurant-detail-bottom-menu">
+                    <div
+                      key={menu.restaurantMenuId}
+                      id={menu.restaurantMenuId}
+                      className="restaurant-detail-bottom-menu"
+                    >
                       <div className="restaurant-detail-bottom-menu-img-div">
                         <img
                           src={`/image/${menu.fileName}`}
@@ -187,14 +183,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
                         <div>
@@ -247,14 +236,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-tablet-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-tablet-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-tablet-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
                         <div>
@@ -289,7 +271,7 @@ const RestaurantMenu = () => {
             <div className="restaurant-tablet-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
                 <>
-                  {menu.restaurantMenuCategory === '주메뉴' && (
+                  {menu.restaurantMenuCategory === '사이드메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
                       id={menu.restaurantMenuId}
@@ -303,14 +285,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-tablet-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-tablet-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-tablet-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
                         <div>
@@ -359,14 +334,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-tablet-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-tablet-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-tablet-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
                         <div>
@@ -419,14 +387,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-mobile-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-mobile-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-mobile-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
                         <div>
@@ -475,14 +436,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-mobile-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-mobile-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-mobile-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
                         <div>
@@ -531,14 +485,7 @@ const RestaurantMenu = () => {
                           alt=""
                           className="restaurant-mobile-detail-bottom-menu-img"
                         />
-                        <div className="restaurant-mobile-detail-bottom-menu-heart-div">
-                          <img
-                            src={empty_heart}
-                            alt=""
-                            className="restaurant-mobile-detail-bottom-menu-heart"
-                          />
-                          <p>{menu.likedCount}</p>
-                        </div>
+                        <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
                         <div>

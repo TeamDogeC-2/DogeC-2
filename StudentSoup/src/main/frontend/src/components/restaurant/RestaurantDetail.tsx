@@ -32,7 +32,8 @@ const RestaurantDetail = () => {
   const [longitude, setLongitude] = useState<any>();
   const [clickHeart, isClickHeart] = useState<boolean>();
   const [likedCount, setlikedCount] = useState<number>();
-  const [memberId, setMemberId] = useState<string>();
+  const [memberId, setMemberId] = useState<number>();
+  const [isDelivery, setIsDelivery] = useState<string>();
   const navigate = useNavigate();
 
   const handleImgError = (e: any) => {
@@ -72,6 +73,7 @@ const RestaurantDetail = () => {
         setRestaurantDetail(res.data.restaurant);
         setLatitude(Number(res.data.restaurant.latitude));
         setLongitude(Number(res.data.restaurant.longitude));
+        setIsDelivery(res.data.restaurant.isDelivery);
         isHeart(res.data.restaurant.like);
       })
       .catch(err => {
@@ -98,6 +100,7 @@ const RestaurantDetail = () => {
     reviewCount: restaurantDetail.reviewCount,
     starLiked: restaurantDetail.starLiked,
     restaurantId,
+    memberId,
   };
 
   const MapLocation = [longitude, latitude];
@@ -175,7 +178,11 @@ const RestaurantDetail = () => {
                     <p>리뷰</p>
                   </div>
                 </div>
-                <button className="restaurant-detail-left-button">배달가능 업체</button>
+                {isDelivery === 'Y' ? (
+                  <button className="restaurant-detail-left-button-able">배달가능 업체</button>
+                ) : (
+                  <button className="restaurant-detail-left-button">배달불가능 업체</button>
+                )}
               </div>
               <div className="restaurant-detail-right">
                 <div className="restaurant-detail-right-imgs">
@@ -247,7 +254,7 @@ const RestaurantDetail = () => {
                   ))}
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
@@ -294,7 +301,13 @@ const RestaurantDetail = () => {
                     <p>리뷰</p>
                   </div>
                 </div>
-                <button className="restaurant-tablet-detail-left-button">배달가능 업체</button>
+                {isDelivery === 'Y' ? (
+                  <button className="restaurant-tablet-detail-left-button-able">
+                    배달가능 업체
+                  </button>
+                ) : (
+                  <button className="restaurant-tablet-detail-left-button">배달불가능 업체</button>
+                )}
               </div>
               <div className="restaurant-tablet-detail-right">
                 <div className="restaurant-tablet-detail-right-imgs">
@@ -394,7 +407,7 @@ const RestaurantDetail = () => {
                   ))}
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
@@ -483,7 +496,15 @@ const RestaurantDetail = () => {
                       <p>리뷰</p>
                     </div>
                   </div>
-                  <button className="restaurant-mobile-detail-left-button">배달가능 업체</button>
+                  {isDelivery === 'Y' ? (
+                    <button className="restaurant-mobile-detail-left-button-able">
+                      배달가능 업체
+                    </button>
+                  ) : (
+                    <button className="restaurant-mobile-detail-left-button">
+                      배달불가능 업체
+                    </button>
+                  )}
                 </div>
                 <div id="map" className="restaurant-mobile-detail-map" />
                 <div className="restaurant-mobile-detail-bottom-info">
@@ -557,7 +578,7 @@ const RestaurantDetail = () => {
                   </li>
                 </ul>
               </div>
-              {clickPage === 1 && <RestaurantMenu />}
+              {clickPage === 1 && <RestaurantMenu memberId={memberId} />}
               {clickPage === 2 && <RestaurantReview {...restaurantReivewInfo} />}
               {clickPage === 3 && <RestaurantPhoto />}
             </div>
