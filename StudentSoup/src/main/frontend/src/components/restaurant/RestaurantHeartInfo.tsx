@@ -17,13 +17,10 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
   const [clicklike, isClickLike] = useState<boolean>();
   const [likeCount, setlikeCount] = useState<number>(menu.likedCount);
 
-  console.log(menu);
-
   const handleHeartCount = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     const saveMenuId = e.target.parentElement.parentElement.id;
-    console.log(e.target.parentElement.parentElement.parentElement.id);
     if (!memberId) {
       if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
         navigate('/login');
@@ -39,7 +36,6 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
         .then(res => {
           isLike(res.data.data.like);
           setlikeCount(res.data.data.likedCount);
-          console.log(res.data);
         });
       isClickLike(!clicklike);
       isLike(!like);
