@@ -30,6 +30,7 @@ export interface PostSearchPropsType {
   pageTitle: string;
   setItems: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
   setPostPerPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
 }
 
 export interface TableProps {
@@ -48,7 +49,6 @@ export interface TableHeadTextType {
 export interface NoticeAndServiceProps {
   items: BoardDataType[];
   setItems: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
-  currentPosts: BoardDataType[];
   currentPage: number;
   count: number;
   handlePageChange: React.Dispatch<React.SetStateAction<number>>;
