@@ -72,7 +72,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReviewList?.content?.map(review => (
                   <tr key={review.restaurantId}>
-                    <td>{review.content}</td>
+                    <td>
+                      {review.content.length > 10
+                        ? review.content.slice(0, 10) + '...'
+                        : review.content}
+                    </td>
                     <td>{review.likedCount}</td>
                     <td>
                       <RatingStars rating={review.starLiked} />
@@ -100,7 +104,9 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewBoardList?.content?.map(board => (
                   <tr key={board.boardId}>
-                    <td>{board.title}</td>
+                    <td>
+                      {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
+                    </td>
                     <td>{board.writeDate}</td>
                     <td>{board.likedCount}</td>
                   </tr>
@@ -126,7 +132,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReplyList?.content?.map(reply => (
                   <tr key={reply.boardId}>
-                    <td>{reply.content}</td>
+                    <td>
+                      {reply.content.length > 10
+                        ? reply.content.slice(0, 10) + '...'
+                        : reply.content}
+                    </td>
                     <td>{reply.writeDate}</td>
                     <td>{reply.likedCount}</td>
                   </tr>
@@ -156,7 +166,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReviewList?.content?.map(review => (
                   <tr key={review.restaurantId}>
-                    <td>{review.content}</td>
+                    <td>
+                      {review.content.length > 10
+                        ? review.content.slice(0, 10) + '...'
+                        : review.content}
+                    </td>
                     <td>{review.likedCount}</td>
                     <td>
                       <RatingStars rating={review.starLiked} />
@@ -184,7 +198,9 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewBoardList?.content?.map(board => (
                   <tr key={board.boardId}>
-                    <td>{board.title}</td>
+                    <td>
+                      {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
+                    </td>
                     <td>{board.writeDate}</td>
                     <td>{board.likedCount}</td>
                   </tr>
@@ -210,7 +226,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReplyList?.content?.map(reply => (
                   <tr key={reply.boardId}>
-                    <td>{reply.content}</td>
+                    <td>
+                      {reply.content.length > 10
+                        ? reply.content.slice(0, 10) + '...'
+                        : reply.content}
+                    </td>
                     <td>{reply.writeDate}</td>
                     <td>{reply.likedCount}</td>
                   </tr>
@@ -240,7 +260,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReviewList?.content?.map(review => (
                   <tr key={review.restaurantId}>
-                    <td>{review.content}</td>
+                    <td>
+                      {review.content.length > 10
+                        ? review.content.slice(0, 10) + '...'
+                        : review.content}
+                    </td>
                     <td>{review.likedCount}</td>
                     <td>
                       <RatingStars rating={review.starLiked} />
@@ -268,7 +292,9 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewBoardList?.content?.map(board => (
                   <tr key={board.boardId}>
-                    <td>{board.title}</td>
+                    <td>
+                      {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
+                    </td>
                     <td>{board.writeDate}</td>
                     <td>{board.likedCount}</td>
                   </tr>
@@ -294,7 +320,11 @@ const MypagePreview = (props: propTypes) => {
               <tbody>
                 {preViewReplyList?.content?.map(reply => (
                   <tr key={reply.boardId}>
-                    <td>{reply.content}</td>
+                    <td>
+                      {reply.content.length > 10
+                        ? reply.content.slice(0, 10) + '...'
+                        : reply.content}
+                    </td>
                     <td>{reply.writeDate}</td>
                     <td>{reply.likedCount}</td>
                   </tr>

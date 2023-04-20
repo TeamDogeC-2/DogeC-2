@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './mypageScheduler.scss';
+import { useNavigate } from 'react-router-dom';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import MypageNavbar from '../common/MypageNavbar';
 import MypagePlus from '../../img/mypagePlus.svg';
@@ -7,6 +8,7 @@ import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router';
+import { MypageUserInfo } from './data/MypageUserInfo';
 
 export interface ScheduleItem {
   scheduleId: number;
@@ -18,17 +20,41 @@ export interface ScheduleItem {
 }
 
 const MypageScheduler: React.FC = () => {
+  const navigate = useNavigate();
+  const [userImg, setUserImg] = useState<string>('');
   const { state } = useLocation();
   const [scheduleItems, setScheduleItems] = useState<ScheduleItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [selectPage, setSelectPage] = useState<string>('scheduler');
-
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
   useEffect(() => {
     ViewSchedule(state).then(res => {
       setScheduleItems(res);
     });
+  }, []);
+  useEffect(() => {
+    setUserImg(userImg);
+  }, [userImg]);
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        setUserImg(res.data.fileName);
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: 'error',
+          title: '로그인이 필요한 서비스입니다.',
+        });
+        navigate('/login');
+      });
   }, []);
   const addScheduleItem = (
     scheduleId: number,
@@ -212,7 +238,12 @@ const MypageScheduler: React.FC = () => {
 
   return (
     <>
-      <MypageNavbar selectPage="scheduler" updateSelectPage={updateSelectPage} />
+      <MypageNavbar
+        userImg={userImg}
+        setUserImg={setUserImg}
+        selectPage="scheduler"
+        updateSelectPage={updateSelectPage}
+      />
       <DesktopHeader>
         <div className="mypagescheduler-maincontainer">
           <div className="mypagescheduler-titlecontainer">
