@@ -82,19 +82,19 @@ $text-color: #000;
           align-items: center;
           justify-content: center;
           border-radius: 23.5px;
+          color: $text-color;
           cursor: pointer;
 
-          .restaurant-filter {
-            color: $text-color;
+          &:hover {
+            background-color: rgba($color: $basic-color, $alpha: 0.5);
+            transition: all 0.3 ease-in-out;
+            color: #fff;
           }
         }
 
         .restaurant-filter-div.active {
           background-color: $basic-color;
-
-          .restaurant-filter {
-            color: #fff;
-          }
+          color: #fff;
         }
       }
 
