@@ -4,13 +4,11 @@ import './board.scss';
 import BoardSearch from '../common/BoardSearch';
 import Paginate from '../common/Paginate';
 import { Desktop, Mobile } from '../../mediaQuery';
-import { postBoards } from '../../apis/auth/BoardAPI';
+import { getDepartmentIdBoards, postBoards } from '../../apis/auth/BoardAPI';
 import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import axios from 'axios';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
 const Board = () => {
   const [category, setCategory] = useState<string>('ALL');
@@ -43,13 +41,12 @@ const Board = () => {
   const handleChangeOption = (e: any) => {
     const selectDepartment = parseInt(e.target.value);
     setDepartmentId(selectDepartment);
-    console.log(selectDepartment);
   };
 
   const handleClickCategory = (e: any) => {
     setCategory(() => e.target.id);
     setCurrentPage(1);
-    setSelected('');
+    setSelected('all');
     setSearched('');
   };
 
@@ -59,8 +56,8 @@ const Board = () => {
 
   const handleSearchButton = (
     departmentId: number | null,
-    selected: string,
-    searched: string,
+    selected: string | null,
+    searched: string | null,
     sorted: number = 0,
   ) => {
     postBoards(
@@ -98,9 +95,8 @@ const Board = () => {
       });
     } else {
       setSchoolName(userInformation.schoolName);
-      setDepartmentId(userInformation.departmentId);
 
-      axiosInstance.get(`/board/department/${userInformation.schoolId}`).then(res => {
+      getDepartmentIdBoards(userInformation.schoolId).then(res => {
         setDepartmentOption(res.data);
       });
     }
@@ -205,11 +201,11 @@ const Board = () => {
             setSelected={setSelected}
             searched={searched}
             setSearched={setSearched}
+            departmentId={departmentId}
           />
         </div>
       </div>
     </>
   );
 };
-
 export default Board;
