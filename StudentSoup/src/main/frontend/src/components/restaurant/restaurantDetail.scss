@@ -144,12 +144,23 @@ $sub-color: #5a5a5a;
         }
       }
 
-      .restaurant-detail-left-button {
+      .restaurant-detail-left-button-able {
         width: 80%;
         height: 2.5rem;
         background-color: #fff;
         border: 1px solid $basic-color;
         color: $basic-color;
+        font-size: 0.813rem;
+        border-radius: 5px;
+        margin: 18px 0;
+      }
+
+      .restaurant-detail-left-button {
+        width: 80%;
+        height: 2.5rem;
+        background-color: #fff;
+        border: 1px solid $sub-color;
+        color: $sub-color;
         font-size: 0.813rem;
         border-radius: 5px;
         margin: 18px 0;
@@ -408,13 +419,24 @@ $sub-color: #5a5a5a;
         }
       }
 
-      .restaurant-tablet-detail-left-button {
+      .restaurant-tablet-detail-left-button-able {
         width: 80%;
         height: 2.5rem;
         background-color: #fff;
         border: 1px solid $basic-color;
         color: $basic-color;
         font-size: 0.813rem;
+        border-radius: 5px;
+        margin: 18px 0;
+      }
+
+      .restaurant-tablet-detail-left-button {
+        width: 80%;
+        height: 2.5rem;
+        background-color: #fff;
+        font-size: 0.813rem;
+        border: 1px solid $sub-color;
+        color: $sub-color;
         border-radius: 5px;
         margin: 18px 0;
       }
@@ -718,12 +740,23 @@ $sub-color: #5a5a5a;
           }
         }
 
-        .restaurant-mobile-detail-left-button {
+        .restaurant-mobile-detail-left-button-able {
           width: 100%;
           height: 2.5rem;
           background-color: #fff;
           border: 1px solid $basic-color;
           color: $basic-color;
+          font-size: 0.813rem;
+          border-radius: 5px;
+          margin: 18px 0;
+        }
+
+        .restaurant-mobile-detail-left-button {
+          width: 100%;
+          height: 2.5rem;
+          background-color: #fff;
+          border: 1px solid $sub-color;
+          color: $sub-color;
           font-size: 0.813rem;
           border-radius: 5px;
           margin: 18px 0;
