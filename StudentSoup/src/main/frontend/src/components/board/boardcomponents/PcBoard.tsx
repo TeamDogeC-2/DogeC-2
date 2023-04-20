@@ -1,13 +1,18 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
+import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
 
-const PCBoard = (props: any) => {
+const PCBoard = (props: BoardPropsType) => {
   const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, setSorted } = props;
 
   const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = e.target as HTMLDivElement;
-    setSorted(target.getAttribute('data-value'));
+    const sortedValue = parseInt(target.getAttribute('data-value')?.toString() ?? '');
+
+    if (setSorted) {
+      setSorted(sortedValue);
+    }
   };
 
   return (
@@ -31,10 +36,10 @@ const PCBoard = (props: any) => {
       </thead>
       <tbody>
         {currentPosts
-          .filter((post: any) => post.authentication === 'Y')
-          .map((post: any) => {
+          .filter((post: BoardDataType) => post.authentication === 'Y')
+          .map((post: BoardDataType) => {
             return (
-              <tr id={post.boardId} key={post.boardId} className="authentication-wrap">
+              <tr id={post.boardId.toString()} key={post.boardId} className="authentication-wrap">
                 <td className="board-title">
                   [{post.tag}]&nbsp;
                   <span className="authentication-post">{post.title}</span>
@@ -50,9 +55,9 @@ const PCBoard = (props: any) => {
             );
           })}
         {currentPage === 1 && category === 'ALL'
-          ? bestBoardItems.map((post: any) => {
+          ? bestBoardItems.map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="best-post">
+                <tr id={post.boardId.toString()} key={post.boardId} className="best-post">
                   <td className="board-title">
                     <span className="best-cell">BEST</span>[{post.tag}]&nbsp;
                     <span>{post.title}</span>
@@ -69,9 +74,9 @@ const PCBoard = (props: any) => {
             })
           : null}
         {currentPage === 1 && category === 'ALL'
-          ? hotBoardItems.map((post: any) => {
+          ? hotBoardItems.map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="best-post">
+                <tr id={post.boardId.toString()} key={post.boardId} className="best-post">
                   <td className="board-title">
                     <span className="best-cell">
                       HOT &nbsp;
@@ -93,10 +98,10 @@ const PCBoard = (props: any) => {
           : null}
         {!!currentPosts &&
           currentPosts
-            .filter((post: any) => post.authentication === 'N')
-            .map((post: any) => {
+            .filter((post: BoardDataType) => post.authentication === 'N')
+            .map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="board-wrap">
+                <tr id={post.boardId.toString()} key={post.boardId} className="board-wrap">
                   <td className="board-title">
                     [{post.tag}]&nbsp;
                     <span>{post.title}</span>

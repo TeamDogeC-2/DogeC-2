@@ -8,11 +8,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { postUserInfo } from '../../apis/auth/BoardAPI';
+import { type userInformationType } from '../../interfaces/BoardTypes';
 
 const MainNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [userInformation, setUserInformation] = useState<any>({});
+  const [userInformation, setUserInformation] = useState<userInformationType>({
+    departmentId: 0,
+    departmentName: '',
+    email: '',
+    fileName: null,
+    id: '',
+    memberClassification: '',
+    memberId: 0,
+    nickname: '',
+    registrationDate: '',
+    schoolId: 0,
+    schoolName: '',
+  });
 
   const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string>('');
 
@@ -39,16 +52,20 @@ const MainNavbar = () => {
       cancelButtonColor: '#bcbcbc',
       confirmButtonText: '확인',
       cancelButtonText: '취소',
-    }).then(result => {
-      if (result.isConfirmed) {
-        localStorage.removeItem('access-token');
-        localStorage.removeItem('refresh-token');
+    })
+      .then(result => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('access-token');
+          localStorage.removeItem('refresh-token');
 
-        setIsLogin(false);
-        navigate('/');
-        Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
-      }
-    });
+          setIsLogin(false);
+          navigate('/');
+          Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+        }
+      })
+      .catch(() => {
+        Swal.fire('로그아웃 실패', '로그아웃이 실패되었습니다. 다시 시도해 주세요.', 'error');
+      });
   };
 
   const onCheckClickOutside = (e: MouseEvent) => {
@@ -66,17 +83,21 @@ const MainNavbar = () => {
       postUserInfo()
         .then(response => {
           setUserInformation({ ...response.data });
+
           SET_IMAGE_FILE_ID(response.data.fileName);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          Swal.fire(
+            '유저 정보 불러오기 실패',
+            '유저 정보를 불러오지 못하였습니다. 다시 시도해 주세요.',
+            'error',
+          );
         });
     }
   }, [isLogin]);
 
   useEffect(() => {
     loginCheck();
-
     document.addEventListener('mousedown', onCheckClickOutside);
 
     return () => {
@@ -102,7 +123,6 @@ const MainNavbar = () => {
                 <i>고객센터</i>
               </Link>
             </li>
-
             {isLogin ? (
               <>
                 <li className="nav-li">
