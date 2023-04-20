@@ -34,7 +34,7 @@ const PCBoard = (props: any) => {
           .filter((post: any) => post.authentication === 'Y')
           .map((post: any) => {
             return (
-              <tr key={post.boardId} className="authentication-wrap">
+              <tr id={post.boardId} key={post.boardId} className="authentication-wrap">
                 <td className="board-title">
                   [{post.tag}]&nbsp;
                   <span className="authentication-post">{post.title}</span>
@@ -52,7 +52,7 @@ const PCBoard = (props: any) => {
         {currentPage === 1 && category === 'ALL'
           ? bestBoardItems.map((post: any) => {
               return (
-                <tr key={post.boardId} className="best-post">
+                <tr id={post.boardId} key={post.boardId} className="best-post">
                   <td className="board-title">
                     <span className="best-cell">BEST</span>[{post.tag}]&nbsp;
                     <span>{post.title}</span>
@@ -71,7 +71,7 @@ const PCBoard = (props: any) => {
         {currentPage === 1 && category === 'ALL'
           ? hotBoardItems.map((post: any) => {
               return (
-                <tr key={post.boardId} className="best-post">
+                <tr id={post.boardId} key={post.boardId} className="best-post">
                   <td className="board-title">
                     <span className="best-cell">
                       HOT &nbsp;
@@ -96,7 +96,7 @@ const PCBoard = (props: any) => {
             .filter((post: any) => post.authentication === 'N')
             .map((post: any) => {
               return (
-                <tr key={post.boardId} className="board-wrap">
+                <tr id={post.boardId} key={post.boardId} className="board-wrap">
                   <td className="board-title">
                     [{post.tag}]&nbsp;
                     <span>{post.title}</span>
