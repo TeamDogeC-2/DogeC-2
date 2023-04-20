@@ -5,6 +5,8 @@ import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MypageUserInfo } from '../mypage/data/MypageUserInfo';
+import Swal from 'sweetalert2';
 
 import {
   faAngleRight,
@@ -24,14 +26,20 @@ interface MypageNavbarProps {
   selectPage: string;
   updateSelectPage: (page: string) => void;
   memberId?: string | null;
+  userImg: string;
+  setUserImg: (img: string) => void;
 }
-const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarProps) => {
+const MypageNavbar = ({
+  selectPage,
+  updateSelectPage,
+  memberId,
+  userImg,
+  setUserImg,
+}: MypageNavbarProps) => {
   const navigate = useNavigate();
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, isSidebarOpen] = useState(false);
-
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
 
   const searchRef = useRef<any>();
   const sidebarRef = useRef<any>();
@@ -43,13 +51,37 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
       isSidebarOpen(!sidebarOpen);
     }
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
-  const handleImgError = (e: any) => {
-    e.target.src = Circle_human;
-  };
+  const handleLogout = () => {
+    isClick(false);
+    Swal.fire({
+      title: '로그아웃 시도',
+      text: '로그아웃을 하시겠습니까?',
+      icon: 'warning',
 
-  const handleLogout = (e: any) => {
-    isLogin(false);
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('access-token');
+        localStorage.removeItem('refresh-token');
+
+        isLogin(false);
+
+        Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
+        navigate('/');
+      }
+    });
   };
   const onCheckClickOutside = (e: MouseEvent) => {
     if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -84,6 +116,25 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
       navigate('/mypage');
     }
   };
+  useEffect(() => {
+    setUserImg(userImg);
+  }, [userImg]);
+  useEffect(() => {
+    MypageUserInfo()
+      .then(res => {
+        if (res.data.memberId) {
+          isLogin(true);
+        }
+      })
+      .catch(() => {
+        Toast.fire({
+          icon: 'error',
+          title: '로그인이 필요한 서비스입니다.',
+        });
+        navigate('/login');
+      });
+  }, []);
+
   return (
     <>
       <div className={`overlay ${sidebarOpen ? 'open' : ''}`}></div>
@@ -165,9 +216,7 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
                 <div className="mypage-navbar-logout-div" onClick={handleLogout}>
                   <i>
                     <img
-                      src={`/image/${IMAGE_FILE_ID}`}
-                      alt=""
-                      onError={handleImgError}
+                      src={userImg ? `/image/${userImg}` : Circle_human}
                       className="mypage-navbar-logout"
                     />
                     <p className="mypage-navbar-hover-text">로그아웃</p>
@@ -195,20 +244,16 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
           </Link>
           <div className="tablet-mypage-nav-menu">
             {click ? (
-              <FontAwesomeIcon icon={faXmark} className="tablet-mypage-nav-menu-icon" />
-            ) : login ? (
-              <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
-                onClick={handleClickMenu}
-                className="tablet-mypage-nav-menu-profile"
+              <FontAwesomeIcon
+                onMouseDown={handleClickMenu}
+                icon={faXmark}
+                className="tablet-mypage-nav-menu-icon"
               />
             ) : (
-              <FontAwesomeIcon
-                icon={faBars}
-                className="tablet-mypage-nav-menu-icon"
-                onClick={handleClickMenu}
+              <img
+                src={userImg ? `/image/${userImg}` : Circle_human}
+                onMouseDown={handleClickMenu}
+                className="tablet-mypage-nav-menu-profile"
               />
             )}
           </div>
@@ -249,21 +294,12 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
               </Link>
             </li>
             <li>
-              {login ? (
-                <Link to="/" className="tablet-mypage-nav-link">
-                  <div className="tablet-mypage-nav-list">
-                    <i className="tablet-mypage-nav-listItme">로그아웃</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
-                  </div>
-                </Link>
-              ) : (
-                <Link to="/login" className="tablet-mypage-nav-link">
-                  <div className="tablet-mypage-nav-list">
-                    <i className="tablet-mypage-nav-listItme">로그인</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
-                  </div>
-                </Link>
-              )}
+              <div onClick={handleLogout} className="tablet-mypage-nav-link">
+                <div className="tablet-mypage-nav-list">
+                  <i className="tablet-mypage-nav-listItme">로그아웃</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
+                </div>
+              </div>
             </li>
           </ul>
         </nav>
@@ -282,19 +318,11 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
           <div className="mobile-mypage-nav-menu">
             {click ? (
               <FontAwesomeIcon icon={faXmark} className="mobile-mypage-nav-menu-icon" />
-            ) : login ? (
+            ) : (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={userImg ? `/image/${userImg}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-mypage-nav-menu-profile"
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faBars}
-                className="mobile-mypage-nav-menu-icon"
-                onMouseDown={handleClickMenu}
               />
             )}
           </div>
@@ -335,21 +363,12 @@ const MypageNavbar = ({ selectPage, updateSelectPage, memberId }: MypageNavbarPr
               </Link>
             </li>
             <li>
-              {login ? (
-                <Link to="/" className="mobile-mypage-nav-link">
-                  <div className="mobile-mypage-nav-list">
-                    <i className="mobile-mypage-nav-listItme">로그아웃</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
-                  </div>
-                </Link>
-              ) : (
-                <Link to="/login" className="mobile-mypage-nav-link">
-                  <div className="mobile-mypage-nav-list">
-                    <i className="mobile-mypage-nav-listItme">로그인</i>
-                    <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
-                  </div>
-                </Link>
-              )}
+              <div onClick={handleLogout} className="mobile-mypage-nav-link">
+                <div className="mobile-mypage-nav-list">
+                  <i className="mobile-mypage-nav-listItme">로그아웃</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
+                </div>
+              </div>
             </li>
           </ul>
         </nav>
