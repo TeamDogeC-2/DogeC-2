@@ -10,7 +10,6 @@ import { type NoticeAndServiceProps } from '../../interfaces/BoardTypes';
 const NoticeAndService = ({
   items,
   setItems,
-  currentPosts,
   currentPage,
   count,
   handlePageChange,
@@ -27,7 +26,7 @@ const NoticeAndService = ({
           <h1>{pageTitle}</h1>
           <div className="notice-service-table-wrap">
             {items.length !== 0 ? (
-              <Table headings={tableHeader} data={currentPosts} />
+              <Table headings={tableHeader} data={items} />
             ) : (
               <div>
                 <h3>검색결과가 없습니다.</h3>
@@ -43,7 +42,12 @@ const NoticeAndService = ({
             setPage={handlePageChange}
             postPerPage={postPerPage}
           />
-          <PostSearch pageTitle={pageTitle} setItems={setItems} setPostPerPage={setPostPerPage} />
+          <PostSearch
+            pageTitle={pageTitle}
+            setItems={setItems}
+            setPostPerPage={setPostPerPage}
+            currentPage={currentPage}
+          />
         </div>
       </Background>
     </>
