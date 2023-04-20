@@ -36,7 +36,7 @@ const BoardSearch = ({
       <Desktop>
         <div className="board-container-div">
           <div className="board-container">
-            <select defaultValue={selected} onChange={selectBoxChange}>
+            <select key={selected} defaultValue={selected} onChange={selectBoxChange}>
               <option value="all">전체</option>
               <option value="title">제목</option>
               <option value="content">내용</option>
