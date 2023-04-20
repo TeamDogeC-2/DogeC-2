@@ -10,7 +10,7 @@ import './table.scss';
 const Table = ({ headings, data }: TableProps) => {
   const tableHeadText: TableHeadTextType = {
     title: '제목',
-    authentication: '작성자',
+    nickname: '작성자',
     writeDate: '게시일',
     view: '조회수',
   };
@@ -35,8 +35,8 @@ const Table = ({ headings, data }: TableProps) => {
 
     return (
       <>
-        <div className="write-data-wrap">
-          <span>{item.authentication}</span>
+        <div key={`${item.boardId}-write-date`} className="write-data-wrap">
+          <span>{item.nickname}</span>
           <span>조회수 {item.view}</span>
         </div>
         <span>{postDate}</span>
@@ -50,11 +50,17 @@ const Table = ({ headings, data }: TableProps) => {
         <table className="custom-table">
           <thead>
             <tr>
-              {headings.map((heading: string) => (
-                <th key={heading} className={`${heading.toLowerCase().replace(' ', '-')}-heading`}>
-                  {tableHeadText[heading]}
-                </th>
-              ))}
+              {headings.map((heading: string) => {
+                console.log(heading);
+                return (
+                  <th
+                    key={heading}
+                    className={`${heading.toLowerCase().replace(' ', '-')}-heading`}
+                  >
+                    {tableHeadText[heading]}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -64,7 +70,7 @@ const Table = ({ headings, data }: TableProps) => {
                   if (heading === 'writeDate') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {dateFormatting(item)}
@@ -73,7 +79,7 @@ const Table = ({ headings, data }: TableProps) => {
                   } else {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {item[heading]}
@@ -116,7 +122,7 @@ const Table = ({ headings, data }: TableProps) => {
                   if (heading === 'title') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {item[heading]}
@@ -125,7 +131,7 @@ const Table = ({ headings, data }: TableProps) => {
                   } else if (headings.length <= 2 && heading === 'writeDate') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {dateFormatting(item)}
@@ -133,11 +139,11 @@ const Table = ({ headings, data }: TableProps) => {
                     );
                   } else if (headings.length > 2 && heading === 'writeDate') {
                     return (
-                      <>
-                        <div className="combined-data">{renderCombinedData(item)}</div>
-                      </>
+                      <td key={`${item.boardId}-${heading}`} className="combined-data">
+                        {renderCombinedData(item)}
+                      </td>
                     );
-                  } else if (headings.length > 2 && ['authentication', 'view'].includes(heading)) {
+                  } else if (headings.length > 2 && ['nickname', 'view'].includes(heading)) {
                     return null;
                   }
                 })}
