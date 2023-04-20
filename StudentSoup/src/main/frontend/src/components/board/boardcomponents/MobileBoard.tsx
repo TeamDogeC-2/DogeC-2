@@ -11,7 +11,11 @@ const MobileBoard = (props: any) => {
         .filter((post: any) => post.authentication === 'Y')
         .map((post: any) => {
           return (
-            <div key={post.boardId} className="board-table-div authentication-post">
+            <div
+              id={post.boardId}
+              key={post.boardId}
+              className="board-table-div authentication-post"
+            >
               <div className="board-underline">
                 <span>[{post.tag}]</span>
                 <span>{post.title}</span>
@@ -35,7 +39,7 @@ const MobileBoard = (props: any) => {
       {currentPage === 1 && category === 'ALL'
         ? bestBoardItems.map((post: any) => {
             return (
-              <div key={post.boardId} className="board-table-div">
+              <div id={post.boardId} key={post.boardId} className="board-table-div">
                 <div className="board-underline">
                   <span className="best-cell">BEST</span>
                   <span>[{post.tag}]</span>
@@ -61,7 +65,7 @@ const MobileBoard = (props: any) => {
       {currentPage === 1 && category === 'ALL'
         ? hotBoardItems.map((post: any) => {
             return (
-              <div key={post.boardId} className="board-table-div">
+              <div id={post.boardId} key={post.boardId} className="board-table-div">
                 <div className="board-underline">
                   <span className="best-cell">
                     HOT <FontAwesomeIcon icon={faFire} />
@@ -91,7 +95,7 @@ const MobileBoard = (props: any) => {
           .filter((post: any) => post.authentication === 'N')
           .map((post: any) => {
             return (
-              <div key={post.boardId} className="board-table-div">
+              <div id={post.boardId} key={post.boardId} className="board-table-div">
                 <div className="board-underline">
                   <span>[{post.tag}]</span>
                   <span>{post.title}</span>
