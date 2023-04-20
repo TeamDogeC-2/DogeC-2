@@ -14,7 +14,7 @@ const MainNavbar = () => {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [userInformation, setUserInformation] = useState<any>({});
 
-  const IMAGE_FILE_ID = String(sessionStorage.getItem('fileName'));
+  const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string>('');
 
   const searchRef = useRef<HTMLUListElement | null>(null);
 
@@ -24,10 +24,6 @@ const MainNavbar = () => {
     e.stopPropagation();
 
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = Circle_human;
   };
 
   const handleLogout = () => {
@@ -66,11 +62,11 @@ const MainNavbar = () => {
   };
 
   useEffect(() => {
-    console.log(userInformation);
     if (isLogin) {
       postUserInfo()
         .then(response => {
           setUserInformation({ ...response.data });
+          SET_IMAGE_FILE_ID(response.data.fileName);
         })
         .catch(error => {
           console.log(error);
@@ -132,9 +128,7 @@ const MainNavbar = () => {
                   <div className="navbar-logout-div" onClick={handleLogout}>
                     <i>
                       <img
-                        src={`/image/${IMAGE_FILE_ID}`}
-                        alt=""
-                        onError={handleImgError}
+                        src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                         className="navbar-logout"
                       />
                       <p className="navbar-hover-text">로그아웃</p>
@@ -164,9 +158,7 @@ const MainNavbar = () => {
               <FontAwesomeIcon icon={faXmark} className="mobile-nav-menu-icon" />
             ) : isLogin ? (
               <img
-                src={`/image/${IMAGE_FILE_ID}`}
-                alt=""
-                onError={handleImgError}
+                src={IMAGE_FILE_ID ? `/image/${IMAGE_FILE_ID}` : Circle_human}
                 onMouseDown={handleClickMenu}
                 className="mobile-nav-menu-profile"
               />
