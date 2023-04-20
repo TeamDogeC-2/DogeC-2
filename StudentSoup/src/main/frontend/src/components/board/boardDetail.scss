@@ -142,6 +142,7 @@ $text-sub-color: #a8a8a8;
           justify-content: center;
           align-items: center;
           border: none;
+          cursor: pointer;
 
           img {
             margin-right: 0.5rem;
@@ -183,12 +184,24 @@ $text-sub-color: #a8a8a8;
           color: $text-sub-color;
           margin-right: 0.5rem;
           font-weight: 500;
+          cursor: pointer;
+
+          &:hover {
+            font-weight: 600;
+            color: #000;
+          }
         }
 
         .board-detail-bottom-report {
           font-size: 1rem;
           color: $text-sub-color;
           font-weight: 500;
+          cursor: pointer;
+
+          &:hover {
+            font-weight: 600;
+            color: $basic-color;
+          }
         }
       }
     }
