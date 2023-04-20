@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { postBoardCategory } from '../../apis/auth/BoardAPI';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
+import Swal from 'sweetalert2';
 
-const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType) => {
+const PostSearch = ({ pageTitle, setItems, setPostPerPage, currentPage }: PostSearchPropsType) => {
   const [selected, setSelected] = useState('all');
   const [search, setSearch] = useState('');
 
@@ -20,15 +21,31 @@ const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType
 
   const onClickSearch = async () => {
     if (pageTitle === '공지사항') {
-      postBoardCategory('ANNOUNCEMENT', search).then(response => {
-        setItems(response.data.content);
-        setPostPerPage(response.data.pageable.pageSize);
-      });
+      postBoardCategory('ANNOUNCEMENT', currentPage, 12, search)
+        .then(response => {
+          setItems(response.data.content);
+          setPostPerPage(response.data.pageable.pageSize);
+        })
+        .catch(() => {
+          Swal.fire(
+            '서버 통신 실패',
+            '공지사항 목록 불러오기를 실패하였습니다. 다시 시도해 주세요.',
+            'error',
+          );
+        });
     } else if (pageTitle === '고객센터') {
-      postBoardCategory('CUSTOMERSERVICE', search).then(response => {
-        setItems(response.data.content);
-        setPostPerPage(response.data.pageable.pageSize);
-      });
+      postBoardCategory('CUSTOMERSERVICE', currentPage, 12, search)
+        .then(response => {
+          setItems(response.data.content);
+          setPostPerPage(response.data.pageable.pageSize);
+        })
+        .catch(() => {
+          Swal.fire(
+            '서버 통신 실패',
+            '고객센터 목록 불러오기를 실패하였습니다. 다시 시도해 주세요.',
+            'error',
+          );
+        });
     }
   };
 
