@@ -17,9 +17,9 @@ export const postUserInfo = async (): Promise<AxiosResponse> => {
 export const postBoards = async (
   schoolId: number,
   memberId: number,
-  departmentId: number | null,
-  column: string = '',
-  value: string = '',
+  departmentId: number | null = null,
+  column: string | null = null,
+  value: string | null = null,
   category: string,
   sorted: number = 0,
   page: number,
@@ -33,5 +33,10 @@ export const postBoards = async (
       departmentId,
     },
   );
+  return response;
+};
+
+export const getDepartmentIdBoards = async (schoolId: number) => {
+  const response = await axiosInstance.get(`/board/department/${schoolId}`);
   return response;
 };
