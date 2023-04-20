@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './boardsearch.scss';
-import { postBoards } from '../../apis/auth/BoardAPI';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
-const BoardSearch = ({ handleSearchButton, selected, setSelected, searched, setSearched }: any) => {
+const BoardSearch = ({
+  handleSearchButton,
+  selected,
+  setSelected,
+  searched,
+  setSearched,
+  departmentId,
+}: any) => {
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelected(() => e.target.value);
+    setSelected(e.target.value);
   };
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +21,7 @@ const BoardSearch = ({ handleSearchButton, selected, setSelected, searched, setS
   };
 
   const onClickSearch = async () => {
-    handleSearchButton(selected, searched);
+    handleSearchButton(departmentId, selected === 'all' ? null : selected, searched);
   };
 
   const handleOnKeyDownEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -31,7 +36,7 @@ const BoardSearch = ({ handleSearchButton, selected, setSelected, searched, setS
         <div className="board-container-div">
           <div className="board-container">
             <select defaultValue={selected} onChange={selectBoxChange}>
-              <option value="">전체</option>
+              <option value="all">전체</option>
               <option value="title">제목</option>
               <option value="content">내용</option>
               <option value="nickname">닉네임</option>
@@ -56,6 +61,7 @@ const BoardSearch = ({ handleSearchButton, selected, setSelected, searched, setS
             <select defaultValue={selected} onChange={selectBoxChange}>
               <option value="all">전체</option>
               <option value="title">제목</option>
+              <option value="content">내용</option>
               <option value="nickname">닉네임</option>
             </select>
             <input
