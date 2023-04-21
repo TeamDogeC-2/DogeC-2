@@ -114,12 +114,12 @@ const MainNavbar = () => {
           </Link>
           <ul className="nav-menu">
             <li className="nav-li">
-              <Link to="/notice" className="nav-links">
+              <Link to="/notice" className="nav-links" state={userInformation}>
                 <i>공지사항</i>
               </Link>
             </li>
             <li className="nav-li">
-              <Link to="/customerservice" className="nav-links">
+              <Link to="/customerservice" className="nav-links" state={userInformation}>
                 <i>고객센터</i>
               </Link>
             </li>
@@ -195,7 +195,7 @@ const MainNavbar = () => {
             className={isMenuOpen ? 'mobile-nav-menu-list active' : 'mobile-nav-menu-list'}
           >
             <li>
-              <Link to="/notice" className="mobile-nav-link">
+              <Link to="/notice" className="mobile-nav-link" state={userInformation}>
                 <div className="mobile-nav-list">
                   <i className="mobile-nav-listItme">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -203,7 +203,7 @@ const MainNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="mobile-nav-link">
+              <Link to="/customerservice" className="mobile-nav-link" state={userInformation}>
                 <div className="mobile-nav-list">
                   <i className="mobile-nav-listItme">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -283,7 +283,7 @@ const MainNavbar = () => {
             className={isMenuOpen ? 'mobile-nav-menu-list active' : 'mobile-nav-menu-list'}
           >
             <li>
-              <Link to="/notice" className="mobile-nav-link">
+              <Link to="/notice" className="mobile-nav-link" state={userInformation}>
                 <div className="mobile-nav-list">
                   <i className="mobile-nav-listItme">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
@@ -291,7 +291,7 @@ const MainNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="mobile-nav-link">
+              <Link to="/customerservice" className="mobile-nav-link" state={userInformation}>
                 <div className="mobile-nav-list">
                   <i className="mobile-nav-listItme">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
