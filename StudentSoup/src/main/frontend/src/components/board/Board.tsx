@@ -70,7 +70,6 @@ const Board = () => {
       sorted,
       currentPage - 1,
     ).then(res => {
-      console.log(res);
       if (category === 'ALL') {
         setBestBoardItems(res.data.bestBoards);
         setHotBoardItems(res.data.hotBoards);
@@ -177,6 +176,7 @@ const Board = () => {
                 hotBoardItems={hotBoardItems}
                 currentPosts={currentPosts}
                 setSorted={setSorted}
+                memberId={userInformation.memberId}
               />
             </Desktop>
             <Mobile>
