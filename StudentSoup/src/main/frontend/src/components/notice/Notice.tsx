@@ -3,6 +3,7 @@ import { postBoardCategory } from '../../apis/auth/BoardAPI';
 import { type BoardDataType } from '../../interfaces/BoardTypes';
 import NoticeAndService from '../common/NoticeAndService';
 import Swal from 'sweetalert2';
+import { useLocation } from 'react-router-dom';
 
 export const Notice = () => {
   const [items, setItems] = useState<BoardDataType[]>([]);
@@ -10,8 +11,8 @@ export const Notice = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(0);
 
-  const [indexOfLastPost, setIndexOfLastPost] = useState(0);
-  const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
+  const location = useLocation();
+  const userInformation = { ...location.state };
 
   const noticeHeader: string[] = ['title', 'writeDate'];
 
@@ -19,11 +20,12 @@ export const Notice = () => {
     setCurrentPage(e);
   };
 
-  useEffect(() => {
-    postBoardCategory('ANNOUNCEMENT', currentPage, 12)
+  const handlePostBoardApi = (search: string = '') => {
+    postBoardCategory('ANNOUNCEMENT', currentPage, 12, search)
       .then(response => {
         setItems(response.data.content);
         setPostPerPage(response.data.pageable.pageSize);
+        setCount(response.data.totalElements);
       })
       .catch(() => {
         Swal.fire(
@@ -32,25 +34,24 @@ export const Notice = () => {
           'error',
         );
       });
-  }, []);
+  };
 
   useEffect(() => {
-    setCount(items.length);
-    setIndexOfLastPost(currentPage * postPerPage);
-    setIndexOfFirstPost(indexOfLastPost - postPerPage);
-  }, [currentPage, indexOfFirstPost, indexOfLastPost, postPerPage]);
+    handlePostBoardApi();
+  }, [currentPage]);
 
   return (
     <NoticeAndService
       items={items}
-      setItems={setItems}
       currentPage={currentPage}
       count={count}
       handlePageChange={handlePageChange}
       postPerPage={postPerPage}
-      setPostPerPage={setPostPerPage}
       pageTitle="공지사항"
       tableHeader={noticeHeader}
+      setCurrentPage={setCurrentPage}
+      handlePostBoardApi={handlePostBoardApi}
+      userInformation={userInformation}
     />
   );
 };
