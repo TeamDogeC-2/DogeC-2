@@ -3,29 +3,41 @@ import './boardDetail.scss';
 import left from '../../img/left.svg';
 import review_white from '../../img/review_white.svg';
 import heart_white from '../../img/heart_white.svg';
+import heart_border_white from '../../img/heart_border_white.svg';
 import BoardBestReview from './BoardBestReview';
 import BoardReview from './BoardReview';
 import BoardReply from './BoardReply';
 import { Desktop, Mobile } from '../../mediaQuery';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
+import { useLocation } from 'react-router-dom';
+import { postUserInfo } from '../../apis/auth/BoardAPI';
+import axios from 'axios';
 
 const BoardDetail = () => {
-  const boardId: number = 192;
-  const memberId: number = 7;
-
   const [boardTitle, setBoardTitle] = useState<string>();
   const [boardNickname, setBoardNickname] = useState<string>();
   const [boardContent, setBoardContent] = useState<string>();
   const [boardreviewCount, setBoardreviewCount] = useState<number>();
   const [boardlikeCount, setBoardlikeCount] = useState<number>();
+  const [boardLiked, isBoardLiked] = useState<boolean>();
   const [boardView, setBoardView] = useState<number>();
   const [boardDate, setBoardDate] = useState<any>();
   const [isCategory, setCategory] = useState<string>();
   const [viewCategory, setViewCategory] = useState<string>();
+  const [reply, setReply] = useState<number>(0);
+  const [like, isLike] = useState<boolean>();
+  const [likeCount, setLikeCount] = useState<number>();
+  const state = useLocation();
+
+  const [replyContent, setReplyContent] = useState<string>();
+
+  const getBoardId = state.state.value1;
+  const memberId = state.state.value2;
+
   useEffect(() => {
     axiosInstance
-      .post(`/board/${boardId}/${memberId}`)
+      .post(`/board/${getBoardId}/${memberId}`)
       .then(res => {
         console.log(res.data);
         setBoardTitle(res.data.title);
@@ -36,6 +48,7 @@ const BoardDetail = () => {
         setBoardreviewCount(res.data.reviewCount);
         setBoardlikeCount(res.data.likedCount);
         setCategory(res.data.boardCategory);
+        isLike(res.data.like);
       })
       .catch(error => {
         console.log(error);
@@ -55,6 +68,51 @@ const BoardDetail = () => {
       setViewCategory('취업/상담게시판');
     }
   });
+
+  const handleBoardLikeCount = () => {
+    axiosInstance
+      .post(`/board/${getBoardId}/${memberId}/like`)
+      .then(res => {
+        setLikeCount(res.data.data.likedCount);
+        isLike(res.data.data.like);
+        console.log(res.data.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    isLike(!like);
+    isBoardLiked(!boardLiked);
+  };
+
+  const handleReplyContent = (e: any) => {
+    setReplyContent(e.target.value);
+  };
+
+  const handleSumbitReply = (e: any) => {
+    if (!replyContent) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+    if (replyContent.length < 2 || replyContent.length > 500) {
+      alert('댓글은 2자이상 500자 이하입니다.');
+      return;
+    }
+    axiosInstance
+      .put('/boardReply', {
+        boardId: getBoardId,
+        memberId,
+        content: replyContent,
+        level: 0,
+        seq: reply,
+      })
+      .then(res => {
+        alert('성공적으로 댓글을 작성하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   return (
     <>
       <Desktop>
@@ -91,9 +149,13 @@ const BoardDetail = () => {
               <div className="board-detail-content-div">
                 <div className="board-detail-content">{boardContent}</div>
                 <div className="board-detail-like-button-div">
-                  <button className="board-detail-like-button">
-                    <img src={heart_white} alt="" />
-                    <p>좋아요 {boardlikeCount}</p>
+                  <button onClick={handleBoardLikeCount} className="board-detail-like-button">
+                    {like ? (
+                      <img src={heart_white} alt="" />
+                    ) : (
+                      <img src={heart_border_white} alt="" />
+                    )}
+                    <p>좋아요 {boardLiked ? likeCount : boardlikeCount}</p>
                   </button>
                 </div>
               </div>
@@ -110,8 +172,12 @@ const BoardDetail = () => {
               </div>
               <div className="board-detail-bottom-review-write-div">
                 <div className="board-detail-bottom-review-write">
-                  <input type="text" placeholder="댓글을 입력해주세요." />
-                  <button>작성</button>
+                  <textarea
+                    maxLength={500}
+                    onChange={e => handleReplyContent(e)}
+                    placeholder="댓글을 입력해주세요."
+                  />
+                  <button onClick={handleSumbitReply}>작성</button>
                 </div>
               </div>
               <BoardBestReview />
