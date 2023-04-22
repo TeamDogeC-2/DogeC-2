@@ -19,7 +19,14 @@ const BoardReview = ({ review }: Props) => {
               <div className="board-detail-bottom-review">
                 <div className="board-detail-bottom-review-left">
                   <div className="board-detail-bottom-review-left-top">
-                    <img src={Circle_human} alt="" />
+                    <img
+                      src={
+                        review.memberProfileImageName
+                          ? `/image/${review.memberProfileImageName}`
+                          : Circle_human
+                      }
+                      alt=""
+                    />
                     <span>
                       {review.nickname} <p>{review.writeDate}</p>
                     </span>
@@ -43,27 +50,44 @@ const BoardReview = ({ review }: Props) => {
         ))}
       </Desktop>
       <Mobile>
-        <div className="board-detail-mobile-bottom-review-div">
-          <div className="board-detail-mobile-bottom-review">
-            <div className="board-detail-mobile-bottom-review-left">
-              <div className="board-detail-mobile-bottom-review-left-top">
-                <img src={Circle_human} alt="" />
-                <span>
-                  유저네임 <p>작성날짜</p>
-                </span>
+        {review.map((review: any) => (
+          <>
+            <div id={review.boardReplyId} className="board-detail-mobile-bottom-review-div">
+              <div className="board-detail-mobile-bottom-review">
+                <div className="board-detail-mobile-bottom-review-left">
+                  <div className="board-detail-mobile-bottom-review-left-top">
+                    <img
+                      src={
+                        review.memberProfileImageName
+                          ? `/image/${review.memberProfileImageName}`
+                          : Circle_human
+                      }
+                      alt=""
+                    />
+                    <span>
+                      {review.nickname} <p>{review.writeDate}</p>
+                    </span>
+                  </div>
+                  <p className="board-detail-mobile-bottom-review-content">{review.content}</p>
+                </div>
+                <FontAwesomeIcon icon={faEllipsis} className="board-detail-mobile-function-icon" />
               </div>
-              <p className="board-detail-mobile-bottom-review-content">댓글내용</p>
+              <div className="board-detail-mobile-bottom-review-right">
+                <div className="board-detail-mobile-bottom-review-right-heart">
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    className="board-detail-mobile-function-heart-icon"
+                  />
+                  <p>{review.likeCount}</p>
+                </div>
+              </div>
+              <div className="board-detail-mobile-underline" />
+              {review.boardNestedReplyDtoList.length !== 0 && (
+                <BoardReply reply={review.boardNestedReplyDtoList} />
+              )}
             </div>
-            <FontAwesomeIcon icon={faEllipsis} className="board-detail-mobile-function-icon" />
-          </div>
-          <div className="board-detail-mobile-bottom-review-right">
-            <div className="board-detail-mobile-bottom-review-right-heart">
-              <FontAwesomeIcon icon={faHeart} className="board-detail-mobile-function-heart-icon" />
-              <p>14</p>
-            </div>
-          </div>
-          <div className="board-detail-mobile-underline" />
-        </div>
+          </>
+        ))}
       </Mobile>
     </>
   );
