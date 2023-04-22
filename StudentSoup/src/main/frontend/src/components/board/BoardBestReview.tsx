@@ -9,7 +9,6 @@ interface Props {
 }
 
 const BoardBestReview = ({ bestReview }: Props) => {
-  console.log(bestReview);
   return (
     <>
       <Desktop>
