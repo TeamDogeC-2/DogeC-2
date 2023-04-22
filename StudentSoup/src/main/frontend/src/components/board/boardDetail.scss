@@ -385,14 +385,9 @@ $text-sub-color: #a8a8a8;
             margin-right: 0.5rem;
           }
 
-          .board-detail-mobile-like-div {
-            display: flex;
-            flex-direction: column;
-
-            p {
-              color: #fff;
-              font-size: 1rem;
-            }
+          p {
+            color: #fff;
+            font-size: 1rem;
           }
         }
       }
@@ -444,12 +439,14 @@ $text-sub-color: #a8a8a8;
         width: 100%;
         padding: 0 2.875rem;
         margin-top: 1rem;
+        display: flex;
 
-        input {
+        textarea {
           width: 80%;
           border: 1px solid $basic-border-color;
           border-radius: 5px;
           padding: 1rem;
+          resize: none;
         }
 
         button {

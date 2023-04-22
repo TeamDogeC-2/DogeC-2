@@ -42,7 +42,6 @@ const BoardDetail = () => {
     axiosInstance
       .post(`/board/${getBoardId}/${memberId}`)
       .then(res => {
-        console.log(res.data);
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
         setBoardNickname(res.data.nickname);
@@ -91,7 +90,6 @@ const BoardDetail = () => {
       .then(res => {
         setLikeCount(res.data.data.likedCount);
         isLike(res.data.data.like);
-        console.log(res.data.data);
       })
       .catch(err => {
         console.error(err);
@@ -201,8 +199,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview />
-              <BoardReply />
+              <BoardReview review={boardReviewList} />
             </div>
           </div>
         </div>
@@ -215,7 +212,7 @@ const BoardDetail = () => {
               <div className="board-detail-mobile-top">
                 <div className="board-detail-mobile-top-left">
                   <img src={left} alt="" />
-                  <span>게시판 이름</span>
+                  <span>{viewCategory}</span>
                 </div>
                 <div className="board-detail-mobile-top-right">
                   <button className="board-detail-mobile-write-div">
@@ -228,23 +225,29 @@ const BoardDetail = () => {
             <div className="board-detail-mobile-mid-div">
               <div className="board-detail-mobile-mid-title-div">
                 <div className="board-detail-mobile-mid-title">
-                  <span>제목</span>
-                  <p>0</p>
+                  <span>{boardTitle}</span>
+                  <p>{boardreviewCount}</p>
                 </div>
                 <div className="board-detail-mobile-mid-title-info">
-                  <p>작성자 | 작성일 | 조회수 | 좋아요</p>
+                  <p>
+                    {boardNickname} | {boardDate} | {boardView} | {boardlikeCount}
+                  </p>
                 </div>
                 <div className="board-detail-mobile-underline" />
               </div>
               <div className="board-detail-mobile-content-div">
-                <div className="board-detail-mobile-content">글 내용</div>
+                <div className="board-detail-mobile-content">{boardContent}</div>
                 <div className="board-detail-mobile-like-button-div">
-                  <button className="board-detail-mobile-like-button">
-                    <img src={heart_white} alt="" />
-                    <div className="board-detail-mobile-like-div">
-                      <p>좋아요</p>
-                      <p>20</p>
-                    </div>
+                  <button
+                    onClick={handleBoardLikeCount}
+                    className="board-detail-mobile-like-button"
+                  >
+                    {like ? (
+                      <img src={heart_white} alt="" />
+                    ) : (
+                      <img src={heart_border_white} alt="" />
+                    )}
+                    <p>좋아요 {boardLiked ? likeCount : boardlikeCount}</p>
                   </button>
                 </div>
               </div>
@@ -252,7 +255,7 @@ const BoardDetail = () => {
             <div className="board-detail-mobile-bottom-div">
               <div className="board-detail-mobile-bottom-review-text">
                 <div className="board-detail-mobile-bottom-review-count">
-                  <p>댓글 수</p>
+                  <p>댓글 {boardreviewCount}개</p>
                 </div>
                 <div className="board-detail-mobile-bottom-function">
                   <span className="board-detail-mobile-bottom-modify">수정</span>
@@ -261,8 +264,12 @@ const BoardDetail = () => {
               </div>
               <div className="board-detail-mobile-bottom-review-write-div">
                 <div className="board-detail-mobile-bottom-review-write">
-                  <input type="text" placeholder="댓글을 입력해주세요." />
-                  <button>작성</button>
+                  <textarea
+                    maxLength={500}
+                    onChange={e => handleReplyContent(e)}
+                    placeholder="댓글을 입력해주세요."
+                  />
+                  <button onClick={handleSumbitReply}>작성</button>
                 </div>
               </div>
               {boardBestReviewList?.map((bestReview: any) => (
@@ -270,8 +277,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview />
-              <BoardReply />
+              <BoardReview review={boardReviewList} />
             </div>
           </div>
         </div>
