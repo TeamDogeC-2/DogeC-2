@@ -30,9 +30,12 @@ const BoardDetail = () => {
   const [likeCount, setLikeCount] = useState<number>();
   const state = useLocation();
 
+  const [boardReviewList, setBoardReviewList] = useState<any>([]);
+  const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
+
   const [replyContent, setReplyContent] = useState<string>();
 
-  const getBoardId = state.state.value1;
+  const getBoardId = 192;
   const memberId = state.state.value2;
 
   useEffect(() => {
@@ -68,6 +71,19 @@ const BoardDetail = () => {
       setViewCategory('취업/상담게시판');
     }
   });
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/boardReplies/${getBoardId}/${memberId}`)
+      .then(res => {
+        setBoardReviewList(res.data.boardReplyList);
+        setBoardBestReviewList(res.data.bestReplyList);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
 
   const handleBoardLikeCount = () => {
     axiosInstance
@@ -180,7 +196,11 @@ const BoardDetail = () => {
                   <button onClick={handleSumbitReply}>작성</button>
                 </div>
               </div>
-              <BoardBestReview />
+              {boardBestReviewList?.map((bestReview: any) => (
+                <>
+                  <BoardBestReview bestReview={bestReview} />
+                </>
+              ))}
               <BoardReview />
               <BoardReply />
             </div>
@@ -245,7 +265,11 @@ const BoardDetail = () => {
                   <button>작성</button>
                 </div>
               </div>
-              <BoardBestReview />
+              {boardBestReviewList?.map((bestReview: any) => (
+                <>
+                  <BoardBestReview bestReview={bestReview} />
+                </>
+              ))}
               <BoardReview />
               <BoardReply />
             </div>

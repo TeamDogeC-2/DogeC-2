@@ -4,28 +4,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
 
-const BoardBestReview = () => {
+interface Props {
+  bestReview: any;
+}
+
+const BoardBestReview = ({ bestReview }: Props) => {
+  console.log(bestReview);
   return (
     <>
       <Desktop>
-        <div className="board-detail-bottom-best-review-div">
+        <div id={bestReview.boardReplyId} className="board-detail-bottom-best-review-div">
           <div className="board-detail-bottom-best-review">
             <div className="board-detail-bottom-best-review-left">
               <div className="board-detail-bottom-best-review-left-top">
                 <img src={Circle_human} alt="" />
                 <span className="board-detail-bottom-best-text">BEST</span>
                 <span>
-                  유저네임 <p>작성날짜</p>
+                  {bestReview.nickname} <p>{bestReview.writeDate}</p>
                 </span>
               </div>
-              <p className="board-detail-bottom-best-review-content">댓글 내용</p>
+              <p className="board-detail-bottom-best-review-content">{bestReview.content}</p>
             </div>
             <FontAwesomeIcon icon={faEllipsis} className="board-detail-function-icon" />
           </div>
           <div className="board-detail-bottom-best-review-best-div">
             <div className="board-detail-bottom-best-review-right-heart">
               <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-              <p>14</p>
+              <p>{bestReview.likeCount}</p>
             </div>
           </div>
           <div className="board-detail-underline" />
