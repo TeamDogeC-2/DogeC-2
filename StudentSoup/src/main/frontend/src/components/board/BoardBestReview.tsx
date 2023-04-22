@@ -17,7 +17,14 @@ const BoardBestReview = ({ bestReview }: Props) => {
           <div className="board-detail-bottom-best-review">
             <div className="board-detail-bottom-best-review-left">
               <div className="board-detail-bottom-best-review-left-top">
-                <img src={Circle_human} alt="" />
+                <img
+                  src={
+                    bestReview.memberProfileImageName
+                      ? `/image/${bestReview.memberProfileImageName}`
+                      : Circle_human
+                  }
+                  alt=""
+                />
                 <span className="board-detail-bottom-best-text">BEST</span>
                 <span>
                   {bestReview.nickname} <p>{bestReview.writeDate}</p>
