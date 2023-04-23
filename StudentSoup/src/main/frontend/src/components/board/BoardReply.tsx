@@ -9,7 +9,6 @@ interface Props {
 }
 
 const BoardReply = ({ reply }: Props) => {
-  console.log(reply);
   return (
     <>
       <Desktop>
