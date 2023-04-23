@@ -7,9 +7,10 @@ import BoardReply from './BoardReply';
 
 interface Props {
   review: any;
+  nickname: number;
 }
 
-const BoardReview = ({ review }: Props) => {
+const BoardReview = ({ review, nickname }: Props) => {
   return (
     <>
       <Desktop>
@@ -33,7 +34,16 @@ const BoardReview = ({ review }: Props) => {
                   </div>
                   <p className="board-detail-bottom-review-content">{review.content}</p>
                 </div>
-                <FontAwesomeIcon icon={faEllipsis} className="board-detail-function-icon" />
+                <div className="board-detail-function-div">
+                  {nickname === review.nickname ? (
+                    <span>
+                      <p className="board-detail-modify">수정</p>|
+                      <p className="board-detail-delete">삭제</p>
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
               </div>
               <div className="board-detail-bottom-review-right">
                 <div className="board-detail-bottom-review-right-heart">

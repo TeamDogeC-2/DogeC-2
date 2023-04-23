@@ -177,6 +177,7 @@ const Board = () => {
                 currentPosts={currentPosts}
                 setSorted={setSorted}
                 memberId={userInformation.memberId}
+                nickname={userInformation.nickname}
               />
             </Desktop>
             <Mobile>

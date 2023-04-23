@@ -37,6 +37,7 @@ const BoardDetail = () => {
 
   const getBoardId = 192;
   const memberId = state.state.value2;
+  const nickname = state.state.value3;
 
   useEffect(() => {
     axiosInstance
@@ -199,7 +200,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview review={boardReviewList} />
+              <BoardReview review={boardReviewList} nickname={nickname} />
             </div>
           </div>
         </div>
@@ -277,7 +278,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview review={boardReviewList} />
+              <BoardReview review={boardReviewList} nickname={nickname} />
             </div>
           </div>
         </div>

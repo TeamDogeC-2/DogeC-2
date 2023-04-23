@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 interface State {
   value1: string;
   value2: number;
+  value3: string;
 }
 
 const PCBoard = (props: any) => {
@@ -17,6 +18,7 @@ const PCBoard = (props: any) => {
     currentPosts,
     setSorted,
     memberId,
+    nickname,
   } = props;
 
   const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -29,7 +31,7 @@ const PCBoard = (props: any) => {
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
     const value = e.target.id;
-    const propsState: State = { value1: value, value2: memberId };
+    const propsState: State = { value1: value, value2: memberId, value3: nickname };
     navigate('/board/detail', { state: propsState });
   };
 

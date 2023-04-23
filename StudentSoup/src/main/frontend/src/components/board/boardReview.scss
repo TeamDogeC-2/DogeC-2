@@ -52,6 +52,39 @@ $text-sub-color: #a8a8a8;
       }
     }
 
+    .board-detail-function-div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-size: 1rem;
+        font-weight: 500;
+        color: $text-sub-color;
+        display: flex;
+        flex-direction: row;
+
+        .board-detail-modify {
+          margin-right: 0.5rem;
+          cursor: pointer;
+
+          &:hover {
+            color: $basic-color;
+          }
+        }
+
+        .board-detail-delete {
+          margin-left: 0.5rem;
+          cursor: pointer;
+
+          &:hover {
+            color: $basic-color;
+          }
+        }
+      }
+    }
+
     .board-detail-function-icon {
       color: $text-sub-color;
       margin-bottom: 1rem;
