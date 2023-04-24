@@ -58,6 +58,22 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
         console.error(err);
       });
   };
+
+  const handleDeleteReply = (e: any) => {
+    if (confirm('정말로 댓글을 삭제하시겟습니까?')) {
+      axiosInstance
+        .delete(`/boardReply/${e.target.id}/${memberId}`)
+        .then(res => {
+          alert('댓글이 삭제되었습니다.');
+          location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      /* empty */
+    }
+  };
   return (
     <div className="board-detail-bottom-review">
       <div className="board-detail-bottom-review-left">
@@ -110,7 +126,14 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
                 >
                   수정
                 </p>
-                |<p className="board-detail-delete">삭제</p>
+                |
+                <p
+                  id={review.boardReplyId}
+                  onClick={handleDeleteReply}
+                  className="board-detail-delete"
+                >
+                  삭제
+                </p>
               </span>
             )}
           </>
