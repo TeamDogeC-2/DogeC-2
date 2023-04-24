@@ -4,47 +4,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
 import BoardReply from './BoardReply';
+import { useState } from 'react';
+import axios from 'axios';
+import axiosInstance from '../../apis/auth/AxiosInterceptor';
+import BoardReviewFunction from './BoardReviewFunction';
 
 interface Props {
   review: any;
-  nickname: number;
+  memberId: number;
+  nickname: string;
 }
 
-const BoardReview = ({ review, nickname }: Props) => {
+const BoardReview = ({ review, memberId, nickname }: Props) => {
+  const [editClick, isEditClick] = useState<boolean>(false);
+
   return (
     <>
       <Desktop>
         {review.map((review: any) => (
           <>
             <div id={review.boardReplyId} className="board-detail-bottom-review-div">
-              <div className="board-detail-bottom-review">
-                <div className="board-detail-bottom-review-left">
-                  <div className="board-detail-bottom-review-left-top">
-                    <img
-                      src={
-                        review.memberProfileImageName
-                          ? `/image/${review.memberProfileImageName}`
-                          : Circle_human
-                      }
-                      alt=""
-                    />
-                    <span>
-                      {review.nickname} <p>{review.writeDate}</p>
-                    </span>
-                  </div>
-                  <p className="board-detail-bottom-review-content">{review.content}</p>
-                </div>
-                <div className="board-detail-function-div">
-                  {nickname === review.nickname ? (
-                    <span>
-                      <p className="board-detail-modify">수정</p>|
-                      <p className="board-detail-delete">삭제</p>
-                    </span>
-                  ) : (
-                    <span></span>
-                  )}
-                </div>
-              </div>
+              <BoardReviewFunction
+                review={review}
+                memberId={memberId}
+                isEditClick={isEditClick}
+                nickname={nickname}
+              />
               <div className="board-detail-bottom-review-right">
                 <div className="board-detail-bottom-review-right-heart">
                   <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
