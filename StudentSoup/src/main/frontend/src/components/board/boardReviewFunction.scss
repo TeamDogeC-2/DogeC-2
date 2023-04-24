@@ -12,6 +12,7 @@ $text-sub-color: #a8a8a8;
   .board-detail-bottom-review-left {
     display: flex;
     flex-direction: column;
+    width: 90%;
 
     .board-detail-bottom-review-left-top {
       display: flex;
@@ -42,6 +43,25 @@ $text-sub-color: #a8a8a8;
     .board-detail-bottom-review-modify-content {
       display: flex;
       flex-direction: row;
+      width: 100%;
+
+      textarea {
+        width: 100%;
+        resize: none;
+        border-radius: 5px;
+        margin-left: 3.5rem;
+        padding: 0.5rem;
+      }
+
+      button {
+        width: 10%;
+        background-color: $basic-color;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+      }
     }
 
     .board-detail-bottom-review-content {

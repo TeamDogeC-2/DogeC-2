@@ -2,32 +2,61 @@
 import { useState } from 'react';
 import './boardReviewFunction.scss';
 import Circle_human from '../../img/circle_human.png';
+import axiosInstance from '../../apis/auth/AxiosInterceptor';
 
 interface Props {
   review: any;
   memberId: number;
-  isEditClick: Function;
   nickname: string;
+  getBoardId: number;
 }
 
-const BoardReviewFunction = ({ review, memberId, isEditClick, nickname }: Props) => {
+const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) => {
   const [modifyClick, setModifyClick] = useState<boolean>(false);
-  const [saveBoardId, setSaveBoardId] = useState<any>();
+  const [saveBoardReplyId, setSaveBoardReplyId] = useState<any>();
   const [contented, setContented] = useState<string>('');
 
-  const handleEditClick = (e: any) => {
-    isEditClick(!modifyClick);
-    setModifyClick(!modifyClick);
-    setSaveBoardId(e.target.id);
+  const handleReplySetContentValue = (e: any) => {
+    setContented(e.target.value);
+  };
 
-    // axiosInstance
-    //   .get(`/boardReply/${e.target.id}/${memberId}`)
-    //   .then(res => {
-    //     setContented(res.data.content);
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
+  const handleEditClick = (e: any) => {
+    setModifyClick(!modifyClick);
+    setSaveBoardReplyId(e.target.id);
+
+    axiosInstance
+      .get(`/boardReply/${e.target.id}/${memberId}`)
+      .then(res => {
+        setContented(res.data.content);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  const handleEditReply = (e: any) => {
+    if (!contented.length) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+    if (contented.length < 2 || contented.length > 500) {
+      alert('댓글은 2자이상 500자 이하입니다.');
+      return;
+    }
+    axiosInstance
+      .patch(`/boardReply/${saveBoardReplyId}`, {
+        boardReplyId: saveBoardReplyId,
+        boardId: getBoardId,
+        memberId,
+        content: contented,
+      })
+      .then(res => {
+        alert('성공적으로 수정하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
   return (
     <div className="board-detail-bottom-review">
@@ -47,8 +76,13 @@ const BoardReviewFunction = ({ review, memberId, isEditClick, nickname }: Props)
         </div>
         {modifyClick ? (
           <div id={review.boardReplyId} className="board-detail-bottom-review-modify-content">
-            <textarea maxLength={500} placeholder="댓글을 입력해주세요."></textarea>
-            <button>등록</button>
+            <textarea
+              maxLength={500}
+              value={contented}
+              onChange={e => handleReplySetContentValue(e)}
+              placeholder="댓글을 입력해주세요."
+            ></textarea>
+            <button onClick={handleEditReply}>등록</button>
           </div>
         ) : (
           <p className="board-detail-bottom-review-content">{review.content}</p>
