@@ -13,11 +13,10 @@ interface Props {
   review: any;
   memberId: number;
   nickname: string;
+  getBoardId: number;
 }
 
-const BoardReview = ({ review, memberId, nickname }: Props) => {
-  const [editClick, isEditClick] = useState<boolean>(false);
-
+const BoardReview = ({ review, memberId, getBoardId, nickname }: Props) => {
   return (
     <>
       <Desktop>
@@ -27,8 +26,8 @@ const BoardReview = ({ review, memberId, nickname }: Props) => {
               <BoardReviewFunction
                 review={review}
                 memberId={memberId}
-                isEditClick={isEditClick}
                 nickname={nickname}
+                getBoardId={getBoardId}
               />
               <div className="board-detail-bottom-review-right">
                 <div className="board-detail-bottom-review-right-heart">
