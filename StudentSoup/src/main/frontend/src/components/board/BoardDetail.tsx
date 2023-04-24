@@ -200,7 +200,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview review={boardReviewList} nickname={nickname} />
+              <BoardReview review={boardReviewList} nickname={nickname} memberId={memberId} />
             </div>
           </div>
         </div>
@@ -278,7 +278,7 @@ const BoardDetail = () => {
                   <BoardBestReview bestReview={bestReview} />
                 </>
               ))}
-              <BoardReview review={boardReviewList} nickname={nickname} />
+              <BoardReview review={boardReviewList} nickname={nickname} memberId={memberId} />
             </div>
           </div>
         </div>
