@@ -1,6 +1,7 @@
 import React from 'react';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './boardsearch.scss';
+import { type BoardSearchType } from '../../interfaces/BoardTypes';
 
 const BoardSearch = ({
   handleSearchButton,
@@ -9,7 +10,7 @@ const BoardSearch = ({
   searched,
   setSearched,
   departmentId,
-}: any) => {
+}: BoardSearchType) => {
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
   };
@@ -21,7 +22,7 @@ const BoardSearch = ({
   };
 
   const onClickSearch = async () => {
-    handleSearchButton(departmentId, selected === 'all' ? null : selected, searched);
+    handleSearchButton(departmentId, selected === 'all' ? undefined : selected, searched);
   };
 
   const handleOnKeyDownEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -35,7 +36,7 @@ const BoardSearch = ({
       <Desktop>
         <div className="board-container-div">
           <div className="board-container">
-            <select defaultValue={selected} onChange={selectBoxChange}>
+            <select key={selected} defaultValue={selected} onChange={selectBoxChange}>
               <option value="all">전체</option>
               <option value="title">제목</option>
               <option value="content">내용</option>
