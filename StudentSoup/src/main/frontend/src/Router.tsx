@@ -37,6 +37,8 @@ const Router = () => {
       <Route path="/mypage/scheduler" element={<Scheduler />} />
       <Route path="/board/write" element={<BoardWrite />} />
       <Route path="/customerservice" element={<CustomerService />} />
+      <Route path="/notice/detail/:id" element={<BoardDetail />} />
+      <Route path="/customerservice/detail/:id" element={<BoardDetail />} />
     </Routes>
   );
 };
