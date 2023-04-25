@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   type TableProps,
   type TableHeadTextType,
@@ -6,8 +6,12 @@ import {
 } from '../../interfaces/BoardTypes';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './table.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Table = ({ headings, data }: TableProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const tableHeadText: TableHeadTextType = {
     title: '제목',
     nickname: '작성자',
@@ -44,6 +48,14 @@ const Table = ({ headings, data }: TableProps) => {
     );
   };
 
+  const handleClickPostDetail = (id: any) => {
+    navigate(`${location.pathname}/detail/${id}`);
+  };
+
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
+
   return (
     <>
       <Desktop>
@@ -64,7 +76,7 @@ const Table = ({ headings, data }: TableProps) => {
           </thead>
           <tbody>
             {data.map(item => (
-              <tr key={item.boardId}>
+              <tr key={item.boardId} onClick={() => handleClickPostDetail(item.boardId)}>
                 {headings.map((heading: string) => {
                   if (heading === 'writeDate') {
                     return (
@@ -116,6 +128,7 @@ const Table = ({ headings, data }: TableProps) => {
               <tr
                 key={item.boardId}
                 className={headings.length <= 2 ? 'notice-data' : 'customer-service-data'}
+                onClick={handleClickPostDetail}
               >
                 {headings.map((heading: string) => {
                   if (heading === 'title') {
