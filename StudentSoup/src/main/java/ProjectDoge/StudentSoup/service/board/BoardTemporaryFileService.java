@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,6 +45,10 @@ public class BoardTemporaryFileService {
         return "ok";
     }
 
+    public List<String> callImageList(Long memberId){
+        return temporaryFileRepository.findFileNames(memberId);
+    }
+
     private void uploadTemporaryImage(Member member, List<UploadFileDto> uploadFileDtoList) {
         log.info("임시 사진 저장 서비스가 시작되었습니다.");
         for (UploadFileDto uploadFileDto : uploadFileDtoList) {
@@ -52,4 +57,5 @@ public class BoardTemporaryFileService {
             member.addImageFile(temporaryFileRepository.save(file));
         }
     }
+
 }
