@@ -31,7 +31,6 @@ const BoardBestReview = ({ bestReview }: Props) => {
               </div>
               <p className="board-detail-bottom-best-review-content">{bestReview.content}</p>
             </div>
-            <FontAwesomeIcon icon={faEllipsis} className="board-detail-function-icon" />
           </div>
           <div className="board-detail-bottom-best-review-best-div">
             <div className="board-detail-bottom-best-review-right-heart">
@@ -62,7 +61,6 @@ const BoardBestReview = ({ bestReview }: Props) => {
               </div>
               <p className="board-detail-mobile-bottom-best-review-content">{bestReview.content}</p>
             </div>
-            <FontAwesomeIcon icon={faEllipsis} className="board-detail-mobile-function-icon" />
           </div>
           <div className="board-detail-mobile-bottom-best-review-best-div">
             <div className="board-detail-mobile-bottom-best-review-right-heart">
