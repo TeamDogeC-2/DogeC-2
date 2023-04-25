@@ -12,8 +12,6 @@ const PostSearch = ({
   const [search, setSearch] = useState<string>('');
 
   const handleClickList = () => {
-    console.log('클릭됨');
-
     setSelected('all');
     setSearch('');
     setCurrentPage(1);
@@ -67,7 +65,7 @@ const PostSearch = ({
         </select>
         <input
           type="search"
-          placeholder="글 제목, 내용을 적어주세요"
+          placeholder="글 제목을 적어주세요"
           value={search}
           onChange={onChangeSearch}
           onKeyDown={handleOnKeyDownEnter}
