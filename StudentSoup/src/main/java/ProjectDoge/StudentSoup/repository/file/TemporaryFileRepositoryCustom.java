@@ -8,5 +8,5 @@ import java.util.List;
 public interface TemporaryFileRepositoryCustom {
 
     public List<TemporaryImageFile>  findByMemberId(Long memberId);
-
+    public List<String> findFileNames(Long memberId);
 }

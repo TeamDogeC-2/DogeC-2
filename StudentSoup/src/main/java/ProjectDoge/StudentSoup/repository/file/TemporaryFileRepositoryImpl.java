@@ -21,5 +21,12 @@ public class TemporaryFileRepositoryImpl implements TemporaryFileRepositoryCusto
                 .fetch();
     }
 
+    @Override
+    public List<String> findFileNames(Long memberId){
+        return queryFactory.select(temporaryImageFile.fileName)
+                .from(temporaryImageFile)
+                .where(temporaryImageFile.member.memberId.eq(memberId))
+                .fetch();
+    }
 
 }
