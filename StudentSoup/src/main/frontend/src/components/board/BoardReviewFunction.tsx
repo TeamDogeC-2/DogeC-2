@@ -4,6 +4,7 @@ import Circle_human from '../../img/circle_human.png';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { spawn } from 'child_process';
 
 interface Props {
   review: any;
@@ -16,9 +17,17 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
   const [modifyClick, setModifyClick] = useState<boolean>(false);
   const [saveBoardReplyId, setSaveBoardReplyId] = useState<any>();
   const [contented, setContented] = useState<string>('');
+  const [addReply, setAddReply] = useState<boolean>(false);
+  const [replyContented, setReplyContented] = useState<string>('');
+  const [saveAddReplyId, setSaveAddReplyId] = useState<any>();
+  const [reply, setReply] = useState<number>(0);
 
   const handleReplySetContentValue = (e: any) => {
     setContented(e.target.value);
+  };
+
+  const handleAddReplySetContentValue = (e: any) => {
+    setReplyContented(e.target.value);
   };
 
   const handleEditClick = (e: any) => {
@@ -53,6 +62,39 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
       })
       .then(res => {
         alert('성공적으로 수정하였습니다.');
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  const handleClickAddReply = (e: any) => {
+    setAddReply(!addReply);
+    setSaveAddReplyId(e.target.id);
+    setReply(review.seq);
+  };
+
+  const handleAddReply = (e: any) => {
+    if (!replyContented.length) {
+      alert('댓글을 입력해주세요.');
+      return;
+    }
+    if (replyContented.length < 2 || replyContented.length > 500) {
+      alert('댓글은 2자이상 500자 이하입니다.');
+      return;
+    }
+    axiosInstance
+      .put('/boardReply', {
+        boardReplyId: saveAddReplyId,
+        boardId: getBoardId,
+        memberId,
+        content: replyContented,
+        seq: reply,
+        level: 1,
+      })
+      .then(res => {
+        alert('성공적으로 댓글을 작성하였습니다.');
         location.reload();
       })
       .catch(err => {
@@ -142,13 +184,41 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
           </div>
         )}
       </div>
-      <div className="board-detail-bottom-review-right">
-        <span>답글달기</span>
-        <div className='board-detail-bottom-review-heart'>
-          <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-          <p>{review.likeCount}</p>
+      {addReply ? (
+        <div className="board-detail-bottom-review-right">
+          <span id={review.boardReplyId} onClick={handleClickAddReply}>
+            답글달기 취소
+          </span>
+          <div className="board-detail-bottom-review-heart">
+            <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
+            <p>{review.likeCount}</p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="board-detail-bottom-review-right">
+          <span id={review.boardReplyId} onClick={handleClickAddReply}>
+            답글달기
+          </span>
+          <div className="board-detail-bottom-review-heart">
+            <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
+            <p>{review.likeCount}</p>
+          </div>
+        </div>
+      )}
+
+      {addReply ? (
+        <div id={review.boardReplyId} className="board-detail-bottom-add-review-content">
+          <textarea
+            maxLength={500}
+            value={replyContented}
+            onChange={e => handleAddReplySetContentValue(e)}
+            placeholder="댓글을 입력해주세요."
+          ></textarea>
+          <button onClick={handleAddReply}>등록</button>
+        </div>
+      ) : (
+        <span></span>
+      )}
     </>
   );
 };

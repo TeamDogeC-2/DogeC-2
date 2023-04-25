@@ -131,6 +131,11 @@ $text-sub-color: #a8a8a8;
 
   span {
     margin-left: 3.5rem;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 600;
+    }
   }
 
   .board-detail-bottom-review-heart {
@@ -145,5 +150,30 @@ $text-sub-color: #a8a8a8;
     p {
       color: $basic-color;
     }
+  }
+}
+
+.board-detail-bottom-add-review-content {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin-bottom: 1rem;
+
+  textarea {
+    width: 100%;
+    resize: none;
+    border-radius: 5px;
+    margin-left: 3.5rem;
+    padding: 0.5rem;
+  }
+
+  button {
+    width: 10%;
+    background-color: $basic-color;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
   }
 }
