@@ -3,38 +3,28 @@ import Circle_human from '../../img/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart, faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
+import BoardReplyFunction from './BoardReplyFunction';
 
 interface Props {
   reply: any;
+  memberId: number;
+  nickname: string;
+  getBoardId: number;
 }
 
-const BoardReply = ({ reply }: Props) => {
+const BoardReply = ({ reply, memberId, nickname, getBoardId }: Props) => {
   return (
     <>
       <Desktop>
         {reply.map((reply: any) => (
           <>
             <div id={reply.boardReplyId} className="board-detail-bottom-reply-div">
-              <div className="board-detail-bottom-reply">
-                <div className="board-detail-bottom-reply-left">
-                  <div className="board-detail-bottom-reply-left-top">
-                    <FontAwesomeIcon icon={faArrowTurnUp} className="board-detail-reply-icon" />
-                    <img
-                      src={
-                        reply.memberProfileImageName
-                          ? `/image/${reply.memberProfileImageName}`
-                          : Circle_human
-                      }
-                      alt=""
-                    />
-                    <span>
-                      {reply.nickname} <p>{reply.writeDate}</p>
-                    </span>
-                  </div>
-                  <p className="board-detail-bottom-reply-content">{reply.content}</p>
-                </div>
-                <FontAwesomeIcon icon={faEllipsis} className="board-detail-reply-function-icon" />
-              </div>
+              <BoardReplyFunction
+                reply={reply}
+                memberId={memberId}
+                nickname={nickname}
+                getBoardId={getBoardId}
+              />
               <div className="board-detail-bottom-reply-right">
                 <div className="board-detail-bottom-reply-right-heart">
                   <FontAwesomeIcon

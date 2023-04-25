@@ -37,7 +37,12 @@ const BoardReview = ({ review, memberId, getBoardId, nickname }: Props) => {
               </div>
               <div className="board-detail-underline" />
               {review.boardNestedReplyDtoList.length !== 0 && (
-                <BoardReply reply={review.boardNestedReplyDtoList} />
+                <BoardReply
+                  reply={review.boardNestedReplyDtoList}
+                  memberId={memberId}
+                  nickname={nickname}
+                  getBoardId={getBoardId}
+                />
               )}
             </div>
           </>
@@ -77,7 +82,12 @@ const BoardReview = ({ review, memberId, getBoardId, nickname }: Props) => {
               </div>
               <div className="board-detail-mobile-underline" />
               {review.boardNestedReplyDtoList.length !== 0 && (
-                <BoardReply reply={review.boardNestedReplyDtoList} />
+                <BoardReply
+                  reply={review.boardNestedReplyDtoList}
+                  memberId={memberId}
+                  nickname={nickname}
+                  getBoardId={getBoardId}
+                />
               )}
             </div>
           </>

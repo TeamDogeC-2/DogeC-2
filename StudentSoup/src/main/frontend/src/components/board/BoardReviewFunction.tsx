@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { useState } from 'react';
 import './boardReviewFunction.scss';
 import Circle_human from '../../img/circle_human.png';
