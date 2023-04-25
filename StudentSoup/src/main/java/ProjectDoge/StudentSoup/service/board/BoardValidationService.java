@@ -17,7 +17,6 @@ public class BoardValidationService {
     public void checkValidation(BoardFormDto boardFormDto, Member member){
         checkQualification(boardFormDto.getBoardCategory(), member.getMemberClassification());
         checkBoardTitleLength(boardFormDto.getTitle());
-        checkBoardContentLength(boardFormDto.getContent());
     }
 
     private void checkQualification(BoardCategory category, MemberClassification classification) {
@@ -31,8 +30,4 @@ public class BoardValidationService {
             throw new BoardTitleOutOfRangeException("게시글의 제목은 2자 이상 50자 이하여야 합니다.");
     }
 
-    private void checkBoardContentLength(String content) {
-        if(content.length() < 5 || content.length() > 1000)
-            throw new BoardContentOutOfRangeException("게시글의 내용은 5자 이상 1000자 이하여야 합니다.");
-    }
 }
