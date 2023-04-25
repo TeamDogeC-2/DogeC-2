@@ -29,12 +29,6 @@ const BoardReview = ({ review, memberId, getBoardId, nickname }: Props) => {
                 nickname={nickname}
                 getBoardId={getBoardId}
               />
-              <div className="board-detail-bottom-review-right">
-                <div className="board-detail-bottom-review-right-heart">
-                  <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-                  <p>{review.likeCount}</p>
-                </div>
-              </div>
               <div className="board-detail-underline" />
               {review.boardNestedReplyDtoList.length !== 0 && (
                 <BoardReply

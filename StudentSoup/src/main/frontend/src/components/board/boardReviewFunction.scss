@@ -121,3 +121,29 @@ $text-sub-color: #a8a8a8;
     cursor: pointer;
   }
 }
+
+.board-detail-bottom-review-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0 0.5rem 0;
+
+  span {
+    margin-left: 3.5rem;
+  }
+
+  .board-detail-bottom-review-heart {
+    display: flex;
+    flex-direction: row;
+
+    .board-detail-function-heart-icon {
+      color: $basic-color;
+      margin-right: 0.125rem;
+    }
+
+    p {
+      color: $basic-color;
+    }
+  }
+}

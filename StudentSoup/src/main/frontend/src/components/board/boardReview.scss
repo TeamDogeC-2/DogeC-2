@@ -8,26 +8,6 @@ $text-sub-color: #a8a8a8;
   flex-direction: column;
   margin: 1rem 2.875rem 0 2.875rem;
 
-  .board-detail-bottom-review-right {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.5rem;
-
-    .board-detail-bottom-review-right-heart {
-      display: flex;
-      flex-direction: row;
-
-      .board-detail-function-heart-icon {
-        color: $basic-color;
-        margin-right: 0.125rem;
-      }
-
-      p {
-        color: $basic-color;
-      }
-    }
-  }
-
   .board-detail-underline {
     background-color: $basic-border-color;
     height: 1px;
