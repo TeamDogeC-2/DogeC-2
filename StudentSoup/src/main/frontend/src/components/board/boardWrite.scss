@@ -120,88 +120,7 @@ $notice-text-color: #6d6d6d;
 
     .board-write-textarea {
       width: 90%;
-      height: 23.375rem;
-      padding: 0.75rem;
-      border: 1px solid $basic-border-color;
-      resize: none;
-    }
-
-    .board-write-add-img-div {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      align-items: center;
-      background-color: $notice-background-color;
-      border-left: 1px solid $basic-border-color;
-      border-right: 1px solid $basic-border-color;
-      border-bottom: 1px solid $basic-border-color;
-      border-radius: 0 0 5px 5px;
-
-      .board-write-add-img-div-top {
-        display: flex;
-        flex-direction: row;
-        padding: 1.75rem 0;
-        justify-content: center;
-        align-items: center;
-
-        span {
-          font-size: 1rem;
-          color: $notice-text-color;
-          font-weight: 500;
-          margin-right: 1rem;
-        }
-
-        button {
-          background-color: #fff;
-          color: $basic-color;
-          font-size: 1rem;
-          border: 1px solid $basic-color;
-          border-radius: 5px;
-          width: 5.3125rem;
-          height: 30px;
-          margin-right: 1rem;
-          cursor: pointer;
-        }
-
-        p {
-          margin-right: 1rem;
-          color: $notice-text-color;
-        }
-      }
-
-      .board-write-add-img-div-bottom {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        width: 90%;
-
-        .board-write-add-img-div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          border: none;
-          width: 90%;
-
-          img {
-            min-width: 25%;
-            height: 11.25rem;
-            border: 1px solid $notice-background-color;
-          }
-
-          .board-write-delete-button {
-            width: 1.25rem;
-            height: 1.25rem;
-            background-color: $basic-color;
-            color: #fff;
-            border-radius: 50%;
-            padding: 0.1rem;
-            margin: 1rem 0;
-            cursor: pointer;
-          }
-        }
-      }
+      height: 50vh;
     }
   }
 
@@ -237,6 +156,56 @@ $notice-text-color: #6d6d6d;
         height: 2.625rem;
         cursor: pointer;
       }
+    }
+  }
+}
+.board-write-add-img-div {
+  display: flex;
+  margin: auto;
+  margin-top: 2.5rem;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+  background-color: $notice-background-color;
+  border-left: 1px solid $basic-border-color;
+  border-right: 1px solid $basic-border-color;
+  border-bottom: 1px solid $basic-border-color;
+  border-radius: 0 0 5px 5px;
+
+  .board-write-add-img-div-top {
+    display: flex;
+    flex-direction: row;
+    padding: 1.75rem 0;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      font-size: 1rem;
+      color: $notice-text-color;
+      font-weight: 500;
+      margin-right: 1rem;
+    }
+
+    p {
+      margin-right: 1rem;
+      color: $notice-text-color;
+    }
+  }
+
+  .board-write-add-img-div-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 90%;
+
+    .board-write-add-img-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border: none;
+      width: 90%;
     }
   }
 }

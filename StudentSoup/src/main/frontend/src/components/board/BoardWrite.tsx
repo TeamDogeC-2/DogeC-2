@@ -4,8 +4,38 @@ import Circle_human from '../../img/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
+import ReactQuill from 'react-quill';
+import type Quill from 'quill';
+import 'react-quill/dist/quill.snow.css';
+import { WriteDepartmentData, PostRegistration, PP, GetUploadImgURL } from './data/BoardWriteData';
+import { useEffect, useState } from 'react';
 
 const BoardWrite = () => {
+  const [content, setContent] = useState<any>();
+  const [currentLength, setCurrentLength] = useState<number>(0);
+  const [test, setTest] = useState<string>();
+  const maxLength = 1000;
+  const handleQuillChange = (value: any) => {
+    const maxLength = 1000; // 원하는 최대 글자수
+    const strippedValue = value.replace(/<(?:.|\n)*?>/gm, '');
+    const newLength = strippedValue.length;
+
+    if (newLength <= maxLength) {
+      setContent(value);
+      setCurrentLength(newLength);
+    }
+  };
+  const handleClick = () => {
+    PostRegistration(7, '타이틀', 'FREE', content, undefined).then(res => {
+      console.log(res);
+    });
+  };
+  useEffect(() => {
+    PP(318, 7).then(res => {
+      setTest(res.content);
+    });
+  }, []);
+
   return (
     <>
       <DesktopHeader>
@@ -54,32 +84,37 @@ const BoardWrite = () => {
                   </div>
                 </div>
               </div>
-              <textarea
-                maxLength={1000}
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={handleQuillChange}
+                modules={BoardWrite.modules}
+                formats={BoardWrite.formats}
                 placeholder="내용(5~1000자)"
                 className="board-write-textarea"
-              ></textarea>
-              <div className="board-write-add-img-div">
-                <div className="board-write-add-img-div-top">
-                  <span>사진첨부</span>
-                  <button>사진첨부</button>
-                  <p>0/5</p>
-                  <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.</p>
-                </div>
-                <div className="board-write-add-img-div-bottom">
-                  {/* <div className="board-write-add-img-div">
-                <img src={Circle_human} alt="" />
-                <FontAwesomeIcon icon={faXmark} className="board-write-delete-button" />
-              </div> */}
-                </div>
+              />
+              <div className="character-count">
+                {currentLength}/{maxLength} 글자
+              </div>
+            </div>
+            <div className="board-write-add-img-div">
+              <div className="board-write-add-img-div-top">
+                <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.</p>
               </div>
             </div>
             <div className="board-write-bottom-button-div">
               <div className="board-write-bottom-button">
                 <button className="board-write-cancel-button">취소하기</button>
-                <button className="board-write-submit-button">작성하기</button>
+                <button onClick={handleClick} className="board-write-submit-button">
+                  작성하기
+                </button>
               </div>
             </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: test ?? '',
+              }}
+            ></div>
           </div>
         </div>
       </DesktopHeader>
@@ -276,4 +311,58 @@ const BoardWrite = () => {
   );
 };
 
+async function imageHandler(this: Quill) {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files ? input.files[0] : null;
+    if (file) {
+      const memberId = 7; // 여기서 memberId를 적절한 값으로 설정하세요.
+      try {
+        await GetUploadImgURL(memberId, file).then(res => {
+          console.log(res);
+        });
+        const range = this.getSelection(true);
+        // this.insertEmbed(range.index, 'image', url);
+        this.setSelection({ index: range.index + 1, length: 0 });
+      } catch (error) {
+        console.error('Image upload failed:', error);
+      }
+    }
+  };
+}
+
+BoardWrite.modules = {
+  toolbar: {
+    container: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ color: [] }, { background: [] }],
+      ['link', 'image'],
+      ['clean'],
+    ],
+    handlers: {
+      image: imageHandler,
+    },
+  },
+};
+
+BoardWrite.formats = [
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'list',
+  'bullet',
+  'indent',
+  'header',
+  'color',
+  'background',
+  'link',
+  'image',
+];
 export default BoardWrite;
