@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MypageUserInfo } from '../mypage/data/MypageUserInfo';
 import Swal from 'sweetalert2';
-
+import { type userInformationType } from '../../interfaces/BoardTypes';
 import {
   faAngleRight,
   faBars,
@@ -40,7 +40,7 @@ const MypageNavbar = ({
   const [click, isClick] = useState<boolean>(false);
   const [login, isLogin] = useState<boolean>(false);
   const [sidebarOpen, isSidebarOpen] = useState(false);
-
+  const [userInformation, setUserInformation] = useState<userInformationType>();
   const searchRef = useRef<any>();
   const sidebarRef = useRef<any>();
 
@@ -125,6 +125,7 @@ const MypageNavbar = ({
         if (res.data.memberId) {
           isLogin(true);
         }
+        setUserInformation(res.data);
       })
       .catch(() => {
         Toast.fire({
@@ -194,19 +195,23 @@ const MypageNavbar = ({
           </div>
           <ul className="mypage-nav-menu">
             <li className="mypage-nav-li">
-              <Link to="/board" className="mypage-nav-links">
+              <Link to="/board" className="mypage-nav-links" state={userInformation}>
                 <FontAwesomeIcon icon={faBarsStaggered} className="mypage-nav-icons" />
                 <i>BOARD</i>
               </Link>
             </li>
             <li className="mypage-nav-li">
-              <Link to="/restaurant" className="mypage-nav-links">
+              <Link
+                to={`/restaurant/${userInformation?.schoolName}`}
+                className="mypage-nav-links"
+                state={userInformation?.schoolName}
+              >
                 <FontAwesomeIcon icon={faHeart} className="mypage-nav-heart-icons" />
                 <i>RESTAURANT</i>
               </Link>
             </li>
             <li className="mypage-nav-li">
-              <Link to="/faq" className="mypage-nav-links">
+              <Link to="/customerservice" className="mypage-nav-links">
                 <FontAwesomeIcon icon={faEllipsis} className="mypage-nav-icons" />
                 <i>FAQ</i>
               </Link>
@@ -262,7 +267,7 @@ const MypageNavbar = ({
             className={click ? 'tablet-mypage-nav-menu-list active' : 'tablet-mypage-nav-menu-list'}
           >
             <li>
-              <Link to="/board" className="tablet-mypage-nav-link">
+              <Link to="/board" className="tablet-mypage-nav-link" state={userInformation}>
                 <div className="tablet-mypage-nav-list">
                   <i className="tablet-mypage-nav-listItme">학교게시판</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
@@ -270,7 +275,11 @@ const MypageNavbar = ({
               </Link>
             </li>
             <li>
-              <Link to="/restaurant" className="tablet-mypage-nav-link">
+              <Link
+                to={`/restaurant/${userInformation?.schoolName}`}
+                className="tablet-mypage-nav-link"
+                state={userInformation?.schoolName}
+              >
                 <div className="tablet-mypage-nav-list">
                   <i className="tablet-mypage-nav-listItme">주변맛집</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
@@ -286,7 +295,7 @@ const MypageNavbar = ({
               </Link>
             </li>
             <li>
-              <Link to="/faq" className="tablet-mypage-nav-link">
+              <Link to="/customerservice" className="tablet-mypage-nav-link">
                 <div className="tablet-mypage-nav-list">
                   <i className="tablet-mypage-nav-listItme">FAQ</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-mypage-nav-icons" />
@@ -331,7 +340,7 @@ const MypageNavbar = ({
             className={click ? 'mobile-mypage-nav-menu-list active' : 'mobile-mypage-nav-menu-list'}
           >
             <li>
-              <Link to="/board" className="mobile-mypage-nav-link">
+              <Link to="/board" className="mobile-mypage-nav-link" state={userInformation}>
                 <div className="mobile-mypage-nav-list">
                   <i className="mobile-mypage-nav-listItme">학교게시판</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
@@ -339,7 +348,11 @@ const MypageNavbar = ({
               </Link>
             </li>
             <li>
-              <Link to="/restaurant" className="mobile-mypage-nav-link">
+              <Link
+                to={`/restaurant/${userInformation?.schoolName}`}
+                className="mobile-mypage-nav-link"
+                state={userInformation?.schoolName}
+              >
                 <div className="mobile-mypage-nav-list">
                   <i className="mobile-mypage-nav-listItme">주변맛집</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
@@ -355,7 +368,7 @@ const MypageNavbar = ({
               </Link>
             </li>
             <li>
-              <Link to="/faq" className="mobile-mypage-nav-link">
+              <Link to="/customerservice" className="mobile-mypage-nav-link">
                 <div className="mobile-mypage-nav-list">
                   <i className="mobile-mypage-nav-listItme">FAQ</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-mypage-nav-icons" />
