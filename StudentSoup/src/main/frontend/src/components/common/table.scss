@@ -53,6 +53,11 @@ table.custom-table {
     min-width: 50%;
     max-width: 86%;
     text-align: left;
+
+    .customerservice-reviewCount {
+      margin-left: 6px;
+      color: $basic-color;
+    }
   }
 
   .nickname-data {
