@@ -26,7 +26,7 @@ const NoticeAndService = ({
         <h1>{pageTitle}</h1>
         <div className="notice-service-table-wrap">
           {count !== 0 ? (
-            <Table headings={tableHeader} data={items} />
+            <Table headings={tableHeader} data={items} userInformation={userInformation} />
           ) : (
             <div>
               <h3>검색결과가 없습니다.</h3>
