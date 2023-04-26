@@ -8,7 +8,7 @@ import { Desktop, Mobile } from '../../mediaQuery';
 import './table.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const Table = ({ headings, data }: TableProps) => {
+const Table = ({ headings, data, userInformation }: TableProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -48,13 +48,12 @@ const Table = ({ headings, data }: TableProps) => {
     );
   };
 
-  const handleClickPostDetail = (id: any) => {
-    navigate(`${location.pathname}/detail/${id}`);
+  const handleClickPostDetail = (boardId: any) => {
+    console.log();
+    navigate(`${location.pathname}/detail/${boardId}`, {
+      state: { ...userInformation, boardId },
+    });
   };
-
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
 
   return (
     <>
@@ -78,7 +77,17 @@ const Table = ({ headings, data }: TableProps) => {
             {data.map(item => (
               <tr key={item.boardId} onClick={() => handleClickPostDetail(item.boardId)}>
                 {headings.map((heading: string) => {
-                  if (heading === 'writeDate') {
+                  if (headings.length > 2 && heading === 'title') {
+                    return (
+                      <td
+                        key={`${item.boardId}-${heading}`}
+                        className={`${heading.toLowerCase().replace(' ', '-')}-data`}
+                      >
+                        {item[heading]}
+                        <span className="customerservice-reviewCount">{item.reviewCount}</span>
+                      </td>
+                    );
+                  } else if (heading === 'writeDate') {
                     return (
                       <td
                         key={`${item.boardId}-${heading}`}
@@ -128,10 +137,10 @@ const Table = ({ headings, data }: TableProps) => {
               <tr
                 key={item.boardId}
                 className={headings.length <= 2 ? 'notice-data' : 'customer-service-data'}
-                onClick={handleClickPostDetail}
+                onClick={() => handleClickPostDetail(item.boardId)}
               >
                 {headings.map((heading: string) => {
-                  if (heading === 'title') {
+                  if (headings.length <= 2 && heading === 'title') {
                     return (
                       <td
                         key={`${item.boardId}-${heading}`}
@@ -147,6 +156,16 @@ const Table = ({ headings, data }: TableProps) => {
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {dateFormatting(item)}
+                      </td>
+                    );
+                  } else if (headings.length > 2 && heading === 'title') {
+                    return (
+                      <td
+                        key={`${item.boardId}-${heading}`}
+                        className={`${heading.toLowerCase().replace(' ', '-')}-data`}
+                      >
+                        {item[heading]}
+                        <span className="customerservice-reviewCount">{item.reviewCount}</span>
                       </td>
                     );
                   } else if (headings.length > 2 && heading === 'writeDate') {
