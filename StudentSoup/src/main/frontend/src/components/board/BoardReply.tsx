@@ -25,15 +25,6 @@ const BoardReply = ({ reply, memberId, nickname, getBoardId }: Props) => {
                 nickname={nickname}
                 getBoardId={getBoardId}
               />
-              <div className="board-detail-bottom-reply-right">
-                <div className="board-detail-bottom-reply-right-heart">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    className="board-detail-reply-function-heart-icon"
-                  />
-                  <p>{reply.likeCount}</p>
-                </div>
-              </div>
               <div className="board-detail-underline" />
             </div>
           </>

@@ -8,26 +8,6 @@ $text-sub-color: #a8a8a8;
   flex-direction: column;
   margin-top: 1rem;
 
-  .board-detail-bottom-reply-right {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.5rem;
-
-    .board-detail-bottom-reply-right-heart {
-      display: flex;
-      flex-direction: row;
-
-      .board-detail-reply-function-heart-icon {
-        color: $basic-color;
-        margin-right: 0.125rem;
-      }
-
-      p {
-        color: $basic-color;
-      }
-    }
-  }
-
   .board-detail-underline {
     background-color: $basic-border-color;
     height: 1px;
