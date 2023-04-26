@@ -36,6 +36,7 @@ export interface PostSearchPropsType {
 export interface TableProps {
   headings: string[];
   data: BoardDataType[];
+  userInformation: userInformationType;
 }
 
 export interface TableHeadTextType {
