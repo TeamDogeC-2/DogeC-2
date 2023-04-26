@@ -131,7 +131,6 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
   };
 
   const handleHeartClick = async (e: any) => {
-    const boardId = e.target.id;
     e.stopPropagation();
     e.preventDefault();
     if (!memberId) {
@@ -334,7 +333,6 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
           </div>
         </div>
       )}
-
       {addReply ? (
         <div id={review.boardReplyId} className="board-detail-bottom-add-review-content">
           <textarea

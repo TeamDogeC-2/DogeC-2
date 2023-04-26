@@ -15,7 +15,7 @@ $text-sub-color: #a8a8a8;
     width: 90%;
 
     svg {
-        margin-top: 1rem;
+      margin-top: 1rem;
     }
 
     .board-detail-bottom-reply-left-top {
@@ -127,5 +127,21 @@ $text-sub-color: #a8a8a8;
   .board-detail-reply-function-icon {
     color: $text-sub-color;
     margin-bottom: 1rem;
+  }
+}
+
+.board-detail-bottom-reply-right {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+
+  .board-detail-reply-function-heart-icon {
+    color: $basic-color;
+    margin-right: 0.125rem;
+  }
+
+  p {
+    color: $text-color;
   }
 }
