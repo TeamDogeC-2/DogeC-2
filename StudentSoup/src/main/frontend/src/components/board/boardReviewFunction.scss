@@ -141,6 +141,7 @@ $text-sub-color: #a8a8a8;
   .board-detail-bottom-review-heart {
     display: flex;
     flex-direction: row;
+    cursor: pointer;
 
     .board-detail-function-heart-icon {
       color: $basic-color;
@@ -148,7 +149,8 @@ $text-sub-color: #a8a8a8;
     }
 
     p {
-      color: $basic-color;
+      margin-left: 0.125rem;
+      color: $text-color;
     }
   }
 }

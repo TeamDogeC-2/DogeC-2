@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './boardReviewFunction.scss';
 import Circle_human from '../../img/circle_human.png';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { spawn } from 'child_process';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   review: any;
@@ -21,6 +22,17 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
   const [replyContented, setReplyContented] = useState<string>('');
   const [saveAddReplyId, setSaveAddReplyId] = useState<any>();
   const [reply, setReply] = useState<number>(0);
+
+  const [like, isLike] = useState<boolean>(review.like);
+  const [clicklike, isClickLike] = useState<boolean>();
+  const [likeCount, setlikeCount] = useState<number>(review.likedCount);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isLike(review.like);
+    setlikeCount(review.likedCount);
+  }, [review]);
 
   const handleReplySetContentValue = (e: any) => {
     setContented(e.target.value);
@@ -117,6 +129,27 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
       /* empty */
     }
   };
+
+  const handleHeartClick = async (e: any) => {
+    const boardId = e.target.id;
+    e.stopPropagation();
+    e.preventDefault();
+    if (!memberId) {
+      if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
+        navigate('/login');
+      } else {
+        /* empty */
+      }
+    } else {
+      await axiosInstance.post(`/boardReply/${e.target.id}/${memberId}/like`).then(res => {
+        isLike(res.data.data.like);
+        setlikeCount(res.data.data.likeCount);
+        console.log(res.data);
+      });
+      isClickLike(!clicklike);
+      isLike(!like);
+    }
+  };
   return (
     <>
       <div className="board-detail-bottom-review">
@@ -189,9 +222,57 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
           <span id={review.boardReplyId} onClick={handleClickAddReply}>
             답글달기 취소
           </span>
-          <div className="board-detail-bottom-review-heart">
-            <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-            <p>{review.likeCount}</p>
+          <div
+            id={review.boardReplyId}
+            onClick={handleHeartClick}
+            className="board-detail-bottom-review-heart"
+          >
+            {like ? (
+              <svg
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="board-detail-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="#FF611D"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={review.boardReplyId}
+                  onClick={handleHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#FF611D"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="restaurant-detail-bottom-review-list-item-heart"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={review.boardReplyId}
+                  onClick={handleHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#ACACAC"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+            <p id={review.boardReplyId} onClick={handleHeartClick}>
+              {clicklike ? likeCount : review.likeCount}
+            </p>
           </div>
         </div>
       ) : (
@@ -199,9 +280,57 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
           <span id={review.boardReplyId} onClick={handleClickAddReply}>
             답글달기
           </span>
-          <div className="board-detail-bottom-review-heart">
-            <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-            <p>{review.likeCount}</p>
+          <div
+            id={review.boardReplyId}
+            onClick={handleHeartClick}
+            className="board-detail-bottom-review-heart"
+          >
+            {like ? (
+              <svg
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="board-detail-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="#FF611D"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={review.boardReplyId}
+                  onClick={handleHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#FF611D"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="restaurant-detail-bottom-review-list-item-heart"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={review.boardReplyId}
+                  onClick={handleHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#ACACAC"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+            <p id={review.boardReplyId} onClick={handleHeartClick}>
+              {clicklike ? likeCount : review.likeCount}
+            </p>
           </div>
         </div>
       )}
