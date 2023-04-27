@@ -3,12 +3,14 @@ import Circle_human from '../../img/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
+import BoardBestReviewHeart from './BoardBestReviewHeart';
 
 interface Props {
   bestReview: any;
+  memberId: number;
 }
 
-const BoardBestReview = ({ bestReview }: Props) => {
+const BoardBestReview = ({ bestReview, memberId }: Props) => {
   return (
     <>
       <Desktop>
@@ -32,12 +34,7 @@ const BoardBestReview = ({ bestReview }: Props) => {
               <p className="board-detail-bottom-best-review-content">{bestReview.content}</p>
             </div>
           </div>
-          <div className="board-detail-bottom-best-review-best-div">
-            <div className="board-detail-bottom-best-review-right-heart">
-              <FontAwesomeIcon icon={faHeart} className="board-detail-function-heart-icon" />
-              <p>{bestReview.likeCount}</p>
-            </div>
-          </div>
+          <BoardBestReviewHeart bestReview={bestReview} memberId={memberId} />
           <div className="board-detail-underline" />
         </div>
       </Desktop>

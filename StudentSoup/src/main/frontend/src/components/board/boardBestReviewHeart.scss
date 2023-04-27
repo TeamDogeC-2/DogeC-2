@@ -1,0 +1,20 @@
+$basic-color: #ff611d;
+$basic-border-color: #bcbcbc;
+$text-color: #252525;
+$text-sub-color: #a8a8a8;
+
+.board-detail-bottom-best-review-best-div {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+
+  .board-detail-function-heart-icon {
+    color: $basic-color;
+    margin-right: 0.125rem;
+  }
+
+  p {
+    color: $basic-color;
+  }
+}
