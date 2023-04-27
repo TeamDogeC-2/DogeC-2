@@ -2,6 +2,7 @@ import React from 'react';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './boardsearch.scss';
 import { type BoardSearchType } from '../../interfaces/BoardTypes';
+import { useNavigate } from 'react-router-dom';
 
 const BoardSearch = ({
   handleSearchButton,
@@ -10,7 +11,10 @@ const BoardSearch = ({
   searched,
   setSearched,
   departmentId,
+  userInformation,
 }: BoardSearchType) => {
+  const navigate = useNavigate();
+
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
   };
@@ -29,6 +33,10 @@ const BoardSearch = ({
     if (e.key === 'Enter') {
       onClickSearch();
     }
+  };
+
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: userInformation });
   };
 
   return (
@@ -57,26 +65,33 @@ const BoardSearch = ({
         </div>
       </Desktop>
       <Mobile>
-        <div className="board-mobile-div">
-          <div className="board-mobile-container">
-            <select defaultValue={selected} onChange={selectBoxChange}>
-              <option value="all">전체</option>
-              <option value="title">제목</option>
-              <option value="content">내용</option>
-              <option value="nickname">닉네임</option>
-            </select>
-            <input
-              type="search"
-              placeholder="글 제목, 내용을 적어주세요"
-              value={searched}
-              onChange={onChangeSearch}
-              onKeyDown={handleOnKeyDownEnter}
-            />
-            <button className="board-mobile-button" onClick={onClickSearch}>
-              검색
+        <>
+          <div className="board-mobile-div">
+            <div className="board-mobile-container">
+              <select defaultValue={selected} onChange={selectBoxChange}>
+                <option value="all">전체</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+                <option value="nickname">닉네임</option>
+              </select>
+              <input
+                type="search"
+                placeholder="글 제목, 내용을 적어주세요"
+                value={searched}
+                onChange={onChangeSearch}
+                onKeyDown={handleOnKeyDownEnter}
+              />
+              <button className="board-mobile-button" onClick={onClickSearch}>
+                검색
+              </button>
+            </div>
+          </div>
+          <div className="board-mobile-button-wrap">
+            <button className="board-mobile-write-button" onClick={handleClickPostWriteButton}>
+              글쓰기
             </button>
           </div>
-        </div>
+        </>
       </Mobile>
     </>
   );
