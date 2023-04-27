@@ -6,13 +6,11 @@ import heart_white from '../../img/heart_white.svg';
 import heart_border_white from '../../img/heart_border_white.svg';
 import BoardBestReview from './BoardBestReview';
 import BoardReview from './BoardReview';
-import BoardReply from './BoardReply';
 import { Desktop, Mobile } from '../../mediaQuery';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
-import { useLocation } from 'react-router-dom';
-import { postUserInfo } from '../../apis/auth/BoardAPI';
-import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const BoardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>();
@@ -29,6 +27,7 @@ const BoardDetail = () => {
   const [like, isLike] = useState<boolean>();
   const [likeCount, setLikeCount] = useState<number>();
   const state = useLocation();
+  const navigate = useNavigate();
 
   const [boardReviewList, setBoardReviewList] = useState<any>([]);
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
@@ -128,6 +127,44 @@ const BoardDetail = () => {
         console.error(err);
       });
   };
+
+  const handleBoardDelete = () => {
+    Swal.fire({
+      title: '게시글 삭제',
+      text: '정말로 게시글을 삭제하시겟습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .delete(`/board/${getBoardId}/${memberId}`)
+          .then(res => {
+            Swal.fire('삭제 성공', '게시글이 삭제되었습니다.', 'success');
+            navigate(-1);
+          })
+          .catch(err => {
+            console.error(err);
+            Swal.fire('삭제 실패', '작성자만 삭제할 수 있습니다.', 'error');
+          });
+      }
+    });
+    // if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
+    //   axiosInstance
+    //     .delete(`/board/${getBoardId}/${memberId}`)
+    //     .then(res => {
+    //       alert('게시글이 삭제되었습니다.');
+    //       navigate(-1);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //     });
+    // }
+  };
   return (
     <>
       <Desktop>
@@ -182,7 +219,9 @@ const BoardDetail = () => {
                 </div>
                 <div className="board-detail-bottom-function">
                   <span className="board-detail-bottom-modify">수정</span>
-                  <span className="board-detail-bottom-report">신고</span>
+                  <span onClick={handleBoardDelete} className="board-detail-bottom-report">
+                    삭제
+                  </span>
                 </div>
               </div>
               <div className="board-detail-bottom-review-write-div">
@@ -265,7 +304,7 @@ const BoardDetail = () => {
                 </div>
                 <div className="board-detail-mobile-bottom-function">
                   <span className="board-detail-mobile-bottom-modify">수정</span>
-                  <span className="board-detail-mobile-bottom-report">신고</span>
+                  <span className="board-detail-mobile-bottom-report">삭제</span>
                 </div>
               </div>
               <div className="board-detail-mobile-bottom-review-write-div">
