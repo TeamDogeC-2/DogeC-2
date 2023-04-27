@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
+import { useNavigate } from 'react-router-dom';
+import review_white from '../../img/review_white.svg';
 
 const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSearchPropsType) => {
   const [selected, setSelected] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
@@ -30,21 +34,12 @@ const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSear
     }
   };
 
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: userInformation });
+  };
+
   return (
     <>
-      <div className="board-control-wrap">
-        {userInformation.memberClassification === 'STUDENT' ? (
-          pageTitle === '공지사항' ? null : (
-            <button>글쓰기</button>
-          )
-        ) : null}
-        {userInformation.memberClassification === 'ADMIN' ? (
-          <>
-            <button>글쓰기</button>
-            <button>게시판 관리</button>
-          </>
-        ) : null}
-      </div>
       <div className="search-container">
         <select key={selected} defaultValue={selected} onChange={selectBoxChange}>
           <option value="all">전체</option>
@@ -60,6 +55,14 @@ const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSear
         <button className="search-button" onClick={onClickSearch}>
           검색
         </button>
+        <div className="board-control-wrap">
+          {pageTitle === '고객센터' && (
+            <button onClick={handleClickPostWriteButton}>
+              <img src={review_white} alt="" />
+              <p>글쓰기</p>
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
