@@ -49,7 +49,6 @@ const CustomerService = () => {
       postPerPage={postPerPage}
       pageTitle="고객센터"
       tableHeader={serviceHeader}
-      setCurrentPage={setCurrentPage}
       handlePostBoardApi={handlePostBoardApi}
       userInformation={userInformation}
     />
