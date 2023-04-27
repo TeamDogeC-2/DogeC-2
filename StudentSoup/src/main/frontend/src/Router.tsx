@@ -16,6 +16,7 @@ import Board from './components/board/Board';
 import BoardDetail from './components/board/BoardDetail';
 import BoardWrite from './components/board/BoardWrite';
 import CustomerService from './components/customerservice/CustomerService';
+import NoticeAndServiceDetail from './components/common/NoticeAndServiceDetail';
 
 const Router = () => {
   return (
@@ -37,6 +38,8 @@ const Router = () => {
       <Route path="/mypage/scheduler" element={<Scheduler />} />
       <Route path="/board/write" element={<BoardWrite />} />
       <Route path="/customerservice" element={<CustomerService />} />
+      <Route path="/notice/detail/:boardId" element={<NoticeAndServiceDetail />} />
+      <Route path="/customerservice/detail/:boardId" element={<NoticeAndServiceDetail />} />
     </Routes>
   );
 };

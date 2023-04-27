@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   type TableProps,
   type TableHeadTextType,
@@ -6,11 +6,15 @@ import {
 } from '../../interfaces/BoardTypes';
 import { Desktop, Mobile } from '../../mediaQuery';
 import './table.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Table = ({ headings, data }: TableProps) => {
+const Table = ({ headings, data, userInformation }: TableProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const tableHeadText: TableHeadTextType = {
     title: '제목',
-    authentication: '작성자',
+    nickname: '작성자',
     writeDate: '게시일',
     view: '조회수',
   };
@@ -35,13 +39,20 @@ const Table = ({ headings, data }: TableProps) => {
 
     return (
       <>
-        <div className="write-data-wrap">
-          <span>{item.authentication}</span>
+        <div key={`${item.boardId}-write-date`} className="write-data-wrap">
+          <span>{item.nickname}</span>
           <span>조회수 {item.view}</span>
         </div>
         <span>{postDate}</span>
       </>
     );
+  };
+
+  const handleClickPostDetail = (boardId: any) => {
+    console.log();
+    navigate(`${location.pathname}/detail/${boardId}`, {
+      state: { ...userInformation, boardId },
+    });
   };
 
   return (
@@ -50,21 +61,36 @@ const Table = ({ headings, data }: TableProps) => {
         <table className="custom-table">
           <thead>
             <tr>
-              {headings.map((heading: string) => (
-                <th key={heading} className={`${heading.toLowerCase().replace(' ', '-')}-heading`}>
-                  {tableHeadText[heading]}
-                </th>
-              ))}
+              {headings.map((heading: string) => {
+                return (
+                  <th
+                    key={heading}
+                    className={`${heading.toLowerCase().replace(' ', '-')}-heading`}
+                  >
+                    {tableHeadText[heading]}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
             {data.map(item => (
-              <tr key={item.boardId}>
+              <tr key={item.boardId} onClick={() => handleClickPostDetail(item.boardId)}>
                 {headings.map((heading: string) => {
-                  if (heading === 'writeDate') {
+                  if (headings.length > 2 && heading === 'title') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
+                        className={`${heading.toLowerCase().replace(' ', '-')}-data`}
+                      >
+                        {item[heading]}
+                        <span className="customerservice-reviewCount">{item.reviewCount}</span>
+                      </td>
+                    );
+                  } else if (heading === 'writeDate') {
+                    return (
+                      <td
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {dateFormatting(item)}
@@ -73,7 +99,7 @@ const Table = ({ headings, data }: TableProps) => {
                   } else {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {item[heading]}
@@ -111,12 +137,13 @@ const Table = ({ headings, data }: TableProps) => {
               <tr
                 key={item.boardId}
                 className={headings.length <= 2 ? 'notice-data' : 'customer-service-data'}
+                onClick={() => handleClickPostDetail(item.boardId)}
               >
                 {headings.map((heading: string) => {
-                  if (heading === 'title') {
+                  if (headings.length <= 2 && heading === 'title') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {item[heading]}
@@ -125,19 +152,29 @@ const Table = ({ headings, data }: TableProps) => {
                   } else if (headings.length <= 2 && heading === 'writeDate') {
                     return (
                       <td
-                        key={heading}
+                        key={`${item.boardId}-${heading}`}
                         className={`${heading.toLowerCase().replace(' ', '-')}-data`}
                       >
                         {dateFormatting(item)}
                       </td>
                     );
+                  } else if (headings.length > 2 && heading === 'title') {
+                    return (
+                      <td
+                        key={`${item.boardId}-${heading}`}
+                        className={`${heading.toLowerCase().replace(' ', '-')}-data`}
+                      >
+                        {item[heading]}
+                        <span className="customerservice-reviewCount">{item.reviewCount}</span>
+                      </td>
+                    );
                   } else if (headings.length > 2 && heading === 'writeDate') {
                     return (
-                      <>
-                        <div className="combined-data">{renderCombinedData(item)}</div>
-                      </>
+                      <td key={`${item.boardId}-${heading}`} className="combined-data">
+                        {renderCombinedData(item)}
+                      </td>
                     );
-                  } else if (headings.length > 2 && ['authentication', 'view'].includes(heading)) {
+                  } else if (headings.length > 2 && ['nickname', 'view'].includes(heading)) {
                     return null;
                   }
                 })}

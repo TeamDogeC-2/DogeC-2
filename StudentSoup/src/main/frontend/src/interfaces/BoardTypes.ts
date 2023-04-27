@@ -28,13 +28,14 @@ export interface BoardDataType {
 
 export interface PostSearchPropsType {
   pageTitle: string;
-  setItems: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
-  setPostPerPage: React.Dispatch<React.SetStateAction<number>>;
+  handlePostBoardApi: (search: string) => void;
+  userInformation: userInformationType;
 }
 
 export interface TableProps {
   headings: string[];
   data: BoardDataType[];
+  userInformation: userInformationType;
 }
 
 export interface TableHeadTextType {
@@ -47,15 +48,14 @@ export interface TableHeadTextType {
 
 export interface NoticeAndServiceProps {
   items: BoardDataType[];
-  setItems: React.Dispatch<React.SetStateAction<BoardDataType[]>>;
-  currentPosts: BoardDataType[];
   currentPage: number;
   count: number;
   handlePageChange: React.Dispatch<React.SetStateAction<number>>;
   postPerPage: number;
-  setPostPerPage: React.Dispatch<React.SetStateAction<number>>;
   pageTitle: string;
   tableHeader: string[];
+  handlePostBoardApi: (search: string) => void;
+  userInformation: userInformationType;
 }
 
 export interface BoardDepartmentType {
@@ -84,4 +84,5 @@ export interface BoardSearchType {
   searched: string | undefined;
   setSearched: React.Dispatch<React.SetStateAction<string>>;
   departmentId: number | null;
+  userInformation: userInformationType;
 }
