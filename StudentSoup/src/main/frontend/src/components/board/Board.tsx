@@ -187,6 +187,8 @@ const Board = () => {
                 bestBoardItems={bestBoardItems}
                 hotBoardItems={hotBoardItems}
                 currentPosts={currentPosts}
+                memberId={userInformation.memberId}
+                nickname={userInformation.nickname}
               />
             </Mobile>
           </div>

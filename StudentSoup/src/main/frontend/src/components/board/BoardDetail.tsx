@@ -104,11 +104,11 @@ const BoardDetail = () => {
 
   const handleSumbitReply = (e: any) => {
     if (!replyContent) {
-      alert('댓글을 입력해주세요.');
+      Swal.fire('등록 실패', '내용을 입력해주세요.', 'error');
       return;
     }
     if (replyContent.length < 2 || replyContent.length > 500) {
-      alert('댓글은 2자이상 500자 이하입니다.');
+      Swal.fire('등록 실패', '댓글은 2자이상 500자 이하입니다.', 'error');
       return;
     }
     axiosInstance
@@ -120,8 +120,11 @@ const BoardDetail = () => {
         seq: reply,
       })
       .then(res => {
-        alert('성공적으로 댓글을 작성하였습니다.');
-        location.reload();
+        Swal.fire('등록 성공', '성공적으로 댓글을 작성하였습니다.', 'success').then(result => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
       })
       .catch(err => {
         console.error(err);
@@ -153,17 +156,6 @@ const BoardDetail = () => {
           });
       }
     });
-    // if (confirm('정말로 게시글을 삭제하시겟습니까?')) {
-    //   axiosInstance
-    //     .delete(`/board/${getBoardId}/${memberId}`)
-    //     .then(res => {
-    //       alert('게시글이 삭제되었습니다.');
-    //       navigate(-1);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //     });
-    // }
   };
   return (
     <>
@@ -304,7 +296,9 @@ const BoardDetail = () => {
                 </div>
                 <div className="board-detail-mobile-bottom-function">
                   <span className="board-detail-mobile-bottom-modify">수정</span>
-                  <span className="board-detail-mobile-bottom-report">삭제</span>
+                  <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
+                    삭제
+                  </span>
                 </div>
               </div>
               <div className="board-detail-mobile-bottom-review-write-div">
