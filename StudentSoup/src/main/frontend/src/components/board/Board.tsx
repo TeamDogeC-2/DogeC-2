@@ -212,6 +212,7 @@ const Board = () => {
             searched={searched}
             setSearched={setSearched}
             departmentId={departmentId}
+            userInformation={userInformation}
           />
         </div>
       </div>
