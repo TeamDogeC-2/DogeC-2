@@ -43,11 +43,7 @@ const BoardBestReviewHeart = ({ bestReview, memberId }: Props) => {
   };
 
   return (
-    <div
-      id={bestReview.boardReplyId}
-      onClick={handleClickBestHeart}
-      className="board-detail-bottom-best-review-best-div"
-    >
+    <div id={bestReview.boardReplyId} className="board-detail-bottom-best-review-best-div">
       {likeBestReview ? (
         <svg
           id={bestReview.boardReplyId}
@@ -92,7 +88,9 @@ const BoardBestReviewHeart = ({ bestReview, memberId }: Props) => {
         </svg>
       )}
 
-      <p id={bestReview.boardReplyId}>{clicklikeReview ? likeReviewCount : bestReview.likeCount}</p>
+      <p id={bestReview.boardReplyId} onClick={handleClickBestHeart}>
+        {clicklikeReview ? likeReviewCount : bestReview.likeCount}
+      </p>
     </div>
   );
 };

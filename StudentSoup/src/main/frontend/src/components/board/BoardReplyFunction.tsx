@@ -179,11 +179,7 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
               </div>
             )}
           </div>
-          <div
-            id={reply.boardReplyId}
-            onClick={handleReplyHeartClick}
-            className="board-detail-bottom-reply-right"
-          >
+          <div id={reply.boardReplyId} className="board-detail-bottom-reply-right">
             {likeReply ? (
               <svg
                 id={reply.boardReplyId}
@@ -227,7 +223,9 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
                 />
               </svg>
             )}
-            <p id={reply.boardReplyId}>{clicklikeReply ? likeReplyCount : reply.likeCount}</p>
+            <p id={reply.boardReplyId} onClick={handleReplyHeartClick}>
+              {clicklikeReply ? likeReplyCount : reply.likeCount}
+            </p>
           </div>
         </>
       </Desktop>
@@ -302,11 +300,7 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
               </div>
             )}
           </div>
-          <div
-            id={reply.boardReplyId}
-            onClick={handleReplyHeartClick}
-            className="board-detail-mobile-bottom-reply-right"
-          >
+          <div id={reply.boardReplyId} className="board-detail-mobile-bottom-reply-right">
             {likeReply ? (
               <svg
                 id={reply.boardReplyId}
@@ -350,7 +344,9 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
                 />
               </svg>
             )}
-            <p id={reply.boardReplyId}>{clicklikeReply ? likeReplyCount : reply.likeCount}</p>
+            <p id={reply.boardReplyId} onClick={handleReplyHeartClick}>
+              {clicklikeReply ? likeReplyCount : reply.likeCount}
+            </p>
           </div>
         </>
       </Mobile>

@@ -281,15 +281,17 @@ $text-sub-color: #a8a8a8;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0.5rem;
-  cursor: pointer;
 
   .board-detail-reply-function-heart-icon {
     color: $basic-color;
     margin-right: 0.125rem;
+    cursor: pointer;
   }
 
   p {
     color: $text-color;
+
+    cursor: pointer;
   }
 }
 
@@ -297,14 +299,15 @@ $text-sub-color: #a8a8a8;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0.5rem;
-  cursor: pointer;
 
-  .board-detail-reply-function-heart-icon {
+  .board-detail-mobile-reply-function-heart-icon {
     color: $basic-color;
     margin-right: 0.125rem;
+    cursor: pointer;
   }
 
   p {
     color: $text-color;
+    cursor: pointer;
   }
 }

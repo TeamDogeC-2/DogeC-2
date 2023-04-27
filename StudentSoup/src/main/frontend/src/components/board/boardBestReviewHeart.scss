@@ -7,14 +7,15 @@ $text-sub-color: #a8a8a8;
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0.5rem;
-  cursor: pointer;
 
   .board-detail-function-heart-icon {
     color: $basic-color;
     margin-right: 0.125rem;
+    cursor: pointer;
   }
 
   p {
     color: $basic-color;
+    cursor: pointer;
   }
 }
