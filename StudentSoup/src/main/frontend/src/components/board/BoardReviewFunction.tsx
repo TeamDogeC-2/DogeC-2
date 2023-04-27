@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import './boardReviewFunction.scss';
 import Circle_human from '../../img/circle_human.png';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { spawn } from 'child_process';
 import { useNavigate } from 'react-router-dom';
+import { Desktop, Mobile } from '../../mediaQuery';
 
 interface Props {
   review: any;
@@ -151,201 +149,407 @@ const BoardReviewFunction = ({ review, memberId, getBoardId, nickname }: Props) 
   };
   return (
     <>
-      <div className="board-detail-bottom-review">
-        <div className="board-detail-bottom-review-left">
-          <div className="board-detail-bottom-review-left-top">
-            <img
-              src={
-                review.memberProfileImageName
-                  ? `/image/${review.memberProfileImageName}`
-                  : Circle_human
-              }
-              alt=""
-            />
-            <span>
-              {review.nickname} <p>{review.writeDate}</p>
-            </span>
+      <Desktop>
+        <>
+          <div className="board-detail-bottom-review">
+            <div className="board-detail-bottom-review-left">
+              <div className="board-detail-bottom-review-left-top">
+                <img
+                  src={
+                    review.memberProfileImageName
+                      ? `/image/${review.memberProfileImageName}`
+                      : Circle_human
+                  }
+                  alt=""
+                />
+                <span>
+                  {review.nickname} <p>{review.writeDate}</p>
+                </span>
+              </div>
+              {modifyClick ? (
+                <div id={review.boardReplyId} className="board-detail-bottom-review-modify-content">
+                  <textarea
+                    maxLength={500}
+                    value={contented}
+                    onChange={e => handleReplySetContentValue(e)}
+                    placeholder="댓글을 입력해주세요."
+                  ></textarea>
+                  <button onClick={handleEditReply}>등록</button>
+                </div>
+              ) : (
+                <p className="board-detail-bottom-review-content">{review.content}</p>
+              )}
+            </div>
+            {nickname === review.nickname && (
+              <div className="board-detail-function-div">
+                <>
+                  {modifyClick ? (
+                    <span>
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify-cancel"
+                      >
+                        수정취소
+                      </p>
+                    </span>
+                  ) : (
+                    <span>
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify"
+                      >
+                        수정
+                      </p>
+                      |
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleDeleteReply}
+                        className="board-detail-delete"
+                      >
+                        삭제
+                      </p>
+                    </span>
+                  )}
+                </>
+              </div>
+            )}
           </div>
-          {modifyClick ? (
-            <div id={review.boardReplyId} className="board-detail-bottom-review-modify-content">
-              <textarea
-                maxLength={500}
-                value={contented}
-                onChange={e => handleReplySetContentValue(e)}
-                placeholder="댓글을 입력해주세요."
-              ></textarea>
-              <button onClick={handleEditReply}>등록</button>
+          {addReply ? (
+            <div className="board-detail-bottom-review-right">
+              <span id={review.boardReplyId} onClick={handleClickAddReply}>
+                답글달기 취소
+              </span>
+              <div
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="board-detail-bottom-review-heart"
+              >
+                {like ? (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="board-detail-function-heart-icon"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="#FF611D"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#FF611D"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="restaurant-detail-bottom-review-list-item-heart"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#ACACAC"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <p id={review.boardReplyId} onClick={handleHeartClick}>
+                  {clicklike ? likeCount : review.likeCount}
+                </p>
+              </div>
             </div>
           ) : (
-            <p className="board-detail-bottom-review-content">{review.content}</p>
+            <div className="board-detail-bottom-review-right">
+              <span id={review.boardReplyId} onClick={handleClickAddReply}>
+                답글달기
+              </span>
+              <div
+                id={review.boardReplyId}
+                onClick={handleHeartClick}
+                className="board-detail-bottom-review-heart"
+              >
+                {like ? (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="board-detail-function-heart-icon"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="#FF611D"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#FF611D"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="restaurant-detail-bottom-review-list-item-heart"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#ACACAC"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <p id={review.boardReplyId} onClick={handleHeartClick}>
+                  {clicklike ? likeCount : review.likeCount}
+                </p>
+              </div>
+            </div>
           )}
-        </div>
-        {nickname === review.nickname && (
-          <div className="board-detail-function-div">
-            <>
+          {addReply ? (
+            <div id={review.boardReplyId} className="board-detail-bottom-add-review-content">
+              <textarea
+                maxLength={500}
+                value={replyContented}
+                onChange={e => handleAddReplySetContentValue(e)}
+                placeholder="댓글을 입력해주세요."
+              ></textarea>
+              <button onClick={handleAddReply}>등록</button>
+            </div>
+          ) : (
+            <span></span>
+          )}
+        </>
+      </Desktop>
+      <Mobile>
+        <>
+          <div className="board-detail-mobile-bottom-review">
+            <div className="board-detail-mobile-bottom-review-left">
+              <div className="board-detail-mobile-bottom-review-left-top">
+                <img
+                  src={
+                    review.memberProfileImageName
+                      ? `/image/${review.memberProfileImageName}`
+                      : Circle_human
+                  }
+                  alt=""
+                />
+                <span>
+                  {review.nickname} <p>{review.writeDate}</p>
+                </span>
+              </div>
               {modifyClick ? (
-                <span>
-                  <p
-                    id={review.boardReplyId}
-                    onClick={handleEditClick}
-                    className="board-detail-modify-cancel"
-                  >
-                    수정취소
-                  </p>
-                </span>
+                <div
+                  id={review.boardReplyId}
+                  className="board-detail-mobile-bottom-review-modify-content"
+                >
+                  <textarea
+                    maxLength={500}
+                    value={contented}
+                    onChange={e => handleReplySetContentValue(e)}
+                    placeholder="댓글을 입력해주세요."
+                  ></textarea>
+                  <button onClick={handleEditReply}>등록</button>
+                </div>
               ) : (
-                <span>
-                  <p
-                    id={review.boardReplyId}
-                    onClick={handleEditClick}
-                    className="board-detail-modify"
-                  >
-                    수정
-                  </p>
-                  |
-                  <p
-                    id={review.boardReplyId}
-                    onClick={handleDeleteReply}
-                    className="board-detail-delete"
-                  >
-                    삭제
-                  </p>
-                </span>
+                <p className="board-detail-mobile-bottom-review-content">{review.content}</p>
               )}
-            </>
-          </div>
-        )}
-      </div>
-      {addReply ? (
-        <div className="board-detail-bottom-review-right">
-          <span id={review.boardReplyId} onClick={handleClickAddReply}>
-            답글달기 취소
-          </span>
-          <div
-            id={review.boardReplyId}
-            onClick={handleHeartClick}
-            className="board-detail-bottom-review-heart"
-          >
-            {like ? (
-              <svg
-                id={review.boardReplyId}
-                onClick={handleHeartClick}
-                className="board-detail-function-heart-icon"
-                width="17"
-                height="15"
-                viewBox="0 0 17 15"
-                fill="#FF611D"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  id={review.boardReplyId}
-                  onClick={handleHeartClick}
-                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-                  stroke="#FF611D"
-                  strokeWidth="1.30715"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ) : (
-              <svg
-                id={review.boardReplyId}
-                onClick={handleHeartClick}
-                className="restaurant-detail-bottom-review-list-item-heart"
-                width="17"
-                height="15"
-                viewBox="0 0 17 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  id={review.boardReplyId}
-                  onClick={handleHeartClick}
-                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-                  stroke="#ACACAC"
-                  strokeWidth="1.30715"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            </div>
+            {nickname === review.nickname && (
+              <div className="board-detail-function-div">
+                <>
+                  {modifyClick ? (
+                    <span>
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify-cancel"
+                      >
+                        수정취소
+                      </p>
+                    </span>
+                  ) : (
+                    <span>
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify"
+                      >
+                        수정
+                      </p>
+                      |
+                      <p
+                        id={review.boardReplyId}
+                        onClick={handleDeleteReply}
+                        className="board-detail-delete"
+                      >
+                        삭제
+                      </p>
+                    </span>
+                  )}
+                </>
+              </div>
             )}
-            <p id={review.boardReplyId} onClick={handleHeartClick}>
-              {clicklike ? likeCount : review.likeCount}
-            </p>
           </div>
-        </div>
-      ) : (
-        <div className="board-detail-bottom-review-right">
-          <span id={review.boardReplyId} onClick={handleClickAddReply}>
-            답글달기
-          </span>
-          <div
-            id={review.boardReplyId}
-            onClick={handleHeartClick}
-            className="board-detail-bottom-review-heart"
-          >
-            {like ? (
-              <svg
+          {addReply ? (
+            <div className="board-detail-bottom-review-right">
+              <span id={review.boardReplyId} onClick={handleClickAddReply}>
+                답글달기 취소
+              </span>
+              <div
                 id={review.boardReplyId}
                 onClick={handleHeartClick}
-                className="board-detail-function-heart-icon"
-                width="17"
-                height="15"
-                viewBox="0 0 17 15"
-                fill="#FF611D"
-                xmlns="http://www.w3.org/2000/svg"
+                className="board-detail-bottom-review-heart"
               >
-                <path
-                  id={review.boardReplyId}
-                  onClick={handleHeartClick}
-                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-                  stroke="#FF611D"
-                  strokeWidth="1.30715"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ) : (
-              <svg
+                {like ? (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="board-detail-function-heart-icon"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="#FF611D"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#FF611D"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="restaurant-detail-bottom-review-list-item-heart"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#ACACAC"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <p id={review.boardReplyId} onClick={handleHeartClick}>
+                  {clicklike ? likeCount : review.likeCount}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="board-detail-bottom-review-right">
+              <span id={review.boardReplyId} onClick={handleClickAddReply}>
+                답글달기
+              </span>
+              <div
                 id={review.boardReplyId}
                 onClick={handleHeartClick}
-                className="restaurant-detail-bottom-review-list-item-heart"
-                width="17"
-                height="15"
-                viewBox="0 0 17 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+                className="board-detail-bottom-review-heart"
               >
-                <path
-                  id={review.boardReplyId}
-                  onClick={handleHeartClick}
-                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-                  stroke="#ACACAC"
-                  strokeWidth="1.30715"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
-            <p id={review.boardReplyId} onClick={handleHeartClick}>
-              {clicklike ? likeCount : review.likeCount}
-            </p>
-          </div>
-        </div>
-      )}
-      {addReply ? (
-        <div id={review.boardReplyId} className="board-detail-bottom-add-review-content">
-          <textarea
-            maxLength={500}
-            value={replyContented}
-            onChange={e => handleAddReplySetContentValue(e)}
-            placeholder="댓글을 입력해주세요."
-          ></textarea>
-          <button onClick={handleAddReply}>등록</button>
-        </div>
-      ) : (
-        <span></span>
-      )}
+                {like ? (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="board-detail-function-heart-icon"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="#FF611D"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#FF611D"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    id={review.boardReplyId}
+                    onClick={handleHeartClick}
+                    className="restaurant-detail-bottom-review-list-item-heart"
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id={review.boardReplyId}
+                      onClick={handleHeartClick}
+                      d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                      stroke="#ACACAC"
+                      strokeWidth="1.30715"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                <p id={review.boardReplyId} onClick={handleHeartClick}>
+                  {clicklike ? likeCount : review.likeCount}
+                </p>
+              </div>
+            </div>
+          )}
+          {addReply ? (
+            <div id={review.boardReplyId} className="board-detail-mobile-bottom-add-review-content">
+              <textarea
+                maxLength={500}
+                value={replyContented}
+                onChange={e => handleAddReplySetContentValue(e)}
+                placeholder="댓글을 입력해주세요."
+              ></textarea>
+              <button onClick={handleAddReply}>등록</button>
+            </div>
+          ) : (
+            <span></span>
+          )}
+        </>
+      </Mobile>
     </>
   );
 };

@@ -179,3 +179,28 @@ $text-sub-color: #a8a8a8;
     cursor: pointer;
   }
 }
+
+.board-detail-mobile-bottom-add-review-content {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  margin-bottom: 1rem;
+
+  textarea {
+    width: 90%;
+    resize: none;
+    border-radius: 5px;
+    margin-left: 3.5rem;
+    padding: 0.5rem;
+  }
+
+  button {
+    width: 20%;
+    background-color: $basic-color;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+  }
+}
