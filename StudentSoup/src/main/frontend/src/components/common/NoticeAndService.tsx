@@ -15,7 +15,6 @@ const NoticeAndService = ({
   postPerPage,
   pageTitle,
   tableHeader,
-  setCurrentPage,
   handlePostBoardApi,
   userInformation,
 }: NoticeAndServiceProps) => {
@@ -44,7 +43,6 @@ const NoticeAndService = ({
         />
         <PostSearch
           pageTitle={pageTitle}
-          setCurrentPage={setCurrentPage}
           handlePostBoardApi={handlePostBoardApi}
           userInformation={userInformation}
         />
