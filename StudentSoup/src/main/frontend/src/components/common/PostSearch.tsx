@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
 import { useNavigate } from 'react-router-dom';
 import review_white from '../../img/review_white.svg';
 
 const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSearchPropsType) => {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
 
@@ -38,6 +39,12 @@ const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSear
     navigate('/board/write', { state: userInformation });
   };
 
+  useEffect(() => {
+    if (window.localStorage.getItem('access-token')) {
+      setIsLogin(true);
+    }
+  }, []);
+
   return (
     <>
       <div className="search-container">
@@ -56,7 +63,7 @@ const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSear
           검색
         </button>
         <div className="board-control-wrap">
-          {pageTitle === '고객센터' && (
+          {pageTitle === '고객센터' && isLogin && (
             <button onClick={handleClickPostWriteButton}>
               <img src={review_white} alt="" />
               <p>글쓰기</p>
