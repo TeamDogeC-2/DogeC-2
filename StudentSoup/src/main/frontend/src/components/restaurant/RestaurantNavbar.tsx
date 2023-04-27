@@ -227,12 +227,12 @@ const RestaurantNavbar = () => {
           </div>
           <ul className="restaurant-nav-menu">
             <li className="restaurant-nav-li">
-              <Link to="/notice" className="restaurant-nav-links">
+              <Link to="/notice" className="restaurant-nav-links" state={userInformation}>
                 <i>공지사항</i>
               </Link>
             </li>
             <li className="restaurant-nav-li">
-              <Link to="/customerservice" className="restaurant-nav-links">
+              <Link to="/customerservice" className="restaurant-nav-links" state={userInformation}>
                 <i>고객센터</i>
               </Link>
             </li>
@@ -339,7 +339,7 @@ const RestaurantNavbar = () => {
               </div>
             </li>
             <li>
-              <Link to="/notice" className="tablet-restaurant-nav-link">
+              <Link to="/notice" className="tablet-restaurant-nav-link" state={userInformation}>
                 <div className="tablet-restaurant-nav-list">
                   <i className="tablet-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
@@ -347,7 +347,11 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="tablet-restaurant-nav-link">
+              <Link
+                to="/customerservice"
+                className="tablet-restaurant-nav-link"
+                state={userInformation}
+              >
                 <div className="tablet-restaurant-nav-list">
                   <i className="tablet-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
@@ -476,7 +480,7 @@ const RestaurantNavbar = () => {
               </div>
             </li>
             <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
+              <Link to="/notice" className="mobile-restaurant-nav-link" state={userInformation}>
                 <div className="mobile-restaurant-nav-list">
                   <i className="mobile-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
@@ -484,7 +488,11 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="mobile-restaurant-nav-link">
+              <Link
+                to="/customerservice"
+                className="mobile-restaurant-nav-link"
+                state={userInformation}
+              >
                 <div className="mobile-restaurant-nav-list">
                   <i className="mobile-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />

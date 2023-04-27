@@ -3,9 +3,11 @@ import axiosInstance from './AxiosInterceptor';
 
 export const postBoardCategory = async (
   category: string,
+  page: number,
+  size: number = 12,
   search: string = '',
 ): Promise<AxiosResponse> => {
-  const response = await axios.post(`/board/${category}?title=${search}`);
+  const response = await axios.post(`/board/${category}?title=${search}`, { page, size });
   return response;
 };
 
@@ -38,5 +40,10 @@ export const postBoards = async (
 
 export const getDepartmentIdBoards = async (schoolId: number) => {
   const response = await axiosInstance.get(`/board/department/${schoolId}`);
+  return response;
+};
+
+export const postBoardDetail = async (boardId: number, memberId: number | null) => {
+  const response = await axios.post(`/board/detail/${boardId}/${memberId}`);
   return response;
 };

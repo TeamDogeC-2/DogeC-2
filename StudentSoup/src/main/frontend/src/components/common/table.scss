@@ -34,7 +34,7 @@ table.custom-table {
     max-width: 86%;
   }
 
-  .authentication-heading {
+  .nickname-heading {
     width: 6.5%;
   }
 
@@ -53,9 +53,14 @@ table.custom-table {
     min-width: 50%;
     max-width: 86%;
     text-align: left;
+
+    .customerservice-reviewCount {
+      margin-left: 6px;
+      color: $basic-color;
+    }
   }
 
-  .authentication-data {
+  .nickname-data {
     width: 6.5%;
     text-align: center;
   }
@@ -84,7 +89,7 @@ table.custom-table {
         max-width: 86%;
       }
 
-      .authentication-heading {
+      .nickname-heading {
         width: 6.5%;
       }
 
@@ -103,7 +108,7 @@ table.custom-table {
         text-align: left;
       }
 
-      .authentication-data {
+      .nickname-data {
         width: 6.5%;
         text-align: center;
       }

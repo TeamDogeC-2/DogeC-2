@@ -1,12 +1,15 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { postBoardCategory } from '../../apis/auth/BoardAPI';
+import React, { useEffect, useState } from 'react';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
+import { useNavigate } from 'react-router-dom';
+import review_white from '../../img/review_white.svg';
 
-const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType) => {
-  const [selected, setSelected] = useState('all');
-  const [search, setSearch] = useState('');
+const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSearchPropsType) => {
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [selected, setSelected] = useState<string>('all');
+  const [search, setSearch] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
@@ -18,36 +21,40 @@ const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType
     setSearch(e.target.value.toLowerCase());
   };
 
-  const onClickSearch = async () => {
-    if (pageTitle === '공지사항') {
-      postBoardCategory('ANNOUNCEMENT', search).then(response => {
-        setItems(response.data.content);
-        setPostPerPage(response.data.pageable.pageSize);
-      });
-    } else if (pageTitle === '고객센터') {
-      postBoardCategory('CUSTOMERSERVICE', search).then(response => {
-        setItems(response.data.content);
-        setPostPerPage(response.data.pageable.pageSize);
-      });
-    }
+  const postBoardApi = (search: string) => {
+    handlePostBoardApi(search);
+  };
+
+  const onClickSearch = () => {
+    postBoardApi(search);
   };
 
   const handleOnKeyDownEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onClickSearch();
+      return onClickSearch();
     }
   };
+
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: userInformation });
+  };
+
+  useEffect(() => {
+    if (window.localStorage.getItem('access-token')) {
+      setIsLogin(true);
+    }
+  }, []);
 
   return (
     <>
       <div className="search-container">
-        <select defaultValue={selected} onChange={selectBoxChange}>
+        <select key={selected} defaultValue={selected} onChange={selectBoxChange}>
           <option value="all">전체</option>
           <option value="title">제목</option>
         </select>
         <input
           type="search"
-          placeholder="글 제목, 내용을 적어주세요"
+          placeholder="글 제목을 적어주세요"
           value={search}
           onChange={onChangeSearch}
           onKeyDown={handleOnKeyDownEnter}
@@ -55,6 +62,14 @@ const PostSearch = ({ pageTitle, setItems, setPostPerPage }: PostSearchPropsType
         <button className="search-button" onClick={onClickSearch}>
           검색
         </button>
+        <div className="board-control-wrap">
+          {pageTitle === '고객센터' && isLogin && (
+            <button onClick={handleClickPostWriteButton}>
+              <img src={review_white} alt="" />
+              <p>글쓰기</p>
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
