@@ -28,7 +28,6 @@ export interface BoardDataType {
 
 export interface PostSearchPropsType {
   pageTitle: string;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   handlePostBoardApi: (search: string) => void;
   userInformation: userInformationType;
 }
@@ -55,7 +54,6 @@ export interface NoticeAndServiceProps {
   postPerPage: number;
   pageTitle: string;
   tableHeader: string[];
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   handlePostBoardApi: (search: string) => void;
   userInformation: userInformationType;
 }
@@ -86,4 +84,5 @@ export interface BoardSearchType {
   searched: string | undefined;
   setSearched: React.Dispatch<React.SetStateAction<string>>;
   departmentId: number | null;
+  userInformation: userInformationType;
 }
