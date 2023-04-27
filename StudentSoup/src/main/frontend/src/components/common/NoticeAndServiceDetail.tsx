@@ -11,6 +11,7 @@ import BoardBestReview from '../board/BoardBestReview';
 import BoardReview from '../board/BoardReview';
 import BoardReply from '../board/BoardReply';
 import Swal from 'sweetalert2';
+import { postBoardDetail } from '../../apis/auth/BoardAPI';
 
 const NoticeDetail = () => {
   const [postDetailInformation, setPostDetailInformation] = useState({
@@ -26,6 +27,7 @@ const NoticeDetail = () => {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(false);
+
   const boardCategory: {
     [key: string]: string;
     ANNOUNCEMENT: string;
@@ -33,7 +35,7 @@ const NoticeDetail = () => {
   } = { ANNOUNCEMENT: '공지사항', CUSTOMERSERVICE: '고객센터' };
 
   const api = () => {
-    axios.post(`/board/detail/${location.state.boardId}/${location.state.memberId}`).then(res => {
+    postBoardDetail(location.state.boardId, location.state.memberId).then(res => {
       setPostDetailInformation({
         content: res.data.content,
         nickname: res.data.nickname,
