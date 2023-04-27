@@ -197,7 +197,7 @@ const BoardDetail = () => {
               </div>
               {boardBestReviewList?.map((bestReview: any) => (
                 <>
-                  <BoardBestReview bestReview={bestReview} />
+                  <BoardBestReview bestReview={bestReview} memberId={memberId} />
                 </>
               ))}
               <BoardReview
@@ -280,7 +280,7 @@ const BoardDetail = () => {
               </div>
               {boardBestReviewList?.map((bestReview: any) => (
                 <>
-                  <BoardBestReview bestReview={bestReview} />
+                  <BoardBestReview bestReview={bestReview} memberId={memberId} />
                 </>
               ))}
               <BoardReview
