@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
+import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
 
 interface State {
@@ -9,7 +10,7 @@ interface State {
   value3: string;
 }
 
-const MobileBoard = (props: any) => {
+const MobileBoard = (props: BoardPropsType) => {
   const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, memberId, nickname } =
     props;
 
@@ -25,11 +26,11 @@ const MobileBoard = (props: any) => {
   return (
     <div className="mobile-board-wrap">
       {currentPosts
-        .filter((post: any) => post.authentication === 'Y')
-        .map((post: any) => {
+        .filter((post: BoardDataType) => post.authentication === 'Y')
+        .map((post: BoardDataType) => {
           return (
             <div
-              id={post.boardId}
+              id={post.boardId.toString()}
               key={post.boardId}
               className="board-table-div authentication-post"
             >
@@ -54,10 +55,10 @@ const MobileBoard = (props: any) => {
           );
         })}
       {currentPage === 1 && category === 'ALL'
-        ? bestBoardItems.map((post: any) => {
+        ? bestBoardItems.map((post: BoardDataType) => {
             return (
               <div
-                id={post.boardId}
+                id={post.boardId.toString()}
                 key={post.boardId}
                 onClick={handleClickDetail}
                 className="board-table-div"
@@ -85,10 +86,10 @@ const MobileBoard = (props: any) => {
           })
         : null}
       {currentPage === 1 && category === 'ALL'
-        ? hotBoardItems.map((post: any) => {
+        ? hotBoardItems.map((post: BoardDataType) => {
             return (
               <div
-                id={post.boardId}
+                id={post.boardId.toString()}
                 key={post.boardId}
                 onClick={handleClickDetail}
                 className="board-table-div"
@@ -119,11 +120,11 @@ const MobileBoard = (props: any) => {
         : null}
       {!!currentPosts &&
         currentPosts
-          .filter((post: any) => post.authentication === 'N')
-          .map((post: any) => {
+          .filter((post: BoardDataType) => post.authentication === 'N')
+          .map((post: BoardDataType) => {
             return (
               <div
-                id={post.boardId}
+                id={post.boardId.toString()}
                 key={post.boardId}
                 onClick={handleClickDetail}
                 className="board-table-div"

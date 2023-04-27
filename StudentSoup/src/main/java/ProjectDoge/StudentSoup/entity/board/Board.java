@@ -46,7 +46,6 @@ public class Board {
     @JoinColumn(name = "WRITER_NICKNAME")
     private Member member;
 
-    @Size(min = 5, max = 1000)
     private String content;
 
     private String ip;

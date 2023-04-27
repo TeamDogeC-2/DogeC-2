@@ -9,21 +9,22 @@ import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { type BoardDepartmentType, type BoardDataType } from '../../interfaces/BoardTypes';
 
 const Board = () => {
   const [category, setCategory] = useState<string>('ALL');
   const [schoolName, setSchoolName] = useState<string>('');
 
-  const [bestBoardItems, setBestBoardItems] = useState<any[]>([]);
-  const [hotBoardItems, setHotBoardItems] = useState<any[]>([]);
+  const [bestBoardItems, setBestBoardItems] = useState<BoardDataType[]>([]);
+  const [hotBoardItems, setHotBoardItems] = useState<BoardDataType[]>([]);
   const [count, setCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postPerPage, setPostPerPage] = useState<number>(0);
-  const [currentPosts, setCurrentPosts] = useState<any[]>([]);
-  const [selected, setSelected] = useState<string>('');
+  const [currentPosts, setCurrentPosts] = useState<BoardDataType[]>([]);
+  const [selected, setSelected] = useState<string>('all');
   const [searched, setSearched] = useState<string>('');
   const [sorted, setSorted] = useState<number>(0);
-  const [departmentOption, setDepartmentOption] = useState<any[]>();
+  const [departmentOption, setDepartmentOption] = useState<BoardDepartmentType[]>();
 
   const [departmentId, setDepartmentId] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -38,13 +39,14 @@ const Board = () => {
     timerProgressBar: true,
   });
 
-  const handleChangeOption = (e: any) => {
+  const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectDepartment = parseInt(e.target.value);
+
     setDepartmentId(selectDepartment);
   };
 
-  const handleClickCategory = (e: any) => {
-    setCategory(() => e.target.id);
+  const handleClickCategory = (e: React.MouseEvent<HTMLLIElement>) => {
+    setCategory(e.currentTarget.id);
     setCurrentPage(1);
     setSelected('all');
     setSearched('');
@@ -56,8 +58,8 @@ const Board = () => {
 
   const handleSearchButton = (
     departmentId: number | null,
-    selected: string | null,
-    searched: string | null,
+    selected: string | undefined,
+    searched: string | undefined,
     sorted: number = 0,
   ) => {
     postBoards(
@@ -69,20 +71,29 @@ const Board = () => {
       category,
       sorted,
       currentPage - 1,
-    ).then(res => {
-      if (category === 'ALL') {
-        setBestBoardItems(res.data.bestBoards);
-        setHotBoardItems(res.data.hotBoards);
+    )
+      .then(res => {
+        if (category === 'ALL') {
+          setBestBoardItems(res.data.bestBoards);
+          setHotBoardItems(res.data.hotBoards);
 
-        setPostPerPage(res.data.boards.pageable.pageSize);
-        setCount(res.data.boards.totalElements);
-        setCurrentPosts(res.data.boards.content);
-      } else {
-        setPostPerPage(res.data.boards.pageable.pageSize);
-        setCount(res.data.boards.totalElements);
-        setCurrentPosts(res.data.boards.content);
-      }
-    });
+          setPostPerPage(res.data.boards.pageable.pageSize);
+          setCount(res.data.boards.totalElements);
+          setCurrentPosts(res.data.boards.content);
+        } else {
+          setPostPerPage(res.data.boards.pageable.pageSize);
+          setCount(res.data.boards.totalElements);
+          setCurrentPosts(res.data.boards.content);
+        }
+      })
+      .catch(() => {
+        navigate('/');
+        Swal.fire(
+          '게시판 불러오기 실패',
+          '게시판 불러오기가 실패되었습니다. 다시 시도해 주세요.',
+          'error',
+        );
+      });
   };
 
   useEffect(() => {
@@ -123,7 +134,7 @@ const Board = () => {
               >
                 <option value="">전체게시판</option>
                 {!!departmentOption &&
-                  departmentOption.map((department: any) => {
+                  departmentOption.map((department: BoardDepartmentType) => {
                     return (
                       <option key={department.departmentId} value={department.departmentId}>
                         {department.departmentName}
@@ -205,6 +216,7 @@ const Board = () => {
             searched={searched}
             setSearched={setSearched}
             departmentId={departmentId}
+            userInformation={userInformation}
           />
         </div>
       </div>

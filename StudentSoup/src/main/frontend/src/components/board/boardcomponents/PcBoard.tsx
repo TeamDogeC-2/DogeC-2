@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
+import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
 
 interface State {
@@ -9,7 +10,7 @@ interface State {
   value3: string;
 }
 
-const PCBoard = (props: any) => {
+const PCBoard = (props: BoardPropsType) => {
   const {
     currentPage,
     category,
@@ -23,7 +24,11 @@ const PCBoard = (props: any) => {
 
   const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = e.target as HTMLDivElement;
-    setSorted(target.getAttribute('data-value'));
+    const sortedValue = parseInt(target.getAttribute('data-value')?.toString() ?? '');
+
+    if (setSorted) {
+      setSorted(sortedValue);
+    }
   };
 
   const navigate = useNavigate();
@@ -56,13 +61,17 @@ const PCBoard = (props: any) => {
       </thead>
       <tbody>
         {currentPosts
-          .filter((post: any) => post.authentication === 'Y')
-          .map((post: any) => {
+          .filter((post: BoardDataType) => post.authentication === 'Y')
+          .map((post: BoardDataType) => {
             return (
-              <tr id={post.boardId} key={post.boardId} className="authentication-wrap">
-                <td id={post.boardId} onClick={handleClickDetail} className="board-title">
+              <tr id={post.boardId.toString()} key={post.boardId} className="authentication-wrap">
+                <td
+                  id={post.boardId.toString()}
+                  onClick={handleClickDetail}
+                  className="board-title"
+                >
                   [{post.tag}]&nbsp;
-                  <span id={post.boardId} className="authentication-post">
+                  <span id={post.boardId.toString()} className="authentication-post">
                     {post.title}
                   </span>
                   <span className="board-review-count">{post.reviewCount}</span>
@@ -77,12 +86,16 @@ const PCBoard = (props: any) => {
             );
           })}
         {currentPage === 1 && category === 'ALL'
-          ? bestBoardItems.map((post: any) => {
+          ? bestBoardItems.map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="best-post">
-                  <td id={post.boardId} onClick={handleClickDetail} className="board-title">
+                <tr id={post.boardId.toString()} key={post.boardId} className="best-post">
+                  <td
+                    id={post.boardId.toString()}
+                    onClick={handleClickDetail}
+                    className="board-title"
+                  >
                     <span className="best-cell">BEST</span>[{post.tag}]&nbsp;
-                    <span id={post.boardId}>{post.title}</span>
+                    <span id={post.boardId.toString()}>{post.title}</span>
                     <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">
@@ -96,16 +109,20 @@ const PCBoard = (props: any) => {
             })
           : null}
         {currentPage === 1 && category === 'ALL'
-          ? hotBoardItems.map((post: any) => {
+          ? hotBoardItems.map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="best-post">
-                  <td id={post.boardId} onClick={handleClickDetail} className="board-title">
+                <tr id={post.boardId.toString()} key={post.boardId} className="best-post">
+                  <td
+                    id={post.boardId.toString()}
+                    onClick={handleClickDetail}
+                    className="board-title"
+                  >
                     <span className="best-cell">
                       HOT &nbsp;
                       <FontAwesomeIcon icon={faFire} />
                     </span>
                     [{post.tag}]&nbsp;
-                    <span id={post.boardId}>{post.title}</span>
+                    <span id={post.boardId.toString()}>{post.title}</span>
                     <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">
@@ -120,13 +137,17 @@ const PCBoard = (props: any) => {
           : null}
         {!!currentPosts &&
           currentPosts
-            .filter((post: any) => post.authentication === 'N')
-            .map((post: any) => {
+            .filter((post: BoardDataType) => post.authentication === 'N')
+            .map((post: BoardDataType) => {
               return (
-                <tr id={post.boardId} key={post.boardId} className="board-wrap">
-                  <td id={post.boardId} onClick={handleClickDetail} className="board-title">
+                <tr id={post.boardId.toString()} key={post.boardId} className="board-wrap">
+                  <td
+                    id={post.boardId.toString()}
+                    onClick={handleClickDetail}
+                    className="board-title"
+                  >
                     [{post.tag}]&nbsp;
-                    <span id={post.boardId}>{post.title}</span>
+                    <span id={post.boardId.toString()}>{post.title}</span>
                     <span className="board-review-count">{post.reviewCount}</span>
                   </td>
                   <td className="post-information">

@@ -11,6 +11,7 @@ import SearchIcon from './../../img/restaurant_search.svg';
 import { SchoolList, type SchoolListType } from '../home/data/SchoolList';
 import { postUserInfo } from '../../apis/auth/BoardAPI';
 import { postLogout } from '../../apis/auth/AuthAPI';
+import { type userInformationType } from '../../interfaces/BoardTypes';
 
 const RestaurantNavbar = () => {
   const [schoolComponent, setSchoolComponent] = useState<SchoolListType[]>([]);
@@ -19,7 +20,19 @@ const RestaurantNavbar = () => {
   const [isUseSearch, setIsUseSearch] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [userInformation, setUserInformation] = useState<any>({});
+  const [userInformation, setUserInformation] = useState<userInformationType>({
+    departmentId: 0,
+    departmentName: '',
+    email: '',
+    fileName: null,
+    id: '',
+    memberClassification: '',
+    memberId: 0,
+    nickname: '',
+    registrationDate: '',
+    schoolId: 0,
+    schoolName: '',
+  });
 
   const [IMAGE_FILE_ID, SET_IMAGE_FILE_ID] = useState<string>('');
 
@@ -108,7 +121,7 @@ const RestaurantNavbar = () => {
     }).then(result => {
       if (result.isConfirmed) {
         postLogout()
-          .then(res => {
+          .then(() => {
             localStorage.removeItem('access-token');
             localStorage.removeItem('refresh-token');
             setIsLogin(false);
@@ -116,8 +129,8 @@ const RestaurantNavbar = () => {
             Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
             navigate('/');
           })
-          .catch(err => {
-            console.log(err);
+          .catch(() => {
+            Swal.fire('로그아웃 실패', '로그아웃이 실패되었습니다. 다시 시도해 주세요.', 'error');
           });
       }
     });
@@ -139,8 +152,12 @@ const RestaurantNavbar = () => {
       .then(res => {
         setSchoolComponent(res.data);
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        Swal.fire(
+          '학교 정보 불러오기 실패',
+          '불러오기가 실패되었습니다. 다시 시도해 주세요.',
+          'error',
+        );
       });
 
     document.addEventListener('mousedown', onCheckClickOutside);
@@ -158,8 +175,12 @@ const RestaurantNavbar = () => {
           SET_IMAGE_FILE_ID(response.data.fileName);
           setUserInformation({ ...response.data });
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          Swal.fire(
+            '유저 정보 불러오기 실패',
+            '유저정보를 불러오지 못했습니다. 다시 시도해 주세요.',
+            'error',
+          );
         });
     }
   }, [isLogin]);
@@ -206,12 +227,12 @@ const RestaurantNavbar = () => {
           </div>
           <ul className="restaurant-nav-menu">
             <li className="restaurant-nav-li">
-              <Link to="/notice" className="restaurant-nav-links">
+              <Link to="/notice" className="restaurant-nav-links" state={userInformation}>
                 <i>공지사항</i>
               </Link>
             </li>
             <li className="restaurant-nav-li">
-              <Link to="/customerservice" className="restaurant-nav-links">
+              <Link to="/customerservice" className="restaurant-nav-links" state={userInformation}>
                 <i>고객센터</i>
               </Link>
             </li>
@@ -318,7 +339,7 @@ const RestaurantNavbar = () => {
               </div>
             </li>
             <li>
-              <Link to="/notice" className="tablet-restaurant-nav-link">
+              <Link to="/notice" className="tablet-restaurant-nav-link" state={userInformation}>
                 <div className="tablet-restaurant-nav-list">
                   <i className="tablet-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
@@ -326,7 +347,11 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="tablet-restaurant-nav-link">
+              <Link
+                to="/customerservice"
+                className="tablet-restaurant-nav-link"
+                state={userInformation}
+              >
                 <div className="tablet-restaurant-nav-list">
                   <i className="tablet-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="tablet-restaurant-nav-icons" />
@@ -455,7 +480,7 @@ const RestaurantNavbar = () => {
               </div>
             </li>
             <li>
-              <Link to="/notice" className="mobile-restaurant-nav-link">
+              <Link to="/notice" className="mobile-restaurant-nav-link" state={userInformation}>
                 <div className="mobile-restaurant-nav-list">
                   <i className="mobile-restaurant-nav-list-item">공지사항</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
@@ -463,7 +488,11 @@ const RestaurantNavbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/customerservice" className="mobile-restaurant-nav-link">
+              <Link
+                to="/customerservice"
+                className="mobile-restaurant-nav-link"
+                state={userInformation}
+              >
                 <div className="mobile-restaurant-nav-list">
                   <i className="mobile-restaurant-nav-list-item">고객센터</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-restaurant-nav-icons" />
