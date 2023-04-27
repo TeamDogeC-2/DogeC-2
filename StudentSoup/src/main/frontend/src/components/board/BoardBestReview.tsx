@@ -59,12 +59,7 @@ const BoardBestReview = ({ bestReview, memberId }: Props) => {
               <p className="board-detail-mobile-bottom-best-review-content">{bestReview.content}</p>
             </div>
           </div>
-          <div className="board-detail-mobile-bottom-best-review-best-div">
-            <div className="board-detail-mobile-bottom-best-review-right-heart">
-              <FontAwesomeIcon icon={faHeart} className="board-detail-mobile-function-heart-icon" />
-              <p>{bestReview.likeCount}</p>
-            </div>
-          </div>
+          <BoardBestReviewHeart bestReview={bestReview} memberId={memberId} />
           <div className="board-detail-mobile-underline" />
         </div>
       </Mobile>
