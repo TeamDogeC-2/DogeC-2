@@ -42,3 +42,8 @@ export const getDepartmentIdBoards = async (schoolId: number) => {
   const response = await axiosInstance.get(`/board/department/${schoolId}`);
   return response;
 };
+
+export const postBoardDetail = async (boardId: number, memberId: number | null) => {
+  const response = await axios.post(`/board/detail/${boardId}/${memberId}`);
+  return response;
+};
