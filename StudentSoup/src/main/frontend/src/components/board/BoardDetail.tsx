@@ -34,7 +34,7 @@ const BoardDetail = () => {
 
   const [replyContent, setReplyContent] = useState<string>();
 
-  const getBoardId = 192;
+  const getBoardId = Number(state.state.value1);
   const memberId = state.state.value2;
   const nickname = state.state.value3;
 
