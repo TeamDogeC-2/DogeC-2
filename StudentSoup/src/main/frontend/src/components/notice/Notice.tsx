@@ -49,7 +49,6 @@ export const Notice = () => {
       postPerPage={postPerPage}
       pageTitle="공지사항"
       tableHeader={noticeHeader}
-      setCurrentPage={setCurrentPage}
       handlePostBoardApi={handlePostBoardApi}
       userInformation={userInformation}
     />
