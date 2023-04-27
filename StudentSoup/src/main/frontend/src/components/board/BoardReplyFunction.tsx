@@ -5,6 +5,7 @@ import { faEllipsis, faHeart, faArrowTurnUp } from '@fortawesome/free-solid-svg-
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
 import { useNavigate } from 'react-router-dom';
+import { Desktop, Mobile } from '../../mediaQuery';
 
 interface Props {
   reply: any;
@@ -110,122 +111,249 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
 
   return (
     <>
-      <div className="board-detail-bottom-reply">
-        <div className="board-detail-bottom-reply-left">
-          <div className="board-detail-bottom-reply-left-top">
-            <FontAwesomeIcon icon={faArrowTurnUp} className="board-detail-reply-icon" />
-            <img
-              src={
-                reply.memberProfileImageName
-                  ? `/image/${reply.memberProfileImageName}`
-                  : Circle_human
-              }
-              alt=""
-            />
-            <span>
-              {reply.nickname} <p>{reply.writeDate}</p>
-            </span>
-          </div>
-          {modifyClick ? (
-            <div id={reply.boardReplyId} className="board-detail-bottom-reply-modify-content">
-              <textarea
-                maxLength={500}
-                value={contented}
-                onChange={e => handleReplySetContentValue(e)}
-                placeholder="댓글을 입력해주세요."
-              ></textarea>
-              <button onClick={handleEditReply}>등록</button>
-            </div>
-          ) : (
-            <p className="board-detail-bottom-reply-content">{reply.content}</p>
-          )}
-        </div>
-        {nickname === reply.nickname && (
-          <div className="board-detail-function-div">
-            <>
+      <Desktop>
+        <>
+          <div className="board-detail-bottom-reply">
+            <div className="board-detail-bottom-reply-left">
+              <div className="board-detail-bottom-reply-left-top">
+                <FontAwesomeIcon icon={faArrowTurnUp} className="board-detail-reply-icon" />
+                <img
+                  src={
+                    reply.memberProfileImageName
+                      ? `/image/${reply.memberProfileImageName}`
+                      : Circle_human
+                  }
+                  alt=""
+                />
+                <span>
+                  {reply.nickname} <p>{reply.writeDate}</p>
+                </span>
+              </div>
               {modifyClick ? (
-                <span>
-                  <p
-                    id={reply.boardReplyId}
-                    onClick={handleEditClick}
-                    className="board-detail-modify-cancel"
-                  >
-                    수정취소
-                  </p>
-                </span>
+                <div id={reply.boardReplyId} className="board-detail-bottom-reply-modify-content">
+                  <textarea
+                    maxLength={500}
+                    value={contented}
+                    onChange={e => handleReplySetContentValue(e)}
+                    placeholder="댓글을 입력해주세요."
+                  ></textarea>
+                  <button onClick={handleEditReply}>등록</button>
+                </div>
               ) : (
-                <span>
-                  <p
-                    id={reply.boardReplyId}
-                    onClick={handleEditClick}
-                    className="board-detail-modify"
-                  >
-                    수정
-                  </p>
-                  |
-                  <p
-                    id={reply.boardReplyId}
-                    onClick={handleDeleteReply}
-                    className="board-detail-delete"
-                  >
-                    삭제
-                  </p>
-                </span>
+                <p className="board-detail-bottom-reply-content">{reply.content}</p>
               )}
-            </>
+            </div>
+            {nickname === reply.nickname && (
+              <div className="board-detail-function-div">
+                <>
+                  {modifyClick ? (
+                    <span>
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify-cancel"
+                      >
+                        수정취소
+                      </p>
+                    </span>
+                  ) : (
+                    <span>
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify"
+                      >
+                        수정
+                      </p>
+                      |
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleDeleteReply}
+                        className="board-detail-delete"
+                      >
+                        삭제
+                      </p>
+                    </span>
+                  )}
+                </>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <div
-        id={reply.boardReplyId}
-        onClick={handleReplyHeartClick}
-        className="board-detail-bottom-reply-right"
-      >
-        {likeReply ? (
-          <svg
+          <div
             id={reply.boardReplyId}
             onClick={handleReplyHeartClick}
-            className="board-detail-reply-function-heart-icon"
-            width="17"
-            height="15"
-            viewBox="0 0 17 15"
-            fill="#FF611D"
-            xmlns="http://www.w3.org/2000/svg"
+            className="board-detail-bottom-reply-right"
           >
-            <path
-              id={reply.boardReplyId}
-              onClick={handleReplyHeartClick}
-              d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-              stroke="#FF611D"
-              strokeWidth="1.30715"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        ) : (
-          <svg
+            {likeReply ? (
+              <svg
+                id={reply.boardReplyId}
+                onClick={handleReplyHeartClick}
+                className="board-detail-reply-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="#FF611D"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={reply.boardReplyId}
+                  onClick={handleReplyHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#FF611D"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                id={reply.boardReplyId}
+                onClick={handleReplyHeartClick}
+                className="board-detail-reply-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={reply.boardReplyId}
+                  onClick={handleReplyHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#ACACAC"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+            <p id={reply.boardReplyId}>{clicklikeReply ? likeReplyCount : reply.likeCount}</p>
+          </div>
+        </>
+      </Desktop>
+      <Mobile>
+        <>
+          <div className="board-detail-mobile-bottom-reply">
+            <div className="board-detail-mobile-bottom-reply-left">
+              <div className="board-detail-mobile-bottom-reply-left-top">
+                <FontAwesomeIcon icon={faArrowTurnUp} className="board-detail-mobile-reply-icon" />
+                <img
+                  src={
+                    reply.memberProfileImageName
+                      ? `/image/${reply.memberProfileImageName}`
+                      : Circle_human
+                  }
+                  alt=""
+                />
+                <span>
+                  {reply.nickname} <p>{reply.writeDate}</p>
+                </span>
+              </div>
+              {modifyClick ? (
+                <div
+                  id={reply.boardReplyId}
+                  className="board-detail-mobile-bottom-reply-modify-content"
+                >
+                  <textarea
+                    maxLength={500}
+                    value={contented}
+                    onChange={e => handleReplySetContentValue(e)}
+                    placeholder="댓글을 입력해주세요."
+                  ></textarea>
+                  <button onClick={handleEditReply}>등록</button>
+                </div>
+              ) : (
+                <p className="board-detail-mobile-bottom-reply-content">{reply.content}</p>
+              )}
+            </div>
+            {nickname === reply.nickname && (
+              <div className="board-detail-function-div">
+                <>
+                  {modifyClick ? (
+                    <span>
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify-cancel"
+                      >
+                        수정취소
+                      </p>
+                    </span>
+                  ) : (
+                    <span>
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleEditClick}
+                        className="board-detail-modify"
+                      >
+                        수정
+                      </p>
+                      |
+                      <p
+                        id={reply.boardReplyId}
+                        onClick={handleDeleteReply}
+                        className="board-detail-delete"
+                      >
+                        삭제
+                      </p>
+                    </span>
+                  )}
+                </>
+              </div>
+            )}
+          </div>
+          <div
             id={reply.boardReplyId}
             onClick={handleReplyHeartClick}
-            className="board-detail-reply-function-heart-icon"
-            width="17"
-            height="15"
-            viewBox="0 0 17 15"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            className="board-detail-mobile-bottom-reply-right"
           >
-            <path
-              id={reply.boardReplyId}
-              onClick={handleReplyHeartClick}
-              d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
-              stroke="#ACACAC"
-              strokeWidth="1.30715"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
-        <p id={reply.boardReplyId}>{clicklikeReply ? likeReplyCount : reply.likeCount}</p>
-      </div>
+            {likeReply ? (
+              <svg
+                id={reply.boardReplyId}
+                onClick={handleReplyHeartClick}
+                className="board-detail-mobile-reply-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="#FF611D"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={reply.boardReplyId}
+                  onClick={handleReplyHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#FF611D"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                id={reply.boardReplyId}
+                onClick={handleReplyHeartClick}
+                className="board-detail-mobile-reply-function-heart-icon"
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id={reply.boardReplyId}
+                  onClick={handleReplyHeartClick}
+                  d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
+                  stroke="#ACACAC"
+                  strokeWidth="1.30715"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+            <p id={reply.boardReplyId}>{clicklikeReply ? likeReplyCount : reply.likeCount}</p>
+          </div>
+        </>
+      </Mobile>
     </>
   );
 };

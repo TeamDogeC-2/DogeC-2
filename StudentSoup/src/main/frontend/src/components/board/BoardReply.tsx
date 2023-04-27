@@ -34,41 +34,12 @@ const BoardReply = ({ reply, memberId, nickname, getBoardId }: Props) => {
         {reply.map((reply: any) => (
           <>
             <div id={reply.boardReplyId} className="board-detail-mobile-bottom-reply-div">
-              <div className="board-detail-mobile-bottom-reply">
-                <div className="board-detail-mobile-bottom-reply-left">
-                  <div className="board-detail-mobile-bottom-reply-left-top">
-                    <FontAwesomeIcon
-                      icon={faArrowTurnUp}
-                      className="board-detail-mobile-reply-icon"
-                    />
-                    <img
-                      src={
-                        reply.memberProfileImageName
-                          ? `/image/${reply.memberProfileImageName}`
-                          : Circle_human
-                      }
-                      alt=""
-                    />
-                    <span>
-                      {reply.nickname} <p>{reply.writeDate}</p>
-                    </span>
-                  </div>
-                  <p className="board-detail-mobile-bottom-reply-content">{reply.content}</p>
-                </div>
-                <FontAwesomeIcon
-                  icon={faEllipsis}
-                  className="board-detail-mobile-reply-function-icon"
-                />
-              </div>
-              <div className="board-detail-mobile-bottom-reply-right">
-                <div className="board-detail-mobile-bottom-reply-right-heart">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    className="board-detail-mobile-reply-function-heart-icon"
-                  />
-                  <p>{reply.likeCount}</p>
-                </div>
-              </div>
+              <BoardReplyFunction
+                reply={reply}
+                memberId={memberId}
+                nickname={nickname}
+                getBoardId={getBoardId}
+              />
               <div className="board-detail-mobile-underline" />
             </div>
           </>
