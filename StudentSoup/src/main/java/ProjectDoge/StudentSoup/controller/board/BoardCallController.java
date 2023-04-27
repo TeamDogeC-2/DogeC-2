@@ -60,7 +60,7 @@ public class BoardCallController {
         return boardCallService.getCustomerService(pageable,category,title);
     }
 
-    @PostMapping("/board/{boardId}/{memberId}")
+    @PostMapping("/board/detail/{boardId}/{memberId}")
     public BoardDto clickBoard(@PathVariable Long boardId, @PathVariable Long memberId, HttpServletRequest request, HttpServletResponse response){
         return boardCallService.getBoardDetail(boardId, memberId,request,response);
     }
