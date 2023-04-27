@@ -2,21 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
 import './postsearch.scss';
 
-const PostSearch = ({
-  pageTitle,
-  setCurrentPage,
-  handlePostBoardApi,
-  userInformation,
-}: PostSearchPropsType) => {
+const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSearchPropsType) => {
   const [selected, setSelected] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
-
-  const handleClickList = () => {
-    setSelected('all');
-    setSearch('');
-    setCurrentPage(1);
-    postBoardApi('');
-  };
 
   const selectBoxChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(e.target.value);
@@ -45,7 +33,6 @@ const PostSearch = ({
   return (
     <>
       <div className="board-control-wrap">
-        <button onClick={handleClickList}>목록</button>
         {userInformation.memberClassification === 'STUDENT' ? (
           pageTitle === '공지사항' ? null : (
             <button>글쓰기</button>
