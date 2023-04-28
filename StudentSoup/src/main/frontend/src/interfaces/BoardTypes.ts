@@ -1,5 +1,5 @@
 export interface userInformationType {
-  departmentId: number;
+  departmentId: number | null;
   departmentName: string;
   email: string;
   fileName: string | null;
