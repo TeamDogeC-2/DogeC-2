@@ -175,6 +175,11 @@ const BoardDetail = () => {
       }
     });
   };
+
+  const handleGoBack = (e: any) => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Desktop>
@@ -184,7 +189,7 @@ const BoardDetail = () => {
             <div className="board-detail-top-div">
               <div className="board-detail-top">
                 <div className="board-detail-top-left">
-                  <img src={left} alt="" />
+                  <img src={left} alt="" onClick={handleGoBack} />
                   <span>{viewCategory}</span>
                 </div>
                 <div className="board-detail-top-right">
