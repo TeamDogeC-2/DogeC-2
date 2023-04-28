@@ -17,6 +17,7 @@ import BoardDetail from './components/board/BoardDetail';
 import BoardWrite from './components/board/BoardWrite';
 import CustomerService from './components/customerservice/CustomerService';
 import NoticeAndServiceDetail from './components/common/NoticeAndServiceDetail';
+import PrivateRoute from './components/common/PrivateRoute';
 
 const Router = () => {
   return (
@@ -25,21 +26,22 @@ const Router = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/login/findAccount" element={<FindAccount />} />
-      <Route path="/restaurant/:school" element={<Restaurant />} />
-      <Route path="/restaurant/detail" element={<RestaurantDetail />} />
-      <Route path="/notice" element={<Notice />} />
       <Route path="/signup/process/1" element={<SignUpProcess1 />} />
       <Route path="/signup/process/2" element={<SignUpProcess2 />} />
       <Route path="/signup/process/3" element={<SignUpProcess3 />} />
-      <Route path="/board" element={<Board />} />
-      <Route path="/board/detail" element={<BoardDetail />} />
-      <Route path="/board/write" element={<BoardWrite />} />
-      <Route path="/mypage" element={<MypageMain />} />
-      <Route path="/mypage/scheduler" element={<Scheduler />} />
-      <Route path="/board/write" element={<BoardWrite />} />
-      <Route path="/customerservice" element={<CustomerService />} />
+      <Route path="/notice" element={<Notice />} />
       <Route path="/notice/detail/:boardId" element={<NoticeAndServiceDetail />} />
+      <Route path="/customerservice" element={<CustomerService />} />
       <Route path="/customerservice/detail/:boardId" element={<NoticeAndServiceDetail />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="/restaurant/:school" element={<Restaurant />} />
+        <Route path="/restaurant/detail" element={<RestaurantDetail />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/board/detail" element={<BoardDetail />} />
+        <Route path="/board/write" element={<BoardWrite />} />
+        <Route path="/mypage" element={<MypageMain />} />
+        <Route path="/mypage/scheduler" element={<Scheduler />} />
+      </Route>
     </Routes>
   );
 };
