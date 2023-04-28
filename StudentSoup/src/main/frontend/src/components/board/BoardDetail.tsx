@@ -38,6 +38,14 @@ const BoardDetail = () => {
   const memberId = state.state.value2;
   const nickname = state.state.value3;
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
   useEffect(() => {
     axiosInstance
       .post(`/board/${getBoardId}/${memberId}`)
@@ -89,6 +97,17 @@ const BoardDetail = () => {
       .then(res => {
         setLikeCount(res.data.data.likedCount);
         isLike(res.data.data.like);
+        if (!like) {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 눌렀어요.',
+          });
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 취소했어요.',
+          });
+        }
       })
       .catch(err => {
         console.error(err);
