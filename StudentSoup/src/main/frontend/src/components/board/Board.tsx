@@ -62,38 +62,39 @@ const Board = () => {
     searched: string | undefined,
     sorted: number = 0,
   ) => {
-    postBoards(
-      userInformation.schoolId,
-      userInformation.memberId,
-      departmentId,
-      selected,
-      searched,
-      category,
-      sorted,
-      currentPage - 1,
-    )
-      .then(res => {
-        if (category === 'ALL') {
-          setBestBoardItems(res.data.bestBoards);
-          setHotBoardItems(res.data.hotBoards);
+    localStorage.getItem('access-token') &&
+      postBoards(
+        userInformation.schoolId,
+        userInformation.memberId,
+        departmentId,
+        selected,
+        searched,
+        category,
+        sorted,
+        currentPage - 1,
+      )
+        .then(res => {
+          if (category === 'ALL') {
+            setBestBoardItems(res.data.bestBoards);
+            setHotBoardItems(res.data.hotBoards);
 
-          setPostPerPage(res.data.boards.pageable.pageSize);
-          setCount(res.data.boards.totalElements);
-          setCurrentPosts(res.data.boards.content);
-        } else {
-          setPostPerPage(res.data.boards.pageable.pageSize);
-          setCount(res.data.boards.totalElements);
-          setCurrentPosts(res.data.boards.content);
-        }
-      })
-      .catch(() => {
-        navigate('/');
-        Swal.fire(
-          '게시판 불러오기 실패',
-          '게시판 불러오기가 실패되었습니다. 다시 시도해 주세요.',
-          'error',
-        );
-      });
+            setPostPerPage(res.data.boards.pageable.pageSize);
+            setCount(res.data.boards.totalElements);
+            setCurrentPosts(res.data.boards.content);
+          } else {
+            setPostPerPage(res.data.boards.pageable.pageSize);
+            setCount(res.data.boards.totalElements);
+            setCurrentPosts(res.data.boards.content);
+          }
+        })
+        .catch(() => {
+          navigate('/');
+          Swal.fire(
+            '게시판 불러오기 실패',
+            '게시판 불러오기가 실패되었습니다. 다시 시도해 주세요.',
+            'error',
+          );
+        });
   };
 
   useEffect(() => {
