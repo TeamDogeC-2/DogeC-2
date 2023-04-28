@@ -271,7 +271,7 @@ const BoardDetail = () => {
             <div className="board-detail-mobile-top-div">
               <div className="board-detail-mobile-top">
                 <div className="board-detail-mobile-top-left">
-                  <img src={left} alt="" />
+                  <img src={left} alt="" onClick={handleGoBack} />
                   <span>{viewCategory}</span>
                 </div>
                 <div className="board-detail-mobile-top-right">
