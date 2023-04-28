@@ -1,6 +1,9 @@
 import axios, { type AxiosResponse } from 'axios';
 import { type SignUpUserInfo } from '../../interfaces/AuthAPITypes';
 
+const ACCESS_TOKEN_EXPIRE: number = 3600000 - 60000;
+const REFRESH_TOKEN_EXPIRE: number = 1209600000 - 60000;
+
 export const signIn = async (id: string, password: string) => {
   const res = await axios
     .post('/members/login', {
@@ -10,9 +13,12 @@ export const signIn = async (id: string, password: string) => {
     .then(response => {
       const accessToken = JSON.stringify({
         value: response.data.accessToken,
-        expire: Date.now() + 3600000 - 300000,
+        expire: Date.now() + ACCESS_TOKEN_EXPIRE,
       });
-      const refreshToken = JSON.stringify(response.data.refreshToken);
+      const refreshToken = JSON.stringify({
+        value: response.data.refreshToken,
+        expire: Date.now() + REFRESH_TOKEN_EXPIRE,
+      });
 
       localStorage.setItem('access-token', accessToken);
       localStorage.setItem('refresh-token', refreshToken);
@@ -31,13 +37,14 @@ export const signUp = async (id: string, password: string): Promise<AxiosRespons
 
 export const authRefreshToken = async (refreshToken: string) => {
   const res = await axios
-    .post('/jwt', {}, { headers: { Authorization: JSON.parse(refreshToken) } })
+    .post('/jwt', {}, { headers: { Authorization: refreshToken } })
     .then(response => {
       const newAccessToken = JSON.stringify({
         value: response.data,
-        expire: Date.now() + 3600000 - 300000,
+        expire: Date.now() + ACCESS_TOKEN_EXPIRE,
       });
 
+      localStorage.removeItem('access-token');
       localStorage.setItem('access-token', newAccessToken);
     });
 
