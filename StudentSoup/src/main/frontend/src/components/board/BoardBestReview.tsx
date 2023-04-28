@@ -1,7 +1,5 @@
 import './boardBestReview.scss';
 import Circle_human from '../../img/circle_human.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';
 import BoardBestReviewHeart from './BoardBestReviewHeart';
 

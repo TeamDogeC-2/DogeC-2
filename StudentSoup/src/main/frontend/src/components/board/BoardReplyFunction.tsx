@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
 import { useNavigate } from 'react-router-dom';
 import { Desktop, Mobile } from '../../mediaQuery';
+import Swal from 'sweetalert2';
 
 interface Props {
   reply: any;
@@ -30,6 +31,14 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
     setlikeReplyCount(reply.likedCount);
   }, [reply]);
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
   const handleReplySetContentValue = (e: any) => {
     setContented(e.target.value);
   };
@@ -50,11 +59,11 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
 
   const handleEditReply = (e: any) => {
     if (!contented.length) {
-      alert('댓글을 입력해주세요.');
+      Swal.fire('등록 실패', '내용을 입력해주세요.', 'error');
       return;
     }
     if (contented.length < 2 || contented.length > 500) {
-      alert('댓글은 2자이상 500자 이하입니다.');
+      Swal.fire('등록 실패', '댓글은 2자이상 500자 이하입니다.', 'error');
       return;
     }
     axiosInstance
@@ -65,8 +74,11 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
         content: contented,
       })
       .then(res => {
-        alert('성공적으로 수정하였습니다.');
-        location.reload();
+        Swal.fire('수정 성공', '성공적으로 댓글을 수정하였습니다.', 'success').then(result => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
       })
       .catch(err => {
         console.error(err);
@@ -74,19 +86,32 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
   };
 
   const handleDeleteReply = (e: any) => {
-    if (confirm('정말로 댓글을 삭제하시겟습니까?')) {
-      axiosInstance
-        .delete(`/boardReply/${e.target.id}/${memberId}`)
-        .then(res => {
-          alert('댓글이 삭제되었습니다.');
-          location.reload();
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    } else {
-      /* empty */
-    }
+    Swal.fire({
+      title: '댓글삭제 시도',
+      text: '정말로 댓글을 삭제하시겟습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    }).then(result => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .delete(`/boardReply/${e.target.id}/${memberId}`)
+          .then(res => {
+            Swal.fire('삭제 성공', '성공적으로 댓글을 삭제하였습니다.', 'success').then(result => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
+    });
   };
 
   const handleReplyHeartClick = async (e: any) => {
@@ -102,7 +127,17 @@ const BoardReplyFunction = ({ reply, memberId, nickname, getBoardId }: Props) =>
       await axiosInstance.post(`/boardReply/${e.target.id}/${memberId}/like`).then(res => {
         isLikeReply(res.data.data.like);
         setlikeReplyCount(res.data.data.likeCount);
-        console.log(res.data);
+        if (!likeReply) {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 눌렀어요.',
+          });
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 취소했어요.',
+          });
+        }
       });
       isClickLikeReply(!clicklikeReply);
       isLikeReply(!likeReply);

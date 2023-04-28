@@ -77,7 +77,6 @@ const BoardDetail = () => {
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);

@@ -1,9 +1,8 @@
 import './boardBestReviewHeart.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
+import Swal from 'sweetalert2';
 
 interface Props {
   bestReview: any;
@@ -14,6 +13,14 @@ const BoardBestReviewHeart = ({ bestReview, memberId }: Props) => {
   const [likeBestReview, isLikeBestReview] = useState<boolean>(bestReview.like);
   const [clicklikeReview, isClickLikeReview] = useState<boolean>();
   const [likeReviewCount, setlikeReviewCount] = useState<number>(bestReview.likedCount);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
   const navigate = useNavigate();
 
@@ -35,7 +42,17 @@ const BoardBestReviewHeart = ({ bestReview, memberId }: Props) => {
       await axiosInstance.post(`/boardReply/${e.target.id}/${memberId}/like`).then(res => {
         isLikeBestReview(res.data.data.like);
         setlikeReviewCount(res.data.data.likeCount);
-        console.log(res.data);
+        if (!likeBestReview) {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 눌렀어요.',
+          });
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요를 취소했어요.',
+          });
+        }
       });
       isClickLikeReview(!clicklikeReview);
       isLikeBestReview(!likeBestReview);
