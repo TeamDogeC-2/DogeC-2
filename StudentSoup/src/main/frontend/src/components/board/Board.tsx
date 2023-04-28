@@ -134,14 +134,13 @@ const Board = () => {
                 onChange={handleChangeOption}
               >
                 <option value="">전체게시판</option>
-                {!!departmentOption &&
-                  departmentOption.map((department: BoardDepartmentType) => {
-                    return (
-                      <option key={department.departmentId} value={department.departmentId}>
-                        {department.departmentName}
-                      </option>
-                    );
-                  })}
+                {departmentOption?.map((department: BoardDepartmentType) => {
+                  return (
+                    <option key={department.departmentId} value={department.departmentId}>
+                      {department.departmentName}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
