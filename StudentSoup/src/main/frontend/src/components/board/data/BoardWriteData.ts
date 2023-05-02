@@ -1,3 +1,4 @@
+import { async } from 'q';
 import axiosInstance from '../../../apis/auth/AxiosInterceptor';
 
 // 게시글 작성시 학과목록 불러오기
@@ -38,13 +39,13 @@ export const PostRegistration = async (
 // 임시 게시글 페이지 렌더링
 
 export const PP = async (boardId: number, memberId: number) => {
-  const response = await axiosInstance.post(`/board/${boardId}/${memberId}`);
+  const response = await axiosInstance.post(`/board/detail/${boardId}/${memberId}`);
   return response.data;
 };
 
 // 임시 이미지파일 저장
 
-export const GetUploadImgURL = async (memberId: number, multipartFileList: File) => {
+export const UploadImgURL = async (memberId: number, multipartFileList: File) => {
   const response = await axiosInstance.post(
     `/board/image/${memberId}`,
     {
@@ -56,5 +57,15 @@ export const GetUploadImgURL = async (memberId: number, multipartFileList: File)
       },
     },
   );
+  return response.data;
+};
+
+// 임시 이미지파일 호출
+export const GetUploadImgURL = async (memberId: number) => {
+  const response = await axiosInstance.get(`/board/image/${memberId}`, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
