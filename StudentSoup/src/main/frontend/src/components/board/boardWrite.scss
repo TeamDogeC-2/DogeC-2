@@ -163,7 +163,8 @@ $notice-text-color: #6d6d6d;
 .board-write-add-img-div {
   display: flex;
   margin: auto;
-  margin-top: 1.3rem;
+  margin-top: 2.6rem;
+  padding-top: 1rem;
   flex-direction: column;
   width: 90%;
   align-items: center;
@@ -172,6 +173,7 @@ $notice-text-color: #6d6d6d;
   border-right: 1px solid $basic-border-color;
   border-bottom: 1px solid $basic-border-color;
   border-radius: 0 0 5px 5px;
+  color: $notice-text-color;
 
   .board-write-add-img-div-top {
     display: flex;
