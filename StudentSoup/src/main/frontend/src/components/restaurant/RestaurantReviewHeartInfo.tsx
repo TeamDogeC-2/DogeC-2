@@ -17,8 +17,6 @@ const RestaurantReviewHeartInfo = ({ memberId, review }: Props) => {
   const [clicklike, isClickLike] = useState<boolean>();
   const [likeCount, setlikeCount] = useState<number>(review.likedCount);
 
-  console.log(review);
-
   useEffect(() => {
     isLike(review.like);
     setlikeCount(review.likedCount);
@@ -43,7 +41,6 @@ const RestaurantReviewHeartInfo = ({ memberId, review }: Props) => {
         .then(res => {
           isLike(res.data.data.like);
           setlikeCount(res.data.data.likedCount);
-          console.log(res.data);
         });
       isClickLike(!clicklike);
       isLike(!like);

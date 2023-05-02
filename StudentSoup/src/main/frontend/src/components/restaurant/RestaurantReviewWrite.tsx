@@ -66,7 +66,7 @@ const RestaurantReviewWrite = ({ restaurantId, name, isWrite }: Props) => {
       imageUrlLists.push(currentImageUrl);
     }
 
-    if (imageUrlLists.length < 4) {
+    if (imageUrlLists.length <= 4) {
       imageUrlLists = imageUrlLists.slice(0, 4);
     } else {
       alert('이미지파일은 4개이하만 업로드 할수 있습니다.');

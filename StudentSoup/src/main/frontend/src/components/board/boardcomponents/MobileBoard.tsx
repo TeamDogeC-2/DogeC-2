@@ -2,9 +2,26 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
 import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
+import { useNavigate } from 'react-router-dom';
+
+interface State {
+  value1: string;
+  value2: number;
+  value3: string;
+}
 
 const MobileBoard = (props: BoardPropsType) => {
-  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts } = props;
+  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, memberId, nickname } =
+    props;
+
+  const navigate = useNavigate();
+
+  const handleClickDetail = (e: any) => {
+    e.stopPropagation();
+    const value = e.target.id;
+    const propsState: State = { value1: value, value2: memberId, value3: nickname };
+    navigate('/board/detail', { state: propsState });
+  };
 
   return (
     <div className="mobile-board-wrap">
@@ -40,7 +57,12 @@ const MobileBoard = (props: BoardPropsType) => {
       {currentPage === 1 && category === 'ALL'
         ? bestBoardItems.map((post: BoardDataType) => {
             return (
-              <div id={post.boardId.toString()} key={post.boardId} className="board-table-div">
+              <div
+                id={post.boardId.toString()}
+                key={post.boardId}
+                onClick={handleClickDetail}
+                className="board-table-div"
+              >
                 <div className="board-underline">
                   <span className="best-cell">BEST</span>
                   <span>[{post.tag}]</span>
@@ -66,7 +88,12 @@ const MobileBoard = (props: BoardPropsType) => {
       {currentPage === 1 && category === 'ALL'
         ? hotBoardItems.map((post: BoardDataType) => {
             return (
-              <div id={post.boardId.toString()} key={post.boardId} className="board-table-div">
+              <div
+                id={post.boardId.toString()}
+                key={post.boardId}
+                onClick={handleClickDetail}
+                className="board-table-div"
+              >
                 <div className="board-underline">
                   <span className="best-cell">
                     HOT <FontAwesomeIcon icon={faFire} />
@@ -96,7 +123,12 @@ const MobileBoard = (props: BoardPropsType) => {
           .filter((post: BoardDataType) => post.authentication === 'N')
           .map((post: BoardDataType) => {
             return (
-              <div id={post.boardId.toString()} key={post.boardId} className="board-table-div">
+              <div
+                id={post.boardId.toString()}
+                key={post.boardId}
+                onClick={handleClickDetail}
+                className="board-table-div"
+              >
                 <div className="board-underline">
                   <span>[{post.tag}]</span>
                   <span>{post.title}</span>

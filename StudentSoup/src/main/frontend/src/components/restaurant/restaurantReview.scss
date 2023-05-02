@@ -102,8 +102,9 @@ $sub-color: #5a5a5a;
     border-bottom: 1px solid $sub-color;
 
     .restaurant-detail-bottom-review-list-profile {
-      width: 10%;
-      height: 10%;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
       margin: 0 1.375rem 1rem 1.375rem;
     }
 
@@ -265,8 +266,9 @@ $sub-color: #5a5a5a;
     border-bottom: 1px solid $sub-color;
 
     .restaurant-mobile-detail-bottom-review-list-profile {
-      width: 20%;
-      height: 20%;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
       margin: 0 1.375rem;
     }
 

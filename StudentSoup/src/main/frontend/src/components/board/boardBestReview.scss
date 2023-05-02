@@ -25,6 +25,7 @@ $text-sub-color: #a8a8a8;
         img {
           width: 2.5rem;
           height: 2.5rem;
+          border-radius: 50%;
         }
 
         .board-detail-bottom-best-text {
@@ -63,26 +64,6 @@ $text-sub-color: #a8a8a8;
       cursor: pointer;
     }
   }
-  
-  .board-detail-bottom-best-review-best-div {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.5rem;
-
-    .board-detail-bottom-best-review-right-heart {
-      display: flex;
-      flex-direction: row;
-
-      .board-detail-function-heart-icon {
-        color: $basic-color;
-        margin-right: 0.125rem;
-      }
-
-      p {
-        color: $basic-color;
-      }
-    }
-  }
 
   .board-detail-underline {
     background-color: $basic-border-color;
@@ -112,6 +93,7 @@ $text-sub-color: #a8a8a8;
         img {
           width: 2.5rem;
           height: 2.5rem;
+          border-radius: 50%;
         }
 
         .board-detail-mobile-bottom-best-text {

@@ -126,9 +126,9 @@ const NoticeDetail = () => {
                       </div>
                     </div>
                   )}
-                  <BoardBestReview />
+                  {/* <BoardBestReview />
                   <BoardReview />
-                  <BoardReply />
+                  <BoardReply /> */}
                 </>
               )}
             </div>
@@ -200,9 +200,9 @@ const NoticeDetail = () => {
                       </div>
                     </div>
                   )}
-                  <BoardBestReview />
+                  {/* <BoardBestReview />
                   <BoardReview />
-                  <BoardReply />
+                  <BoardReply /> */}
                 </>
               )}
             </div>

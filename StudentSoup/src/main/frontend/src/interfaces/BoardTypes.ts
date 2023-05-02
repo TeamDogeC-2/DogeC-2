@@ -70,6 +70,8 @@ export interface BoardPropsType {
   hotBoardItems: BoardDataType[];
   currentPosts: BoardDataType[];
   setSorted?: React.Dispatch<React.SetStateAction<number>>;
+  memberId: number;
+  nickname: string;
 }
 
 export interface BoardSearchType {

@@ -130,7 +130,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-detail-bottom-menu"
                     >
-                      <div className="restaurant-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -175,7 +178,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-detail-bottom-menu"
                     >
-                      <div className="restaurant-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -228,7 +234,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-tablet-detail-bottom-menu"
                     >
-                      <div className="restaurant-tablet-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-tablet-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -277,7 +286,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-tablet-detail-bottom-menu"
                     >
-                      <div className="restaurant-tablet-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-tablet-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -326,7 +338,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-tablet-detail-bottom-menu"
                     >
-                      <div className="restaurant-tablet-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-tablet-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -379,7 +394,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-mobile-detail-bottom-menu"
                     >
-                      <div className="restaurant-mobile-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-mobile-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -428,7 +446,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-mobile-detail-bottom-menu"
                     >
-                      <div className="restaurant-mobile-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-mobile-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
@@ -477,7 +498,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       id={menu.restaurantMenuId}
                       className="restaurant-mobile-detail-bottom-menu"
                     >
-                      <div className="restaurant-mobile-detail-bottom-menu-img-div">
+                      <div
+                        id={menu.restaurantMenuId}
+                        className="restaurant-mobile-detail-bottom-menu-img-div"
+                      >
                         <img
                           src={`/image/${menu.fileName}`}
                           key={menu.fileName}
