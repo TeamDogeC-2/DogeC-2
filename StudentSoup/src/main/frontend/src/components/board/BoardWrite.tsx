@@ -15,12 +15,40 @@ import {
   GetUploadImgURL,
 } from './data/BoardWriteData';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+interface Category {
+  categoryKey: string;
+  categoryValue: string;
+}
 
+interface Department {
+  departmentId: number;
+  departmentName: string;
+}
 const BoardWrite = () => {
   const [content, setContent] = useState<any>();
+  const [title, setTitle] = useState('');
   const [currentLength, setCurrentLength] = useState<number>(0);
-  const [test, setTest] = useState<string>();
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number | null>(null);
+  const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('');
+  const location = useLocation();
+  const userInformation = { ...location.state };
   const maxLength = 1000;
+
+  useEffect(() => {
+    WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
+      setDepartments(res.departments);
+      setCategories(res.category);
+    });
+  }, [userInformation.memberId, userInformation.schoolId]);
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+
+    setTitle(inputValue);
+  };
   const handleQuillChange = (value: any) => {
     const maxLength = 1000; // 원하는 최대 글자수
     const strippedValue = value.replace(/<(?:.|\n)*?>/gm, '');
@@ -31,17 +59,17 @@ const BoardWrite = () => {
       setCurrentLength(newLength);
     }
   };
-  const handleClick = () => {
-    PostRegistration(7, '타이틀', 'FREE', content, undefined).then(res => {
+  const handleClickSubmit = () => {
+    if (title.length < 2 || title.length > 50) {
+      alert('제목은 2~50자입니다.');
+      return;
+    }
+    PostRegistration(userInformation.memberId, title, 'FREE', content, undefined).then(res => {
       console.log(res);
     });
   };
-  useEffect(() => {
-    PP(323, 7).then(res => {
-      setTest(res.content);
-    });
-  }, []);
-
+  console.log(selectedDepartmentId);
+  console.log(selectedCategoryKey);
   return (
     <>
       <DesktopHeader>
@@ -54,21 +82,43 @@ const BoardWrite = () => {
               </div>
               <div className="board-write-top-right">
                 <p>전체/학과</p>
-                <select defaultValue="학과이름" className="board-write-depart-select">
-                  <option value="학과이름" disabled>
-                    학과이름
-                  </option>
+                <select
+                  defaultValue=""
+                  className="board-write-depart-select"
+                  onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                >
+                  <option value="">{userInformation.schoolName}</option>
+                  {departments.map(department => (
+                    <option key={department.departmentId} value={department.departmentId}>
+                      {department.departmentName}
+                    </option>
+                  ))}
                 </select>
                 <p>게시판</p>
-                <select defaultValue="게시판이름" className="board-write-category-select">
-                  <option value="게시판이름" disabled>
-                    게시판이름
+                <select
+                  defaultValue=""
+                  className="board-write-category-select"
+                  onChange={e => setSelectedCategoryKey(e.target.value)}
+                >
+                  <option value="" disabled>
+                    선택
                   </option>
+                  {categories.map(category => (
+                    <option key={category.categoryKey} value={category.categoryKey}>
+                      {category.categoryValue}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className="board-write-middle-div">
-              <input type="text" placeholder="제목(2~50자)" className="board-write-title-input" />
+              <input
+                type="text"
+                placeholder="제목(2~50자)"
+                className="board-write-title-input"
+                value={title}
+                onChange={handleTitleChange}
+              />
               <div className="board-write-middle-notice-div">
                 <div className="board-write-middle-notice">
                   <span className="board-write-middle-notice-span">
@@ -111,15 +161,15 @@ const BoardWrite = () => {
             <div className="board-write-bottom-button-div">
               <div className="board-write-bottom-button">
                 <button className="board-write-cancel-button">취소하기</button>
-                <button onClick={handleClick} className="board-write-submit-button">
+                <button onClick={handleClickSubmit} className="board-write-submit-button">
                   작성하기
                 </button>
               </div>
             </div>
             <div
-              dangerouslySetInnerHTML={{
-                __html: test ?? '',
-              }}
+            // dangerouslySetInnerHTML={{
+            //   __html: test ?? '',
+            // }}
             ></div>
           </div>
         </div>
@@ -317,32 +367,6 @@ const BoardWrite = () => {
   );
 };
 
-async function imageHandler(this: Quill) {
-  const input = document.createElement('input');
-  input.setAttribute('type', 'file');
-  input.setAttribute('accept', 'image/*');
-  input.click();
-
-  input.onchange = async () => {
-    const file = input.files ? input.files[0] : null;
-    if (file) {
-      const memberId = 7; // 여기서 memberId를 적절한 값으로 설정하세요.
-      try {
-        await UploadImgURL(memberId, file).then(res => {
-          GetUploadImgURL(memberId).then(res => {
-            console.log(res);
-          });
-        });
-        const range = this.getSelection(true);
-        // this.insertEmbed(range.index, 'image', url);
-        this.setSelection({ index: range.index + 1, length: 0 });
-      } catch (error) {
-        console.error('Image upload failed:', error);
-      }
-    }
-  };
-}
-
 BoardWrite.modules = {
   toolbar: {
     container: [
@@ -353,9 +377,6 @@ BoardWrite.modules = {
       ['link', 'image'],
       ['clean'],
     ],
-    handlers: {
-      image: imageHandler,
-    },
   },
 };
 
