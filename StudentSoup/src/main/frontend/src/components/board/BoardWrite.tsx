@@ -1,8 +1,6 @@
 import MainNavbar from '../common/MainNavbar';
 import './boardWrite.scss';
-import Circle_human from '../../img/circle_human.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import ReactQuill from 'react-quill';
 import type Quill from 'quill';
@@ -111,13 +109,12 @@ const BoardWrite = () => {
 
         const memberId = userInformation.memberId;
         try {
-          const fileName = await UploadImgURL(memberId, file).then(() => {
-            GetUploadImgURL(userInformation.memberId).then(res => {
-              const url = `/image/${res}`;
-              const range = quillRef.current?.getEditor().getSelection()?.index ?? 0;
-              quillRef.current?.getEditor().insertEmbed(range, 'image', url, 'user');
-            });
-          });
+          await UploadImgURL(memberId, file);
+          const res = await GetUploadImgURL(userInformation.memberId);
+          const url = `/image/${res}`;
+
+          const range = quillRef.current?.getEditor().getSelection()?.index ?? 0;
+          quillRef.current?.getEditor().insertEmbed(range, 'image', url, 'user');
         } catch (error) {
           console.error('Image upload failed:', error);
         }
@@ -145,7 +142,34 @@ const BoardWrite = () => {
     }),
     [],
   );
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '저장하지 않고 나가시겠습니까?';
+    };
 
+    const handlePopState = () => {
+      if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+        navigate('/board', { state: userInformation });
+      } else {
+        window.history.pushState(null, '');
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  const handleCancel = () => {
+    if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+      navigate('/board', { state: userInformation });
+    }
+  };
   return (
     <>
       <DesktopHeader>
@@ -225,18 +249,18 @@ const BoardWrite = () => {
                 className="board-write-textarea"
                 ref={quillRef}
               />
-              <div className="character-count">
-                {currentLength}/{maxLength} 글자
-              </div>
             </div>
             <div className="board-write-add-img-div">
+              {currentLength}/{maxLength} 글자
               <div className="board-write-add-img-div-top">
                 <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.</p>
               </div>
             </div>
             <div className="board-write-bottom-button-div">
               <div className="board-write-bottom-button">
-                <button className="board-write-cancel-button">취소하기</button>
+                <button onClick={handleCancel} className="board-write-cancel-button">
+                  취소하기
+                </button>
                 <button onClick={handleClickSubmit} className="board-write-submit-button">
                   작성하기
                 </button>
@@ -256,16 +280,32 @@ const BoardWrite = () => {
                 </div>
                 <div className="board-write-tablet-top-right">
                   <p>전체/학과</p>
-                  <select defaultValue="학과이름" className="board-write-tablet-depart-select">
-                    <option value="학과이름" disabled>
-                      학과이름
-                    </option>
+                  <select
+                    defaultValue=""
+                    className="board-write-tablet-depart-select"
+                    onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                  >
+                    <option value="">{userInformation.schoolName}</option>
+                    {departments.map(department => (
+                      <option key={department.departmentId} value={department.departmentId}>
+                        {department.departmentName}
+                      </option>
+                    ))}
                   </select>
                   <p>게시판</p>
-                  <select defaultValue="게시판이름" className="board-write-tablet-category-select">
-                    <option value="게시판이름" disabled>
-                      게시판이름
+                  <select
+                    defaultValue=""
+                    className="board-write-tablet-category-select"
+                    onChange={e => setSelectedCategoryKey(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      선택
                     </option>
+                    {categories.map(category => (
+                      <option key={category.categoryKey} value={category.categoryKey}>
+                        {category.categoryValue}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -275,6 +315,7 @@ const BoardWrite = () => {
                 type="text"
                 placeholder="제목(2~50자)"
                 className="board-write-tablet-title-input"
+                onChange={handleTitleChange}
               />
               <div className="board-write-tablet-middle-notice-div">
                 <div className="board-write-tablet-middle-notice">
@@ -297,30 +338,30 @@ const BoardWrite = () => {
                   </div>
                 </div>
               </div>
-              <textarea
-                maxLength={1000}
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={handleQuillChange}
+                modules={modules}
                 placeholder="내용(5~1000자)"
                 className="board-write-tablet-textarea"
-              ></textarea>
+                ref={quillRef}
+              />
               <div className="board-write-tablet-add-img-div">
+                {currentLength}/{maxLength} 글자
                 <div className="board-write-tablet-add-img-div-top">
-                  <span>사진첨부</span>
-                  <button>사진첨부</button>
-                  <p>0/5</p>
-                  <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.</p>
-                </div>
-                <div className="board-write-tablet-add-img-div-bottom">
-                  {/* <div className="board-write-tablet-add-img-div">
-                <img src={Circle_human} alt="" />
-                <FontAwesomeIcon icon={faXmark} className="board-write-tablet-delete-button" />
-              </div> */}
+                  <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 5장까지 첨부 가능합니다.</p>
                 </div>
               </div>
             </div>
             <div className="board-write-tablet-bottom-button-div">
               <div className="board-write-tablet-bottom-button">
-                <button className="board-write-tablet-cancel-button">취소하기</button>
-                <button className="board-write-tablet-submit-button">작성하기</button>
+                <button onClick={handleCancel} className="board-write-tablet-cancel-button">
+                  취소하기
+                </button>
+                <button onClick={handleClickSubmit} className="board-write-tablet-submit-button">
+                  작성하기
+                </button>
               </div>
             </div>
           </div>
@@ -338,21 +379,34 @@ const BoardWrite = () => {
                 <div className="board-write-mobile-top-right">
                   <div className="board-write-mobile-top-right-select-div">
                     <p>전체/학과</p>
-                    <select defaultValue="학과이름" className="board-write-mobile-depart-select">
-                      <option value="학과이름" disabled>
-                        학과이름
-                      </option>
+                    <select
+                      defaultValue=""
+                      className="board-write-mobile-depart-select"
+                      onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                    >
+                      <option value="">{userInformation.schoolName}</option>
+                      {departments.map(department => (
+                        <option key={department.departmentId} value={department.departmentId}>
+                          {department.departmentName}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="board-write-mobile-top-right-select-div">
                     <p>게시판</p>
                     <select
-                      defaultValue="게시판이름"
+                      defaultValue=""
                       className="board-write-mobile-category-select"
+                      onChange={e => setSelectedCategoryKey(e.target.value)}
                     >
-                      <option value="게시판이름" disabled>
-                        게시판이름
+                      <option value="" disabled>
+                        선택
                       </option>
+                      {categories.map(category => (
+                        <option key={category.categoryKey} value={category.categoryKey}>
+                          {category.categoryValue}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -363,6 +417,7 @@ const BoardWrite = () => {
                 type="text"
                 placeholder="제목(2~50자)"
                 className="board-write-mobile-title-input"
+                onChange={handleTitleChange}
               />
               <div className="board-write-mobile-middle-notice-div">
                 <div className="board-write-mobile-middle-notice">
@@ -380,55 +435,34 @@ const BoardWrite = () => {
                       제한됩니다.
                     </span>
                   </span>
+
                   <div className="board-write-mobile-middle-notice-click">
                     <span>이용규칙 더보러가기</span>
                   </div>
+                  <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.</p>
                 </div>
               </div>
-              <textarea
-                maxLength={1000}
+              <ReactQuill
+                theme="snow"
+                value={content}
+                onChange={handleQuillChange}
+                modules={modules}
                 placeholder="내용(5~1000자)"
                 className="board-write-mobile-textarea"
-              ></textarea>
+                ref={quillRef}
+              />
               <div className="board-write-mobile-add-img-div">
-                <div className="board-write-mobile-add-img-div-top">
-                  <div className="board-write-mobile-add-img-div-top-top">
-                    <span>사진첨부</span>
-                    <button>사진첨부</button>
-                    <p>0/5</p>
-                  </div>
-                  <div className="board-write-mobile-add-img-div-top-bottom">
-                    <p>사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다.</p>
-                  </div>
-                </div>
-                <div className="board-write-mobile-add-img-div-bottom">
-                  <div className="board-write-mobile-add-img-div">
-                    <img src={Circle_human} alt="" />
-                    <FontAwesomeIcon icon={faXmark} className="board-write-mobile-delete-button" />
-                  </div>
-                  <div className="board-write-mobile-add-img-div">
-                    <img src={Circle_human} alt="" />
-                    <FontAwesomeIcon icon={faXmark} className="board-write-mobile-delete-button" />
-                  </div>
-                  <div className="board-write-mobile-add-img-div">
-                    <img src={Circle_human} alt="" />
-                    <FontAwesomeIcon icon={faXmark} className="board-write-mobile-delete-button" />
-                  </div>
-                  <div className="board-write-mobile-add-img-div">
-                    <img src={Circle_human} alt="" />
-                    <FontAwesomeIcon icon={faXmark} className="board-write-mobile-delete-button" />
-                  </div>
-                  <div className="board-write-mobile-add-img-div">
-                    <img src={Circle_human} alt="" />
-                    <FontAwesomeIcon icon={faXmark} className="board-write-mobile-delete-button" />
-                  </div>
-                </div>
+                <div className="board-write-mobile-add-img-div-top"></div>
               </div>
             </div>
             <div className="board-write-mobile-bottom-button-div">
               <div className="board-write-mobile-bottom-button">
-                <button className="board-write-mobile-cancel-button">취소하기</button>
-                <button className="board-write-mobile-submit-button">작성하기</button>
+                <button onClick={handleCancel} className="board-write-mobile-cancel-button">
+                  취소하기
+                </button>
+                <button onClick={handleClickSubmit} className="board-write-mobile-submit-button">
+                  작성하기
+                </button>
               </div>
             </div>
           </div>
