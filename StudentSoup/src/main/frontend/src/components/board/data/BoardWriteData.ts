@@ -14,14 +14,14 @@ export const PostRegistration = async (
   title: string,
   boardCategory: string,
   content: string,
+  departmentId: number | null,
   mutipartFileList?: File,
-  departmentId?: number,
 ) => {
   const response = await axiosInstance.put(
     `/board/${memberId}`,
     {
       memberId,
-      departmentId: null,
+      departmentId,
       title,
       boardCategory,
       content,
