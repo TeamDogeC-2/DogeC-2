@@ -301,7 +301,9 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-underline" />
               </div>
               <div className="board-detail-mobile-content-div">
-                <div className="board-detail-mobile-content">{boardContent}</div>
+                <div className="board-detail-mobile-content">
+                  <div dangerouslySetInnerHTML={{ __html: purifyBoardContent }}></div>
+                </div>
                 <div className="board-detail-mobile-like-button-div">
                   <button
                     onClick={handleBoardLikeCount}
