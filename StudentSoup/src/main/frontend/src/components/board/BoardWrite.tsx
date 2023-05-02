@@ -10,12 +10,12 @@ import 'react-quill/dist/quill.snow.css';
 import {
   WriteDepartmentData,
   PostRegistration,
-  PP,
   UploadImgURL,
   GetUploadImgURL,
 } from './data/BoardWriteData';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 interface Category {
   categoryKey: string;
   categoryValue: string;
@@ -26,7 +26,8 @@ interface Department {
   departmentName: string;
 }
 const BoardWrite = () => {
-  const [content, setContent] = useState<any>();
+  const navigate = useNavigate();
+  const [content, setContent] = useState<any>('');
   const [title, setTitle] = useState('');
   const [currentLength, setCurrentLength] = useState<number>(0);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -35,7 +36,7 @@ const BoardWrite = () => {
   const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('');
   const location = useLocation();
   const userInformation = { ...location.state };
-  const maxLength = 1000;
+  const maxLength = 600;
 
   useEffect(() => {
     WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
@@ -50,13 +51,18 @@ const BoardWrite = () => {
     setTitle(inputValue);
   };
   const handleQuillChange = (value: any) => {
-    const maxLength = 1000; // 원하는 최대 글자수
+    const maxLength = 600;
     const strippedValue = value.replace(/<(?:.|\n)*?>/gm, '');
     const newLength = strippedValue.length;
 
     if (newLength <= maxLength) {
       setContent(value);
       setCurrentLength(newLength);
+    } else {
+      alert(`최대 작성 가능한 글자수는 ${maxLength}자 입니다.`);
+      const newContent = strippedValue.substring(0, maxLength);
+      setContent(newContent);
+      setCurrentLength(maxLength - 1);
     }
   };
   const handleClickSubmit = () => {
@@ -64,12 +70,85 @@ const BoardWrite = () => {
       alert('제목은 2~50자입니다.');
       return;
     }
-    PostRegistration(userInformation.memberId, title, 'FREE', content, undefined).then(res => {
-      console.log(res);
+    if (!selectedCategoryKey) {
+      alert('게시판을 선택해주세요.');
+      return;
+    }
+    const strippedContent = content.replace(/<(?:.|\n)*?>/gm, '').trim();
+    if (!strippedContent || strippedContent.length < 5) {
+      alert('본문은 최소 5자 이상이어야 합니다.');
+      return;
+    }
+    PostRegistration(
+      userInformation.memberId,
+      title,
+      selectedCategoryKey,
+      content,
+      selectedDepartmentId,
+      undefined,
+    ).then(res => {
+      alert('성공적으로 작성하였습니다.');
+      navigate('/board', { state: userInformation });
     });
   };
-  console.log(selectedDepartmentId);
-  console.log(selectedCategoryKey);
+  async function imageHandler() {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files ? input.files[0] : null;
+      if (file) {
+        if (file.size > 20 * 1024 * 1024) {
+          alert('이미지 파일은 최대 20MB까지 첨부할 수 있습니다.');
+          return;
+        }
+        if (!/^(image\/jpeg|image\/png|image\/gif)$/.test(file.type)) {
+          alert('지원되는 이미지 파일 형식은 JPG, PNG, GIF입니다.');
+          return;
+        }
+
+        const memberId = userInformation.memberId;
+        try {
+          const fileName = await UploadImgURL(memberId, file).then(() => {
+            GetUploadImgURL(userInformation.memberId).then(res => {
+              console.log(res);
+              const url = `/image/${res}`;
+              const range = quillRef.current?.getEditor().getSelection()?.index ?? 0;
+              quillRef.current?.getEditor().insertEmbed(range, 'image', url, 'user');
+            });
+          });
+        } catch (error) {
+          console.error('Image upload failed:', error);
+        }
+      }
+    };
+  }
+
+  const quillRef = useRef<ReactQuill>(null);
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          ['link', 'image'],
+          ['clean'],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    }),
+    [],
+  );
+
+  console.log(content);
+
   return (
     <>
       <DesktopHeader>
@@ -144,10 +223,10 @@ const BoardWrite = () => {
                 theme="snow"
                 value={content}
                 onChange={handleQuillChange}
-                modules={BoardWrite.modules}
-                formats={BoardWrite.formats}
+                modules={modules}
                 placeholder="내용(5~1000자)"
                 className="board-write-textarea"
+                ref={quillRef}
               />
               <div className="character-count">
                 {currentLength}/{maxLength} 글자
@@ -166,11 +245,6 @@ const BoardWrite = () => {
                 </button>
               </div>
             </div>
-            <div
-            // dangerouslySetInnerHTML={{
-            //   __html: test ?? '',
-            // }}
-            ></div>
           </div>
         </div>
       </DesktopHeader>
@@ -367,18 +441,40 @@ const BoardWrite = () => {
   );
 };
 
-BoardWrite.modules = {
-  toolbar: {
-    container: [
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      [{ color: [] }, { background: [] }],
-      ['link', 'image'],
-      ['clean'],
-    ],
-  },
-};
+// async function imageHandler() {
+//   const input = document.createElement('input');
+//   input.setAttribute('type', 'file');
+//   input.setAttribute('accept', 'image/*');
+//   input.click();
+
+//   input.onchange = async () => {
+//     const file = input.files ? input.files[0] : null;
+//     if (file) {
+//       const memberId = userInformation.memberId; // 여기서 memberId를 적절한 값으로 설정하세요.
+//       try {
+//         await UploadImgURL(memberId, file).then(res => console.log(res));
+//       } catch (error) {
+//         console.error('Image upload failed:', error);
+//       }
+//     }
+//   };
+// }
+
+// BoardWrite.modules = {
+//   toolbar: {
+//     container: [
+//       ['bold', 'italic', 'underline', 'strike'],
+//       [{ list: 'ordered' }, { list: 'bullet' }],
+//       [{ header: [1, 2, 3, 4, 5, 6, false] }],
+//       [{ color: [] }, { background: [] }],
+//       ['link', 'image'],
+//       ['clean'],
+//     ],
+//     handlers: {
+//       image: imageHandler,
+//     },
+//   },
+// };
 
 BoardWrite.formats = [
   'bold',
