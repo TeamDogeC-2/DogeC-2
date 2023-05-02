@@ -121,6 +121,7 @@ $notice-text-color: #6d6d6d;
     .board-write-textarea {
       width: 90%;
       height: 50vh;
+      z-index: 10;
     }
   }
 
@@ -162,7 +163,7 @@ $notice-text-color: #6d6d6d;
 .board-write-add-img-div {
   display: flex;
   margin: auto;
-  margin-top: 2.5rem;
+  margin-top: 1.3rem;
   flex-direction: column;
   width: 90%;
   align-items: center;
