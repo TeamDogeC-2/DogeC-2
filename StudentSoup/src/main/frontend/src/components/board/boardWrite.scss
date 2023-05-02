@@ -336,22 +336,22 @@ $notice-text-color: #6d6d6d;
     .board-write-tablet-textarea {
       width: 90%;
       height: 23.375rem;
-      padding: 0.75rem;
-      border: 1px solid $basic-border-color;
-      resize: none;
-      font-size: 1rem;
+      z-index: 10;
     }
 
     .board-write-tablet-add-img-div {
       display: flex;
       flex-direction: column;
       width: 90%;
+      margin-top: 2.6rem;
+      padding-top: 1rem;
       align-items: center;
       background-color: $notice-background-color;
       border-left: 1px solid $basic-border-color;
       border-right: 1px solid $basic-border-color;
       border-bottom: 1px solid $basic-border-color;
       border-radius: 0 0 5px 5px;
+      color: $notice-text-color;
 
       .board-write-tablet-add-img-div-top {
         display: flex;
@@ -582,11 +582,8 @@ $notice-text-color: #6d6d6d;
 
     .board-write-mobile-textarea {
       width: 90%;
-      height: 23.375rem;
-      padding: 0.75rem;
-      border: 1px solid $basic-border-color;
-      resize: none;
-      font-size: 1rem;
+      height: 23rem;
+      z-index: 10;
     }
 
     .board-write-mobile-add-img-div {
@@ -594,11 +591,6 @@ $notice-text-color: #6d6d6d;
       flex-direction: column;
       width: 90%;
       align-items: center;
-      background-color: $notice-background-color;
-      border-left: 1px solid $basic-border-color;
-      border-right: 1px solid $basic-border-color;
-      border-bottom: 1px solid $basic-border-color;
-      border-radius: 0 0 5px 5px;
 
       .board-write-mobile-add-img-div-top {
         display: flex;
