@@ -7,7 +7,13 @@ import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import ReactQuill from 'react-quill';
 import type Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
-import { WriteDepartmentData, PostRegistration, PP, GetUploadImgURL } from './data/BoardWriteData';
+import {
+  WriteDepartmentData,
+  PostRegistration,
+  PP,
+  UploadImgURL,
+  GetUploadImgURL,
+} from './data/BoardWriteData';
 import { useEffect, useState } from 'react';
 
 const BoardWrite = () => {
@@ -31,7 +37,7 @@ const BoardWrite = () => {
     });
   };
   useEffect(() => {
-    PP(318, 7).then(res => {
+    PP(323, 7).then(res => {
       setTest(res.content);
     });
   }, []);
@@ -322,8 +328,10 @@ async function imageHandler(this: Quill) {
     if (file) {
       const memberId = 7; // 여기서 memberId를 적절한 값으로 설정하세요.
       try {
-        await GetUploadImgURL(memberId, file).then(res => {
-          console.log(res);
+        await UploadImgURL(memberId, file).then(res => {
+          GetUploadImgURL(memberId).then(res => {
+            console.log(res);
+          });
         });
         const range = this.getSelection(true);
         // this.insertEmbed(range.index, 'image', url);
