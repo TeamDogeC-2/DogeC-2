@@ -113,7 +113,6 @@ const BoardWrite = () => {
         try {
           const fileName = await UploadImgURL(memberId, file).then(() => {
             GetUploadImgURL(userInformation.memberId).then(res => {
-              console.log(res);
               const url = `/image/${res}`;
               const range = quillRef.current?.getEditor().getSelection()?.index ?? 0;
               quillRef.current?.getEditor().insertEmbed(range, 'image', url, 'user');
@@ -146,8 +145,6 @@ const BoardWrite = () => {
     }),
     [],
   );
-
-  console.log(content);
 
   return (
     <>
@@ -440,41 +437,6 @@ const BoardWrite = () => {
     </>
   );
 };
-
-// async function imageHandler() {
-//   const input = document.createElement('input');
-//   input.setAttribute('type', 'file');
-//   input.setAttribute('accept', 'image/*');
-//   input.click();
-
-//   input.onchange = async () => {
-//     const file = input.files ? input.files[0] : null;
-//     if (file) {
-//       const memberId = userInformation.memberId; // 여기서 memberId를 적절한 값으로 설정하세요.
-//       try {
-//         await UploadImgURL(memberId, file).then(res => console.log(res));
-//       } catch (error) {
-//         console.error('Image upload failed:', error);
-//       }
-//     }
-//   };
-// }
-
-// BoardWrite.modules = {
-//   toolbar: {
-//     container: [
-//       ['bold', 'italic', 'underline', 'strike'],
-//       [{ list: 'ordered' }, { list: 'bullet' }],
-//       [{ header: [1, 2, 3, 4, 5, 6, false] }],
-//       [{ color: [] }, { background: [] }],
-//       ['link', 'image'],
-//       ['clean'],
-//     ],
-//     handlers: {
-//       image: imageHandler,
-//     },
-//   },
-// };
 
 BoardWrite.formats = [
   'bold',
