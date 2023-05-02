@@ -17,13 +17,10 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
   const [clicklike, isClickLike] = useState<boolean>();
   const [likeCount, setlikeCount] = useState<number>(menu.likedCount);
 
-  console.log(menu);
-
   const handleHeartCount = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     const saveMenuId = e.target.parentElement.parentElement.id;
-    console.log(e.target.parentElement.parentElement.parentElement.id);
     if (!memberId) {
       if (confirm('로그인후 이용가능한 기능입니다. 로그인하시겠습니까?')) {
         navigate('/login');
@@ -39,7 +36,6 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
         .then(res => {
           isLike(res.data.data.like);
           setlikeCount(res.data.data.likedCount);
-          console.log(res.data);
         });
       isClickLike(!clicklike);
       isLike(!like);
@@ -55,6 +51,8 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
       {like ? (
         <svg
           onClick={handleHeartCount}
+          id={menu.restaurantMenuId}
+          key={menu.restaurantMenuId}
           className="restaurant-detail-bottom-menu-heart"
           width="17"
           height="15"
@@ -63,6 +61,8 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
+            id={menu.restaurantMenuId}
+            key={menu.restaurantMenuId}
             d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
             stroke="#FF611D"
             strokeWidth="1.30715"
@@ -73,6 +73,8 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
       ) : (
         <svg
           onClick={handleHeartCount}
+          id={menu.restaurantMenuId}
+          key={menu.restaurantMenuId}
           className="restaurant-detail-bottom-menu-heart"
           width="17"
           height="15"
@@ -81,6 +83,8 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
+            id={menu.restaurantMenuId}
+            key={menu.restaurantMenuId}
             d="M4.75 1C2.67893 1 1 2.61547 1 4.60825C1 6.21701 1.656 10.035 8.11563 13.8951C8.34955 14.035 8.65045 14.035 8.88437 13.8951C15.344 10.035 16 6.21701 16 4.60825C16 2.61547 14.321 1 12.25 1C10.179 1 8.5 3.18682 8.5 3.18682C8.5 3.18682 6.82107 1 4.75 1Z"
             stroke="#ACACAC"
             strokeWidth="1.30715"

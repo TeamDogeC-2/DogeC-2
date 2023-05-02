@@ -62,38 +62,39 @@ const Board = () => {
     searched: string | undefined,
     sorted: number = 0,
   ) => {
-    postBoards(
-      userInformation.schoolId,
-      userInformation.memberId,
-      departmentId,
-      selected,
-      searched,
-      category,
-      sorted,
-      currentPage - 1,
-    )
-      .then(res => {
-        if (category === 'ALL') {
-          setBestBoardItems(res.data.bestBoards);
-          setHotBoardItems(res.data.hotBoards);
+    localStorage.getItem('access-token') &&
+      postBoards(
+        userInformation.schoolId,
+        userInformation.memberId,
+        departmentId,
+        selected,
+        searched,
+        category,
+        sorted,
+        currentPage - 1,
+      )
+        .then(res => {
+          if (category === 'ALL') {
+            setBestBoardItems(res.data.bestBoards);
+            setHotBoardItems(res.data.hotBoards);
 
-          setPostPerPage(res.data.boards.pageable.pageSize);
-          setCount(res.data.boards.totalElements);
-          setCurrentPosts(res.data.boards.content);
-        } else {
-          setPostPerPage(res.data.boards.pageable.pageSize);
-          setCount(res.data.boards.totalElements);
-          setCurrentPosts(res.data.boards.content);
-        }
-      })
-      .catch(() => {
-        navigate('/');
-        Swal.fire(
-          '게시판 불러오기 실패',
-          '게시판 불러오기가 실패되었습니다. 다시 시도해 주세요.',
-          'error',
-        );
-      });
+            setPostPerPage(res.data.boards.pageable.pageSize);
+            setCount(res.data.boards.totalElements);
+            setCurrentPosts(res.data.boards.content);
+          } else {
+            setPostPerPage(res.data.boards.pageable.pageSize);
+            setCount(res.data.boards.totalElements);
+            setCurrentPosts(res.data.boards.content);
+          }
+        })
+        .catch(() => {
+          navigate('/');
+          Swal.fire(
+            '게시판 불러오기 실패',
+            '게시판 불러오기가 실패되었습니다. 다시 시도해 주세요.',
+            'error',
+          );
+        });
   };
 
   useEffect(() => {
@@ -133,14 +134,13 @@ const Board = () => {
                 onChange={handleChangeOption}
               >
                 <option value="">전체게시판</option>
-                {!!departmentOption &&
-                  departmentOption.map((department: BoardDepartmentType) => {
-                    return (
-                      <option key={department.departmentId} value={department.departmentId}>
-                        {department.departmentName}
-                      </option>
-                    );
-                  })}
+                {departmentOption?.map((department: BoardDepartmentType) => {
+                  return (
+                    <option key={department.departmentId} value={department.departmentId}>
+                      {department.departmentName}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
@@ -187,6 +187,8 @@ const Board = () => {
                 hotBoardItems={hotBoardItems}
                 currentPosts={currentPosts}
                 setSorted={setSorted}
+                memberId={userInformation.memberId}
+                nickname={userInformation.nickname}
               />
             </Desktop>
             <Mobile>
@@ -196,6 +198,8 @@ const Board = () => {
                 bestBoardItems={bestBoardItems}
                 hotBoardItems={hotBoardItems}
                 currentPosts={currentPosts}
+                memberId={userInformation.memberId}
+                nickname={userInformation.nickname}
               />
             </Mobile>
           </div>

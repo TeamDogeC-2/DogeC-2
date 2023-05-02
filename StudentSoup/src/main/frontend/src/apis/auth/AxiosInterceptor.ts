@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { authRefreshToken } from './AuthAPI';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const axiosInstance = axios.create({
   headers: {
@@ -12,10 +14,10 @@ axiosInstance.interceptors.request.use(
   config => {
     if (localStorage.getItem('access-token') !== null) {
       const accessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
-      const refreshToken = localStorage.getItem('refresh-token');
+      const refreshToken = JSON.parse(localStorage.getItem('refresh-token') ?? '{}');
 
-      if (Date.now() > accessToken.expire && refreshToken) {
-        authRefreshToken(refreshToken).then(response => {
+      if (Date.now() >= accessToken.expire && Date.now() <= refreshToken.expire) {
+        authRefreshToken(refreshToken.value).then(response => {
           const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
 
           config.headers.Authorization = `Bearer ${newAccessToken.value}`;
@@ -38,17 +40,21 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    const refreshToken = localStorage.getItem('refresh-token');
+    const refreshToken = JSON.parse(localStorage.getItem('refresh-token') ?? '{}');
 
-    if (error.response.status === 403) {
+    if (error.response.status === 403 && localStorage.getItem('refresh-token') !== null) {
       if (refreshToken) {
         originalRequest._retry = true;
 
-        await authRefreshToken(refreshToken).then(res => {
-          const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
+        await authRefreshToken(refreshToken.value)
+          .then(() => {
+            const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
 
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken.value}`;
-        });
+            originalRequest.headers.Authorization = `Bearer ${newAccessToken.value}`;
+          })
+          .catch(err => {
+            console.log(err);
+          });
 
         return await axiosInstance(originalRequest);
       }
