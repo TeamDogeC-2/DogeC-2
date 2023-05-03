@@ -11,11 +11,12 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../apis/auth/AxiosInterceptor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import DOMPurify from 'dompurify';
 
 const BoardDetail = () => {
   const [boardTitle, setBoardTitle] = useState<string>();
   const [boardNickname, setBoardNickname] = useState<string>();
-  const [boardContent, setBoardContent] = useState<string>();
+  const [boardContent, setBoardContent] = useState<string>('');
   const [boardreviewCount, setBoardreviewCount] = useState<number>();
   const [boardlikeCount, setBoardlikeCount] = useState<number>();
   const [boardLiked, isBoardLiked] = useState<boolean>();
@@ -38,6 +39,8 @@ const BoardDetail = () => {
   const memberId = state.state.value2;
   const nickname = state.state.value3;
 
+  const purifyBoardContent = DOMPurify.sanitize(boardContent);
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom',
@@ -48,7 +51,7 @@ const BoardDetail = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/board/${getBoardId}/${memberId}`)
+      .post(`/board/detail/${getBoardId}/${memberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -214,7 +217,9 @@ const BoardDetail = () => {
                 <div className="board-detail-underline" />
               </div>
               <div className="board-detail-content-div">
-                <div className="board-detail-content">{boardContent}</div>
+                <div className="board-detail-content">
+                  <div dangerouslySetInnerHTML={{ __html: purifyBoardContent }}></div>
+                </div>
                 <div className="board-detail-like-button-div">
                   <button onClick={handleBoardLikeCount} className="board-detail-like-button">
                     {like ? (
@@ -296,7 +301,9 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-underline" />
               </div>
               <div className="board-detail-mobile-content-div">
-                <div className="board-detail-mobile-content">{boardContent}</div>
+                <div className="board-detail-mobile-content">
+                  <div dangerouslySetInnerHTML={{ __html: purifyBoardContent }}></div>
+                </div>
                 <div className="board-detail-mobile-like-button-div">
                   <button
                     onClick={handleBoardLikeCount}
