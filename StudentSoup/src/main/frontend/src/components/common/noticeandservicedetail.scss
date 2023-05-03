@@ -181,12 +181,14 @@ $text-sub-color: #a8a8a8;
         width: 100%;
         padding: 0 2.875rem;
         margin-top: 1rem;
+        display: flex;
 
         textarea {
           width: 90%;
           border: 1px solid $basic-border-color;
           border-radius: 5px;
           padding: 1rem;
+          resize: none;
         }
 
         button {
@@ -377,14 +379,16 @@ $text-sub-color: #a8a8a8;
 
       .board-notice-service-detail-mobile-bottom-review-write {
         width: 100%;
-        padding: 0 2.875rem;
+        padding: 0 1.25rem;
         margin-top: 1rem;
+        display: flex;
 
         textarea {
           width: 80%;
           border: 1px solid $basic-border-color;
           border-radius: 5px;
           padding: 1rem;
+          resize: none;
         }
 
         button {
