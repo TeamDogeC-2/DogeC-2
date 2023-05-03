@@ -5,13 +5,9 @@ import review_white from '../../img/review_white.svg';
 import { Desktop, Mobile } from '../../mediaQuery';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
-import BoardBestReview from '../board/BoardBestReview';
 import BoardReview from '../board/BoardReview';
-import BoardReply from '../board/BoardReply';
 import Swal from 'sweetalert2';
-import { postBoardDetail } from '../../apis/auth/BoardAPI';
+import { getBoardReplies, postBoardDetail, putBoardReply } from '../../apis/auth/BoardAPI';
 
 const NoticeDetail = () => {
   const [postDetailInformation, setPostDetailInformation] = useState({
@@ -23,6 +19,10 @@ const NoticeDetail = () => {
     boardCategory: '',
     reviewCount: null,
   });
+
+  const [boardReviewList, setBoardReviewList] = useState<any>([]);
+  const [reply, setReply] = useState<number>(0);
+  const [replyContent, setReplyContent] = useState<string>();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,11 +52,47 @@ const NoticeDetail = () => {
     navigate(-1);
   };
 
+  const handleReplyContent = (e: any) => {
+    setReplyContent(e.target.value);
+  };
+
+  const handleSumbitReply = (e: any) => {
+    if (!replyContent) {
+      Swal.fire('등록 실패', '내용을 입력해주세요.', 'error');
+      return;
+    }
+    if (replyContent.length < 2 || replyContent.length > 500) {
+      Swal.fire('등록 실패', '댓글은 2자이상 500자 이하입니다.', 'error');
+      return;
+    }
+
+    putBoardReply(location.state.boardId, location.state.memberId, replyContent, 0, reply)
+      .then(res => {
+        Swal.fire('등록 성공', '성공적으로 댓글을 작성하였습니다.', 'success').then(result => {
+          if (result.isConfirmed) {
+            // location.reload();
+          }
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   useEffect(() => {
     api();
     if (window.localStorage.getItem('access-token')) {
       setIsLogin(true);
     }
+    console.log(replyContent);
+
+    getBoardReplies(location.state.boardId, location.state.memberId)
+      .then(res => {
+        setBoardReviewList(res.data.boardReplyList);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }, []);
 
   return (
@@ -121,16 +157,23 @@ const NoticeDetail = () => {
                   {isLogin && (
                     <div className="board-notice-service-detail-bottom-review-write-div">
                       <div className="board-notice-service-detail-bottom-review-write">
-                        <input type="text" placeholder="댓글을 입력해주세요." />
-                        <button>작성</button>
+                        <textarea
+                          maxLength={500}
+                          onChange={e => handleReplyContent(e)}
+                          placeholder="댓글을 입력해주세요."
+                        />
+                        <button onClick={handleSumbitReply}>작성</button>
                       </div>
                     </div>
                   )}
-                  {/* <BoardBestReview />
-                  <BoardReview />
-                  <BoardReply /> */}
                 </>
               )}
+              <BoardReview
+                review={boardReviewList}
+                memberId={location.state.memberId}
+                nickname={postDetailInformation.nickname}
+                getBoardId={location.state.boardId}
+              />
             </div>
           </div>
         </div>
@@ -195,16 +238,29 @@ const NoticeDetail = () => {
                   {isLogin && (
                     <div className="board-notice-service-detail-mobile-bottom-review-write-div">
                       <div className="board-notice-service-detail-mobile-bottom-review-write">
-                        <input type="text" placeholder="댓글을 입력해주세요." />
+                        <textarea
+                          maxLength={500}
+                          onChange={e => handleReplyContent(e)}
+                          placeholder="댓글을 입력해주세요."
+                        />
                         <button>작성</button>
                       </div>
                     </div>
                   )}
-                  {/* <BoardBestReview />
-                  <BoardReview />
-                  <BoardReply /> */}
+                  <BoardReview
+                    review={boardReviewList}
+                    memberId={location.state.memberId}
+                    nickname={postDetailInformation.nickname}
+                    getBoardId={location.state.boardId}
+                  />
                 </>
               )}
+              <BoardReview
+                review={boardReviewList}
+                memberId={location.state.memberId}
+                nickname={postDetailInformation.nickname}
+                getBoardId={location.state.boardId}
+              />
             </div>
           </div>
         </div>
