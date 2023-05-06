@@ -70,7 +70,7 @@ const NoticeDetail = () => {
       .then(res => {
         Swal.fire('등록 성공', '성공적으로 댓글을 작성하였습니다.', 'success').then(result => {
           if (result.isConfirmed) {
-            // location.reload();
+            window.location.reload();
           }
         });
       })
@@ -152,22 +152,23 @@ const NoticeDetail = () => {
                   )}
                 </div>
               </div>
-              {boardCategory[postDetailInformation.boardCategory] === '고객센터' && (
-                <>
-                  {isLogin && (
-                    <div className="board-notice-service-detail-bottom-review-write-div">
-                      <div className="board-notice-service-detail-bottom-review-write">
-                        <textarea
-                          maxLength={500}
-                          onChange={e => handleReplyContent(e)}
-                          placeholder="댓글을 입력해주세요."
-                        />
-                        <button onClick={handleSumbitReply}>작성</button>
+              {boardCategory[postDetailInformation.boardCategory] === '고객센터' &&
+                location.state.memberClassification === 'ADMIN' && (
+                  <>
+                    {isLogin && (
+                      <div className="board-notice-service-detail-bottom-review-write-div">
+                        <div className="board-notice-service-detail-bottom-review-write">
+                          <textarea
+                            maxLength={500}
+                            onChange={e => handleReplyContent(e)}
+                            placeholder="댓글을 입력해주세요."
+                          />
+                          <button onClick={handleSumbitReply}>작성</button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </>
-              )}
+                    )}
+                  </>
+                )}
               <BoardReview
                 review={boardReviewList}
                 memberId={location.state.memberId}
@@ -233,28 +234,23 @@ const NoticeDetail = () => {
                   )}
                 </div>
               </div>
-              {boardCategory[postDetailInformation.boardCategory] === '고객센터' && (
-                <>
-                  {isLogin && (
-                    <div className="board-notice-service-detail-mobile-bottom-review-write-div">
-                      <div className="board-notice-service-detail-mobile-bottom-review-write">
-                        <textarea
-                          maxLength={500}
-                          onChange={e => handleReplyContent(e)}
-                          placeholder="댓글을 입력해주세요."
-                        />
-                        <button>작성</button>
+              {boardCategory[postDetailInformation.boardCategory] === '고객센터' &&
+                location.state.memberClassification === 'ADMIN' && (
+                  <>
+                    {isLogin && (
+                      <div className="board-notice-service-detail-mobile-bottom-review-write-div">
+                        <div className="board-notice-service-detail-mobile-bottom-review-write">
+                          <textarea
+                            maxLength={500}
+                            onChange={e => handleReplyContent(e)}
+                            placeholder="댓글을 입력해주세요."
+                          />
+                          <button>작성</button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  <BoardReview
-                    review={boardReviewList}
-                    memberId={location.state.memberId}
-                    nickname={postDetailInformation.nickname}
-                    getBoardId={location.state.boardId}
-                  />
-                </>
-              )}
+                    )}
+                  </>
+                )}
               <BoardReview
                 review={boardReviewList}
                 memberId={location.state.memberId}
