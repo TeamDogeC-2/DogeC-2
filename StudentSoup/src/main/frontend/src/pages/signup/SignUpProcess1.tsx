@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import MainNavbar from '../common/MainNavbar';
+import MainNavbar from '../../components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_1 from './../../img/signup_process_activate_1.png';
 import process_2 from './../../img/signup_process_2.png';
 import process_3 from './../../img/signup_process_3.png';
 import process_bar from './../../img/signup_process_bar.png';
 import process_check from './../../img/signup_process_check.png';
-import Background from '../common/Background';
+import Background from '../../components/common/Background';
 import './signupprocess1.scss';
 import { Desktop, Mobile } from '../../mediaQuery';
 import Checkbox from './Checkbox';

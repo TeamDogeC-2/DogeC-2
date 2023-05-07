@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Background from '../common/Background';
-import MainNavbar from '../common/MainNavbar';
-import SignUpComponent from './SignUpComponent';
+import Background from 'components/common/Background';
+import MainNavbar from 'components/common/MainNavbar';
+import SignUpComponent from 'SignUpComponent';
 import process_activate_3 from './../../img/signup_process_activate_3.png';
 import process_check from './../../img/signup_process_check.png';
 import process_next_bar from './../../img/signup_process_next_bar.png';
