@@ -1,23 +1,23 @@
+import Board from 'components/board/Board';
+import BoardDetail from 'components/board/BoardDetail';
+import BoardWrite from 'components/board/BoardWrite';
+import NoticeAndServiceDetail from 'components/common/NoticeAndServiceDetail';
+import PrivateRoute from 'components/common/PrivateRoute';
+import CustomerService from 'pages/customerservice/CustomerService';
+import Err404 from 'pages/err404/Err404';
+import Home from 'pages/home/Home';
+import FindAccount from 'pages/login/FindAccount';
+import Login from 'pages/login/Login';
+import MypageMain from 'pages/mypage/MypageMain';
+import MypageScheduler from 'pages/mypage/MypageScheduler';
+import Notice from 'pages/notice/Notice';
+import Restaurant from 'pages/restaurant/Restaurant';
+import RestaurantDetail from 'pages/restaurant/RestaurantDetail';
+import SignUpProcess1 from 'pages/signup/SignUpProcess1';
+import SignUpProcess2 from 'pages/signup/SignUpProcess2';
+import SignUpProcess3 from 'pages/signup/SignUpProcess3';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './components/home/Home';
-import Err404 from './components/err404/Err404';
-import Login from './components/login/Login';
-import FindAccount from './components/login/FindAccount';
-import Restaurant from './components/restaurant/Restaurant';
-import SignUpProcess1 from './pages/signup/SignUpProcess1';
-import SignUpProcess2 from './pages/signup/SignUpProcess2';
-import SignUpProcess3 from './pages/signup/SignUpProcess3';
-import MypageMain from './components/mypage/MypageMain';
-import RestaurantDetail from './components/restaurant/RestaurantDetail';
-import Notice from './components/notice/Notice';
-import Scheduler from './components/mypage/MypageScheduler';
-import Board from './components/board/Board';
-import BoardDetail from './components/board/BoardDetail';
-import BoardWrite from './components/board/BoardWrite';
-import CustomerService from './pages/customerservice/CustomerService';
-import NoticeAndServiceDetail from './components/common/NoticeAndServiceDetail';
-import PrivateRoute from './components/common/PrivateRoute';
 
 const Router = () => {
   return (
@@ -40,7 +40,7 @@ const Router = () => {
         <Route path="/board/detail/:boardId" element={<BoardDetail />} />
         <Route path="/board/write" element={<BoardWrite />} />
         <Route path="/mypage" element={<MypageMain />} />
-        <Route path="/mypage/scheduler" element={<Scheduler />} />
+        <Route path="/mypage/scheduler" element={<MypageScheduler />} />
       </Route>
     </Routes>
   );
