@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './boardReviewFunction.scss';
-import Circle_human from '../../img/circle_human.png';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
+import Circle_human from 'assets/images/circle_human.png';
+import axiosInstance from 'apis/auth/AxiosInterceptor';
 import { useNavigate } from 'react-router-dom';
-import { Desktop, Mobile } from '../../mediaQuery';
+import { Desktop, Mobile } from 'mediaQuery';
 import Swal from 'sweetalert2';
 
 interface Props {

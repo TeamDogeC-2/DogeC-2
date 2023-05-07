@@ -1,14 +1,14 @@
 import './mainNavbar.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
-import mainLogo from '../../img/mainLogo.svg';
-import Circle_human from '../../img/circle_human.png';
+import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
+import mainLogo from 'assets/images/mainLogo.svg';
+import Circle_human from 'assets/images/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
-import { postUserInfo } from '../../apis/auth/BoardAPI';
-import { type userInformationType } from '../../interfaces/BoardTypes';
+import { postUserInfo } from 'apis/auth/BoardAPI';
+import { type userInformationType } from 'interfaces/BoardTypes';
 
 const MainNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

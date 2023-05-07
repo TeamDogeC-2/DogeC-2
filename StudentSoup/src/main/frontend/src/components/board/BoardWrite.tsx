@@ -1,7 +1,9 @@
 import MainNavbar from '../common/MainNavbar';
 import './boardWrite.scss';
-
-import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
+import Circle_human from 'assets/images/circle_human.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
 import ReactQuill from 'react-quill';
 import type Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';

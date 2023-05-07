@@ -1,13 +1,13 @@
 import './mypageNavbar.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
-import mainLogo from '../../img/mainLogo.svg';
-import Circle_human from '../../img/circle_human.png';
+import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
+import mainLogo from 'assets/images/mainLogo.svg';
+import Circle_human from 'assets/images/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MypageUserInfo } from 'pages/mypage/data/MypageUserInfo';
 import Swal from 'sweetalert2';
-import { type userInformationType } from '../../interfaces/BoardTypes';
+import { type userInformationType } from 'interfaces/BoardTypes';
 import {
   faAngleRight,
   faBars,

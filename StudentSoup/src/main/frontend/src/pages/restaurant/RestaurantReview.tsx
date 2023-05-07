@@ -1,12 +1,11 @@
 import './restaurantReview.scss';
-import review_white from '../../img/review_white.svg';
+import review_white from 'assets/images/review_white.svg';
 import { useState, useEffect } from 'react';
-import Circle_human from '../../img/circle_human.png';
-import empty_heart from '../../img/empty_heart.svg';
+import Circle_human from 'assets/images/circle_human.png';
 import RestaurantReviewWrite from './RestaurantReviewWrite';
-import { Desktop, Mobile } from '../../mediaQuery';
+import { Desktop, Mobile } from 'mediaQuery';
 import axios from 'axios';
-import RatingStars from '../mypage/components/RatingStars';
+import RatingStars from 'pages/mypage/components/RatingStars';
 import ReviewPaginate from 'components/common/ReviewPaginate';
 import RestaurantReviewHeartInfo from './RestaurantReviewHeartInfo';
 

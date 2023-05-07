@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import MainNavbar from 'components/common/MainNavbar';
 import './home.scss';
-import MainLogo_white from '../../img/mainLogo_white.svg';
-import Search_icon from '../../img/search_icon.svg';
+import MainLogo_white from 'assets/images/mainLogo_white.svg';
+import Search_icon from 'assets/images/search_icon.svg';
 import { SchoolList, type SchoolListType } from './data/SchoolList';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';

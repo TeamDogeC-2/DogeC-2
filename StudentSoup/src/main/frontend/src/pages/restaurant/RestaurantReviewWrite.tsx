@@ -1,11 +1,11 @@
 import './restaurantReviewWrite.scss';
-import camera from '../../img/camera.svg';
+import camera from 'assets/images/camera.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Desktop, Mobile } from '../../mediaQuery';
-import RatingStars from '../mypage/components/RatingStars';
+import { Desktop, Mobile } from 'mediaQuery';
+import RatingStars from 'pages/mypage/components/RatingStars';
 import { useRef, useState, useEffect } from 'react';
-import { RestaurantUserInfo, type UserInfoType } from './data/RestaurantUserInfo';
+import { RestaurantUserInfo } from './data/RestaurantUserInfo';
 import axios from 'axios';
 
 interface Props {

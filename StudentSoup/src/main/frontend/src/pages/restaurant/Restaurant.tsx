@@ -1,12 +1,12 @@
 import axios from 'axios';
-import view_count from '../../img/view_count.svg';
-import heart from '../../img/heart.svg';
-import star from '../../img/star.svg';
-import filter from '../../img/filter.svg';
+import view_count from 'assets/images/view_count.svg';
+import heart from 'assets/images/heart.svg';
+import star from 'assets/images/star.svg';
+import filter from 'assets/images/filter.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './restaurant.scss';
-import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
+import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
 import { useMediaQuery } from 'react-responsive';
 const kakao = (window as any).kakao;

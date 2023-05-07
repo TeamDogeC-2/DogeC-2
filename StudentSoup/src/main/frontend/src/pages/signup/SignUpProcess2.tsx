@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Desktop, Mobile } from '../../mediaQuery';
-import Background from '../../components/common/Background';
-import MainNavbar from '../../components/common/MainNavbar';
+import { Desktop, Mobile } from 'mediaQuery';
+import Background from 'components/common/Background';
+import MainNavbar from 'components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
-import process_activate_2 from './../../img/signup_process_activate_2.png';
-import process_3 from './../../img/signup_process_3.png';
-import process_check from './../../img/signup_process_check.png';
-import process_bar from './../../img/signup_process_bar.png';
-import process_next_bar from './../../img/signup_process_next_bar.png';
-import unchecked from './../../img/signup_uncheck.png';
+import process_activate_2 from 'assets/images/signup_process_activate_2.png';
+import process_3 from 'assets/images/signup_process_3.png';
+import process_check from 'assets/images/signup_process_check.png';
+import process_bar from 'assets/images/signup_process_bar.png';
+import process_next_bar from 'assets/images/signup_process_next_bar.png';
+import unchecked from 'assets/images/signup_uncheck.png';
 import './signupprocess2.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useInput from '../../hooks/useInput';
+import useInput from 'hooks/useInput';
 import Swal from 'sweetalert2';
-import { signUpIdCheck, signUp } from '../../apis/auth/AuthAPI';
+import { signUpIdCheck, signUp } from 'apis/auth/AuthAPI';
 
 const SignUpProcess2 = () => {
   const [userId, , setUserId] = useInput('');

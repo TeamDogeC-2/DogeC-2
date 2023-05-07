@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { type PostSearchPropsType } from '../../interfaces/BoardTypes';
+import { type PostSearchPropsType } from 'interfaces/BoardTypes';
 import './postsearch.scss';
 import { useNavigate } from 'react-router-dom';
-import review_white from '../../img/review_white.svg';
+import review_white from 'assets/images/review_white.svg';
 
 const PostSearch = ({ pageTitle, handlePostBoardApi, userInformation }: PostSearchPropsType) => {
   const [isLogin, setIsLogin] = useState<boolean>(false);

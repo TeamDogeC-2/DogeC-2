@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import './restaurantMenu.scss';
-import under_arrow from '../../img/under_arrow.svg';
-import up_arrow from '../../img/up_arrow.svg';
-import Circle_human from '../../img/circle_human.png';
+import under_arrow from 'assets/images/under_arrow.svg';
+import up_arrow from 'assets/images/up_arrow.svg';
+import Circle_human from 'assets/images/circle_human.png';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';

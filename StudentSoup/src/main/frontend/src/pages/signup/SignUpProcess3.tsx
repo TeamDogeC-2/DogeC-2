@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Background from 'components/common/Background';
 import MainNavbar from 'components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
-import process_activate_3 from './../../img/signup_process_activate_3.png';
-import process_check from './../../img/signup_process_check.png';
-import process_next_bar from './../../img/signup_process_next_bar.png';
+import process_activate_3 from 'assets/images/signup_process_activate_3.png';
+import process_check from 'assets/images/signup_process_check.png';
+import process_next_bar from 'assets/images/signup_process_next_bar.png';
 import './signupprocess3.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useInput from '../../hooks/useInput';
+import useInput from 'hooks/useInput';
 import Swal from 'sweetalert2';
 import {
   signUpNicknameCheck,
@@ -16,8 +16,8 @@ import {
   signUpComplete,
   getSignUpThird,
   postSignUpSchoolId,
-} from '../../apis/auth/AuthAPI';
-import { type UniversityDataType, type MajorDataType } from '../../interfaces/SignupTypes';
+} from 'apis/auth/AuthAPI';
+import { type UniversityDataType, type MajorDataType } from 'interfaces/SignupTypes';
 
 const SignUpProcess3 = () => {
   const [userGender, onChangeGender] = useInput('MAN');

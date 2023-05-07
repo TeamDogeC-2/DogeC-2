@@ -1,13 +1,13 @@
 import MainNavbar from './MainNavbar';
 import './noticeandservicedetail.scss';
-import left from '../../img/left.svg';
-import review_white from '../../img/review_white.svg';
-import { Desktop, Mobile } from '../../mediaQuery';
+import left from 'assets/images/left.svg';
+import review_white from 'assets/images/review_white.svg';
+import { Desktop, Mobile } from 'mediaQuery';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import BoardReview from '../board/BoardReview';
 import Swal from 'sweetalert2';
-import { getBoardReplies, postBoardDetail, putBoardReply } from '../../apis/auth/BoardAPI';
+import { getBoardReplies, postBoardDetail, putBoardReply } from 'apis/auth/BoardAPI';
 
 const NoticeDetail = () => {
   const [postDetailInformation, setPostDetailInformation] = useState({

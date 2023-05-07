@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReactComponent as ReviewStarIcon } from '../../../img/mypageReviewStar.svg';
+import { ReactComponent as ReviewStarIcon } from 'assets/images/mypageReviewStar.svg';
 import './ratingStars.scss';
 
 interface RatingStarsProps {

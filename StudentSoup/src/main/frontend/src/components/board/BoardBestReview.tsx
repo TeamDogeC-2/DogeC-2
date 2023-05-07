@@ -1,6 +1,6 @@
 import './boardBestReview.scss';
-import Circle_human from '../../img/circle_human.png';
-import { Desktop, Mobile } from '../../mediaQuery';
+import Circle_human from 'assets/images/circle_human.png';
+import { Desktop, Mobile } from 'mediaQuery';
 import BoardBestReviewHeart from './BoardBestReviewHeart';
 
 interface Props {

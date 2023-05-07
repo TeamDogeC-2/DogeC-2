@@ -1,17 +1,17 @@
 import './restaurantNavbar.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { DesktopRestaurantHeader, Mobile, MobileRestaurantHeader } from '../../mediaQuery';
-import mainLogo from '../../img/mainLogo.svg';
-import Circle_human from '../../img/circle_human.png';
+import { DesktopRestaurantHeader, Mobile, MobileRestaurantHeader } from 'mediaQuery';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
-import SearchIcon from './../../img/restaurant_search.svg';
-import { SchoolList, type SchoolListType } from '../home/data/SchoolList';
-import { postUserInfo } from '../../apis/auth/BoardAPI';
-import { postLogout } from '../../apis/auth/AuthAPI';
-import { type userInformationType } from '../../interfaces/BoardTypes';
+import SearchIcon from 'assets/images/restaurant_search.svg';
+import { SchoolList, type SchoolListType } from 'pages/home/data/SchoolList';
+import { postUserInfo } from 'apis/auth/BoardAPI';
+import { postLogout } from 'apis/auth/AuthAPI';
+import { type userInformationType } from 'interfaces/BoardTypes';
+import mainLogo from 'assets/images/mainLogo.svg';
+import Circle_human from 'assets/images/circle_human.png';
 
 const RestaurantNavbar = () => {
   const [schoolComponent, setSchoolComponent] = useState<SchoolListType[]>([]);
