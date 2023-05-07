@@ -1,5 +1,5 @@
-@import './../../assets/scss/abstracts/_variables_color';
-@import './../../assets/scss/abstracts/_mixins';
+@import 'sass/abstracts/_variables_color';
+@import 'sass/abstracts/_mixins';
 
 .terms-wrap {
   @include flex-container(row, flex-start, center);

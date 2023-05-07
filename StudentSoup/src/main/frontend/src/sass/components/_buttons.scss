@@ -1,5 +1,5 @@
-@import 'src/assets/scss/abstracts/_variables_color';
-@import 'src/assets/scss/abstracts/_mixins';
+@import 'sass/abstracts/_variables_color';
+@import 'sass/abstracts/_mixins';
 
 @mixin disabled-button($width: 100%, $height: 100%) {
   border: none;

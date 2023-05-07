@@ -1,6 +1,6 @@
-@import './../../assets/scss/abstracts/_variables_color';
-@import './../../assets/scss/abstracts/_mixins';
-@import './../../assets/scss/components/buttons';
+@import 'sass/abstracts/_mixins';
+@import 'sass/abstracts/_variables_color';
+@import 'sass/components/_buttons';
 
 .board-container-div {
   display: flex;
