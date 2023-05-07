@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
-import Paginate from '../common/Paginate';
+import Paginate from 'components/common/Paginate';
 import MyPagination from './components/MyPagination';
 import type { UserInfoType } from './data/MypageUserInfo';
 import {

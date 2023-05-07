@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MainNavbar from '../common/MainNavbar';
+import MainNavbar from 'components/common/MainNavbar';
 import './home.scss';
 import MainLogo_white from '../../img/mainLogo_white.svg';
 import Search_icon from '../../img/search_icon.svg';

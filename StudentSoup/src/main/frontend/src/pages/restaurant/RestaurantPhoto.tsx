@@ -1,5 +1,4 @@
 import './restaurantPhoto.scss';
-import Circle_human from '../../img/circle_human.png';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';

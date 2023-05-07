@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './mypageScheduler.scss';
 import { useNavigate } from 'react-router-dom';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
-import MypageNavbar from '../common/MypageNavbar';
+import MypageNavbar from 'components/common/MypageNavbar';
 import MypagePlus from '../../img/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
 import { ViewSchedule, DeleteSchedule } from './data/MypageContents';

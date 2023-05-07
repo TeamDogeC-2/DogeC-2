@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import MainNavbar from '../common/MainNavbar';
+import MainNavbar from 'components/common/MainNavbar';
 import './login.scss';
 import useInput from '../../hooks/useInput';
 import { signIn } from '../../apis/auth/AuthAPI';

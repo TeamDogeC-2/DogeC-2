@@ -4,7 +4,7 @@ import under_arrow from '../../img/under_arrow.svg';
 import up_arrow from '../../img/up_arrow.svg';
 import Circle_human from '../../img/circle_human.png';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import RestaurantHeartInfo from './RestaurantHeartInfo';
 

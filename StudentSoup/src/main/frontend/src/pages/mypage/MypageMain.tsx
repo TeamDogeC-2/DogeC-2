@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MypageNavbar from '../common/MypageNavbar';
+import MypageNavbar from 'components/common/MypageNavbar';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageMain.scss';
 import MemberImg from '../../img/circle_human.png';

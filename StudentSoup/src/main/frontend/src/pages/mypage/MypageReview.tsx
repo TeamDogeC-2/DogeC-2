@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
-import { ReactComponent as MypageReviewStar } from '../../img/mypageallReviewStar.svg';
 import EditReviewModal from './components/EditReviewModal';
 import { PreViewReview, type PreviewReviewResponse, ReviewEdit } from './data/MypageContents';
 import RatingStars from './components/RatingStars';
 import MyPagination from './components/MyPagination';
 import './mypageReview.scss';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+
 interface propTypes {
   memberId: number | undefined;
 }

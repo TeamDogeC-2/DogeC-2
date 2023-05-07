@@ -7,7 +7,7 @@ import RestaurantReviewWrite from './RestaurantReviewWrite';
 import { Desktop, Mobile } from '../../mediaQuery';
 import axios from 'axios';
 import RatingStars from '../mypage/components/RatingStars';
-import ReviewPaginate from '../common/ReviewPaginate';
+import ReviewPaginate from 'components/common/ReviewPaginate';
 import RestaurantReviewHeartInfo from './RestaurantReviewHeartInfo';
 
 interface Props {

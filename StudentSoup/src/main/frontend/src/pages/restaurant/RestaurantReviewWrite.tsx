@@ -1,7 +1,5 @@
 import './restaurantReviewWrite.scss';
-import review_basic_color from '../../img/review_basic_color.svg';
 import camera from '../../img/camera.svg';
-import Circle_human from '../../img/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from '../../mediaQuery';

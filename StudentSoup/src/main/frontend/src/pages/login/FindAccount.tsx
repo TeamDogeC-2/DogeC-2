@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import MainNavbar from '../common/MainNavbar';
+import MainNavbar from 'components/common/MainNavbar';
 import './findAccount.scss';
 import FindID from './FindID';
 import FindPWD from './FindPWD';

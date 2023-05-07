@@ -1,9 +1,7 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './restaurantHeartInfo.scss';
-import empty_heart from '../../img/empty_heart.svg';
-import heart from '../../img/heart.svg';
 
 interface Props {
   memberId: number | undefined;

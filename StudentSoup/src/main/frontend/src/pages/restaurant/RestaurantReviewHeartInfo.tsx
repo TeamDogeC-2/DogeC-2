@@ -1,10 +1,7 @@
 import './restaurantReviewHeartInfo.scss';
-import empty_heart from '../../img/empty_heart.svg';
-import heart from '../../img/heart.svg';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';
 
 interface Props {
   memberId: number | undefined;

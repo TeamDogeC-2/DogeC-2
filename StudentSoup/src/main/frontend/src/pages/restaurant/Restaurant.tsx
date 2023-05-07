@@ -4,12 +4,10 @@ import heart from '../../img/heart.svg';
 import star from '../../img/star.svg';
 import filter from '../../img/filter.svg';
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './restaurant.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import RestaurantNavbar from './RestaurantNavbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useMediaQuery } from 'react-responsive';
 const kakao = (window as any).kakao;
 

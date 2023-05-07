@@ -1,11 +1,11 @@
 import './mypageNavbar.scss';
-import { Link, type NavigateFunction, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import mainLogo from '../../img/mainLogo.svg';
 import Circle_human from '../../img/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MypageUserInfo } from '../mypage/data/MypageUserInfo';
+import { MypageUserInfo } from 'pages/mypage/data/MypageUserInfo';
 import Swal from 'sweetalert2';
 import { type userInformationType } from '../../interfaces/BoardTypes';
 import {

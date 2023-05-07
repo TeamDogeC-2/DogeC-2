@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
-import MypageNavbar from '../common/MypageNavbar';
+import MypageNavbar from 'components/common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
 import { EditNickname, type UserInfoType } from './data/MypageUserInfo';
