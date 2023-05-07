@@ -245,7 +245,7 @@ const NoticeDetail = () => {
                             onChange={e => handleReplyContent(e)}
                             placeholder="댓글을 입력해주세요."
                           />
-                          <button>작성</button>
+                          <button onClick={handleSumbitReply}>작성</button>
                         </div>
                       </div>
                     )}
