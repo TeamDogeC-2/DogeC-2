@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { postBoardCategory } from '../../apis/auth/BoardAPI';
-import { type BoardDataType } from '../../interfaces/BoardTypes';
-import NoticeAndService from '../../components/common/NoticeAndService';
+import { postBoardCategory } from 'apis/auth/BoardAPI';
+import { type BoardDataType } from 'interfaces/BoardTypes';
+import NoticeAndService from 'components/common/NoticeAndService';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
 
