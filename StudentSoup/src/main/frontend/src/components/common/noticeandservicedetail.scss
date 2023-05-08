@@ -174,89 +174,26 @@ $text-sub-color: #a8a8a8;
     .board-notice-service-detail-bottom-review-write-div {
       display: flex;
       flex-direction: row;
+      justify-self: flex-start;
+      align-items: center;
 
       .board-notice-service-detail-bottom-review-write {
         width: 100%;
         padding: 0 2.875rem;
         margin-top: 1rem;
-
-        input {
-          width: 90%;
-          border: 1px solid $basic-border-color;
-          border-radius: 5px;
-          padding: 1rem;
-        }
-
-        button {
-          width: 10%;
-          height: 100%;
-          background-color: $basic-color;
-          border-radius: 5px;
-          color: #fff;
-          font-size: 1rem;
-          border: none;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  .board-notice-service-detail-bottom-div {
-    display: flex;
-    flex-direction: column;
-
-    .board-notice-service-detail-bottom-review-text {
-      display: flex;
-      justify-content: space-between;
-      margin: 0 2.85rem;
-
-      .board-notice-service-detail-bottom-review-count {
-        p {
-          font-size: 1rem;
-          color: #404040;
-        }
-      }
-
-      .board-notice-service-detail-bottom-function {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
 
-        .board-notice-service-detail-bottom-modify {
-          font-size: 1rem;
-          color: $text-sub-color;
-          margin-right: 0.5rem;
-          font-weight: 500;
-        }
-
-        .board-notice-service-detail-bottom-report {
-          font-size: 1rem;
-          color: $text-sub-color;
-          font-weight: 500;
-        }
-      }
-    }
-
-    .board-notice-service-detail-bottom-review-write-div {
-      display: flex;
-      flex-direction: row;
-
-      .board-notice-service-detail-bottom-review-write {
-        width: 100%;
-        padding: 0 2.875rem;
-        margin-top: 1rem;
-
-        input {
+        textarea {
           width: 90%;
           border: 1px solid $basic-border-color;
           border-radius: 5px;
           padding: 1rem;
+          resize: none;
         }
 
         button {
           width: 10%;
-          height: 100%;
+          height: 66px;
           background-color: $basic-color;
           border-radius: 5px;
           color: #fff;
@@ -437,89 +374,26 @@ $text-sub-color: #a8a8a8;
     .board-notice-service-detail-mobile-bottom-review-write-div {
       display: flex;
       flex-direction: row;
+      align-items: center;
+      width: 100%;
 
       .board-notice-service-detail-mobile-bottom-review-write {
         width: 100%;
-        padding: 0 2.875rem;
+        padding: 0 1.25rem;
         margin-top: 1rem;
-
-        input {
-          width: 80%;
-          border: 1px solid $basic-border-color;
-          border-radius: 5px;
-          padding: 1rem;
-        }
-
-        button {
-          width: 20%;
-          height: 100%;
-          background-color: $basic-color;
-          border-radius: 5px;
-          color: #fff;
-          font-size: 1rem;
-          border: none;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-
-  .board-notice-service-detail-mobile-bottom-div {
-    display: flex;
-    flex-direction: column;
-
-    .board-notice-service-detail-mobile-bottom-review-text {
-      display: flex;
-      justify-content: space-between;
-      margin: 0 2.85rem;
-
-      .board-notice-service-detail-mobile-bottom-review-count {
-        p {
-          font-size: 1rem;
-          color: #404040;
-        }
-      }
-
-      .board-notice-service-detail-mobile-bottom-function {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
 
-        .board-notice-service-detail-mobile-bottom-modify {
-          font-size: 1rem;
-          color: $text-sub-color;
-          margin-right: 0.5rem;
-          font-weight: 500;
-        }
-
-        .board-notice-service-detail-mobile-bottom-report {
-          font-size: 1rem;
-          color: $text-sub-color;
-          font-weight: 500;
-        }
-      }
-    }
-
-    .board-notice-service-detail-mobile-bottom-review-write-div {
-      display: flex;
-      flex-direction: row;
-
-      .board-notice-service-detail-mobile-bottom-review-write {
-        width: 100%;
-        padding: 0 2.875rem;
-        margin-top: 1rem;
-
-        input {
+        textarea {
           width: 80%;
           border: 1px solid $basic-border-color;
           border-radius: 5px;
           padding: 1rem;
+          resize: none;
         }
 
         button {
           width: 20%;
-          height: 100%;
+          height: 66px;
           background-color: $basic-color;
           border-radius: 5px;
           color: #fff;

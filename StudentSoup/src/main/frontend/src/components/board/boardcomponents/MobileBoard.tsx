@@ -20,7 +20,7 @@ const MobileBoard = (props: BoardPropsType) => {
     e.stopPropagation();
     const value = e.target.id;
     const propsState: State = { value1: value, value2: memberId, value3: nickname };
-    navigate('/board/detail', { state: propsState });
+    navigate(`/board/detail/${propsState.value1}`, { state: propsState });
   };
 
   return (

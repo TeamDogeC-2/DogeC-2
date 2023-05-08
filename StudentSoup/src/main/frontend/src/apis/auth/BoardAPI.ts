@@ -47,3 +47,25 @@ export const postBoardDetail = async (boardId: number, memberId: number | null) 
   const response = await axios.post(`/board/detail/${boardId}/${memberId}`);
   return response;
 };
+
+export const getBoardReplies = async (boardId: number, memberId: number | null) => {
+  const response = await axiosInstance.get(`/boardReplies/${boardId}/${memberId}`);
+  return response;
+};
+
+export const putBoardReply = async (
+  boardId: number,
+  memberId: number,
+  content: string,
+  level: number,
+  reply: number,
+) => {
+  const response = await axiosInstance.put('/boardReply', {
+    boardId,
+    memberId,
+    content,
+    level,
+    seq: reply,
+  });
+  return response;
+};
