@@ -262,14 +262,17 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                <div className="board-detail-bottom-function">
-                  <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                {nickname === boardNickname && (
+                  <div className="board-detail-bottom-function">
+                     <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
                     수정
                   </span>
-                  <span onClick={handleBoardDelete} className="board-detail-bottom-report">
-                    삭제
-                  </span>
-                </div>
+                    <span onClick={handleBoardDelete} className="board-detail-bottom-report">
+                      삭제
+                    </span>
+                  </div>
+                )}
+
               </div>
               <div className="board-detail-bottom-review-write-div">
                 <div className="board-detail-bottom-review-write">
@@ -351,14 +354,16 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                <div className="board-detail-mobile-bottom-function">
-                  <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
+                {nickname === boardNickname && (
+                  <div className="board-detail-mobile-bottom-function">
+                   <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
                     수정
                   </span>
-                  <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
-                    삭제
-                  </span>
-                </div>
+                    <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
+                      삭제
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="board-detail-mobile-bottom-review-write-div">
                 <div className="board-detail-mobile-bottom-review-write">
