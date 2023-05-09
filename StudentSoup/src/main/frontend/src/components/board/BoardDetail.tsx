@@ -35,9 +35,9 @@ const BoardDetail = () => {
 
   const [replyContent, setReplyContent] = useState<string>();
 
-  const getBoardId = Number(state.state.value1);
-  const memberId = state.state.value2;
-  const nickname = state.state.value3;
+  const getBoardId = Number(state.state.boardId);
+  const userInfo = state.state.userInfomation;
+  console.log(userInfo);
 
   const purifyBoardContent = DOMPurify.sanitize(boardContent);
 
@@ -51,7 +51,7 @@ const BoardDetail = () => {
 
   useEffect(() => {
     axiosInstance
-      .post(`/board/detail/${getBoardId}/${memberId}`)
+      .post(`/board/detail/${getBoardId}/${userInfo.memberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -84,7 +84,7 @@ const BoardDetail = () => {
 
   useEffect(() => {
     axiosInstance
-      .get(`/boardReplies/${getBoardId}/${memberId}`)
+      .get(`/boardReplies/${getBoardId}/${userInfo.memberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -96,7 +96,7 @@ const BoardDetail = () => {
 
   const handleBoardLikeCount = () => {
     axiosInstance
-      .post(`/board/${getBoardId}/${memberId}/like`)
+      .post(`/board/${getBoardId}/${userInfo.memberId}/like`)
       .then(res => {
         setLikeCount(res.data.data.likedCount);
         isLike(res.data.data.like);
@@ -135,7 +135,7 @@ const BoardDetail = () => {
     axiosInstance
       .put('/boardReply', {
         boardId: getBoardId,
-        memberId,
+        memberId: userInfo.memberId,
         content: replyContent,
         level: 0,
         seq: reply,
@@ -166,7 +166,7 @@ const BoardDetail = () => {
     }).then(result => {
       if (result.isConfirmed) {
         axiosInstance
-          .delete(`/board/${getBoardId}/${memberId}`)
+          .delete(`/board/${getBoardId}/${userInfo.memberId}`)
           .then(res => {
             Swal.fire('삭제 성공', '게시글이 삭제되었습니다.', 'success');
             navigate(-1);
@@ -237,7 +237,7 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {nickname === boardNickname && (
+                {userInfo.nickname === boardNickname && (
                   <div className="board-detail-bottom-function">
                     <span className="board-detail-bottom-modify">수정</span>
                     <span onClick={handleBoardDelete} className="board-detail-bottom-report">
@@ -258,13 +258,13 @@ const BoardDetail = () => {
               </div>
               {boardBestReviewList?.map((bestReview: any) => (
                 <>
-                  <BoardBestReview bestReview={bestReview} memberId={memberId} />
+                  <BoardBestReview bestReview={bestReview} memberId={userInfo.memberId} />
                 </>
               ))}
               <BoardReview
                 review={boardReviewList}
-                nickname={nickname}
-                memberId={memberId}
+                nickname={userInfo.nickname}
+                memberId={userInfo.memberId}
                 getBoardId={getBoardId}
               />
             </div>
@@ -326,7 +326,7 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {nickname === boardNickname && (
+                {userInfo.nickname === boardNickname && (
                   <div className="board-detail-mobile-bottom-function">
                     <span className="board-detail-mobile-bottom-modify">수정</span>
                     <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
@@ -347,13 +347,13 @@ const BoardDetail = () => {
               </div>
               {boardBestReviewList?.map((bestReview: any) => (
                 <>
-                  <BoardBestReview bestReview={bestReview} memberId={memberId} />
+                  <BoardBestReview bestReview={bestReview} memberId={userInfo.memberId} />
                 </>
               ))}
               <BoardReview
                 review={boardReviewList}
-                nickname={nickname}
-                memberId={memberId}
+                nickname={userInfo.nickname}
+                memberId={userInfo.memberId}
                 getBoardId={getBoardId}
               />
             </div>

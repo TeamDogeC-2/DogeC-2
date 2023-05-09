@@ -5,13 +5,12 @@ import { type BoardDataType, type BoardPropsType } from '../../../interfaces/Boa
 import { useNavigate } from 'react-router-dom';
 
 interface State {
-  value1: string;
-  value2: number;
-  value3: string;
+  boardId: string;
+  userInfomation: any;
 }
 
 const MobileBoard = (props: BoardPropsType) => {
-  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, memberId, nickname } =
+  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, userInfomation } =
     props;
 
   const navigate = useNavigate();
@@ -20,8 +19,8 @@ const MobileBoard = (props: BoardPropsType) => {
     e.stopPropagation();
     console.log(e.target.id);
     const value = e.target.id;
-    const propsState: State = { value1: value, value2: memberId, value3: nickname };
-    navigate(`/board/detail/${propsState.value1}`, { state: propsState });
+    const propsState: State = { boardId: value, userInfomation };
+    navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
   };
 
   return (
