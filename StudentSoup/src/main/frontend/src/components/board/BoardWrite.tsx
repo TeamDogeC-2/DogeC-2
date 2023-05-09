@@ -10,6 +10,8 @@ import {
   PostRegistration,
   UploadImgURL,
   GetUploadImgURL,
+  GetBoardEditData,
+  BoardEdited,
 } from './data/BoardWriteData';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,16 +29,27 @@ const BoardWrite = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState<any>('');
   const [title, setTitle] = useState('');
-  const [currentLength, setCurrentLength] = useState<number>(0);
+  const [currentLength, setCurrentLength] = useState(0);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number | null>(null);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number>(0);
   const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('');
+  const [isEdit, isSetEdit] = useState<boolean>(false);
   const location = useLocation();
   const userInformation = { ...location.state };
   const maxLength = 600;
-
   useEffect(() => {
+    if (userInformation.getBoardId) {
+      isSetEdit(true);
+      GetBoardEditData(userInformation.getBoardId, userInformation.memberId).then(res => {
+        setTitle(res.title);
+        setContent(res.content);
+        const strippedInitialContent = res.content.replace(/<(?:.|\n)*?>/gm, '');
+        setCurrentLength(strippedInitialContent.length);
+        setSelectedCategoryKey(res.boardCategory);
+        setSelectedDepartmentId(res.departmentId);
+      });
+    }
     WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
       setDepartments(res.departments);
       setCategories(res.category);
@@ -77,18 +90,35 @@ const BoardWrite = () => {
       alert('본문은 최소 5자 이상이어야 합니다.');
       return;
     }
-    PostRegistration(
-      userInformation.memberId,
-      title,
-      selectedCategoryKey,
-      content,
-      selectedDepartmentId,
-      undefined,
-    ).then(res => {
-      alert('성공적으로 작성하였습니다.');
-      navigate('/board', { state: userInformation });
-    });
+
+    if (isEdit) {
+      BoardEdited(
+        userInformation.getBoardId,
+        userInformation.memberId,
+        title,
+        selectedCategoryKey,
+        content,
+        selectedDepartmentId,
+        undefined,
+      ).then(res => {
+        alert('성공적으로 수정하였습니다.');
+        navigate('/board', { state: userInformation });
+      });
+    } else {
+      PostRegistration(
+        userInformation.memberId,
+        title,
+        selectedCategoryKey,
+        content,
+        selectedDepartmentId,
+        undefined,
+      ).then(res => {
+        alert('성공적으로 작성하였습니다.');
+        navigate('/board', { state: userInformation });
+      });
+    }
   };
+
   async function imageHandler() {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -142,17 +172,17 @@ const BoardWrite = () => {
     }),
     [],
   );
+
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
       event.returnValue = '저장하지 않고 나가시겠습니까?';
     };
 
-    const handlePopState = () => {
+    const handlePopState = (event: PopStateEvent) => {
       if (window.confirm('저장하지 않고 나가시겠습니까?')) {
         navigate('/board', { state: userInformation });
-      } else {
-        window.history.pushState(null, '');
+        event.preventDefault();
       }
     };
 
@@ -163,13 +193,14 @@ const BoardWrite = () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('popstate', handlePopState);
     };
-  }, []);
+  }, [navigate, userInformation]);
 
   const handleCancel = () => {
     if (window.confirm('저장하지 않고 나가시겠습니까?')) {
       navigate('/board', { state: userInformation });
     }
   };
+
   return (
     <>
       <DesktopHeader>
@@ -178,14 +209,14 @@ const BoardWrite = () => {
           <div className="board-write-main">
             <div className="board-write-top-div">
               <div className="board-write-top-left">
-                <span>게시글 쓰기</span>
+                <span>{isEdit ? '게시글 수정' : '게시글 쓰기'}</span>
               </div>
               <div className="board-write-top-right">
                 <p>전체/학과</p>
                 <select
-                  defaultValue=""
+                  value={selectedDepartmentId}
                   className="board-write-depart-select"
-                  onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                  onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                 >
                   <option value="">{userInformation.schoolName}</option>
                   {departments.map(department => (
@@ -196,7 +227,7 @@ const BoardWrite = () => {
                 </select>
                 <p>게시판</p>
                 <select
-                  defaultValue=""
+                  value={selectedCategoryKey}
                   className="board-write-category-select"
                   onChange={e => setSelectedCategoryKey(e.target.value)}
                 >
@@ -283,7 +314,7 @@ const BoardWrite = () => {
                   <select
                     defaultValue=""
                     className="board-write-tablet-depart-select"
-                    onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                    onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                   >
                     <option value="">{userInformation.schoolName}</option>
                     {departments.map(department => (
@@ -382,7 +413,7 @@ const BoardWrite = () => {
                     <select
                       defaultValue=""
                       className="board-write-mobile-depart-select"
-                      onChange={e => setSelectedDepartmentId(Number(e.target.value) || null)}
+                      onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                     >
                       <option value="">{userInformation.schoolName}</option>
                       {departments.map(department => (
