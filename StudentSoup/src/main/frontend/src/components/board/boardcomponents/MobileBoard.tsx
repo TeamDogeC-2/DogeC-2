@@ -18,6 +18,7 @@ const MobileBoard = (props: BoardPropsType) => {
 
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
+    console.log(e.target.id);
     const value = e.target.id;
     const propsState: State = { value1: value, value2: memberId, value3: nickname };
     navigate(`/board/detail/${propsState.value1}`, { state: propsState });
@@ -32,23 +33,30 @@ const MobileBoard = (props: BoardPropsType) => {
             <div
               id={post.boardId.toString()}
               key={post.boardId}
+              onClick={handleClickDetail}
               className="board-table-div authentication-post"
             >
-              <div className="board-underline">
-                <span>[{post.tag}]</span>
-                <span>{post.title}</span>
-                <span className="board-review-count">{post.reviewCount}</span>
+              <div
+                id={post.boardId.toString()}
+                onClick={handleClickDetail}
+                className="board-underline"
+              >
+                <span id={post.boardId.toString()}>[{post.tag}]</span>
+                <span id={post.boardId.toString()}>{post.title}</span>
+                <span id={post.boardId.toString()} className="board-review-count">
+                  {post.reviewCount}
+                </span>
               </div>
-              <div className="board-info">
-                <div className="board-info-left">
-                  <p>{post.nickname}</p>
-                  <p>조회수</p>
-                  <p>{post.view}</p>
-                  <p>좋아요수</p>
-                  <p>{post.likedCount}</p>
+              <div id={post.boardId.toString()} className="board-info">
+                <div id={post.boardId.toString()} className="board-info-left">
+                  <p id={post.boardId.toString()}>{post.nickname}</p>
+                  <p id={post.boardId.toString()}>조회수</p>
+                  <p id={post.boardId.toString()}>{post.view}</p>
+                  <p id={post.boardId.toString()}>좋아요수</p>
+                  <p id={post.boardId.toString()}>{post.likedCount}</p>
                 </div>
-                <div className="board-info-right">
-                  <p>{post.writeDate}</p>
+                <div id={post.boardId.toString()} className="board-info-right">
+                  <p id={post.boardId.toString()}>{post.writeDate}</p>
                 </div>
               </div>
             </div>
@@ -63,22 +71,30 @@ const MobileBoard = (props: BoardPropsType) => {
                 onClick={handleClickDetail}
                 className="board-table-div"
               >
-                <div className="board-underline">
-                  <span className="best-cell">BEST</span>
-                  <span>[{post.tag}]</span>
-                  <span>{post.title}</span>
-                  <span className="board-review-count">{post.reviewCount}</span>
+                <div
+                  id={post.boardId.toString()}
+                  onClick={handleClickDetail}
+                  className="board-underline"
+                >
+                  <span id={post.boardId.toString()} className="best-cell">
+                    BEST
+                  </span>
+                  <span id={post.boardId.toString()}>[{post.tag}]</span>
+                  <span id={post.boardId.toString()}>{post.title}</span>
+                  <span id={post.boardId.toString()} className="board-review-count">
+                    {post.reviewCount}
+                  </span>
                 </div>
-                <div className="board-info">
-                  <div className="board-info-left">
-                    <p>{post.nickname}</p>
-                    <p>조회수</p>
-                    <p>{post.view}</p>
-                    <p>좋아요수</p>
-                    <p>{post.likedCount}</p>
+                <div id={post.boardId.toString()} className="board-info">
+                  <div id={post.boardId.toString()} className="board-info-left">
+                    <p id={post.boardId.toString()}>{post.nickname}</p>
+                    <p id={post.boardId.toString()}>조회수</p>
+                    <p id={post.boardId.toString()}>{post.view}</p>
+                    <p id={post.boardId.toString()}>좋아요수</p>
+                    <p id={post.boardId.toString()}>{post.likedCount}</p>
                   </div>
-                  <div className="board-info-right">
-                    <p>{post.writeDate}</p>
+                  <div id={post.boardId.toString()} className="board-info-right">
+                    <p id={post.boardId.toString()}>{post.writeDate}</p>
                   </div>
                 </div>
               </div>
@@ -94,24 +110,30 @@ const MobileBoard = (props: BoardPropsType) => {
                 onClick={handleClickDetail}
                 className="board-table-div"
               >
-                <div className="board-underline">
-                  <span className="best-cell">
+                <div
+                  id={post.boardId.toString()}
+                  onClick={handleClickDetail}
+                  className="board-underline"
+                >
+                  <span id={post.boardId.toString()} className="best-cell">
                     HOT <FontAwesomeIcon icon={faFire} />
                   </span>
-                  <span>[{post.tag}] </span>
-                  <span>{post.title}</span>
-                  <span className="board-review-count">{post.reviewCount}</span>
+                  <span id={post.boardId.toString()}>[{post.tag}] </span>
+                  <span id={post.boardId.toString()}>{post.title}</span>
+                  <span id={post.boardId.toString()} className="board-review-count">
+                    {post.reviewCount}
+                  </span>
                 </div>
-                <div className="board-info">
-                  <div className="board-info-left">
-                    <p>{post.nickname}</p>
-                    <p>조회수</p>
-                    <p>{post.view}</p>
-                    <p>좋아요수</p>
-                    <p>{post.likedCount}</p>
+                <div id={post.boardId.toString()} className="board-info">
+                  <div id={post.boardId.toString()} className="board-info-left">
+                    <p id={post.boardId.toString()}>{post.nickname}</p>
+                    <p id={post.boardId.toString()}>조회수</p>
+                    <p id={post.boardId.toString()}>{post.view}</p>
+                    <p id={post.boardId.toString()}>좋아요수</p>
+                    <p id={post.boardId.toString()}>{post.likedCount}</p>
                   </div>
-                  <div className="board-info-right">
-                    <p>{post.writeDate}</p>
+                  <div id={post.boardId.toString()} className="board-info-right">
+                    <p id={post.boardId.toString()}>{post.writeDate}</p>
                   </div>
                 </div>
               </div>
@@ -129,21 +151,27 @@ const MobileBoard = (props: BoardPropsType) => {
                 onClick={handleClickDetail}
                 className="board-table-div"
               >
-                <div className="board-underline">
-                  <span>[{post.tag}]</span>
-                  <span>{post.title}</span>
-                  <span className="board-review-count">{post.reviewCount}</span>
+                <div
+                  id={post.boardId.toString()}
+                  onClick={handleClickDetail}
+                  className="board-underline"
+                >
+                  <span id={post.boardId.toString()}>[{post.tag}]</span>
+                  <span id={post.boardId.toString()}>{post.title}</span>
+                  <span id={post.boardId.toString()} className="board-review-count">
+                    {post.reviewCount}
+                  </span>
                 </div>
-                <div className="board-info">
-                  <div className="board-info-left">
-                    <p>{post.nickname}</p>
-                    <p>조회수</p>
-                    <p>{post.view}</p>
-                    <p>좋아요수</p>
-                    <p>{post.likedCount}</p>
+                <div id={post.boardId.toString()} className="board-info">
+                  <div id={post.boardId.toString()} className="board-info-left">
+                    <p id={post.boardId.toString()}>{post.nickname}</p>
+                    <p id={post.boardId.toString()}>조회수</p>
+                    <p id={post.boardId.toString()}>{post.view}</p>
+                    <p id={post.boardId.toString()}>좋아요수</p>
+                    <p id={post.boardId.toString()}>{post.likedCount}</p>
                   </div>
-                  <div className="board-info-right">
-                    <p>{post.writeDate}</p>
+                  <div id={post.boardId.toString()} className="board-info-right">
+                    <p id={post.boardId.toString()}>{post.writeDate}</p>
                   </div>
                 </div>
               </div>
