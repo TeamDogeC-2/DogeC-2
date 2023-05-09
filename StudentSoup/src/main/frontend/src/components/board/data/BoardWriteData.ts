@@ -69,3 +69,37 @@ export const GetUploadImgURL = async (memberId: number) => {
   });
   return response.data;
 };
+
+// 게시글 수정 데이터 호출
+export const GetBoardEditData = async (boardId: number, memberId: number) => {
+  const response = await axiosInstance.get(`/board/${boardId}/${memberId}`);
+  return response.data;
+};
+
+// 게시글 수정완료 데이터 호출
+export const BoardEdited = async (
+  boardId: number,
+  memberId: number,
+  title: string,
+  boardCategory: string,
+  content: string,
+  departmentId: number | null,
+  mutipartFileList?: File,
+) => {
+  const response = await axiosInstance.patch(
+    `/board/${boardId}/${memberId}`,
+    {
+      departmentId,
+      title,
+      boardCategory,
+      content,
+      mutipartFileList: null,
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return response.data;
+};
