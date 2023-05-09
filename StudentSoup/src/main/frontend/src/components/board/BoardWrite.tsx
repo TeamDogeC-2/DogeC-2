@@ -315,7 +315,7 @@ const BoardWrite = () => {
             <div className="board-write-tablet-top-div">
               <div className="board-write-tablet-top">
                 <div className="board-write-tablet-top-left">
-                  <span>게시글 쓰기</span>
+                  <span>{isEdit ? '게시글 수정' : '게시글 쓰기'}</span>
                 </div>
                 <div className="board-write-tablet-top-right">
                   <p>전체/학과</p>
@@ -414,7 +414,7 @@ const BoardWrite = () => {
             <div className="board-write-mobile-top-div">
               <div className="board-write-mobile-top">
                 <div className="board-write-mobile-top-left">
-                  <span>게시글 쓰기</span>
+                  <span>{isEdit ? '게시글 수정' : '게시글 쓰기'}</span>
                 </div>
                 <div className="board-write-mobile-top-right">
                   <div className="board-write-mobile-top-right-select-div">
