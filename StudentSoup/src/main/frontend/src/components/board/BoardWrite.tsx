@@ -320,7 +320,7 @@ const BoardWrite = () => {
                 <div className="board-write-tablet-top-right">
                   <p>전체/학과</p>
                   <select
-                    defaultValue=""
+                    value={selectedDepartmentId}
                     className="board-write-tablet-depart-select"
                     onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                   >
@@ -333,7 +333,7 @@ const BoardWrite = () => {
                   </select>
                   <p>게시판</p>
                   <select
-                    defaultValue=""
+                    value={selectedCategoryKey}
                     className="board-write-tablet-category-select"
                     onChange={e => setSelectedCategoryKey(e.target.value)}
                   >
@@ -419,7 +419,7 @@ const BoardWrite = () => {
                   <div className="board-write-mobile-top-right-select-div">
                     <p>전체/학과</p>
                     <select
-                      defaultValue=""
+                      value={selectedDepartmentId}
                       className="board-write-mobile-depart-select"
                       onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                     >
@@ -434,7 +434,7 @@ const BoardWrite = () => {
                   <div className="board-write-mobile-top-right-select-div">
                     <p>게시판</p>
                     <select
-                      defaultValue=""
+                      value={selectedCategoryKey}
                       className="board-write-mobile-category-select"
                       onChange={e => setSelectedCategoryKey(e.target.value)}
                     >
