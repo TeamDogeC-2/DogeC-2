@@ -38,6 +38,8 @@ const BoardDetail = () => {
   const getBoardId = Number(state.state.value1);
   const memberId = state.state.value2;
   const nickname = state.state.value3;
+  const schoolId = state.state.value4;
+  const schoolName = state.state.value5;
 
   const purifyBoardContent = DOMPurify.sanitize(boardContent);
 
@@ -179,6 +181,29 @@ const BoardDetail = () => {
     });
   };
 
+  const handleBoardEdit = () => {
+    Swal.fire({
+      title: '게시글 수정',
+      text: '정말로 게시글을 수정하시겠습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    })
+      .then(result => {
+        if (result.isConfirmed) {
+          navigate('/board/write', { state: { getBoardId, memberId, schoolId, schoolName } });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire('오류', '작성자만 수정할 수 있습니다.', 'error');
+      });
+  };
+
   const handleGoBack = (e: any) => {
     navigate(-1);
   };
@@ -238,7 +263,9 @@ const BoardDetail = () => {
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
                 <div className="board-detail-bottom-function">
-                  <span className="board-detail-bottom-modify">수정</span>
+                  <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                    수정
+                  </span>
                   <span onClick={handleBoardDelete} className="board-detail-bottom-report">
                     삭제
                   </span>
