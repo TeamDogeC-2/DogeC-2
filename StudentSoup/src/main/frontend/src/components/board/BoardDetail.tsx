@@ -37,7 +37,6 @@ const BoardDetail = () => {
 
   const getBoardId = Number(state.state.boardId);
   const userInfo = state.state.userInfomation;
-  console.log(userInfo);
 
   const purifyBoardContent = DOMPurify.sanitize(boardContent);
 
