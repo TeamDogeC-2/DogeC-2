@@ -237,12 +237,14 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                <div className="board-detail-bottom-function">
-                  <span className="board-detail-bottom-modify">수정</span>
-                  <span onClick={handleBoardDelete} className="board-detail-bottom-report">
-                    삭제
-                  </span>
-                </div>
+                {nickname === boardNickname && (
+                  <div className="board-detail-bottom-function">
+                    <span className="board-detail-bottom-modify">수정</span>
+                    <span onClick={handleBoardDelete} className="board-detail-bottom-report">
+                      삭제
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="board-detail-bottom-review-write-div">
                 <div className="board-detail-bottom-review-write">
