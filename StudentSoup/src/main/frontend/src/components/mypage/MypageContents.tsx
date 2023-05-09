@@ -3,6 +3,7 @@ import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
 import Paginate from '../common/Paginate';
 import MyPagination from './components/MyPagination';
+import type { UserInfoType } from './data/MypageUserInfo';
 import {
   DetailCount,
   type DetailCountResponse,
@@ -11,10 +12,16 @@ import {
   PreViewReply,
   type PreViewReplyResponse,
 } from './data/MypageContents';
-interface propTypes {
-  memberId: number | undefined;
+import { useNavigate } from 'react-router-dom';
+interface State {
+  value1: string;
+  value2: number;
+  value3: string;
+  value4: number;
+  value5: string;
 }
-const MypageContents = (props: propTypes) => {
+const MypageContents = (props: UserInfoType) => {
+  const navigate = useNavigate();
   const [content, setContent] = useState<string>('board');
   const [currentPage, setCurrentpage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(6);
@@ -54,7 +61,18 @@ const MypageContents = (props: propTypes) => {
         });
     }
   }, [currentPage, replycurrentPage]);
-
+  const handleClickDetail = (e: any) => {
+    e.stopPropagation();
+    const value = e.target.id;
+    const propsState: State = {
+      value1: value,
+      value2: props.memberId,
+      value3: props.nickname,
+      value4: props.schoolId,
+      value5: props.schoolName,
+    };
+    navigate(`/board/detail/${propsState.value1}`, { state: propsState });
+  };
   return (
     <>
       <DesktopHeader>
@@ -100,7 +118,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {boardList?.content?.map(board => (
                     <tr key={board.boardId}>
-                      <td>{board.title}</td>
+                      <td
+                        id={board.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {board.title}
+                      </td>
                       <td>{board.writeDate}</td>
                       <td>{board.viewCount}</td>
                       <td>{board.likedCount}</td>
@@ -134,7 +163,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {replyList?.content?.map(reply => (
                     <tr key={reply.boardId}>
-                      <td>{reply.content}</td>
+                      <td
+                        id={reply.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {reply.content}
+                      </td>
                       <td>{reply.writeDate}</td>
                       <td>{reply.likedCount}</td>
                     </tr>
@@ -198,7 +238,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {boardList?.content?.map(board => (
                     <tr key={board.boardId}>
-                      <td>{board.title}</td>
+                      <td
+                        id={board.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {board.title}
+                      </td>
                       <td>{board.writeDate}</td>
                       <td>{board.viewCount}</td>
                       <td>{board.likedCount}</td>
@@ -232,7 +283,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {replyList?.content?.map(reply => (
                     <tr key={reply.boardId}>
-                      <td>{reply.content}</td>
+                      <td
+                        id={reply.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {reply.content}
+                      </td>
                       <td>{reply.writeDate}</td>
                       <td>{reply.likedCount}</td>
                     </tr>
@@ -296,7 +358,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {boardList?.content?.map(board => (
                     <tr key={board.boardId}>
-                      <td>{board.title}</td>
+                      <td
+                        id={board.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {board.title}
+                      </td>
                       <td>{board.writeDate}</td>
                       <td>{board.viewCount}</td>
                       <td>{board.likedCount}</td>
@@ -330,7 +403,18 @@ const MypageContents = (props: propTypes) => {
                 <tbody>
                   {replyList?.content?.map(reply => (
                     <tr key={reply.boardId}>
-                      <td>{reply.content}</td>
+                      <td
+                        id={reply.boardId.toString()}
+                        onClick={handleClickDetail}
+                        style={{
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
+                        onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
+                      >
+                        {reply.content}
+                      </td>
                       <td>{reply.writeDate}</td>
                       <td>{reply.likedCount}</td>
                     </tr>
