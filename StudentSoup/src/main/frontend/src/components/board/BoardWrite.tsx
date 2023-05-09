@@ -100,10 +100,14 @@ const BoardWrite = () => {
         content,
         selectedDepartmentId,
         undefined,
-      ).then(res => {
-        alert('성공적으로 수정하였습니다.');
-        navigate('/board', { state: userInformation });
-      });
+      )
+        .then(res => {
+          alert('성공적으로 수정하였습니다.');
+          navigate('/board', { state: userInformation });
+        })
+        .catch(() => {
+          alert('알수없는오류가 발생하였습니다.');
+        });
     } else {
       PostRegistration(
         userInformation.memberId,
@@ -112,10 +116,14 @@ const BoardWrite = () => {
         content,
         selectedDepartmentId,
         undefined,
-      ).then(res => {
-        alert('성공적으로 작성하였습니다.');
-        navigate('/board', { state: userInformation });
-      });
+      )
+        .then(res => {
+          alert('성공적으로 작성하였습니다.');
+          navigate('/board', { state: userInformation });
+        })
+        .catch(() => {
+          alert('알수없는오류가 발생하였습니다.');
+        });
     }
   };
 
