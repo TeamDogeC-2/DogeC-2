@@ -189,6 +189,8 @@ const Board = () => {
                 setSorted={setSorted}
                 memberId={userInformation.memberId}
                 nickname={userInformation.nickname}
+                schoolId={userInformation.schoolId}
+                schoolName={userInformation.schoolName}
               />
             </Desktop>
             <Mobile>
@@ -200,6 +202,8 @@ const Board = () => {
                 currentPosts={currentPosts}
                 memberId={userInformation.memberId}
                 nickname={userInformation.nickname}
+                schoolId={userInformation.schoolId}
+                schoolName={userInformation.schoolName}
               />
             </Mobile>
           </div>
