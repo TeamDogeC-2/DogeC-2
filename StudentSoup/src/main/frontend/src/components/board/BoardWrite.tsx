@@ -354,6 +354,7 @@ const BoardWrite = () => {
                 type="text"
                 placeholder="제목(2~50자)"
                 className="board-write-tablet-title-input"
+                value={title}
                 onChange={handleTitleChange}
               />
               <div className="board-write-tablet-middle-notice-div">
@@ -456,6 +457,7 @@ const BoardWrite = () => {
                 type="text"
                 placeholder="제목(2~50자)"
                 className="board-write-mobile-title-input"
+                value={title}
                 onChange={handleTitleChange}
               />
               <div className="board-write-mobile-middle-notice-div">
