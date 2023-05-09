@@ -8,18 +8,35 @@ interface State {
   value1: string;
   value2: number;
   value3: string;
+  value4: number;
+  value5: string;
 }
 
 const MobileBoard = (props: BoardPropsType) => {
-  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, memberId, nickname } =
-    props;
+  const {
+    currentPage,
+    category,
+    bestBoardItems,
+    hotBoardItems,
+    currentPosts,
+    memberId,
+    nickname,
+    schoolId,
+    schoolName,
+  } = props;
 
   const navigate = useNavigate();
 
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
     const value = e.target.id;
-    const propsState: State = { value1: value, value2: memberId, value3: nickname };
+    const propsState: State = {
+      value1: value,
+      value2: memberId,
+      value3: nickname,
+      value4: schoolId,
+      value5: schoolName,
+    };
     navigate(`/board/detail/${propsState.value1}`, { state: propsState });
   };
 

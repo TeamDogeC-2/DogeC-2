@@ -8,6 +8,8 @@ interface State {
   value1: string;
   value2: number;
   value3: string;
+  value4: number;
+  value5: string;
 }
 
 const PCBoard = (props: BoardPropsType) => {
@@ -20,6 +22,8 @@ const PCBoard = (props: BoardPropsType) => {
     setSorted,
     memberId,
     nickname,
+    schoolId,
+    schoolName,
   } = props;
 
   const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -36,7 +40,13 @@ const PCBoard = (props: BoardPropsType) => {
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
     const value = e.target.id;
-    const propsState: State = { value1: value, value2: memberId, value3: nickname };
+    const propsState: State = {
+      value1: value,
+      value2: memberId,
+      value3: nickname,
+      value4: schoolId,
+      value5: schoolName,
+    };
     navigate(`/board/detail/${propsState.value1}`, { state: propsState });
   };
 
