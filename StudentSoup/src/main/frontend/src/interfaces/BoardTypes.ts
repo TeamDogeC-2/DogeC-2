@@ -72,6 +72,8 @@ export interface BoardPropsType {
   setSorted?: React.Dispatch<React.SetStateAction<number>>;
   memberId: number;
   nickname: string;
+  schoolId: number;
+  schoolName: string;
 }
 
 export interface BoardSearchType {
