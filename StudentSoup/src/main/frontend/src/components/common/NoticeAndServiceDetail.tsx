@@ -5,7 +5,7 @@ import review_white from 'assets/images/review_white.svg';
 import { Desktop, Mobile } from 'mediaQuery';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import BoardReview from '../board/BoardReview';
+import BoardReview from '../boards/BoardReview';
 import Swal from 'sweetalert2';
 import { getBoardReplies, postBoardDetail, putBoardReply } from 'apis/api/BoardAPI';
 

@@ -1,6 +1,6 @@
 import Board from 'pages/board/Board';
 import BoardDetail from 'pages/board/BoardDetail';
-import BoardWrite from 'components/board/BoardWrite';
+import BoardWrite from 'components/boards/BoardWrite';
 import MainNavbar from 'components/common/MainNavbar';
 import NoticeAndServiceDetail from 'components/common/NoticeAndServiceDetail';
 import PrivateRoute from 'components/common/PrivateRoute';
