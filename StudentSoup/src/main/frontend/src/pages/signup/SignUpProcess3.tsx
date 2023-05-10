@@ -11,8 +11,8 @@ import Swal from 'sweetalert2';
 import {
   getSignUpStepThree,
   checkSignUpNickname,
-  authenticateSignUpEmail,
-  checkSignUpEmailAuthentication,
+  authenticateEmail,
+  checkEmailAuthentication,
   completeSignUp,
 } from 'apis/auth/AuthAPI';
 import { getDepartment } from 'apis/api/UserAPI';
@@ -72,7 +72,7 @@ const SignUpProcess3 = () => {
 
   const onClickEmailCertification = () => {
     if (userEmail !== '' && majorData !== null) {
-      authenticateSignUpEmail(userEmail, universityDomain)
+      authenticateEmail(userEmail, universityDomain)
         .then(() => {
           setIsEmailSubmit(true);
           setIsEmailConfirmation(false);
@@ -87,7 +87,7 @@ const SignUpProcess3 = () => {
   };
 
   const onClickAuthenticationNumber = () => {
-    checkSignUpEmailAuthentication(availableEmail, userAuthenticationCode)
+    checkEmailAuthentication(availableEmail, userAuthenticationCode)
       .then(() => {
         setIsEmailConfirmation(true);
       })

@@ -56,17 +56,14 @@ export const checkSignUpNickname = async (nickName: string): Promise<AxiosRespon
   return res;
 };
 
-export const authenticateSignUpEmail = async (
-  email: string,
-  domain: string,
-): Promise<AxiosResponse> => {
+export const authenticateEmail = async (email: string, domain: string): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3/mail', {
     email: `${email}@${domain}`,
   });
   return res;
 };
 
-export const checkSignUpEmailAuthentication = async (
+export const checkEmailAuthentication = async (
   email: string,
   authenticationNumber: number,
 ): Promise<AxiosResponse> => {
