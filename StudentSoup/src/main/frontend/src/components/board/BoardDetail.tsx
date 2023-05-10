@@ -34,7 +34,6 @@ const BoardDetail = () => {
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
 
   const [replyContent, setReplyContent] = useState<string>();
-
   const getBoardId = Number(state.state.boardId);
   const userInfo = state.state.userInfomation;
 
@@ -178,6 +177,29 @@ const BoardDetail = () => {
     });
   };
 
+  const handleBoardEdit = () => {
+    Swal.fire({
+      title: '게시글 수정',
+      text: '정말로 게시글을 수정하시겠습니까?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonColor: '#ff611d',
+      cancelButtonColor: '#bcbcbc',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+    })
+      .then(result => {
+        if (result.isConfirmed) {
+          navigate('/board/write', { state: { getBoardId, userInfo } });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire('오류', '작성자만 수정할 수 있습니다.', 'error');
+      });
+  };
+
   const handleGoBack = (e: any) => {
     navigate(-1);
   };
@@ -238,7 +260,9 @@ const BoardDetail = () => {
                 </div>
                 {userInfo.nickname === boardNickname && (
                   <div className="board-detail-bottom-function">
-                    <span className="board-detail-bottom-modify">수정</span>
+                    <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                      수정
+                    </span>
                     <span onClick={handleBoardDelete} className="board-detail-bottom-report">
                       삭제
                     </span>
@@ -327,7 +351,9 @@ const BoardDetail = () => {
                 </div>
                 {userInfo.nickname === boardNickname && (
                   <div className="board-detail-mobile-bottom-function">
-                    <span className="board-detail-mobile-bottom-modify">수정</span>
+                    <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
+                      수정
+                    </span>
                     <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
                       삭제
                     </span>

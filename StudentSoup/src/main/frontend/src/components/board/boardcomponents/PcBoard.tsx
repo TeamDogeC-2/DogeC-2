@@ -1,12 +1,16 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
-import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
+import {
+  type BoardDataType,
+  type BoardPropsType,
+  type userInformationType,
+} from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
 
 interface State {
   boardId: string;
-  userInfomation: any;
+  userInfomation: userInformationType;
 }
 
 const PCBoard = (props: BoardPropsType) => {
@@ -17,6 +21,7 @@ const PCBoard = (props: BoardPropsType) => {
     hotBoardItems,
     currentPosts,
     setSorted,
+
     userInfomation,
   } = props;
 
@@ -34,6 +39,7 @@ const PCBoard = (props: BoardPropsType) => {
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
     const value = e.target.id;
+
     const propsState: State = { boardId: value, userInfomation };
     navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
   };
