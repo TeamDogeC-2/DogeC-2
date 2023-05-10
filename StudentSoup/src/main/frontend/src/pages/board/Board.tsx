@@ -3,7 +3,7 @@ import './board.scss';
 import BoardSearch from '../../components/common/BoardSearch';
 import Paginate from '../../components/common/Paginate';
 import { Desktop, Mobile } from '../../mediaQuery';
-import { getDepartmentIdBoards, postBoards } from '../../apis/api/BoardAPI';
+import { getDepartmentBoards, postBoards } from '../../apis/api/BoardAPI';
 import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -110,7 +110,7 @@ const Board = () => {
     } else {
       setSchoolName(userInformation.schoolName);
 
-      getDepartmentIdBoards(userInformation.schoolId).then(res => {
+      getDepartmentBoards(userInformation.schoolId).then(res => {
         setDepartmentOption(res.data);
       });
     }

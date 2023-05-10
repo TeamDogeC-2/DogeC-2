@@ -38,7 +38,7 @@ export const postBoards = async (
   return response;
 };
 
-export const getDepartmentIdBoards = async (schoolId: number) => {
+export const getDepartmentBoards = async (schoolId: number) => {
   const response = await axiosInstance.get(`/board/department/${schoolId}`);
   return response;
 };
