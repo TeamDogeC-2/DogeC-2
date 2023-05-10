@@ -12,7 +12,7 @@
 
   & > input {
     appearance: none;
-    background-image: url('./../../assets/images/signup_uncheck.png');
+    background-image: url('./../../../assets/images/signup_uncheck.png');
     background-size: 11px 7px;
     background-position: 50%;
     background-repeat: no-repeat;
@@ -21,7 +21,7 @@
     height: 20px;
 
     &:checked {
-      background-image: url('./../../assets/images/signup_check.png');
+      background-image: url('./../../../assets/images/signup_check.png');
       background-size: 11px 7px;
       background-position: 50%;
       background-repeat: no-repeat;
