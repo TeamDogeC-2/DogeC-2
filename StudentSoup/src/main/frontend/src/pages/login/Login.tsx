@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.scss';
 import useInput from '../../hooks/useInput';
-import { signIn } from '../../apis/auth/AuthAPI';
+import { login } from '../../apis/auth/AuthAPI';
 import Swal from 'sweetalert2';
 
 const Login = () => {
@@ -36,7 +36,7 @@ const Login = () => {
         localStorage.setItem('rememberId', userId);
       }
 
-      signIn(userId, userPassword)
+      login(userId, userPassword)
         .then(response => {
           setUserId('');
           setUserPassword('');

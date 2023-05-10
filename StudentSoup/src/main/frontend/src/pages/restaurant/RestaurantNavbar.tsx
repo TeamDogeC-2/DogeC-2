@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import SearchIcon from 'assets/images/restaurant_search.svg';
 import { SchoolList, type SchoolListType } from 'pages/home/data/SchoolList';
 import { postUserInfo } from 'apis/api/BoardAPI';
-import { postLogout } from 'apis/auth/AuthAPI';
+import { logout } from 'apis/auth/AuthAPI';
 import { type userInformationType } from 'interfaces/BoardTypes';
 import mainLogo from 'assets/images/mainLogo.svg';
 import Circle_human from 'assets/images/circle_human.png';
@@ -120,7 +120,7 @@ const RestaurantNavbar = () => {
       cancelButtonText: '취소',
     }).then(result => {
       if (result.isConfirmed) {
-        postLogout()
+        logout()
           .then(() => {
             localStorage.removeItem('access-token');
             localStorage.removeItem('refresh-token');

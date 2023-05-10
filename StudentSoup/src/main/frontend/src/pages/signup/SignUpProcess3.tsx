@@ -9,13 +9,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from 'hooks/useInput';
 import Swal from 'sweetalert2';
 import {
-  signUpNicknameCheck,
-  signUpEmailAuthenticate,
-  signUpEmailAuthenticateNumber,
-  signUpComplete,
-  getSignUpThird,
-  postSignUpSchoolId,
+  getSignUpStepThree,
+  checkSignUpNickname,
+  authenticateSignUpEmail,
+  checkSignUpEmailAuthentication,
+  completeSignUp,
 } from 'apis/auth/AuthAPI';
+import { getDepartment } from 'apis/api/userAPI';
 import { type UniversityDataType, type MajorDataType } from 'interfaces/SignupTypes';
 
 const SignUpProcess3 = () => {
@@ -56,7 +56,7 @@ const SignUpProcess3 = () => {
   };
 
   const onClickNicknameCheck = () => {
-    signUpNicknameCheck(userNickname)
+    checkSignUpNickname(userNickname)
       .then(response => {
         if (response.statusText === 'OK') {
           setAvailableNickname(userNickname);
@@ -72,8 +72,8 @@ const SignUpProcess3 = () => {
 
   const onClickEmailCertification = () => {
     if (userEmail !== '' && majorData !== null) {
-      signUpEmailAuthenticate(userEmail, universityDomain)
-        .then(response => {
+      authenticateSignUpEmail(userEmail, universityDomain)
+        .then(() => {
           setIsEmailSubmit(true);
           setIsEmailConfirmation(false);
           setAvailableEmail(userEmail);
@@ -87,8 +87,8 @@ const SignUpProcess3 = () => {
   };
 
   const onClickAuthenticationNumber = () => {
-    signUpEmailAuthenticateNumber(availableEmail, userAuthenticationCode)
-      .then(response => {
+    checkSignUpEmailAuthentication(availableEmail, userAuthenticationCode)
+      .then(() => {
         setIsEmailConfirmation(true);
       })
       .catch(() => {
@@ -117,8 +117,8 @@ const SignUpProcess3 = () => {
         departmentId: selectMajor,
       };
 
-      signUpComplete(userInformation)
-        .then(response => {
+      completeSignUp(userInformation)
+        .then(() => {
           Swal.fire({
             icon: 'success',
             title: '회원가입에 성공하였습니다.',
@@ -141,7 +141,7 @@ const SignUpProcess3 = () => {
       navigate('/');
     }
 
-    getSignUpThird()
+    getSignUpStepThree()
       .then(response => {
         setUniversityData(response.data);
       })
@@ -150,7 +150,7 @@ const SignUpProcess3 = () => {
       });
 
     if (selectUniversity !== '') {
-      postSignUpSchoolId(selectUniversity)
+      getDepartment(selectUniversity)
         .then(response => {
           setMajorData(response.data);
           setUniversityDomain(response.data.domain);

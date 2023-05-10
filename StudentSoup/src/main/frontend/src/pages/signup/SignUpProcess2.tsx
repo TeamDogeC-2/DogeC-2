@@ -12,7 +12,7 @@ import './signupprocess2.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from 'hooks/useInput';
 import Swal from 'sweetalert2';
-import { signUpIdCheck, signUp } from 'apis/auth/AuthAPI';
+import { createUser, checkSignUpId } from 'apis/auth/AuthAPI';
 
 const SignUpProcess2 = () => {
   const [userId, , setUserId] = useInput('');
@@ -44,7 +44,7 @@ const SignUpProcess2 = () => {
   const onClickIdCheck = () => {
     if (userId !== '') {
       if (REG_ID.test(userId)) {
-        signUpIdCheck(userId)
+        checkSignUpId(userId)
           .then(response => {
             if (response.statusText === 'OK') {
               setUserIdText('사용 가능한 아이디 입니다.');
@@ -107,7 +107,7 @@ const SignUpProcess2 = () => {
         isPasswordCharacterLength &&
         isPasswordValidation
       ) {
-        signUp(userId, userPassword)
+        createUser(userId, userPassword)
           .then(response => {
             const id = response.data.id;
             const password = response.data.pwd;

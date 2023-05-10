@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authRefreshToken } from '../auth/AuthAPI';
+import { refreshAccessToken } from '../auth/AuthAPI';
 
 const axiosInstance = axios.create({
   headers: {
@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
       const refreshToken = JSON.parse(localStorage.getItem('refresh-token') ?? '{}');
 
       if (Date.now() >= accessToken.expire && Date.now() <= refreshToken.expire) {
-        authRefreshToken(refreshToken.value).then(response => {
+        refreshAccessToken(refreshToken.value).then(response => {
           const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
 
           config.headers.Authorization = `Bearer ${newAccessToken.value}`;
@@ -44,7 +44,7 @@ axiosInstance.interceptors.response.use(
       if (refreshToken) {
         originalRequest._retry = true;
 
-        await authRefreshToken(refreshToken.value)
+        await refreshAccessToken(refreshToken.value)
           .then(() => {
             const newAccessToken = JSON.parse(localStorage.getItem('access-token') ?? '{}');
 
