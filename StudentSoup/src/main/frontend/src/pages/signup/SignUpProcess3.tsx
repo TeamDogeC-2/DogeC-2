@@ -15,7 +15,7 @@ import {
   checkSignUpEmailAuthentication,
   completeSignUp,
 } from 'apis/auth/AuthAPI';
-import { getDepartment } from 'apis/api/userAPI';
+import { getDepartment } from 'apis/api/UserAPI';
 import { type UniversityDataType, type MajorDataType } from 'interfaces/SignupTypes';
 
 const SignUpProcess3 = () => {
