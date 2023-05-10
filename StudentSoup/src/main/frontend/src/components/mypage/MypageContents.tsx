@@ -14,13 +14,11 @@ import {
 } from './data/MypageContents';
 import { useNavigate } from 'react-router-dom';
 interface State {
-  value1: string;
-  value2: number;
-  value3: string;
-  value4: number;
-  value5: string;
+  boardId: string;
+  userInfomation: UserInfoType;
 }
 const MypageContents = (props: UserInfoType) => {
+  const userInfomation = props;
   const navigate = useNavigate();
   const [content, setContent] = useState<string>('board');
   const [currentPage, setCurrentpage] = useState(1);
@@ -64,14 +62,9 @@ const MypageContents = (props: UserInfoType) => {
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
     const value = e.target.id;
-    const propsState: State = {
-      value1: value,
-      value2: props.memberId,
-      value3: props.nickname,
-      value4: props.schoolId,
-      value5: props.schoolName,
-    };
-    navigate(`/board/detail/${propsState.value1}`, { state: propsState });
+
+    const propsState: State = { boardId: value, userInfomation };
+    navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
   };
   return (
     <>
