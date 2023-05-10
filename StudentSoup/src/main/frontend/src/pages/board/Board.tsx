@@ -1,7 +1,7 @@
 import react, { useEffect, useState } from 'react';
 import './board.scss';
-import BoardSearch from '../common/BoardSearch';
-import Paginate from '../common/Paginate';
+import BoardSearch from '../../components/common/BoardSearch';
+import Paginate from '../../components/common/Paginate';
 import { Desktop, Mobile } from '../../mediaQuery';
 import { getDepartmentIdBoards, postBoards } from '../../apis/api/BoardAPI';
 import PCBoard from './boardcomponents/PcBoard';
