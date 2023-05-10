@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MainNavbar from 'components/common/MainNavbar';
 import './home.scss';
 import MainLogo_white from 'assets/images/mainLogo_white.svg';
 import Search_icon from 'assets/images/search_icon.svg';
@@ -67,40 +66,37 @@ const Home = () => {
   });
 
   return (
-    <>
-      <MainNavbar />
-      <div className="home-hero-text">
-        <img className="home-sfoo-image" src={MainLogo_white} />
-        <p>대학생들을 위한</p>
-        <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
-        <div className="home-school_search_bar">
-          <img src={Search_icon} />
-          <input
-            type="text"
-            onChange={saveSchoolName}
-            value={schoolName}
-            placeholder="지역 학교 명을 입력하세요."
-            onKeyDown={e => activeEnter(e)}
-          ></input>
-          <button onClick={handleClickSearch}>검색</button>
-          {schoolName && (
-            <>
-              {filterSchoolName.map((school: SchoolListType) => (
-                <div
-                  onClick={() => {
-                    setSchoolName(school.schoolName);
-                  }}
-                  className="home-school-list"
-                  key={school.schoolId}
-                >
-                  {school.schoolName}
-                </div>
-              ))}
-            </>
-          )}
-        </div>
+    <div className="home-hero-text">
+      <img className="home-sfoo-image" src={MainLogo_white} />
+      <p>대학생들을 위한</p>
+      <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
+      <div className="home-school_search_bar">
+        <img src={Search_icon} />
+        <input
+          type="text"
+          onChange={saveSchoolName}
+          value={schoolName}
+          placeholder="지역 학교 명을 입력하세요."
+          onKeyDown={e => activeEnter(e)}
+        ></input>
+        <button onClick={handleClickSearch}>검색</button>
+        {schoolName && (
+          <>
+            {filterSchoolName.map((school: SchoolListType) => (
+              <div
+                onClick={() => {
+                  setSchoolName(school.schoolName);
+                }}
+                className="home-school-list"
+                key={school.schoolId}
+              >
+                {school.schoolName}
+              </div>
+            ))}
+          </>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

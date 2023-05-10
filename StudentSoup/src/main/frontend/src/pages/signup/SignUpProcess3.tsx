@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Background from 'components/common/Background';
-import MainNavbar from 'components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_3 from 'assets/images/signup_process_activate_3.png';
 import process_check from 'assets/images/signup_process_check.png';
@@ -164,7 +163,6 @@ const SignUpProcess3 = () => {
 
   return (
     <div className="signup-process-3-container">
-      <MainNavbar />
       <Background>
         <SignUpComponent
           process_1={process_check}

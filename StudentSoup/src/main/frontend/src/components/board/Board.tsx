@@ -1,5 +1,4 @@
 import react, { useEffect, useState } from 'react';
-import MainNavbar from '../common/MainNavbar';
 import './board.scss';
 import BoardSearch from '../common/BoardSearch';
 import Paginate from '../common/Paginate';
@@ -98,6 +97,10 @@ const Board = () => {
   };
 
   useEffect(() => {
+    handleSearchButton(departmentId, selected, searched, sorted);
+  }, [currentPage, category, schoolName, departmentId, sorted]);
+
+  useEffect(() => {
     if (localStorage.getItem('access-token') === null) {
       navigate('/');
       Toast.fire({
@@ -113,112 +116,107 @@ const Board = () => {
     }
   }, []);
 
-  useEffect(() => {
-    handleSearchButton(departmentId, selected, searched, sorted);
-  }, [currentPage, category, schoolName, departmentId, sorted]);
-
   return (
-    <>
-      <MainNavbar />
-      <div className="board-main">
-        <div className="board-top-div">
-          <div className="board-top-text-div">
-            <div className="board-school-name">
-              <span>{schoolName} 게시판</span>
-            </div>
-            <div className='className="board-mobile-select-div"'>
-              <select
-                name="boardCategory"
-                defaultValue=""
-                className="board-select-category"
-                onChange={handleChangeOption}
-              >
-                <option value="">전체게시판</option>
-                {departmentOption?.map((department: BoardDepartmentType) => {
-                  return (
-                    <option key={department.departmentId} value={department.departmentId}>
-                      {department.departmentName}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+    <div className="board-main">
+      <div className="board-top-div">
+        <div className="board-top-text-div">
+          <div className="board-school-name">
+            <span>{schoolName} 게시판</span>
           </div>
-          <div className="board-lists-div">
-            <ul className="board-lists">
-              <li
-                id="ALL"
-                className={category.toString() === 'ALL' ? 'board-li active' : 'board-li'}
-                onClick={handleClickCategory}
-              >
-                전체 게시판
-              </li>
-              <li
-                id="FREE"
-                className={category.toString() === 'FREE' ? 'board-li active' : 'board-li'}
-                onClick={handleClickCategory}
-              >
-                자유 게시판
-              </li>
-              <li
-                id="CONSULTING"
-                className={category.toString() === 'CONSULTING' ? 'board-li active' : 'board-li'}
-                onClick={handleClickCategory}
-              >
-                취업/상담 게시판
-              </li>
-              <li
-                id="TIP"
-                className={category.toString() === 'TIP' ? 'board-li active' : 'board-li'}
-                onClick={handleClickCategory}
-              >
-                TIP 게시판
-              </li>
-            </ul>
+          <div className='className="board-mobile-select-div"'>
+            <select
+              name="boardCategory"
+              defaultValue=""
+              className="board-select-category"
+              onChange={handleChangeOption}
+            >
+              <option value="">전체게시판</option>
+              {departmentOption?.map((department: BoardDepartmentType) => {
+                return (
+                  <option key={department.departmentId} value={department.departmentId}>
+                    {department.departmentName}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
-        <div className="board-bottom-div">
-          <div className="board-table-div">
-            <Desktop>
-              <PCBoard
-                currentPage={currentPage}
-                category={category}
-                bestBoardItems={bestBoardItems}
-                hotBoardItems={hotBoardItems}
-                currentPosts={currentPosts}
-                setSorted={setSorted}
-                userInfomation={userInformation}
-              />
-            </Desktop>
-            <Mobile>
-              <MobileBoard
-                currentPage={currentPage}
-                category={category}
-                bestBoardItems={bestBoardItems}
-                hotBoardItems={hotBoardItems}
-                currentPosts={currentPosts}
-                userInfomation={userInformation}
-              />
-            </Mobile>
-          </div>
-          <Paginate
-            page={currentPage}
-            count={count}
-            setPage={handlePageChange}
-            postPerPage={postPerPage}
-          />
-          <BoardSearch
-            handleSearchButton={handleSearchButton}
-            selected={selected}
-            setSelected={setSelected}
-            searched={searched}
-            setSearched={setSearched}
-            departmentId={departmentId}
-            userInformation={userInformation}
-          />
+        <div className="board-lists-div">
+          <ul className="board-lists">
+            <li
+              id="ALL"
+              className={category.toString() === 'ALL' ? 'board-li active' : 'board-li'}
+              onClick={handleClickCategory}
+            >
+              전체 게시판
+            </li>
+            <li
+              id="FREE"
+              className={category.toString() === 'FREE' ? 'board-li active' : 'board-li'}
+              onClick={handleClickCategory}
+            >
+              자유 게시판
+            </li>
+            <li
+              id="CONSULTING"
+              className={category.toString() === 'CONSULTING' ? 'board-li active' : 'board-li'}
+              onClick={handleClickCategory}
+            >
+              취업/상담 게시판
+            </li>
+            <li
+              id="TIP"
+              className={category.toString() === 'TIP' ? 'board-li active' : 'board-li'}
+              onClick={handleClickCategory}
+            >
+              TIP 게시판
+            </li>
+          </ul>
         </div>
       </div>
-    </>
+      <div className="board-bottom-div">
+        <div className="board-table-div">
+          <Desktop>
+            <PCBoard
+              currentPage={currentPage}
+              category={category}
+              bestBoardItems={bestBoardItems}
+              hotBoardItems={hotBoardItems}
+              currentPosts={currentPosts}
+              setSorted={setSorted}
+              memberId={userInformation.memberId}
+              nickname={userInformation.nickname}
+            />
+          </Desktop>
+          <Mobile>
+            <MobileBoard
+              currentPage={currentPage}
+              category={category}
+              bestBoardItems={bestBoardItems}
+              hotBoardItems={hotBoardItems}
+              currentPosts={currentPosts}
+              memberId={userInformation.memberId}
+              nickname={userInformation.nickname}
+            />
+          </Mobile>
+        </div>
+        <Paginate
+          page={currentPage}
+          count={count}
+          setPage={handlePageChange}
+          postPerPage={postPerPage}
+        />
+        <BoardSearch
+          handleSearchButton={handleSearchButton}
+          selected={selected}
+          setSelected={setSelected}
+          searched={searched}
+          setSearched={setSearched}
+          departmentId={departmentId}
+          userInformation={userInformation}
+        />
+      </div>
+    </div>
   );
 };
 export default Board;

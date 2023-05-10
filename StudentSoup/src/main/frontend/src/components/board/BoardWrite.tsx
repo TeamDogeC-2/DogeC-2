@@ -260,7 +260,6 @@ const BoardWrite = () => {
     <>
       <DesktopHeader>
         <div>
-          <MainNavbar />
           <div className="board-write-main">
             <div className="board-write-top-div">
               <div className="board-write-top-left">
@@ -360,7 +359,6 @@ const BoardWrite = () => {
       </DesktopHeader>
       <MobileHeader>
         <div>
-          <MainNavbar />
           <div className="board-write-tablet-main">
             <div className="board-write-tablet-top-div">
               <div className="board-write-tablet-top">
@@ -461,7 +459,6 @@ const BoardWrite = () => {
       </MobileHeader>
       <Mobile>
         <div>
-          <MainNavbar />
           <div className="board-write-mobile-main">
             <div className="board-write-mobile-top-div">
               <div className="board-write-mobile-top">

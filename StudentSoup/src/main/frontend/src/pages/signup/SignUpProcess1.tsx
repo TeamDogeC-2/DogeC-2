@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MainNavbar from 'components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_1 from 'assets/images/signup_process_activate_1.png';
 import process_2 from 'assets/images/signup_process_2.png';
@@ -74,7 +73,6 @@ const SignUpProcess1 = () => {
 
   return (
     <div className="signup-process-1-container">
-      <MainNavbar />
       <Background>
         <SignUpComponent
           process_1={isAllChecked ? process_check : process_activate_1}

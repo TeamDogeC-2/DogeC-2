@@ -1,4 +1,3 @@
-import MainNavbar from '../common/MainNavbar';
 import './boardDetail.scss';
 import left from 'assets/images/left.svg';
 import review_white from 'assets/images/review_white.svg';
@@ -208,7 +207,6 @@ const BoardDetail = () => {
     <>
       <Desktop>
         <div>
-          <MainNavbar />
           <div className="board-detail-main">
             <div className="board-detail-top-div">
               <div className="board-detail-top">
@@ -296,7 +294,6 @@ const BoardDetail = () => {
       </Desktop>
       <Mobile>
         <div>
-          <MainNavbar />
           <div className="board-detail-mobile-main">
             <div className="board-detail-mobile-top-div">
               <div className="board-detail-mobile-top">

@@ -157,7 +157,6 @@ const Restaurant = () => {
     <>
       <DesktopHeader>
         <div>
-          <RestaurantNavbar />
           <div className="restaurant-main">
             <div className="restaurant-top">
               <div className="restaurant-top-div">
@@ -261,7 +260,6 @@ const Restaurant = () => {
       </DesktopHeader>
       <MobileHeader>
         <div>
-          <RestaurantNavbar />
           <div className="tablet-restaurant-main">
             <div className="tablet-restaurant-top">
               <div className="tablet-restaurant-top-div">
@@ -370,7 +368,6 @@ const Restaurant = () => {
       </MobileHeader>
       <Mobile>
         <div>
-          <RestaurantNavbar />
           <div className="mobile-restaurant-main">
             <div className="mobile-restaurant-top">
               <div className="mobile-restaurant-top-div">

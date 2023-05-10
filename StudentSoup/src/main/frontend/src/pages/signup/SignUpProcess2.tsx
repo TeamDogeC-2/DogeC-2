@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Desktop, Mobile } from 'mediaQuery';
 import Background from 'components/common/Background';
-import MainNavbar from 'components/common/MainNavbar';
 import SignUpComponent from './SignUpComponent';
 import process_activate_2 from 'assets/images/signup_process_activate_2.png';
 import process_3 from 'assets/images/signup_process_3.png';
@@ -153,7 +152,6 @@ const SignUpProcess2 = () => {
 
   return (
     <div className="signup-process-2-container">
-      <MainNavbar />
       <Background>
         <SignUpComponent
           process_1={process_check}

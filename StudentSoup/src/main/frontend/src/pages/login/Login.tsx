@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import MainNavbar from 'components/common/MainNavbar';
 import './login.scss';
 import useInput from '../../hooks/useInput';
 import { signIn } from '../../apis/auth/AuthAPI';
@@ -46,7 +45,7 @@ const Login = () => {
             icon: 'success',
             title: '로그인을 성공하였습니다.',
           });
-          navigate('/');
+          window.location.replace('/');
         })
         .catch(error => {
           const errorMessage = error.response.data.message;
@@ -79,44 +78,41 @@ const Login = () => {
   }, [localStorage.getItem('rememberId'), localStorage.getItem('token')]);
 
   return (
-    <>
-      <MainNavbar />
-      <div className="background">
-        <div className="login-main">
-          <h2>로그인</h2>
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              className="id"
-              value={userId}
-              onChange={onChangeUserId}
-              placeholder="아이디 또는 이메일을 입력해주세요"
-            />
-            <input
-              type="password"
-              className="password"
-              value={userPassword}
-              onChange={onChangeUserPassword}
-              placeholder="비밀번호를 입력해주세요"
-              autoComplete="current-password"
-            />
-            <div className="login-keep-wrap">
-              <div className="remember-wrap" onClick={onClickRememberId}>
-                <div className={isRememberId ? 'checked-remember-id' : 'unchecked-remember-id'} />
-                <span>아이디 저장</span>
-              </div>
-              <Link to="/login/findAccount">아이디/비밀번호 찾기</Link>
+    <div className="background">
+      <div className="login-main">
+        <h2>로그인</h2>
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            className="id"
+            value={userId}
+            onChange={onChangeUserId}
+            placeholder="아이디 또는 이메일을 입력해주세요"
+          />
+          <input
+            type="password"
+            className="password"
+            value={userPassword}
+            onChange={onChangeUserPassword}
+            placeholder="비밀번호를 입력해주세요"
+            autoComplete="current-password"
+          />
+          <div className="login-keep-wrap">
+            <div className="remember-wrap" onClick={onClickRememberId}>
+              <div className={isRememberId ? 'checked-remember-id' : 'unchecked-remember-id'} />
+              <span>아이디 저장</span>
             </div>
-            <button className="login-button" type="submit">
-              로그인
-            </button>
-            <Link to="/signup/process/1" className="signup-link">
-              <button className="signup-button">회원가입</button>
-            </Link>
-          </form>
-        </div>
+            <Link to="/login/findAccount">아이디/비밀번호 찾기</Link>
+          </div>
+          <button className="login-button" type="submit">
+            로그인
+          </button>
+          <Link to="/signup/process/1" className="signup-link">
+            <button className="signup-button">회원가입</button>
+          </Link>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 
