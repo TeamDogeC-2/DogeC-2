@@ -15,6 +15,7 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 5px 0px 0px 5px;
+      cursor: pointer;
     }
     .mypagecontents-borderbuttonboardactive {
       border: 2px solid #ff661d;
@@ -26,6 +27,7 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 0px 5px 5px 0px;
+      cursor: pointer;
     }
     .mypagecontents-borderbuttonreplyactive {
       border: 2px solid #ff661d;
@@ -74,6 +76,7 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 5px 0px 0px 5px;
+      cursor: pointer;
     }
     .tablet-mypagecontents-borderbuttonboardactive {
       border: 2px solid #ff661d;
@@ -85,6 +88,7 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 0px 5px 5px 0px;
+      cursor: pointer;
     }
     .tablet-mypagecontents-borderbuttonreplyactive {
       border: 2px solid #ff661d;
@@ -133,9 +137,11 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 5px 0px 0px 5px;
+      cursor: pointer;
     }
     .mobile-mypagecontents-borderbuttonboardactive {
       border: 2px solid #ff661d;
+      cursor: pointer;
     }
     .mobile-mypagecontents-borderbuttonreply {
       padding-top: 1rem;
@@ -144,6 +150,7 @@
       height: 3.2rem;
       border: 1px solid #bcbcbc;
       border-radius: 0px 5px 5px 0px;
+      cursor: pointer;
     }
     .mobile-mypagecontents-borderbuttonreplyactive {
       border: 2px solid #ff661d;
