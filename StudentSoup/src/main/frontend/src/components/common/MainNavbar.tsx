@@ -1,5 +1,5 @@
 import './mainNavbar.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
 import mainLogo from 'assets/images/mainLogo.svg';
 import Circle_human from 'assets/images/circle_human.png';
@@ -40,7 +40,7 @@ const MainNavbar = () => {
   };
 
   const handleLogout = () => {
-    setIsMenuOpen(false);
+    setIsMenuOpen(() => false);
 
     Swal.fire({
       title: '로그아웃 시도',
@@ -58,7 +58,7 @@ const MainNavbar = () => {
           localStorage.removeItem('access-token');
           localStorage.removeItem('refresh-token');
 
-          setIsLogin(false);
+          setIsLogin(() => false);
           navigate('/');
           Swal.fire('로그아웃 성공', '로그아웃이 완료되었습니다.', 'success');
         }
@@ -75,7 +75,7 @@ const MainNavbar = () => {
   };
 
   const loginCheck = () => {
-    return localStorage.getItem('access-token') ? setIsLogin(true) : setIsLogin(false);
+    localStorage.getItem('access-token') ? setIsLogin(() => true) : setIsLogin(() => false);
   };
 
   useEffect(() => {
@@ -97,13 +97,16 @@ const MainNavbar = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    loginCheck();
     document.addEventListener('mousedown', onCheckClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', onCheckClickOutside);
     };
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    loginCheck();
+  }, []);
 
   return (
     <>
@@ -348,6 +351,7 @@ const MainNavbar = () => {
           </ul>
         </nav>
       </Mobile>
+      <Outlet />
     </>
   );
 };
