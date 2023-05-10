@@ -7,7 +7,7 @@ import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons
 import Swal from 'sweetalert2';
 import SearchIcon from 'assets/images/restaurant_search.svg';
 import { SchoolList, type SchoolListType } from 'pages/home/data/SchoolList';
-import { postUserInfo } from 'apis/auth/BoardAPI';
+import { postUserInfo } from 'apis/api/BoardAPI';
 import { postLogout } from 'apis/auth/AuthAPI';
 import { type userInformationType } from 'interfaces/BoardTypes';
 import mainLogo from 'assets/images/mainLogo.svg';

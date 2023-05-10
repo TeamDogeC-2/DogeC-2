@@ -1,7 +1,7 @@
 import './boardBestReviewHeart.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../apis/auth/AxiosInterceptor';
+import axiosInstance from '../../apis/utils/AxiosInterceptor';
 import Swal from 'sweetalert2';
 
 interface Props {

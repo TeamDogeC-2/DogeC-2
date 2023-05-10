@@ -8,7 +8,7 @@ import BoardBestReview from './BoardBestReview';
 import BoardReview from './BoardReview';
 import { Desktop, Mobile } from 'mediaQuery';
 import { useEffect, useState } from 'react';
-import axiosInstance from 'apis/auth/AxiosInterceptor';
+import axiosInstance from 'apis/utils/AxiosInterceptor';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import DOMPurify from 'dompurify';

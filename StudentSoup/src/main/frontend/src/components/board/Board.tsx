@@ -4,7 +4,7 @@ import './board.scss';
 import BoardSearch from '../common/BoardSearch';
 import Paginate from '../common/Paginate';
 import { Desktop, Mobile } from '../../mediaQuery';
-import { getDepartmentIdBoards, postBoards } from '../../apis/auth/BoardAPI';
+import { getDepartmentIdBoards, postBoards } from '../../apis/api/BoardAPI';
 import PCBoard from './boardcomponents/PcBoard';
 import MobileBoard from './boardcomponents/MobileBoard';
 import { useLocation, useNavigate } from 'react-router-dom';

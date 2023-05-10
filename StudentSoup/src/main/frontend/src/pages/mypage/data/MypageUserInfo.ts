@@ -1,4 +1,4 @@
-import axiosInstance from '../../../apis/auth/AxiosInterceptor';
+import axiosInstance from '../../../apis/utils/AxiosInterceptor';
 
 export interface UserInfoType {
   memberId: number;

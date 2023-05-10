@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance from '../../../apis/auth/AxiosInterceptor';
+import axiosInstance from '../../../apis/utils/AxiosInterceptor';
 // 게시글 프리뷰
 interface Board {
   boardId: number;

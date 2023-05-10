@@ -3,7 +3,7 @@ import Circle_human from 'assets/images/circle_human.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import axiosInstance from 'apis/auth/AxiosInterceptor';
+import axiosInstance from 'apis/utils/AxiosInterceptor';
 import { useNavigate } from 'react-router-dom';
 import { Desktop, Mobile } from 'mediaQuery';
 import Swal from 'sweetalert2';

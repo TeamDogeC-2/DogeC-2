@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import BoardReview from '../board/BoardReview';
 import Swal from 'sweetalert2';
-import { getBoardReplies, postBoardDetail, putBoardReply } from 'apis/auth/BoardAPI';
+import { getBoardReplies, postBoardDetail, putBoardReply } from 'apis/api/BoardAPI';
 
 const NoticeDetail = () => {
   const [postDetailInformation, setPostDetailInformation] = useState({

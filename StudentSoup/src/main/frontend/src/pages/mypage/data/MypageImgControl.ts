@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance from '../../../apis/auth/AxiosInterceptor';
+import axiosInstance from '../../../apis/utils/AxiosInterceptor';
 
 // 이미지 업로드
 export const ImageUpload = async (memberId: number, multipartFile: File) => {
