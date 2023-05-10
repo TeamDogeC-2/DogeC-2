@@ -9,13 +9,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useInput from 'hooks/useInput';
 import Swal from 'sweetalert2';
 import {
-  getSignUpStepThree,
   checkSignUpNickname,
   authenticateEmail,
   checkEmailAuthentication,
   completeSignUp,
 } from 'apis/auth/AuthAPI';
-import { getDepartment } from 'apis/api/UserAPI';
+import { getDepartment, getSchoolList } from 'apis/api/UserAPI';
 import { type UniversityDataType, type MajorDataType } from 'interfaces/SignupTypes';
 
 const SignUpProcess3 = () => {
@@ -141,7 +140,7 @@ const SignUpProcess3 = () => {
       navigate('/');
     }
 
-    getSignUpStepThree()
+    getSchoolList()
       .then(response => {
         setUniversityData(response.data);
       })

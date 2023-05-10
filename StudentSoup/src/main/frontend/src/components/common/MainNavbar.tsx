@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { postUserInfo } from 'apis/api/BoardAPI';
-import { type userInformationType } from 'interfaces/BoardTypes';
+import { type userInformationType } from 'interfaces/UserTypes';
 
 const MainNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

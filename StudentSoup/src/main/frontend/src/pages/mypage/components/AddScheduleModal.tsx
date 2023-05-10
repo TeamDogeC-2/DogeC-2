@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { AddSchedule, EditSchedule } from '../data/MypageContents';
 import './addScheduleModal.scss';
-import { MypageUserInfo, type UserInfoType } from '../data/MypageUserInfo';
-import { type ScheduleItem } from '../MypageScheduler';
 import Swal from 'sweetalert2';
+import { getUserInformation } from 'apis/api/UserAPI';
+import { type ScheduleItem } from '../MypageScheduler';
+import { addSchedule, editSchedule } from 'apis/api/ScheduleAPI';
 
 interface Props {
   onSubmit: (
@@ -31,7 +31,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
   const [initialEditItem, setInitialEditItem] = useState<ScheduleItem | undefined>(editItem);
 
   useEffect(() => {
-    MypageUserInfo()
+    getUserInformation()
       .then(res => {
         setMemberId(res.data.memberId);
       })
@@ -56,7 +56,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
     }
     if (memberId) {
       if (editItem) {
-        EditSchedule(memberId, editItem.scheduleId, dayOfWeek, startTime, endTime, color, subject)
+        editSchedule(memberId, editItem.scheduleId, dayOfWeek, startTime, endTime, color, subject)
           .then(() => {
             Swal.fire({
               icon: 'success',
@@ -74,7 +74,7 @@ const AddScheduleModal: React.FC<Props> = ({ onSubmit, onCancel, existingItems, 
             alert(err.response.data.message);
           });
       } else {
-        const newScheduleId = await AddSchedule(
+        const newScheduleId = await addSchedule(
           memberId,
           dayOfWeek,
           startTime,

@@ -5,8 +5,8 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Desktop, Mobile } from 'mediaQuery';
 import RatingStars from 'pages/mypage/components/RatingStars';
 import { useRef, useState, useEffect } from 'react';
-import { RestaurantUserInfo } from './data/RestaurantUserInfo';
 import axios from 'axios';
+import { getUserInformation } from 'apis/api/UserAPI';
 
 interface Props {
   restaurantId: number;
@@ -27,7 +27,7 @@ const RestaurantReviewWrite = ({ restaurantId, name, isWrite }: Props) => {
   const [maxCount, setMaxCount] = useState<number>(400);
 
   useEffect(() => {
-    RestaurantUserInfo()
+    getUserInformation()
       .then(res => {
         setMemberId(res.data.memberId);
         setNickName(res.data.nickname);

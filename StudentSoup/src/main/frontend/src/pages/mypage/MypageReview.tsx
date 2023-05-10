@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import EditReviewModal from './components/EditReviewModal';
-import { PreViewReview, type PreviewReviewResponse, ReviewEdit } from './data/MypageContents';
 import RatingStars from './components/RatingStars';
 import MyPagination from './components/MyPagination';
 import './mypageReview.scss';
 import Swal from 'sweetalert2';
+import { editReview, preViewReview } from 'apis/api/MyPageAPI';
+import { type PreviewReviewResponse } from 'interfaces/MyPageTypes';
 
 interface propTypes {
   memberId: number | undefined;
@@ -40,7 +41,7 @@ const MypageReview = (props: propTypes) => {
   };
   useEffect(() => {
     if (props?.memberId) {
-      PreViewReview(props.memberId, selectedOption, reviewcurrentPage - 1, 3)
+      preViewReview(props.memberId, selectedOption, reviewcurrentPage - 1, 3)
         .then(res => {
           setReviewList(res);
         })
@@ -111,7 +112,7 @@ const MypageReview = (props: propTypes) => {
               <EditReviewModal
                 onSubmit={(rating, content) => {
                   if (props?.memberId && reviewKey) {
-                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                    editReview(props.memberId, reviewKey, content, rating)
                       .then(() => {
                         setIsModalFadingOut(true);
                         Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());
@@ -216,7 +217,7 @@ const MypageReview = (props: propTypes) => {
               <EditReviewModal
                 onSubmit={(rating, content) => {
                   if (props?.memberId && reviewKey) {
-                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                    editReview(props.memberId, reviewKey, content, rating)
                       .then(() => {
                         setIsModalFadingOut(true);
                         Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());
@@ -311,7 +312,7 @@ const MypageReview = (props: propTypes) => {
               <EditReviewModal
                 onSubmit={(rating, content) => {
                   if (props?.memberId && reviewKey) {
-                    ReviewEdit(props.memberId, reviewKey, content, rating)
+                    editReview(props.memberId, reviewKey, content, rating)
                       .then(() => {
                         setIsModalFadingOut(true);
                         Swal.fire('수정 완료', '', 'success').then(() => window.location.reload());

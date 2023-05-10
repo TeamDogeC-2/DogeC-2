@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
-import Paginate from 'components/common/Paginate';
 import MyPagination from './components/MyPagination';
 import type { UserInfoType } from './data/MypageUserInfo';
 import {
-  DetailCount,
   type DetailCountResponse,
-  PreViewBoard,
   type PreViewBoardResponse,
-  PreViewReply,
   type PreViewReplyResponse,
-} from './data/MypageContents';
-import { useNavigate } from 'react-router-dom';
-interface State {
-  boardId: string;
-  userInfomation: UserInfoType;
+} from 'interfaces/MyPageTypes';
+interface propTypes {
+  memberId: number | undefined;
 }
 const MypageContents = (props: UserInfoType) => {
   const userInfomation = props;
@@ -36,21 +30,21 @@ const MypageContents = (props: UserInfoType) => {
   };
   useEffect(() => {
     if (props?.memberId) {
-      DetailCount(props.memberId)
+      detailCount(props.memberId)
         .then(res => {
           setContentCount(res);
         })
         .catch(err => {
           console.error(err);
         });
-      PreViewBoard(props.memberId, currentPage - 1, postPerPage)
+      preViewBoard(props.memberId, currentPage - 1, postPerPage)
         .then(res => {
           setBoardList(res);
         })
         .catch(err => {
           console.error(err);
         });
-      PreViewReply(props.memberId, replycurrentPage - 1, replypostPerPage)
+      preViewReply(props.memberId, replycurrentPage - 1, replypostPerPage)
         .then(res => {
           setReplyList(res);
         })

@@ -10,9 +10,8 @@ import MypageModify from './MypageModify';
 import Swal from 'sweetalert2';
 import { ReactComponent as SchoolIcon } from 'assets/images/SchoolIcon.svg';
 import { ReactComponent as SchoolSkillIcon } from 'assets/images/SchoolSkillIcon.svg';
-import { MypageUserInfo, type UserInfoType } from './data/MypageUserInfo';
-import { ImageUpload, ImageDelete } from './data/MypageImgControl';
-import { MypageEditProfile } from './data/MypageUserInfo';
+import { type UserInfoType } from './interfaces/MypageInterface';
+import { editUserProfile, getUserInformation, imageDelete, imageUpload } from 'apis/api/UserAPI';
 
 const MypageMain = () => {
   let year = '';
@@ -62,7 +61,7 @@ const MypageMain = () => {
       return;
     }
     if (userInfo?.memberId && result?.value) {
-      MypageEditProfile(userInfo?.memberId, userInfo?.id, result.value)
+      editUserProfile(userInfo?.memberId, userInfo?.id, result.value)
         .then(() => {
           setSelectPage('modify');
         })
@@ -79,7 +78,7 @@ const MypageMain = () => {
   };
 
   useEffect(() => {
-    MypageUserInfo()
+    getUserInformation()
       .then(res => {
         setUserInfo(res.data);
         setUserImg(res.data.fileName);
@@ -129,7 +128,7 @@ const MypageMain = () => {
             denyButtonText: '취소',
           });
           if (deleteResult.isConfirmed && userInfo?.memberId) {
-            ImageDelete(userInfo.memberId)
+            imageDelete(userInfo.memberId)
               .then(res => {
                 setUserImg(res.data.fileName);
               })
@@ -146,7 +145,7 @@ const MypageMain = () => {
   const handleImageUpload = async (e: any) => {
     const [file] = e.target.files;
     if (file && userInfo?.memberId) {
-      ImageUpload(userInfo.memberId, file)
+      imageUpload(userInfo.memberId, file)
         .then(res => {
           setUserImg(res.data.fileName);
         })

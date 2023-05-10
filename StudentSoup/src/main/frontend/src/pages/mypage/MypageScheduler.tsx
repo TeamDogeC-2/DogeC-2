@@ -5,10 +5,10 @@ import { DesktopHeader, MobileHeader, Mobile } from 'mediaQuery';
 import MypageNavbar from 'components/common/MypageNavbar';
 import MypagePlus from 'assets/images/mypagePlus.svg';
 import AddScheduleModal from './components/AddScheduleModal';
-import { ViewSchedule, DeleteSchedule } from './data/MypageContents';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router';
-import { MypageUserInfo } from './data/MypageUserInfo';
+import { getUserInformation } from 'apis/api/UserAPI';
+import { deleteSchedule, viewSchedule } from 'apis/api/ScheduleAPI';
 
 export interface ScheduleItem {
   scheduleId: number;
@@ -36,7 +36,7 @@ const MypageScheduler: React.FC = () => {
     timerProgressBar: true,
   });
   useEffect(() => {
-    ViewSchedule(state).then(res => {
+    viewSchedule(state).then(res => {
       setScheduleItems(res);
     });
   }, []);
@@ -44,7 +44,7 @@ const MypageScheduler: React.FC = () => {
     setUserImg(userImg);
   }, [userImg]);
   useEffect(() => {
-    MypageUserInfo()
+    getUserInformation()
       .then(res => {
         setUserImg(res.data.fileName);
       })
@@ -125,7 +125,7 @@ const MypageScheduler: React.FC = () => {
         setIsModalOpen(true);
         openEditModal(item);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        DeleteSchedule(item.scheduleId)
+        deleteSchedule(item.scheduleId)
           .then(() => {
             Swal.fire({
               icon: 'success',

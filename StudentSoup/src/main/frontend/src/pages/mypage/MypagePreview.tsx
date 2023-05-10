@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import RatingStars from './components/RatingStars';
+import { preViewBoard, preViewReply, preViewReview } from 'apis/api/MyPageAPI';
 import {
-  PreViewBoard,
   type PreViewBoardResponse,
-  PreViewReply,
   type PreViewReplyResponse,
-  PreViewReview,
   type PreviewReviewResponse,
-} from './data/MypageContents';
+} from 'interfaces/MyPageTypes';
 interface propTypes {
   handleSelectPage: (pagename: string) => void;
   memberId: number | undefined;
@@ -26,21 +24,21 @@ const MypagePreview = (props: propTypes) => {
 
   useEffect(() => {
     if (props?.memberId) {
-      PreViewBoard(props.memberId)
+      preViewBoard(props.memberId)
         .then(res => {
           setPreViewBoardList(res);
         })
         .catch(err => {
           console.error(err);
         });
-      PreViewReply(props.memberId)
+      preViewReply(props.memberId)
         .then(res => {
           setPreViewReplyList(res);
         })
         .catch(err => {
           console.error(err);
         });
-      PreViewReview(props.memberId)
+      preViewReview(props.memberId)
         .then(res => {
           setPreViewReviewList(res);
         })

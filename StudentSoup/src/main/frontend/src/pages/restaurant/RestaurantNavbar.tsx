@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import SearchIcon from 'assets/images/restaurant_search.svg';
-import { SchoolList, type SchoolListType } from 'pages/home/data/SchoolList';
 import { postUserInfo } from 'apis/api/BoardAPI';
 import { logout } from 'apis/auth/AuthAPI';
-import { type userInformationType } from 'interfaces/BoardTypes';
 import mainLogo from 'assets/images/mainLogo.svg';
 import Circle_human from 'assets/images/circle_human.png';
+import { type userInformationType } from 'interfaces/UserTypes';
+import { SchoolList } from 'apis/api/HomeAPI';
+import { type SchoolListType } from 'interfaces/HomeTypes';
 
 const RestaurantNavbar = () => {
   const [schoolComponent, setSchoolComponent] = useState<SchoolListType[]>([]);

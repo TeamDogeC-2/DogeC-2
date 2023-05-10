@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './schoolAndMajorModal.scss';
-import {
-  GetSchoolList,
-  GetMajorList,
-  SendMail,
-  CheckMail,
-  EditNickname,
-} from '../data/MypageUserInfo';
 import Swal from 'sweetalert2';
+import { authenticateEmail, checkEmailAuthentication } from 'apis/auth/AuthAPI';
+import { editUserNickname, getDepartment, getSchoolList } from 'apis/api/UserAPI';
 
 interface SchoolAndMajorModalProps {
   show: boolean;
@@ -69,24 +64,24 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   >('none');
   const [verificationMessage, setVerificationMessage] = useState<string>('');
   useEffect(() => {
-    GetSchoolList().then(res => {
-      setSchools(res);
+    getSchoolList().then(res => {
+      setSchools(res.data);
     });
 
-    GetMajorList(selectSchoolId).then(res => {
-      setMajors(res.departments);
+    getDepartment(selectSchoolId).then(res => {
+      setMajors(res.data.departments);
     });
   }, []);
 
   const handleSchoolChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSchoolId = parseInt(event.target.value);
     setSelectSchoolId(selectedSchoolId);
-    GetMajorList(selectedSchoolId).then(res => {
-      setMajors(res.departments);
-      setEmailDomain(res.domain);
+    getDepartment(selectedSchoolId).then(res => {
+      setMajors(res.data.departments);
+      setEmailDomain(res.data.domain);
 
-      if (res.departments.length > 0) {
-        setSelectedMajorId(res.departments[0].departmentId);
+      if (res.data.departments.length > 0) {
+        setSelectedMajorId(res.data.departments[0].departmentId);
       } else {
         setSelectedMajorId(-1);
       }
@@ -98,7 +93,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   const handleVerifyButtonClick = () => {
     setSendingEmail(true);
     setVerificationStarted(true);
-    SendMail(`${emailPrefix}@${emailDomain}`)
+    authenticateEmail(emailPrefix, emailDomain)
       .then(() => {
         setSendingEmail(false);
         setShowVerificationInput(true);
@@ -116,7 +111,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
   };
 
   const handleVerification = () => {
-    CheckMail(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
+    checkEmailAuthentication(`${emailPrefix}@${emailDomain}`, parseInt(verificationCode))
       .then(() => {
         setVerificationStatus('success');
         setVerificationMessage('인증이 완료되었습니다.');
@@ -127,7 +122,7 @@ const SchoolAndMajorModal: React.FC<SchoolAndMajorModalProps> = ({
       });
   };
   const handleEditButtonClick = () => {
-    EditNickname(
+    editUserNickname(
       memberId,
       selectSchoolId,
       selectedMajorId,

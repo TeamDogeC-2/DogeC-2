@@ -20,7 +20,7 @@ import RestaurantPhoto from './RestaurantPhoto';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
-import { RestaurantUserInfo } from './data/RestaurantUserInfo';
+import { getUserInformation } from 'apis/api/UserAPI';
 const kakao = (window as any).kakao;
 
 const RestaurantDetail = () => {
@@ -86,7 +86,7 @@ const RestaurantDetail = () => {
   }, [isDesktop, isTablet, isMobile, heart, memberId]);
 
   useEffect(() => {
-    RestaurantUserInfo()
+    getUserInformation()
       .then(res => {
         setMemberId(res.data.memberId);
       })

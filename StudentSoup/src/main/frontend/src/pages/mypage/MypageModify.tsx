@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
-import MypageNavbar from 'components/common/MypageNavbar';
 import Swal from 'sweetalert2';
 import './mypageModify.scss';
-import { EditNickname, type UserInfoType } from './data/MypageUserInfo';
+import { type UserInfoType } from './interfaces/MypageInterface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import SchoolAndMajorModal from './components/SchoolAndMajorModal';
+import { editUserNickname } from 'apis/api/UserAPI';
 interface propTypes {
   memberId: number;
   schoolId: number;
@@ -68,7 +68,7 @@ const MypageModify = (props: propTypes) => {
     });
 
     if (newNickname && props?.memberId && props?.schoolId && props?.departmentId) {
-      EditNickname(
+      editUserNickname(
         props.memberId,
         props.schoolId,
         props.departmentId,
@@ -211,7 +211,7 @@ const MypageModify = (props: propTypes) => {
         passwordConfirm: string;
       };
       if (editNickName && props?.memberId && props?.schoolId && props?.departmentId) {
-        EditNickname(
+        editUserNickname(
           props.memberId,
           props.schoolId,
           props.departmentId,
@@ -232,7 +232,7 @@ const MypageModify = (props: propTypes) => {
               timerProgressBar: true,
             });
           })
-          .catch(err => {
+          .catch((err: any) => {
             console.error(err);
           });
       }

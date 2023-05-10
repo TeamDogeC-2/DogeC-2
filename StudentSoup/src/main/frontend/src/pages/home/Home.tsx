@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './home.scss';
 import MainLogo_white from 'assets/images/mainLogo_white.svg';
 import Search_icon from 'assets/images/search_icon.svg';
-import { SchoolList, type SchoolListType } from './data/SchoolList';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { type SchoolListType } from 'interfaces/HomeTypes';
+import { SchoolList } from 'apis/api/HomeAPI';
 
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
