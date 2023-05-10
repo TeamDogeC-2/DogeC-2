@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './findPWD.scss';
-import { FindPwd } from './data/FindAccountData';
+import { findUserPassword } from 'apis/auth/AuthAPI';
 
 const FindPWD = () => {
   const [email, setEmail] = useState<string>('');
@@ -9,7 +9,7 @@ const FindPWD = () => {
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    FindPwd(email, id)
+    findUserPassword(email, id)
       .then(res => {
         console.log(res.data);
         setIsSubmit(true);

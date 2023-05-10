@@ -1,6 +1,6 @@
 import './findID.scss';
-import { FindId } from './data/FindAccountData';
 import { useState } from 'react';
+import { findUserId } from 'apis/auth/AuthAPI';
 
 const FindID = () => {
   const [email, setEmail] = useState<string>('');
@@ -8,7 +8,7 @@ const FindID = () => {
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    FindId(email)
+    findUserId(email)
       .then(res => {
         console.log(res.data);
         setIsSubmit(true);
