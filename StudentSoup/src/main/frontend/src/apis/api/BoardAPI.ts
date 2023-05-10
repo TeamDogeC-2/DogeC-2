@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios';
-import axiosInstance from './AxiosInterceptor';
+import axiosInstance from '../utils/AxiosInterceptor';
 
 export const postBoardCategory = async (
   category: string,

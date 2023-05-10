@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { authRefreshToken } from './AuthAPI';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { authRefreshToken } from '../auth/AuthAPI';
 
 const axiosInstance = axios.create({
   headers: {
