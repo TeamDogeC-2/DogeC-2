@@ -1,5 +1,5 @@
-import Board from 'components/board/Board';
-import BoardDetail from 'components/board/BoardDetail';
+import Board from 'pages/board/Board';
+import BoardDetail from 'pages/board/BoardDetail';
 import BoardWrite from 'components/board/BoardWrite';
 import MainNavbar from 'components/common/MainNavbar';
 import NoticeAndServiceDetail from 'components/common/NoticeAndServiceDetail';
