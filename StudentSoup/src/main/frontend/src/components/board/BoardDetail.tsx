@@ -36,7 +36,7 @@ const BoardDetail = () => {
   const [replyContent, setReplyContent] = useState<string>();
   const getBoardId = Number(state.state.boardId);
   const userInfo = state.state.userInfomation;
-  
+
   const purifyBoardContent = DOMPurify.sanitize(boardContent);
 
   const Toast = Swal.mixin({
@@ -191,7 +191,7 @@ const BoardDetail = () => {
     })
       .then(result => {
         if (result.isConfirmed) {
-          navigate('/board/write', { state: { getBoardId, memberId, schoolId, schoolName } });
+          navigate('/board/write', { state: { getBoardId, userInfo } });
         }
       })
       .catch(err => {
@@ -260,15 +260,14 @@ const BoardDetail = () => {
                 </div>
                 {userInfo.nickname === boardNickname && (
                   <div className="board-detail-bottom-function">
-                     <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
-                    수정
-                  </span>
+                    <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                      수정
+                    </span>
                     <span onClick={handleBoardDelete} className="board-detail-bottom-report">
                       삭제
                     </span>
                   </div>
                 )}
-
               </div>
               <div className="board-detail-bottom-review-write-div">
                 <div className="board-detail-bottom-review-write">
@@ -352,9 +351,9 @@ const BoardDetail = () => {
                 </div>
                 {userInfo.nickname === boardNickname && (
                   <div className="board-detail-mobile-bottom-function">
-                   <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
-                    수정
-                  </span>
+                    <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
+                      수정
+                    </span>
                     <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
                       삭제
                     </span>
