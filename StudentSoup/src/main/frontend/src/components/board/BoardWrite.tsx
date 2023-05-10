@@ -41,7 +41,7 @@ const BoardWrite = () => {
   useEffect(() => {
     if (userInformation.getBoardId) {
       isSetEdit(true);
-      GetBoardEditData(userInformation.getBoardId, userInformation.memberId).then(res => {
+      GetBoardEditData(userInformation.getBoardId, userInformation.userInfo.memberId).then(res => {
         setTitle(res.title);
         setContent(res.content);
         const strippedInitialContent = res.content.replace(/<(?:.|\n)*?>/gm, '');
@@ -49,12 +49,20 @@ const BoardWrite = () => {
         setSelectedCategoryKey(res.boardCategory);
         setSelectedDepartmentId(res.departmentId);
       });
+      WriteDepartmentData(
+        userInformation.userInfo.memberId,
+        userInformation.userInfo.schoolId,
+      ).then(res => {
+        setDepartments(res.departments);
+        setCategories(res.category);
+      });
+    } else {
+      WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
+        setDepartments(res.departments);
+        setCategories(res.category);
+      });
     }
-    WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
-      setDepartments(res.departments);
-      setCategories(res.category);
-    });
-  }, [userInformation.memberId, userInformation.schoolId]);
+  }, []);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -94,7 +102,7 @@ const BoardWrite = () => {
     if (isEdit) {
       BoardEdited(
         userInformation.getBoardId,
-        userInformation.memberId,
+        userInformation.userInfo.memberId,
         title,
         selectedCategoryKey,
         content,
@@ -103,7 +111,13 @@ const BoardWrite = () => {
       )
         .then(res => {
           alert('성공적으로 수정하였습니다.');
-          navigate('/board', { state: userInformation });
+          navigate('/board', { state: userInformation.userInfo });
+          isSetEdit(false);
+          setSelectedCategoryKey('');
+          setSelectedDepartmentId(0);
+          setContent('');
+          setTitle('');
+          setCurrentLength(0);
         })
         .catch(() => {
           alert('알수없는오류가 발생하였습니다.');
@@ -145,10 +159,13 @@ const BoardWrite = () => {
           return;
         }
 
-        const memberId = userInformation.memberId;
+        const memberId =
+          userInformation.memberId === undefined
+            ? userInformation.userInfo?.memberId
+            : userInformation.memberId;
         try {
           await UploadImgURL(memberId, file);
-          const res = await GetUploadImgURL(userInformation.memberId);
+          const res = await GetUploadImgURL(memberId);
           const url = `/image/${res}`;
 
           const range = quillRef.current?.getEditor().getSelection()?.index ?? 0;
@@ -182,30 +199,58 @@ const BoardWrite = () => {
   );
 
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = '저장하지 않고 나가시겠습니까?';
-    };
-
-    const handlePopState = (event: PopStateEvent) => {
-      if (window.confirm('저장하지 않고 나가시겠습니까?')) {
-        navigate('/board', { state: userInformation });
+    if (isEdit) {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         event.preventDefault();
-      }
-    };
+        event.returnValue = '저장하지 않고 나가시겠습니까?';
+      };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    window.addEventListener('popstate', handlePopState);
+      const handlePopState = (event: PopStateEvent) => {
+        if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+          navigate('/board', { state: userInformation.userInfo });
+          event.preventDefault();
+        }
+      };
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      window.removeEventListener('popstate', handlePopState);
-    };
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+        window.removeEventListener('popstate', handlePopState);
+      };
+    } else {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        event.preventDefault();
+        event.returnValue = '저장하지 않고 나가시겠습니까?';
+      };
+
+      const handlePopState = (event: PopStateEvent) => {
+        if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+          navigate('/board', { state: userInformation });
+          event.preventDefault();
+        }
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      window.addEventListener('popstate', handlePopState);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+        window.removeEventListener('popstate', handlePopState);
+      };
+    }
   }, [navigate, userInformation]);
 
   const handleCancel = () => {
-    if (window.confirm('저장하지 않고 나가시겠습니까?')) {
-      navigate('/board', { state: userInformation });
+    if (isEdit) {
+      if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+        navigate('/board', { state: userInformation.userInfo });
+      }
+    } else {
+      if (window.confirm('저장하지 않고 나가시겠습니까?')) {
+        navigate('/board', { state: userInformation });
+      }
     }
   };
 
@@ -226,7 +271,10 @@ const BoardWrite = () => {
                   className="board-write-depart-select"
                   onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                 >
-                  <option value="">{userInformation.schoolName}</option>
+                  <option value="">
+                    {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
+                  </option>
+
                   {departments.map(department => (
                     <option key={department.departmentId} value={department.departmentId}>
                       {department.departmentName}
@@ -301,7 +349,7 @@ const BoardWrite = () => {
                   취소하기
                 </button>
                 <button onClick={handleClickSubmit} className="board-write-submit-button">
-                  작성하기
+                  {isEdit ? '수정하기' : '작성하기'}
                 </button>
               </div>
             </div>
@@ -324,7 +372,9 @@ const BoardWrite = () => {
                     className="board-write-tablet-depart-select"
                     onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                   >
-                    <option value="">{userInformation.schoolName}</option>
+                    <option value="">
+                      {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
+                    </option>
                     {departments.map(department => (
                       <option key={department.departmentId} value={department.departmentId}>
                         {department.departmentName}
@@ -400,7 +450,7 @@ const BoardWrite = () => {
                   취소하기
                 </button>
                 <button onClick={handleClickSubmit} className="board-write-tablet-submit-button">
-                  작성하기
+                  {isEdit ? '수정하기' : '작성하기'}
                 </button>
               </div>
             </div>
@@ -424,7 +474,9 @@ const BoardWrite = () => {
                       className="board-write-mobile-depart-select"
                       onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                     >
-                      <option value="">{userInformation.schoolName}</option>
+                      <option value="">
+                        {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
+                      </option>
                       {departments.map(department => (
                         <option key={department.departmentId} value={department.departmentId}>
                           {department.departmentName}
@@ -502,7 +554,7 @@ const BoardWrite = () => {
                   취소하기
                 </button>
                 <button onClick={handleClickSubmit} className="board-write-mobile-submit-button">
-                  작성하기
+                  {isEdit ? '수정하기' : '작성하기'}
                 </button>
               </div>
             </div>
