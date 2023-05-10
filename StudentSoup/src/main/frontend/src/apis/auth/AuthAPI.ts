@@ -81,3 +81,16 @@ export const completeSignUp = async (userData: SignUpUserInfo): Promise<AxiosRes
   const res = await axios.post('/members/signUp/3', userData);
   return res;
 };
+
+export const findUserId = async (email: string) => {
+  return await axios.post('/members/find/id', {
+    email,
+  });
+};
+
+export const findUserPassword = async (email: string, id: string) => {
+  return await axios.post('/members/find/pwd', {
+    email,
+    id,
+  });
+};
