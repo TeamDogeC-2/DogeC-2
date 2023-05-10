@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import SignUpComponent from './SignUpComponent';
+import SignUpComponent from './components/SignUpComponent';
 import process_activate_1 from 'assets/images/signup_process_activate_1.png';
 import process_2 from 'assets/images/signup_process_2.png';
 import process_3 from 'assets/images/signup_process_3.png';
@@ -8,7 +8,7 @@ import process_check from 'assets/images/signup_process_check.png';
 import Background from 'components/common/Background';
 import './signupprocess1.scss';
 import { Desktop, Mobile } from 'mediaQuery';
-import Checkbox from './Checkbox';
+import Checkbox from './components/Checkbox';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpProcess1 = () => {
