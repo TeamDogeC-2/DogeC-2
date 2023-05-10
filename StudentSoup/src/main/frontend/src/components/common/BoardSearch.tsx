@@ -61,7 +61,9 @@ const BoardSearch = ({
               검색
             </button>
           </div>
-          <button className="board-write-button">글쓰기</button>
+          <button className="board-write-button" onClick={handleClickPostWriteButton}>
+            글쓰기
+          </button>
         </div>
       </Desktop>
       <Mobile>
