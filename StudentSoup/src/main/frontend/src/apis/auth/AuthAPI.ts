@@ -37,11 +37,6 @@ export const refreshAccessToken = async (refreshToken: string) => {
   return res;
 };
 
-export const getSignUpStepThree = async (): Promise<AxiosResponse> => {
-  const res = await axios.get('/members/signUp/3');
-  return res;
-};
-
 export const checkSignUpId = async (memberId: number): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/2/Id', {
     memberId,
@@ -62,6 +57,7 @@ export const authenticateEmail = async (email: string, domain: string): Promise<
   });
   return res;
 };
+// 이메일 인증번호 전송
 
 export const checkEmailAuthentication = async (
   email: string,
@@ -73,6 +69,7 @@ export const checkEmailAuthentication = async (
   });
   return res;
 };
+// 이메일 인증번호 확인
 
 export const completeSignUp = async (userData: SignUpUserInfo): Promise<AxiosResponse> => {
   const res = await axios.post('/members/signUp/3', userData);
