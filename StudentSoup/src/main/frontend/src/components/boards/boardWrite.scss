@@ -463,6 +463,8 @@ $notice-text-color: #6d6d6d;
   margin: 0 auto;
   padding-top: 4.8rem;
   max-width: 76.8rem;
+  height: auto;
+  min-height: 100vh;
 
   .board-write-mobile-top-div {
     display: flex;
