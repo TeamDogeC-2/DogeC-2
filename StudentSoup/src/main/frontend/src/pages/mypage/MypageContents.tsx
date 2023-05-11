@@ -8,12 +8,16 @@ import {
   type PreViewBoardResponse,
   type PreViewReplyResponse,
 } from 'interfaces/MyPageTypes';
-interface propTypes {
-  memberId: number | undefined;
+import { type UserInfoType } from './interfaces/MypageInterface';
+import { useNavigate } from 'react-router-dom';
+
+interface State {
+  boardId: string;
+  userInfomation: UserInfoType;
 }
+
 const MypageContents = (props: UserInfoType) => {
   const userInfomation = props;
-  const navigate = useNavigate();
   const [content, setContent] = useState<string>('board');
   const [currentPage, setCurrentpage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(6);
@@ -22,6 +26,8 @@ const MypageContents = (props: UserInfoType) => {
   const [contentCount, setContentCount] = useState<DetailCountResponse>();
   const [boardList, setBoardList] = useState<PreViewBoardResponse>();
   const [replyList, setReplyList] = useState<PreViewReplyResponse>();
+  const navigate = useNavigate();
+
   const handleBoardPageChange = (e: any) => {
     setCurrentpage(e);
   };
@@ -57,6 +63,9 @@ const MypageContents = (props: UserInfoType) => {
     e.stopPropagation();
     const value = e.target.id;
 
+  const handleClickDetail = (e: any) => {
+    e.stopPropagation();
+    const value = e.target.id;
     const propsState: State = { boardId: value, userInfomation };
     navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
   };
