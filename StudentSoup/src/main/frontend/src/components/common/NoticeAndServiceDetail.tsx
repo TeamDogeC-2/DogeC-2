@@ -52,6 +52,10 @@ const NoticeDetail = () => {
     navigate(-1);
   };
 
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: { ...location.state } });
+  };
+
   const handleReplyContent = (e: any) => {
     setReplyContent(e.target.value);
   };
@@ -99,7 +103,6 @@ const NoticeDetail = () => {
     <>
       <Desktop>
         <div>
-          <MainNavbar />
           <div className="board-notice-service-detail-main">
             <div className="board-notice-service-detail-top-div">
               <div className="board-notice-service-detail-top">
@@ -109,7 +112,10 @@ const NoticeDetail = () => {
                 </div>
                 {boardCategory[postDetailInformation.boardCategory] === '고객센터' && isLogin ? (
                   <div className="board-notice-service-detail-top-right">
-                    <button className="board-notice-service-detail-write-div">
+                    <button
+                      className="board-notice-service-detail-write-div"
+                      onClick={handleClickPostWriteButton}
+                    >
                       <img src={review_white} alt="" />
                       <p>글쓰기</p>
                     </button>
@@ -117,7 +123,10 @@ const NoticeDetail = () => {
                 ) : (
                   location.state.memberClassification === 'ADMIN' && (
                     <div className="board-notice-service-detail-top-right">
-                      <button className="board-notice-service-detail-write-div">
+                      <button
+                        className="board-notice-service-detail-write-div"
+                        onClick={handleClickPostWriteButton}
+                      >
                         <img src={review_white} alt="" />
                         <p>글쓰기</p>
                       </button>
@@ -191,7 +200,10 @@ const NoticeDetail = () => {
                 </div>
                 {boardCategory[postDetailInformation.boardCategory] === '고객센터' && isLogin ? (
                   <div className="board-notice-service-detail-mobile-top-right">
-                    <button className="board-notice-service-detail-mobile-write-div">
+                    <button
+                      className="board-notice-service-detail-mobile-write-div"
+                      onClick={handleClickPostWriteButton}
+                    >
                       <img src={review_white} alt="" />
                       <p>글쓰기</p>
                     </button>
@@ -199,7 +211,10 @@ const NoticeDetail = () => {
                 ) : (
                   location.state.memberClassification === 'ADMIN' && (
                     <div className="board-notice-service-detail-mobile-top-right">
-                      <button className="board-notice-service-detail-mobile-write-div">
+                      <button
+                        className="board-notice-service-detail-mobile-write-div"
+                        onClick={handleClickPostWriteButton}
+                      >
                         <img src={review_white} alt="" />
                         <p>글쓰기</p>
                       </button>
