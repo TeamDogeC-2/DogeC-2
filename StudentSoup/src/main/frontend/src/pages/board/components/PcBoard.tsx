@@ -34,7 +34,7 @@ const PCBoard = (props: BoardPropsType) => {
     e.stopPropagation();
     const boardId = e.target.id;
 
-    navigate(`/board/detail/${boardId}`, { state: { ...userInformation } });
+    navigate(`/board/detail/${boardId}`, { state: { boardId, ...userInformation } });
   };
 
   return (
