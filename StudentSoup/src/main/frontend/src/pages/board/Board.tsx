@@ -12,7 +12,7 @@ import { type BoardDepartmentType, type BoardDataType } from '../../interfaces/B
 
 const Board = () => {
   const [category, setCategory] = useState<string>('ALL');
-  const [schoolName, setSchoolName] = useState<string>('');
+  const [boardName, setBoardName] = useState<string>('');
 
   const [bestBoardItems, setBestBoardItems] = useState<BoardDataType[]>([]);
   const [hotBoardItems, setHotBoardItems] = useState<BoardDataType[]>([]);
@@ -39,9 +39,11 @@ const Board = () => {
   });
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectDepartment = parseInt(e.target.value);
+    const selectDepartment = parseInt(e.target.id);
+    const selectBoardName = e.target.value;
 
     setDepartmentId(selectDepartment);
+    setBoardName(selectBoardName);
   };
 
   const handleClickCategory = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -98,7 +100,7 @@ const Board = () => {
 
   useEffect(() => {
     handleSearchButton(departmentId, selected, searched, sorted);
-  }, [currentPage, category, schoolName, departmentId, sorted]);
+  }, [currentPage, category, boardName, departmentId, sorted]);
 
   useEffect(() => {
     if (localStorage.getItem('access-token') === null) {
@@ -108,7 +110,7 @@ const Board = () => {
         title: '로그인이 필요한 서비스입니다.',
       });
     } else {
-      setSchoolName(userInformation.schoolName);
+      setBoardName(userInformation.schoolName);
 
       getDepartmentBoards(userInformation.schoolId).then(res => {
         setDepartmentOption(res.data);
@@ -121,19 +123,23 @@ const Board = () => {
       <div className="board-top-div">
         <div className="board-top-text-div">
           <div className="board-school-name">
-            <span>{schoolName} 게시판</span>
+            <span>{boardName} 게시판</span>
           </div>
           <div className='className="board-mobile-select-div"'>
             <select
               name="boardCategory"
-              defaultValue=""
+              defaultValue={departmentId === null ? '' : departmentId.toString()}
               className="board-select-category"
               onChange={handleChangeOption}
             >
               <option value="">전체게시판</option>
               {departmentOption?.map((department: BoardDepartmentType) => {
                 return (
-                  <option key={department.departmentId} value={department.departmentId}>
+                  <option
+                    key={department.departmentId}
+                    id={department.departmentId.toString()}
+                    value={department.departmentName}
+                  >
                     {department.departmentName}
                   </option>
                 );
