@@ -35,6 +35,7 @@ const MobileBoard = (props: BoardPropsType) => {
               key={post.boardId}
               onClick={handleClickDetail}
               className="board-table-div authentication-post"
+              onClick={handleClickDetail}
             >
               <div
                 id={post.boardId.toString()}
