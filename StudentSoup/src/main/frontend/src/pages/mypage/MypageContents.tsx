@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { DesktopHeader, MobileHeader, Mobile } from '../../mediaQuery';
 import './mypageContents.scss';
 import MyPagination from './components/MyPagination';
-import type { UserInfoType } from './data/MypageUserInfo';
+import { detailCount, preViewBoard, preViewReply } from 'apis/api/MyPageAPI';
 import {
   type DetailCountResponse,
   type PreViewBoardResponse,
@@ -59,9 +59,6 @@ const MypageContents = (props: UserInfoType) => {
         });
     }
   }, [currentPage, replycurrentPage]);
-  const handleClickDetail = (e: any) => {
-    e.stopPropagation();
-    const value = e.target.id;
 
   const handleClickDetail = (e: any) => {
     e.stopPropagation();

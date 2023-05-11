@@ -1,11 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
-import {
-  type BoardDataType,
-  type BoardPropsType,
-  type userInformationType,
-} from '../../../interfaces/BoardTypes';
+import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
 
 const PCBoard = (props: BoardPropsType) => {
