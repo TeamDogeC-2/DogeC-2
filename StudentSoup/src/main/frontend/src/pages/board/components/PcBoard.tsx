@@ -7,10 +7,11 @@ import {
   type userInformationType,
 } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
+import { type userInformationType } from 'interfaces/UserTypes';
 
 interface State {
   boardId: string;
-  userInfomation: any;
+  userInfomation: userInformationType;
 }
 
 const PCBoard = (props: BoardPropsType) => {

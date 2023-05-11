@@ -1,9 +1,4 @@
-import MainNavbar from '../common/MainNavbar';
-import './boardWrite.scss';
-import Circle_human from 'assets/images/circle_human.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
+import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import ReactQuill from 'react-quill';
 import type Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
@@ -255,7 +250,6 @@ const BoardWrite = () => {
       }
     }
   };
-
   return (
     <>
       <DesktopHeader>
@@ -275,7 +269,6 @@ const BoardWrite = () => {
                   <option value="">
                     {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
                   </option>
-
                   {departments.map(department => (
                     <option key={department.departmentId} value={department.departmentId}>
                       {department.departmentName}
@@ -543,7 +536,8 @@ const BoardWrite = () => {
                 className="board-write-mobile-textarea"
                 ref={quillRef}
               />
-              <div className="board-write-mobile-add-img-div">
+              <div className="board-write-tablet-add-img-div">
+                {currentLength}/{maxLength} 글자
                 <div className="board-write-mobile-add-img-div-top"></div>
               </div>
             </div>
