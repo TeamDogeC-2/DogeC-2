@@ -1,6 +1,5 @@
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import ReactQuill from 'react-quill';
-import type Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import {
   WriteDepartmentData,
@@ -9,7 +8,7 @@ import {
   GetUploadImgURL,
   GetBoardEditData,
   BoardEdited,
-} from './data/BoardWriteData';
+} from 'apis/api/BoardWriteAPI';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 

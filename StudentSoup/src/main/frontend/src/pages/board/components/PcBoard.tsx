@@ -7,12 +7,6 @@ import {
   type userInformationType,
 } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
-import { type userInformationType } from 'interfaces/UserTypes';
-
-interface State {
-  boardId: string;
-  userInfomation: userInformationType;
-}
 
 const PCBoard = (props: BoardPropsType) => {
   const {
@@ -22,7 +16,7 @@ const PCBoard = (props: BoardPropsType) => {
     hotBoardItems,
     currentPosts,
     setSorted,
-    userInfomation,
+    userInformation,
   } = props;
 
   const handleClickSorted = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -38,9 +32,9 @@ const PCBoard = (props: BoardPropsType) => {
 
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
-    const value = e.target.id;
-    const propsState: State = { boardId: value, userInfomation };
-    navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
+    const boardId = e.target.id;
+
+    navigate(`/board/detail/${boardId}`, { state: { ...userInformation } });
   };
 
   return (

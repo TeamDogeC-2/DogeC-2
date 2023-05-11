@@ -190,7 +190,7 @@ const Board = () => {
               hotBoardItems={hotBoardItems}
               currentPosts={currentPosts}
               setSorted={setSorted}
-              userInfomation={userInformation}
+              userInformation={userInformation}
             />
           </Desktop>
           <Mobile>
@@ -200,7 +200,7 @@ const Board = () => {
               bestBoardItems={bestBoardItems}
               hotBoardItems={hotBoardItems}
               currentPosts={currentPosts}
-              userInfomation={userInformation}
+              userInformation={userInformation}
             />
           </Mobile>
         </div>

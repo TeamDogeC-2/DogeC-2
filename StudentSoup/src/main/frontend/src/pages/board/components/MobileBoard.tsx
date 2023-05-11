@@ -4,23 +4,17 @@ import { faFire } from '@fortawesome/free-solid-svg-icons';
 import { type BoardDataType, type BoardPropsType } from '../../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
 
-interface State {
-  boardId: string;
-  userInfomation: any;
-}
-
 const MobileBoard = (props: BoardPropsType) => {
-  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, userInfomation } =
+  const { currentPage, category, bestBoardItems, hotBoardItems, currentPosts, userInformation } =
     props;
 
   const navigate = useNavigate();
 
   const handleClickDetail = (e: any) => {
     e.stopPropagation();
-    console.log(e.target.id);
-    const value = e.target.id;
-    const propsState: State = { boardId: value, userInfomation };
-    navigate(`/board/detail/${propsState.boardId}`, { state: propsState });
+    const boardId = e.target.id;
+
+    navigate(`/board/detail/${boardId}`, { state: { ...userInformation } });
   };
 
   return (
