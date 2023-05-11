@@ -79,6 +79,10 @@ const BoardDetail = () => {
     }
   });
 
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: state.state.userInformation });
+  };
+
   useEffect(() => {
     axiosInstance
       .get(`/boardReplies/${getBoardId}/${userInfo.memberId}`)
@@ -215,7 +219,7 @@ const BoardDetail = () => {
                   <span>{viewCategory}</span>
                 </div>
                 <div className="board-detail-top-right">
-                  <button className="board-detail-write-div">
+                  <button className="board-detail-write-div" onClick={handleClickPostWriteButton}>
                     <img src={review_white} alt="" />
                     <p>글쓰기</p>
                   </button>
@@ -300,7 +304,10 @@ const BoardDetail = () => {
                   <span>{viewCategory}</span>
                 </div>
                 <div className="board-detail-mobile-top-right">
-                  <button className="board-detail-mobile-write-div">
+                  <button
+                    className="board-detail-mobile-write-div"
+                    onClick={handleClickPostWriteButton}
+                  >
                     <img src={review_white} alt="" />
                     <p>글쓰기</p>
                   </button>
