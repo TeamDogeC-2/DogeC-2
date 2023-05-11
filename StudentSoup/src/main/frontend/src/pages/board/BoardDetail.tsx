@@ -256,7 +256,7 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {nickname === boardNickname && (
+                {userInfo.nickname === boardNickname && (
                   <div className="board-detail-bottom-function">
                     <span className="board-detail-bottom-modify">수정</span>
                     <span onClick={handleBoardDelete} className="board-detail-bottom-report">
@@ -344,7 +344,7 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {nickname === boardNickname && (
+                {userInfo.nickname === boardNickname && (
                   <div className="board-detail-mobile-bottom-function">
                     <span className="board-detail-mobile-bottom-modify">수정</span>
                     <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">

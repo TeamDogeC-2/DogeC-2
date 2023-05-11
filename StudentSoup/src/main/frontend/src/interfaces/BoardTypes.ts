@@ -58,7 +58,7 @@ export interface BoardPropsType {
   hotBoardItems: BoardDataType[];
   currentPosts: BoardDataType[];
   setSorted?: React.Dispatch<React.SetStateAction<number>>;
-  userInfomation: any;
+  userInfomation: userInformationType[];
 }
 
 export interface BoardSearchType {
