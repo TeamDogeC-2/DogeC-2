@@ -28,13 +28,13 @@ const BoardDetail = () => {
   const [likeCount, setLikeCount] = useState<number>();
   const state = useLocation();
   const navigate = useNavigate();
-
   const [boardReviewList, setBoardReviewList] = useState<any>([]);
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
 
   const [replyContent, setReplyContent] = useState<string>();
-  const getBoardId = Number(state.state.boardId);
-  const userInfo = state.state.userInfomation;
+
+  const userInfo = state.state;
+  const getBoardId = Number(userInfo.boardId);
 
   const purifyBoardContent = DOMPurify.sanitize(boardContent);
 
@@ -80,7 +80,7 @@ const BoardDetail = () => {
   });
 
   const handleClickPostWriteButton = () => {
-    navigate('/board/write', { state: state.state.userInformation });
+    navigate('/board/write', { state: { ...userInfo } });
   };
 
   useEffect(() => {
@@ -260,7 +260,7 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {userInfo.nickname === boardNickname && (
+                {userInfo && userInfo.nickname === boardNickname && (
                   <div className="board-detail-bottom-function">
                     <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
                       수정
@@ -353,7 +353,7 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {userInfo.nickname === boardNickname && (
+                {userInfo && userInfo.nickname === boardNickname && (
                   <div className="board-detail-mobile-bottom-function">
                     <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
                       수정

@@ -1,3 +1,4 @@
+import './boardWrite.scss';
 import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -37,7 +38,7 @@ const BoardWrite = () => {
   useEffect(() => {
     if (userInformation.getBoardId) {
       isSetEdit(true);
-      GetBoardEditData(userInformation.getBoardId, userInformation.userInfo.memberId).then(res => {
+      GetBoardEditData(userInformation.getBoardId, userInformation.memberId).then(res => {
         setTitle(res.title);
         setContent(res.content);
         const strippedInitialContent = res.content.replace(/<(?:.|\n)*?>/gm, '');
@@ -45,10 +46,7 @@ const BoardWrite = () => {
         setSelectedCategoryKey(res.boardCategory);
         setSelectedDepartmentId(res.departmentId);
       });
-      WriteDepartmentData(
-        userInformation.userInfo.memberId,
-        userInformation.userInfo.schoolId,
-      ).then(res => {
+      WriteDepartmentData(userInformation.memberId, userInformation.schoolId).then(res => {
         setDepartments(res.departments);
         setCategories(res.category);
       });
@@ -98,7 +96,7 @@ const BoardWrite = () => {
     if (isEdit) {
       BoardEdited(
         userInformation.getBoardId,
-        userInformation.userInfo.memberId,
+        userInformation.memberId,
         title,
         selectedCategoryKey,
         content,
@@ -107,7 +105,7 @@ const BoardWrite = () => {
       )
         .then(res => {
           alert('성공적으로 수정하였습니다.');
-          navigate('/board', { state: userInformation.userInfo });
+          navigate('/board', { state: userInformation });
           isSetEdit(false);
           setSelectedCategoryKey('');
           setSelectedDepartmentId(0);
@@ -157,7 +155,7 @@ const BoardWrite = () => {
 
         const memberId =
           userInformation.memberId === undefined
-            ? userInformation.userInfo?.memberId
+            ? userInformation?.memberId
             : userInformation.memberId;
         try {
           await UploadImgURL(memberId, file);
@@ -203,7 +201,7 @@ const BoardWrite = () => {
 
       const handlePopState = (event: PopStateEvent) => {
         if (window.confirm('저장하지 않고 나가시겠습니까?')) {
-          navigate('/board', { state: userInformation.userInfo });
+          navigate('/board', { state: userInformation });
           event.preventDefault();
         }
       };
@@ -241,7 +239,7 @@ const BoardWrite = () => {
   const handleCancel = () => {
     if (isEdit) {
       if (window.confirm('저장하지 않고 나가시겠습니까?')) {
-        navigate('/board', { state: userInformation.userInfo });
+        navigate('/board', { state: userInformation });
       }
     } else {
       if (window.confirm('저장하지 않고 나가시겠습니까?')) {
@@ -266,7 +264,7 @@ const BoardWrite = () => {
                   onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                 >
                   <option value="">
-                    {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
+                    {isEdit ? userInformation.schoolName : userInformation.schoolName}
                   </option>
                   {departments.map(department => (
                     <option key={department.departmentId} value={department.departmentId}>
@@ -365,7 +363,7 @@ const BoardWrite = () => {
                     onChange={e => setSelectedDepartmentId(Number(e.target.value))}
                   >
                     <option value="">
-                      {isEdit ? userInformation.userInfo.schoolName : userInformation.schoolName}
+                      {isEdit ? userInformation.schoolName : userInformation.schoolName}
                     </option>
                     {departments.map(department => (
                       <option key={department.departmentId} value={department.departmentId}>
