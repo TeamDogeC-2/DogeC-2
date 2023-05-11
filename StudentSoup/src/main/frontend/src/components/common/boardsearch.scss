@@ -52,6 +52,7 @@
 }
 
 .board-write-button {
+  @include flex-container(row, space-around, center);
   @include font-container(1rem, 1.375rem, white);
   @include activate-button(98px);
 
@@ -118,7 +119,9 @@
 .board-mobile-button-wrap {
   @include flex-container(row, flex-end, center);
   width: 90%;
+
   .board-mobile-write-button {
+    @include flex-container(row, space-around, center);
     @include font-container(0.75rem, 1.375rem, white);
     @include activate-button(100%);
 
