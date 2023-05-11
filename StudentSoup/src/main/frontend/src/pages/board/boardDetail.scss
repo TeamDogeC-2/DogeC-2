@@ -8,6 +8,8 @@ $text-sub-color: #a8a8a8;
   margin: 0 auto;
   padding-top: 4.8rem;
   max-width: 76.8rem;
+  height: auto;
+  min-height: 100vh;
 
   .board-detail-top-div {
     display: flex;
@@ -245,6 +247,8 @@ $text-sub-color: #a8a8a8;
   margin: 0 auto;
   padding-top: 4.8rem;
   max-width: 76.8rem;
+  height: auto;
+  min-height: 100vh;
 
   .board-detail-mobile-top-div {
     display: flex;
