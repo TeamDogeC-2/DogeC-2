@@ -1,13 +1,13 @@
 import MainNavbar from './MainNavbar';
 import './noticeandservicedetail.scss';
-import left from '../../img/left.svg';
-import review_white from '../../img/review_white.svg';
-import { Desktop, Mobile } from '../../mediaQuery';
+import left from 'assets/images/left.svg';
+import review_white from 'assets/images/review_white.svg';
+import { Desktop, Mobile } from 'mediaQuery';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import BoardReview from '../board/BoardReview';
+import BoardReview from '../boards/BoardReview';
 import Swal from 'sweetalert2';
-import { getBoardReplies, postBoardDetail, putBoardReply } from '../../apis/auth/BoardAPI';
+import { getBoardReplies, postBoardDetail, putBoardReply } from 'apis/api/BoardAPI';
 
 const NoticeDetail = () => {
   const [postDetailInformation, setPostDetailInformation] = useState({
@@ -50,6 +50,10 @@ const NoticeDetail = () => {
 
   const handleClickBackButton = () => {
     navigate(-1);
+  };
+
+  const handleClickPostWriteButton = () => {
+    navigate('/board/write', { state: { ...location.state } });
   };
 
   const handleReplyContent = (e: any) => {
@@ -99,7 +103,6 @@ const NoticeDetail = () => {
     <>
       <Desktop>
         <div>
-          <MainNavbar />
           <div className="board-notice-service-detail-main">
             <div className="board-notice-service-detail-top-div">
               <div className="board-notice-service-detail-top">
@@ -109,7 +112,10 @@ const NoticeDetail = () => {
                 </div>
                 {boardCategory[postDetailInformation.boardCategory] === '고객센터' && isLogin ? (
                   <div className="board-notice-service-detail-top-right">
-                    <button className="board-notice-service-detail-write-div">
+                    <button
+                      className="board-notice-service-detail-write-div"
+                      onClick={handleClickPostWriteButton}
+                    >
                       <img src={review_white} alt="" />
                       <p>글쓰기</p>
                     </button>
@@ -117,7 +123,10 @@ const NoticeDetail = () => {
                 ) : (
                   location.state.memberClassification === 'ADMIN' && (
                     <div className="board-notice-service-detail-top-right">
-                      <button className="board-notice-service-detail-write-div">
+                      <button
+                        className="board-notice-service-detail-write-div"
+                        onClick={handleClickPostWriteButton}
+                      >
                         <img src={review_white} alt="" />
                         <p>글쓰기</p>
                       </button>
@@ -191,7 +200,10 @@ const NoticeDetail = () => {
                 </div>
                 {boardCategory[postDetailInformation.boardCategory] === '고객센터' && isLogin ? (
                   <div className="board-notice-service-detail-mobile-top-right">
-                    <button className="board-notice-service-detail-mobile-write-div">
+                    <button
+                      className="board-notice-service-detail-mobile-write-div"
+                      onClick={handleClickPostWriteButton}
+                    >
                       <img src={review_white} alt="" />
                       <p>글쓰기</p>
                     </button>
@@ -199,7 +211,10 @@ const NoticeDetail = () => {
                 ) : (
                   location.state.memberClassification === 'ADMIN' && (
                     <div className="board-notice-service-detail-mobile-top-right">
-                      <button className="board-notice-service-detail-mobile-write-div">
+                      <button
+                        className="board-notice-service-detail-mobile-write-div"
+                        onClick={handleClickPostWriteButton}
+                      >
                         <img src={review_white} alt="" />
                         <p>글쓰기</p>
                       </button>

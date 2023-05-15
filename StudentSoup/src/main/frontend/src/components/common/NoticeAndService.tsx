@@ -1,6 +1,5 @@
 import React from 'react';
 import Background from './Background';
-import MainNavbar from './MainNavbar';
 import Paginate from './Paginate';
 import PostSearch from './PostSearch';
 import Table from './Table';
@@ -20,7 +19,6 @@ const NoticeAndService = ({
 }: NoticeAndServiceProps) => {
   return (
     <Background>
-      <MainNavbar />
       <div className="notice-service-container">
         <h1>{pageTitle}</h1>
         <div className="notice-service-table-wrap">

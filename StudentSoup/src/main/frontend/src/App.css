@@ -7,7 +7,7 @@
 
 body {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.4)),
-    url('./img/mainlogo.jpg');
+    url('./assets/images/mainlogo.jpg');
   background-repeat: no-repeat;
   background-position: top 10% center;
   background-size: cover;

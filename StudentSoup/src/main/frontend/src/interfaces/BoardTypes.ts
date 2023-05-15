@@ -1,16 +1,4 @@
-export interface userInformationType {
-  departmentId: number | null;
-  departmentName: string;
-  email: string;
-  fileName: string | null;
-  id: string;
-  memberClassification: string;
-  memberId: number;
-  nickname: string;
-  registrationDate: string;
-  schoolId: number;
-  schoolName: string;
-}
+import { type userInformationType } from './UserTypes';
 
 export interface BoardDataType {
   [key: string]: string | number | undefined;
@@ -70,7 +58,7 @@ export interface BoardPropsType {
   hotBoardItems: BoardDataType[];
   currentPosts: BoardDataType[];
   setSorted?: React.Dispatch<React.SetStateAction<number>>;
-  userInfomation: any;
+  userInformation: userInformationType[];
 }
 
 export interface BoardSearchType {

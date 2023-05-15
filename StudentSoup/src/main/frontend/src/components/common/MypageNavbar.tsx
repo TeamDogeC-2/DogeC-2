@@ -1,13 +1,11 @@
 import './mypageNavbar.scss';
-import { Link, type NavigateFunction, useNavigate } from 'react-router-dom';
-import { DesktopHeader, Mobile, MobileHeader } from '../../mediaQuery';
-import mainLogo from '../../img/mainLogo.svg';
-import Circle_human from '../../img/circle_human.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { DesktopHeader, Mobile, MobileHeader } from 'mediaQuery';
+import mainLogo from 'assets/images/mainLogo.svg';
+import Circle_human from 'assets/images/circle_human.png';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MypageUserInfo } from '../mypage/data/MypageUserInfo';
 import Swal from 'sweetalert2';
-import { type userInformationType } from '../../interfaces/BoardTypes';
 import {
   faAngleRight,
   faBars,
@@ -22,6 +20,8 @@ import {
   faCalendar,
   faHouse,
 } from '@fortawesome/free-solid-svg-icons';
+import { getUserInformation } from 'apis/api/UserAPI';
+import { type userInformationType } from 'interfaces/UserTypes';
 interface MypageNavbarProps {
   selectPage: string;
   updateSelectPage: (page: string) => void;
@@ -51,6 +51,7 @@ const MypageNavbar = ({
       isSidebarOpen(!sidebarOpen);
     }
   };
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'bottom',
@@ -83,16 +84,19 @@ const MypageNavbar = ({
       }
     });
   };
+
   const onCheckClickOutside = (e: MouseEvent) => {
     if (click && searchRef.current && !searchRef.current.contains(e.target as Node)) {
       isClick(!click);
     }
   };
+
   const onCheckSidebarClickOutSide = (e: MouseEvent) => {
     if (sidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
       isSidebarOpen(!sidebarOpen);
     }
   };
+
   useEffect(() => {
     document.addEventListener('mousedown', onCheckSidebarClickOutSide);
     document.addEventListener('mousedown', onCheckClickOutside);
@@ -101,6 +105,7 @@ const MypageNavbar = ({
       document.removeEventListener('mousedown', onCheckClickOutside);
     };
   }, [click, sidebarOpen]);
+
   const toggleSidebar = (e: any) => {
     e.stopPropagation();
     isSidebarOpen(!sidebarOpen);
@@ -108,6 +113,7 @@ const MypageNavbar = ({
       isClick(!click);
     }
   };
+
   const handleItemClick = (page: string) => {
     updateSelectPage(page);
     if (page === 'scheduler' && selectPage !== 'scheduler') {
@@ -116,11 +122,13 @@ const MypageNavbar = ({
       navigate('/mypage');
     }
   };
+
   useEffect(() => {
     setUserImg(userImg);
   }, [userImg]);
+
   useEffect(() => {
-    MypageUserInfo()
+    getUserInformation()
       .then(res => {
         if (res.data.memberId) {
           isLogin(true);

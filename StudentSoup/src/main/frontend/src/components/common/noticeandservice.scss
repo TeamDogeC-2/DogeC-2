@@ -1,6 +1,6 @@
-@import './../../assets/scss/abstracts/_variables_color';
-@import './../../assets/scss/abstracts/_mixins';
-@import './../../assets/scss/components/buttons';
+@import 'sass/abstracts/_variables_color.scss';
+@import 'sass/abstracts/_mixins.scss';
+@import 'sass/components/_buttons.scss';
 
 .notice-service-container {
   @include flex-container(column, flex-start, center);

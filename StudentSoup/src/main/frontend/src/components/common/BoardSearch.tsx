@@ -3,6 +3,7 @@ import { Desktop, Mobile } from '../../mediaQuery';
 import './boardsearch.scss';
 import { type BoardSearchType } from '../../interfaces/BoardTypes';
 import { useNavigate } from 'react-router-dom';
+import review_white from 'assets/images/review_white.svg';
 
 const BoardSearch = ({
   handleSearchButton,
@@ -62,7 +63,8 @@ const BoardSearch = ({
             </button>
           </div>
           <button className="board-write-button" onClick={handleClickPostWriteButton}>
-            글쓰기
+            <img src={review_white} alt="" />
+            <p>글쓰기</p>
           </button>
         </div>
       </Desktop>
@@ -90,7 +92,8 @@ const BoardSearch = ({
           </div>
           <div className="board-mobile-button-wrap">
             <button className="board-mobile-write-button" onClick={handleClickPostWriteButton}>
-              글쓰기
+              <img src={review_white} alt="" />
+              <p>글쓰기</p>
             </button>
           </div>
         </>
