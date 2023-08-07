@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -26,10 +28,18 @@ public class LoginController {
     private final MemberLoginService memberLoginService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String>> login(@RequestBody MemberLoginRequestDto dto, HttpServletRequest request){
-
+    public ResponseEntity<Map<String,String>> login(@RequestBody MemberLoginRequestDto dto, HttpServletResponse response){
         Map<String,String> token = memberLoginService.login(dto.getId(), dto.getPwd());
-        HttpSession session = request.getSession();
+        Cookie accessTokenCookie = new Cookie("accessToken", token.get("accessToken"));
+        Cookie refreshTokenCookie = new Cookie("refreshToken", token.get("refreshToken"));
+        accessTokenCookie.setMaxAge(60 * 60);
+        refreshTokenCookie.setMaxAge(60 * 60 * 24 * 7);
+
+        accessTokenCookie.setPath("/");
+        refreshTokenCookie.setPath("/");
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
+
         return ResponseEntity.ok().body(token);
     }
 
