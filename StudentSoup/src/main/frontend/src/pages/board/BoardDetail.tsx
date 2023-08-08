@@ -26,8 +26,10 @@ const BoardDetail = () => {
   const [reply, setReply] = useState<number>(0);
   const [like, isLike] = useState<boolean>();
   const [likeCount, setLikeCount] = useState<number>();
+
   const state = useLocation();
   const navigate = useNavigate();
+
   const [boardReviewList, setBoardReviewList] = useState<any>([]);
   const [boardBestReviewList, setBoardBestReviewList] = useState<any>([]);
 
@@ -45,10 +47,11 @@ const BoardDetail = () => {
     timer: 3000,
     timerProgressBar: true,
   });
+  const memberId = userInfo.userInfomation ? userInfo.userInfomation.memberId : userInfo.memberId;
 
   useEffect(() => {
     axiosInstance
-      .post(`/board/detail/${getBoardId}/${userInfo.memberId}`)
+      .post(`/board/detail/${getBoardId}/${memberId}`)
       .then(res => {
         setBoardTitle(res.data.title);
         setBoardContent(res.data.content);
@@ -82,10 +85,9 @@ const BoardDetail = () => {
   const handleClickPostWriteButton = () => {
     navigate('/board/write', { state: { ...userInfo } });
   };
-
   useEffect(() => {
     axiosInstance
-      .get(`/boardReplies/${getBoardId}/${userInfo.memberId}`)
+      .get(`/boardReplies/${getBoardId}/${memberId}`)
       .then(res => {
         setBoardReviewList(res.data.boardReplyList);
         setBoardBestReviewList(res.data.bestReplyList);
@@ -97,7 +99,7 @@ const BoardDetail = () => {
 
   const handleBoardLikeCount = () => {
     axiosInstance
-      .post(`/board/${getBoardId}/${userInfo.memberId}/like`)
+      .post(`/board/${getBoardId}/${memberId}/like`)
       .then(res => {
         setLikeCount(res.data.data.likedCount);
         isLike(res.data.data.like);
@@ -136,7 +138,7 @@ const BoardDetail = () => {
     axiosInstance
       .put('/boardReply', {
         boardId: getBoardId,
-        memberId: userInfo.memberId,
+        memberId,
         content: replyContent,
         level: 0,
         seq: reply,
@@ -167,7 +169,7 @@ const BoardDetail = () => {
     }).then(result => {
       if (result.isConfirmed) {
         axiosInstance
-          .delete(`/board/${getBoardId}/${userInfo.memberId}`)
+          .delete(`/board/${getBoardId}/${memberId}`)
           .then(res => {
             Swal.fire('삭제 성공', '게시글이 삭제되었습니다.', 'success');
             navigate(-1);
@@ -260,16 +262,19 @@ const BoardDetail = () => {
                 <div className="board-detail-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {userInfo && userInfo.nickname === boardNickname && (
-                  <div className="board-detail-bottom-function">
-                    <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
-                      수정
-                    </span>
-                    <span onClick={handleBoardDelete} className="board-detail-bottom-report">
-                      삭제
-                    </span>
-                  </div>
-                )}
+                {userInfo &&
+                  (userInfo.userInfomation
+                    ? userInfo.userInfomation.nickname
+                    : userInfo.nickname) === boardNickname && (
+                    <div className="board-detail-bottom-function">
+                      <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                        수정
+                      </span>
+                      <span onClick={handleBoardDelete} className="board-detail-bottom-report">
+                        삭제
+                      </span>
+                    </div>
+                  )}
               </div>
               <div className="board-detail-bottom-review-write-div">
                 <div className="board-detail-bottom-review-write">
@@ -281,15 +286,22 @@ const BoardDetail = () => {
                   <button onClick={handleSumbitReply}>작성</button>
                 </div>
               </div>
-              {boardBestReviewList?.map((bestReview: any) => (
-                <>
-                  <BoardBestReview bestReview={bestReview} memberId={userInfo.memberId} />
-                </>
+              {boardBestReviewList?.map((bestReview: any, index: number) => (
+                <BoardBestReview
+                  key={`bestReview-${index}`}
+                  bestReview={bestReview}
+                  memberId={userInfo.memberId}
+                />
               ))}
               <BoardReview
+                key={`boardReview-${getBoardId}`}
                 review={boardReviewList}
-                nickname={userInfo.nickname}
-                memberId={userInfo.memberId}
+                nickname={
+                  userInfo.userInfomation ? userInfo.userInfomation.nickname : userInfo.nickname
+                }
+                memberId={
+                  userInfo.userInfomation ? userInfo.userInfomation.memberId : userInfo.memberId
+                }
                 getBoardId={getBoardId}
               />
             </div>
@@ -353,16 +365,19 @@ const BoardDetail = () => {
                 <div className="board-detail-mobile-bottom-review-count">
                   <p>댓글 {boardreviewCount}개</p>
                 </div>
-                {userInfo && userInfo.nickname === boardNickname && (
-                  <div className="board-detail-mobile-bottom-function">
-                    <span onClick={handleBoardEdit} className="board-detail-mobile-bottom-modify">
-                      수정
-                    </span>
-                    <span onClick={handleBoardDelete} className="board-detail-mobile-bottom-report">
-                      삭제
-                    </span>
-                  </div>
-                )}
+                {userInfo &&
+                  (userInfo.userInfomation
+                    ? userInfo.userInfomation.nickname
+                    : userInfo.nickname) === boardNickname && (
+                    <div className="board-detail-bottom-function">
+                      <span onClick={handleBoardEdit} className="board-detail-bottom-modify">
+                        수정
+                      </span>
+                      <span onClick={handleBoardDelete} className="board-detail-bottom-report">
+                        삭제
+                      </span>
+                    </div>
+                  )}
               </div>
               <div className="board-detail-mobile-bottom-review-write-div">
                 <div className="board-detail-mobile-bottom-review-write">
@@ -374,15 +389,22 @@ const BoardDetail = () => {
                   <button onClick={handleSumbitReply}>작성</button>
                 </div>
               </div>
-              {boardBestReviewList?.map((bestReview: any) => (
-                <>
-                  <BoardBestReview bestReview={bestReview} memberId={userInfo.memberId} />
-                </>
+              {boardBestReviewList?.map((bestReview: any, index: number) => (
+                <BoardBestReview
+                  key={`bestReview-${index}`}
+                  bestReview={bestReview}
+                  memberId={userInfo.memberId}
+                />
               ))}
               <BoardReview
+                key={`boardReview-${getBoardId}`}
                 review={boardReviewList}
-                nickname={userInfo.nickname}
-                memberId={userInfo.memberId}
+                nickname={
+                  userInfo.userInfomation ? userInfo.userInfomation.nickname : userInfo.nickname
+                }
+                memberId={
+                  userInfo.userInfomation ? userInfo.userInfomation.memberId : userInfo.memberId
+                }
                 getBoardId={getBoardId}
               />
             </div>

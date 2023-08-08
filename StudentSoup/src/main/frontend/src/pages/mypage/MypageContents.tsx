@@ -109,8 +109,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList?.content?.map(board => (
-                    <tr key={board.boardId}>
+                  {boardList?.content?.map((board, index) => (
+                    <tr key={`board-${board.boardId}-${index}`}>
                       <td
                         id={board.boardId.toString()}
                         onClick={handleClickDetail}
@@ -154,8 +154,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {replyList?.content?.map(reply => (
-                    <tr key={reply.boardId}>
+                  {replyList?.content?.map((reply, index) => (
+                    <tr key={`reply-${reply.boardId}-${index}`}>
                       <td
                         id={reply.boardId.toString()}
                         onClick={handleClickDetail}
@@ -229,8 +229,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList?.content?.map(board => (
-                    <tr key={board.boardId}>
+                  {boardList?.content?.map((board, index) => (
+                    <tr key={`board-${board.boardId}-${index}`}>
                       <td
                         id={board.boardId.toString()}
                         onClick={handleClickDetail}
@@ -274,8 +274,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {replyList?.content?.map(reply => (
-                    <tr key={reply.boardId}>
+                  {replyList?.content?.map((reply, index) => (
+                    <tr key={`reply-${reply.boardId}-${index}`}>
                       <td
                         id={reply.boardId.toString()}
                         onClick={handleClickDetail}
@@ -349,8 +349,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boardList?.content?.map(board => (
-                    <tr key={board.boardId}>
+                  {boardList?.content?.map((board, index) => (
+                    <tr key={`board-${board.boardId}-${index}`}>
                       <td
                         id={board.boardId.toString()}
                         onClick={handleClickDetail}
@@ -394,8 +394,8 @@ const MypageContents = (props: UserInfoType) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {replyList?.content?.map(reply => (
-                    <tr key={reply.boardId}>
+                  {replyList?.content?.map((reply, index) => (
+                    <tr key={`reply-${reply.boardId}-${index}`}>
                       <td
                         id={reply.boardId.toString()}
                         onClick={handleClickDetail}

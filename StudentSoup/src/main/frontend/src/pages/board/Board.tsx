@@ -26,6 +26,7 @@ const Board = () => {
   const [departmentOption, setDepartmentOption] = useState<BoardDepartmentType[]>();
 
   const [departmentId, setDepartmentId] = useState<number | null>(null);
+
   const navigate = useNavigate();
   const location = useLocation();
   const userInformation = { ...location.state };
@@ -39,8 +40,8 @@ const Board = () => {
   });
 
   const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectDepartment = parseInt(e.target.id);
-    const selectBoardName = e.target.value;
+    const selectDepartment = Number(e.target.value);
+    const selectBoardName = e.target.options[e.target.selectedIndex].text;
 
     setDepartmentId(selectDepartment);
     setBoardName(selectBoardName);
@@ -78,7 +79,6 @@ const Board = () => {
           if (category === 'ALL') {
             setBestBoardItems(res.data.bestBoards);
             setHotBoardItems(res.data.hotBoards);
-
             setPostPerPage(res.data.boards.pageable.pageSize);
             setCount(res.data.boards.totalElements);
             setCurrentPosts(res.data.boards.content);
@@ -132,14 +132,10 @@ const Board = () => {
               className="board-select-category"
               onChange={handleChangeOption}
             >
-              <option value="">전체게시판</option>
+              <option value="null">전체게시판</option>
               {departmentOption?.map((department: BoardDepartmentType) => {
                 return (
-                  <option
-                    key={department.departmentId}
-                    id={department.departmentId.toString()}
-                    value={department.departmentName}
-                  >
+                  <option key={department.departmentId} value={department.departmentId}>
                     {department.departmentName}
                   </option>
                 );
