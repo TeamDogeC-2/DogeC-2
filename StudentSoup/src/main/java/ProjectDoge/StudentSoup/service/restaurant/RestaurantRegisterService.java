@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurant;
 
+import ProjectDoge.StudentSoup.commonmodule.FcmService;
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
@@ -28,6 +29,8 @@ public class RestaurantRegisterService {
 
     private final RestaurantRepository restaurantRepository;
 
+    private  final FcmService fcmService;
+
     @Transactional(rollbackFor = Exception.class)
     public Long join(RestaurantFormDto dto) {
         log.info("음식점 생성 메서드가 실행되었습니다.");
@@ -38,6 +41,7 @@ public class RestaurantRegisterService {
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantImage(restaurant, uploadFileDtoList);
         restaurantRepository.save(restaurant);
+        fcmService.sendRestaurantCreationNotification(restaurant.getId(),restaurant.getName(),school.getSchoolName());
         log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance());
         return restaurant.getId();
     }
