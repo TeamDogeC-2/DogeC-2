@@ -20,6 +20,7 @@ import SignUpProcess2 from 'pages/signup/SignUpProcess2';
 import SignUpProcess3 from 'pages/signup/SignUpProcess3';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Adminpage from 'pages/admin/Adminpage';
 
 const Router = () => {
   return (
@@ -49,6 +50,7 @@ const Router = () => {
         </Route>
         <Route path="/mypage" element={<MypageMain />} />
         <Route path="/mypage/scheduler" element={<MypageScheduler />} />
+        <Route path="/admin" element={<Adminpage />} />
       </Route>
     </Routes>
   );
