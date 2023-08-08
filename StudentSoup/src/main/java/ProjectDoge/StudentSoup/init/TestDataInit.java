@@ -148,13 +148,13 @@ public class TestDataInit {
         MemberFormBDto dto7 = createMemberFormDto("admin", "admin123!", "운영자", "admin@naver.com",
                 GenderType.MAN, schoolId2, departments2.get(1).getId());
 
-        memberRegisterService.join(dto1);
-        memberRegisterService.join(dto2);
-        memberRegisterService.join(dto3);
-        memberRegisterService.join(dto4);
-        memberRegisterService.join(dto5);
-        memberRegisterService.join(dto6);
-        memberRegisterService.join(dto7);
+        memberRegisterService.join(dto1,"a",false);
+        memberRegisterService.join(dto2,"a",false);
+        memberRegisterService.join(dto3,"a",false);
+        memberRegisterService.join(dto4,"a",false);
+        memberRegisterService.join(dto5,"a",false);
+        memberRegisterService.join(dto6,"a",false);
+        memberRegisterService.join(dto7,"a",false);
 
         memberRepository.findById("admin").ifPresent(memberUpdateService::updateMemberClassification);
     }
@@ -366,14 +366,14 @@ public class TestDataInit {
             }
         }
 
-        BoardReply reply1 = boardReplyFindService.findOne(292L);
-        reply1.setLikedCount(10);
+//        BoardReply reply1 = boardReplyFindService.findOne(292L);
+//        reply1.setLikedCount(10);
 
-        BoardReply reply2 = boardReplyFindService.findOne(295L);
-        reply2.setLikedCount(10);
-
-        boardReplyRepository.save(reply1);
-        boardReplyRepository.save(reply2);
+//        BoardReply reply2 = boardReplyFindService.findOne(295L);
+//        reply2.setLikedCount(10);
+//
+//        boardReplyRepository.save(reply1);
+//        boardReplyRepository.save(reply2);
 
     }
 
