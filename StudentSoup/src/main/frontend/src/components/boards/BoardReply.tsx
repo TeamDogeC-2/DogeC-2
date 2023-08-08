@@ -17,32 +17,36 @@ const BoardReply = ({ reply, memberId, nickname, getBoardId }: Props) => {
     <>
       <Desktop>
         {reply.map((reply: any) => (
-          <>
-            <div id={reply.boardReplyId} className="board-detail-bottom-reply-div">
-              <BoardReplyFunction
-                reply={reply}
-                memberId={memberId}
-                nickname={nickname}
-                getBoardId={getBoardId}
-              />
-              <div className="board-detail-underline" />
-            </div>
-          </>
+          <div
+            key={reply.boardReplyId}
+            id={reply.boardReplyId}
+            className="board-detail-bottom-reply-div"
+          >
+            <BoardReplyFunction
+              reply={reply}
+              memberId={memberId}
+              nickname={nickname}
+              getBoardId={getBoardId}
+            />
+            <div className="board-detail-underline" />
+          </div>
         ))}
       </Desktop>
       <Mobile>
         {reply.map((reply: any) => (
-          <>
-            <div id={reply.boardReplyId} className="board-detail-mobile-bottom-reply-div">
-              <BoardReplyFunction
-                reply={reply}
-                memberId={memberId}
-                nickname={nickname}
-                getBoardId={getBoardId}
-              />
-              <div className="board-detail-mobile-underline" />
-            </div>
-          </>
+          <div
+            key={reply.boardReplyId}
+            id={reply.boardReplyId}
+            className="board-detail-mobile-bottom-reply-div"
+          >
+            <BoardReplyFunction
+              reply={reply}
+              memberId={memberId}
+              nickname={nickname}
+              getBoardId={getBoardId}
+            />
+            <div className="board-detail-mobile-underline" />
+          </div>
         ))}
       </Mobile>
     </>
