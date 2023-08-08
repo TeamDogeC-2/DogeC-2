@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import './restaurantMenu.scss';
 import under_arrow from 'assets/images/under_arrow.svg';
 import up_arrow from 'assets/images/up_arrow.svg';
@@ -75,7 +75,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu1 && (
             <div className="restaurant-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '주메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -86,13 +86,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         className="restaurant-detail-bottom-menu-img-div"
                         id={menu.restaurantMenuId}
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
@@ -103,7 +109,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -123,7 +129,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu2 && (
             <div className="restaurant-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '사이드메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -134,13 +140,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
@@ -151,7 +163,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -171,7 +183,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu3 && (
             <div className="restaurant-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '음료 및 주류' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -182,13 +194,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-detail-bottom-menu-text-div">
@@ -199,7 +217,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -227,7 +245,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu1 && (
             <div className="restaurant-tablet-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '주메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -238,13 +256,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-tablet-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-tablet-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
@@ -255,7 +279,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -279,7 +303,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu2 && (
             <div className="restaurant-tablet-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '사이드메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -290,13 +314,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-tablet-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-tablet-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
@@ -307,7 +337,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -331,7 +361,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu3 && (
             <div className="restaurant-tablet-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '음료 및 주류' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -342,13 +372,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-tablet-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-tablet-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-tablet-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-tablet-detail-bottom-menu-text-div">
@@ -359,7 +395,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -387,7 +423,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu1 && (
             <div className="restaurant-mobile-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '주메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -398,13 +434,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-mobile-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-mobile-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
@@ -415,7 +457,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -439,7 +481,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu2 && (
             <div className="restaurant-mobile-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '사이드메뉴' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -450,13 +492,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-mobile-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-mobile-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
@@ -467,7 +515,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
@@ -491,7 +539,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
           {clickMenu3 && (
             <div className="restaurant-mobile-detail-bottom-menu-list">
               {menuList?.map((menu: any) => (
-                <>
+                <Fragment key={menu.restaurantMenuId}>
                   {menu.restaurantMenuCategory === '음료 및 주류' && (
                     <div
                       key={menu.restaurantMenuId}
@@ -502,13 +550,19 @@ const RestaurantMenu = ({ memberId }: Props) => {
                         id={menu.restaurantMenuId}
                         className="restaurant-mobile-detail-bottom-menu-img-div"
                       >
-                        <img
-                          src={`/image/${menu.fileName}`}
-                          key={menu.fileName}
-                          onError={handleImgError}
-                          alt=""
-                          className="restaurant-mobile-detail-bottom-menu-img"
-                        />
+                        {menu.fileName ? (
+                          <img
+                            src={`/image/${menu.fileName}`}
+                            key={menu.fileName}
+                            alt=""
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          />
+                        ) : (
+                          <img
+                            src={Circle_human}
+                            className="restaurant-mobile-detail-bottom-menu-img"
+                          ></img>
+                        )}
                         <RestaurantHeartInfo {...restaurantHeart} menu={menu} />
                       </div>
                       <div className="restaurant-mobile-detail-bottom-menu-text-div">
@@ -519,7 +573,7 @@ const RestaurantMenu = ({ memberId }: Props) => {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               ))}
             </div>
           )}
