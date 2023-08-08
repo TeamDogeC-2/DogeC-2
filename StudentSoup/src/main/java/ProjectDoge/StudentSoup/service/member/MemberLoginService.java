@@ -45,7 +45,7 @@ public class MemberLoginService{
         log.info("로그인 서비스 로직 실행");
         Member member = validationIdPwd(id, pwd);
         MemberDto memberDto = new MemberDto();
-        Map<String, String> tokenMap = JwtUtil.creatJwt(id, secretKey, expiredMs, refreshSecretKey, refreshExpireMs);
+        Map<String, String> tokenMap = JwtUtil.creatJwt(id,member.getMemberClassification().toString(), secretKey, expiredMs, refreshSecretKey, refreshExpireMs);
         log.info("로그인이 완료되었습니다. 현재 로그인 된 회원의 아이디[{}], 닉네임[{}]", member.getId(), member.getNickname());
 
         return tokenMap;

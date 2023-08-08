@@ -18,8 +18,16 @@ import java.util.Map;
 public class JwtUtil {
 
     public static String getUserName(String token,String secretKey){
+        log.info("jwt 토큰 복호화 후 이름 가지고 오기 ");
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().get("userName",String.class);
+    }
+
+    public static String getRole(String token,String secretKey){
+        String role = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().get("role",String.class);
+        log.info("role",role);
+        return role;
     }
 
     public static boolean checkExpireDate(String token,String secretKey){
@@ -36,10 +44,11 @@ public class JwtUtil {
     public static boolean isExpired(String token,String secretKey){
        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
-    public static Map<String,String> creatJwt(String userName,String secretKey,Long expiredMs,String refreshKey,Long refreshExpiredMs){
+    public static Map<String,String> creatJwt(String userName,String role,String secretKey,Long expiredMs,String refreshKey,Long refreshExpiredMs){
 
         Map<String,String> token = new HashMap<>();
         Claims claims = Jwts.claims();
+        claims.put("role",role);
         claims.put("userName",userName);
 
         String refreshToken = createRefreshToken(refreshKey, refreshExpiredMs, claims);
