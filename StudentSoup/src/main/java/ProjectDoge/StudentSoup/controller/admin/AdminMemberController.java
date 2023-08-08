@@ -57,8 +57,8 @@ public class AdminMemberController {
     }
 
     @PostMapping("/member/new")
-    public String createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm){
-        memberRegisterService.join(memberForm);
+    public String createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm ,@RequestBody() String token,@RequestBody boolean isNotificationEnabled){
+        memberRegisterService.join(memberForm,token,isNotificationEnabled);
         return "redirect:/admin";
     }
 

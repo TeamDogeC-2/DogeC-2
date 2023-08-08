@@ -95,9 +95,9 @@ public class SignupController {
 
 
     @PostMapping("/signUp/3")
-    public ResponseEntity<ConcurrentHashMap<String, String>> signUp(@RequestBody MemberFormBDto dto){
+    public ResponseEntity<ConcurrentHashMap<String, String>> signUp(@RequestBody MemberFormBDto dto,@RequestBody() String token,@RequestBody boolean isNotificationEnabled){
         log.info("signUp 메소드가 실행되었습니다. schoolId : [{}], departmentId : [{}]", dto.getSchoolId(), dto.getDepartmentId());
-        Long memberId = memberRegisterService.join(dto);
+        Long memberId = memberRegisterService.join(dto,token,isNotificationEnabled);
         Member member = memberFindService.findOne(memberId);
         log.info("member 의 성별 : [{}]", member.getGender());
         ConcurrentHashMap<String, String> result = new ConcurrentHashMap<>();
