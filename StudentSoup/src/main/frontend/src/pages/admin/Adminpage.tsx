@@ -26,7 +26,7 @@ const Adminpage = () => {
     formData.append('restaurantCategory', category);
     formData.append('startTime', startTime);
     formData.append('endTime', endTime);
-    formData.append('schoolId', '1');
+    formData.append('schoolId', schoolId);
     formData.append('coordinate', coordinate);
     formData.append('tel', tel);
     formData.append('tag', tag);

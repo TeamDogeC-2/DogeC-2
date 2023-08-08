@@ -1,6 +1,6 @@
 import './restaurantReview.scss';
 import review_white from 'assets/images/review_white.svg';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Circle_human from 'assets/images/circle_human.png';
 import RestaurantReviewWrite from './RestaurantReviewWrite';
 import { Desktop, Mobile } from 'mediaQuery';
@@ -78,7 +78,6 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId
           <div className="restaurant-detail-bottom-review-info">
             <div className="restaurant-detail-bottom-review-info-left">
               <p>{name}</p>
-              <div>{starLiked}</div>
               <span>총 {reviewCount}명이 리뷰를 작성했어요</span>
             </div>
             <button
@@ -115,15 +114,22 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId
             </div>
           </div>
           {reviewList.map((review: any, idx: any) => (
-            <>
+            <Fragment key={review.restaurantReviewId}>
               <div className="restaurant-detail-bottom-review-list-div">
-                <img
-                  key={review.restaurantReviewId}
-                  src={`/image/${review.memberProfileImageName}`}
-                  alt=""
-                  onError={handleImgError}
-                  className="restaurant-detail-bottom-review-list-profile"
-                />
+                {review.memberProfileImageName ? (
+                  <img
+                    key={review.restaurantReviewId}
+                    src={`/image/${review.memberProfileImageName}`}
+                    alt=""
+                    onError={handleImgError}
+                    className="restaurant-detail-bottom-review-list-profile"
+                  />
+                ) : (
+                  <img
+                    src={Circle_human}
+                    className="restaurant-detail-bottom-review-list-profile"
+                  ></img>
+                )}
                 <div className="restaurant-detail-bottom-review-list-item">
                   <div className="restaurant-detail-bottom-review-list-item-top">
                     <span className="restaurant-detail-bottom-review-list-item-username">
@@ -160,7 +166,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId
                   )}
                 </div>
               </div>
-            </>
+            </Fragment>
           ))}
           <div className="restaurant-detail-bottom-paginate">
             <ReviewPaginate
@@ -220,15 +226,22 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId
             {write && <RestaurantReviewWrite {...reviewInfo} />}
           </div>
           {reviewList.map((review: any, idx: any) => (
-            <>
+            <Fragment key={review.restaurantReviewId}>
               <div className="restaurant-mobile-detail-bottom-review-list-div">
-                <img
-                  key={review.restaurantReviewId}
-                  src={`/image/${review.memberProfileImageName}`}
-                  alt=""
-                  onError={handleImgError}
-                  className="restaurant-mobile-detail-bottom-review-list-profile"
-                />
+                {review.memberProfileImageName ? (
+                  <img
+                    key={review.restaurantReviewId}
+                    src={`/image/${review.memberProfileImageName}`}
+                    alt=""
+                    onError={handleImgError}
+                    className="restaurant-mobile-detail-bottom-review-list-profile"
+                  />
+                ) : (
+                  <img
+                    src={Circle_human}
+                    className="restaurantmobile-detail-bottom-review-list-profile"
+                  ></img>
+                )}
                 <div className="restaurant-mobile-detail-bottom-review-list-item">
                   <div className="restaurant-mobile-detail-bottom-review-list-item-top">
                     <span className="restaurant-mobile-detail-bottom-review-list-item-username">
@@ -265,7 +278,7 @@ const RestaurantReview = ({ name, reviewCount, starLiked, restaurantId, memberId
                   )}
                 </div>
               </div>
-            </>
+            </Fragment>
           ))}
           <div className="restaurant-mobile-detail-bottom-paginate">
             <ReviewPaginate

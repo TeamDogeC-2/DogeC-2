@@ -46,21 +46,15 @@ const RestaurantPhoto = () => {
   return (
     <>
       {image.length ? (
-        <>
-          <div className="restaurant-detail-photo-div">
-            {image.map((img: any) => (
-              <>
-                <img key={img} src={`/image/${img}`} alt="" />
-              </>
-            ))}
-          </div>
-        </>
+        <div className="restaurant-detail-photo-div">
+          {image.map((img: any, idx: number) => (
+            <img key={idx} src={`/image/${img}`} alt="" />
+          ))}
+        </div>
       ) : (
-        <>
-          <div className="restaurant-detail-non-photo-div">
-            <span>이미지 리뷰가 없습니다. 리뷰를 달아보세요!</span>
-          </div>
-        </>
+        <div className="restaurant-detail-non-photo-div">
+          <span>이미지 리뷰가 없습니다. 리뷰를 달아보세요!</span>
+        </div>
       )}
     </>
   );

@@ -98,6 +98,9 @@ const Restaurant = () => {
 
   useEffect(() => {
     postRestaurant();
+  }, [schoolName]);
+  useEffect(() => {
+    postRestaurant();
   }, [isDesktop, isTablet, isMobile, size, sort, category]);
 
   const MapLocation = [longitude, latitude];
@@ -222,12 +225,20 @@ const Restaurant = () => {
               <div className="restaurant-bottom-restaurant-list">
                 {set?.map(restaurant => (
                   <div id={restaurant.restaurantId} key={restaurant.restaurantId}>
-                    <img
-                      src={`/image/${restaurant.fileName}`}
-                      id={restaurant.restaurantId}
-                      className="restaurant-bottom-restaurant-img"
-                      onClick={handleDetailPage}
-                    />
+                    {restaurant.fileName ? (
+                      <img
+                        src={`/image/${restaurant.fileName}`}
+                        id={restaurant.restaurantId}
+                        className="restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      />
+                    ) : (
+                      <div
+                        id={restaurant.restaurantId}
+                        className="restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      ></div>
+                    )}
                     <div className="restaurant-bottom-restaurant-text">
                       {restaurant.name}
                       <span className="restaurant-bottom-restaurant-starLiked">
@@ -330,12 +341,20 @@ const Restaurant = () => {
               <div className="tablet-restaurant-bottom-restaurant-list">
                 {set?.map(restaurant => (
                   <div id={restaurant.restaurantId} key={restaurant.restaurantId}>
-                    <img
-                      src={`/image/${restaurant.fileName}`}
-                      id={restaurant.restaurantId}
-                      onClick={handleDetailPage}
-                      className="tablet-restaurant-bottom-restaurant-img"
-                    />
+                    {restaurant.fileName ? (
+                      <img
+                        src={`/image/${restaurant.fileName}`}
+                        id={restaurant.restaurantId}
+                        className="tablet-restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      />
+                    ) : (
+                      <div
+                        id={restaurant.restaurantId}
+                        className="tablet-restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      ></div>
+                    )}
                     <div className="tablet-restaurant-bottom-restaurant-text">
                       {restaurant.name}
                       <span className="tablet-restaurant-bottom-restaurant-starLiked">
@@ -438,12 +457,20 @@ const Restaurant = () => {
               <div className="mobile-restaurant-bottom-restaurant-list">
                 {set?.map(restaurant => (
                   <div id={restaurant.restaurantId} key={restaurant.restaurantId}>
-                    <img
-                      src={`/image/${restaurant.fileName}`}
-                      id={restaurant.restaurantId}
-                      onClick={handleDetailPage}
-                      className="mobile-restaurant-bottom-restaurant-img"
-                    />
+                    {restaurant.fileName ? (
+                      <img
+                        src={`/image/${restaurant.fileName}`}
+                        id={restaurant.restaurantId}
+                        className="mobile-restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      />
+                    ) : (
+                      <div
+                        id={restaurant.restaurantId}
+                        className="mobile-restaurant-bottom-restaurant-img"
+                        onClick={handleDetailPage}
+                      ></div>
+                    )}
                     <div className="mobile-restaurant-bottom-restaurant-text">
                       {restaurant.name}
                       <span className="mobile-restaurant-bottom-restaurant-starLiked">

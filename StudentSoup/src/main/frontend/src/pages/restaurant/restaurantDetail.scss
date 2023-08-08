@@ -208,24 +208,25 @@ $sub-color: #5a5a5a;
         }
 
         .restaurant-detail-distance-info {
-          display: flex;
-          align-items: center;
           color: $basic-color;
           margin-left: 0.25rem;
-        }
-
-        span {
-          margin-bottom: 1.5rem;
-          font-size: 1.563rem;
-          font-weight: 600;
-          color: $sub-color;
-          margin-bottom: 0.5rem;
         }
 
         p {
           display: flex;
           align-items: center;
           font-size: 1rem;
+          color: $sub-color;
+          margin-bottom: 0.5rem;
+
+          img {
+            margin-right: 0.5rem;
+          }
+        }
+        div {
+          display: flex;
+          align-items: center;
+          font-size: 1.2rem;
           color: $sub-color;
           margin-bottom: 0.5rem;
 
@@ -443,7 +444,7 @@ $sub-color: #5a5a5a;
     }
     .restaurant-tablet-detail-right {
       width: 59.25rem;
-      height: 0;
+      height: 39rem;
       min-height: 31.5rem;
       padding-bottom: 55%;
       background-color: #fff;
@@ -505,14 +506,18 @@ $sub-color: #5a5a5a;
           margin-left: 0.25rem;
         }
 
-        span {
-          font-size: 1.563rem;
-          font-weight: 600;
+        p {
+          display: flex;
+          align-items: center;
+          font-size: 1rem;
           color: $sub-color;
           margin-bottom: 0.5rem;
-        }
 
-        p {
+          img {
+            margin-right: 0.5rem;
+          }
+        }
+        div {
           display: flex;
           align-items: center;
           font-size: 1rem;
@@ -791,14 +796,18 @@ $sub-color: #5a5a5a;
         margin-left: 0.25rem;
       }
 
-      span {
-        margin-bottom: 1.5rem;
-        font-size: 1.563rem;
-        font-weight: 600;
-        color: $sub-color;
-      }
-
       p {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        color: $sub-color;
+        margin-top: 0.5rem;
+
+        img {
+          margin-right: 0.5rem;
+        }
+      }
+      div {
         display: flex;
         align-items: center;
         font-size: 1rem;
@@ -853,4 +862,19 @@ $sub-color: #5a5a5a;
       }
     }
   }
+}
+.restaurant-detail-restaurant {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.restaurant-tablet-detail-restaurant {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.restaurant-mobile-detail-restaurant {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
