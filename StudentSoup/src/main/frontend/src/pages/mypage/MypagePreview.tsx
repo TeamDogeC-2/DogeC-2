@@ -26,6 +26,7 @@ const MypagePreview = (props: propTypes) => {
     if (props?.memberId) {
       preViewBoard(props.memberId)
         .then(res => {
+          console.log('게시글부분', res);
           setPreViewBoardList(res);
         })
         .catch(err => {
@@ -33,6 +34,7 @@ const MypagePreview = (props: propTypes) => {
         });
       preViewReply(props.memberId)
         .then(res => {
+          console.log('댓글부분', res);
           setPreViewReplyList(res);
         })
         .catch(err => {
@@ -68,8 +70,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReviewList?.content?.map(review => (
-                  <tr key={review.restaurantId}>
+                {preViewReviewList?.content?.map((review, index) => (
+                  <tr key={`review-${review.restaurantId}-${index}`}>
                     <td>
                       {review.content.length > 10
                         ? review.content.slice(0, 10) + '...'
@@ -100,8 +102,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewBoardList?.content?.map(board => (
-                  <tr key={board.boardId}>
+                {preViewBoardList?.content?.map((board, index) => (
+                  <tr key={`board-${board.boardId}-${index}`}>
                     <td>
                       {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
                     </td>
@@ -128,8 +130,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReplyList?.content?.map(reply => (
-                  <tr key={reply.boardId}>
+                {preViewReplyList?.content?.map((reply, index) => (
+                  <tr key={`reply-${reply.boardId}-${index}`}>
                     <td>
                       {reply.content.length > 10
                         ? reply.content.slice(0, 10) + '...'
@@ -162,8 +164,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReviewList?.content?.map(review => (
-                  <tr key={review.restaurantId}>
+                {preViewReviewList?.content?.map((review, index) => (
+                  <tr key={`review-${review.restaurantId}-${index}`}>
                     <td>
                       {review.content.length > 10
                         ? review.content.slice(0, 10) + '...'
@@ -194,8 +196,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewBoardList?.content?.map(board => (
-                  <tr key={board.boardId}>
+                {preViewBoardList?.content?.map((board, index) => (
+                  <tr key={`board-${board.boardId}-${index}`}>
                     <td>
                       {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
                     </td>
@@ -222,8 +224,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReplyList?.content?.map(reply => (
-                  <tr key={reply.boardId}>
+                {preViewReplyList?.content?.map((reply, index) => (
+                  <tr key={`reply-${reply.boardId}-${index}`}>
                     <td>
                       {reply.content.length > 10
                         ? reply.content.slice(0, 10) + '...'
@@ -256,8 +258,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReviewList?.content?.map(review => (
-                  <tr key={review.restaurantId}>
+                {preViewReviewList?.content?.map((review, index) => (
+                  <tr key={`review-${review.restaurantId}-${index}`}>
                     <td>
                       {review.content.length > 10
                         ? review.content.slice(0, 10) + '...'
@@ -288,8 +290,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewBoardList?.content?.map(board => (
-                  <tr key={board.boardId}>
+                {preViewBoardList?.content?.map((board, index) => (
+                  <tr key={`board-${board.boardId}-${index}`}>
                     <td>
                       {board.title.length > 10 ? board.title.slice(0, 10) + '...' : board.title}
                     </td>
@@ -316,8 +318,8 @@ const MypagePreview = (props: propTypes) => {
                 </tr>
               </thead>
               <tbody>
-                {preViewReplyList?.content?.map(reply => (
-                  <tr key={reply.boardId}>
+                {preViewReplyList?.content?.map((reply, index) => (
+                  <tr key={`reply-${reply.boardId}-${index}`}>
                     <td>
                       {reply.content.length > 10
                         ? reply.content.slice(0, 10) + '...'
