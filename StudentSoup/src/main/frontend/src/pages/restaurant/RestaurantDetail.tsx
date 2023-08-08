@@ -36,10 +36,6 @@ const RestaurantDetail = () => {
   const [isDelivery, setIsDelivery] = useState<string>();
   const navigate = useNavigate();
 
-  const handleImgError = (e: any) => {
-    e.target.src = Circle_human;
-  };
-  const imgArr = image.slice(1);
   const state = useLocation();
   const restaurantId = state.state.value1;
   const schoolName = state.state.value2;
@@ -186,35 +182,40 @@ const RestaurantDetail = () => {
               </div>
               <div className="restaurant-detail-right">
                 <div className="restaurant-detail-right-imgs">
-                  <img
-                    src={`/image/${image[0]}`}
-                    alt=""
-                    onError={handleImgError}
-                    className="restaurant-detail-right-first-img"
-                  />
-                  <div className="restaurant-detail-right-other-imgs">
-                    {imgArr.map((school: any) => (
+                  {image.length > 0 ? (
+                    <>
                       <img
-                        key={school}
-                        src={`/image/${school}`}
-                        className="restaurant-detail-right-other-img"
+                        src={`/image/${image[0]}`}
+                        alt=""
+                        className="restaurant-detail-right-first-img"
                       />
-                    ))}
-                  </div>
+                      <div className="restaurant-detail-right-other-imgs">
+                        {image.slice(1).map((img: any) => (
+                          <img
+                            key={img}
+                            src={`/image/${img}`}
+                            className="restaurant-detail-right-other-img"
+                          />
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <img src={Circle_human} alt="" className="restaurant-detail-right-first-img" />
+                  )}
                 </div>
                 <div className="restaurant-detail-right-info">
-                  <span>매장정보</span>
-                  <p>
+                  <span className="restaurant-detail-restaurant">매장정보</span>
+                  <div className="restaurant-detail-container">
                     <img src={pin} alt="" />
                     {restaurantDetail.address}
-                    <div className="restaurant-detail-school-name-info">
+                    <span className="restaurant-detail-school-name-info">
                       {restaurantDetail.schoolName}
-                    </div>
+                    </span>
                     에서
-                    <div className="restaurant-detail-distance-info">
+                    <span className="restaurant-detail-distance-info">
                       {restaurantDetail.distance}
-                    </div>
-                  </p>
+                    </span>
+                  </div>
                   <p>
                     <img src={phone} alt="" />
                     {restaurantDetail.tel}
@@ -311,63 +312,71 @@ const RestaurantDetail = () => {
               </div>
               <div className="restaurant-tablet-detail-right">
                 <div className="restaurant-tablet-detail-right-imgs">
-                  <img
-                    src={`/image/${image[0]}`}
-                    alt=""
-                    onError={handleImgError}
-                    className="restaurant-tablet-detail-right-first-img"
-                  />
-                  <div className="restaurant-tablet-detail-right-other-imgs">
-                    {/* {imgArr.map((school: any) => (
+                  {image.length === 0 ? (
+                    <div className="restaurant-tablet-detail-right-first-img" />
+                  ) : (
                     <img
-                      key={school}
-                      src={`/image/${school}`}
-                      className="restaurant-tablet-detail-right-other-img"
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      className="restaurant-tablet-detail-right-first-img"
                     />
-                  ))} */}
+                  )}
+                  <div className="restaurant-tablet-detail-right-other-imgs">
                     <div className="restaurant-tablet-detail-right-other-top-imgs">
-                      <img
-                        src={`/image/${image[0]}`}
-                        alt=""
-                        onError={handleImgError}
-                        className="restaurant-tablet-detail-right-other-img"
-                      />
-                      <img
-                        src={`/image/${image[0]}`}
-                        alt=""
-                        onError={handleImgError}
-                        className="restaurant-tablet-detail-right-other-img"
-                      />
+                      {image[1] ? (
+                        <img
+                          src={`/image/${image[1]}`}
+                          alt=""
+                          className="restaurant-tablet-detail-right-other-img"
+                        />
+                      ) : (
+                        <div className="restaurant-tablet-detail-right-other-img" />
+                      )}
+                      {image[2] ? (
+                        <img
+                          src={`/image/${image[2]}`}
+                          alt=""
+                          className="restaurant-tablet-detail-right-other-img"
+                        />
+                      ) : (
+                        <div className="restaurant-tablet-detail-right-other-img" />
+                      )}
                     </div>
                     <div className="restaurant-tablet-detail-right-other-bottom-imgs">
-                      <img
-                        src={`/image/${image[0]}`}
-                        alt=""
-                        onError={handleImgError}
-                        className="restaurant-tablet-detail-right-other-img"
-                      />
-                      <img
-                        src={`/image/${image[0]}`}
-                        alt=""
-                        onError={handleImgError}
-                        className="restaurant-tablet-detail-right-other-img"
-                      />
+                      {image[3] ? (
+                        <img
+                          src={`/image/${image[3]}`}
+                          alt=""
+                          className="restaurant-tablet-detail-right-other-img"
+                        />
+                      ) : (
+                        <div className="restaurant-tablet-detail-right-other-img" />
+                      )}
+                      {image[4] ? (
+                        <img
+                          src={`/image/${image[4]}`}
+                          alt=""
+                          className="restaurant-tablet-detail-right-other-img"
+                        />
+                      ) : (
+                        <div className="restaurant-tablet-detail-right-other-img" />
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="restaurant-tablet-detail-right-info">
-                  <span>매장정보</span>
-                  <p>
+                  <span className="restaurant-tablet-detail-restaurant">매장정보</span>
+                  <div className="restaurant-tablet-detail-container">
                     <img src={pin} alt="" />
                     {restaurantDetail.address}
-                    <div className="restaurant-tablet-detail-school-name-info">
+                    <span className="restaurant-tablet-detail-school-name-info">
                       {restaurantDetail.schoolName}
-                    </div>
+                    </span>
                     에서
-                    <div className="restaurant-tablet-detail-distance-info">
+                    <span className="restaurant-tablet-detail-distance-info">
                       {restaurantDetail.distance}
-                    </div>
-                  </p>
+                    </span>
+                  </div>
                   <p>
                     <img src={phone} alt="" />
                     {restaurantDetail.tel}
@@ -421,43 +430,54 @@ const RestaurantDetail = () => {
             <div className="restaurant-mobile-detail-top">
               <div className="restaurant-mobile-detail-top-img-div">
                 <div className="restaurant-mobile-detail-top-first-img">
-                  <img src={`/image/${image[0]}`} alt="" onError={handleImgError} />
+                  {image[0] && (
+                    <img
+                      src={`/image/${image[0]}`}
+                      alt=""
+                      className="restaurant-mobile-detail-top-other-img"
+                    />
+                  )}
                 </div>
                 <div className="restaurant-mobile-detail-top-other-imgs">
-                  {/* {imgArr.map((school: any) => (
-                    <img
-                      key={school}
-                      src={`/image/${school}`}
-                      className="restaurant-tablet-detail-top-other-img"
-                    />
-                  ))} */}
                   <div className="restaurant-mobile-detail-top-other-top-imgs">
-                    <img
-                      src={`/image/${image[0]}`}
-                      alt=""
-                      onError={handleImgError}
-                      className="restaurant-mobile-detail-top-other-img"
-                    />
-                    <img
-                      src={`/image/${image[0]}`}
-                      alt=""
-                      onError={handleImgError}
-                      className="restaurant-mobile-detail-top-other-img"
-                    />
+                    {image[1] ? (
+                      <img
+                        src={`/image/${image[1]}`}
+                        alt=""
+                        className="restaurant-mobile-detail-top-other-img"
+                      />
+                    ) : (
+                      <div className="restaurant-mobile-detail-top-other-img" />
+                    )}
+                    {image[2] ? (
+                      <img
+                        src={`/image/${image[2]}`}
+                        alt=""
+                        className="restaurant-mobile-detail-top-other-img"
+                      />
+                    ) : (
+                      <div className="restaurant-mobile-detail-top-other-img" />
+                    )}
                   </div>
                   <div className="restaurant-mobile-detail-top-other-bottom-imgs">
-                    <img
-                      src={`/image/${image[0]}`}
-                      alt=""
-                      onError={handleImgError}
-                      className="restaurant-mobile-detail-top-other-img"
-                    />
-                    <img
-                      src={`/image/${image[0]}`}
-                      alt=""
-                      onError={handleImgError}
-                      className="restaurant-mobile-detail-top-other-img"
-                    />
+                    {image[3] ? (
+                      <img
+                        src={`/image/${image[3]}`}
+                        alt=""
+                        className="restaurant-mobile-detail-top-other-img"
+                      />
+                    ) : (
+                      <div className="restaurant-mobile-detail-top-other-img" />
+                    )}
+                    {image[3] ? (
+                      <img
+                        src={`/image/${image[4]}`}
+                        alt=""
+                        className="restaurant-mobile-detail-top-other-img"
+                      />
+                    ) : (
+                      <div className="restaurant-mobile-detail-top-other-img" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -508,18 +528,18 @@ const RestaurantDetail = () => {
                 </div>
                 <div id="map" className="restaurant-mobile-detail-map" />
                 <div className="restaurant-mobile-detail-bottom-info">
-                  <span>매장정보</span>
-                  <p>
+                  <span className="restaurant-mobile-detail-restaurant">매장정보</span>
+                  <div className="restaurant-mobile-detail-container">
                     <img src={pin} alt="" />
                     {restaurantDetail.address}
-                    <div className="restaurant-mobile-detail-school-name-info">
+                    <span className="restaurant-mobile-detail-school-name-info">
                       {restaurantDetail.schoolName}
-                    </div>
+                    </span>
                     에서
-                    <div className="restaurant-mobile-detail-distance-info">
+                    <span className="restaurant-mobile-detail-distance-info">
                       {restaurantDetail.distance}
-                    </div>
-                  </p>
+                    </span>
+                  </div>
                   <p>
                     <img src={phone} alt="" />
                     {restaurantDetail.tel}
