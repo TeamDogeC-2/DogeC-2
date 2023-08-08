@@ -12,6 +12,7 @@ import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminRestaurantService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AdminRestaurantController {
 
@@ -41,42 +42,42 @@ public class AdminRestaurantController {
 
     @PostMapping("admin/restaurant")
     public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto) {
-        restaurantRegisterService.join(restaurantFormDto);
-        return "redirect:/admin/restaurants";
+        Long restaurantId = restaurantRegisterService.join(restaurantFormDto);
+        return ResponseEntity.ok().body(restaurantId).toString();
     }
 
-    @GetMapping("admin/restaurants")
-    public String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        model.addAttribute("restaurants", restaurants);
+//    @GetMapping("admin/restaurants")
+//    public String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
+//        List<Restaurant> restaurants = restaurantRepository.findAll();
+//        model.addAttribute("restaurants", restaurants);
+//
+//        List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
+//        model.addAttribute("findRestaurants", findRestaurants);
+//
+//        return "admin/restaurant/restaurantList";
+//    }
 
-        List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
-        model.addAttribute("findRestaurants", findRestaurants);
-
-        return "admin/restaurant/restaurantList";
-    }
-
-    @GetMapping("admin/restaurant/edit/{restaurantId}")
-    public String editRestaurant(@PathVariable Long restaurantId, Model model) {
-        RestaurantUpdateDto restaurantFormDto = adminRestaurantService.adminFindUpdateRestaurant(restaurantId);
-        List<School> schools = schoolRepository.findAll();
-        model.addAttribute("restaurantId", restaurantId);
-        model.addAttribute("restaurantForm", restaurantFormDto);
-        model.addAttribute("schools", schools);
-        model.addAttribute("restaurantCategory", RestaurantCategory.values());
-
-        return "/admin/restaurant/updateRestaurant";
-    }
-
-    @PostMapping("admin/restaurant/edit/{restaurantId}")
-    public String editRestaurant(@PathVariable Long restaurantId,
-                                 RestaurantUpdateDto restaurantUpdateDto) {
-        adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto);
-        return "redirect:/admin/restaurants";
-    }
-    @GetMapping("admin/restaurant/{restaurantId}")
-    public String deleteRestaurant(@PathVariable Long restaurantId){
-        adminRestaurantService.adminDeleteRestaurant(restaurantId);
-        return "redirect:/admin/restaurants";
-    }
+//    @GetMapping("admin/restaurant/edit/{restaurantId}")
+//    public String editRestaurant(@PathVariable Long restaurantId, Model model) {
+//        RestaurantUpdateDto restaurantFormDto = adminRestaurantService.adminFindUpdateRestaurant(restaurantId);
+//        List<School> schools = schoolRepository.findAll();
+//        model.addAttribute("restaurantId", restaurantId);
+//        model.addAttribute("restaurantForm", restaurantFormDto);
+//        model.addAttribute("schools", schools);
+//        model.addAttribute("restaurantCategory", RestaurantCategory.values());
+//
+//        return "/admin/restaurant/updateRestaurant";
+//    }
+//
+//    @PostMapping("admin/restaurant/edit/{restaurantId}")
+//    public String editRestaurant(@PathVariable Long restaurantId,
+//                                 RestaurantUpdateDto restaurantUpdateDto) {
+//        adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto);
+//        return "redirect:/admin/restaurants";
+//    }
+//    @GetMapping("admin/restaurant/{restaurantId}")
+//    public String deleteRestaurant(@PathVariable Long restaurantId){
+//        adminRestaurantService.adminDeleteRestaurant(restaurantId);
+//        return "redirect:/admin/restaurants";
+//    }
 }
