@@ -14,15 +14,13 @@ const Adminpage = () => {
   const [tel, setTel] = useState<string>('');
   const [tag, setTag] = useState<string>('');
   const [detail, setDetail] = useState<string>('');
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File[] | null>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // FormData 객체 생성
     const formData = new FormData();
 
-    // 폼 데이터 추가
     formData.append('name', name);
     formData.append('address', address);
     formData.append('restaurantCategory', category);
@@ -35,12 +33,12 @@ const Adminpage = () => {
     formData.append('detail', detail);
     formData.append('isDelivery', delivery);
 
-    // 파일 추가
-    if (image) {
-      formData.append('multipartFileList', image);
+    if (images) {
+      for (let i = 0; i < images.length; i++) {
+        formData.append('multipartFileList', images[i]);
+      }
     }
 
-    // axios 요청
     try {
       await axiosInstance.post('/admin/restaurant', formData, {
         headers: {
@@ -52,7 +50,6 @@ const Adminpage = () => {
       console.error('데이터 전송에 실패했습니다.', error);
     }
   };
-
   useEffect(() => {
     axiosInstance
       .get('/admin/restaurant')
@@ -63,9 +60,27 @@ const Adminpage = () => {
         console.log(err);
       });
   }, []);
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files !== null) {
-      setImage(e.target.files[0]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const images: File[] = [];
+      for (let i = 0; i < files.length; i++) {
+        if (!files[i].type.startsWith('image/')) {
+          alert('이미지 파일만 선택할 수 있습니다.');
+          e.target.value = '';
+          return;
+        }
+        images.push(files[i]);
+      }
+
+      if (images.length > 5) {
+        alert('최대 5개의 이미지를 선택할 수 있습니다.');
+        e.target.value = '';
+        return;
+      }
+
+      setImages(images);
     }
   };
 
@@ -107,7 +122,12 @@ const Adminpage = () => {
         <textarea value={detail} onChange={e => setDetail(e.target.value)} />
 
         <label>이미지:</label>
-        <input type="file" onChange={handleFileChange} />
+        <input type="file" accept="image/*" multiple onChange={handleFileChange} />
+        <ul>
+          {images?.map((image, index) => (
+            <li key={index}>{image.name}</li>
+          ))}
+        </ul>
 
         <input type="submit" value="레스토랑 등록" />
       </form>
