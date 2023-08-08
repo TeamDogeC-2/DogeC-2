@@ -15,48 +15,52 @@ const BoardReview = ({ review, memberId, getBoardId, nickname }: Props) => {
     <>
       <Desktop>
         {review.map((review: any) => (
-          <>
-            <div id={review.boardReplyId} className="board-detail-bottom-review-div">
-              <BoardReviewFunction
-                review={review}
+          <div
+            key={review.boardReplyId}
+            id={review.boardReplyId}
+            className="board-detail-bottom-review-div"
+          >
+            <BoardReviewFunction
+              review={review}
+              memberId={memberId}
+              nickname={nickname}
+              getBoardId={getBoardId}
+            />
+            <div className="board-detail-underline" />
+            {review.boardNestedReplyDtoList.length !== 0 && (
+              <BoardReply
+                reply={review.boardNestedReplyDtoList}
                 memberId={memberId}
                 nickname={nickname}
                 getBoardId={getBoardId}
               />
-              <div className="board-detail-underline" />
-              {review.boardNestedReplyDtoList.length !== 0 && (
-                <BoardReply
-                  reply={review.boardNestedReplyDtoList}
-                  memberId={memberId}
-                  nickname={nickname}
-                  getBoardId={getBoardId}
-                />
-              )}
-            </div>
-          </>
+            )}
+          </div>
         ))}
       </Desktop>
       <Mobile>
         {review.map((review: any) => (
-          <>
-            <div id={review.boardReplyId} className="board-detail-mobile-bottom-review-div">
-              <BoardReviewFunction
-                review={review}
+          <div
+            key={review.boardReplyId}
+            id={review.boardReplyId}
+            className="board-detail-mobile-bottom-review-div"
+          >
+            <BoardReviewFunction
+              review={review}
+              memberId={memberId}
+              nickname={nickname}
+              getBoardId={getBoardId}
+            />
+            <div className="board-detail-mobile-underline" />
+            {review.boardNestedReplyDtoList.length !== 0 && (
+              <BoardReply
+                reply={review.boardNestedReplyDtoList}
                 memberId={memberId}
                 nickname={nickname}
                 getBoardId={getBoardId}
               />
-              <div className="board-detail-mobile-underline" />
-              {review.boardNestedReplyDtoList.length !== 0 && (
-                <BoardReply
-                  reply={review.boardNestedReplyDtoList}
-                  memberId={memberId}
-                  nickname={nickname}
-                  getBoardId={getBoardId}
-                />
-              )}
-            </div>
-          </>
+            )}
+          </div>
         ))}
       </Mobile>
     </>
