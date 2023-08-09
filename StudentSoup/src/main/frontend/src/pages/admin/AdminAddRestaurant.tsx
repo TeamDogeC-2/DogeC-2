@@ -1,4 +1,4 @@
-import React, { type FormEvent, useState } from 'react';
+import React, { type FormEvent, useState, useEffect } from 'react';
 import './adminaddrestaurant.scss';
 import AdminNavbar from './AdminNavbar';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
@@ -16,6 +16,32 @@ const AdminAddRestaurant = () => {
   const [tag, setTag] = useState<string>('');
   const [detail, setDetail] = useState<string>('');
   const [images, setImages] = useState<File[] | null>(null);
+  const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
+  const [schoolOptions, setSchoolOptions] = useState<Array<Record<string, number>>>([]);
+  const categoryMapping: Record<string, string> = {
+    KOREAN: '한식',
+    WESTERN: '양식',
+    FASTFOOD: '패스트푸드',
+    ASIAN: '아시아음식',
+    JAPAN: '일식',
+    CHINESE: '중식',
+    SNACK: '분식',
+    CAFE: '카페',
+    BUFFET: '뷔페',
+    OTHERS: '기타',
+  };
+
+  useEffect(() => {
+    axiosInstance
+      .get('/admin/restaurant')
+      .then(res => {
+        setCategoryOptions(res.data[0]);
+        setSchoolOptions(res.data[1]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -88,9 +114,12 @@ const AdminAddRestaurant = () => {
           <div className="adminrestaurant-form-group">
             <label>카테고리:</label>
             <select value={category} onChange={e => setCategory(e.target.value)}>
-              <option value="한식">한식</option>
-              <option value="중식">중식</option>
-              {/* 다른 카테고리 옵션들 */}
+              <option value="">카테고리를 선택해주세요</option>
+              {categoryOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {categoryMapping[option]}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -118,9 +147,14 @@ const AdminAddRestaurant = () => {
             <label>학교 선택:</label>
             <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
               <option value="">학교를 선택해주세요</option>
-              <option value="청운대">청운대</option>
-              <option value="인천대">인천대</option>
-              {/* 다른 카테고리 옵션들 */}
+              {schoolOptions.map((option, _) => {
+                const [schoolName, schoolId] = Object.entries(option)[0];
+                return (
+                  <option key={schoolId} value={schoolId}>
+                    {schoolName}
+                  </option>
+                );
+              })}
             </select>
           </div>
 
