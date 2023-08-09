@@ -17,7 +17,9 @@ public class MemberFormBDto {
     private String pwd;
     private String nickname;
     private String email;
+    private String token;
     private GenderType gender;
     private Long schoolId;
     private Long departmentId;
+    private Boolean isNotificationEnabled;
 }

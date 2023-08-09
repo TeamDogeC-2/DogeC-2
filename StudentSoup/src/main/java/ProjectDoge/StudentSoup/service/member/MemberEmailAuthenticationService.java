@@ -49,7 +49,7 @@ public class MemberEmailAuthenticationService {
         }
         int authenticationNumber = createAuthenticationNumber();
         mailSend(email,authenticationNumber);
-
+        redisUtil.setData(email,Integer.toString(authenticationNumber));
         return;
     }
 
