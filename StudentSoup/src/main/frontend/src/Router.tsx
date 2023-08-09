@@ -21,6 +21,7 @@ import SignUpProcess3 from 'pages/signup/SignUpProcess3';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Adminpage from 'pages/admin/Adminpage';
+import AdminAddRestaurant from 'pages/admin/AdminAddRestaurant';
 
 const Router = () => {
   return (
@@ -51,6 +52,7 @@ const Router = () => {
         <Route path="/mypage" element={<MypageMain />} />
         <Route path="/mypage/scheduler" element={<MypageScheduler />} />
         <Route path="/admin" element={<Adminpage />} />
+        <Route path="/admin/restaurant" element={<AdminAddRestaurant />} />
       </Route>
     </Routes>
   );
