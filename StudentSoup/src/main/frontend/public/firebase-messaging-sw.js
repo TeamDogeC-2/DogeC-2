@@ -9,10 +9,17 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('push', function (e) {
-  console.log('push: ', e.data.json());
   if (!e.data.json()) return;
+  console.log('푸쉬제발가라: ', e.data.json().notification);
 
   const resultData = e.data.json().notification;
+  self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
+    clients.forEach(client => {
+      const channel = new MessageChannel();
+      client.postMessage(resultData, [channel.port2]);
+    });
+  });
+
   const notificationTitle = resultData.title;
   const notificationOptions = {
     body: resultData.body,
@@ -20,7 +27,6 @@ self.addEventListener('push', function (e) {
     tag: resultData.tag,
     ...resultData,
   };
-  console.log('push: ', { resultData, notificationTitle, notificationOptions });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
