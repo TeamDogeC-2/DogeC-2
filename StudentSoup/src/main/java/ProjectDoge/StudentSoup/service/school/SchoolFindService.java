@@ -52,6 +52,8 @@ public class SchoolFindService {
             log.info("등록된 학교가 없는 예외가 발생했습니다.");
             throw new SchoolNotFoundException("등록된 학교가 존재하지 않습니다.");
         }
-        return schoolRepository.findAll();
+        List<School> schools = schoolRepository.findAll();
+
+        return ;
     }
 }

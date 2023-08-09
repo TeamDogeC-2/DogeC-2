@@ -36,11 +36,17 @@ public class AdminRestaurantController {
 
     @GetMapping("admin/restaurant")
     public List<Object> createRestaurant(Model model) {
+        List<Map<String,Long>> schoolsDto = new ArrayList<>();
         List<Object> result = new ArrayList<>();
         List<School> schools = schoolRepository.findAll();
+        for(School s : schools){
+            Map<String,Long> dto = new HashMap<>();
+            dto.put(s.getSchoolName(),s.getId());
+            schoolsDto.add(dto);
+        }
         RestaurantCategory[] values = RestaurantCategory.values();
-        result.add(schools);
         result.add(values);
+        result.add(schoolsDto);
         return result;
     }
 
