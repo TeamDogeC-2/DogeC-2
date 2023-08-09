@@ -74,62 +74,94 @@ const AdminAddRestaurant = () => {
       setImages(images);
     }
   };
-  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
-  const handleMenuClick = (menu: string | null) => {
-    if (selectedMenu === menu) {
-      setSelectedMenu(null);
-    } else {
-      setSelectedMenu(menu);
-    }
-  };
   return (
     <div className="adminpage-maincontainer">
       <AdminNavbar />
       <div className="adminrestaurant-container">
-        <form onSubmit={handleSubmit}>
-          <label>레스토랑 이름:</label>
-          <input type="text" value={name} onChange={e => setName(e.target.value)} />
+        <form onSubmit={handleSubmit} className="adminrestaurant-form">
+          <div className="adminrestaurant-form-group">
+            <label>레스토랑 이름:</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)} />
+          </div>
 
-          <label>카테고리:</label>
-          <input type="text" value={category} onChange={e => setCategory(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>카테고리:</label>
+            <select value={category} onChange={e => setCategory(e.target.value)}>
+              <option value="한식">한식</option>
+              <option value="중식">중식</option>
+              {/* 다른 카테고리 옵션들 */}
+            </select>
+          </div>
 
-          <label>주소:</label>
-          <input type="text" value={address} onChange={e => setAddress(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>주소:</label>
+            <input type="text" value={address} onChange={e => setAddress(e.target.value)} />
+          </div>
 
-          <label>시작 시간:</label>
-          <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+          <div className="adminrestaurant-form-group time-group">
+            <label>시작 시간:</label>
+            <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+            <label>종료 시간:</label>
+            <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+          </div>
 
-          <label>종료 시간:</label>
-          <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>배달 여부:</label>
+            <select value={delivery} onChange={e => setDelivery(e.target.value)}>
+              <option value="Y">가능</option>
+              <option value="N">불가능</option>
+            </select>
+          </div>
 
-          <label>배달 여부:</label>
-          <input type="text" value={delivery} onChange={e => setDelivery(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>학교 선택:</label>
+            <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
+              <option value="">학교를 선택해주세요</option>
+              <option value="청운대">청운대</option>
+              <option value="인천대">인천대</option>
+              {/* 다른 카테고리 옵션들 */}
+            </select>
+          </div>
 
-          <label>학교 ID:</label>
-          <input type="text" value={schoolId} onChange={e => setSchoolId(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>좌표:</label>
+            <input
+              placeholder="**.****,**.****"
+              type="text"
+              value={coordinate}
+              onChange={e => setCoordinate(e.target.value)}
+            />
+          </div>
 
-          <label>좌표:</label>
-          <input type="text" value={coordinate} onChange={e => setCoordinate(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>전화번호:</label>
+            <input type="text" value={tel} onChange={e => setTel(e.target.value)} />
+          </div>
 
-          <label>전화번호:</label>
-          <input type="text" value={tel} onChange={e => setTel(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>태그:</label>
+            <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
+          </div>
 
-          <label>태그:</label>
-          <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>세부 사항:</label>
+            <textarea value={detail} onChange={e => setDetail(e.target.value)} />
+          </div>
 
-          <label>세부 사항:</label>
-          <textarea value={detail} onChange={e => setDetail(e.target.value)} />
+          <div className="adminrestaurant-form-group">
+            <label>이미지:</label>
+            <input type="file" accept="image/*" multiple onChange={handleFileChange} />
+            <ul className="adminrestaurant-file-list">
+              {images?.map((image, index) => (
+                <li key={index}>{image.name}</li>
+              ))}
+            </ul>
+          </div>
 
-          <label>이미지:</label>
-          <input type="file" accept="image/*" multiple onChange={handleFileChange} />
-          <ul>
-            {images?.map((image, index) => (
-              <li key={index}>{image.name}</li>
-            ))}
-          </ul>
-
-          <input type="submit" value="레스토랑 등록" />
+          <div className="adminrestaurant-form-group">
+            <input type="submit" value="레스토랑 등록" />
+          </div>
         </form>
       </div>
     </div>
