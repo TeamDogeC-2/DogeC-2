@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.controller.admin.school;
 
-import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
-import ProjectDoge.StudentSoup.dto.school.SchoolIndexDto;
-import ProjectDoge.StudentSoup.dto.school.SchoolResponseDto;
-import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
+import ProjectDoge.StudentSoup.dto.school.*;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminSchoolService;
@@ -39,7 +36,7 @@ public class AdminSchoolController {
     }
 
 //    @GetMapping("admin/school/new")
-//    public String createSchool(Model model){
+//    public String createSchool(){
 //        model.addAttribute("schoolForm",new SchoolFormDto());
 //        return "/admin/school/createSchool";
 //    }
@@ -52,22 +49,24 @@ public class AdminSchoolController {
         return schoolId.toString();
     }
     @GetMapping("/admin/schools")
-    public Map<String,List<School>> schoolList(@RequestBody() SchoolSearch schoolSearch) {
-        Map<String,List<School>> result = new HashMap<>();
+    public Map<String,List<AdminSchoolDto>> schoolList(@RequestBody() SchoolSearch schoolSearch) {
+        Map<String,List<AdminSchoolDto>> result = new HashMap<>();
         List<School> schools = schoolFindService.findAll();
         List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
 
-        result.put("schools",schools);
-        result.put("searchSchools",findSchools);
+        List<AdminSchoolDto> schoolDtos = schoolFindService.getSchoolDtoList(schools);
+        List<AdminSchoolDto> findSchoolDto = schoolFindService.getSchoolDtoList(findSchools);
+        result.put("schools",schoolDtos);
+        result.put("searchSchools",findSchoolDto);
         return result;
     }
     @GetMapping("/admin/school/edit")
-    public SchoolFormDto editSchool(@RequestParam("schoolId")Long schoolId,Model model){
+    public SchoolFormDto editSchool(@RequestParam("schoolId")Long schoolId){
         SchoolFormDto updateSchool = adminSchoolService.AdminFindUpdateSchool(schoolId);
         return updateSchool;
     }
     @PostMapping("/admin/school/edit")
-    public ResponseEntity<Long> editSchool(@RequestParam("schoolId")Long schoolId,@ModelAttribute("form") SchoolFormDto schoolFormDto){
+    public ResponseEntity<Long> editSchool(@RequestParam("schoolId")Long schoolId,@RequestBody() SchoolFormDto schoolFormDto){
         adminSchoolService.AdminUpdateSchool(schoolId,schoolFormDto);
         return ResponseEntity.ok().body(schoolId);
     }
