@@ -1,5 +1,6 @@
 package ProjectDoge.StudentSoup.service.school;
 
+import ProjectDoge.StudentSoup.dto.school.AdminSchoolDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNameNotSentException;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -55,5 +57,14 @@ public class SchoolFindService {
         List<School> schools = schoolRepository.findAll();
 
         return schools;
+    }
+
+    public List<AdminSchoolDto> getSchoolDtoList(List<School> schools) {
+        List<AdminSchoolDto> schoolDtos = new ArrayList<>();
+        for(School school : schools){
+            AdminSchoolDto dto = new AdminSchoolDto().getSchoolDto(school);
+            schoolDtos.add(dto);
+        }
+        return  schoolDtos;
     }
 }
