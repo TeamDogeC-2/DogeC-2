@@ -94,16 +94,16 @@ public class TestDataInit {
         school1.setSchoolEmail("inu.ac.kr");
 
         SchoolFormDto school2 = new SchoolFormDto();
-        school2.setSchoolName("연세대학교 송도캠퍼스");
+        school2.setSchoolName("청운대학교 인천캠퍼스");
         school2.setSchoolCoordinate("37.3768067201,126.6347662307");
-        school2.setSchoolEmail("yonsei.ac.kr");
+        school2.setSchoolEmail("chungwoon.ac.kr");
         schoolRegisterService.join(school1);
         schoolRegisterService.join(school2);
     }
 
     private void initDepartment(){
         Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("청운대학교 인천캠퍼스").getId();
         DepartmentFormDto dto1 = new DepartmentFormDto();
         dto1.setDepartmentName("더미테스트1 학과1");
         dto1.setSchoolId(schoolId1);
@@ -128,7 +128,7 @@ public class TestDataInit {
 
     private void initMember(){
         Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("청운대학교 인천캠퍼스").getId();
 
         List<Department> departments1 = departmentRepository.findBySchool_Id(schoolId1);
         List<Department> departments2 = departmentRepository.findBySchool_Id(schoolId2);
@@ -148,20 +148,20 @@ public class TestDataInit {
         MemberFormBDto dto7 = createMemberFormDto("admin", "admin123!", "운영자", "admin@naver.com",
                 GenderType.MAN, schoolId2, departments2.get(1).getId());
 
-        memberRegisterService.join(dto1);
-        memberRegisterService.join(dto2);
-        memberRegisterService.join(dto3);
-        memberRegisterService.join(dto4);
-        memberRegisterService.join(dto5);
-        memberRegisterService.join(dto6);
-        memberRegisterService.join(dto7);
+        memberRegisterService.join(dto1,"a",false);
+        memberRegisterService.join(dto2,"a",false);
+        memberRegisterService.join(dto3,"a",false);
+        memberRegisterService.join(dto4,"a",false);
+        memberRegisterService.join(dto5,"a",false);
+        memberRegisterService.join(dto6,"a",false);
+        memberRegisterService.join(dto7,"a",false);
 
         memberRepository.findById("admin").ifPresent(memberUpdateService::updateMemberClassification);
     }
 
     private void initRestaurant(){
         Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
-        Long schoolId2 = schoolFindService.findOne("연세대학교 송도캠퍼스").getId();
+        Long schoolId2 = schoolFindService.findOne("청운대학교 인천캠퍼스").getId();
 
         RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
@@ -226,7 +226,7 @@ public class TestDataInit {
 
     private void initRestaurantMenu(){
 
-        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "청운대학교 인천캠퍼스ㅇ");
         Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
 
         RestaurantMenuFormDto dto = new RestaurantMenuFormDto().createRestaurantMenuDto(restaurant1.getId(),
@@ -366,19 +366,19 @@ public class TestDataInit {
             }
         }
 
-        BoardReply reply1 = boardReplyFindService.findOne(292L);
-        reply1.setLikedCount(10);
+//        BoardReply reply1 = boardReplyFindService.findOne(292L);
+//        reply1.setLikedCount(10);
 
-        BoardReply reply2 = boardReplyFindService.findOne(295L);
-        reply2.setLikedCount(10);
-
-        boardReplyRepository.save(reply1);
-        boardReplyRepository.save(reply2);
+//        BoardReply reply2 = boardReplyFindService.findOne(295L);
+//        reply2.setLikedCount(10);
+//
+//        boardReplyRepository.save(reply1);
+//        boardReplyRepository.save(reply2);
 
     }
 
     private void initRestaurantReview(){
-        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "연세대학교 송도캠퍼스");
+        Restaurant restaurant1 = restaurantFindService.findByRestaurantNameAndSchoolName("청기와 송도점", "청운대학교 인천캠퍼스");
         Restaurant restaurant2 = restaurantFindService.findByRestaurantNameAndSchoolName("스노우폭스 송도점", "인천대학교 송도캠퍼스");
         Member member = memberRepository.findByEmail("dummytest1@naver.com");
         for(int i = 0; i < 30; i++){

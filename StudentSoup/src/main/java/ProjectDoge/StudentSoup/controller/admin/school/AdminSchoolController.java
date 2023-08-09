@@ -17,7 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -47,33 +49,30 @@ public class AdminSchoolController {
 //        schoolRegisterService.join(formDto);
 //        return "redirect:/admin/schools";
 //    }
-//    @GetMapping("/admin/schools")
-//    public String schoolList(@ModelAttribute("schoolSearch") SchoolSearch schoolSearch, Model model) {
-//        List<School> schools = schoolFindService.findAll();
-//        model.addAttribute("schools", schools);
-//
-//        List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
-//        model.addAttribute("findSchools", findSchools);
-//
-//        return "/admin/school/schoolList";
-//    }
-//    @GetMapping("/admin/school/edit")
-//    public String editSchool(@RequestParam("schoolId")Long schoolId,Model model){
-//        SchoolFormDto updateSchool = adminSchoolService.AdminFindUpdateSchool(schoolId);
-//        model.addAttribute("schoolId",schoolId);
-//        model.addAttribute("schoolForm",updateSchool);
-//        return "/admin/school/updateSchool";
-//    }
-//    @PostMapping("/admin/school/edit")
-//    public String editSchool(@RequestParam("schoolId")Long schoolId,@ModelAttribute("form") SchoolFormDto schoolFormDto){
-//        adminSchoolService.AdminUpdateSchool(schoolId,schoolFormDto);
-//        return "redirect:/admin/schools";
-//    }
-//    @GetMapping("/admin/school/delete")
-//    public String deleteSchool(@RequestParam("schoolId")Long schoolId){
-//        schoolRepository.deleteById(schoolId);
-//        return "redirect:/admin/schools";
-//    }
+    @GetMapping("/admin/schools")
+    public Map<String,List<School>> schoolList(@ModelAttribute("schoolSearch") SchoolSearch schoolSearch) {
+        Map<String,List<School>> result = new HashMap<>();
+        List<School> schools = schoolFindService.findAll();
+        List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
+        result.put("schools",schools);
+        result.put("searchSchools",findSchools);
+        return result;
+    }
+    @GetMapping("/admin/school/edit")
+    public SchoolFormDto editSchool(@RequestParam("schoolId")Long schoolId,Model model){
+        SchoolFormDto updateSchool = adminSchoolService.AdminFindUpdateSchool(schoolId);
+        return updateSchool;
+    }
+    @PostMapping("/admin/school/edit")
+    public ResponseEntity<Long> editSchool(@RequestParam("schoolId")Long schoolId,@ModelAttribute("form") SchoolFormDto schoolFormDto){
+        adminSchoolService.AdminUpdateSchool(schoolId,schoolFormDto);
+        return ResponseEntity.ok().body(schoolId);
+    }
+    @GetMapping("/admin/school/delete")
+    public ResponseEntity<Long> deleteSchool(@RequestParam("schoolId")Long schoolId){
+        schoolRepository.deleteById(schoolId);
+        return ResponseEntity.ok(schoolId);
+    }
 
 
 }

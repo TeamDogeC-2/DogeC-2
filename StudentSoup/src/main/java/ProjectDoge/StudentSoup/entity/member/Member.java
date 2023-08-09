@@ -68,6 +68,8 @@ public class Member {
 
     private String registrationDate;
 
+    private Boolean isNotificationEnabled;
+
     @Column(name = "MEMBER_CLASSIFICATION")
     @ColumnDefault("'STUDENT'")
     @Enumerated(EnumType.STRING)
@@ -134,7 +136,7 @@ public class Member {
     }
 
     //== 생성 메서드 ==//
-    public Member createMember(MemberFormBDto dto, School school, Department department){
+    public Member createMember(MemberFormBDto dto, School school, Department department,boolean isNotificationEnabled){
         this.setId(dto.getId());
         this.setPwd(dto.getPwd());
         this.setNickname(dto.getNickname());
@@ -144,6 +146,7 @@ public class Member {
         this.setRegistrationDate(dateFormat(LocalDateTime.now()));
         this.setSchool(school);
         this.setDepartment(department);
+        this.setIsNotificationEnabled(isNotificationEnabled);
         return this;
     }
 

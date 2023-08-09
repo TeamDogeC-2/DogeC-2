@@ -11,16 +11,16 @@ import ProjectDoge.StudentSoup.service.admin.AdminDepartmentService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AdminDepartmentController {
     private final SchoolRepository schoolRepository;
@@ -30,44 +30,41 @@ public class AdminDepartmentController {
 
     private final DepartmentRepository departmentRepository;
     @GetMapping("admin/department")
-    public String createDepartment(Model model){
+    public ResponseEntity<List<School>> createDepartment(Model model){
         List<School> schools = schoolRepository.findAll();
-        model.addAttribute("schools",schools);
-        model.addAttribute("departmentForm",new DepartmentFormDto());
-
-        return "/admin/department/createDepartment";
+        return ResponseEntity.ok(schools);
     }
     @PostMapping("admin/department")
-    public String createDepartment(DepartmentFormDto departmentFormDto){
-        departmentRegisterService.join(departmentFormDto.getSchoolId(),departmentFormDto);
-        return "redirect:/admin/departments";
+    public Long createDepartment(DepartmentFormDto departmentFormDto){
+        Long departmentId = departmentRegisterService.join(departmentFormDto.getSchoolId(),departmentFormDto);
+        return departmentId;
     }
     @GetMapping("admin/departments")
-    public String departmentList(@RequestParam(required = false)Long schoolId,Model model){
+    public Map<String,Object> departmentList(@RequestParam(required = false)Long schoolId, Model model){
+        Map<String,Object> result = new HashMap<>();
         List<School> schools = schoolRepository.findAll();
         List<Department> departments = departmentFindService.getAllDepartmentUsingSchool(schoolId);
-
-        model.addAttribute("schools",schools);
-        model.addAttribute("findDepartments",departments);
-        return "admin/department/departmentList";
+        result.put("school",schools);
+        result.put("departments",departments);
+        return result;
     }
-    @GetMapping("admin/department/edit/{departmentId}")
-    public String editDepartment(@PathVariable Long departmentId,Model model){
-        DepartmentUpdateDto departmentUpdateDto = adminDepartmentService.adminFindDepartment(departmentId);
-        model.addAttribute("departmentForm",departmentUpdateDto);
 
-        return "admin/department/updateDepartment";
+    @GetMapping("admin/department/edit/{departmentId}")
+    public ResponseEntity<DepartmentUpdateDto> editDepartment(@PathVariable Long departmentId,Model model){
+        DepartmentUpdateDto departmentUpdateDto = adminDepartmentService.adminFindDepartment(departmentId);
+
+        return ResponseEntity.ok(departmentUpdateDto);
     }
     @PostMapping("admin/department/edit/{departmentId}")
-    public String editDepartment(@PathVariable Long departmentId,DepartmentUpdateDto departmentUpdateDto){
+    public ResponseEntity<Long> editDepartment(@PathVariable Long departmentId,DepartmentUpdateDto departmentUpdateDto){
         Long Id = adminDepartmentService.adminUpdateDepartment(departmentId,departmentUpdateDto);
 
-        return "redirect:/admin/departments";
+        return ResponseEntity.ok(Id);
     }
     @GetMapping("admin/department/{departmentId}")
-    public String deleteDepartment(@PathVariable Long departmentId){
+    public ResponseEntity<Long> deleteDepartment(@PathVariable Long departmentId){
         departmentRepository.deleteById(departmentId);
 
-        return "redirect:/admin/departments";
+        return ResponseEntity.ok(departmentId);
     }
 }

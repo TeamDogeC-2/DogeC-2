@@ -12,14 +12,18 @@ import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminRestaurantService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AdminRestaurantController {
 
@@ -31,52 +35,54 @@ public class AdminRestaurantController {
 
 
     @GetMapping("admin/restaurant")
-    public String createRestaurant(Model model) {
+    public List<Object> createRestaurant(Model model) {
+        List<Object> result = new ArrayList<>();
         List<School> schools = schoolRepository.findAll();
-        model.addAttribute("restaurantForm", new RestaurantFormDto());
-        model.addAttribute("schools", schools);
-        model.addAttribute("restaurantCategory", RestaurantCategory.values());
-        return "/admin/restaurant/createRestaurant";
+        RestaurantCategory[] values = RestaurantCategory.values();
+        result.add(schools);
+        result.add(values);
+        return result;
     }
 
     @PostMapping("admin/restaurant")
     public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto) {
-        restaurantRegisterService.join(restaurantFormDto);
-        return "redirect:/admin/restaurants";
+        Long restaurantId = restaurantRegisterService.join(restaurantFormDto);
+        return ResponseEntity.ok().body(restaurantId).toString();
     }
 
     @GetMapping("admin/restaurants")
-    public String restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
+    public ResponseEntity<Map<String,List<Restaurant>>> restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
+        Map<String,List<Restaurant>> result = new HashMap<>();
         List<Restaurant> restaurants = restaurantRepository.findAll();
-        model.addAttribute("restaurants", restaurants);
+        result.put("restaurants",restaurants);
 
         List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
-        model.addAttribute("findRestaurants", findRestaurants);
-
-        return "admin/restaurant/restaurantList";
+        result.put("searchRestaurants",findRestaurants);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("admin/restaurant/edit/{restaurantId}")
-    public String editRestaurant(@PathVariable Long restaurantId, Model model) {
+    public List<Object> editRestaurant(@PathVariable Long restaurantId, Model model) {
         RestaurantUpdateDto restaurantFormDto = adminRestaurantService.adminFindUpdateRestaurant(restaurantId);
         List<School> schools = schoolRepository.findAll();
-        model.addAttribute("restaurantId", restaurantId);
-        model.addAttribute("restaurantForm", restaurantFormDto);
-        model.addAttribute("schools", schools);
-        model.addAttribute("restaurantCategory", RestaurantCategory.values());
+        List<Object> result = new ArrayList<>();
+        result.add(restaurantId);
+        result.add(restaurantFormDto);
+        result.add(schools);
+        result.add(RestaurantCategory.values());
 
-        return "/admin/restaurant/updateRestaurant";
+        return result;
     }
 
     @PostMapping("admin/restaurant/edit/{restaurantId}")
-    public String editRestaurant(@PathVariable Long restaurantId,
+    public ResponseEntity<Long> editRestaurant(@PathVariable Long restaurantId,
                                  RestaurantUpdateDto restaurantUpdateDto) {
         adminRestaurantService.adminUpdateRestaurant(restaurantId, restaurantUpdateDto);
-        return "redirect:/admin/restaurants";
+        return ResponseEntity.ok(restaurantId);
     }
     @GetMapping("admin/restaurant/{restaurantId}")
-    public String deleteRestaurant(@PathVariable Long restaurantId){
+    public ResponseEntity<Long> deleteRestaurant(@PathVariable Long restaurantId){
         adminRestaurantService.adminDeleteRestaurant(restaurantId);
-        return "redirect:/admin/restaurants";
+        return ResponseEntity.ok(restaurantId);
     }
 }

@@ -10,15 +10,17 @@ import ProjectDoge.StudentSoup.service.admin.AdminRestaurantMenuService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import ProjectDoge.StudentSoup.service.restaurantmenu.RestaurantMenuRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AdminRestaurantMenuController {
 
@@ -29,28 +31,29 @@ public class AdminRestaurantMenuController {
     private final AdminRestaurantMenuService adminRestaurantMenuService;
 
     @GetMapping("admin/{restaurantId}/restaurantMenus")
-    public String RestaurantMenuList(@PathVariable Long restaurantId, Model model){
+    public List<Object> RestaurantMenuList(@PathVariable Long restaurantId, Model model){
+        List<Object> result = new ArrayList<>();
         List<RestaurantMenu> restaurantMenus = restaurantMenuRepository.findByRestaurantId(restaurantId);
-        model.addAttribute("restaurantMenus",restaurantMenus);
-        model.addAttribute("restaurantId",restaurantId);
-        return "/admin/restaurant/restaurantMenuList";
+        result.add(restaurantMenus);
+        result.add(restaurantId);
+        return result;
     }
 
 
     @GetMapping("admin/restaurantMenu")
-    public String createRestaurantMenu(@RequestParam Long restaurantId,Model model){
+    public List<Object> createRestaurantMenu(@RequestParam Long restaurantId,Model model){
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
-        model.addAttribute("restaurantMenuForm",new RestaurantMenuFormDto());
-        model.addAttribute("restaurant",restaurant);
-        model.addAttribute("menuCategory", RestaurantMenuCategory.values());
-        return "/admin/restaurant/createRestaurantMenu";
+        List<Object> result = new ArrayList<>();
+        result.add(RestaurantMenuCategory.values());
+        result.add(result);
+        return result;
     }
     @PostMapping("admin/restaurantMenu")
-    public String createRestaurantMenu(@ModelAttribute RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
+    public ResponseEntity<String> createRestaurantMenu(@ModelAttribute RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
         restaurantMenuRegisterService.join(form,multipartFile);
-        redirect.addAttribute("restaurantId",form.getRestaurantId());
 
-        return "redirect:/admin/{restaurantId}/restaurantMenus";
+
+        return ResponseEntity.ok("okay");
     }
     @GetMapping("admin/restaurantMenu/edit/{restaurantMenuId}")
     public String editRestaurantMenu(@PathVariable Long restaurantMenuId,Model model){
