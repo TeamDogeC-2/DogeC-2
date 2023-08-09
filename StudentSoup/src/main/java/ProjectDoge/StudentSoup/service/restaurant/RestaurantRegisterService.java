@@ -41,8 +41,8 @@ public class RestaurantRegisterService {
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantImage(restaurant, uploadFileDtoList);
         restaurantRepository.save(restaurant);
-        fcmService.sendRestaurantCreationNotification(restaurant.getId(),restaurant.getName(),school.getSchoolName());
-        log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance());
+        fcmService.sendRestaurantCreationNotification(restaurant.getId(),restaurant.getName(),school.getSchoolName(),school.getId());
+        log.info("음식점이 생성되었습니다.[{}][{}]",restaurant.getId(), restaurant.getName(), restaurant.getDistance(),school.getId());
         return restaurant.getId();
     }
 
