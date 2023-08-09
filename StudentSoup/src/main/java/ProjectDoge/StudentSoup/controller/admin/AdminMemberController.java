@@ -18,10 +18,12 @@ import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class AdminMemberController {
     private final MemberRepository memberRepository;
     private final MemberFindService memberFindService;
@@ -44,39 +46,36 @@ public class AdminMemberController {
         return "admin/admin-index";
     }
 
-    @GetMapping("/member/new")
-    public String createMemberForm(Model model){
-
-
-        model.addAttribute("memberForm", new AdminMemberForm());
-        model.addAttribute("genderTypes", GenderType.values());
-        List<School> schools = schoolFindService.findAll();
-        model.addAttribute("schools", schools);
-
-        return "/admin/member/createMember";
-    }
+//    @GetMapping("/member/new")
+//    public String createMemberForm(Model model){
+//
+//
+//        model.addAttribute("memberForm", new AdminMemberForm());
+//        model.addAttribute("genderTypes", GenderType.values());
+//        List<School> schools = schoolFindService.findAll();
+//        model.addAttribute("schools", schools);
+//
+//        return "/admin/member/createMember";
+//    }
 
     @PostMapping("/member/new")
-    public String createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm ,@RequestBody() String token,@RequestBody boolean isNotificationEnabled){
-        memberRegisterService.join(memberForm,token,isNotificationEnabled);
-        return "redirect:/admin";
+    public ResponseEntity<Long> createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm , @RequestBody() String token, @RequestBody boolean isNotificationEnabled){
+        Long id = memberRegisterService.join(memberForm,token,isNotificationEnabled);
+        return ResponseEntity.ok(id);
     }
 
     @GetMapping("/member/edit/{memberId}")
-    public String updateMemberForm(@PathVariable Long memberId, Model model){
+    public  AdminMemberUpdateForm updateMemberForm(@PathVariable Long memberId, Model model){
         log.info("updateMemberForm 호출");
         Member member = memberRepository.updateFindById(memberId)
                 .orElse(null);
         log.info("업데이트 용 회원 정보가 호출되었습니다. [{}]", member.getMemberId());
         AdminMemberUpdateForm memberForm = new AdminMemberUpdateForm().createMemberUpdateForm(member);
-        model.addAttribute("memberForm", memberForm);
-        log.info("업데이트 용 회원 정보 : [{}]", memberForm.toString());
-        log.info("updateMemberForm : [{}]", memberForm);
-        return "/admin/member/updateMember";
+        return memberForm;
     }
 
     @PostMapping("/member/edit/{memberId}")
-    public String updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") AdminMemberUpdateForm updateForm){
+    public ResponseEntity<Long> updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") AdminMemberUpdateForm updateForm){
         log.info("회원 업데이트가 시작되었습니다.");
         log.info("updateForm 전달 객체 : {}", updateForm.toString());
         log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
@@ -85,7 +84,7 @@ public class AdminMemberController {
         Member member = memberFindService.findOne(updateId);
         log.info("updated member password : [{}]", member.getPwd());
 
-        return "redirect:/admin/members";
+        return ResponseEntity.ok(updateId);
     }
 
     @PostMapping("/member/ajax")
@@ -100,20 +99,19 @@ public class AdminMemberController {
         return dto;
     }
     @GetMapping("members")
-    public String getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
-
+    public ResponseEntity<Map<String,List<Member>>> getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
+        Map<String,List<Member>> result = new HashMap<>();
         List<Member> member = memberRepository.findAll();
         List<Member> findMember = adminMemberService.searchMember(field,value);
-        model.addAttribute("members",member);
-        model.addAttribute("findMembers",findMember);
-        model.addAttribute("memberSearch",new MemberSearch());
-        return "/admin/member/memberList";
+        result.put("members",member);
+        result.put("searchMembers",findMember);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/member/delete/{memberId}")
-    public String deleteMember(@PathVariable Long memberId){
+    public ResponseEntity<Long> deleteMember(@PathVariable Long memberId){
         memberDeleteService.deleteMember(memberId);
-        return "redirect:/admin/members";
+        return ResponseEntity.ok(memberId);
     }
 
 
