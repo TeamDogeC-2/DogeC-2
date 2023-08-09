@@ -6,4 +6,6 @@ export interface SignUpUserInfo {
   gender: string;
   schoolId: string;
   departmentId: string;
+  token: string;
+  isNotificationEnabled: boolean;
 }
