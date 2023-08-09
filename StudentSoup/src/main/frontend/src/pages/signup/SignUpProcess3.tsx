@@ -38,7 +38,7 @@ const SignUpProcess3 = () => {
   const [isEmailConfirmation, setIsEmailConfirmation] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-
+  console.log(state);
   const onChangeUserNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserNickname(e.target.value);
     setIsCheckedNickname(false);
@@ -86,7 +86,7 @@ const SignUpProcess3 = () => {
   };
 
   const onClickAuthenticationNumber = () => {
-    checkEmailAuthentication(availableEmail, userAuthenticationCode)
+    checkEmailAuthentication(`${availableEmail}@${universityDomain}`, userAuthenticationCode)
       .then(() => {
         setIsEmailConfirmation(true);
       })
@@ -114,6 +114,8 @@ const SignUpProcess3 = () => {
         gender: userGender,
         schoolId: selectUniversity,
         departmentId: selectMajor,
+        token: state.token,
+        isNotificationEnabled: state.marketingAgree,
       };
 
       completeSignUp(userInformation)
@@ -131,6 +133,7 @@ const SignUpProcess3 = () => {
             title: '회원가입에 실패하였습니다.',
             text: error.response.data.message,
           });
+          console.error(error);
         });
     }
   };

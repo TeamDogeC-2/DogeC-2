@@ -27,6 +27,7 @@ const SignUpProcess2 = () => {
   const [isPasswordCharacterLength, setIsPasswordCharacterLength] = useState(false);
 
   const { state } = useLocation();
+  console.log(state);
   const navigate = useNavigate();
 
   const REG_ID = /^[a-zA-Z]{1}/;
@@ -111,7 +112,7 @@ const SignUpProcess2 = () => {
           .then(response => {
             const id = response.data.id;
             const password = response.data.pwd;
-            navigate('/signup/process/3', { state: { id, password } });
+            navigate('/signup/process/3', { state: { id, password, ...state } });
           })
           .catch(error => {
             console.log(error.response.data.message);
