@@ -1,9 +1,8 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
 
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantSearch;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
+import ProjectDoge.StudentSoup.dto.restaurant.*;
+import ProjectDoge.StudentSoup.dto.school.AdminSchoolDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -11,6 +10,7 @@ import ProjectDoge.StudentSoup.repository.restaurant.RestaurantRepository;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminRestaurantService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
+import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,9 +33,9 @@ public class AdminRestaurantController {
 
     private final RestaurantRepository restaurantRepository;
 
-
+    private final SchoolFindService schoolFindService;
     @GetMapping("admin/restaurant")
-    public List<Object> createRestaurant(Model model) {
+    public List<Object> createRestaurant() {
         List<Map<String,Long>> schoolsDto = new ArrayList<>();
         List<Object> result = new ArrayList<>();
         List<School> schools = schoolRepository.findAll();
@@ -51,30 +51,36 @@ public class AdminRestaurantController {
     }
 
     @PostMapping("admin/restaurant")
-    public String createRestaurant(@ModelAttribute RestaurantFormDto restaurantFormDto) {
+    public String createRestaurant(@RequestBody RestaurantFormDto restaurantFormDto) {
         Long restaurantId = restaurantRegisterService.join(restaurantFormDto);
         return ResponseEntity.ok().body(restaurantId).toString();
     }
 
     @GetMapping("admin/restaurants")
-    public ResponseEntity<Map<String,List<Restaurant>>> restaurantList(@ModelAttribute RestaurantSearch restaurantSearch, Model model) {
-        Map<String,List<Restaurant>> result = new HashMap<>();
+    public ResponseEntity<Map<String,List<RestaurantDto>>> restaurantList(@RequestBody RestaurantSearch restaurantSearch) {
+        Map<String,List<RestaurantDto>> result = new HashMap<>();
         List<Restaurant> restaurants = restaurantRepository.findAll();
-        result.put("restaurants",restaurants);
+        List<RestaurantDto> restaurantDtos = new ArrayList<>();
+        for(Restaurant restaurant : restaurants){
+            restaurantDtos.add(new RestaurantDto().createRestaurantDto(restaurant,false));
+        }
+        result.put("restaurants",restaurantDtos);
 
+        List<RestaurantDto> findRestaurantDtos = new ArrayList<>();
         List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
-        result.put("searchRestaurants",findRestaurants);
+        for(Restaurant restaurant : findRestaurants){
+            findRestaurantDtos.add(new RestaurantDto().createRestaurantDto(restaurant,false));
+        }
+        result.put("searchRestaurants",findRestaurantDtos);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("admin/restaurant/edit/{restaurantId}")
-    public List<Object> editRestaurant(@PathVariable Long restaurantId, Model model) {
+    public List<Object> editRestaurant(@PathVariable Long restaurantId) {
         RestaurantUpdateDto restaurantFormDto = adminRestaurantService.adminFindUpdateRestaurant(restaurantId);
-        List<School> schools = schoolRepository.findAll();
         List<Object> result = new ArrayList<>();
         result.add(restaurantId);
         result.add(restaurantFormDto);
-        result.add(schools);
         result.add(RestaurantCategory.values());
 
         return result;
