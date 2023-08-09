@@ -65,7 +65,27 @@ const Home = () => {
   const filterSchoolName = schoolComponent.filter((item: { schoolName: string | string[] }) => {
     return item.schoolName.includes(schoolName);
   });
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      Swal.fire({
+        title: event.data.title,
+        text: event.data.body,
+        icon: 'info',
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+      });
+    };
 
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.addEventListener('message', handleMessage);
+    }
+
+    return () => {
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.removeEventListener('message', handleMessage);
+      }
+    };
+  }, []);
   return (
     <div className="home-hero-text">
       <img className="home-sfoo-image" src={MainLogo_white} />
