@@ -18,7 +18,7 @@ public class FcmService {
         this.firebaseMessaging = firebaseMessaging;
     }
 
-    public void sendRestaurantCreationNotification(Long restaurantId, String restaurantName, String schoolName) {
+    public void sendRestaurantCreationNotification(Long restaurantId, String restaurantName, String schoolName,Long schoolId) {
         // 제목과 본문 설정
         Notification notification = Notification.builder()
                 .setTitle("새 음식점 추가 알림")
@@ -30,7 +30,7 @@ public class FcmService {
                 .setNotification(notification)
                 .putData("restaurantId", restaurantId.toString())
                 .putData("restaurantName", restaurantName)
-                .setTopic(schoolName) // 해당 토픽에 대한 구독자들에게 메시지를 보냅니다.
+                .setTopic( "shool_"+schoolId.toString()) // 해당 토픽에 대한 구독자들에게 메시지를 보냅니다.
                 .build();
 
         // 메시지 전송

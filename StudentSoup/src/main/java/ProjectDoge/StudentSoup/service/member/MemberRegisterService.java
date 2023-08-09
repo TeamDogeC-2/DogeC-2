@@ -48,7 +48,7 @@ public class MemberRegisterService {
         log.info("회원이 생성되었습니다. [{}][{}] ", member.getId(), member.getNickname());
         if (isNotificationEnabled) {
             // 토픽 이름을 학교 이름으로 지정
-            String topic = school.getSchoolName();
+            String topic = "school_"+school.getId().toString();
 
 
             // 토픽 구독
