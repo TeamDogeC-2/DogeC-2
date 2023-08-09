@@ -59,8 +59,8 @@ public class AdminMemberController {
 //    }
 
     @PostMapping("/member/new")
-    public ResponseEntity<Long> createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm , @RequestBody() String token, @RequestBody boolean isNotificationEnabled){
-        Long id = memberRegisterService.join(memberForm,token,isNotificationEnabled);
+    public ResponseEntity<Long> createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm){
+        Long id = memberRegisterService.join(memberForm,memberForm.getToken(),memberForm.getIsNotificationEnabled());
         return ResponseEntity.ok(id);
     }
 
