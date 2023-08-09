@@ -9,7 +9,9 @@ import Background from 'components/common/Background';
 import './signupprocess1.scss';
 import { Desktop, Mobile } from 'mediaQuery';
 import Checkbox from './components/Checkbox';
+import { getToken } from 'firebase/messaging';
 import { useNavigate } from 'react-router-dom';
+import { requestPermission } from '../../firebase-messaging-sw.js';
 
 const SignUpProcess1 = () => {
   const checkboxDataLists = [
@@ -37,6 +39,7 @@ const SignUpProcess1 = () => {
   ];
 
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [firebaseToken, setFirebaseToken] = useState<string | null>('');
   const [checkItems, setCheckItems] = useState<string[]>([]);
   const navigate = useNavigate();
 
@@ -57,12 +60,20 @@ const SignUpProcess1 = () => {
     }
   };
 
-  const onClickNextPage = () => {
+  const onClickNextPage = async () => {
     if (isAllChecked) {
-      navigate('/signup/process/2', { state: isAllChecked });
+      if (checkItems.includes('marketing')) {
+        requestPermission();
+        navigate('/signup/process/2', {
+          state: { token: localStorage.getItem('token'), marketingAgree: true },
+        });
+      } else {
+        navigate('/signup/process/2', { state: { token: null, marketingAgree: false } });
+      }
+    } else {
+      alert('동의하지 않은 필수 약관이 있습니다.');
     }
   };
-
   useEffect(() => {
     if (checkItems.includes('collect') && checkItems.includes('terms')) {
       setIsAllChecked(true);
@@ -70,7 +81,7 @@ const SignUpProcess1 = () => {
       setIsAllChecked(false);
     }
   }, [checkItems]);
-
+  console.log(isAllChecked);
   return (
     <div className="signup-process-1-container">
       <Background>
