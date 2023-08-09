@@ -54,6 +54,6 @@ public class SchoolFindService {
         }
         List<School> schools = schoolRepository.findAll();
 
-        return ;
+        return schools;
     }
 }
