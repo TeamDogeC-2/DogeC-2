@@ -1,6 +1,8 @@
 package ProjectDoge.StudentSoup.controller.admin.school;
 
 import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolIndexDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolResponseDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSearch;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
@@ -41,19 +43,20 @@ public class AdminSchoolController {
 //        model.addAttribute("schoolForm",new SchoolFormDto());
 //        return "/admin/school/createSchool";
 //    }
-//    @PostMapping("admin/school/new")
-//    public String createSchool(@Valid SchoolFormDto formDto, BindingResult bindingResult){
-//        if(bindingResult.hasErrors()){
-//            return "/admin/school/createSchool";
-//        }
-//        schoolRegisterService.join(formDto);
-//        return "redirect:/admin/schools";
-//    }
+    @PostMapping("admin/school/new")
+    public String createSchool(@Valid SchoolFormDto formDto, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().toString();
+        }
+        Long schoolId = schoolRegisterService.join(formDto);
+        return schoolId.toString();
+    }
     @GetMapping("/admin/schools")
-    public Map<String,List<School>> schoolList(@ModelAttribute("schoolSearch") SchoolSearch schoolSearch) {
+    public Map<String,List<School>> schoolList(@RequestBody() SchoolSearch schoolSearch) {
         Map<String,List<School>> result = new HashMap<>();
         List<School> schools = schoolFindService.findAll();
         List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
+
         result.put("schools",schools);
         result.put("searchSchools",findSchools);
         return result;

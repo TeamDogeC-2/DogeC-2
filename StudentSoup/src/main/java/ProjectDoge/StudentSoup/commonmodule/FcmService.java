@@ -30,7 +30,7 @@ public class FcmService {
                 .setNotification(notification)
                 .putData("restaurantId", restaurantId.toString())
                 .putData("restaurantName", restaurantName)
-                .setTopic( "shool_"+schoolId.toString()) // 해당 토픽에 대한 구독자들에게 메시지를 보냅니다.
+                .setTopic( "school_"+schoolId.toString()) // 해당 토픽에 대한 구독자들에게 메시지를 보냅니다.
                 .build();
 
         // 메시지 전송

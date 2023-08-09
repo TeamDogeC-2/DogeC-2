@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.controller.admin;
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberForm;
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
+import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.GenderType;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,13 +101,25 @@ public class AdminMemberController {
         return dto;
     }
     @GetMapping("members")
-    public ResponseEntity<Map<String,List<Member>>> getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
-        Map<String,List<Member>> result = new HashMap<>();
-        List<Member> member = memberRepository.findAll();
+    public ResponseEntity<Map<String,List<MemberDto>>> getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
+        Map<String,List<MemberDto>> result = new HashMap<>();
+        List<Member> members = memberRepository.findAll();
         List<Member> findMember = adminMemberService.searchMember(field,value);
-        result.put("members",member);
-        result.put("searchMembers",findMember);
+
+        List<MemberDto> memberDto = getMemberDto(members);
+        List<MemberDto> findMemberDto = getMemberDto(findMember);
+
+        result.put("members",memberDto);
+        result.put("findMembers",findMemberDto);
         return ResponseEntity.ok(result);
+    }
+
+    private List<MemberDto> getMemberDto(List<Member> members) {
+        List<MemberDto> dto = new ArrayList<>();
+        for(Member member : members){
+            dto.add(new MemberDto().getMemberDto(member));
+        }
+        return dto;
     }
 
     @GetMapping("/member/delete/{memberId}")
