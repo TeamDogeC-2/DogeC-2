@@ -2,8 +2,14 @@ import React, { type FormEvent, useState, useEffect } from 'react';
 import './adminaddrestaurant.scss';
 import AdminNavbar from './AdminNavbar';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
+import { useLocation } from 'react-router-dom';
 
 const AdminAddRestaurant = () => {
+  const location = useLocation();
+  const isEditMode = location.state?.isEditMode;
+  const restaurantId = location.state?.restaurantId;
+  console.log(isEditMode);
+  console.log(restaurantId);
   const [name, setName] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [address, setAddress] = useState<string>('');
@@ -32,6 +38,7 @@ const AdminAddRestaurant = () => {
   };
 
   useEffect(() => {
+    // 카테고리와 학교 옵션 가져오기
     axiosInstance
       .get('/admin/restaurant')
       .then(res => {
@@ -41,7 +48,28 @@ const AdminAddRestaurant = () => {
       .catch(err => {
         console.error(err);
       });
-  }, []);
+
+    // 수정 모드에서 음식점 정보 가져오기
+    if (isEditMode && restaurantId) {
+      axiosInstance
+        .get(`/admin/restaurant/edit/${restaurantId}`)
+        .then(res => {
+          // 음식점 정보로 상태 업데이트
+          console.log(res.data);
+          setName(res.data.name);
+          setAddress(res.data.address);
+          setCategory(res.data.restaurantCategory);
+          setStartTime(res.data.startTime);
+          setEndTime(res.data.endTime);
+          setSchoolId(res.data.schoolId);
+          setCoordinate(res.data.coordinate);
+          // 다른 상태도 업데이트...
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }, [isEditMode, restaurantId]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
