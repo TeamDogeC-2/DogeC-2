@@ -52,7 +52,7 @@ const AdminRestaurantView = () => {
       focusConfirm: false,
       willOpen: () => {
         document.getElementById('edit-menu')?.addEventListener('click', () => {
-          // 메뉴 관리 로직
+          navigate('/admin/restaurant/menus', { state: { restaurantId } });
         });
         document.getElementById('edit-restaurant')?.addEventListener('click', () => {
           navigate('/admin/restaurant', { state: { isEditMode: true, restaurantId } });
