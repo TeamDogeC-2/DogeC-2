@@ -22,6 +22,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Adminpage from 'pages/admin/Adminpage';
 import AdminAddRestaurant from 'pages/admin/AdminAddRestaurant';
+import AdminRestaurantView from 'pages/admin/AdminRestaurantView';
 
 const Router = () => {
   return (
@@ -53,6 +54,7 @@ const Router = () => {
         <Route path="/mypage/scheduler" element={<MypageScheduler />} />
         <Route path="/admin" element={<Adminpage />} />
         <Route path="/admin/restaurant" element={<AdminAddRestaurant />} />
+        <Route path="/admin/restaurants" element={<AdminRestaurantView />} />
       </Route>
     </Routes>
   );
