@@ -33,7 +33,7 @@ public class RestaurantUpdateDto {
     @NotNull(message = "종료시간 입력은 필수입니다.")
     private LocalTime endTime;
 
-    private School school;
+    private String schoolName;
 
     private String coordinate;
 
@@ -54,7 +54,7 @@ public class RestaurantUpdateDto {
         this.setRestaurantCategory(restaurant.getRestaurantCategory());
         this.setStartTime(restaurant.getStartTime());
         this.setEndTime(restaurant.getEndTime());
-        this.setSchool(restaurant.getSchool());
+        this.setSchoolName(restaurant.getSchool().getSchoolName());
         this.setCoordinate(restaurant.getCoordinate());
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
