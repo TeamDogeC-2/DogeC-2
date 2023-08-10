@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
 
+import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentUpdateDto;
 import ProjectDoge.StudentSoup.dto.school.AdminSchoolDto;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +54,12 @@ public class AdminDepartmentController {
         List<School> schools = schoolRepository.findAll();
         List<AdminSchoolDto> schoolDtos =schoolFindService.getSchoolDtoList(schools);
         List<Department> departments = departmentFindService.getAllDepartmentUsingSchool(schoolId);
+        List<DepartmentCallDto> departmentCallDtos = new ArrayList<>();
+        for(Department department : departments){
+            departmentCallDtos.add(new DepartmentCallDto(department));
+        }
         result.put("school",schoolDtos);
-        result.put("departments",departments);
+        result.put("departments",departmentCallDtos);
         return result;
     }
 

@@ -31,7 +31,7 @@ public class AdminRestaurantMenuController {
 
     private final AdminRestaurantMenuService adminRestaurantMenuService;
 
-    @GetMapping("admin/{restaurantId}/restaurantMenus")
+        @GetMapping("admin/{restaurantId}/restaurantMenus")
     public List<Object> RestaurantMenuList(@PathVariable Long restaurantId){
         List<Object> result = new ArrayList<>();
         List<RestaurantMenu> restaurantMenus = restaurantMenuRepository.findByRestaurantId(restaurantId);
@@ -46,12 +46,12 @@ public class AdminRestaurantMenuController {
 
 
     @GetMapping("admin/restaurantMenu")
-    public RestaurantMenuCategory[] createRestaurantMenu(@RequestParam Long restaurantId){
+    public RestaurantMenuCategory[] createRestaurantMenu(){
         RestaurantMenuCategory[] restaurantMenu = RestaurantMenuCategory.values();
         return restaurantMenu;
     }
     @PostMapping("admin/restaurantMenu")
-    public ResponseEntity<String> createRestaurantMenu(@RequestBody RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile, RedirectAttributes redirect){
+    public ResponseEntity<String> createRestaurantMenu(@RequestBody RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile){
         restaurantMenuRegisterService.join(form,multipartFile);
         return ResponseEntity.ok("okay");
     }
