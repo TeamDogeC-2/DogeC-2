@@ -36,8 +36,10 @@ public class AdminRestaurantMenuController {
         List<Object> result = new ArrayList<>();
         List<RestaurantMenu> restaurantMenus = restaurantMenuRepository.findByRestaurantId(restaurantId);
         List<RestaurantMenuDto> restaurantMenuDtos = new ArrayList<>();
+        List<String> fileName = new ArrayList<>();
         for(RestaurantMenu restaurantMenu : restaurantMenus){
             restaurantMenuDtos.add(new RestaurantMenuDto().createRestaurantMenu(restaurantMenu,false));
+            fileName.add((restaurantMenu.getImageFile() == null) ? "" : restaurantMenu.getImageFile().getFileUrl());
         }
         result.add(restaurantMenuDtos);
         result.add(restaurantId);
