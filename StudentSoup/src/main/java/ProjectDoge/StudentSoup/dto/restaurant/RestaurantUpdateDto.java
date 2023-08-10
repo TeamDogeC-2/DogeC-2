@@ -61,13 +61,13 @@ public class RestaurantUpdateDto {
         this.setDetail(restaurant.getDetail());
     }
 
-    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime,School school, String coordinate, List<MultipartFile> multipartFileList, String tel, String tag, String detail) {
+    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime,String schoolName, String coordinate, List<MultipartFile> multipartFileList, String tel, String tag, String detail) {
         this.name = name;
         this.address=address;
         this.restaurantCategory=category;
         this.startTime= startTime;
         this.endTime= endTime;
-        this.school = school;
+        this.schoolName = schoolName;
         this.coordinate=coordinate;
         this.tel=tel;
         this.tag=tag;
