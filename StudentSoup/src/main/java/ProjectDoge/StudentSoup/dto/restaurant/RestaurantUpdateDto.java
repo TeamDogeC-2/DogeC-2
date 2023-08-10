@@ -33,7 +33,7 @@ public class RestaurantUpdateDto {
     @NotNull(message = "종료시간 입력은 필수입니다.")
     private LocalTime endTime;
 
-    private School school;
+    private String schoolName;
 
     private String coordinate;
 
@@ -54,20 +54,20 @@ public class RestaurantUpdateDto {
         this.setRestaurantCategory(restaurant.getRestaurantCategory());
         this.setStartTime(restaurant.getStartTime());
         this.setEndTime(restaurant.getEndTime());
-        this.setSchool(restaurant.getSchool());
+        this.setSchoolName(restaurant.getSchool().getSchoolName());
         this.setCoordinate(restaurant.getCoordinate());
         this.setTel(restaurant.getTel());
         this.setTag(restaurant.getTag());
         this.setDetail(restaurant.getDetail());
     }
 
-    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime,School school, String coordinate, List<MultipartFile> multipartFileList, String tel, String tag, String detail) {
+    public void createRestaurantFormDto(String name, String address, RestaurantCategory category, LocalTime startTime, LocalTime endTime,String schoolName, String coordinate, List<MultipartFile> multipartFileList, String tel, String tag, String detail) {
         this.name = name;
         this.address=address;
         this.restaurantCategory=category;
         this.startTime= startTime;
         this.endTime= endTime;
-        this.school = school;
+        this.schoolName = schoolName;
         this.coordinate=coordinate;
         this.tel=tel;
         this.tag=tag;

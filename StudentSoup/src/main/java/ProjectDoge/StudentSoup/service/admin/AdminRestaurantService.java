@@ -50,7 +50,7 @@ public class AdminRestaurantService {
         Restaurant restaurant = restaurantFindService.findOne(restaurantId);
         List<UploadFileDto> uploadFileDtoList = fileService.createUploadFileDtoList(dto.getMultipartFileList());
         uploadRestaurantImage(restaurant, uploadFileDtoList);
-        School school = schoolFindService.findOne(dto.getSchool().getId());
+        School school = schoolFindService.findOne(restaurant.getSchool().getId());
         restaurant.updateRestaurant(dto,school);
     }
 
