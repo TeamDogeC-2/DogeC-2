@@ -28,7 +28,7 @@ const AdminNavbar = () => {
         {selectedMenu === '음식점 관리' && (
           <div className="sub-menu">
             <div onClick={handleAddRestaurantClick}>음식점 등록</div>
-            <div>음식점 조회</div>
+            <div onClick={() => navigate('/admin/restaurants')}>음식점 조회</div>
           </div>
         )}
       </div>
