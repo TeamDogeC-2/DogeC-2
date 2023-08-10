@@ -2,9 +2,11 @@ import React, { type FormEvent, useState, useEffect } from 'react';
 import './adminaddrestaurant.scss';
 import AdminNavbar from './AdminNavbar';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AdminAddRestaurant = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const isEditMode = location.state?.isEditMode;
   const restaurantId = location.state?.restaurantId;
@@ -17,6 +19,7 @@ const AdminAddRestaurant = () => {
   const [endTime, setEndTime] = useState<string>('');
   const [delivery, setDelivery] = useState<string>('');
   const [schoolId, setSchoolId] = useState<string>('');
+  const [schoolName, setSchoolName] = useState<string>('');
   const [coordinate, setCoordinate] = useState<string>('');
   const [tel, setTel] = useState<string>('');
   const [tag, setTag] = useState<string>('');
@@ -56,14 +59,23 @@ const AdminAddRestaurant = () => {
         .then(res => {
           // 음식점 정보로 상태 업데이트
           console.log(res.data);
-          setName(res.data.name);
-          setAddress(res.data.address);
-          setCategory(res.data.restaurantCategory);
-          setStartTime(res.data.startTime);
-          setEndTime(res.data.endTime);
-          setSchoolId(res.data.schoolId);
-          setCoordinate(res.data.coordinate);
-          // 다른 상태도 업데이트...
+          const restaurantData = res.data[1];
+          setName(restaurantData.name);
+          setAddress(restaurantData.address);
+          setCategory(restaurantData.restaurantCategory);
+          setStartTime(restaurantData.startTime);
+          setEndTime(restaurantData.endTime);
+          setDelivery(restaurantData.isDelivery);
+          setSchoolName(restaurantData.schoolName);
+          setCoordinate(restaurantData.coordinate);
+          const telWithoutHyphen = restaurantData.tel.replace(/-/g, '');
+          setTel(telWithoutHyphen);
+          setTag(restaurantData.tag);
+          setDetail(restaurantData.detail);
+          const imageFiles = res.data[1].multipartFileList.map((fileInfo: any) => {
+            return new File([fileInfo.data], fileInfo.fileName, { type: fileInfo.contentType });
+          });
+          setImages(imageFiles);
         })
         .catch(err => {
           console.error(err);
@@ -75,6 +87,8 @@ const AdminAddRestaurant = () => {
     e.preventDefault();
 
     const formData = new FormData();
+    const url =
+      isEditMode && restaurantId ? `/admin/restaurant/edit/${restaurantId}` : '/admin/restaurant';
 
     formData.append('name', name);
     formData.append('address', address);
@@ -95,12 +109,22 @@ const AdminAddRestaurant = () => {
     }
 
     try {
-      await axiosInstance.post('/admin/restaurant', formData, {
+      await axiosInstance.post(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('데이터가 성공적으로 전송되었습니다.');
+
+      Swal.fire({
+        title: '성공',
+        text: '데이터가 성공적으로 전송되었습니다.',
+        icon: 'success',
+        confirmButtonText: '확인',
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate('/admin');
+        }
+      });
     } catch (error) {
       console.error('데이터 전송에 실패했습니다.', error);
     }
@@ -128,7 +152,7 @@ const AdminAddRestaurant = () => {
       setImages(images);
     }
   };
-
+  console.log('들어간이미지', images);
   return (
     <div className="adminpage-maincontainer">
       <AdminNavbar />
@@ -172,18 +196,27 @@ const AdminAddRestaurant = () => {
           </div>
 
           <div className="adminrestaurant-form-group">
-            <label>학교 선택:</label>
-            <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
-              <option value="">학교를 선택해주세요</option>
-              {schoolOptions.map((option, _) => {
-                const [schoolName, schoolId] = Object.entries(option)[0];
-                return (
-                  <option key={schoolId} value={schoolId}>
-                    {schoolName}
-                  </option>
-                );
-              })}
-            </select>
+            {isEditMode && restaurantId ? (
+              <div className="adminrestaurant-form-group">
+                <label>학교:</label>
+                <input type="text" value={schoolName} readOnly />
+              </div>
+            ) : (
+              <div className="adminrestaurant-form-group">
+                <label>학교 선택:</label>
+                <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
+                  <option value="">학교를 선택해주세요</option>
+                  {schoolOptions.map((option, _) => {
+                    const [schoolName, schoolId] = Object.entries(option)[0];
+                    return (
+                      <option key={schoolId} value={schoolId}>
+                        {schoolName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="adminrestaurant-form-group">
@@ -222,7 +255,10 @@ const AdminAddRestaurant = () => {
           </div>
 
           <div className="adminrestaurant-form-group">
-            <input type="submit" value="레스토랑 등록" />
+            <input
+              type="submit"
+              value={isEditMode && restaurantId ? '레스토랑 수정' : '레스토랑 등록'}
+            />
           </div>
         </form>
       </div>
