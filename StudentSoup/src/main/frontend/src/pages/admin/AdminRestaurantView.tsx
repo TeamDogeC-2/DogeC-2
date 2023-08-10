@@ -3,6 +3,7 @@ import './adminrestaurantview.scss';
 import AdminNavbar from './AdminNavbar';
 import Swal from 'sweetalert2';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
+import { useNavigate } from 'react-router-dom';
 interface RestaurantsType {
   address: string;
   detail: string;
@@ -21,6 +22,7 @@ interface RestaurantsType {
 }
 
 const AdminRestaurantView = () => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<RestaurantsType[]>();
   const CallRestaurants = async () => {
     await axiosInstance
@@ -41,7 +43,7 @@ const AdminRestaurantView = () => {
       title: `${restaurantName}`,
       html: `
         <div>
-          <button id="edit-menu" class="custom-swal-button">메뉴 수정</button>
+          <button id="edit-menu" class="custom-swal-button">메뉴 관리</button>
           <button id="edit-restaurant" class="custom-swal-button">음식점 수정</button>
           <button id="delete-restaurant" class="custom-swal-button">음식점 삭제</button>
         </div>
@@ -50,10 +52,11 @@ const AdminRestaurantView = () => {
       focusConfirm: false,
       willOpen: () => {
         document.getElementById('edit-menu')?.addEventListener('click', () => {
-          // 메뉴 수정 로직
+          // 메뉴 관리 로직
         });
         document.getElementById('edit-restaurant')?.addEventListener('click', () => {
-          // 음식점 수정 로직
+          navigate('/admin/restaurant', { state: { isEditMode: true, restaurantId } });
+          Swal.close();
         });
         document.getElementById('delete-restaurant')?.addEventListener('click', () => {
           Swal.fire({
