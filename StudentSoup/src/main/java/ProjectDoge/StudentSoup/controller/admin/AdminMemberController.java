@@ -49,7 +49,7 @@ public class AdminMemberController {
     }
 
 //    @GetMapping("/member/new")
-//    public String createMemberForm(Model model){
+//    public String createMemberForm(){
 //
 //
 //        model.addAttribute("memberForm", new AdminMemberForm());
@@ -61,13 +61,13 @@ public class AdminMemberController {
 //    }
 
     @PostMapping("/member/new")
-    public ResponseEntity<Long> createMemberForm(@ModelAttribute("memberForm") MemberFormBDto memberForm){
+    public ResponseEntity<Long> createMemberForm(@RequestBody() MemberFormBDto memberForm){
         Long id = memberRegisterService.join(memberForm,memberForm.getToken(),memberForm.getIsNotificationEnabled());
         return ResponseEntity.ok(id);
     }
 
     @GetMapping("/member/edit/{memberId}")
-    public  AdminMemberUpdateForm updateMemberForm(@PathVariable Long memberId, Model model){
+    public  AdminMemberUpdateForm updateMemberForm(@PathVariable Long memberId){
         log.info("updateMemberForm 호출");
         Member member = memberRepository.updateFindById(memberId)
                 .orElse(null);
@@ -77,7 +77,7 @@ public class AdminMemberController {
     }
 
     @PostMapping("/member/edit/{memberId}")
-    public ResponseEntity<Long> updateMember(@PathVariable Long memberId, @ModelAttribute("memberForm") AdminMemberUpdateForm updateForm){
+    public ResponseEntity<Long> updateMember(@PathVariable Long memberId, @RequestBody() AdminMemberUpdateForm updateForm){
         log.info("회원 업데이트가 시작되었습니다.");
         log.info("updateForm 전달 객체 : {}", updateForm.toString());
         log.info("MultipartFile : [{}]", updateForm.getMultipartFile());
@@ -101,7 +101,7 @@ public class AdminMemberController {
         return dto;
     }
     @GetMapping("members")
-    public ResponseEntity<Map<String,List<MemberDto>>> getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value,Model model){
+    public ResponseEntity<Map<String,List<MemberDto>>> getMembers(@RequestParam(required = false) String field,@RequestParam(required = false) String value){
         Map<String,List<MemberDto>> result = new HashMap<>();
         List<Member> members = memberRepository.findAll();
         List<Member> findMember = adminMemberService.searchMember(field,value);
@@ -127,7 +127,5 @@ public class AdminMemberController {
         memberDeleteService.deleteMember(memberId);
         return ResponseEntity.ok(memberId);
     }
-
-
 
 }
