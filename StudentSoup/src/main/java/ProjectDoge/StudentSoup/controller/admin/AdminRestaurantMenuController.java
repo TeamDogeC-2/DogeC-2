@@ -53,8 +53,8 @@ public class AdminRestaurantMenuController {
         return restaurantMenu;
     }
     @PostMapping("admin/restaurantMenu")
-    public ResponseEntity<String> createRestaurantMenu(@RequestBody RestaurantMenuFormDto form , @RequestPart MultipartFile multipartFile){
-        restaurantMenuRegisterService.join(form,multipartFile);
+    public ResponseEntity<String> createRestaurantMenu( RestaurantMenuFormDto form ){
+        restaurantMenuRegisterService.join(form,form.getMultipartFile());
         return ResponseEntity.ok("okay");
     }
     @GetMapping("admin/restaurantMenu/edit/{restaurantMenuId}")
@@ -63,8 +63,8 @@ public class AdminRestaurantMenuController {
         return restaurantMenuUpdateDto;
     }
     @PostMapping ("admin/restaurantMenu/edit/{restaurantMenuId}")
-    public Long editRestaurantMenu(@PathVariable Long restaurantMenuId,@RequestPart MultipartFile multipartFile,RestaurantMenuUpdateDto restaurantMenuUpdateDto,RedirectAttributes redirect){
-        adminRestaurantMenuService.adminUpdateRestaurantMenu(restaurantMenuId,multipartFile,restaurantMenuUpdateDto);
+    public Long editRestaurantMenu(@PathVariable Long restaurantMenuId,RestaurantMenuUpdateDto restaurantMenuUpdateDto){
+        adminRestaurantMenuService.adminUpdateRestaurantMenu(restaurantMenuId,restaurantMenuUpdateDto.getMultipartFile(),restaurantMenuUpdateDto);
 
         return restaurantMenuId;
     }

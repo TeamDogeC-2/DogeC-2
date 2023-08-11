@@ -61,7 +61,7 @@ public class LocalFileService implements FileService {
     }
 
     public UploadFileDto storeFile(MultipartFile multipartFile) {
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null || multipartFile.isEmpty()) {
             log.info("전송된 이미지 파일이 존재하지 않아 파일 저장 메소드가 실행되지 않습니다.");
             return null;
         }
