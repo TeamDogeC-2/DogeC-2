@@ -19,16 +19,18 @@ const AdminRestaurantMenus = () => {
   const [isOpen, setIsOpen] = useState(false);
   const restaurantId = location.state?.restaurantId;
   const [menus, setMenus] = useState<MenuType[]>([]);
-  useEffect(() => {
+  const getMenus = () => {
     axiosInstance
       .get(`/admin/${restaurantId}/restaurantMenus`)
       .then(res => {
         setMenus(res.data[0]);
-        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
       });
+  };
+  useEffect(() => {
+    getMenus();
   }, [restaurantId]);
 
   const handleAddMenuClick = () => {
@@ -36,8 +38,10 @@ const AdminRestaurantMenus = () => {
   };
 
   const handleCloseModal = () => {
-    setIsOpen(false); // 모달 닫기 함수
+    setIsOpen(false); // 모달 닫기
+    getMenus();
   };
+
   return (
     <div className="adminpage-maincontainer">
       <AdminMenuModal isOpen={isOpen} onClose={handleCloseModal} restaurantId={restaurantId} />
