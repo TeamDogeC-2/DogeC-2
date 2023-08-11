@@ -92,6 +92,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -146,6 +150,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -200,6 +208,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -262,6 +274,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-tablet-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -320,6 +336,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-tablet-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -378,6 +398,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-tablet-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -440,6 +464,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-mobile-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -498,6 +526,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-mobile-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
@@ -556,6 +588,10 @@ const RestaurantMenu = ({ memberId }: Props) => {
                             key={menu.fileName}
                             alt=""
                             className="restaurant-mobile-detail-bottom-menu-img"
+                            style={{
+                              width: '122px',
+                              height: '122px',
+                            }}
                           />
                         ) : (
                           <img
