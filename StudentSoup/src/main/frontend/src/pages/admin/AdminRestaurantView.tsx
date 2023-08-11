@@ -25,15 +25,10 @@ const AdminRestaurantView = () => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<RestaurantsType[]>();
   const CallRestaurants = async () => {
-    await axiosInstance
-      .post('/admin/restaurants', {
-        column: null,
-        find_value: '',
-      })
-      .then(res => {
-        console.log(res.data);
-        setRestaurants(res.data.restaurants);
-      });
+    await axiosInstance.get('/admin/restaurants').then(res => {
+      console.log(res.data);
+      setRestaurants(res.data.restaurants);
+    });
   };
   useEffect(() => {
     CallRestaurants();
