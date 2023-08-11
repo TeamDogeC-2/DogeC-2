@@ -3,6 +3,7 @@ package ProjectDoge.StudentSoup.dto.restaurantmenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuCategory;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,8 @@ public class RestaurantMenuFormDto {
 
     @NotNull(message = "음식 가격은 필수입니다.")
     private int cost;
+
+    MultipartFile multipartFile;
 
 
     public RestaurantMenuFormDto createRestaurantMenuDto(Long restaurantId, String name, RestaurantMenuCategory category, int cost) {
