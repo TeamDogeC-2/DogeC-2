@@ -24,6 +24,8 @@ import Adminpage from 'pages/admin/Adminpage';
 import AdminAddRestaurant from 'pages/admin/AdminAddRestaurant';
 import AdminRestaurantView from 'pages/admin/AdminRestaurantView';
 import AdminRestaurantMenus from 'pages/admin/AdminRestaurantMenus';
+import AdminSchoolListView from 'pages/admin/AdminSchoolListView';
+import AdminDepartmentListView from 'pages/admin/AdminDepartmentListView';
 
 const Router = () => {
   return (
@@ -57,6 +59,8 @@ const Router = () => {
         <Route path="/admin/restaurant" element={<AdminAddRestaurant />} />
         <Route path="/admin/restaurants" element={<AdminRestaurantView />} />
         <Route path="/admin/restaurant/menus" element={<AdminRestaurantMenus />} />
+        <Route path="/admin/schools" element={<AdminSchoolListView />} />
+        <Route path="/admin/departments" element={<AdminDepartmentListView />} />
       </Route>
     </Routes>
   );
