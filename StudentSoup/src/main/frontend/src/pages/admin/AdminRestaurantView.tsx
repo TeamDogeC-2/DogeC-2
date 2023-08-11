@@ -53,6 +53,7 @@ const AdminRestaurantView = () => {
       willOpen: () => {
         document.getElementById('edit-menu')?.addEventListener('click', () => {
           navigate('/admin/restaurant/menus', { state: { restaurantId } });
+          Swal.close();
         });
         document.getElementById('edit-restaurant')?.addEventListener('click', () => {
           navigate('/admin/restaurant', { state: { isEditMode: true, restaurantId } });
