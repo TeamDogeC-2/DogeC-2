@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './adminmenumodal.scss';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
+import Swal from 'sweetalert2';
 interface MenuModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -20,6 +21,16 @@ const AdminMenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, restaurantI
     Side: '사이드 메뉴',
     Drink: '음료 및 주류',
   };
+  const initializeForm = () => {
+    setName('');
+    setCategory('');
+    setPrice('');
+    setImage(null);
+    setPreviewImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
@@ -33,15 +44,26 @@ const AdminMenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, restaurantI
         formData.append('multipartFile', image);
       }
 
-      const response = await axiosInstance.post('/admin/restaurantMenu', formData, {
+      await axiosInstance.post('/admin/restaurantMenu', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      alert('메뉴가 성공적으로 등록되었습니다.');
+      Swal.fire({
+        title: '성공',
+        text: '메뉴가 성공적으로 등록되었습니다.',
+        icon: 'success',
+        confirmButtonText: '확인',
+      }).then(result => {
+        onClose();
+        if (result.isConfirmed) {
+          getRestaurantMenus();
+          initializeForm();
+        }
+      });
     } catch (error) {
-      console.error('메뉴 등록에 실패했습니다.', error);
+      alert('메뉴 등록에 실패했습니다.');
     }
   };
   const handleImageRemove = () => {
@@ -52,8 +74,8 @@ const AdminMenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, restaurantI
       fileInputRef.current.value = '';
     }
   };
-  useEffect(() => {
-    axiosInstance
+  const getRestaurantMenus = async () => {
+    await axiosInstance
       .get('/admin/restaurantMenu')
       .then(res => {
         setCategories(res.data);
@@ -61,6 +83,9 @@ const AdminMenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, restaurantI
       .catch(err => {
         console.error(err);
       });
+  };
+  useEffect(() => {
+    getRestaurantMenus();
   }, []);
   return (
     <div className={`adminmenumodal-menu-modal ${isOpen ? 'open' : ''}`}>
