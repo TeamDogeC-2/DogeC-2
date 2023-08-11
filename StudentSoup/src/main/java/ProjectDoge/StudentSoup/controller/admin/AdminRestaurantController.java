@@ -57,7 +57,7 @@ public class AdminRestaurantController {
     }
 
     @GetMapping("admin/restaurants")
-    public ResponseEntity<Map<String,List<RestaurantDto>>> restaurantList(@RequestBody RestaurantSearch restaurantSearch) {
+    public ResponseEntity<Map<String,List<RestaurantDto>>> restaurantList() {
         Map<String,List<RestaurantDto>> result = new HashMap<>();
         List<Restaurant> restaurants = restaurantRepository.findAll();
         List<RestaurantDto> restaurantDtos = new ArrayList<>();
@@ -65,13 +65,6 @@ public class AdminRestaurantController {
             restaurantDtos.add(new RestaurantDto().createRestaurantDto(restaurant,false));
         }
         result.put("restaurants",restaurantDtos);
-
-        List<RestaurantDto> findRestaurantDtos = new ArrayList<>();
-        List<Restaurant> findRestaurants = adminRestaurantService.adminSearchRestaurants(restaurantSearch.getColumn(), restaurantSearch.getFind_value());
-        for(Restaurant restaurant : findRestaurants){
-            findRestaurantDtos.add(new RestaurantDto().createRestaurantDto(restaurant,false));
-        }
-        result.put("searchRestaurants",findRestaurantDtos);
         return ResponseEntity.ok(result);
     }
 

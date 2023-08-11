@@ -52,12 +52,9 @@ public class AdminSchoolController {
     public Map<String,List<AdminSchoolDto>> schoolList(@RequestBody() SchoolSearch schoolSearch) {
         Map<String,List<AdminSchoolDto>> result = new HashMap<>();
         List<School> schools = schoolFindService.findAll();
-        List<School> findSchools = adminSchoolService.AdminSearchSchools(schoolSearch);
 
         List<AdminSchoolDto> schoolDtos = schoolFindService.getSchoolDtoList(schools);
-        List<AdminSchoolDto> findSchoolDto = schoolFindService.getSchoolDtoList(findSchools);
         result.put("schools",schoolDtos);
-        result.put("searchSchools",findSchoolDto);
         return result;
     }
     @GetMapping("/admin/school/edit")
