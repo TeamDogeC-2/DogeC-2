@@ -52,7 +52,7 @@ const AdminRestaurantView = () => {
       focusConfirm: false,
       willOpen: () => {
         document.getElementById('edit-menu')?.addEventListener('click', () => {
-          navigate('/admin/restaurant/menus', { state: { restaurantId } });
+          navigate('/admin/restaurant/menus', { state: { restaurantId, restaurantName } });
           Swal.close();
         });
         document.getElementById('edit-restaurant')?.addEventListener('click', () => {
