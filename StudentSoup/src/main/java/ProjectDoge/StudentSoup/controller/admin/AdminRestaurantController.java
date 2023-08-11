@@ -51,7 +51,7 @@ public class AdminRestaurantController {
     }
 
     @PostMapping("admin/restaurant")
-    public String createRestaurant(@RequestBody RestaurantFormDto restaurantFormDto) {
+    public String createRestaurant(RestaurantFormDto restaurantFormDto) {
         Long restaurantId = restaurantRegisterService.join(restaurantFormDto);
         return ResponseEntity.ok().body(restaurantId).toString();
     }
