@@ -18,11 +18,23 @@ const AdminNavbar = () => {
     navigate('/admin/restaurant');
   };
 
+  const handleSchoolClick = () => {
+    handleMenuClick(null);
+    navigate('/admin/schools');
+  };
+  const handleDepartmentClick = () => {
+    handleMenuClick(null);
+    navigate('/admin/departments');
+  };
+  const handleUserInfoClick = () => {
+    handleMenuClick(null);
+    navigate('/admin');
+  };
   return (
     <div className="adminpage-navbar">
-      <div onClick={() => handleMenuClick(null)}>회원관리</div>
-      <div onClick={() => handleMenuClick(null)}>학교관리</div>
-      <div onClick={() => handleMenuClick(null)}>학과관리</div>
+      <div onClick={handleUserInfoClick}>회원관리</div>
+      <div onClick={handleSchoolClick}>학교관리</div>
+      <div onClick={handleDepartmentClick}>학과관리</div>
       <div onClick={() => handleMenuClick('음식점 관리')}>
         음식점 관리
         {selectedMenu === '음식점 관리' && (
