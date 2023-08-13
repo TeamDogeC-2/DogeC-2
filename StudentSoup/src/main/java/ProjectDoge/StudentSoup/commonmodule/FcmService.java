@@ -37,11 +37,8 @@ public class FcmService {
         try {
             log.info("알림 전송 메소드가 실행되었습니다.");
             String response = firebaseMessaging.send(message);
-            log.info("message ===="+ message);
-            log.info("response ====" + " " +response);
         } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-            // 여기서 필요한 오류 처리를 할 수 있습니다.
+            log.error("알림 전송 실패: ", e);
         }
     }
 }
