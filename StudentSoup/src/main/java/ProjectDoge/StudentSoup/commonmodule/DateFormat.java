@@ -15,7 +15,7 @@ public class DateFormat {
         try {
             beforeDate = dateFormat.parse(date);
         } catch(ParseException e){
-            e.getMessage();
+            throw new RuntimeException();
         }
         String afterDate = sdf.format(beforeDate);
         return afterDate;
