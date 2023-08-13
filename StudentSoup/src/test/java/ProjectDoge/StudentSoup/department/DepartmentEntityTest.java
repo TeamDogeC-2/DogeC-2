@@ -48,7 +48,7 @@ public class DepartmentEntityTest {
         schoolId = schoolRegisterService.join(school);
     }
     @Test
-    void 학과등록테스트() throws Exception {
+    void 학과등록테스트() {
         //given
         DepartmentFormDto dto = createDepartmentForm(schoolId, "테스트 학과");
         //when
@@ -59,7 +59,7 @@ public class DepartmentEntityTest {
     }
 
     @Test
-    void 학과등록시_학교존재X() throws Exception {
+    void 학과등록시_학교존재X()  {
         //given
         Long errorSchoolId = 0L;
         DepartmentFormDto dto = createDepartmentForm(errorSchoolId, "테스트 학과");
