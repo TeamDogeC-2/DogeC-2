@@ -9,6 +9,7 @@ import ProjectDoge.StudentSoup.repository.board.BoardLikeRepository;
 import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,9 @@ public class BoardCallService {
     private final BoardFindService boardFindService;
     private final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
+
+    @Value("${cookie.accessTime}")
+    private int viewTime;
 
     @Transactional
     public BoardDto getBoardDetail(Long boardId, Long memberId,HttpServletRequest request,HttpServletResponse response) {
@@ -70,7 +74,7 @@ public class BoardCallService {
     private Cookie createNewCookie(Board board) {
         Cookie newCookie = new Cookie("alreadyViewCookie" + board.getId(),String.valueOf(board.getId()));
         newCookie.setComment("조회수 중복 증가 방지 쿠키");
-        newCookie.setMaxAge(60*5);
+        newCookie.setMaxAge(viewTime);
         newCookie.setHttpOnly(true);
         board.addViewCount();
         return newCookie;

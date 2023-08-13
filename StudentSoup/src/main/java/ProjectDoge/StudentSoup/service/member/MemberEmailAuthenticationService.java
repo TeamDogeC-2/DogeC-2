@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.security.SecureRandom;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -75,8 +76,8 @@ public class MemberEmailAuthenticationService {
     }
 
     private int createAuthenticationNumber() {
-        return  (int)Math.floor(Math.random() * 89999 + 10000);
-
+        SecureRandom random = new SecureRandom();
+        return random.nextInt(90000) + 10000;
     }
     private EmailDto createEmail(String email,int authenticationNumber) {
         EmailDto emailDto = new EmailDto();

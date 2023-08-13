@@ -1,4 +1,4 @@
-package ProjectDoge.StudentSoup.utils;
+﻿package ProjectDoge.StudentSoup.utils;
 
 import ProjectDoge.StudentSoup.exception.jwt.ExpirationDateException;
 import ProjectDoge.StudentSoup.service.redis.RedisUtil;
@@ -36,7 +36,7 @@ public class JwtUtil {
             log.info("claims {}",claims.getBody().getExpiration());
             return claims.getBody().getExpiration().before(new Date());
         }
-        catch (Exception e){
+        catch (JwtException e){
             throw new ExpirationDateException("유효기간이 만료된 토큰입니다.");
         }
     }

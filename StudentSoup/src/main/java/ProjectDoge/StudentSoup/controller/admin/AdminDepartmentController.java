@@ -14,6 +14,7 @@ import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.department.DepartmentRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AdminDepartmentController {
     private final SchoolRepository schoolRepository;
     private final DepartmentRegisterService departmentRegisterService;
@@ -43,7 +45,7 @@ public class AdminDepartmentController {
         return ResponseEntity.ok(schoolDtos);
     }
     @PostMapping("admin/department")
-    public Long createDepartment(DepartmentFormDto departmentFormDto){
+    public Long createDepartment(@RequestBody  DepartmentFormDto departmentFormDto){
         Long departmentId = departmentRegisterService.join(departmentFormDto.getSchoolId(),departmentFormDto);
         return departmentId;
     }
@@ -70,7 +72,8 @@ public class AdminDepartmentController {
         return ResponseEntity.ok(departmentUpdateDto);
     }
     @PostMapping("admin/department/edit/{departmentId}")
-    public ResponseEntity<Long> editDepartment(@PathVariable Long departmentId,DepartmentUpdateDto departmentUpdateDto){
+    public ResponseEntity<Long> editDepartment(@PathVariable Long departmentId,@RequestBody  DepartmentUpdateDto departmentUpdateDto){
+        log.info(departmentUpdateDto.getDepartmentName());
         Long Id = adminDepartmentService.adminUpdateDepartment(departmentId,departmentUpdateDto);
 
         return ResponseEntity.ok(Id);

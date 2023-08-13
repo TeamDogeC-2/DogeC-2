@@ -49,7 +49,7 @@ public class AdminSchoolController {
         return schoolId.toString();
     }
     @GetMapping("/admin/schools")
-    public Map<String,List<AdminSchoolDto>> schoolList(@RequestBody() SchoolSearch schoolSearch) {
+    public Map<String,List<AdminSchoolDto>> schoolList() {
         Map<String,List<AdminSchoolDto>> result = new HashMap<>();
         List<School> schools = schoolFindService.findAll();
 
@@ -61,7 +61,7 @@ public class AdminSchoolController {
     public SchoolFormDto editSchool(@RequestParam("schoolId")Long schoolId){
         SchoolFormDto updateSchool = adminSchoolService.AdminFindUpdateSchool(schoolId);
         return updateSchool;
-    }
+}
     @PostMapping("/admin/school/edit")
     public ResponseEntity<Long> editSchool(@RequestParam("schoolId")Long schoolId,@RequestBody() SchoolFormDto schoolFormDto){
         adminSchoolService.AdminUpdateSchool(schoolId,schoolFormDto);

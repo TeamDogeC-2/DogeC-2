@@ -7,6 +7,7 @@ import ProjectDoge.StudentSoup.service.member.MemberLoginService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +28,19 @@ public class LoginController {
 
     private final MemberLoginService memberLoginService;
 
+    @Value("${cookie.accessTime}")
+    private int accessTokenMaxAge;
+
+    @Value("${cookie.refreshTime}")
+    private int refreshTokenMaxAge;
+
     @PostMapping("/login")
     public ResponseEntity<Map<String,String>> login(@RequestBody MemberLoginRequestDto dto, HttpServletResponse response){
         Map<String,String> token = memberLoginService.login(dto.getId(), dto.getPwd());
         Cookie accessTokenCookie = new Cookie("accessToken", token.get("accessToken"));
         Cookie refreshTokenCookie = new Cookie("refreshToken", token.get("refreshToken"));
-        accessTokenCookie.setMaxAge(60 * 60);
-        refreshTokenCookie.setMaxAge(60 * 60 * 24 * 7);
+        accessTokenCookie.setMaxAge(accessTokenMaxAge);
+        refreshTokenCookie.setMaxAge(refreshTokenMaxAge);
 
         accessTokenCookie.setPath("/");
         refreshTokenCookie.setPath("/");
