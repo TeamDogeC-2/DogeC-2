@@ -3,13 +3,15 @@ package ProjectDoge.StudentSoup.controller.board;
 import ProjectDoge.StudentSoup.dto.board.BoardCategoryDto;
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.dto.department.DepartmentCallDto;
-import ProjectDoge.StudentSoup.service.board.BoardCallService;
 import ProjectDoge.StudentSoup.service.board.BoardResisterService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

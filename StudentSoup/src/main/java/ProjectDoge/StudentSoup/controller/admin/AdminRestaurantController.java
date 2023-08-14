@@ -1,8 +1,9 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
 
-import ProjectDoge.StudentSoup.dto.restaurant.*;
-import ProjectDoge.StudentSoup.dto.school.AdminSchoolDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
+import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
 import ProjectDoge.StudentSoup.entity.school.School;
@@ -13,10 +14,10 @@ import ProjectDoge.StudentSoup.service.restaurant.RestaurantRegisterService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.HashMap;

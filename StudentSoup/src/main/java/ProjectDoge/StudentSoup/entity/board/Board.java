@@ -2,9 +2,9 @@ package ProjectDoge.StudentSoup.entity.board;
 
 import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;

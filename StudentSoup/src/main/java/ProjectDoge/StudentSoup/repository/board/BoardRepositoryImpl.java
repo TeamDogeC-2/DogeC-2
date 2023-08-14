@@ -1,6 +1,8 @@
 package ProjectDoge.StudentSoup.repository.board;
 
-import ProjectDoge.StudentSoup.dto.board.*;
+import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
+import ProjectDoge.StudentSoup.dto.board.BoardSortedCase;
+import ProjectDoge.StudentSoup.dto.board.QBoardMainDto;
 import ProjectDoge.StudentSoup.dto.member.MemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.dto.member.QMemberMyPageBoardDto;
 import ProjectDoge.StudentSoup.entity.board.Board;
@@ -8,8 +10,10 @@ import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;

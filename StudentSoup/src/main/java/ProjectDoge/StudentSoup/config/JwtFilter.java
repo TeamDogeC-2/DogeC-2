@@ -1,12 +1,10 @@
 package ProjectDoge.StudentSoup.config;
 
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import ProjectDoge.StudentSoup.service.member.MemberLoginService;
 import ProjectDoge.StudentSoup.utils.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

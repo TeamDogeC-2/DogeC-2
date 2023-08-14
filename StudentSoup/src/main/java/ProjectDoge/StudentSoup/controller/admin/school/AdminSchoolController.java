@@ -1,6 +1,7 @@
 package ProjectDoge.StudentSoup.controller.admin.school;
 
-import ProjectDoge.StudentSoup.dto.school.*;
+import ProjectDoge.StudentSoup.dto.school.AdminSchoolDto;
+import ProjectDoge.StudentSoup.dto.school.SchoolFormDto;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminSchoolService;
@@ -10,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,13 +1,11 @@
 package ProjectDoge.StudentSoup.repository.restaurantreview;
 
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenuLike;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurantMenuLike.restaurantMenuLike;
 import static ProjectDoge.StudentSoup.entity.restaurant.QRestaurantReviewLike.restaurantReviewLike;
 
 @RequiredArgsConstructor

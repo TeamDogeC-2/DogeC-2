@@ -7,7 +7,6 @@ import ProjectDoge.StudentSoup.repository.file.FileRepository;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.file.FileFindService;
 import ProjectDoge.StudentSoup.service.file.FileService;
-import ProjectDoge.StudentSoup.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

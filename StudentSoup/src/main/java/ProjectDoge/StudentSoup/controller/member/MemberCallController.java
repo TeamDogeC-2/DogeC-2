@@ -3,7 +3,6 @@ package ProjectDoge.StudentSoup.controller.member;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.service.member.MemberFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

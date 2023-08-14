@@ -1,10 +1,7 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
-import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import lombok.Data;
-
-import java.time.LocalTime;
 
 @Data
 public class RestaurantDto {

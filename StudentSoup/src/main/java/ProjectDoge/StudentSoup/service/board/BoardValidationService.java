@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.dto.board.BoardFormDto;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
-import ProjectDoge.StudentSoup.exception.board.BoardContentOutOfRangeException;
 import ProjectDoge.StudentSoup.exception.board.BoardNotQualifiedException;
 import ProjectDoge.StudentSoup.exception.board.BoardTitleOutOfRangeException;
 import lombok.extern.slf4j.Slf4j;

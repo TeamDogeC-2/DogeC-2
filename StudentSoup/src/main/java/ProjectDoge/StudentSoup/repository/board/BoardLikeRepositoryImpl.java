@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static ProjectDoge.StudentSoup.entity.board.QBoard.board;
 import static ProjectDoge.StudentSoup.entity.board.QBoardLike.boardLike;
-import static ProjectDoge.StudentSoup.entity.member.QMember.member;
 
 @RequiredArgsConstructor
 public class BoardLikeRepositoryImpl implements BoardLikeRepositoryCustom{

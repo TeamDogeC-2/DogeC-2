@@ -2,8 +2,8 @@ package ProjectDoge.StudentSoup.entity.restaurant;
 
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantFormDto;
 import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
+import ProjectDoge.StudentSoup.entity.school.School;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -11,15 +11,12 @@ import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepos
 import ProjectDoge.StudentSoup.service.file.FileService;
 import ProjectDoge.StudentSoup.service.restaurant.RestaurantFindService;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.nio.file.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j

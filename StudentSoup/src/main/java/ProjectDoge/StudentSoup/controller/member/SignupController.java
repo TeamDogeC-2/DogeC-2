@@ -1,13 +1,18 @@
 package ProjectDoge.StudentSoup.controller.member;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
-import ProjectDoge.StudentSoup.dto.member.*;
+import ProjectDoge.StudentSoup.dto.member.MemberEmailAuthenticationDto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormADto;
+import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
 import ProjectDoge.StudentSoup.dto.school.SchoolSignUpDto;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
-import ProjectDoge.StudentSoup.service.member.*;
+import ProjectDoge.StudentSoup.service.member.MemberEmailAuthenticationService;
+import ProjectDoge.StudentSoup.service.member.MemberFindService;
+import ProjectDoge.StudentSoup.service.member.MemberRegisterService;
+import ProjectDoge.StudentSoup.service.member.MemberValidationService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

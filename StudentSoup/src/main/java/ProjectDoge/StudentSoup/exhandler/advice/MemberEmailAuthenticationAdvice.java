@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationEmail
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberNotSentException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationNumberWrongException;
 import ProjectDoge.StudentSoup.exception.EmailAuthentication.AuthenticationTimeOverException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

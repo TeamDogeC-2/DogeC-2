@@ -1,9 +1,7 @@
 package ProjectDoge.StudentSoup.dto.restaurant;
 
-import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantCategory;
-import ProjectDoge.StudentSoup.entity.school.School;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;

@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.dto.board;
 
 import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.board.BoardCategory;
-import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;

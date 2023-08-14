@@ -5,7 +5,6 @@ import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
-import ProjectDoge.StudentSoup.service.school.SchoolValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

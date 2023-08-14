@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.member.MemberValidationException;
 import ProjectDoge.StudentSoup.exception.restaurant.*;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
