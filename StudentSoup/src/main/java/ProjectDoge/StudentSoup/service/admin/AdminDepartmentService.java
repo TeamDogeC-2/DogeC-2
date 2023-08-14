@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.service.admin;
 
 import ProjectDoge.StudentSoup.dto.department.DepartmentUpdateDto;
 import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.repository.department.DepartmentRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

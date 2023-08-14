@@ -1,15 +1,11 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
-import ProjectDoge.StudentSoup.dto.restaurant.RestaurantUpdateDto;
-import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewRequestDto;
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewUpdateDto;
 import ProjectDoge.StudentSoup.dto.restaurantreview.RestaurantReviewUpdateReqDto;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.MemberClassification;
-import ProjectDoge.StudentSoup.entity.restaurant.Restaurant;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewContentLessThanFiveException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotOwnException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantStarLikedMoreThanFiveException;

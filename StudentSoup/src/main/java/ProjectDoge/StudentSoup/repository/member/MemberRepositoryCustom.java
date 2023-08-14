@@ -1,9 +1,7 @@
 package ProjectDoge.StudentSoup.repository.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
-import ProjectDoge.StudentSoup.dto.member.MemberSearch;
 import ProjectDoge.StudentSoup.entity.member.Member;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;

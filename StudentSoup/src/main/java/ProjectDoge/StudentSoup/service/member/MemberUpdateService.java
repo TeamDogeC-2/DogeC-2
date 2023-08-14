@@ -6,8 +6,6 @@ import ProjectDoge.StudentSoup.entity.member.MemberClassification;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
-import ProjectDoge.StudentSoup.repository.schedule.ScheduleRepository;
-import ProjectDoge.StudentSoup.repository.school.SchoolRepository;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
 import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;

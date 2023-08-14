@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exception.school.SchoolIdNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNameNotSentException;
 import ProjectDoge.StudentSoup.exception.school.SchoolNotFoundException;

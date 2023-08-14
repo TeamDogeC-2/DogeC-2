@@ -4,7 +4,6 @@ package ProjectDoge.StudentSoup.dto.member;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class MemberMyPageDto {

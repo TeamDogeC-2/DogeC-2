@@ -1,9 +1,6 @@
 package ProjectDoge.StudentSoup.service.restaurantreview;
 
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantMenu;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuIdNotSentException;
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewIdNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotFoundException;
 import ProjectDoge.StudentSoup.repository.restaurantreview.RestaurantReviewRepository;

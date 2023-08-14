@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static ProjectDoge.StudentSoup.entity.board.QBoardReplyLike.*;
+import static ProjectDoge.StudentSoup.entity.board.QBoardReplyLike.boardReplyLike;
 
 
 @RequiredArgsConstructor

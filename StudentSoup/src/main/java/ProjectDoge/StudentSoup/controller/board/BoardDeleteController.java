@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.controller.board;
 
-import ProjectDoge.StudentSoup.repository.board.BoardRepository;
 import ProjectDoge.StudentSoup.service.board.BoardDeleteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

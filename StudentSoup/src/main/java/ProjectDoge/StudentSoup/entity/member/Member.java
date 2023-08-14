@@ -1,18 +1,18 @@
 package ProjectDoge.StudentSoup.entity.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
+import ProjectDoge.StudentSoup.entity.board.Board;
+import ProjectDoge.StudentSoup.entity.board.BoardLike;
 import ProjectDoge.StudentSoup.entity.board.BoardReply;
+import ProjectDoge.StudentSoup.entity.board.BoardReplyLike;
 import ProjectDoge.StudentSoup.entity.file.ImageFile;
 import ProjectDoge.StudentSoup.entity.file.TemporaryImageFile;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
+import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReviewLike;
 import ProjectDoge.StudentSoup.entity.schedule.Schedule;
 import ProjectDoge.StudentSoup.entity.school.Department;
 import ProjectDoge.StudentSoup.entity.school.School;
-import ProjectDoge.StudentSoup.entity.board.Board;
-import ProjectDoge.StudentSoup.entity.board.BoardLike;
-import ProjectDoge.StudentSoup.entity.board.BoardReplyLike;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

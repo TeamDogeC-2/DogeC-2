@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.service.schedule;
 
 
-import ProjectDoge.StudentSoup.dto.board.BoardMainDto;
 import ProjectDoge.StudentSoup.dto.schedule.ScheduleDto;
 import ProjectDoge.StudentSoup.entity.schedule.Schedule;
 import ProjectDoge.StudentSoup.exception.Schedule.ScheduleDuplicateException;

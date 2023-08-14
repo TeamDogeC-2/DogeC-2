@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.entity.board;
 
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.restaurant.RestaurantLike;
 import lombok.Getter;
 import lombok.Setter;
 

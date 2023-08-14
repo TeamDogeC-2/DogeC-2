@@ -4,7 +4,6 @@ import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.service.member.MemberProfileImageDeleteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

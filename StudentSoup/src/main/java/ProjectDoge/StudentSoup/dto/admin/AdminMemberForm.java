@@ -2,6 +2,7 @@ package ProjectDoge.StudentSoup.dto.admin;
 
 import ProjectDoge.StudentSoup.entity.member.GenderType;
 import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 
 

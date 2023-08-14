@@ -2,7 +2,6 @@ package ProjectDoge.StudentSoup.exhandler.advice;
 
 import ProjectDoge.StudentSoup.exception.department.DepartmentIdNotSentException;
 import ProjectDoge.StudentSoup.exception.department.DepartmentNotFoundException;
-import ProjectDoge.StudentSoup.exception.member.MemberNotFoundException;
 import ProjectDoge.StudentSoup.exhandler.ErrorResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

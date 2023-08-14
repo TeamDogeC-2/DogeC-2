@@ -1,17 +1,12 @@
 package ProjectDoge.StudentSoup.repository.member;
 
 import ProjectDoge.StudentSoup.dto.member.MemberFindAccountDto;
-import ProjectDoge.StudentSoup.dto.member.MemberSearch;
-
 import ProjectDoge.StudentSoup.entity.member.Member;
-import ProjectDoge.StudentSoup.entity.member.QMember;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;

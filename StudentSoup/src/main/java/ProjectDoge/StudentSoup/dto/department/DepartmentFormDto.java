@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.dto.department;
 
-import ProjectDoge.StudentSoup.entity.school.Department;
 import lombok.Getter;
 import lombok.Setter;
 

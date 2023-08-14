@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.exhandler.advice;
 
-import ProjectDoge.StudentSoup.exception.restaurant.RestaurantMenuIdNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewIdNotSentException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotFoundException;
 import ProjectDoge.StudentSoup.exception.restaurant.RestaurantReviewNotOwnException;

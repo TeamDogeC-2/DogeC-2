@@ -1,11 +1,9 @@
-﻿package ProjectDoge.StudentSoup.utils;
+package ProjectDoge.StudentSoup.utils;
 
 import ProjectDoge.StudentSoup.exception.jwt.ExpirationDateException;
-import ProjectDoge.StudentSoup.service.redis.RedisUtil;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;

@@ -1,7 +1,6 @@
 package ProjectDoge.StudentSoup.entity.file;
 
 import ProjectDoge.StudentSoup.dto.file.UploadFileDto;
-import ProjectDoge.StudentSoup.entity.board.Board;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import lombok.Data;
 

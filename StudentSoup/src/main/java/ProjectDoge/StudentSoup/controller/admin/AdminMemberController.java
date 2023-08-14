@@ -1,15 +1,11 @@
 package ProjectDoge.StudentSoup.controller.admin;
 
-import ProjectDoge.StudentSoup.dto.admin.AdminMemberForm;
 import ProjectDoge.StudentSoup.dto.admin.AdminMemberUpdateForm;
 import ProjectDoge.StudentSoup.dto.department.DepartmentSignUpDto;
 import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberFormBDto;
-import ProjectDoge.StudentSoup.dto.member.MemberSearch;
-import ProjectDoge.StudentSoup.entity.member.GenderType;
 import ProjectDoge.StudentSoup.entity.member.Member;
 import ProjectDoge.StudentSoup.entity.school.Department;
-import ProjectDoge.StudentSoup.entity.school.School;
 import ProjectDoge.StudentSoup.repository.member.MemberRepository;
 import ProjectDoge.StudentSoup.service.admin.AdminMemberService;
 import ProjectDoge.StudentSoup.service.department.DepartmentFindService;
@@ -20,8 +16,6 @@ import ProjectDoge.StudentSoup.service.school.SchoolFindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

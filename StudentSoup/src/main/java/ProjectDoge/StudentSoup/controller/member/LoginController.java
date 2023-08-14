@@ -1,8 +1,6 @@
 package ProjectDoge.StudentSoup.controller.member;
 
-import ProjectDoge.StudentSoup.dto.member.MemberDto;
 import ProjectDoge.StudentSoup.dto.member.MemberLoginRequestDto;
-import ProjectDoge.StudentSoup.interceptor.SessionConst;
 import ProjectDoge.StudentSoup.service.member.MemberLoginService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

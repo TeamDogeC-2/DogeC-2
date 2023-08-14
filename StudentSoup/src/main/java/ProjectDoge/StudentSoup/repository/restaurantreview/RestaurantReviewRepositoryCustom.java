@@ -1,6 +1,5 @@
 package ProjectDoge.StudentSoup.repository.restaurantreview;
 
-import ProjectDoge.StudentSoup.dto.member.MemberMyPageRestaurantReviewDto;
 import ProjectDoge.StudentSoup.entity.restaurant.RestaurantReview;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.data.domain.Page;
