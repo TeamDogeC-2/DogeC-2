@@ -161,6 +161,9 @@ public class TestDataInit {
     private void initRestaurant(){
         Long schoolId1 = schoolFindService.findOne("인천대학교 송도캠퍼스").getId();
         Long schoolId2 = schoolFindService.findOne("청운대학교 인천캠퍼스").getId();
+        String[] name = {"서재네","승모네","후니네","용이네"};
+        String[] category = {"국밥","파스타","피자","쌀국수"};
+        RestaurantCategory[] category1 = RestaurantCategory.values();
 
         RestaurantFormDto dto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점",
                 "주소",
@@ -175,20 +178,22 @@ public class TestDataInit {
                 "디테일",
                 "Y");
 
-        for(int i = 0; i < 30; i++){
-            RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("스노우폭스 송도점" + i,
-                    "주소",
-                    RestaurantCategory.ASIAN,
-                    LocalTime.now(),
-                    LocalTime.now(),
-                    schoolId1,
-                    "37.3738948150,126.6364371486",
-                    null,
-                    "032-710-6464",
-                    "태그",
-                    "디테일",
-                    "Y");
-            restaurantRegisterService.join(testDto);
+        for(int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto(name[i] +" "+ category[j],
+                        "주소",
+                        category1[j],
+                        LocalTime.now(),
+                        LocalTime.now(),
+                        schoolId1,
+                        "37.3738948150,126.6364371486",
+                        null,
+                        "032-710-6464",
+                        "태그",
+                        "디테일",
+                        "Y");
+                restaurantRegisterService.join(testDto);
+            }
         }
 
         RestaurantFormDto dto2 = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점",
@@ -204,21 +209,21 @@ public class TestDataInit {
                 "디테일",
                 "Y");
 
-        for(int i = 0; i < 30; i++){
-            RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점" + i,
-                    "주소",
-                    RestaurantCategory.ASIAN,
-                    LocalTime.now(),
-                    LocalTime.now(),
-                    schoolId2,
-                    "37.3738948150,126.6364371486",
-                    null,
-                    "032-816-9888",
-                    "태그",
-                    "디테일",
-                    "Y");
-            restaurantRegisterService.join(testDto);
-        }
+//        for(int i = 0; i < 30; i++){
+//            RestaurantFormDto testDto = new RestaurantFormDto().createRestaurantFormDto("청기와 송도점" + i,
+//                    "주소",
+//                    RestaurantCategory.ASIAN,
+//                    LocalTime.now(),
+//                    LocalTime.now(),
+//                    schoolId2,
+//                    "37.3738948150,126.6364371486",
+//                    null,
+//                    "032-816-9888",
+//                    "태그",
+//                    "디테일",
+//                    "Y");
+//            restaurantRegisterService.join(testDto);
+//        }
         restaurantRegisterService.join(dto);
         restaurantRegisterService.join(dto2);
     }
