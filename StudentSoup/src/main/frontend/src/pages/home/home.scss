@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap');
+
 .home-hero-text {
   margin: auto;
   display: flex;
@@ -7,24 +9,53 @@
   min-height: 100vh;
 
   .home-sfoo-image {
-    height: 10vw;
     max-height: 80px;
-  }
-  p {
-    font-size: calc(24px + 1.3vw);
-    font-weight: 400;
-    color: #fff;
-    padding-top: 24px;
-    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.6);
-    text-align: center;
-  }
-  .home-link-texts {
+    color: white;
     font-size: calc(34px + 2vw);
     font-weight: 700;
     color: white;
     padding-top: 19px;
     text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.6);
     padding-bottom: 31px;
+    text-align: center;
+  }
+
+  .home-waviy {
+    position: relative;
+    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+    font-size: calc(40px + 2vw);
+
+    &.inactive span {
+      animation: none !important;
+    }
+
+    span {
+      font-family: 'Nanum Gothic', cursive;
+      position: relative;
+      display: inline-block;
+      color: white;
+      text-transform: uppercase;
+      animation: waviy 1s infinite;
+      animation-delay: calc(0.1s * var(--i));
+    }
+  }
+
+  @keyframes waviy {
+    0%,
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-20px);
+    }
+  }
+  h2 {
+    font-size: calc(34px + 2vw);
+    font-weight: 700;
+    color: white;
+    padding-top: 19px;
+    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.6);
     text-align: center;
   }
 }
@@ -35,6 +66,7 @@
   width: 90vw;
   height: 60px;
   border-radius: 5px;
+  margin-top: 31px;
   img {
     position: relative;
     top: 9%;
