@@ -10,9 +10,15 @@ import { SchoolList } from 'apis/api/HomeAPI';
 const Home = () => {
   const [schoolComponent, setSchoolComponent] = useState<any>([]);
   const [schoolName, setSchoolName] = useState<string>('');
-
+  const [isWavy, setIsWavy] = useState(true);
   const navigate = useNavigate();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsWavy(false);
+    }, 5200);
 
+    return () => clearTimeout(timer);
+  }, []);
   const saveSchoolName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSchoolName(e.target.value);
   };
@@ -86,10 +92,45 @@ const Home = () => {
       }
     };
   }, []);
+  const logoColors = [
+    '#FF611D',
+    '#1D76FF',
+    '#3C8E38',
+    '#FBC12D',
+    '#AA248E',
+    '#5B18C2',
+    '#A27B1F',
+    '#1D88D1',
+    '#5BC218',
+    '#2DFB1D',
+    '#1D76FF',
+  ];
+
+  const getWavyStyle = (index: number) =>
+    ({
+      '--i': index.toString(),
+      color: logoColors[index - 1],
+    } as React.CSSProperties);
   return (
     <div className="home-hero-text">
-      <img className="home-sfoo-image" src={MainLogo_white} />
-      <p>대학생들을 위한</p>
+      <div
+        className={`home-waviy ${isWavy ? '' : 'inactive'}`}
+        onMouseEnter={() => setIsWavy(true)}
+        onMouseLeave={() => setIsWavy(false)}
+      >
+        <span style={getWavyStyle(1)}>S</span>
+        <span style={getWavyStyle(2)}>t</span>
+        <span style={getWavyStyle(3)}>u</span>
+        <span style={getWavyStyle(4)}>d</span>
+        <span style={getWavyStyle(5)}>e</span>
+        <span style={getWavyStyle(6)}>n</span>
+        <span style={getWavyStyle(7)}>t</span>
+        <span style={getWavyStyle(8)}>S</span>
+        <span style={getWavyStyle(9)}>o</span>
+        <span style={getWavyStyle(10)}>u</span>
+        <span style={getWavyStyle(11)}>p</span>
+      </div>
+      <h2 className="home-link-texts">대학생들을 위한</h2>
       <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
       <div className="home-school_search_bar">
         <img src={Search_icon} />
