@@ -113,7 +113,7 @@ const MainNavbar = () => {
       <DesktopHeader>
         <nav className="navbar-items">
           <Link to="/" className="navbar-logo-links">
-            <img src={mainLogo} className="navbar-logo" />
+            <i className="navbar-logo">SOUP</i>
           </Link>
           <ul className="nav-menu">
             <li className="nav-li">
@@ -174,7 +174,7 @@ const MainNavbar = () => {
       <MobileHeader>
         <nav className="mobile-navbar-items">
           <Link to="/" className="navbar-logo-links">
-            <img src={mainLogo} className="navbar-logo" />
+            <i className="navbar-logo">SOUP</i>
           </Link>
           <div className="mobile-nav-menu">
             {isMenuOpen ? (
@@ -268,7 +268,7 @@ const MainNavbar = () => {
       <Mobile>
         <nav className="mobile-navbar-items">
           <Link to="/" className="navbar-logo-links">
-            <img src={mainLogo} className="navbar-logo" />
+            <i className="navbar-logo">SOUP</i>
           </Link>
           <div className="mobile-nav-menu">
             {isMenuOpen ? (

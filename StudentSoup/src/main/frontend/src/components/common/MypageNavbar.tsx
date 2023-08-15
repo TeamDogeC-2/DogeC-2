@@ -198,7 +198,7 @@ const MypageNavbar = ({
               onMouseDown={toggleSidebar}
             />
             <Link to="/" className="mypage-navbar-logo-links">
-              <img src={mainLogo} className="mypage-navbar-logo" />
+              <i className="mypage-navbar-logo">SOUP</i>
             </Link>
           </div>
           <ul className="mypage-nav-menu">
@@ -253,7 +253,7 @@ const MypageNavbar = ({
             onMouseDown={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
-            <img src={mainLogo} className="mypage-navbar-logo" />
+            <i className="mypage-navbar-logo">SOUP</i>
           </Link>
           <div className="tablet-mypage-nav-menu">
             {click ? (
@@ -330,7 +330,7 @@ const MypageNavbar = ({
             onMouseDown={toggleSidebar}
           />
           <Link to="/" className="mypage-navbar-logo-links">
-            <img src={mainLogo} className="mypage-navbar-logo" />
+            <i className="mypage-navbar-logo">SOUP</i>
           </Link>
           <div className="mobile-mypage-nav-menu">
             {click ? (
