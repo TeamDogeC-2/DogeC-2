@@ -193,7 +193,7 @@ const RestaurantNavbar = () => {
           <nav className="restaurant-navbar-items">
             <div className="restaurant-navbar-left">
               <Link to="/" className="restaurant-navbar-logo-links">
-                <img src={mainLogo} className="restaurant-navbar-logo" />
+                <i className="restaurant-navbar-logo">SOUP</i>
               </Link>
               <div className="restaurant-navbar-input-div">
                 <input
@@ -287,7 +287,7 @@ const RestaurantNavbar = () => {
         <>
           <nav className="tablet-restaurant-navbar-items">
             <Link to="/" className="restaurant-navbar-logo-links">
-              <img src={mainLogo} className="restaurant-navbar-logo" />
+              <i className="restaurant-navbar-logo">SOUP</i>
             </Link>
             <div className="tablet-restaurant-nav-menu">
               {isMenuOpen ? (
@@ -441,7 +441,7 @@ const RestaurantNavbar = () => {
         <>
           <nav className="mobile-restaurant-navbar-items">
             <Link to="/" className="restaurant-navbar-logo-links">
-              <img src={mainLogo} className="restaurant-navbar-logo" />
+              <i className="restaurant-navbar-logo">SOUP</i>
             </Link>
             <div className="mobile-restaurant-nav-menu">
               {isMenuOpen ? (
