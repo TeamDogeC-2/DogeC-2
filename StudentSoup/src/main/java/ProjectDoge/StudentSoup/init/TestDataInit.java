@@ -94,7 +94,7 @@ public class TestDataInit {
 
         SchoolFormDto school2 = new SchoolFormDto();
         school2.setSchoolName("청운대학교 인천캠퍼스");
-        school2.setSchoolCoordinate("37.3768067201,126.6347662307");
+        school2.setSchoolCoordinate("37.47187503367168,126.66051402369975");
         school2.setSchoolEmail("chungwoon.ac.kr");
         schoolRegisterService.join(school1);
         schoolRegisterService.join(school2);
@@ -185,8 +185,8 @@ public class TestDataInit {
                         category1[j],
                         LocalTime.now(),
                         LocalTime.now(),
-                        schoolId1,
-                        "37.3738948150,126.6364371486",
+                        schoolId2,
+                        "37.47147543076521,126.66255631336658 ",
                         null,
                         "032-710-6464",
                         "태그",
@@ -298,8 +298,8 @@ public class TestDataInit {
     }
 
     private void initBoard(){
-        Member member = memberRepository.findById("dummyTest1").get();
-        Member member1 = memberRepository.findById("dummyTest2").get();
+        Member member = memberRepository.findById("dummyTest5").get();
+        Member member1 = memberRepository.findById("dummyTest4").get();
 
         for(int i = 0; i < 10; i++){
             BoardFormDto boardFormDto = new BoardFormDto().createBoardFormDto("테스트 제목" + i, BoardCategory.FREE, "테스트 내용" + i);
