@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './restaurantHeartInfo.scss';
 
@@ -14,7 +14,9 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
   const [like, isLike] = useState<boolean>(menu.like);
   const [clicklike, isClickLike] = useState<boolean>();
   const [likeCount, setlikeCount] = useState<number>(menu.likedCount);
-
+  useEffect(() => {
+    isLike(menu.like);
+  }, [menu.like]);
   const handleHeartCount = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
@@ -32,13 +34,17 @@ const RestaurantHeartInfo = ({ memberId, restaurantId, menu }: Props) => {
           memberId,
         })
         .then(res => {
-          isLike(res.data.data.like);
+          console.log(res.data);
+          isLike(res.data.data.like); // 서버 응답에서 like 상태를 직접 설정
           setlikeCount(res.data.data.likedCount);
+          isClickLike(!clicklike); // 필요한 경우 적절한 로직으로 수정
         });
-      isClickLike(!clicklike);
-      isLike(!like);
+      // 아래 두 줄은 삭제
+      // isClickLike(!clicklike);
+      // isLike(!like);
     }
   };
+
   return (
     <div
       className="restaurant-detail-bottom-menu-heart-div"
