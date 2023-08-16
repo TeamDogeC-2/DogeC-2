@@ -92,18 +92,20 @@ const Home = () => {
       }
     };
   }, []);
+
   const logoColors = [
     '#FF611D',
-    '#1D76FF',
-    '#3C8E38',
-    '#FBC12D',
-    '#AA248E',
-    '#5B18C2',
-    '#A27B1F',
-    '#1D88D1',
-    '#5BC218',
-    '#2DFB1D',
-    '#1D76FF',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsla(0, 100%, 100%, 0%)',
+    '#FF611D',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
+    'hsl(30, 100%, 60%)',
   ];
 
   const getWavyStyle = (index: number) =>
@@ -125,10 +127,11 @@ const Home = () => {
         <span style={getWavyStyle(5)}>e</span>
         <span style={getWavyStyle(6)}>n</span>
         <span style={getWavyStyle(7)}>t</span>
-        <span style={getWavyStyle(8)}>S</span>
-        <span style={getWavyStyle(9)}>o</span>
-        <span style={getWavyStyle(10)}>u</span>
-        <span style={getWavyStyle(11)}>p</span>
+        <span style={getWavyStyle(8)}>&nbsp;</span>
+        <span style={getWavyStyle(9)}>S</span>
+        <span style={getWavyStyle(10)}>o</span>
+        <span style={getWavyStyle(11)}>u</span>
+        <span style={getWavyStyle(12)}>p</span>
       </div>
       <h2 className="home-link-texts">대학생들을 위한</h2>
       <h2 className="home-link-texts">대학 주변 맛집 추천</h2>
