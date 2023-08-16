@@ -16,9 +16,9 @@ const RestaurantMenu = ({ memberId }: Props) => {
   const [clickMenu1, setClickMenu1] = useState<boolean>(true);
   const [clickMenu2, setClickMenu2] = useState<boolean>(false);
   const [clickMenu3, setClickMenu3] = useState<boolean>(false);
-
+  const queryParams = new URLSearchParams(location.search);
   const state = useLocation();
-  const restaurantId = state.state.value1;
+  const restaurantId = Number(queryParams.get('restaurantId'));
   const [size, setSize] = useState<number>(4);
   const [menuList, setMenuList] = useState<any>();
   const url = `/restaurant/${restaurantId}/menus`;

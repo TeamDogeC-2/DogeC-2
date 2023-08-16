@@ -142,9 +142,9 @@ const Restaurant = () => {
 
   const handleDetailPage = (e: any) => {
     const value = e.target.id;
-    const throwState: State = { value1: value, value2: schoolName };
+    const queryString = `restaurantId=${value}&schoolName=${schoolName}`;
 
-    navigate('/restaurant/detail', { state: throwState });
+    navigate(`/restaurant/detail?${queryString}`);
   };
 
   useEffect(() => {
