@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 import { getUserInformation } from 'apis/api/UserAPI';
+import Swal from 'sweetalert2';
 const kakao = (window as any).kakao;
 
 const RestaurantDetail = () => {
@@ -36,9 +37,9 @@ const RestaurantDetail = () => {
   const [isDelivery, setIsDelivery] = useState<string>();
   const navigate = useNavigate();
 
-  const state = useLocation();
-  const restaurantId = state.state.value1;
-  const schoolName = state.state.value2;
+  const queryParams = new URLSearchParams(location.search);
+  const restaurantId = Number(queryParams.get('restaurantId'));
+  const schoolName = queryParams.get('schoolName') ?? '';
 
   const url = `/restaurant/${restaurantId}`;
 
@@ -136,7 +137,28 @@ const RestaurantDetail = () => {
       isClickHeart(!clickHeart);
     }
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+  const handleShareClick = () => {
+    const url = `http://localhost:3000/restaurant/detail?restaurantId=${restaurantId}&schoolName=${schoolName}`;
 
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        Toast.fire({
+          icon: 'success',
+          title: 'url이 복사되었습니다.',
+        });
+      })
+      .catch(err => {
+        console.error('복사 실패:', err);
+      });
+  };
   return (
     <>
       <DesktopHeader>
@@ -164,12 +186,15 @@ const RestaurantDetail = () => {
                     <p>좋아요</p>
                   </div>
                   <div className="restaurant-detail-vertical-underline"></div>
-                  <div className="restaurant-detail-share">
+                  <div onClick={handleShareClick} className="restaurant-detail-share">
                     <img src={share} alt="" />
                     <p>공유</p>
                   </div>
                   <div className="restaurant-detail-vertical-underline"></div>
-                  <div className="restaurant-detail-review-function">
+                  <div
+                    onClick={() => setClickPage(2)}
+                    className="restaurant-detail-review-function"
+                  >
                     <img src={review} alt="" />
                     <p>리뷰</p>
                   </div>
@@ -292,12 +317,12 @@ const RestaurantDetail = () => {
                     <p>좋아요</p>
                   </div>
                   <div className="restaurant-tablet-detail-vertical-underline"></div>
-                  <div className="restaurant-tablet-detail-share">
+                  <div onClick={handleShareClick} className="restaurant-tablet-detail-share">
                     <img src={share} alt="" />
                     <p>공유</p>
                   </div>
                   <div className="restaurant-tablet-detail-vertical-underline"></div>
-                  <div className="restaurant-tablet-detail-review">
+                  <div onClick={() => setClickPage(2)} className="restaurant-tablet-detail-review">
                     <img src={review} alt="" />
                     <p>리뷰</p>
                   </div>
@@ -506,12 +531,15 @@ const RestaurantDetail = () => {
                       <p>좋아요</p>
                     </div>
                     <div className="restaurant-mobile-detail-vertical-underline"></div>
-                    <div className="restaurant-mobile-detail-share">
+                    <div onClick={handleShareClick} className="restaurant-mobile-detail-share">
                       <img src={share} alt="" />
                       <p>공유</p>
                     </div>
                     <div className="restaurant-mobile-detail-vertical-underline"></div>
-                    <div className="restaurant-mobile-detail-review">
+                    <div
+                      onClick={() => setClickPage(2)}
+                      className="restaurant-mobile-detail-review"
+                    >
                       <img src={review} alt="" />
                       <p>리뷰</p>
                     </div>
