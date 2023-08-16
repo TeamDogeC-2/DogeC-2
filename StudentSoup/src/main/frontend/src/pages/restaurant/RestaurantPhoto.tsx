@@ -5,7 +5,8 @@ import axios from 'axios';
 
 const RestaurantPhoto = () => {
   const state = useLocation();
-  const restaurantId = state.state.value1;
+  const queryParams = new URLSearchParams(location.search);
+  const restaurantId = Number(queryParams.get('restaurantId'));
   const [image, setImage] = useState<any>([]);
   const [size, setSize] = useState<number>(6);
   const [totalSize, setTotalSize] = useState<any>();
