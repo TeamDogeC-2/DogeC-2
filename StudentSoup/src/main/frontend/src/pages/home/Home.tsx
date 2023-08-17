@@ -162,7 +162,7 @@ const Home = () => {
         )}
       </div>
       <button onClick={() => navigate('/satisfaction')} className="satisfaction-container">
-        설문하러가기
+        만족도 조사
       </button>
     </div>
   );
