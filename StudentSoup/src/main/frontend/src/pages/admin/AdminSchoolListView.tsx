@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './adminschoollistview.scss';
 import AdminNavbar from './AdminNavbar';
 import AdminAddSchool from './AdminAddSchool';
@@ -141,59 +141,61 @@ const AdminSchoolListView = () => {
     });
   };
   return (
-    <div className="adminpage-maincontainer">
+    <Fragment>
       <AdminNavbar />
-      <h2>학교 목록</h2>
-      <div className="adminschoolview-add-button-container">
-        <button onClick={() => setIsModalOpen(true)} className="adminschoolview-add-button">
-          학교 추가
-        </button>
-      </div>
-      <table className="adminschoolview-table">
-        <thead>
-          <tr>
-            <th>학교 명</th>
-            <th>학교 위치 (좌표)</th>
-            <th>학교 이메일</th>
-            <th>세부 기능</th>
-          </tr>
-        </thead>
-        <tbody>
-          {schools?.map(school => (
-            <tr key={school.schoolId}>
-              <td>{school.schoolName}</td>
-              <td>{school.schoolCoordinate}</td>
-              <td>{school.schoolEmail}</td>
-              <td>
-                <button
-                  onClick={() => handleEditClick(school)}
-                  className="adminschoolview-button adminschoolview-edit-button"
-                >
-                  수정
-                </button>
-                <button
-                  onClick={() => handleDeleteClick(school.schoolId, school.schoolName)}
-                  className="adminschoolview-button adminschoolview-delete-button"
-                >
-                  삭제
-                </button>
-              </td>
+      <div className="adminpage-maincontainer">
+        <h2>학교 목록</h2>
+        <div className="adminschoolview-add-button-container">
+          <button onClick={() => setIsModalOpen(true)} className="adminschoolview-add-button">
+            학교 추가
+          </button>
+        </div>
+        <table className="adminschoolview-table">
+          <thead>
+            <tr>
+              <th>학교 명</th>
+              <th>학교 위치 (좌표)</th>
+              <th>학교 이메일</th>
+              <th>세부 기능</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <AdminAddSchool
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setIsEditMode(false);
-          setSelectedSchool(null);
-        }}
-        onSave={handleAddOrEditSchool}
-        isEditMode={isEditMode}
-        selectedSchool={selectedSchool}
-      />
-    </div>
+          </thead>
+          <tbody>
+            {schools?.map(school => (
+              <tr key={school.schoolId}>
+                <td>{school.schoolName}</td>
+                <td>{school.schoolCoordinate}</td>
+                <td>{school.schoolEmail}</td>
+                <td>
+                  <button
+                    onClick={() => handleEditClick(school)}
+                    className="adminschoolview-button adminschoolview-edit-button"
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(school.schoolId, school.schoolName)}
+                    className="adminschoolview-button adminschoolview-delete-button"
+                  >
+                    삭제
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <AdminAddSchool
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setIsEditMode(false);
+            setSelectedSchool(null);
+          }}
+          onSave={handleAddOrEditSchool}
+          isEditMode={isEditMode}
+          selectedSchool={selectedSchool}
+        />
+      </div>
+    </Fragment>
   );
 };
 
