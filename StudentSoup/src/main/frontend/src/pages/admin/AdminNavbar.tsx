@@ -38,11 +38,6 @@ const AdminNavbar = () => {
           </Link>
           <ul className="nav-menu">
             <li className="nav-li">
-              <Link to="/admin/satisfaction" className="nav-links">
-                <i>설문지 통계</i>
-              </Link>
-            </li>
-            <li className="nav-li">
               <Link to="/admin" className="nav-links">
                 <i>회원관리</i>
               </Link>
@@ -65,6 +60,11 @@ const AdminNavbar = () => {
             <li className="nav-li">
               <Link to="/admin/restaurants" className="nav-links">
                 <i>음식점 조회</i>
+              </Link>
+            </li>
+            <li className="nav-li">
+              <Link to="/admin/satisfaction" className="nav-links">
+                <i>만족도 통계</i>
               </Link>
             </li>
           </ul>
@@ -130,6 +130,14 @@ const AdminNavbar = () => {
                 </div>
               </Link>
             </li>
+            <li>
+              <Link to="/admin/satisfaction" className="mobile-nav-link">
+                <div className="mobile-nav-list">
+                  <i className="mobile-nav-listItme">만족도 통계</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
+                </div>
+              </Link>
+            </li>
           </ul>
         </nav>
       </MobileHeader>
@@ -189,6 +197,14 @@ const AdminNavbar = () => {
               <Link to="/admin/restaurants" className="mobile-nav-link">
                 <div className="mobile-nav-list">
                   <i className="mobile-nav-listItme">음식점 조회</i>
+                  <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
+                </div>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/satisfaction" className="mobile-nav-link">
+                <div className="mobile-nav-list">
+                  <i className="mobile-nav-listItme">만족도 통계</i>
                   <FontAwesomeIcon icon={faAngleRight} className="mobile-nav-icons" />
                 </div>
               </Link>
