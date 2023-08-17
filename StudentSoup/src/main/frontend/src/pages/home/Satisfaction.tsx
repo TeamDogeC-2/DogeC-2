@@ -12,9 +12,9 @@ const Satisfaction = () => {
     '커뮤니티(게시판)기능 등을 통해 원하는 정보를 제공을 수집할수 있었습니까?',
     '반응형 웹 페이지가 정상적으로 작동하였습니까?',
     '원하는 기능들에 대한 접근성이 좋았습니까?',
-    '원하는 기능들에 대한 접근성이 좋았습니까?',
-    '원하는 기능들에 대한 접근성이 좋았습니까?',
-    '원하는 기능들에 대한 접근성이 좋았습니까?',
+    '해당페이지 기타시설에 대해 만족하셨습니까?',
+    '원하는 기능이 찾기 쉽도록 UX에서 얼마나 만족하셨습니까?',
+    '관리자는 친절하나요?',
   ];
 
   const [scores, setScores] = useState(Array(questions.length).fill(0));
@@ -38,8 +38,8 @@ const Satisfaction = () => {
       .then(res => {
         Swal.fire({
           icon: 'success',
-          title: '설문 조사 등록 완료',
-          text: '설문에 참여해주셔서 감사합니다!',
+          title: '만족도 조사 등록 완료',
+          text: '만족도 조사에 참여해주셔서 감사합니다!',
           timer: 3000,
           showConfirmButton: true,
           confirmButtonText: '확인',
@@ -65,11 +65,11 @@ const Satisfaction = () => {
           <tr>
             <th></th>
             <th>문항 / 만족도</th>
-            <th>매우 만족</th>
-            <th>만족</th>
-            <th>보통</th>
-            <th>부족</th>
-            <th>매우 부족</th>
+            <th>매우 만족(5점)</th>
+            <th>만족(4점)</th>
+            <th>보통(3점)</th>
+            <th>부족(2점)</th>
+            <th>매우 부족(1점)</th>
           </tr>
         </thead>
         <tbody>
