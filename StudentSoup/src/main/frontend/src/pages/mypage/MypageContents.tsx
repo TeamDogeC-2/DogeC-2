@@ -168,7 +168,7 @@ const MypageContents = (props: UserInfoType) => {
                       >
                         {reply.content}
                       </td>
-                      <td>{reply.writeDate}</td>
+                      <td>{reply.writeDate.split('T')[0]}</td>
                       <td>{reply.likedCount}</td>
                     </tr>
                   ))}
@@ -288,7 +288,7 @@ const MypageContents = (props: UserInfoType) => {
                       >
                         {reply.content}
                       </td>
-                      <td>{reply.writeDate}</td>
+                      <td>{reply.writeDate.split('T')[0]}</td>
                       <td>{reply.likedCount}</td>
                     </tr>
                   ))}
