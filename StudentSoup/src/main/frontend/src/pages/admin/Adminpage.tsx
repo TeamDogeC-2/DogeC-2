@@ -73,6 +73,7 @@ const Adminpage = () => {
     <Fragment>
       <AdminNavbar />
       <div className="adminpage-maincontainer">
+        <h2>회원 관리 페이지</h2>
         <table className="adminpage-table">
           <thead>
             <tr>
