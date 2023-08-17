@@ -193,7 +193,6 @@ const AdminDepartmentListView = () => {
           </div>
           {searchedSchoolId && (
             <button className="admindepartmentlistview-add-button" onClick={handleAddDepartment}>
-              {searchedSchoolId}
               {searchedSchoolName}학과 추가
             </button>
           )}

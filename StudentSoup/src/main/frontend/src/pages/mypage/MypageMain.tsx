@@ -76,6 +76,13 @@ const MypageMain = () => {
         });
     }
   };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
   useEffect(() => {
     getUserInformation()
@@ -106,12 +113,13 @@ const MypageMain = () => {
         confirmButtonText: '변경',
         denyButtonText: '삭제',
       });
-
       if (result.isConfirmed) {
         const imageUploadInput = document.getElementById('image-upload');
+
         if (imageUploadInput) {
           imageUploadInput.click();
         }
+
         Swal.close();
       } else if (result.isDenied) {
         if (!userImg) {
@@ -131,11 +139,14 @@ const MypageMain = () => {
             imageDelete(userInfo.memberId)
               .then(res => {
                 setUserImg(res.data.fileName);
+                Toast.fire({
+                  icon: 'success',
+                  title: '프로필 사진이 삭제되었습니다.',
+                });
               })
               .catch(err => {
                 console.error(err);
               });
-            location.reload();
           }
         }
       }
@@ -148,6 +159,10 @@ const MypageMain = () => {
       imageUpload(userInfo.memberId, file)
         .then(res => {
           setUserImg(res.data.fileName);
+          Toast.fire({
+            icon: 'success',
+            title: '프로필 사진이 변경되었습니다.',
+          });
         })
         .catch(error => {
           console.error(error);
