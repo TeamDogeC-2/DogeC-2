@@ -26,7 +26,7 @@ public class SatisfactionFindService {
             String scores = satisfaction.getScore();
             for(int i=0; i<N; i++){
                 int score = scores.charAt(i)-'0';
-                result[i][score-1]++;
+                result[i][5-score]++;
                 avg[i] += score;
             }
             if(satisfaction.getComment()!=null || satisfaction.getComment().trim().equals("")){
