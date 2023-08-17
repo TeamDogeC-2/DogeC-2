@@ -59,7 +59,7 @@ const Satisfaction = () => {
   };
   return (
     <div className="satisfaction-maincontainer">
-      <h1>설문조사</h1>
+      <h1>만족도 조사</h1>
       <table className="satisfaction-table">
         <thead>
           <tr>
