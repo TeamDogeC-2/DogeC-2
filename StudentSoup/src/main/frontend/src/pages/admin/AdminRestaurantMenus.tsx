@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './adminrestaurantmenus.scss';
 import AdminNavbar from './AdminNavbar';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -110,59 +110,61 @@ const AdminRestaurantMenus = () => {
   };
 
   return (
-    <div className="adminpage-maincontainer">
-      <AdminMenuModal
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        restaurantId={restaurantId}
-        isEditMode={selectedMenu !== null}
-        selectedMenu={selectedMenu}
-      />
+    <Fragment>
       <AdminNavbar />
-      <div className="adminpage-menu-header">
-        <h2>{getRestaurantName}</h2>
-      </div>
-      <div className="adminpage-add-menu-container">
-        <button onClick={handleAddMenuClick} className="adminpage-add-menu-button">
-          메뉴 추가
-        </button>
-      </div>
-      <table className="adminrestaurantmenus-table">
-        <thead>
-          <tr>
-            <th>음식 사진</th>
-            <th>메뉴 이름</th>
-            <th>메뉴 카테고리</th>
-            <th>가격</th>
-            <th>좋아요 수</th>
-          </tr>
-        </thead>
-        <tbody>
-          {menus.map(menu => (
-            <tr
-              key={menu.restaurantMenuId}
-              onClick={async () =>
-                await handleTableRowClick(
-                  menu.restaurantMenuId,
-                  menu.restaurantMenuName,
-                  menu.restaurantMenuCategory,
-                  menu.cost,
-                  menu.fileName,
-                )
-              }
-            >
-              <td>
-                <img src={`/image/${menu.fileName}` ?? ''} />
-              </td>
-              <td>{menu.restaurantMenuName}</td>
-              <td>{menu.restaurantMenuCategory}</td>
-              <td>{menu.cost}원</td>
-              <td>{menu.likedCount}</td>
+      <div className="adminpage-maincontainer">
+        <AdminMenuModal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          restaurantId={restaurantId}
+          isEditMode={selectedMenu !== null}
+          selectedMenu={selectedMenu}
+        />
+        <div className="adminpage-menu-header">
+          <h2>{getRestaurantName}</h2>
+        </div>
+        <div className="adminpage-add-menu-container">
+          <button onClick={handleAddMenuClick} className="adminpage-add-menu-button">
+            메뉴 추가
+          </button>
+        </div>
+        <table className="adminrestaurantmenus-table">
+          <thead>
+            <tr>
+              <th>음식 사진</th>
+              <th>메뉴 이름</th>
+              <th>메뉴 카테고리</th>
+              <th>가격</th>
+              <th>좋아요 수</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {menus.map(menu => (
+              <tr
+                key={menu.restaurantMenuId}
+                onClick={async () =>
+                  await handleTableRowClick(
+                    menu.restaurantMenuId,
+                    menu.restaurantMenuName,
+                    menu.restaurantMenuCategory,
+                    menu.cost,
+                    menu.fileName,
+                  )
+                }
+              >
+                <td>
+                  <img src={`/image/${menu.fileName}` ?? ''} />
+                </td>
+                <td>{menu.restaurantMenuName}</td>
+                <td>{menu.restaurantMenuCategory}</td>
+                <td>{menu.cost}원</td>
+                <td>{menu.likedCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Fragment>
   );
 };
 

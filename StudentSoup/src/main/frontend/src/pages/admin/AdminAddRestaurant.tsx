@@ -1,4 +1,4 @@
-import React, { type FormEvent, useState, useEffect } from 'react';
+import React, { type FormEvent, useState, useEffect, Fragment } from 'react';
 import './adminaddrestaurant.scss';
 import AdminNavbar from './AdminNavbar';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
@@ -154,115 +154,117 @@ const AdminAddRestaurant = () => {
   };
   console.log('들어간이미지', images);
   return (
-    <div className="adminpage-maincontainer">
+    <Fragment>
       <AdminNavbar />
-      <div className="adminrestaurant-container">
-        <form onSubmit={handleSubmit} className="adminrestaurant-form">
-          <div className="adminrestaurant-form-group">
-            <label>레스토랑 이름:</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} />
-          </div>
+      <div className="adminpage-maincontainer">
+        <div className="adminrestaurant-container">
+          <form onSubmit={handleSubmit} className="adminrestaurant-form">
+            <div className="adminrestaurant-form-group">
+              <label>레스토랑 이름:</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>카테고리:</label>
-            <select value={category} onChange={e => setCategory(e.target.value)}>
-              <option value="">카테고리를 선택해주세요</option>
-              {categoryOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {categoryMapping[option]}
-                </option>
-              ))}
-            </select>
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>카테고리:</label>
+              <select value={category} onChange={e => setCategory(e.target.value)}>
+                <option value="">카테고리를 선택해주세요</option>
+                {categoryOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {categoryMapping[option]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>주소:</label>
-            <input type="text" value={address} onChange={e => setAddress(e.target.value)} />
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>주소:</label>
+              <input type="text" value={address} onChange={e => setAddress(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group time-group">
-            <label>시작 시간:</label>
-            <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
-            <label>종료 시간:</label>
-            <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
-          </div>
+            <div className="adminrestaurant-form-group time-group">
+              <label>시작 시간:</label>
+              <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+              <label>종료 시간:</label>
+              <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>배달 여부:</label>
-            <select value={delivery} onChange={e => setDelivery(e.target.value)}>
-              <option value="Y">가능</option>
-              <option value="N">불가능</option>
-            </select>
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>배달 여부:</label>
+              <select value={delivery} onChange={e => setDelivery(e.target.value)}>
+                <option value="Y">가능</option>
+                <option value="N">불가능</option>
+              </select>
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            {isEditMode && restaurantId ? (
-              <div className="adminrestaurant-form-group">
-                <label>학교:</label>
-                <input type="text" value={schoolName} readOnly />
-              </div>
-            ) : (
-              <div className="adminrestaurant-form-group">
-                <label>학교 선택:</label>
-                <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
-                  <option value="">학교를 선택해주세요</option>
-                  {schoolOptions.map((option, _) => {
-                    const [schoolName, schoolId] = Object.entries(option)[0];
-                    return (
-                      <option key={schoolId} value={schoolId}>
-                        {schoolName}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-            )}
-          </div>
+            <div className="adminrestaurant-form-group">
+              {isEditMode && restaurantId ? (
+                <div className="adminrestaurant-form-group">
+                  <label>학교:</label>
+                  <input type="text" value={schoolName} readOnly />
+                </div>
+              ) : (
+                <div className="adminrestaurant-form-group">
+                  <label>학교 선택:</label>
+                  <select value={schoolId} onChange={e => setSchoolId(e.target.value)}>
+                    <option value="">학교를 선택해주세요</option>
+                    {schoolOptions.map((option, _) => {
+                      const [schoolName, schoolId] = Object.entries(option)[0];
+                      return (
+                        <option key={schoolId} value={schoolId}>
+                          {schoolName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              )}
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>좌표:</label>
-            <input
-              placeholder="**.****,**.****"
-              type="text"
-              value={coordinate}
-              onChange={e => setCoordinate(e.target.value)}
-            />
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>좌표:</label>
+              <input
+                placeholder="**.****,**.****"
+                type="text"
+                value={coordinate}
+                onChange={e => setCoordinate(e.target.value)}
+              />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>전화번호:</label>
-            <input type="text" value={tel} onChange={e => setTel(e.target.value)} />
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>전화번호:</label>
+              <input type="text" value={tel} onChange={e => setTel(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>태그:</label>
-            <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>태그:</label>
+              <input type="text" value={tag} onChange={e => setTag(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>세부 사항:</label>
-            <textarea value={detail} onChange={e => setDetail(e.target.value)} />
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>세부 사항:</label>
+              <textarea value={detail} onChange={e => setDetail(e.target.value)} />
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <label>이미지:</label>
-            <input type="file" accept="image/*" multiple onChange={handleFileChange} />
-            <ul className="adminrestaurant-file-list">
-              {images?.map((image, index) => (
-                <li key={index}>{image.name}</li>
-              ))}
-            </ul>
-          </div>
+            <div className="adminrestaurant-form-group">
+              <label>이미지:</label>
+              <input type="file" accept="image/*" multiple onChange={handleFileChange} />
+              <ul className="adminrestaurant-file-list">
+                {images?.map((image, index) => (
+                  <li key={index}>{image.name}</li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="adminrestaurant-form-group">
-            <input
-              type="submit"
-              value={isEditMode && restaurantId ? '레스토랑 수정' : '레스토랑 등록'}
-            />
-          </div>
-        </form>
+            <div className="adminrestaurant-form-group">
+              <input
+                type="submit"
+                value={isEditMode && restaurantId ? '레스토랑 수정' : '레스토랑 등록'}
+              />
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

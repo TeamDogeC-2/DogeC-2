@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './admindepartmentlistview.scss';
 import AdminNavbar from './AdminNavbar';
 import axiosInstance from 'apis/utils/AxiosInterceptor';
@@ -169,68 +169,70 @@ const AdminDepartmentListView = () => {
     });
   };
   return (
-    <div className="adminpage-maincontainer">
+    <Fragment>
       <AdminNavbar />
-      <h2>학과 관리 페이지</h2>
-      <div className="admindepartmentlistview-search-container">
-        <div className="admindepartmentlistview-select-container">
-          <select
-            className="admindepartmentlistview-select"
-            value={selectedSchoolId}
-            onChange={e => setSelectedSchoolId(e.target.value)}
-          >
-            <option value="">학교 선택</option>
-            {schools.map(school => (
-              <option key={school.schoolId} value={school.schoolId}>
-                {school.schoolName}
-              </option>
-            ))}
-          </select>
-          <button className="admindepartmentlistview-search-button" onClick={handleSearch}>
-            검색
-          </button>
+      <div className="adminpage-maincontainer">
+        <h2>학과 관리 페이지</h2>
+        <div className="admindepartmentlistview-search-container">
+          <div className="admindepartmentlistview-select-container">
+            <select
+              className="admindepartmentlistview-select"
+              value={selectedSchoolId}
+              onChange={e => setSelectedSchoolId(e.target.value)}
+            >
+              <option value="">학교 선택</option>
+              {schools.map(school => (
+                <option key={school.schoolId} value={school.schoolId}>
+                  {school.schoolName}
+                </option>
+              ))}
+            </select>
+            <button className="admindepartmentlistview-search-button" onClick={handleSearch}>
+              검색
+            </button>
+          </div>
+          {searchedSchoolId && (
+            <button className="admindepartmentlistview-add-button" onClick={handleAddDepartment}>
+              {searchedSchoolId}
+              {searchedSchoolName}학과 추가
+            </button>
+          )}
         </div>
-        {searchedSchoolId && (
-          <button className="admindepartmentlistview-add-button" onClick={handleAddDepartment}>
-            {searchedSchoolId}
-            {searchedSchoolName}학과 추가
-          </button>
-        )}
-      </div>
-      <table className="admindepartmentlistview-table">
-        <thead>
-          <tr>
-            <th>학교명</th>
-            <th>학과명</th>
-            <th>세부 기능</th>
-          </tr>
-        </thead>
-        <tbody>
-          {departments?.map((department, _) => (
-            <tr key={department.departmentId}>
-              <td>{searchedSchoolName}</td>
-              <td>{department.departmentName}</td>
-              <td>
-                <button
-                  className="admindepartmentlistview-button admindepartmentlistview-edit-button"
-                  onClick={() =>
-                    handleEditDepartment(department.departmentId, department.departmentName)
-                  }
-                >
-                  수정
-                </button>
-                <button
-                  className="admindepartmentlistview-button admindepartmentlistview-delete-button"
-                  onClick={() => handleDeleteClick(department.departmentId)}
-                >
-                  삭제
-                </button>
-              </td>
+        <table className="admindepartmentlistview-table">
+          <thead>
+            <tr>
+              <th>학교명</th>
+              <th>학과명</th>
+              <th>세부 기능</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {departments?.map((department, _) => (
+              <tr key={department.departmentId}>
+                <td>{searchedSchoolName}</td>
+                <td>{department.departmentName}</td>
+                <td>
+                  <button
+                    className="admindepartmentlistview-button admindepartmentlistview-edit-button"
+                    onClick={() =>
+                      handleEditDepartment(department.departmentId, department.departmentName)
+                    }
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="admindepartmentlistview-button admindepartmentlistview-delete-button"
+                    onClick={() => handleDeleteClick(department.departmentId)}
+                  >
+                    삭제
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Fragment>
   );
 };
 

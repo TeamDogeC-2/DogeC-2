@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './adminrestaurantview.scss';
 import AdminNavbar from './AdminNavbar';
 import Swal from 'sweetalert2';
@@ -83,41 +83,43 @@ const AdminRestaurantView = () => {
   };
 
   return (
-    <div className="adminpage-maincontainer">
+    <Fragment>
       <AdminNavbar />
-      <div>
-        <h1>음식점 목록</h1>
-        <table className="adminrestaurantview-table">
-          <thead>
-            <tr>
-              <th>식당 이름</th>
-              <th>세부 정보</th>
-              <th>주소</th>
-              <th>오픈 시간</th>
-              <th>마감 시간</th>
-              <th>카테고리</th>
-              <th>태그</th>
-            </tr>
-          </thead>
-          <tbody>
-            {restaurants?.map((restaurant, index) => (
-              <tr
-                key={restaurant.restaurantId}
-                onClick={() => handleRowClick(restaurant.restaurantId, restaurant.name)}
-              >
-                <td>{restaurant.name}</td>
-                <td>{restaurant.detail}</td>
-                <td>{restaurant.address}</td>
-                <td>{restaurant.startTime}</td>
-                <td>{restaurant.endTime}</td>
-                <td>{restaurant.restaurantCategory}</td>
-                <td>{restaurant.tag}</td>
+      <div className="adminpage-maincontainer">
+        <div>
+          <h1>음식점 목록</h1>
+          <table className="adminrestaurantview-table">
+            <thead>
+              <tr>
+                <th>식당 이름</th>
+                <th>세부 정보</th>
+                <th>주소</th>
+                <th>오픈 시간</th>
+                <th>마감 시간</th>
+                <th>카테고리</th>
+                <th>태그</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {restaurants?.map((restaurant, index) => (
+                <tr
+                  key={restaurant.restaurantId}
+                  onClick={() => handleRowClick(restaurant.restaurantId, restaurant.name)}
+                >
+                  <td>{restaurant.name}</td>
+                  <td>{restaurant.detail}</td>
+                  <td>{restaurant.address}</td>
+                  <td>{restaurant.startTime}</td>
+                  <td>{restaurant.endTime}</td>
+                  <td>{restaurant.restaurantCategory}</td>
+                  <td>{restaurant.tag}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

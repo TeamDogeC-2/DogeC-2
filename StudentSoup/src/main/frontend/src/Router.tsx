@@ -26,12 +26,16 @@ import AdminRestaurantView from 'pages/admin/AdminRestaurantView';
 import AdminRestaurantMenus from 'pages/admin/AdminRestaurantMenus';
 import AdminSchoolListView from 'pages/admin/AdminSchoolListView';
 import AdminDepartmentListView from 'pages/admin/AdminDepartmentListView';
+import AdminUserLog from 'pages/admin/AdminUserLog';
+import Satisfaction from 'pages/home/Satisfaction';
+import AdminSatisfaction from 'pages/admin/AdminSatisfaction';
 
 const Router = () => {
   return (
     <Routes>
       <Route path="*" element={<Err404 />} />
       <Route path="/" element={<MainNavbar />}>
+        <Route path="/satisfaction" element={<Satisfaction />} />
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/findAccount" element={<FindAccount />} />
@@ -61,6 +65,8 @@ const Router = () => {
         <Route path="/admin/restaurant/menus" element={<AdminRestaurantMenus />} />
         <Route path="/admin/schools" element={<AdminSchoolListView />} />
         <Route path="/admin/departments" element={<AdminDepartmentListView />} />
+        <Route path="/admin/userlog" element={<AdminUserLog />} />
+        <Route path="/admin/satisfaction" element={<AdminSatisfaction />} />
       </Route>
     </Routes>
   );
