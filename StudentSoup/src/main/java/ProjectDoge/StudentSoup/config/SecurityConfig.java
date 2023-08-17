@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/jwt","/members/login/**","/home","/members/**","/restaurant/**",
-                        "/restaurantReview/**","/restaurants/**","/board/ANNOUNCEMENT","/board/CUSTOMERSERVICE","/image/**","/board/detail/**","admin/**").permitAll()
+                .antMatchers("/satisfaction/**","/satisfactions/**","/jwt","/members/login/**","/home","/members/**","/restaurant/**",
+                        "/restaurantReview/**","/restaurants/**","/board/ANNOUNCEMENT","/board/CUSTOMERSERVICE","/image/**","/board/detail/**","/admin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
