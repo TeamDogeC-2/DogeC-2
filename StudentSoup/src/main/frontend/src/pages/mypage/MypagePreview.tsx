@@ -137,7 +137,7 @@ const MypagePreview = (props: propTypes) => {
                         ? reply.content.slice(0, 10) + '...'
                         : reply.content}
                     </td>
-                    <td>{reply.writeDate}</td>
+                    <td>{reply.writeDate.split('T')[0]}</td>
                     <td>{reply.likedCount}</td>
                   </tr>
                 ))}
