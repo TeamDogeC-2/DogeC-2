@@ -29,7 +29,7 @@ public class SatisfactionFindService {
                 result[i][5-score]++;
                 avg[i] += score;
             }
-            if(satisfaction.getComment()!=null || satisfaction.getComment().trim().equals("")){
+            if(satisfaction.getComment()!=null && !satisfaction.getComment().trim().equals("")){
                 comments.add(satisfaction.getComment());
             }
         }
